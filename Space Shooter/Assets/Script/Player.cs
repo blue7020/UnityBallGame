@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [Header("Fire Bolt")]
     [SerializeField]
-    private GameObject Bolt;
+    private BoltPool mBoltPool;
     [SerializeField]
     private Transform mBoltPos;//GameObject만이 아니라 Transform으로도 같은 효과를 낼 수 있다.
     [SerializeField]
@@ -58,9 +58,11 @@ public class Player : MonoBehaviour
         if (Input.GetButton("Fire1") && mCurrentFireLate >= mFireLate)//Axis 세팅에 의해 동작함.
         {
             //유니티 하이어라키에 만들 수 있는 것들이면 인스턴시에트가 가능하다. ***하이어라키에 만드는 것은 new는 사용하면 안됨
-            GameObject obj = Instantiate(Bolt);//제너릭이라서 타입을 뭘 넣어주냐에 따라 타입이 바뀐다.
+            //GameObject obj = Instantiate(Bolt);//제너릭이라서 타입을 뭘 넣어주냐에 따라 타입이 바뀐다.
             //obj.transform.position = mBoltPos.position;//그냥 .position은 월드 좌표값이 나온다.
-            obj.transform.position = mBoltPos.position;//어떤 오브젝트의 현재 좌표값을 따르고 싶다면 .localPosition을 해야한다.
+
+            Bolt bolt = mBoltPool.GetFromPool();
+            bolt.transform.position = mBoltPos.position;//어떤 오브젝트의 현재 좌표값을 따르고 싶다면 .localPosition을 해야한다.
             mCurrentFireLate = 0;
         }
         else

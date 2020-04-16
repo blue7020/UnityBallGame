@@ -5,6 +5,9 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField]
+    private int mScore; //인스펙터로 점수 확인용
+
+    [SerializeField]
     private AsteroidPool mAstPool;
     [SerializeField]
     private EnemyPool mEnemyPool;
@@ -30,6 +33,12 @@ public class GameController : MonoBehaviour
         //Invoke를 사용하는 일은 거의 없다. 예시로는 시간 단위로 자동 세이브를 시켜줄때 사용 가능
         //InvokeRepeating("save", 10, 300); 그리고 Invoke는 실행하고 중간에 못 멈춘다.
 
+    }
+
+    public void AddScore(int amount)
+    {
+        mScore += amount;
+        //UI
     }
 
     //멀티쓰레드 '같게' 보이게 하는 방법

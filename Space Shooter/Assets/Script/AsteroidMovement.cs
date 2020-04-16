@@ -9,13 +9,16 @@ public class AsteroidMovement : MonoBehaviour
     private float mTorque;//토크(Torque): 회전력(=각속도)
     [SerializeField]
     private float mSpeed;
+
     private EffectPool mEffectPool;
+    private GameController mGameController;
 
     private void Awake()
     {
         mRB = GetComponent<Rigidbody>();
         GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
         mEffectPool = effectPool.GetComponent<EffectPool>();
+        mGameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     private void OnEnable()
@@ -34,8 +37,9 @@ public class AsteroidMovement : MonoBehaviour
         if (isBolt||isPlayer)
         {
             gameObject.SetActive(false);
-            
-            //Add score
+
+            mGameController.AddScore(1);
+
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpAst);
             effect.transform.position = transform.position;
             //Add Sound

@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private float mTilted = 30;
 
     private EffectPool mEffectPool;
+    private GameController mGameController;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
         mCurrentFireLate = mFireLate;
         GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
         mEffectPool= effectPool.GetComponent<EffectPool>();
+        mGameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
 

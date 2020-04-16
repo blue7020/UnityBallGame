@@ -20,12 +20,14 @@ public class Enermy : MonoBehaviour
     //    mBoltPool = pool;
     //}
     private EffectPool mEffectPool;
+    private GameController mGameController;
 
     private void Awake()
     {
         mRB = GetComponent<Rigidbody>();
         GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
         mEffectPool = effectPool.GetComponent<EffectPool>();
+        mGameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
 
@@ -93,7 +95,9 @@ public class Enermy : MonoBehaviour
         if (isBolt || isPlayer)
         {
             gameObject.SetActive(false);
-            //Add score
+
+            mGameController.AddScore(2);
+
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpEnemy);
             effect.transform.position = transform.position;
             //Add sound

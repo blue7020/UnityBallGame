@@ -9,7 +9,7 @@ public class AsteroidPool : MonoBehaviour
     private List<AsteroidMovement>[] mPool;//List가 Array인 것
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         mPool = new List<AsteroidMovement>[mOriginArr.Length];
         for (int i = 0; i < mPool.Length; i++)

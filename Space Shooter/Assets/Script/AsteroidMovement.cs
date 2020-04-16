@@ -9,10 +9,13 @@ public class AsteroidMovement : MonoBehaviour
     private float mTorque;//토크(Torque): 회전력(=각속도)
     [SerializeField]
     private float mSpeed;
+    private EffectPool mEffectPool;
 
     private void Awake()
     {
         mRB = GetComponent<Rigidbody>();
+        GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
+        mEffectPool = effectPool.GetComponent<EffectPool>();
     }
 
     private void OnEnable()
@@ -24,22 +27,23 @@ public class AsteroidMovement : MonoBehaviour
         mRB.velocity = Vector3.back * mSpeed;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Bolt")||
-            other.gameObject.CompareTag("Player"))
+        bool isBolt = other.gameObject.CompareTag("Bolt");
+        bool isPlayer = other.gameObject.CompareTag("Player");
+        if (isBolt||isPlayer)
         {
             gameObject.SetActive(false);
+            
             //Add score
-            //Add Efect
+            Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpAst);
+            effect.transform.position = transform.position;
             //Add Sound
-            other.gameObject.SetActive(false);
+            if (isBolt)
+            {
+                other.gameObject.SetActive(false);
+            }
+
         }
     }
 }

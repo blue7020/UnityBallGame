@@ -22,11 +22,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float mTilted = 30;
 
+    private EffectPool mEffectPool;
+
     // Start is called before the first frame update
     void Start()
     {
         mRB = GetComponent<Rigidbody>();
         mCurrentFireLate = mFireLate;
+        GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
+        mEffectPool= effectPool.GetComponent<EffectPool>();
     }
 
 
@@ -68,6 +72,18 @@ public class Player : MonoBehaviour
         else
         {
             mCurrentFireLate += Time.deltaTime;//프레임과 프레임 사이에 전 프레임에서 지금 프레임으로 넘어왔을 때의 시간을 저장한 값이 Time.deltaTime이다. 
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        bool isEnemy = other.gameObject.CompareTag("Enemy");
+        if (isEnemy)
+        {
+            gameObject.SetActive(false);
+            Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpPlayer);
+            effect.transform.position = transform.position;
         }
     }
 }

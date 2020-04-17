@@ -44,7 +44,7 @@ public class AsteroidMovement : MonoBehaviour
 
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpAst);
             effect.transform.position = transform.position;
-            mSoundController.PlayEffectSound(1);
+            mSoundController.PlayEffectSound(0);
             //Add Sound
             if (isBolt)
             {

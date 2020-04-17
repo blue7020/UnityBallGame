@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //이게 있어야 Scene에 관련된 기능을 사용할 수 있다.
 
 public class GameController : MonoBehaviour
 {
@@ -55,20 +56,23 @@ public class GameController : MonoBehaviour
 
     public void Restart()//리셋 기능(완전히 게임 오버일 때)
     {
-        mbGameOver = false;
-        mScore = 0;
-        mPlayer.transform.position = Vector3.zero;
-        mPlayer.gameObject.SetActive(true);
-        //TODO UI갱신
-        if(mHazardRoutine == null)
-        {
-            mHazardRoutine = StartCoroutine(SpawnHazard());
-            //중첩으로 동작해야하는 케이스일 때 처음 실행이냐 실행 중이냐를 구분지어야 할 때, 이 코드를 응용해 사용할 수 있다.
-            //ex) 지속시간이 3초인 스킬을 1초일 때 사용하면 아직 지속시간이니 현재 지속시간 = 최대 지속시간  
-        }
-        mUIController.ShowScore(mScore);
-        mUIController.ShowMessageText("");
-        mUIController.ShowRestart(false);
+        SceneManager.LoadScene(0); //단점: 파일이 커지면 부하가 커서 느려진다.
+
+        //이 방법은 Continue(이어하기)가 가능하다.
+        //mbGameOver = false;
+        //mScore = 0;
+        //mPlayer.transform.position = Vector3.zero;
+        //mPlayer.gameObject.SetActive(true);
+
+        //if(mHazardRoutine == null)
+        //{
+        //    mHazardRoutine = StartCoroutine(SpawnHazard());
+        //    //중첩으로 동작해야하는 케이스일 때 처음 실행이냐 실행 중이냐를 구분지어야 할 때, 이 코드를 응용해 사용할 수 있다.
+        //    //ex) 지속시간이 3초인 스킬을 1초일 때 사용하면 아직 지속시간이니 현재 지속시간 = 최대 지속시간  
+        //}
+        //mUIController.ShowScore(mScore);
+        //mUIController.ShowMessageText("");
+        //mUIController.ShowRestart(false);
 
     }
 

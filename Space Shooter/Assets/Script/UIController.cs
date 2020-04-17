@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; //이게 있어야 UI에 관련된 기능을 사용할 수 있다.
 
 public class UIController : MonoBehaviour
 {

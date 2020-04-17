@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
             //obj.transform.position = mBoltPos.position;//그냥 .position은 월드 좌표값이 나온다.
 
             Bolt bolt = mBoltPool.GetFromPool();
-            mSoundController.PlayEffectSound(5);
+            mSoundController.PlayEffectSound(4);
             bolt.transform.position = mBoltPos.position;//어떤 오브젝트의 현재 좌표값을 따르고 싶다면 .localPosition을 해야한다.
             mCurrentFireLate = 0;
         }
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
         {
             gameObject.SetActive(false);
             mGameController.PlayerDie();
-            mSoundController.PlayEffectSound(3);
+            mSoundController.PlayEffectSound(2);
 
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpPlayer);
             effect.transform.position = transform.position;

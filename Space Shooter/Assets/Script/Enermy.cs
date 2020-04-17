@@ -21,6 +21,7 @@ public class Enermy : MonoBehaviour
     //}
     private EffectPool mEffectPool;
     private GameController mGameController;
+    private SoundController mSoundController;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class Enermy : MonoBehaviour
         GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
         mEffectPool = effectPool.GetComponent<EffectPool>();
         mGameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        mSoundController = GameObject.FindGameObjectWithTag("SoundController").GetComponent<SoundController>();
     }
 
 
@@ -43,7 +45,7 @@ public class Enermy : MonoBehaviour
         Random.Range(0, 100);
     }
 
-    
+
     private IEnumerator AutoFire()
     {
         WaitForSeconds fireRate = new WaitForSeconds(mFireRate);
@@ -51,16 +53,10 @@ public class Enermy : MonoBehaviour
         {
             yield return fireRate;
             Bolt bolt = mBoltPool.GetFromPool();
+            mSoundController.PlayEffectSound(4);
             bolt.transform.position = mBoltPos.position;//월드 좌표값이기에 가능
             bolt.transform.rotation = mBoltPos.rotation;
         }
-    }
-
-    private void Fire()
-    {
-        Bolt bolt = mBoltPool.GetFromPool();
-        bolt.transform.position = mBoltPos.position;
-        bolt.transform.rotation = mBoltPos.rotation;
     }
 
 
@@ -68,7 +64,7 @@ public class Enermy : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(.5f, 1));
+            yield return new WaitForSeconds(Random.Range(0.5f, 1));
             float direction;
             if (transform.position.x < 0)
             {
@@ -82,7 +78,7 @@ public class Enermy : MonoBehaviour
                 direction = Random.Range(-3f, -2f);
                 mRB.velocity += Vector3.right * direction;
             }
-            yield return new WaitForSeconds(Random.Range(.5f, 1));
+            yield return new WaitForSeconds(Random.Range(0.5f, 1));
             //직진
             mRB.velocity -= Vector3.right * direction;
         }
@@ -100,7 +96,7 @@ public class Enermy : MonoBehaviour
 
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpEnemy);
             effect.transform.position = transform.position;
-            //Add sound
+            mSoundController.PlayEffectSound(2);
             if (isBolt)
             {
                 other.gameObject.SetActive(false);

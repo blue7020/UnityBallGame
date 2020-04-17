@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
 
     private EffectPool mEffectPool;
     private GameController mGameController;
+    private SoundController mSoundController;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +34,8 @@ public class Player : MonoBehaviour
         GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
         mEffectPool= effectPool.GetComponent<EffectPool>();
         mGameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-    }
+        mSoundController = GameObject.FindGameObjectWithTag("SoundController").GetComponent<SoundController>();
+}
 
 
     // Update is called once per frame
@@ -60,7 +62,6 @@ public class Player : MonoBehaviour
         //사격
         //if (Input.GetKey(KeyCode.Space))//GetKeyDown은 키를 누르는 시점, GetKeyUp은 키에서 손을 뗀 시점, GetKey는 누르고 있는 동안
         //{
-
         if (Input.GetButton("Fire1") && mCurrentFireLate >= mFireLate)//Axis 세팅에 의해 동작함.
         {
             //유니티 하이어라키에 만들 수 있는 것들이면 인스턴시에트가 가능하다. ***하이어라키에 만드는 것은 new는 사용하면 안됨
@@ -68,6 +69,7 @@ public class Player : MonoBehaviour
             //obj.transform.position = mBoltPos.position;//그냥 .position은 월드 좌표값이 나온다.
 
             Bolt bolt = mBoltPool.GetFromPool();
+            mSoundController.PlayEffectSound(5);
             bolt.transform.position = mBoltPos.position;//어떤 오브젝트의 현재 좌표값을 따르고 싶다면 .localPosition을 해야한다.
             mCurrentFireLate = 0;
         }
@@ -80,10 +82,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        bool isEnemy = other.gameObject.CompareTag("Enemy");
-        if (isEnemy)
+        if (other.gameObject.CompareTag("Enemy"))
         {
             gameObject.SetActive(false);
+            mGameController.PlayerDie();
+            mSoundController.PlayEffectSound(3);
+
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpPlayer);
             effect.transform.position = transform.position;
         }

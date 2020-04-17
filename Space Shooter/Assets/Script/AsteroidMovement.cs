@@ -12,6 +12,7 @@ public class AsteroidMovement : MonoBehaviour
 
     private EffectPool mEffectPool;
     private GameController mGameController;
+    private SoundController mSoundController;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class AsteroidMovement : MonoBehaviour
         GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
         mEffectPool = effectPool.GetComponent<EffectPool>();
         mGameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        mSoundController = GameObject.FindGameObjectWithTag("SoundController").GetComponent<SoundController>();
     }
 
     private void OnEnable()
@@ -38,13 +40,15 @@ public class AsteroidMovement : MonoBehaviour
         {
             gameObject.SetActive(false);
 
-            mGameController.AddScore(1);
+            
 
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpAst);
             effect.transform.position = transform.position;
+            mSoundController.PlayEffectSound(1);
             //Add Sound
             if (isBolt)
             {
+                mGameController.AddScore(1);
                 other.gameObject.SetActive(false);
             }
 

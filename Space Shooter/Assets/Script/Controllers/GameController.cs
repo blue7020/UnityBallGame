@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour
     private Player mPlayer;
     [SerializeField]
     private UIController mUIController;
+    [SerializeField]
+    private ItemPool mItemPool;//아이템 목록
+    [SerializeField]
+    private int mItemSpawnWaveCount;
 
     [Header("EnermySpawn")]
     [SerializeField]
@@ -99,6 +103,8 @@ public class GameController : MonoBehaviour
         int astCount = 10;
         int currentAstCount;
         int currentEnemyCount;
+        int currentItemSpawnWaveCount = 0;
+
         float ratio = 1f / 3;//레시오(ratio)==비율
         //게임 전체를 진행하는 중, 조건(리스폰 시간)이 맞다면 전체 대기를 건다.
         while (true)
@@ -145,6 +151,19 @@ public class GameController : MonoBehaviour
                 yield return pointThree;
 
             }
+            if (currentItemSpawnWaveCount >= mItemSpawnWaveCount - 1)
+            {
+                Item item = mItemPool.GetFromPool(Random.Range(0, 3));
+                item.transform.position = new Vector3(Random.Range(mSpawnXMin, mSpawnXMax),
+                                                         0,
+                                                         mSpawnZ);
+                currentItemSpawnWaveCount = 0;
+            }
+            else
+            {
+                currentItemSpawnWaveCount++;
+            }
+            
             yield return spawnRate;//==3 (Spawn rate 설정한 값이 3이니까)
         }
     }

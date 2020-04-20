@@ -53,9 +53,10 @@ public class Enermy : MonoBehaviour
         {
             yield return fireRate;
             Bolt bolt = mBoltPool.GetFromPool();
-            mSoundController.PlayEffectSound(3);
             bolt.transform.position = mBoltPos.position;//월드 좌표값이기에 가능
             bolt.transform.rotation = mBoltPos.rotation;
+            bolt.ResetDir();//탄환이 뒤로 가지 않게끔 방향 정해주기
+            mSoundController.PlayEffectSound((int)eSFXType.FireEnemy);
         }
     }
 
@@ -92,7 +93,7 @@ public class Enermy : MonoBehaviour
         {
             gameObject.SetActive(false);
 
-            mGameController.AddScore(2);
+            mSoundController.PlayEffectSound((int)eSFXType.ExpPlayer);
 
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpEnemy);
             effect.transform.position = transform.position;

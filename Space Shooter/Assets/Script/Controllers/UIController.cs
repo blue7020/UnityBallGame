@@ -9,9 +9,11 @@ public class UIController : MonoBehaviour
     //만일 변수명을 바꿨으면 재연결 작업부터 먼저 해야한다.
     //UI에는 연산적인 기능을 넣지 않는 것이 좋다.
     [SerializeField]
-    private Text mScoreText, mMessageText, mRestartText;
+    private Text mScoreText, mWaveText, mMessageText, mRestartText;
     [SerializeField]
     private GameObject[] mLifeObjArr;
+
+    private GameController mGameController;
 
     public void ShowLife(int life)//현재 life값
     {
@@ -28,6 +30,10 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void ShowWave(int amount)
+    {
+        mWaveText.text = "Wave: " + amount.ToString();
+    }
     public void ShowScore(int amount)
     {
         mScoreText.text = "Score: " + amount.ToString();

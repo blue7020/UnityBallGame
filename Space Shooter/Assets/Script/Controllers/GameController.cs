@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private int mScore; //인스펙터로 점수 확인용
     private bool mbGameOver; //게임 오버가 True면 리셋 버튼 활성화
+    private int Wave = 1;
 
     [SerializeField]
     private Player mPlayer;
@@ -24,6 +25,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private EnemyPool mEnemyPool;
     [SerializeField]
+    private Boss mBoss;
+
+    [SerializeField]
     private float mSpawnXMin, mSpawnXMax, mSpawnZ;
     [SerializeField]
     private float mSpawnRate;
@@ -34,6 +38,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         mUIController.ShowScore(mScore);
+        mUIController.ShowWave(Wave);
         mUIController.ShowMessageText("");
         mUIController.ShowRestart(false);
         mHazardRoutine = StartCoroutine(SpawnHazard());
@@ -157,8 +162,21 @@ public class GameController : MonoBehaviour
             {
                 currentItemSpawnWaveCount++;
             }
+
             
             yield return spawnRate;//==3 (Spawn rate 설정한 값이 3이니까)
+            //보스 전투 대기 파트
+            if (Wave % 5 == 0)
+            {
+                mBoss.gameObject.SetActive(true);
+                while (mBoss.IsAlive())//보스가 살아있는 동안 반복
+                {
+                    yield return pointThree;
+                }
+                yield return spawnRate;
+            }
+            Wave++;
+            mUIController.ShowWave(Wave);
         }
     }
 

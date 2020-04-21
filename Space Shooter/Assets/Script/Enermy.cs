@@ -95,9 +95,9 @@ public class Enermy : MonoBehaviour
 
             mSoundController.PlayEffectSound((int)eSFXType.ExpPlayer);
 
+            mGameController.AddScore(1);
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpEnemy);
             effect.transform.position = transform.position;
-            mSoundController.PlayEffectSound(1);
             if (isBolt)
             {
                 other.gameObject.SetActive(false);

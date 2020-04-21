@@ -159,11 +159,10 @@ public class Player : MonoBehaviour
                 gameObject.SetActive(false);
                 mGameController.PlayerDie();
                 mSoundController.PlayEffectSound((int)eSFXType.ExpEnemy);
-
-                Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpPlayer);
-                effect.transform.position = transform.position;
             }
-            
+            Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpPlayer);
+            effect.transform.position = transform.position;
+
         }
     }
 }

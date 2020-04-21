@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private int mCurrentLife, mMaxLife;
+    private EffectPool mEffectPool;
+    private GameController mGameController;
+    private SoundController mSoundController;
+    private UIController mUIController;
     [Header("Fire Bolt")]
     [SerializeField]
     private BoltPool mBoltPool;
@@ -18,7 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float mBoltXGap;
     [SerializeField]
-    public int mCurrentBoltCount = 1;
+    public int mCurrentBoltCount;
     private Coroutine mBoltChangeRoutine;
 
     private Rigidbody mRB;
@@ -30,23 +36,29 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float mTilted = 30;
 
-    private EffectPool mEffectPool;
-    private GameController mGameController;
-    private SoundController mSoundController;
-
     // Start is called before the first frame update
     void Start()
     {
         mRB = GetComponent<Rigidbody>();
         GameObject effectPool = GameObject.FindGameObjectWithTag("EffectPool");
         mEffectPool= effectPool.GetComponent<EffectPool>();
-        mGameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         mSoundController = GameObject.FindGameObjectWithTag("SoundController").GetComponent<SoundController>();
-        mCurrentFireLate = mFireLate;
+        
     }
 
+    public void Init(GameController GameController, UIController UIController)//Init == 이니셜라이즈
+    {
+        //게임 컨트롤러가 플레이어를 알고 있고 시작과 동시에 실행시켜 줄 것이다.
+        //외부에서 들어온 값을 초기화하게끔 메서드로 빼주는 것이다. == 이게 더 편리할 것임.
+        mGameController = GameController;
+        mUIController = UIController;
+        mCurrentFireLate = mFireLate;
+        mCurrentBoltCount = 1;
+        mUIController.ShowLife(mCurrentLife);
+    }
 
     // Update is called once per frame
+    //기본 조작
     void Update()
     {
         //이동
@@ -118,16 +130,40 @@ public class Player : MonoBehaviour
         mBoltChangeRoutine = null;
     }
 
+    public void AddBoltCount()
+    {
+        if (mCurrentBoltCount<mMaxBoltCount)
+        {
+            mCurrentBoltCount++;
+        }
+    }
+
+    public void AddLife()
+    {
+        if (mCurrentLife<mMaxLife)
+        {
+            mCurrentLife++;
+            mUIController.ShowLife(mCurrentLife);
+            
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy")|| other.gameObject.CompareTag("EnemyBolt"))
         {
-            gameObject.SetActive(false);
-            mGameController.PlayerDie();
-            mSoundController.PlayEffectSound((int)eSFXType.ExpEnemy);
+            mCurrentLife--;
+            mUIController.ShowLife(mCurrentLife);
+            if (mCurrentLife <= 0)
+            {
+                gameObject.SetActive(false);
+                mGameController.PlayerDie();
+                mSoundController.PlayEffectSound((int)eSFXType.ExpEnemy);
 
-            Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpPlayer);
-            effect.transform.position = transform.position;
+                Timer effect = mEffectPool.GetFromPool((int)eEffectType.ExpPlayer);
+                effect.transform.position = transform.position;
+            }
+            
         }
     }
 }

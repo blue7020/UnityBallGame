@@ -37,14 +37,8 @@ public class GameController : MonoBehaviour
         mUIController.ShowMessageText("");
         mUIController.ShowRestart(false);
         mHazardRoutine = StartCoroutine(SpawnHazard());
-        //Coroutine은 코드 동작을 하다가 멈춘다.
-        //동작 하다가 yield return 을 만나면 코드를 일단 멈춘다. => 다음 조건이 되는지 보고 다시 동작한다
-        //(이펙트나 애니메이션 처리에서 많이 사용함. / Update보단 Start에서 StartCoroutine를 사용하는 것이 좋다.
-        //Coroutine은 메서드 단위로 실행된다.
-
-        //Coroutine을 잘 사용하면 Update 사용을 최소화하고 게임을 효율적으로 만들 수 있다.
-        //Coroutine 안에 Coroutine을 넣을 수도 있으며 값이 IEnumerator인 것들만 return한다.
-
+        mPlayer.Init(this, mUIController);//this: 나 자신을 넣어준다 == 게임 컨트롤러 인스턴스다.
+        //아무튼 게임 컨트롤러 인스턴스가 존재한다는 뜻이니까 지금 동작하고 있는 게임컨트롤러가 되는 것이다.
 
         //Invoke("test",5); //메서드를 딜레이 시켜 돌릴 때(파라미터 활용은 불가능함)
         //Invoke를 사용하는 일은 거의 없다. 예시로는 시간 단위로 자동 세이브를 시켜줄때 사용 가능

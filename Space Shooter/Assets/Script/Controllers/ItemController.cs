@@ -31,7 +31,7 @@ public class ItemController : MonoBehaviour
 
     private void AddLife()
     {
-        Debug.Log("Life");
+        mplayer.AddLife();
     }
 
     private void SetHoming()

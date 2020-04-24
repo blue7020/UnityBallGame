@@ -8,6 +8,13 @@ public class Player : MonoBehaviour
     private Rigidbody2D mRB2D;
     //[SerializeField]
     //private float mJumpForce;
+    [SerializeField]
+    private AttackArea mAttackArea;
+
+    [SerializeField]
+    private float mAtk;
+    private float mMaxHP;
+    private float mCurrentHP;
 
     // Start is called before the first frame update
     void Start()
@@ -15,12 +22,17 @@ public class Player : MonoBehaviour
         //SpriteRenderer rand = GetComponent<SpriteRenderer>();
         //rand.sortingOrder = 10;//레이어 10으로 올림
         mAnim = GetComponent<Animator>();
-        mRB2D = GetComponent<Rigidbody2D>();
-        
+        mAtk = 1;
+        mAttackArea.SetDamage(mAtk);
+        mAttackArea.gameObject.SetActive(false);
 
         //AttackHash = Animator.StringToHash("IsAttack");
         //mAnim.SetBool(AttackHash,true);
         //mAnim.SetBool("IsAttack",true); //이것보단 위의 방식이 더 효율적이다. 미리 해쉬로 변환한 후 계속 해쉬가 등록된 변수를 불러오기만 하면 되기 때문
+    }
+    public void PlayerHit(float damage)
+    {
+        Debug.Log("PHit: " + damage);
     }
 
     // Update is called once per frame

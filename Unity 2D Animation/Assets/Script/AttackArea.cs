@@ -19,6 +19,7 @@ public class AttackArea : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            collision.gameObject.GetComponent<Enemy>().Hit(mDamage);
             //한 대상만 때리기
             //if (!EnteredArr.Contains(collision.gameObject))
             //{
@@ -29,7 +30,7 @@ public class AttackArea : MonoBehaviour
             //{
             //    EnteredArr.RemoveAt(0);
             //}
-            Debug.Log("Attack Enemy" + mDamage);
+
         }
     }
 }

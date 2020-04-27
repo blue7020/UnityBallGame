@@ -18,8 +18,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int mAtk;
     [SerializeField]
-    private int mMaxHP;
-    private int mCurrentHp;
+    private float mMaxHP;
+    private float mCurrentHp;
     private eEnemyState mState;
     private int mDelayCount;//대기 시간(프레임)
     private int mDelayTime = 10;//대기 시간을 변수화 시켜서 기획자나 그래픽이 수정하기 쉽게 하는 것이 좋다
@@ -35,9 +35,10 @@ public class Enemy : MonoBehaviour
 
     private void OnEnable()
     {
-        //mAnim.SetBool(AnimHash.Dead, false);
+        mAnim.SetBool(AnimHash.Dead, false);
         mCurrentHp = mMaxHP;
         mState = eEnemyState.Idle;
+        mDelayCount = 0;
         
     }
 
@@ -46,9 +47,14 @@ public class Enemy : MonoBehaviour
         StartCoroutine(StateMachine());
     }
 
-    public void ZombieHit(int damage)
+    public void Hit(float amount)
     {
-        Debug.Log("ZHit: " + damage);
+        mCurrentHp -= amount;
+        if (mCurrentHp <= 0)
+        {
+            mState = eEnemyState.Die;
+            mDelayCount = 0;
+        }
     }
 
     public void Attack()
@@ -59,6 +65,8 @@ public class Enemy : MonoBehaviour
     {
         mAnim.SetBool(AnimHash.Attack, false);
     }
+
+    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -134,6 +142,20 @@ public class Enemy : MonoBehaviour
                     }
                     break;
                 case eEnemyState.Die:
+                    if(mDelayCount == 0)
+                    {
+                        mAnim.SetBool(AnimHash.Dead, true);
+                        mDelayCount++;
+                        //점수 획득 이펙트
+                    }
+                    else if (mDelayCount >= 10)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        mDelayCount++;
+                    }
                     break;
                 default:
                     Debug.LogError("Wrong State: " + mState);

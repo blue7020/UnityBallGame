@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private float mAtk;
+    [SerializeField]
     private float mMaxHP;
     private float mCurrentHP;
 
@@ -22,9 +23,8 @@ public class Player : MonoBehaviour
         //SpriteRenderer rand = GetComponent<SpriteRenderer>();
         //rand.sortingOrder = 10;//레이어 10으로 올림
         mAnim = GetComponent<Animator>();
-        mAtk = 1;
         mAttackArea.SetDamage(mAtk);
-        mAttackArea.gameObject.SetActive(false);
+        mCurrentHP = mMaxHP;
 
         //AttackHash = Animator.StringToHash("IsAttack");
         //mAnim.SetBool(AttackHash,true);
@@ -32,12 +32,21 @@ public class Player : MonoBehaviour
     }
     public void PlayerHit(float damage)
     {
-        Debug.Log("PHit: " + damage);
+        mCurrentHP -= damage;
+        if (mCurrentHP <= 0)
+        {
+            mAnim.SetBool(AnimHash.Dead, true);
+            //조작 막기
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (mCurrentHP <= 0) //or || mAnim.GetBool(AnimHash.Dead)
+        {
+            return;//플레이어가 죽었다면 빠져나간다(==아래의 동작을 하지 않음)
+        }
         float hori = Input.GetAxis("Horizontal");
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -52,10 +61,12 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))//누르면
         {
             mAnim.SetBool(AnimHash.Attack, true);
+            mAttackArea.gameObject.SetActive(true);
         }
         else if (Input.GetButtonUp("Fire1"))//떼면
         {
             mAnim.SetBool(AnimHash.Attack, false);
+            mAttackArea.gameObject.SetActive(false);
         }
         //if (Input.GetButtonDown("Jump"))
         //{
@@ -71,5 +82,6 @@ public class Player : MonoBehaviour
         //{
         //    mAnim.SetBool("IsJump", false);
         //}
+        
     }
 }

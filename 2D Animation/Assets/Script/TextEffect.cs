@@ -6,7 +6,7 @@ public class TextEffect : Timer
 {
     [SerializeField]
     private Text mText;
-    public void Showtext(float value)
+    public void ShowText(float value)
     {
         mText.text = value.ToString();
     }     

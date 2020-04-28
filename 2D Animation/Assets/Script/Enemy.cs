@@ -11,6 +11,9 @@ public enum eEnemyState
 }
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
+    private Transform mHPBarPos;//머리 위에 hp바
+
     private Rigidbody2D mRB2D;
     private Animator mAnim;
     [SerializeField]
@@ -43,6 +46,8 @@ public class Enemy : MonoBehaviour
         mCurrentHp = mMaxHP;
         mState = eEnemyState.Idle;
         mDelayCount = 0;
+        TextEffect textEffect = mController.GetTextEffect();
+        textEffect.ShowText(mReward);
         
     }
 
@@ -59,12 +64,18 @@ public class Enemy : MonoBehaviour
     public void Hit(float amount)
     {
         mCurrentHp -= amount;
+        //Show HPbar
         if (mCurrentHp <= 0)
         {
             mState = eEnemyState.Die;
             mController.AddCoin(mReward);
             mDelayCount = 0;
-
+            TextEffect textEffect = mController.GetTextEffect();
+            textEffect.ShowText(mReward);
+            //textEffect.transform.position = mHPBarPos.position;
+            //(CoinEffect는 월드 좌표이지만 Screen Space - Camera로 하기 때문에 가능한 것.)
+            textEffect.transform.position = Camera.main.WorldToScreenPoint(mHPBarPos.position);//Overlay일 때(Overlay UI에서는 월드 좌표를 사용하면 안된다!)
+            //메인카메라의 월드 좌표를 좌표계 변환한 것이다.
         }
     }
 

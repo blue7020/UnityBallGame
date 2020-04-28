@@ -7,6 +7,8 @@ public class IngameController : MonoBehaviour
     [SerializeField]
     private IngameUIController mUIController;
     private float mCoin;
+    [SerializeField]
+    private TextEffectPool mTextEffectPool;
 
     [SerializeField]
     private EnemyPool mEnemyPool;
@@ -17,6 +19,11 @@ public class IngameController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(SpawnEnemy());
+    }
+
+    public TextEffect GetTextEffect()
+    {
+        return mTextEffectPool.GetFromPool();
     }
 
     public void AddCoin(float value)

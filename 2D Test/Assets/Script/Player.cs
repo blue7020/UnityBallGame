@@ -8,44 +8,52 @@ public class Player : MonoBehaviour
     private Rigidbody2D mRB2D;
     [SerializeField]
     private float mSpeed;
-    private Vector2 SetPos;
+    Vector2 Pos;
 
     // Start is called before the first frame update
     void Start()
     {
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        SetPos = new Vector2(0, 0);
-        mRB2D.position = SetPos;
+        Pos= transform.position;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Movment();
-        
+        PlayerMovement();
+
     }
 
-    private void Movment()
+    private void PlayerMovement()
     {
-        //이동 안하고 방향만 바꾸고 싶음
-        float hori = Input.GetAxis("Horizontal");
-        mAnim.SetBool(AnimHash.Walk, true);
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
-            transform.rotation = Quaternion.Euler(0, 180, 0);//해당 스프라이트가 오른쪽을 바라보고 있기 때문에 180도
-            SetPos += new Vector2(-mSpeed, 0);
-            transform.position = SetPos;
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            mAnim.SetBool(AnimHash.Walk, true);
+            Pos.x += mSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
+            Pos.y += mSpeed * Time.deltaTime * Input.GetAxis("Vertical");
 
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))   
         {
-            transform.rotation = Quaternion.identity;//기본 Rotation 값을 받음. 따라서 0,0,0
-            SetPos += new Vector2(mSpeed, 0);
-            transform.position = SetPos;
-
+            transform.rotation = Quaternion.identity;
+            mAnim.SetBool(AnimHash.Walk, true);
+            Pos.x += mSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
+            Pos.y += mSpeed * Time.deltaTime * Input.GetAxis("Vertical");
         }
-        mAnim.SetBool(AnimHash.Walk, false);
+        else if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.S))
+        {
+            mAnim.SetBool(AnimHash.Walk, true);
+            Pos.x += mSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
+            Pos.y += mSpeed * Time.deltaTime * Input.GetAxis("Vertical");
+        }
+        else
+        {
+            mAnim.SetBool(AnimHash.Walk, false);
+        }
+        transform.position = Pos;
+
     }
 }

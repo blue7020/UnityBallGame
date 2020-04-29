@@ -8,14 +8,13 @@ public class Player : MonoBehaviour
     private Rigidbody2D mRB2D;
     [SerializeField]
     private float mSpeed;
-    Vector2 Pos;
-
+    private Vector2 dir;
     // Start is called before the first frame update
     void Start()
     {
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        Pos= transform.position;
+        
 
     }
 
@@ -28,32 +27,28 @@ public class Player : MonoBehaviour
 
     private void PlayerMovement()
     {
-        if (Input.GetKey(KeyCode.A))
+        float hori = Input.GetAxis("Horizontal");
+        float ver = Input.GetAxis("Vertical");
+        dir = new Vector2(hori, ver);
+        dir = dir.normalized * mSpeed;
+        mAnim.SetBool(AnimHash.Walk, true);
+        if (hori>0)
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
-            mAnim.SetBool(AnimHash.Walk, true);
-            Pos.x += mSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
-            Pos.y += mSpeed * Time.deltaTime * Input.GetAxis("Vertical");
+
 
         }
-        else if (Input.GetKey(KeyCode.D))   
+        if (hori < 0)   
         {
             transform.rotation = Quaternion.identity;
-            mAnim.SetBool(AnimHash.Walk, true);
-            Pos.x += mSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
-            Pos.y += mSpeed * Time.deltaTime * Input.GetAxis("Vertical");
-        }
-        else if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.S))
-        {
-            mAnim.SetBool(AnimHash.Walk, true);
-            Pos.x += mSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
-            Pos.y += mSpeed * Time.deltaTime * Input.GetAxis("Vertical");
+
         }
         else
         {
             mAnim.SetBool(AnimHash.Walk, false);
         }
-        transform.position = Pos;
+
+        mRB2D.velocity = dir;
 
     }
 }

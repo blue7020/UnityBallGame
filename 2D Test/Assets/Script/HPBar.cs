@@ -11,20 +11,22 @@ public class HPBar : MonoBehaviour
     //변경점을 확인하기 위해
     private float mNowHP;
     private float mNowMaxHP;
+    private string value;
 
     void Start()
     {
         mHPBar = GetComponent<Image>();
         mNowHP = mPlayer.mCurrentHP;
         mNowMaxHP = mPlayer.mMaxHP;
-        mHPBar.fillAmount = mNowMaxHP / 10f;
+        mHPBar.fillAmount = mNowHP/ mNowMaxHP;
+
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        mHPBar.fillAmount = mNowHP / mNowMaxHP;
         if (mNowHP!=mPlayer.mCurrentHP)
         {
-            mHPBar.fillAmount = mNowHP / 10f;
             mNowHP = mPlayer.mCurrentHP;
         }
         else if (mNowMaxHP != mPlayer.mCurrentHP)
@@ -32,4 +34,5 @@ public class HPBar : MonoBehaviour
             mNowMaxHP = mPlayer.mMaxHP;
         }
     }
+
 }

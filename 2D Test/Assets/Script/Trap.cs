@@ -8,14 +8,40 @@ public class Trap : MonoBehaviour
     private Player mPlayer;
     [SerializeField]
     private float mDamage;
+    [SerializeField]
+    private float Tick;
+    private bool mDamageOn;
+    private bool TrapTrigger;
 
+    private void FixedUpdate()
+    {
+        if (TrapTrigger==true)
+        {
+            StartCoroutine("SpikeTrap");
+        }
+    }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Ouch!");
+            TrapTrigger = true;
+
+        }
+    }
+
+
+    //가시 함정
+    IEnumerator SpikeTrap()
+    {
+        if (mDamageOn==false)
+        {
             mPlayer.mCurrentHP -= mDamage;
+            mDamageOn = true;
+            yield return new WaitForSeconds(Tick);
+            mDamageOn = false;
+            TrapTrigger = false;
+
         }
     }
 }

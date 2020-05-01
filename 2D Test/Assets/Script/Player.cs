@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     public float mSpeed;
     [SerializeField]
     public float mMaxHP;
+    [SerializeField]
+    public float mAttackSpeed;//초기값은 1.2
+    private bool mAttackCooltime = false;
 
     public float mCurrentHP;
 
@@ -34,9 +37,36 @@ public class Player : MonoBehaviour
         PlayerMovement();
         if (Input.GetKeyDown(KeyCode.E))
         {
-            mAttackArea.Attack();
+            if (mAttackCooltime==false)
+            {
+                mAttackArea.Attack();
+                StartCoroutine("Attack");
+            }
+            
         }
 
+    }
+
+    public void Hit(float damage)
+    {
+        mCurrentHP -= damage;
+    }
+
+    IEnumerator Attack()
+    {
+        mAttackCooltime = true;
+        yield return new WaitForSeconds(mAttackSpeed);
+        mAttackCooltime = false;
+    }
+
+    //테스트용
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Heal"))
+        {
+            mCurrentHP = mMaxHP;
+
+        }
     }
 
     private void PlayerMovement()

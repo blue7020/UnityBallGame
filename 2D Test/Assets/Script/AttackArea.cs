@@ -4,30 +4,43 @@ using UnityEngine;
 
 public class AttackArea : MonoBehaviour
 {
+    private Animator mAnim;
     [SerializeField]
     private Player mPlayer;
-    private float mDamage;
-    //List<GameObject> EnteredArr;
+    private Enemy mEnemy;
+    [SerializeField]
+    private bool mAttackEnd = true;
 
-    public void SetDamage(float value)
+    private float mDamage;
+
+    private void Awake()
     {
-        mDamage = value;
-        //EnteredArr = new List<GameObject>();
+        mAnim = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (mAttackEnd == false)
+        {
+            //애니메이션끝난 후 mAttackEnd는 False
+            gameObject.SetActive(mAttackEnd);
+            mAttackEnd = true;
+        }
     }
 
     public void Attack()
     {
-        gameObject.SetActive(true);
+        gameObject.SetActive(mAttackEnd);
+        mAnim.SetBool(AnimHash.Attack, true);
     }
 
-    
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Enemy"))
-    //    {
-    //    collision.gameObject.GetComponent<Enemy>().Hit(mDamage);
-    //    }
-    //}
-    // Start is called before the first frame update
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<Enemy>().Hit(mDamage);
+            Debug.Log("Attack!");
+            
+        }
+    }
 }

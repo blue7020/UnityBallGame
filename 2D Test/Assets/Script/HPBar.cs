@@ -13,7 +13,7 @@ public class HPBar : MonoBehaviour
     private float mNowMaxHP;
     private string value;
 
-    void Start()
+    private void Awake()
     {
         mHPBar = GetComponent<Image>();
         mNowHP = mPlayer.mCurrentHP;

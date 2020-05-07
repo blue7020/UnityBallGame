@@ -7,12 +7,6 @@ public class Player : MonoBehaviour
     private Animator mAnim;
     private Rigidbody2D mRB2D;
     [SerializeField]
-<<<<<<< HEAD
-    private float mSpeed;
-    private Vector2 dir;
-    // Start is called before the first frame update
-    void Start()
-=======
     private AttackArea mAttackArea;
     private Vector2 dir;
 
@@ -31,20 +25,14 @@ public class Player : MonoBehaviour
 
 
     private void Awake()
->>>>>>> ff9f0b203ae30ad28c44b97e3eff398effea75b1
     {
         mCurrentHP = mMaxHP;
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-<<<<<<< HEAD
-        
-
-=======
->>>>>>> ff9f0b203ae30ad28c44b97e3eff398effea75b1
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
         PlayerMovement();
@@ -52,7 +40,6 @@ public class Player : MonoBehaviour
         {
             if (mAttackCooltime==false)
             {
-                mAttackArea.Attack();
                 StartCoroutine("Attack");
             }
             
@@ -67,41 +54,12 @@ public class Player : MonoBehaviour
 
     IEnumerator Attack()
     {
-<<<<<<< HEAD
-        float hori = Input.GetAxis("Horizontal");
-        float ver = Input.GetAxis("Vertical");
-        dir = new Vector2(hori, ver);
-        dir = dir.normalized * mSpeed;
-        if (hori>0)
-        {
-            mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.identity;
-        }
-        else if (hori < 0)   
-        {
-            mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if (ver>0)
-        {
-            mAnim.SetBool(AnimHash.Walk, true);
-        }
-        else if (ver<0)
-=======
         mAttackCooltime = true;
+        mAttackArea.Attack();
         yield return new WaitForSeconds(mAttackSpeed);
         mAttackCooltime = false;
     }
 
-    //테스트용
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Heal"))
-        {
-            mCurrentHP = mMaxHP;
-
-        }
-    }
 
     private void PlayerMovement()
     {
@@ -124,7 +82,6 @@ public class Player : MonoBehaviour
             mAnim.SetBool(AnimHash.Walk, true);
         }
         else if (ver < 0)
->>>>>>> ff9f0b203ae30ad28c44b97e3eff398effea75b1
         {
             mAnim.SetBool(AnimHash.Walk, true);
         }

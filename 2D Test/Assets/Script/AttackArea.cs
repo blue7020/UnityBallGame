@@ -9,28 +9,26 @@ public class AttackArea : MonoBehaviour
     private Player mPlayer;
     private Enemy mEnemy;
     [SerializeField]
-    private bool mAttackEnd = true;
-
-    private float mDamage;
+    private bool mAttackEnd;
 
     private void Awake()
     {
         mAnim = GetComponent<Animator>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (mAttackEnd == false)
+        if (mAttackEnd == true)
         {
-            //애니메이션끝난 후 mAttackEnd는 False
-            gameObject.SetActive(mAttackEnd);
-            mAttackEnd = true;
+            //애니메이션끝난 후 mAttackEnd는 true
+            mAnim.SetBool(AnimHash.Attack, false);
+            gameObject.SetActive(false);
         }
     }
 
     public void Attack()
     {
-        gameObject.SetActive(mAttackEnd);
+        gameObject.SetActive(true);
         mAnim.SetBool(AnimHash.Attack, true);
     }
 
@@ -38,8 +36,7 @@ public class AttackArea : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<Enemy>().Hit(mDamage);
-            Debug.Log("Attack!");
+            other.gameObject.GetComponent<Enemy>().Hit(mPlayer.mAtk);
             
         }
     }

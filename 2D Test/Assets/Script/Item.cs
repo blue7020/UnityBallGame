@@ -13,10 +13,19 @@ public class Item : MonoBehaviour
         mAnim = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        if (mToggle==true)
+        {
+            mAnim.SetBool(AnimHash.Show, false);
+            mToggle = false;
+        }
+    }
+
     public void IsItemShow()
     {
         gameObject.SetActive(true);
-        mAnim.SetBool(AnimHash.Show, mToggle);
+        mAnim.SetBool(AnimHash.Show, true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

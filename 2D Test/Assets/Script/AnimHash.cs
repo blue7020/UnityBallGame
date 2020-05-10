@@ -16,4 +16,7 @@ public class AnimHash
     public static readonly int Open = Animator.StringToHash("IsChestOpen");
     //item
     public static readonly int Show = Animator.StringToHash("IsShow");
+
+    //Enemy
+    public static readonly int Move = Animator.StringToHash("IsMove");
 }

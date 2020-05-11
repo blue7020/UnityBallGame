@@ -36,14 +36,15 @@ public class Player : MonoBehaviour
     {
         
         PlayerMovement();
-    }
-
-    public void Attack()
-    {
-        if (mAttackCooltime == false)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            StartCoroutine("PlayerAttack");
+            if (mAttackCooltime==false)
+            {
+                StartCoroutine("Attack");
+            }
+            
         }
+
     }
 
     public void Hit(float damage)
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour
         mCurrentHP -= damage;
     }
 
-    IEnumerator PlayerAttack()
+    IEnumerator Attack()
     {
         mAttackCooltime = true;
         mAttackArea.Attack();

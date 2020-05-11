@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AnimHash
 {
-    //player
     public static readonly int Attack = Animator.StringToHash("IsAttack");
     //public static readonly int Dead = Animator.StringToHash("IsDie");
     public static readonly int Walk = Animator.StringToHash("IsWalk");
@@ -18,6 +17,6 @@ public class AnimHash
     //item
     public static readonly int Show = Animator.StringToHash("IsShow");
 
-    //enemy
-    public static readonly int Jumping = Animator.StringToHash("IsJump");
+    //Enemy
+    public static readonly int Move = Animator.StringToHash("IsMove");
 }

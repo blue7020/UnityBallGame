@@ -8,26 +8,26 @@ public class Enemy : MonoBehaviour
     private Animator mAnim;
     [SerializeField]
     private Player mPlayer;
-
     [SerializeField]
     private Transform mHPBarPos;
     private GaugeBar mHPBar;
 
+    private GameObject mTarget;
+    private Vector2 MovePoint;
+
+    private bool PlayerTracking;
     private bool HPBarOn;
-    [SerializeField]
-    private bool AttackOn;
+    private bool MoveOn;
+    public bool MoveEnd;
 
     [Header("Status")]
     [SerializeField]
     public float mAtk;
     [SerializeField]
-    public float mSpeed;
-    [SerializeField]
     public float mMaxHP;
     public float mCurrentHP;
     [SerializeField]
     private float mReward;
-
     
 
     private void Awake()
@@ -35,18 +35,21 @@ public class Enemy : MonoBehaviour
         mCurrentHP = mMaxHP;
         mAnim = GetComponent<Animator>();
         mRB2D = GetComponent<Rigidbody2D>();
+        MoveOn = true;
     }
 
-    private void Update()
+    private void Start()
     {
+        StartCoroutine("ChangeMove");
+    }
+
+    private void FixedUpdate()
+    {
+        Move();
         if (HPBarOn == true)
         {
             mHPBar.transform.position = mHPBarPos.position;
             mHPBar.SetGauge(mCurrentHP, mMaxHP);
-        }
-        if (AttackOn == true)
-        {
-            StartCoroutine("Jump");
         }
     }
 
@@ -75,25 +78,81 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    IEnumerator Jump()
+    //
+    //while (true)
+    //{
+    //    mAnim.SetBool(AnimHash.Move, true);
+    //    Vector2 TargetPos = mPlayer.transform.position;
+    //    Vector2 EnemyPos = transform.position;
+    //    Vector2 Destination = TargetPos - EnemyPos;
+    //    if (MoveEnd == true)
+    //    {
+    //        mAnim.SetBool(AnimHash.Move, false);
+    //        mRB2D.velocity = Destination;
+    //    }
+    //    yield return new WaitForSeconds(1f);
+    //    MoveOn = true;
+
+    //}
+    //플레이어 주변을 따라다니는 펫의 이동 코드로 응용 가능!
+
+    IEnumerator ChangeMove()
     {
-        AttackOn = false;
-        WaitForSeconds AttackCooltime = new WaitForSeconds(5f);
-        mAnim.SetBool(AnimHash.Jumping, true);
-        while (true)
+        MoveOn = false;
+        yield return new WaitForSeconds(2f);
+        MoveOn = true;
+    }
+
+    private void Move()
+    {
+        if (MoveOn == true)
         {
-            GameObject target = GameObject.FindGameObjectWithTag("Player");
-            if (target!=null)
+            Vector2 Destination;
+            Vector2 Velocity = Vector2.zero;
+            Vector2 EnemyPos = transform.position;
+            if (PlayerTracking == true)
             {
-                Vector2 pos = mPlayer.transform.position;
-                Vector2 dir = transform.position;
-                Vector2 destination = pos - dir;
-                mRB2D.velocity = destination * mSpeed;
+                Vector2 TargetPos = mTarget.transform.position;
+                Destination = TargetPos - EnemyPos;
             }
-            //점프 애니메이션 부분은 예전에 했던 점프 애니메이션 2개로 나눈거 참고
-            yield return AttackCooltime;
-            mAnim.SetBool(AnimHash.Jumping, false);
-            AttackOn = true;
+            else
+            {
+                int RandX = Random.Range(-2, 2);
+                int RandY = Random.Range(-2, 2);
+                MovePoint = new Vector2(RandX, RandY);
+                Destination = MovePoint + EnemyPos;
+            }
+            mAnim.SetBool(AnimHash.Move, true);
+            mRB2D.velocity = Destination;
+            mAnim.SetBool(AnimHash.Move, false);
+            StartCoroutine("ChangeMove");
+        }
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent("Player"))
+        {
+            mTarget = other.gameObject;
+            PlayerTracking = true;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent("Player"))
+        {
+            mTarget = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent("Player"))
+        {
+            mTarget = other.gameObject;
+            PlayerTracking = false;
         }
     }
 
@@ -103,5 +162,10 @@ public class Enemy : MonoBehaviour
         {
             mPlayer.Hit(mAtk);
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        transform.position = transform.position;
     }
 }

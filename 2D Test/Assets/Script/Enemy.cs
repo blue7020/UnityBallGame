@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
 
     private GameObject mTarget;
     private Vector2 MovePoint;
+    private float accelaration;
+    private float velocity;
 
     private bool PlayerTracking;
     private bool HPBarOn;
@@ -98,8 +100,9 @@ public class Enemy : MonoBehaviour
 
     IEnumerator ChangeMove()
     {
-        MoveOn = false;
-        yield return new WaitForSeconds(2f);
+        velocity = 0.0f;
+        yield return new WaitForSeconds(1f);
+        mAnim.SetBool(AnimHash.Move, false);
         MoveOn = true;
     }
 
@@ -107,24 +110,31 @@ public class Enemy : MonoBehaviour
     {
         if (MoveOn == true)
         {
+            MoveOn = false;
+            Vector2 TargetPos;
             Vector2 Destination;
-            Vector2 Velocity = Vector2.zero;
             Vector2 EnemyPos = transform.position;
             if (PlayerTracking == true)
             {
-                Vector2 TargetPos = mTarget.transform.position;
-                Destination = TargetPos - EnemyPos;
+                TargetPos = mTarget.transform.position;
+                Destination = (TargetPos - EnemyPos).normalized;
+                accelaration = 0.1f;
+                velocity = (velocity + accelaration * Time.deltaTime);
+                float distansce = Vector2.Distance(TargetPos, transform.position);
+                mAnim.SetBool(AnimHash.Move, true);
+                this.transform.position = new Vector2
+                (transform.position.x + (Destination.x * velocity),
+                transform.position.y + (Destination.y * velocity));
             }
             else
             {
                 int RandX = Random.Range(-2, 2);
                 int RandY = Random.Range(-2, 2);
                 MovePoint = new Vector2(RandX, RandY);
-                Destination = MovePoint + EnemyPos;
+                Destination = (MovePoint + EnemyPos).normalized;
+                mAnim.SetBool(AnimHash.Move, true);
+                this.transform.position = new Vector2(RandX, RandY);
             }
-            mAnim.SetBool(AnimHash.Move, true);
-            mRB2D.velocity = Destination;
-            mAnim.SetBool(AnimHash.Move, false);
             StartCoroutine("ChangeMove");
         }
         

@@ -14,7 +14,7 @@ public class UIElement : MonoBehaviour
     private Button mButton, mTenUPbutton;
 
     private int mID;
-    private Delegates.IntInVoidCallback mCallback;
+    private Delegates.TwoIntInVoidCallback mCallback;
 
 
     public void Init(int id,
@@ -23,7 +23,7 @@ public class UIElement : MonoBehaviour
         string level,
         string contents,
         string cost,
-        Delegates.IntInVoidCallback callback)
+        Delegates.TwoIntInVoidCallback callback)
     {
         mID = id;
         mIconImage.sprite = Icon;

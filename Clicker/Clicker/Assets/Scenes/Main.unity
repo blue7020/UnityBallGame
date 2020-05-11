@@ -986,6 +986,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78107c2b2afe6f43a29fef1bebb8454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minfoArr:
+  - ID: 0
+    CurrentLevel: 1
+    MaxLevel: 500
+    CostType: 0
+    CostBase: 2
+    CostWight: 1.08
+    CostCurrent: 0
+    IsPercent: 0
+    ValueBase: 1
+    ValueWeight: 1.02
+    ValueCurrent: 0
+    Cooltime: 0
+    Duration: 0
+  - ID: 1
+    CurrentLevel: 0
+    MaxLevel: 50
+    CostType: 0
+    CostBase: 20
+    CostWight: 1.08
+    CostCurrent: 0
+    IsPercent: 1
+    ValueBase: 0.1
+    ValueWeight: 0.01
+    ValueCurrent: 0
+    Cooltime: 0
+    Duration: 0
+  - ID: 2
+    CurrentLevel: 0
+    MaxLevel: 100
+    CostType: 0
+    CostBase: 50
+    CostWight: 1.08
+    CostCurrent: 0
+    IsPercent: 1
+    ValueBase: 1
+    ValueWeight: 0.1
+    ValueCurrent: 0
+    Cooltime: 0
+    Duration: 0
+  - ID: 3
+    CurrentLevel: 0
+    MaxLevel: 300
+    CostType: 0
+    CostBase: 100
+    CostWight: 1.08
+    CostCurrent: 0
+    IsPercent: 0
+    ValueBase: 1.05
+    ValueWeight: 0
+    ValueCurrent: 0
+    Cooltime: 300
+    Duration: 0
+  - ID: 4
+    CurrentLevel: 0
+    MaxLevel: 490
+    CostType: 0
+    CostBase: 200
+    CostWight: 1.08
+    CostCurrent: 0
+    IsPercent: 0
+    ValueBase: 0.1
+    ValueWeight: 0.01
+    ValueCurrent: 0
+    Cooltime: 0
+    Duration: 0
+  Test: []
   mElementPrefab: {fileID: 3719815202832332377, guid: e53f8f1f17bbe5840a2ffa5b94c0eb9e,
     type: 3}
   mElementArea: {fileID: 485016374}
@@ -1197,8 +1264,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78107c2b2afe6f43a29fef1bebb8454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mElementPrefab: {fileID: 0}
-  mElementArea: {fileID: 0}
+  minfoArr: []
+  Test: []
+  mElementPrefab: {fileID: 3719815202832332377, guid: e53f8f1f17bbe5840a2ffa5b94c0eb9e,
+    type: 3}
+  mElementArea: {fileID: 1705814962}
 --- !u!114 &1322639995
 MonoBehaviour:
   m_ObjectHideFlags: 0

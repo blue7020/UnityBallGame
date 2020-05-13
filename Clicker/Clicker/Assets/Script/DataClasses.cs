@@ -20,6 +20,7 @@ public class PlayerStat
     public double CostBase;
     public double CostWight;
     public double CostCurrent;
+    public double CostTenWeight;
 
     public bool IsPercent;
     public double ValueBase;
@@ -29,4 +30,12 @@ public class PlayerStat
     //현재 쿨타임은 다른 곳에서 값을 저장하기 때문에 Current값을 데이터 테이블에 넣지 않는다.
     public float Cooltime;
     public float Duration;
+}
+
+[Serializable]
+public class PlayerStatText
+{
+    public int ID;
+    public string Title;
+    public string ContentsFormat;
 }

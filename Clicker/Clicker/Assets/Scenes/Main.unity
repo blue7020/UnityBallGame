@@ -479,7 +479,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.00003885497}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485016375
@@ -993,7 +993,8 @@ MonoBehaviour:
     CostType: 0
     CostBase: 2
     CostWight: 1.08
-    CostCurrent: 0
+    CostCurrent: 2
+    CostTenWeight: 0
     IsPercent: 0
     ValueBase: 1
     ValueWeight: 1.02
@@ -1006,7 +1007,8 @@ MonoBehaviour:
     CostType: 0
     CostBase: 20
     CostWight: 1.08
-    CostCurrent: 0
+    CostCurrent: 2
+    CostTenWeight: 0
     IsPercent: 1
     ValueBase: 0.1
     ValueWeight: 0.01
@@ -1019,12 +1021,13 @@ MonoBehaviour:
     CostType: 0
     CostBase: 50
     CostWight: 1.08
-    CostCurrent: 0
+    CostCurrent: 2
+    CostTenWeight: 0
     IsPercent: 1
     ValueBase: 1
     ValueWeight: 0.1
     ValueCurrent: 0
-    Cooltime: 0
+    Cooltime: 2
     Duration: 0
   - ID: 3
     CurrentLevel: 0
@@ -1033,10 +1036,11 @@ MonoBehaviour:
     CostBase: 100
     CostWight: 1.08
     CostCurrent: 0
+    CostTenWeight: 0
     IsPercent: 0
     ValueBase: 1.05
     ValueWeight: 0
-    ValueCurrent: 0
+    ValueCurrent: 2
     Cooltime: 300
     Duration: 0
   - ID: 4
@@ -1045,7 +1049,8 @@ MonoBehaviour:
     CostType: 0
     CostBase: 200
     CostWight: 1.08
-    CostCurrent: 0
+    CostCurrent: 2
+    CostTenWeight: 0
     IsPercent: 0
     ValueBase: 0.1
     ValueWeight: 0.01
@@ -1053,6 +1058,25 @@ MonoBehaviour:
     Cooltime: 0
     Duration: 0
   Test: []
+  mTextInforArr:
+  - ID: 0
+    Title: "\uC7A5\uC778\uC758 \uC190\uAE38"
+    ContentsFormat: "\uD130\uCE58 \uB2F9 {0} \uB9CC\uD07C \uC791\uC5C5\uC774 \uC9C4\uD589\uB429\uB2C8\uB2E4."
+  - ID: 1
+    Title: "\uC5B4\uC774\uCFE0"
+    ContentsFormat: "{0} %\uC758 \uD655\uB960\uB85C \uC791\uC5C5 \uD06C\uB9AC\uD2F0\uCEEC\uC774
+      \uBC1C\uC0DD\uD569\uB2C8\uB2E4."
+  - ID: 2
+    Title: "\uC774\uC774\uC774\uC789"
+    ContentsFormat: "\uD06C\uB9AC\uD2F0\uCEEC \uBC1C\uC0DD \uC2DC \uAE30\uBCF8 \uC791\uC5C5\uC758
+      {0} \uB9CC\uD07C \uCD94\uAC00\uB85C \uC791\uC5C5\uC774 \uC9C4\uD589\uB429\uB2C8\uB2E4."
+  - ID: 3
+    Title: "\uC9C0\uAC74"
+    ContentsFormat: "\uBC1C\uB3D9 \uC2DC {0} \uB9CC\uD07C \uC791\uC5C5\uC774 \uC9C4\uD589\uB429\uB2C8\uB2E4."
+  - ID: 4
+    Title: "\uB3C8\uBCBC\uB77D"
+    ContentsFormat: "\uBC1C\uB3D9 \uC2DC {1} \uCD08 \uB3D9\uC548 {0}\uC758 \uCD94\uAC00
+      \uC218\uC785\uC774 \uB4E4\uC5B4\uC635\uB2C8\uB2E4."
   mElementPrefab: {fileID: 3719815202832332377, guid: e53f8f1f17bbe5840a2ffa5b94c0eb9e,
     type: 3}
   mElementArea: {fileID: 485016374}
@@ -1266,6 +1290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minfoArr: []
   Test: []
+  mTextInforArr: []
   mElementPrefab: {fileID: 3719815202832332377, guid: e53f8f1f17bbe5840a2ffa5b94c0eb9e,
     type: 3}
   mElementArea: {fileID: 1705814962}
@@ -1655,7 +1680,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705814961}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1663,10 +1688,10 @@ RectTransform:
   m_Father: {fileID: 1875444949}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -0.000038146973}
+  m_SizeDelta: {x: 850, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1705814963
 MonoBehaviour:

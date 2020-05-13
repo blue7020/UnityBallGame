@@ -6,6 +6,7 @@ using UnityEngine;
 public static class Paths
 {
     public const string GEM_PREFAB = "Gem";
+    public const string PLAYER_ITEM_ICON = "PlayerItems";
 }
 
 public static class Constants

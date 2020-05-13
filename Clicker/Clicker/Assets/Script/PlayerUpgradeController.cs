@@ -12,6 +12,9 @@ public class PlayerUpgradeController : MonoBehaviour
     private PlayerStat[] minfoArr;
     [SerializeField]
     private PlayerStat[] Test;
+    [SerializeField]
+    private PlayerStatText[] mTextInforArr;
+    private Sprite[] mIconArr;
 
     private List<UIElement> mElementList;
     [SerializeField]
@@ -46,12 +49,29 @@ public class PlayerUpgradeController : MonoBehaviour
         Debug.Log(data);
         Test = JsonConvert.DeserializeObject<PlayerStat[]>(data); //텍스트 파일로 변환된 data를 불러오기
 
-        //save data load
+        mIconArr = Resources.LoadAll<Sprite>(Paths.PLAYER_ITEM_ICON); //컨스트 변수는 항상 대문자에 _ 를 써주는 것이 좋다.
+                                                                      //얘는 바꿀 수 없는 변수다 라는것을 명시하는 것임
+
+        //세이브 데이터 불러오기
+
+        for (int i = 0; i < minfoArr.Length; i++)
+        {
+            minfoArr[i].CostTenWeight = (Math.Pow(minfoArr[i].CostWight, 10) - 1) / (minfoArr[i].CostWight - 1);
+        }
+
         mElementList = new List<UIElement>();
         for (int i=0; i<minfoArr.Length; i++)
         {
             UIElement elem = Instantiate(mElementPrefab, mElementArea);
-            elem.Init(i, null, "test1", "1", "power up", "2", LevelUP);//엘리먼트와 enum의 id값은 같게 설정.
+            elem.Init(i, mIconArr[i],
+                mTextInforArr[i].Title,
+                minfoArr[i].CurrentLevel.ToString(),
+                string.Format(mTextInforArr[i].ContentsFormat,
+                              UnitSetter.GetUnitStr(minfoArr[i].ValueCurrent),
+                              minfoArr[i].Duration.ToString()),
+                UnitSetter.GetUnitStr(minfoArr[i].CostCurrent),
+                UnitSetter.GetUnitStr(minfoArr[i].CostCurrent * minfoArr[i].CostTenWeight),
+                LevelUP);//엘리먼트와 enum의 id값은 같게 설정.
             mElementList.Add(elem);
         }
         
@@ -69,10 +89,20 @@ public class PlayerUpgradeController : MonoBehaviour
         switch (minfoArr[id].CostType)
         {
             case eCostType.Gold:
-                GameController.Instance.GoldCallback = callback; //+=를 사용하면 중첩될 수 있기 때문에 쓰면 안된다. 대부분의 경우 중첩할 필요가 없다.
-                GameController.Instance.Gold -= minfoArr[id].CostCurrent;
+                {
+                    GameController.Instance.GoldCallback = callback; //+=를 사용하면 중첩될 수 있기 때문에 쓰면 안된다. 대부분의 경우 중첩할 필요가 없다.
+                    double cost = minfoArr[id].CostCurrent;
+                    if (amount == 10)
+                    {
+                        cost *= minfoArr[id].CostTenWeight;
+                    }
+                    GameController.Instance.Gold -= minfoArr[id].CostCurrent;
+                }
                 break;
             case eCostType.Ruby:
+                {
+                    double cost = 10 * amount;
+                }
                 break;
             case eCostType.Soul:
                 break;
@@ -103,5 +133,31 @@ public class PlayerUpgradeController : MonoBehaviour
         }
 
         //계산된 값 적용 UI, GameLogic
+        if(minfoArr[id].Cooltime <= 0)
+        {
+            switch (id)
+            {
+                case 0:
+                    GameController.Instance.TouchPower = minfoArr[id].ValueCurrent;
+                    break;
+                case 1:
+                    GameController.Instance.CriticalRate = minfoArr[id].ValueCurrent;
+                    break;
+                case 2:
+                    GameController.Instance.CriticalValue = minfoArr[id].ValueCurrent;
+                    break;
+                default:
+                    Debug.LogError("wrong cooltime value on player stats" + id);
+                    break;
+
+            }
+            mElementList[id].Refresh(minfoArr[id].CurrentLevel.ToString(),
+                string.Format(mTextInforArr[id].ContentsFormat,
+                              UnitSetter.GetUnitStr(minfoArr[id].ValueCurrent),
+                              minfoArr[id].Duration.ToString()), //string.Format과 한 덩어리라서 이렇게 들여쓰는 것
+                UnitSetter.GetUnitStr(minfoArr[id].CostCurrent),
+                UnitSetter.GetUnitStr(minfoArr[id].CostCurrent *
+                              minfoArr[id].CostTenWeight));
+        }
     }
 }

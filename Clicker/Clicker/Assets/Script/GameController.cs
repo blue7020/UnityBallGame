@@ -62,6 +62,9 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public double CriticalRate { get; set; }
+    public double CriticalValue { get; set; }
+
     [SerializeField]//임시(temp)
     private GemPool mGemPool;
 

@@ -2,16 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Newtonsoft.Json; //Unity의 내장 json은 enum을 못 넣기 때문에 Assets의 Plugin에 들어간 파일을 넣어줘야한다.
 
-public class PlayerUpgradeController : MonoBehaviour
+public class PlayerUpgradeController : InformationLoader
+    //InformationLoader가 MonoBehaviour를 상속 받고 있으니 이 스크립트도 MonoBehaviour의 기능을 사용 가능하다.
 {
     public static PlayerUpgradeController Instance;
 
     [SerializeField]
     private PlayerStat[] minfoArr;
-    [SerializeField]
-    private PlayerStat[] Test;
+
     [SerializeField]
     private PlayerStatText[] mTextInforArr;
     private Sprite[] mIconArr;
@@ -38,16 +37,9 @@ public class PlayerUpgradeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //이런 방법도 있다.
-        //minfoArr = new PlayerStat[5];
-        //minfoArr[0] = new PlayerStat();
-        //minfoArr[0].ID = 0;
-        //minfoArr[0].CurrentLevel = 1;
-        //minfoArr[0].CostType = eCostType.Gold;
-
-        string data = JsonConvert.SerializeObject(minfoArr);//minfoArr을 Json화 시키기(=텍스트 파일로 변환)
-        Debug.Log(data);
-        Test = JsonConvert.DeserializeObject<PlayerStat[]>(data); //텍스트 파일로 변환된 data를 불러오기
+        //제너릭 : 다양한 타입에 대해 대응하기 위해 사용
+        LoadJson(out minfoArr, Paths.PLAYER_ITEM_TABLE);
+        LoadJson(out mTextInforArr, Paths.PLAYER_ITEM_TEXT_TABLE);
 
         mIconArr = Resources.LoadAll<Sprite>(Paths.PLAYER_ITEM_ICON); //컨스트 변수는 항상 대문자에 _ 를 써주는 것이 좋다.
                                                                       //얘는 바꿀 수 없는 변수다 라는것을 명시하는 것임

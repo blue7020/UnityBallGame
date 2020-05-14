@@ -8,8 +8,9 @@ public class PlayerUpgradeController : InformationLoader
 {
     public static PlayerUpgradeController Instance;
 
+    public int[] mLevelArr;
     [SerializeField]
-    private PlayerStat[] minfoArr;
+    private PlayerStat[] mInfoArr;
 
     [SerializeField]
     private PlayerStatText[] mTextInforArr;
@@ -38,31 +39,33 @@ public class PlayerUpgradeController : InformationLoader
     void Start()
     {
         //제너릭 : 다양한 타입에 대해 대응하기 위해 사용
-        LoadJson(out minfoArr, Paths.PLAYER_ITEM_TABLE);
+        LoadJson(out mInfoArr, Paths.PLAYER_ITEM_TABLE);
         LoadJson(out mTextInforArr, Paths.PLAYER_ITEM_TEXT_TABLE);
 
         mIconArr = Resources.LoadAll<Sprite>(Paths.PLAYER_ITEM_ICON); //컨스트 변수는 항상 대문자에 _ 를 써주는 것이 좋다.
-                                                                      //얘는 바꿀 수 없는 변수다 라는것을 명시하는 것임
-
+                                                                      //얘는 바꿀 수 없는 변수다 라는것을 명시하는 것)
         //세이브 데이터 불러오기
+        mLevelArr = GameController.Instance.GetPlayerItemLevelArr();
 
-        for (int i = 0; i < minfoArr.Length; i++)
+        for (int i = 0; i < mInfoArr.Length; i++)
         {
-            minfoArr[i].CostTenWeight = (Math.Pow(minfoArr[i].CostWight, 10) - 1) / (minfoArr[i].CostWight - 1);
+            mInfoArr[i].CurrentLevel = mLevelArr[i];
+            mInfoArr[i].CostTenWeight = (Math.Pow(mInfoArr[i].CostWight, 10) - 1) / (mInfoArr[i].CostWight - 1);
+            CalcData(i);
         }
 
         mElementList = new List<UIElement>();
-        for (int i=0; i<minfoArr.Length; i++)
+        for (int i=0; i<mInfoArr.Length; i++)
         {
             UIElement elem = Instantiate(mElementPrefab, mElementArea);
             elem.Init(i, mIconArr[i],
                 mTextInforArr[i].Title,
-                minfoArr[i].CurrentLevel.ToString(),
+                mInfoArr[i].CurrentLevel.ToString(),
                 string.Format(mTextInforArr[i].ContentsFormat,
-                              UnitSetter.GetUnitStr(minfoArr[i].ValueCurrent),
-                              minfoArr[i].Duration.ToString()),
-                UnitSetter.GetUnitStr(minfoArr[i].CostCurrent),
-                UnitSetter.GetUnitStr(minfoArr[i].CostCurrent * minfoArr[i].CostTenWeight),
+                              UnitSetter.GetUnitStr(mInfoArr[i].ValueCurrent),
+                              mInfoArr[i].Duration.ToString()),
+                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent),
+                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent * mInfoArr[i].CostTenWeight),
                 LevelUP);//엘리먼트와 enum의 id값은 같게 설정.
             mElementList.Add(elem);
         }
@@ -78,17 +81,17 @@ public class PlayerUpgradeController : InformationLoader
         //int id = mSelectedID;
         //int level =mSelectedAmount;
         Delegates.VoidCallback callback = () => { LevelUPCallback(id, amount); };
-        switch (minfoArr[id].CostType)
+        switch (mInfoArr[id].CostType)
         {
             case eCostType.Gold:
                 {
                     GameController.Instance.GoldCallback = callback; //+=를 사용하면 중첩될 수 있기 때문에 쓰면 안된다. 대부분의 경우 중첩할 필요가 없다.
-                    double cost = minfoArr[id].CostCurrent;
+                    double cost = mInfoArr[id].CostCurrent;
                     if (amount == 10)
                     {
-                        cost *= minfoArr[id].CostTenWeight;
+                        cost *= mInfoArr[id].CostTenWeight;
                     }
-                    GameController.Instance.Gold -= minfoArr[id].CostCurrent;
+                    GameController.Instance.Gold -= cost;
                 }
                 break;
             case eCostType.Ruby:
@@ -99,57 +102,78 @@ public class PlayerUpgradeController : InformationLoader
             case eCostType.Soul:
                 break;
             default:
-                Debug.LogError("worng cost type " + minfoArr[id].CostType);
+                Debug.LogError("worng cost type " + mInfoArr[id].CostType);
                 break;
         }
     }
 
     public void LevelUPCallback(int id, int level)
     {
-        //int id = mSelectedID;
-        //int level =mSelectedAmount;
-        minfoArr[id].CurrentLevel += level;
-        if (minfoArr[id].CurrentLevel <= minfoArr[id].MaxLevel)
+        mInfoArr[id].CurrentLevel += level;
+        if (mInfoArr[id].CurrentLevel == mInfoArr[id].MaxLevel)
         {
-            //레벨업 잠금
+            mElementList[id].SetbuttonActive(false);
         }
-        minfoArr[id].CostCurrent = minfoArr[id].CostBase * Math.Pow(minfoArr[id].CostWight, minfoArr[id].CurrentLevel);
-
-        if (minfoArr[id].IsPercent)
+        if (mInfoArr[id].CurrentLevel + 10 > mInfoArr[id].MaxLevel)
         {
-            minfoArr[id].ValueCurrent = minfoArr[id].ValueBase + minfoArr[id].ValueWeight * minfoArr[id].CurrentLevel;
+            mElementList[id].SetbuttonActive(false);
+        }
+        mLevelArr[id] = mInfoArr[id].CurrentLevel;
+
+        CalcData(id);
+
+        //계산된 값 적용 UI, GameLogic
+        mElementList[id].Refresh(mInfoArr[id].CurrentLevel.ToString(),
+                    string.Format(mTextInforArr[id].ContentsFormat,
+                                  UnitSetter.GetUnitStr(mInfoArr[id].ValueCurrent),
+                                  mInfoArr[id].Duration.ToString()), //string.Format과 한 덩어리라서 이렇게 들여쓰는 것
+                    UnitSetter.GetUnitStr(mInfoArr[id].CostCurrent),
+                    UnitSetter.GetUnitStr(mInfoArr[id].CostCurrent *
+                                  mInfoArr[id].CostTenWeight));
+    }
+
+    private void CalcData(int id)
+    {
+        mInfoArr[id].CostCurrent = mInfoArr[id].CostBase *
+                                     Math.Pow(mInfoArr[id].CostTenWeight, mInfoArr[id].CurrentLevel);
+        if (mInfoArr[id].IsPercent)
+        {
+            mInfoArr[id].ValueCurrent = mInfoArr[id].ValueBase *
+                mInfoArr[id].ValueWeight * mInfoArr[id].CurrentLevel;
         }
         else
         {
-            minfoArr[id].ValueCurrent = minfoArr[id].ValueBase * Math.Pow(minfoArr[id].ValueWeight, minfoArr[id].CurrentLevel);
+            mInfoArr[id].ValueCurrent = mInfoArr[id].ValueBase *
+                Math.Pow(mInfoArr[id].ValueWeight, mInfoArr[id].CurrentLevel);
         }
 
-        //계산된 값 적용 UI, GameLogic
-        if(minfoArr[id].Cooltime <= 0)
+        //레벨이 0보다 클 때 적용
+        if (mInfoArr[id].CurrentLevel>0)
         {
-            switch (id)
+            
+            if (mInfoArr[id].Cooltime <= 0)
             {
-                case 0:
-                    GameController.Instance.TouchPower = minfoArr[id].ValueCurrent;
-                    break;
-                case 1:
-                    GameController.Instance.CriticalRate = minfoArr[id].ValueCurrent;
-                    break;
-                case 2:
-                    GameController.Instance.CriticalValue = minfoArr[id].ValueCurrent;
-                    break;
-                default:
-                    Debug.LogError("wrong cooltime value on player stats" + id);
-                    break;
+                switch (id)
+                {
+                    case 0:
+                        GameController.Instance.TouchPower = mInfoArr[id].ValueCurrent;
+                        break;
+                    case 1:
+                        GameController.Instance.CriticalRate = mInfoArr[id].ValueCurrent;
+                        break;
+                    case 2:
+                        GameController.Instance.CriticalValue = mInfoArr[id].ValueCurrent;
+                        break;
+                    default:
+                        Debug.LogError("wrong cooltime value on player stats" + id);
+                        break;
 
+                }
+                
             }
-            mElementList[id].Refresh(minfoArr[id].CurrentLevel.ToString(),
-                string.Format(mTextInforArr[id].ContentsFormat,
-                              UnitSetter.GetUnitStr(minfoArr[id].ValueCurrent),
-                              minfoArr[id].Duration.ToString()), //string.Format과 한 덩어리라서 이렇게 들여쓰는 것
-                UnitSetter.GetUnitStr(minfoArr[id].CostCurrent),
-                UnitSetter.GetUnitStr(minfoArr[id].CostCurrent *
-                              minfoArr[id].CostTenWeight));
         }
+
+
     }
+
 }

@@ -3,12 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Delegates
-{
-    public delegate void VoidCallback();
-    public delegate void TwoIntInVoidCallback(int value, int value2);
-}
-
 [Serializable]//Serializable을 해야 SerializeField가 먹힌다.
 public class PlayerStat
 {
@@ -38,4 +32,17 @@ public class PlayerStatText
     public int ID;
     public string Title;
     public string ContentsFormat;
+}
+
+
+[Serializable]
+public class SaveData
+{
+    public double Gold;
+
+    public int Stage;
+    public double Progress;
+    public int LastGemID;
+
+    public int[] mPlayerItemLevelArr;
 }

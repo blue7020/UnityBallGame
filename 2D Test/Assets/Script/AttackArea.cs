@@ -10,9 +10,11 @@ public class AttackArea : MonoBehaviour
     private Enemy mEnemy;
     [SerializeField]
     private bool mAttackEnd;
+    private SpriteRenderer mRenderer;
 
     private void Awake()
     {
+        mRenderer = GetComponent<SpriteRenderer>();
         mAnim = GetComponent<Animator>();
     }
 

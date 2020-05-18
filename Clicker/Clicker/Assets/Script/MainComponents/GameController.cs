@@ -65,6 +65,7 @@ public class GameController : SaveDataController
     }
 
     public double CriticalRate { get; set; }
+
     public double CriticalValue { get; set; }
 
     [SerializeField]//임시(temp)
@@ -90,7 +91,7 @@ public class GameController : SaveDataController
     // Start is called beforethe first frame update
     void Start()
     {
-        ClacStage(mUser.LastGemID);
+        CalcStage(mUser.LastGemID);
         mCurrentGem.SetProgress((float)(mUser.Progress / mMaxProgress));
         UIController.Instance.ShowGaugeBar(mUser.Progress, mMaxProgress);
         
@@ -108,7 +109,12 @@ public class GameController : SaveDataController
         return mUser.PlayerItemLevelArr;
     }
 
-    private void ClacStage(int id = -1)
+    public float[] GetSkillCoolTimeArr()
+    {
+        return mUser.SkillCooltimeArr;
+    }
+
+    private void CalcStage(int id = -1)
     { 
         mMaxProgress = 10 * Math.Pow(mProgressWeight, mUser.Stage);
         //Mathf는 float이기 때문에 return 값이 double인 Using System - Math를 사용한다.
@@ -132,10 +138,16 @@ public class GameController : SaveDataController
             mUser.Gold += mIncome;
             mUser.Stage++;
             mUser.Progress = 0;
-            ClacStage();
+            CalcStage();
         }
         else
         {
+            double touchPower = mTouchPower;//총 데미지
+            if (CriticalRate > UnityEngine.Random.Range(0, 1f))
+            {
+                touchPower = touchPower * (1 + CriticalValue);
+            }
+
             mUser.Progress += mTouchPower;
             if (mUser.Progress >mMaxProgress)
             {

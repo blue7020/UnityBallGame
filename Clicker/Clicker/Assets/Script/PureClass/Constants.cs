@@ -8,4 +8,5 @@ public static class Constants
     //const 변수는 전부 대문자로 띄어쓰기 대신 언더바
     public const int TOTAL_GEM_COUNT = 3;
     public const int PLAYER_ITEM_COUNT = 5;//게임에 아이템을 추가하면 값을 바꿔주기만 하면 됨
+    public const int SKILL_COUNT = 2;
 }

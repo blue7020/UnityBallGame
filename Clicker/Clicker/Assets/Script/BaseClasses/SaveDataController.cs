@@ -42,9 +42,13 @@ public class SaveDataController : MonoBehaviour
     protected void FixSaveData()//세이브 데이터에 들어간 모든 어레이에 대해서 길이 검증
     {
         //패치 시 아이템 추가 등으로 어레이의 길이가 변했을 시 검증함.
-
+        if (mUser.PlayerItemLevelArr == null)
+        {
+            mUser.PlayerItemLevelArr = new int[Constants.PLAYER_ITEM_COUNT];
+            mUser.PlayerItemLevelArr[0] = 1; //첫 시작 시 레벨이 1로 할당
+        }
         //세이브 데이터를 로드하는 시점에서 세이브 데이터를 갱신(검증) 후 로드해줘야한다.
-        if (mUser.PlayerItemLevelArr.Length != Constants.PLAYER_ITEM_COUNT) // != 혹은 < 를 사용해 둘 중에 짧은 배열에 긴 배열을 덮어씌운다.
+        else if (mUser.PlayerItemLevelArr.Length != Constants.PLAYER_ITEM_COUNT) // != 혹은 < 를 사용해 둘 중에 짧은 배열에 긴 배열을 덮어씌운다.
         {
             int[] temp = new int[Constants.PLAYER_ITEM_COUNT];
             int count = Mathf.Min(Constants.PLAYER_ITEM_COUNT, mUser.PlayerItemLevelArr.Length); //값들 중 더 작은 것을 검출
@@ -53,6 +57,21 @@ public class SaveDataController : MonoBehaviour
                 temp[i] = mUser.PlayerItemLevelArr[i];//최신 배열에 불러온 데이터를 덮어씌운다. (최신 배열의 값이 늘든 줄든 정상적으로 작동한다)
             }
             mUser.PlayerItemLevelArr = temp;
+        }
+
+        if (mUser.SkillCooltimeArr == null)
+        {
+            mUser.SkillCooltimeArr = new float[Constants.SKILL_COUNT];
+        }
+        else if (mUser.SkillCooltimeArr.Length!=Constants.SKILL_COUNT)
+        {
+            float[] temp = new float[Constants.SKILL_COUNT];
+            int count = Mathf.Min(Constants.SKILL_COUNT, mUser.SkillCooltimeArr.Length);
+            for (int i=0; i<count;i++)
+            {
+                temp[i] = mUser.SkillCooltimeArr[i];
+            }
+            mUser.SkillCooltimeArr = temp;
         }
 
     }
@@ -69,6 +88,7 @@ public class SaveDataController : MonoBehaviour
 
         mUser.PlayerItemLevelArr = new int[Constants.PLAYER_ITEM_COUNT];
         mUser.PlayerItemLevelArr[0] = 1;//터치하는 것이기 때문
+        mUser.SkillCooltimeArr = new float[Constants.SKILL_COUNT];
     }
 
 

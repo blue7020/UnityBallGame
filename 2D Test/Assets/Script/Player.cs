@@ -6,9 +6,10 @@ public class Player : MonoBehaviour
 {
     private Animator mAnim;
     private Rigidbody2D mRB2D;
-    [SerializeField]
-    private AttackArea mAttackArea;
     private Vector2 dir;
+
+    public float hori = 0;
+    public float ver = 0;
 
     [Header("Status")]
     [SerializeField]
@@ -19,7 +20,6 @@ public class Player : MonoBehaviour
     public float mMaxHP;
     [SerializeField]
     public float mAttackSpeed;//초기값은 1.2
-    private bool mAttackCooltime = false;
 
     public float mCurrentHP;
 
@@ -36,14 +36,6 @@ public class Player : MonoBehaviour
     {
         
         PlayerMovement();
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (mAttackCooltime==false)
-            {
-                StartCoroutine("Attack");
-            }
-            
-        }
 
     }
 
@@ -52,19 +44,13 @@ public class Player : MonoBehaviour
         mCurrentHP -= damage;
     }
 
-    IEnumerator Attack()
-    {
-        mAttackCooltime = true;
-        mAttackArea.Attack();
-        yield return new WaitForSeconds(mAttackSpeed);
-        mAttackCooltime = false;
-    }
+   
 
 
     private void PlayerMovement()
     {
-        float hori = Input.GetAxis("Horizontal");
-        float ver = Input.GetAxis("Vertical");
+        hori = Input.GetAxis("Horizontal");
+        ver = Input.GetAxis("Vertical");
         dir = new Vector2(hori, ver);
         dir = dir.normalized * mSpeed;
         if (hori > 0)

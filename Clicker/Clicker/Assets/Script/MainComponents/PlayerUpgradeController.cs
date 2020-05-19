@@ -17,6 +17,7 @@ public class PlayerUpgradeController : InformationLoader
     private Sprite[] mIconArr;
 
     private List<UIElement> mElementList;
+#pragma warning disable 0649 //인지한 애들만 warning을 제외하기
     [SerializeField]
     private UIElement mElementPrefab;
     [SerializeField]
@@ -34,6 +35,7 @@ public class PlayerUpgradeController : InformationLoader
 
     [SerializeField]
     private SkillButton[] mSkillButtonArr;
+#pragma warning restore 0649
     [SerializeField]
     private float[] mSkillCooltimeArr;
     [SerializeField]
@@ -116,16 +118,36 @@ public class PlayerUpgradeController : InformationLoader
     public void ActiveSkill(int buttonId)
     {
         int infoID = mSkillIndexList[buttonId];
-        double a = mInfoArr[infoID].ValueCurrent;//스킬 발동
+        switch (infoID)
+        {
+            case 3:
+                GameController.Instance.PowerTouch(mInfoArr[infoID].ValueCurrent);
+                break;
+            case 4:
+                StartCoroutine(GoldBonusRoutine(mInfoArr[infoID].Duration,mInfoArr[infoID].ValueCurrent));
+                break;
+            default:
+                Debug.LogError("wrong skill info id: " + infoID);
+                break;
+        }
+
+        mSkillCooltimeArr[buttonId] = mInfoArr[infoID].Cooltime;
         StartCoroutine(CooltimeRoutine(buttonId, mInfoArr[infoID].Cooltime));
         
+    }
+
+    private IEnumerator GoldBonusRoutine(float duration, double value)
+    {
+        GameController.Instance.IncomeBonus += value;
+        yield return new WaitForSeconds(duration);
+        GameController.Instance.IncomeBonus -= value;
     }
 
     private IEnumerator CooltimeRoutine(int buttonId, float cooltime)
     {
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
 
-        while (mSkillCooltimeArr[buttonId]>0)
+        while (mSkillCooltimeArr[buttonId]>=0)
         {
             yield return frame;
             mSkillCooltimeArr[buttonId] -= Time.fixedDeltaTime;
@@ -162,7 +184,11 @@ public class PlayerUpgradeController : InformationLoader
                 Debug.LogError("worng cost type " + mInfoArr[id].CostType);
                 break;
         }
+
+        
     }
+
+    
 
     public void LevelUPCallback(int id, int level)
     {
@@ -209,8 +235,6 @@ public class PlayerUpgradeController : InformationLoader
         if (mInfoArr[id].CurrentLevel>0)
         {
             
-            if (mInfoArr[id].Cooltime <= 0)
-            {
                 switch (id)
                 {
                     case 0:
@@ -223,7 +247,6 @@ public class PlayerUpgradeController : InformationLoader
                         GameController.Instance.CriticalValue = mInfoArr[id].ValueCurrent;
                         break;
                     case 3:
-                        break;
                     case 4:
                         int buttonId = 0;
                         for (int i=0; i<mSkillIndexList.Count; i++)
@@ -241,8 +264,6 @@ public class PlayerUpgradeController : InformationLoader
                         break;
 
                 }
-                
-            }
         }
 
 

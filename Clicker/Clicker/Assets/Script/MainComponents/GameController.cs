@@ -40,6 +40,7 @@ public class GameController : SaveDataController
     [SerializeField]
     private double mIncomeWeight = 1.04d; //골드 배수
     private double mIncome;
+    public double IncomeBonus { get; set; }
 
     [SerializeField]
     private double mProgressWeight = 1.08d;//프로그래스 최댓값 배수
@@ -129,6 +130,27 @@ public class GameController : SaveDataController
         mCurrentGem = mGemPool.GetFromPool(mUser.LastGemID);
         mIncome = 5 * Math.Pow(mIncomeWeight, mUser.Stage);
 
+    }
+
+    public void PowerTouch(double value)
+    {
+        if (value < 0)
+        {
+            Debug.LogError("wrong power touch value " +value);
+        }
+        mUser.Progress += value;
+
+        if(mUser.Progress >= mMaxProgress)
+        {
+            mUser.Gold += mIncome;
+            mUser.Stage++;
+            mUser.Progress = 0;
+            CalcStage();
+        }
+
+        float progress = (float)(mUser.Progress / mMaxProgress);//이미지의 fillamount가 있기 때문에 float을 사용한다
+        mCurrentGem.SetProgress(progress);
+        UIController.Instance.ShowGaugeBar(mUser.Progress, mMaxProgress);
     }
 
     public void Touch()

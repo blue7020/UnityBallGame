@@ -10,6 +10,7 @@ public class LobbyController : MonoBehaviour
     private Button mStartButton;
     [SerializeField]
     private Text mStartText;
+#pragma warning restore 0649
     [SerializeField]
     private float mAlphaAnimPeriod = 2;
 

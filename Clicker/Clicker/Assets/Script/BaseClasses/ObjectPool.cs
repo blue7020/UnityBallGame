@@ -6,6 +6,7 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
 {
     [SerializeField]
     protected T[] mOriginArr;
+#pragma warning restore 0649
     [SerializeField]
     protected List<T>[] mPools;
 

@@ -18,12 +18,23 @@ public class AttackArea : MonoBehaviour
         mAnim = GetComponent<Animator>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
+        
         if (mAttackEnd == true)
         {
             //애니메이션끝난 후 mAttackEnd는 true
             mAnim.SetBool(AnimHash.Attack, false);
+            if (mPlayer.ver > 0) //상
+            {
+                mRenderer.sortingOrder = 0;
+
+            }
+            if (mPlayer.ver < 0) //하
+            {
+                mRenderer.sortingOrder = 3;
+
+            }
             gameObject.SetActive(false);
         }
     }

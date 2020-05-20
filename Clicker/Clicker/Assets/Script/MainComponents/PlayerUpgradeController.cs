@@ -23,15 +23,16 @@ public class PlayerUpgradeController : InformationLoader
     [SerializeField]
     private Transform mElementArea;
 
-    //public PlayerStat[] GetInfoArr()
-    //{
-    //    return mInfoArr;
-    //}
+    //모든 테이블이 준비되면 JsonGeneator를 비활성화
+    public PlayerStat[] GetInfoArr()
+    {
+        return mInfoArr;
+    }
 
-    //public PlayerStatText[] GetTextInfoArr()
-    //{
-    //    return mTextInforArr;
-    //}
+    public PlayerStatText[] GetTextInfoArr()
+    {
+        return mTextInforArr;
+    }
 
     [SerializeField]
     private SkillButton[] mSkillButtonArr;
@@ -78,6 +79,7 @@ public class PlayerUpgradeController : InformationLoader
 
                 mInfoArr[i].CurrentLevel = mLevelArr[i];
                 mInfoArr[i].CostTenWeight = (Math.Pow(mInfoArr[i].CostWight, 10) - 1) / (mInfoArr[i].CostWight - 1);
+
                 CalcData(i);
             
         }
@@ -103,7 +105,6 @@ public class PlayerUpgradeController : InformationLoader
         }
 
         mSkillCooltimeArr = GameController.Instance.GetSkillCoolTimeArr();
-
         for (int i=0; i<mSkillButtonArr.Length; i++)
         {
             int SkillId = mSkillIndexList[i];

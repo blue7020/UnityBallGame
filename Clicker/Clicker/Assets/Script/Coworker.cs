@@ -48,8 +48,8 @@ public class Coworker : MonoBehaviour
                     break;
                     
                 case eCoworkerState.Move:
-                    mAnim.SetBool(AnimWalkHash, true);
                     mRB2D.velocity = transform.right * -1;
+                    mAnim.SetBool(AnimWalkHash, true);
                     break;
                 default:
                     Debug.LogError("wrong move state "+mState);

@@ -63,6 +63,7 @@ public class TouchManager : MonoBehaviour
                 {
                     GameObject gameObject = Instantiate(mDummy);
                     gameObject.transform.position = hit.point;
+                    StartCoroutine(Effect(gameObject));
                     GameController.Instance.Touch();
                 }
             }
@@ -72,9 +73,16 @@ public class TouchManager : MonoBehaviour
         {
             GameObject gameObject = Instantiate(mDummy);
             gameObject.transform.position = pos;
+            StartCoroutine(Effect(gameObject));
             GameController.Instance.Touch();
         }
     }
 
-    
+    private IEnumerator Effect(GameObject effectObject)
+    {
+        Debug.Log("ted");
+        WaitForSeconds PointFive = new WaitForSeconds(0.3f);
+        yield return PointFive;
+        Destroy(effectObject);
+    }
 }

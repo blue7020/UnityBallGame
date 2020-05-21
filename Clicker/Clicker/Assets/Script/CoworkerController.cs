@@ -233,11 +233,11 @@ public class CoworkerController : InformationLoader //LoadJson을 사용하기 �
                 Math.Pow(mInfoArr[id].ValueWeight, mInfoArr[id].CurrentLevel);
         }
 
+        float periodSub = mInfoArr[id].PeriodUpgreadeAmount *
+                                     (int)(mInfoArr[id].CurrentLevel / mInfoArr[id].PeriodLevelStep);
         //레벨이 0보다 클 때 적용
         if (mInfoArr[id].CurrentLevel > 0)
         {
-            float periodSub = mInfoArr[id].PeriodUpgreadeAmount *
-                                      (int)(mInfoArr[id].PeriodLevelStep / mInfoArr[id].CurrentLevel);
             mInfoArr[id].PeriodCurrent = mInfoArr[id].PeriodBase - periodSub;
 
             switch (id)

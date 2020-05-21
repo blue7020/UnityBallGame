@@ -74,6 +74,31 @@ public class SaveDataController : MonoBehaviour
             mUser.SkillCooltimeArr = temp;
         }
 
+        if (mUser.CoworkerLevelArr ==null)
+        {
+            mUser.CoworkerLevelArr = new int[Constants.COWORKER_COUNT];
+            for (int i=0; i<mUser.CoworkerLevelArr.Length; i++)
+            {
+                mUser.CoworkerLevelArr[i] = -1;
+            }
+            mUser.CoworkerLevelArr[0] = 0;
+        }
+        else if (mUser.CoworkerLevelArr.Length != Constants.COWORKER_COUNT)
+        {
+            int[] temp = new int[Constants.COWORKER_COUNT];
+            for (int i = 0; i < temp.Length; i++)//동료 엘리멘트가 레벨이 0 미만이라면 활성화시키지 않음
+            {
+                temp[i] = -1;
+            }
+            temp[0] = 0;
+            int count = Mathf.Min(Constants.COWORKER_COUNT, mUser.CoworkerLevelArr.Length);
+            for (int i=0; i<count;i++)
+            {
+                temp[i] = mUser.CoworkerLevelArr[i];
+            }
+            mUser.CoworkerLevelArr = temp;
+        }
+
     }
 
     protected void CreateNewSaveData()
@@ -89,6 +114,13 @@ public class SaveDataController : MonoBehaviour
         mUser.PlayerItemLevelArr = new int[Constants.PLAYER_ITEM_COUNT];
         mUser.PlayerItemLevelArr[0] = 1;//터치하는 것이기 때문
         mUser.SkillCooltimeArr = new float[Constants.SKILL_COUNT];
+
+        mUser.CoworkerLevelArr = new int[Constants.COWORKER_COUNT];
+        for (int i = 0; i < mUser.CoworkerLevelArr.Length; i++)
+        {
+            mUser.CoworkerLevelArr[i] = -1;
+        }
+        mUser.CoworkerLevelArr[0] = 0;
     }
 
 

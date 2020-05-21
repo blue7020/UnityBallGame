@@ -261,7 +261,7 @@ public class PlayerUpgradeController : InformationLoader
                         mSkillButtonArr[buttonId].SetButtonActive(true);
                         break;
                     default:
-                        Debug.LogError("wrong cooltime value on player stats" + id);
+                        Debug.LogError("wrong id value on player stats" + id);
                         break;
 
                 }

@@ -15,6 +15,14 @@ public class Coworker : MonoBehaviour
     [SerializeField]
     private Transform mTextEffectPos;
 #pragma warning restore 0649 
+
+    [SerializeField]
+    private int mID;
+    [SerializeField]
+    private float mWorkPeriod;
+    [SerializeField]
+    private float mCurrentTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +30,24 @@ public class Coworker : MonoBehaviour
         mRB2D = GetComponent<Rigidbody2D>();
         mState = eCoworkerState.Idle;
         StartCoroutine(CoworkerMove());
+    }
+    public void Startwork(int id, float period)
+    {
+        mID = id;
+        mWorkPeriod = period;
+    }
+
+    private void Update()
+    {
+        if (mWorkPeriod > 0)//n초마다 실행
+        {
+            mCurrentTime += Time.deltaTime;
+            if (mCurrentTime >= mWorkPeriod)
+            {
+                CoworkerController.Instance.JobFinish(mID,mTextEffectPos.position);
+                mCurrentTime = 0;
+            }
+        }
     }
 
     private IEnumerator CoworkerMove()

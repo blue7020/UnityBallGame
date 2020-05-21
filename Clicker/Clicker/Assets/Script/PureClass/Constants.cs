@@ -9,4 +9,6 @@ public static class Constants
     public const int TOTAL_GEM_COUNT = 3;
     public const int PLAYER_ITEM_COUNT = 5;//게임에 아이템을 추가하면 값을 바꿔주기만 하면 됨
     public const int SKILL_COUNT = 2;
+
+    public const int COWORKER_COUNT = 3;
 }

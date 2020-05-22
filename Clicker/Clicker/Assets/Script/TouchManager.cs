@@ -6,7 +6,7 @@ public class TouchManager : MonoBehaviour
 {
     private Camera mMainCamera;
     [SerializeField]
-    private GameObject mDummy;
+    private EffectPool mEffectPool;
 
     // Start is called before the first frame update
     void Start()
@@ -61,9 +61,8 @@ public class TouchManager : MonoBehaviour
             {
                 if (gameObject == hit.collider.gameObject)
                 {
-                    GameObject gameObject = Instantiate(mDummy);
-                    gameObject.transform.position = hit.point;
-                    StartCoroutine(Effect(gameObject));
+                    Timer effect = mEffectPool.GetFromPool();
+                    effect.transform.position = hit.point;
                     GameController.Instance.Touch();
                 }
             }
@@ -71,18 +70,9 @@ public class TouchManager : MonoBehaviour
         Vector3 pos;
         if (CheckTouch(out pos))
         {
-            GameObject gameObject = Instantiate(mDummy);
+            Timer effect = mEffectPool.GetFromPool();
             gameObject.transform.position = pos;
-            StartCoroutine(Effect(gameObject));
             GameController.Instance.Touch();
         }
-    }
-
-    private IEnumerator Effect(GameObject effectObject)
-    {
-        Debug.Log("ted");
-        WaitForSeconds PointFive = new WaitForSeconds(0.3f);
-        yield return PointFive;
-        Destroy(effectObject);
     }
 }

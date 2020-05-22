@@ -74,6 +74,22 @@ public class SaveDataController : MonoBehaviour
             mUser.SkillCooltimeArr = temp;
         }
 
+        if (mUser.SkillMaxCooltimeArr == null)
+        {
+            mUser.SkillMaxCooltimeArr = new float[Constants.SKILL_COUNT];
+        }
+        else if(mUser.SkillMaxCooltimeArr.Length != Constants.SKILL_COUNT)
+        {
+            float[] temp = new float[Constants.SKILL_COUNT];
+            int count = Mathf.Min(Constants.SKILL_COUNT, mUser.SkillMaxCooltimeArr.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.SkillMaxCooltimeArr[i];
+            }
+            mUser.SkillMaxCooltimeArr = temp;
+
+        }
+
         if (mUser.CoworkerLevelArr ==null)
         {
             mUser.CoworkerLevelArr = new int[Constants.COWORKER_COUNT];
@@ -114,6 +130,7 @@ public class SaveDataController : MonoBehaviour
         mUser.PlayerItemLevelArr = new int[Constants.PLAYER_ITEM_COUNT];
         mUser.PlayerItemLevelArr[0] = 1;//터치하는 것이기 때문
         mUser.SkillCooltimeArr = new float[Constants.SKILL_COUNT];
+        mUser.SkillMaxCooltimeArr = new float[Constants.SKILL_COUNT];
 
         mUser.CoworkerLevelArr = new int[Constants.COWORKER_COUNT];
         for (int i = 0; i < mUser.CoworkerLevelArr.Length; i++)

@@ -115,6 +115,11 @@ public class GameController : SaveDataController
         return mUser.SkillCooltimeArr;
     }
 
+    public float[] GetSkillMaxCoolTimeArr()
+    {
+        return mUser.SkillMaxCooltimeArr;
+    }
+
     public int[] GetCoworkerLevelArr()
     {
         return mUser.CoworkerLevelArr;

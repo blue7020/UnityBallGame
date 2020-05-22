@@ -38,9 +38,24 @@ public class PlayerUpgradeController : InformationLoader
     private SkillButton[] mSkillButtonArr;
 #pragma warning restore 0649
     [SerializeField]
-    private float[] mSkillCooltimeArr;
+    private float[] mSkillCooltimeArr, mSkillMaxCooltimeArr;
     [SerializeField]
     private List<int> mSkillIndexList;
+    //쿨타임 감소
+    private float mSkillDiscount;
+    public float SkillDiscount
+    {
+        get { return mSkillDiscount; }
+        set
+        {
+            mSkillDiscount = value;
+            for (int i=0; i<mSkillMaxCooltimeArr.Length;i++)
+            {
+                mSkillMaxCooltimeArr[i] = mInfoArr[mSkillIndexList[i]].Cooltime - mSkillDiscount;
+            }
+        }
+    }
+
 
     private int mSelectedID, mSelectedAmount;//드래그 시 잡고 있는 것의 정보를 들고 있다.
 
@@ -68,6 +83,8 @@ public class PlayerUpgradeController : InformationLoader
                                                                       //얘는 바꿀 수 없는 변수다 라는것을 명시하는 것)
         //세이브 데이터 불러오기
         mLevelArr = GameController.Instance.GetPlayerItemLevelArr();
+        mSkillCooltimeArr = GameController.Instance.GetSkillCoolTimeArr();
+        mSkillMaxCooltimeArr = GameController.Instance.GetSkillMaxCoolTimeArr();
 
         mSkillIndexList = new List<int>();
         for (int i = 0; i < mInfoArr.Length; i++)
@@ -104,36 +121,36 @@ public class PlayerUpgradeController : InformationLoader
             mElementList.Add(elem);
         }
 
-        mSkillCooltimeArr = GameController.Instance.GetSkillCoolTimeArr();
         for (int i=0; i<mSkillButtonArr.Length; i++)
         {
-            int SkillId = mSkillIndexList[i];
-            if (mInfoArr[SkillId].CurrentLevel > 0)
+            int SkillID = mSkillIndexList[i];
+            if (mInfoArr[SkillID].CurrentLevel > 0)
             {
                 mSkillButtonArr[i].SetButtonActive(true);
             }
-            StartCoroutine(CooltimeRoutine(i, mInfoArr[SkillId].Cooltime));
+            StartCoroutine(CooltimeRoutine(i, mSkillMaxCooltimeArr[i]));
         }
     }
 
-    public void ActiveSkill(int buttonId)
+    public void ActiveSkill(int buttonID)
     {
-        int infoID = mSkillIndexList[buttonId];
+        int infoID = mSkillIndexList[buttonID];
+
         switch (infoID)
         {
             case 3:
                 GameController.Instance.PowerTouch(mInfoArr[infoID].ValueCurrent);
                 break;
             case 4:
-                StartCoroutine(GoldBonusRoutine(mInfoArr[infoID].Duration,mInfoArr[infoID].ValueCurrent));
+                StartCoroutine(GoldBonusRoutine(mInfoArr[infoID].Duration, mInfoArr[infoID].ValueCurrent));
                 break;
             default:
                 Debug.LogError("wrong skill info id: " + infoID);
                 break;
         }
 
-        mSkillCooltimeArr[buttonId] = mInfoArr[infoID].Cooltime;
-        StartCoroutine(CooltimeRoutine(buttonId, mInfoArr[infoID].Cooltime));
+        mSkillCooltimeArr[buttonID] = mSkillMaxCooltimeArr[buttonID];
+        StartCoroutine(CooltimeRoutine(buttonID, mSkillMaxCooltimeArr[buttonID]));
         
     }
 
@@ -144,6 +161,7 @@ public class PlayerUpgradeController : InformationLoader
         GameController.Instance.IncomeBonus -= value;
     }
 
+    //Max Cooltime
     private IEnumerator CooltimeRoutine(int buttonId, float cooltime)
     {
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
@@ -235,36 +253,37 @@ public class PlayerUpgradeController : InformationLoader
         //레벨이 0보다 클 때 적용
         if (mInfoArr[id].CurrentLevel>0)
         {
-            
-                switch (id)
-                {
-                    case 0:
-                        GameController.Instance.TouchPower = mInfoArr[id].ValueCurrent;
-                        break;
-                    case 1:
-                        GameController.Instance.CriticalRate = mInfoArr[id].ValueCurrent;
-                        break;
-                    case 2:
-                        GameController.Instance.CriticalValue = mInfoArr[id].ValueCurrent;
-                        break;
-                    case 3:
-                    case 4:
-                        int buttonId = 0;
-                        for (int i=0; i<mSkillIndexList.Count; i++)
-                        {
-                            if(mSkillIndexList[i] ==id)
-                            {
-                                buttonId = 1;
-                                break;
-                            }
-                        }
-                        mSkillButtonArr[buttonId].SetButtonActive(true);
-                        break;
-                    default:
-                        Debug.LogError("wrong id value on player stats" + id);
-                        break;
 
-                }
+            switch (id)
+            {
+                case 0:
+                    GameController.Instance.TouchPower = mInfoArr[id].ValueCurrent;
+                    break;
+                case 1:
+                    GameController.Instance.CriticalRate = mInfoArr[id].ValueCurrent;
+                    break;
+                case 2:
+                    GameController.Instance.CriticalValue = mInfoArr[id].ValueCurrent;
+                    break;
+                case 3:
+                case 4:
+                    int buttonID = 0;
+                    for (int i = 0; i < mSkillIndexList.Count; i++)
+                    {
+                        if (mSkillIndexList[i] == id)
+                        {
+                            buttonID = i;
+                            break;
+                        }
+                    }
+                    mSkillMaxCooltimeArr[buttonID] = mInfoArr[id].Cooltime - mSkillDiscount;
+                    mSkillButtonArr[buttonID].SetButtonActive(true);
+                    break;
+                default:
+                    Debug.LogError("wrong id value on player stats" + id);
+                    break;
+
+            }
         }
 
 

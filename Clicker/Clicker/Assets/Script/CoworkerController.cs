@@ -249,6 +249,7 @@ public class CoworkerController : InformationLoader //LoadJson을 사용하기 �
                     break;//주기 동작을 하는 동료
                 case 2:
                     //TODO 스킬 쿨타임 감소
+                    PlayerUpgradeController.Instance.SkillDiscount = (float)mInfoArr[id].ValueCurrent;
                     break;
                 default:
                     Debug.LogError("wrong id value on Coworker" + id);

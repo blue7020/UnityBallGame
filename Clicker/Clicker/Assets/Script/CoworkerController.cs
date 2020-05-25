@@ -40,27 +40,20 @@ public class CoworkerController : InformationLoader //LoadJson을 사용하기 �
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Load()
     {
-        LoadJson(out mInfoArr, Paths.COWORKER_INFO_TABLE);
-        LoadJson(out mTextInforArr, Paths.COWORKER_TEXT_INFO_TABLE);
-
-        mLevelArr = GameController.Instance.GetCoworkerLevelArr();
-
-        mElementList = new List<UIElement>();
         for (int i = 0; i < mInfoArr.Length; i++)
         {
-            if (mLevelArr[i]<0)
+            if (mLevelArr[i] < 0)
             {
                 continue;
             }
             mInfoArr[i].CurrentLevel = mLevelArr[i];
-            mInfoArr[i].CostTenWeight = (Math.Pow(mInfoArr[i].CostWight, 10) - 1) / (mInfoArr[i].CostWight-1);
+            mInfoArr[i].CostTenWeight = (Math.Pow(mInfoArr[i].CostWight, 10) - 1) / (mInfoArr[i].CostWight - 1);
 
             CalcData(i);
 
-            if (mInfoArr[i].CurrentLevel>0)
+            if (mInfoArr[i].CurrentLevel > 0)
             {
                 mCoworkerArr[i].gameObject.SetActive(true);//0번 동료 소환
                 mCoworkerArr[i].Startwork(i, mInfoArr[i].PeriodCurrent);
@@ -84,23 +77,51 @@ public class CoworkerController : InformationLoader //LoadJson을 사용하기 �
                               valueStr,
                               mInfoArr[i].PeriodCurrent.ToString()),
                 UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent),
-                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent * mInfoArr[i].CostTenWeight),LevelUP);
+                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent * mInfoArr[i].CostTenWeight), LevelUP);
 
             mElementList.Add(element);
         }
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        LoadJson(out mInfoArr, Paths.COWORKER_INFO_TABLE);
+        LoadJson(out mTextInforArr, Paths.COWORKER_TEXT_INFO_TABLE);
+
+        mLevelArr = GameController.Instance.GetCoworkerLevelArr();
+
+        mElementList = new List<UIElement>();
+        Load();
+    }
+
+    public void Rebirth(int[] newLevelArr)
+    {
+        mLevelArr = newLevelArr;
+        for (int i=0; i<mElementList.Count;i++)
+        {
+            Destroy(mElementList[i].gameObject);
+            mCoworkerArr[i].gameObject.SetActive(false);
+        }
+        mElementList.Clear(); //남은 Null값을 없애기 위해 Clear를 사용하여 모든 값을 아예 없애버린다.
+        Load();
+    }
 
     public void JobFinish(int id, Vector3 effectPos)
     {
+        //Sprite icon;//Sprite renderer의 스프라이트 이미지는 null일 때 흰 이미지로 나오고, ui캔버스의 2d이미지는 null일 때 아무것도 나오지 않는다.
+        string valueText ="";
         switch (id)
         {
             case 0:
                 Debug.Log(mInfoArr[id].ValueCurrent);
                 GameController.Instance.Gold += mInfoArr[id].ValueCurrent;
+                //icon = mIconArr[0];
+                valueText = UnitSetter.GetUnitStr(mInfoArr[id].ValueCurrent);
                 break;
             case 1:
                 GameController.Instance.PowerTouch(mInfoArr[id].ValueCurrent);
+                valueText = UnitSetter.GetUnitStr(mInfoArr[id].ValueCurrent);
                 break;
             case 2://주기 동작이 아닌 동료
                 //스킬 쿨타임 감소
@@ -109,6 +130,10 @@ public class CoworkerController : InformationLoader //LoadJson을 사용하기 �
                 Debug.LogError("wrong coworker id " + id);
                 break;
         }
+        TextEffect effect = TextEffectPool.Instance.GetFromPool();
+        effect.SetText(valueText);
+        //effect.SetIcon(icon);
+        effect.transform.position = effectPos;
     }
 
 

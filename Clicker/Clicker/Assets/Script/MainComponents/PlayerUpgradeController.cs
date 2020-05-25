@@ -81,7 +81,7 @@ public class PlayerUpgradeController : InformationLoader
 
         mIconArr = Resources.LoadAll<Sprite>(Paths.PLAYER_ITEM_ICON); //컨스트 변수는 항상 대문자에 _ 를 써주는 것이 좋다.
                                                                       //얘는 바꿀 수 없는 변수다 라는것을 명시하는 것)
-        //세이브 데이터 불러오기
+                                                                      //세이브 데이터 불러오기
         mLevelArr = GameController.Instance.GetPlayerItemLevelArr();
         mSkillCooltimeArr = GameController.Instance.GetSkillCoolTimeArr();
         mSkillMaxCooltimeArr = GameController.Instance.GetSkillMaxCoolTimeArr();
@@ -89,39 +89,22 @@ public class PlayerUpgradeController : InformationLoader
         mSkillIndexList = new List<int>();
         for (int i = 0; i < mInfoArr.Length; i++)
         {
-                if (mInfoArr[i].Cooltime > 0)
-                {
-                    mSkillIndexList.Add(i);
-                }
+            if (mInfoArr[i].Cooltime > 0)
+            {
+                mSkillIndexList.Add(i);
+            }
 
-                mInfoArr[i].CurrentLevel = mLevelArr[i];
-                mInfoArr[i].CostTenWeight = (Math.Pow(mInfoArr[i].CostWight, 10) - 1) / (mInfoArr[i].CostWight - 1);
+            mInfoArr[i].CurrentLevel = mLevelArr[i];
+            mInfoArr[i].CostTenWeight = (Math.Pow(mInfoArr[i].CostWight, 10) - 1) / (mInfoArr[i].CostWight - 1);
 
-                CalcData(i);
-            
+            CalcData(i);
+
         }
 
         mElementList = new List<UIElement>();
-        for (int i=0; i<mInfoArr.Length; i++)
-        {
-            
-            UIElement elem = Instantiate(mElementPrefab, mElementArea);
-            string valueStr = mInfoArr[i].IsPercent ? mInfoArr[i].ValueCurrent.ToString("P0") : UnitSetter.GetUnitStr(mInfoArr[i].ValueCurrent);//참이면 왼쪽 거짓이면 오른쪽
-            //if문으로 만들어도 됨
+        NewMethod();
 
-            elem.Init(i, mIconArr[i],
-                mTextInforArr[i].Title,
-                mInfoArr[i].CurrentLevel.ToString(),
-                string.Format(mTextInforArr[i].ContentsFormat,
-                              valueStr, 
-                              mInfoArr[i].Duration.ToString()),
-                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent),
-                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent * mInfoArr[i].CostTenWeight),
-                LevelUP);//엘리먼트와 enum의 id값은 같게 설정.
-            mElementList.Add(elem);
-        }
-
-        for (int i=0; i<mSkillButtonArr.Length; i++)
+        for (int i = 0; i < mSkillButtonArr.Length; i++)
         {
             int SkillID = mSkillIndexList[i];
             if (mInfoArr[SkillID].CurrentLevel > 0)
@@ -130,6 +113,33 @@ public class PlayerUpgradeController : InformationLoader
             }
             StartCoroutine(CooltimeRoutine(i, mSkillMaxCooltimeArr[i]));
         }
+    }
+
+    private void NewMethod()
+    {
+        for (int i = 0; i < mInfoArr.Length; i++)
+        {
+
+            UIElement elem = Instantiate(mElementPrefab, mElementArea);
+            string valueStr = mInfoArr[i].IsPercent ? mInfoArr[i].ValueCurrent.ToString("P0") : UnitSetter.GetUnitStr(mInfoArr[i].ValueCurrent);//참이면 왼쪽 거짓이면 오른쪽
+            //if문으로 만들어도 됨
+
+            elem.Init(i, mIconArr[i],
+                mTextInforArr[i].Title,
+                mInfoArr[i].CurrentLevel.ToString(),
+                string.Format(mTextInforArr[i].ContentsFormat,
+                              valueStr,
+                              mInfoArr[i].Duration.ToString()),
+                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent),
+                UnitSetter.GetUnitStr(mInfoArr[i].CostCurrent * mInfoArr[i].CostTenWeight),
+                LevelUP);//엘리먼트와 enum의 id값은 같게 설정.
+            mElementList.Add(elem);
+        }
+    }
+
+    public void Rebirth(int[] newLevelArr)
+    {
+
     }
 
     public void ActiveSkill(int buttonID)

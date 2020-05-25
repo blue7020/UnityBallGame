@@ -125,6 +125,54 @@ public class GameController : SaveDataController
         return mUser.CoworkerLevelArr;
     }
 
+    public void Rebirth()
+    {
+        if (mUser.Stage >= 100)
+        {
+            #region 소울 지급
+            double reward = mUser.Stage * 2;
+            int levelTotal = 0;
+            for (int i = 0; i < mUser.PlayerItemLevelArr.Length; i++)
+            {
+                levelTotal += mUser.PlayerItemLevelArr[i];
+            }
+            for (int i = 0; i < mUser.CoworkerLevelArr.Length; i++)
+            {
+                if (mUser.CoworkerLevelArr[i] > 0)
+                {
+                    levelTotal += mUser.CoworkerLevelArr[i];
+                }
+            }
+            reward += levelTotal;
+            mUser.Soul += reward;
+            #endregion
+
+            #region 레벨 및 스킬 쿨타임 초기화
+            mUser.PlayerItemLevelArr = new int[Constants.PLAYER_ITEM_COUNT];
+            mUser.PlayerItemLevelArr[0] = 1;//터치하는 것이기 때문
+            mUser.SkillCooltimeArr = new float[Constants.SKILL_COUNT];
+            mUser.SkillMaxCooltimeArr = new float[Constants.SKILL_COUNT];
+
+            mUser.CoworkerLevelArr = new int[Constants.COWORKER_COUNT];
+            for (int i = 0; i < mUser.CoworkerLevelArr.Length; i++)
+            {
+                mUser.CoworkerLevelArr[i] = -1;
+            }
+            mUser.CoworkerLevelArr[0] = 0;
+            #endregion
+
+            CoworkerController.Instance.Rebirth(mUser.CoworkerLevelArr);
+        }
+        else
+        {
+            Debug.Log("환생 조건이 충족되지 않았습니다.");//Popup
+        }
+        //UI 초기화(Player Item)
+        //Gold 초기화
+        //Stage, CurrentProgress 초기화
+
+    }
+
     private void CalcStage(int id = -1)
     { 
         mMaxProgress = 10 * Math.Pow(mProgressWeight, mUser.Stage);

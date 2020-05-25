@@ -6,6 +6,10 @@ using UnityEngine;
 [Serializable]//Serializable을 해야 SerializeField가 먹힌다.
 public class PlayerStat
 {
+    public double Gold;
+    public double Soul;
+    public double Crystal;
+
     public int ID;
     public int CurrentLevel;
     public int MaxLevel;
@@ -72,6 +76,8 @@ public class CoworkerTextInfo
 public class SaveData
 {
     public double Gold;
+    public double Soul;
+    public double Crystal;
 
     public int Stage;
     public double Progress;

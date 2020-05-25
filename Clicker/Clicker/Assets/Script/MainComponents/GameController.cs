@@ -75,6 +75,8 @@ public class GameController : SaveDataController
     [SerializeField]
     private Gem mCurrentGem;
 
+    public int LanguageType { get; set; }
+
     private void Awake()
     {
         if(Instance == null)
@@ -82,6 +84,16 @@ public class GameController : SaveDataController
             Instance = this;
             DontDestroyOnLoad(gameObject);
             LoadGame();
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                Debug.Log("Kor");
+                LanguageType = 0;
+            }
+            else
+            {
+                Debug.Log("None Kor" + (int)Application.systemLanguage);
+                LanguageType = 1;
+            }
         }
         else
         {
@@ -161,21 +173,58 @@ public class GameController : SaveDataController
             mUser.CoworkerLevelArr[0] = 0;
             #endregion
 
+            PlayerUpgradeController.Instance.Rebirth(mUser.PlayerItemLevelArr,
+                                                     mUser.SkillCooltimeArr,
+                                                     mUser.SkillMaxCooltimeArr);
             CoworkerController.Instance.Rebirth(mUser.CoworkerLevelArr);
+            mUser.Gold = 0;
+            mUser.Stage = 0;
+            mUser.Progress = 0;
+            mCurrentGem.gameObject.SetActive(false);
+            CalcStage();
+            UIController.Instance.ShowGaugeBar(mUser.Progress, mMaxProgress);
+            //골드 보여주기
+            //소울 보여주기
         }
         else
         {
             Debug.Log("환생 조건이 충족되지 않았습니다.");//Popup
         }
-        //UI 초기화(Player Item)
-        //Gold 초기화
-        //Stage, CurrentProgress 초기화
 
     }
 
+    private IEnumerator BossCountDown(float time)
+    {
+        WaitForFixedUpdate frame = new WaitForFixedUpdate();
+        while (time > 0)
+        {
+            yield return frame;
+            time -= Time.fixedDeltaTime;
+            //보스 게이지 갱신
+        }
+        //패널티 부여
+        mBossCountDown = null;
+    }
+    private Coroutine mBossCountDown;
+
     private void CalcStage(int id = -1)
-    { 
-        mMaxProgress = 10 * Math.Pow(mProgressWeight, mUser.Stage);
+    {
+        if (mUser.Stage > 0 && mUser.Stage % 10 == 0)
+        {
+            mMaxProgress = 100 * Math.Pow(mProgressWeight, mUser.Stage);
+            float bossTime = 30;
+            //보스 게이지 갱신
+            mBossCountDown = StartCoroutine(BossCountDown(bossTime));
+        }
+        else
+        {
+            mMaxProgress = 10 * Math.Pow(mProgressWeight, mUser.Stage);
+            if(mBossCountDown != null)
+            {
+                StopCoroutine(mBossCountDown);
+                mBossCountDown = null;
+            }
+        }
         //Mathf는 float이기 때문에 return 값이 double인 Using System - Math를 사용한다.
         if (mCurrentGem !=null)
         {

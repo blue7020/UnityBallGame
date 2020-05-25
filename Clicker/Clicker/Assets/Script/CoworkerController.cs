@@ -87,7 +87,8 @@ public class CoworkerController : InformationLoader //LoadJson을 사용하기 �
     void Start()
     {
         LoadJson(out mInfoArr, Paths.COWORKER_INFO_TABLE);
-        LoadJson(out mTextInforArr, Paths.COWORKER_TEXT_INFO_TABLE);
+        LoadJson(out mTextInforArr, Paths.COWORKER_TEXT_INFO_TABLE
+                                  + Paths.LANGUAGE_TYPE_ARR[GameController.Instance.LanguageType]);
 
         mLevelArr = GameController.Instance.GetCoworkerLevelArr();
 

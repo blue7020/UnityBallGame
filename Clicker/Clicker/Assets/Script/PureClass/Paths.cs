@@ -10,6 +10,8 @@ public static class Paths
     public const string PLAYER_ITEM_ICON = "PlayerItems";
 
     private const string JSON_FILE_LOCATION = "JsonFiles/";
+
+    public static readonly string[] LANGUAGE_TYPE_ARR = { "_Kor", "_Eng" };
     public const string PLAYER_ITEM_TABLE = JSON_FILE_LOCATION + "PlayerItem";
     public const string PLAYER_ITEM_TEXT_TABLE = JSON_FILE_LOCATION + "PlayerItemText";
 

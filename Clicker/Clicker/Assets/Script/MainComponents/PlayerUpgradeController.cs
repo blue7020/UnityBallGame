@@ -77,7 +77,8 @@ public class PlayerUpgradeController : InformationLoader
     {
         //제너릭 : 다양한 타입에 대해 대응하기 위해 사용
         LoadJson(out mInfoArr, Paths.PLAYER_ITEM_TABLE);
-        LoadJson(out mTextInforArr, Paths.PLAYER_ITEM_TEXT_TABLE);
+        LoadJson(out mTextInforArr, Paths.PLAYER_ITEM_TEXT_TABLE
+                                  + Paths.LANGUAGE_TYPE_ARR[GameController.Instance.LanguageType]);
 
         mIconArr = Resources.LoadAll<Sprite>(Paths.PLAYER_ITEM_ICON); //컨스트 변수는 항상 대문자에 _ 를 써주는 것이 좋다.
                                                                       //얘는 바꿀 수 없는 변수다 라는것을 명시하는 것)
@@ -102,7 +103,7 @@ public class PlayerUpgradeController : InformationLoader
         }
 
         mElementList = new List<UIElement>();
-        NewMethod();
+        Load();
 
         for (int i = 0; i < mSkillButtonArr.Length; i++)
         {
@@ -115,7 +116,7 @@ public class PlayerUpgradeController : InformationLoader
         }
     }
 
-    private void NewMethod()
+    private void Load()
     {
         for (int i = 0; i < mInfoArr.Length; i++)
         {
@@ -137,9 +138,24 @@ public class PlayerUpgradeController : InformationLoader
         }
     }
 
-    public void Rebirth(int[] newLevelArr)
+    public void Rebirth(int[] newLevelArr, float[] skillCool, float[] skillMaxCool)
     {
+        mLevelArr = newLevelArr;
+        mSkillCooltimeArr = skillCool;
+        mSkillMaxCooltimeArr = skillMaxCool;
 
+        for (int i=0; i<mElementList.Count; i++)
+        {
+            Destroy(mElementList[i].gameObject);
+        }
+        mElementList.Clear();
+
+        for (int i=0; i<mSkillButtonArr.Length; i++)
+        {
+            mSkillButtonArr[i].gameObject.SetActive(false);
+        }
+
+        Load();
     }
 
     public void ActiveSkill(int buttonID)

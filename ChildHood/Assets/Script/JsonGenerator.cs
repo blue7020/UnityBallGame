@@ -93,6 +93,156 @@ public class JsonGenerator : MonoBehaviour
         WriteFile(data, "PlayerStat.json"); //파일을 읽을 때는 확장자를 꼭 넣어야 인식이 된다.
     }
 
+    public void GenerateMonsterStatInfo()
+    {
+        MonsterStat[] infoArr = new MonsterStat[2];
+        //미믹
+        infoArr[0] = new MonsterStat();
+        infoArr[0].ID = 0;
+        infoArr[0].Gold = 5;
+        
+
+        infoArr[0].Hp = 5;
+        infoArr[0].Atk = 1;
+        infoArr[0].AtkSpd = 1;
+        infoArr[0].Spd = 10;
+
+        //슬라임
+        infoArr[1] = new MonsterStat();
+        infoArr[1].ID = 1;
+        infoArr[1].Gold = 5;
+
+
+        infoArr[1].Hp = 5;
+        infoArr[1].Atk = 1;
+        infoArr[1].AtkSpd = 1;
+        infoArr[1].Spd = 10;
+
+
+
+        string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
+        WriteFile(data, "MonsterStat.json"); //파일을 읽을 때는 확장자를 꼭 넣어야 인식이 된다.
+    }
+
+    public void GenerateItemStatInfo()
+    {
+        ItemStat[] infoArr = new ItemStat[2];
+        infoArr[0] = new ItemStat();
+        infoArr[0].ID = 0;
+        infoArr[0].Price = 5;
+
+        infoArr[0].Heal = 1;
+        infoArr[0].Atk = 0;
+        infoArr[0].Def = 0;
+        infoArr[0].AtkSpd = 0;
+        infoArr[0].Spd = 0;
+
+        infoArr[0].Damage = 0;
+        infoArr[0].Duration = 0;
+
+        infoArr[1] = new ItemStat();
+        infoArr[1].ID = 1;
+        infoArr[1].Price = 10;
+
+        infoArr[1].Heal = 2;
+        infoArr[1].Atk = 0;
+        infoArr[1].Def = 0;
+        infoArr[1].AtkSpd = 0;
+        infoArr[1].Spd = 0;
+
+        infoArr[1].Damage = 0;
+        infoArr[1].Duration = 0;
+
+        string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
+        WriteFile(data, "ItemStat.json"); //파일을 읽을 때는 확장자를 꼭 넣어야 인식이 된다.
+    }
+
+    public void GenerateItemTextStatInfo()
+    {
+        ItemTextStat[] infoArr = new ItemTextStat[2];
+        infoArr[0] = new ItemTextStat();
+        infoArr[0].ID = 0;
+
+        infoArr[0].Title = "";
+        infoArr[0].ContensFormat = "";
+
+        infoArr[1] = new ItemTextStat();
+        infoArr[1].ID = 1;
+
+        infoArr[1].Title = "";
+        infoArr[1].ContensFormat = "";
+
+        string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
+        WriteFile(data, "ItemTextStat.json"); //파일을 읽을 때는 확장자를 꼭 넣어야 인식이 된다.
+    }
+
+    public void GenerateArtifactStatInfo()
+    {
+        ArtifactStat[] infoArr = new ArtifactStat[2];
+        infoArr[0] = new ArtifactStat();
+        infoArr[0].ID = 0;
+        infoArr[0].Price = 5;
+
+        infoArr[0].Atk = 5;
+        infoArr[0].Def = 0;
+        infoArr[0].AtkSpd = 0;
+        infoArr[0].Spd = 0;
+
+        infoArr[0].IsPercent = true;
+        infoArr[0].Crit = 0;
+        infoArr[0].CritDamage = 0;
+        infoArr[0].CooltimeReduce = 0;
+        infoArr[0].CCReduce = 0;
+
+        infoArr[0].Skill_Cooltime = 0;
+        infoArr[0].Skill_Duration = 0;
+
+
+        infoArr[1] = new ArtifactStat();
+        infoArr[1].ID = 1;
+        infoArr[1].Price = 5;
+
+        infoArr[1].Atk = 0;
+        infoArr[1].Def = 1;
+        infoArr[1].AtkSpd = 0;
+        infoArr[1].Spd = 0;
+
+        infoArr[1].IsPercent = true;
+        infoArr[1].Crit = 0;
+        infoArr[1].CritDamage = 0;
+        infoArr[1].CooltimeReduce = 0;
+        infoArr[1].CCReduce = 0;
+
+        infoArr[1].Skill_Cooltime = 0;
+        infoArr[1].Skill_Duration = 0;
+
+        string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
+        WriteFile(data, "ArtifactStat.json"); //파일을 읽을 때는 확장자를 꼭 넣어야 인식이 된다.
+    }
+
+    public void GenerateArtifactTextStatInfo()
+    {
+        ArtifactTextStat[] infoArr = new ArtifactTextStat[2];
+        infoArr[0] = new ArtifactTextStat();
+        infoArr[0].ID = 0;
+
+        infoArr[0].Title = "";
+        infoArr[0].ContensFormat = "";
+
+        infoArr[0].Flavortext = "";
+
+        infoArr[1] = new ArtifactTextStat();
+        infoArr[1].ID = 1;
+
+        infoArr[1].Title = "";
+        infoArr[1].ContensFormat = "";
+
+        infoArr[1].Flavortext = "";
+
+        string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
+        WriteFile(data, "ArtifactTextStat.json");
+    }
+
     private void WriteFile(string data, string fileName)
     {
         //PC에서만 사용

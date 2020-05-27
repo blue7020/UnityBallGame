@@ -45,12 +45,12 @@ public class AttackArea : Timer
         mAnim.SetBool(AnimHash.Attack, true);
     }
 
-    //private void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (other.gameObject.CompareTag("Enemy"))
-    //    {
-    //        other.gameObject.GetComponent<Enemy>().Hit(mPlayer.mInfoArr[mPlayer.mID].Atk);
-            
-    //    }
-    //}
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.GetComponent<Enemy>().Hit(Player.Instance.mInfoArr[Player.Instance.mID].Atk);
+
+        }
+    }
 }

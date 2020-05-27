@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Player : InformationLoader
 {
+    //TODO 캐릭터 선택 시 해당 ID에 맞는 캐릭터의 정보와 스프라이트를 출력하게끔
+
     public static Player Instance;
 
     public int mID = 0;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
-    [SerializeField]
-    public PlayerStat[] mInfoArr;
     private Sprite[] mPlayerSpriteArr;
     public float mMaxHP;
     public float mCurrentHP;
 
     [SerializeField]
-    private PlayerStatText[] mTextInfoArr;
+    public PlayerStat[] mInfoArr;
 
     private Rigidbody2D mRB2D;
     private Animator mAnim;
@@ -25,10 +25,6 @@ public class Player : InformationLoader
     //public PlayerStat[] GetInfoArr()
     //{
     //    return mInfoArr;
-    //}
-    //public PlayerStatText[] GetTextInfoArr()
-    //{
-    //    return mTextInfoArr;
     //}
 
 

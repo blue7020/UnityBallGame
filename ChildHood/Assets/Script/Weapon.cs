@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    //TODO 해당 캐릭터 선택 시 캐릭터의 ID와 같은 ID의 무기 스프라이트 불러오기
     private SpriteRenderer mRenderer;
 
+    private int mID=0;
     [SerializeField]
     private AttackArea mAttackArea;
     private bool mAttackCooltime = false;

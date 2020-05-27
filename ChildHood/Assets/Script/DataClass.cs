@@ -32,12 +32,6 @@ public class PlayerStat
 }
 
 [Serializable]
-public class PlayerStatText
-{
-
-}
-
-[Serializable]
 public class MonsterStat
 {
     public int ID;
@@ -48,6 +42,63 @@ public class MonsterStat
     public float AtkSpd;
     public float Spd;
 
+}
+
+[Serializable]
+public class ItemStat
+{
+    public int ID;
+    public int Price;
+
+    public float Heal;
+    public float Atk;
+    public float Def;
+    public float AtkSpd;
+    public float Spd;
+
+    public float Damage;
+    public float Duration;
+
+}
+
+public class ItemTextStat
+{
+    public int ID;
+
+    public string Title;
+    public string ContensFormat;
+}
+
+public class ArtifactStat
+{
+    public int ID;
+    public int Price;
+
+    public float Hp;
+    public float Atk;
+    public float Def;
+    public float AtkSpd;
+    public float Spd;
+
+    public bool IsPercent;
+    public int Crit;
+    public int CritDamage;
+    public int CooltimeReduce;
+    public int CCReduce;
+
+    public float Skill_Cooltime;
+    public float Skill_Duration;
+
+}
+
+public class ArtifactTextStat
+{
+    public int ID;
+
+    public string Title;
+    public string ContensFormat;
+
+    public string Flavortext;
 }
 
 [Serializable]

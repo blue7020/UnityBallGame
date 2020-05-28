@@ -436,8 +436,10 @@ GameObject:
   m_Component:
   - component: {fileID: 87113049}
   - component: {fileID: 87113051}
-  - component: {fileID: 87113050}
   - component: {fileID: 87113052}
+  - component: {fileID: 87113055}
+  - component: {fileID: 87113053}
+  - component: {fileID: 87113050}
   m_Layer: 0
   m_Name: Mimic_Wood
   m_TagString: Enemy
@@ -460,8 +462,8 @@ Transform:
   m_Father: {fileID: 1836175476}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &87113050
-CircleCollider2D:
+--- !u!61 &87113050
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -474,8 +476,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 3
+  m_Size: {x: 8, y: 8}
+  m_EdgeRadius: 0
 --- !u!61 &87113051
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -500,7 +512,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.8}
+  m_Size: {x: 1.1, y: 0.8}
   m_EdgeRadius: 0
 --- !u!114 &87113052
 MonoBehaviour:
@@ -516,8 +528,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   State: 0
   mID: 0
+  mCurrentHP: 0
   mMaxHP: 0
   mInfoArr: []
+--- !u!50 &87113053
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87113048}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!95 &87113055
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87113048}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b51387a5b99e8554caaf8c2905dd663f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &114667419
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,7 +698,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 120202007}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -1335,9 +1388,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 384634719
+  m_SortingLayer: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2267863666030936619, guid: 4421df8b23980bd4eb2307b10913ea0c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1446,7 +1499,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: -7278084377373081167, guid: 4421df8b23980bd4eb2307b10913ea0c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3815,7 +3868,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8908945174632451314, guid: 77640d5aaf365bf428083919a8660a8f,
+  m_Sprite: {fileID: -8908945174632451314, guid: 88e309c3dbc5ead4cb83a1dba60ee285,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

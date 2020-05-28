@@ -21,10 +21,6 @@ public class Enemy : InformationLoader
     private float mCurrentHP;
     public float mMaxHP;
 
-    private Vector3 Pos;
-
-    private bool Attack;
-
     [SerializeField]
     public PlayerStat[] mInfoArr;
 
@@ -48,30 +44,36 @@ public class Enemy : InformationLoader
         mRB2D = GetComponent<Rigidbody2D>();
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+        State = eMonsterState.Idle;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!Attack)
+        if (State!=eMonsterState.Skill)
         {
-            StartCoroutine(RandomState());
+            int rand = Random.Range(0, 2);//0~1
+            if (rand == 0)
+            {
+                State = eMonsterState.Idle;
+            }
+            else
+            {
+                State = eMonsterState.Move;
+            }
         }
-        Pos = Player.Instance.transform.position;
-
+        
         switch (State)
         {
             case eMonsterState.Idle:
             case eMonsterState.Move:
-                mAnim.SetBool(AnimHash.Move, false);
                 mRB2D.velocity = Vector2.zero;
                 break;
             case eMonsterState.Skill:
-                
+                mAnim.SetBool(AnimHash.Move, true);
                 break;
             case eMonsterState.Die:
                 gameObject.SetActive(false);
-                Debug.Log("dead");
                 break;
             default:
                 Debug.LogError("Wrong State");
@@ -89,61 +91,52 @@ public class Enemy : InformationLoader
         }
     }
 
-    private IEnumerator RandomState()
+    public void Attack()
     {
-        WaitForSeconds Cool = new WaitForSeconds(2f);
-        int rand = Random.Range(0, 2);//0~1
-        if (rand ==0)
-        {
-            State = eMonsterState.Idle;
-        }
-        else
-        {
-            State = eMonsterState.Move;
-        }
-        yield return Cool;
-        
+        Player.Instance.mCurrentHP -= mInfoArr[mID].Atk;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        Player.Instance.Hit(mInfoArr[mID].Atk);
+        Attack();
     }
+
+    //TODO 플레이어가 방을 나갔을 때 원래 위치로 돌아가는 BackHome 기능 추가하기
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            StopCoroutine(RandomState());
-            mPlayer = other.GetComponent<Player>();
             State = eMonsterState.Skill;
-            Attack = true;
         }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        StartCoroutine(MoveToPlayer());
+    }
+
+    private IEnumerator MoveToPlayer()
+    {
         if (State==eMonsterState.Skill)
         {
-            mAnim.SetBool(AnimHash.Move, true);
-            while (true)
-            {
-                Vector3 direction = Pos - transform.position;
-                direction = direction.normalized;
-                mRB2D.velocity = direction * mInfoArr[mID].Spd;
-                transform.Translate(Pos);
-            }
+            WaitForSeconds one = new WaitForSeconds(2f);
+            Vector3 Pos = Player.Instance.transform.position;
+            Vector3 dir = Pos - transform.position;
+            transform.position += dir.normalized * mInfoArr[mID].Spd * Time.fixedDeltaTime;
+            yield return one;
         }
         
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        Attack = false;
-        mPlayer = null;
-        mRB2D.velocity = Vector2.zero;
-        mAnim.SetBool(AnimHash.Move, false);
+        if (other.gameObject.CompareTag("Player"))
+        {
+            State = eMonsterState.Idle;
+            mAnim.SetBool(AnimHash.Move, false);
+        }
+        
+        
     }
-
-    
 }

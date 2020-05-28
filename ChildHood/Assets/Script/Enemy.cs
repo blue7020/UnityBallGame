@@ -15,9 +15,15 @@ public class Enemy : InformationLoader
 
     private Player mPlayer;
 
+    private Rigidbody2D mRB2D;
     private Animator mAnim;
+    [SerializeField]
     private float mCurrentHP;
     public float mMaxHP;
+
+    private Vector3 Pos;
+
+    private bool Attack;
 
     [SerializeField]
     public PlayerStat[] mInfoArr;
@@ -39,6 +45,7 @@ public class Enemy : InformationLoader
         }
         LoadJson(out mInfoArr, Path.MONSTER_STAT);
         mAnim = GetComponent<Animator>();
+        mRB2D = GetComponent<Rigidbody2D>();
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
@@ -46,48 +53,96 @@ public class Enemy : InformationLoader
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!Attack)
+        {
+            StartCoroutine(RandomState());
+        }
+        Pos = Player.Instance.transform.position;
+
         switch (State)
         {
             case eMonsterState.Idle:
-
-                break;
             case eMonsterState.Move:
-
+                mAnim.SetBool(AnimHash.Move, false);
+                mRB2D.velocity = Vector2.zero;
                 break;
             case eMonsterState.Skill:
+                
                 break;
             case eMonsterState.Die:
-
+                gameObject.SetActive(false);
+                Debug.Log("dead");
                 break;
             default:
                 Debug.LogError("Wrong State");
                 break;
         }
+        
     }
 
     public void Hit(float damage)
     {
         mCurrentHP -= damage;
+        if (mCurrentHP <= 0)
+        {
+            State = eMonsterState.Die;
+        }
+    }
+
+    private IEnumerator RandomState()
+    {
+        WaitForSeconds Cool = new WaitForSeconds(2f);
+        int rand = Random.Range(0, 2);//0~1
+        if (rand ==0)
+        {
+            State = eMonsterState.Idle;
+        }
+        else
+        {
+            State = eMonsterState.Move;
+        }
+        yield return Cool;
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Player.Instance.Hit(mInfoArr[mID].Atk);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            StopCoroutine(RandomState());
             mPlayer = other.GetComponent<Player>();
-            State = eMonsterState.Move;
+            State = eMonsterState.Skill;
+            Attack = true;
         }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        //플레이어 추격
+        if (State==eMonsterState.Skill)
+        {
+            mAnim.SetBool(AnimHash.Move, true);
+            while (true)
+            {
+                Vector3 direction = Pos - transform.position;
+                direction = direction.normalized;
+                mRB2D.velocity = direction * mInfoArr[mID].Spd;
+                transform.Translate(Pos);
+            }
+        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        Attack = false;
         mPlayer = null;
-        State = eMonsterState.Idle;
+        mRB2D.velocity = Vector2.zero;
+        mAnim.SetBool(AnimHash.Move, false);
     }
 
     

@@ -86,8 +86,8 @@ public class Enemy : InformationLoader
                 break;
             case eMonsterState.Die:
                 mGoldDropPos = transform.position;
-                mDropGold.DropEnd = true;
-                gameObject.SetActive(false);
+                mDropGold.gameObject.SetActive(true);
+                mDropGold.GoldDrop(transform.position,Instance.mInfoArr[mID].Gold);
                 break;
             default:
                 Debug.LogError("Wrong State");

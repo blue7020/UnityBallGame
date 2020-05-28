@@ -8,3 +8,13 @@ public enum eMonsterState
     Skill,
     Die
 }
+
+public enum eTextType
+{
+    Gold,
+    HP,
+    Atk,
+    Def,
+    AtkSpd,
+    Spd,
+}

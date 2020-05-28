@@ -60,9 +60,10 @@ public class Weapon : MonoBehaviour
 
     IEnumerator Attack()
     {
+        WaitForSeconds Cool =new WaitForSeconds(Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd * Time.fixedDeltaTime);
         mAttackCooltime = true;
         mAttackArea.Attack();
-        yield return new WaitForSeconds(Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd);
+        yield return Cool;
         mAttackCooltime = false;
     }
 }

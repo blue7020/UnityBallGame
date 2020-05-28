@@ -14,6 +14,9 @@ public class Enemy : InformationLoader
     private Sprite[] mMonsterSpriteArr;
 
     private Player mPlayer;
+    [SerializeField]
+    private DropGold mDropGold;
+    public Vector2 mGoldDropPos;
 
     private Rigidbody2D mRB2D;
     private Animator mAnim;
@@ -50,17 +53,26 @@ public class Enemy : InformationLoader
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (State!=eMonsterState.Skill)
+        if (State!=eMonsterState.Skill&&State!=eMonsterState.Die)
         {
-            int rand = Random.Range(0, 2);//0~1
-            if (rand == 0)
+            if (mCurrentHP <= 0)
             {
-                State = eMonsterState.Idle;
+                StopCoroutine(MoveToPlayer());
+                State = eMonsterState.Die;
             }
             else
             {
-                State = eMonsterState.Move;
+                int rand = Random.Range(0, 2);//0~1
+                if (rand == 0)
+                {
+                    State = eMonsterState.Idle;
+                }
+                else
+                {
+                    State = eMonsterState.Move;
+                }
             }
+            
         }
         
         switch (State)
@@ -73,6 +85,8 @@ public class Enemy : InformationLoader
                 mAnim.SetBool(AnimHash.Move, true);
                 break;
             case eMonsterState.Die:
+                mGoldDropPos = transform.position;
+                mDropGold.DropEnd = true;
                 gameObject.SetActive(false);
                 break;
             default:

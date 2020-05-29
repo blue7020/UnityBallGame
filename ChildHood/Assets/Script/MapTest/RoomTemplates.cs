@@ -32,7 +32,7 @@ public class RoomTemplates : MonoBehaviour
         }
         else
         {
-            waitTime -= Time.fixedDeltaTime;
+            waitTime -= Time.deltaTime;
         }
     }
 }

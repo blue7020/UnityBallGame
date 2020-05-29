@@ -83,6 +83,7 @@ public class Player : InformationLoader
     public void Hit(float damage)
     {
         mCurrentHP -= damage;
+        UIController.Instance.ShowHP();
     }
 
 }

@@ -6,6 +6,11 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
+    [SerializeField]
+    public GoldPool mGoldPool;
+    [SerializeField]
+    public GaugeBarPool mGaugeBarPool;
+
     public bool pause;
 
     private void Awake()
@@ -19,6 +24,11 @@ public class GameController : MonoBehaviour
             Destroy(gameObject);
         }
         pause = false;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(Enemy.Instance.StateMachine());
     }
 
     public void GamePause()

@@ -25,7 +25,7 @@ public class Enemy : InformationLoader
     private bool AttackOn;
     private bool HPBarOn;
 
-    private Rigidbody2D mRB2D;
+    //private Rigidbody2D mRB2D;
     private Animator mAnim;
     [SerializeField]
     public float mCurrentHP;
@@ -51,7 +51,7 @@ public class Enemy : InformationLoader
         }
         LoadJson(out mInfoArr, Path.MONSTER_STAT);
         mAnim = GetComponent<Animator>();
-        mRB2D = GetComponent<Rigidbody2D>();
+        //mRB2D = GetComponent<Rigidbody2D>();
         mMaxHP = mInfoArr[mID].Hp;
     }
 
@@ -90,7 +90,7 @@ public class Enemy : InformationLoader
 
     public IEnumerator StateMachine()
     {
-        WaitForSeconds pointOne = new WaitForSeconds(.1f);
+        WaitForSeconds pointOne = new WaitForSeconds(0.1f);
         while (true)
         {
             switch (State)
@@ -98,7 +98,8 @@ public class Enemy : InformationLoader
                 case eMonsterState.Idle:
                     if (mDelayCount >= 20)
                     {
-                        mRB2D.velocity = Vector2.zero;
+                        transform.position = transform.position;
+                        //mRB2D.velocity = Vector2.zero;
                         mDelayCount = 0;
                     }
                     else
@@ -109,7 +110,8 @@ public class Enemy : InformationLoader
                 case eMonsterState.Move:
                     if (mDelayCount >= 20)
                     {
-                        mRB2D.velocity = Vector2.zero;
+                        transform.position = transform.position;
+                        //mRB2D.velocity = Vector2.zero;
                         mDelayCount = 0;
                     }
                     else
@@ -136,7 +138,7 @@ public class Enemy : InformationLoader
                     else if (mDelayCount >= 10)
                     {
                         mAnim.SetBool(AnimHash.Move, false);
-                        //사망 시 색상 변경->회색
+                        //TODO 사망 시 색상 변경->회색
                         gameObject.SetActive(false);
                     }
                     else
@@ -156,7 +158,7 @@ public class Enemy : InformationLoader
     public void Hit(float damage)
     {
         mCurrentHP -= damage;
-        //타격 시 색상 변경 0.5초간 빨강
+        //TODO 타격 시 색상 변경 0.5초간 빨강
         if (mHPBar == null)
         {
             mHPBar = GaugeBarPool.Instance.GetFromPool();
@@ -191,11 +193,11 @@ public class Enemy : InformationLoader
 
     public void GoldDrop(DropGold dropGold,float Gold)
     {
-        if (dropGold.GoldStack == 1)
+        if (mInfoArr[mID].Gold>=10)
         {
             dropGold.mRenderer.sprite = dropGold.mSprites[1];
         }
-        else if (dropGold.GoldStack == 3)
+        else if (mInfoArr[mID].Gold>=20)
         {
             dropGold.mRenderer.sprite = dropGold.mSprites[2];
         }
@@ -250,7 +252,7 @@ public class Enemy : InformationLoader
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
             mAnim.SetBool(AnimHash.Move, true);
-            transform.position += dir.normalized * mInfoArr[mID].Spd * Time.fixedDeltaTime;
+            transform.position += dir.normalized * mInfoArr[mID].Spd * Time.deltaTime;
             yield return one;
         }
         

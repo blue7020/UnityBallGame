@@ -27,8 +27,7 @@ public class Player : InformationLoader
     //    return mInfoArr;
     //}
 
-
-    void Awake()
+    private void Awake()
     {
         if (Instance ==null)
         {
@@ -41,8 +40,13 @@ public class Player : InformationLoader
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+        UIController.Instance.ShowHP();
     }
 
     private void FixedUpdate()

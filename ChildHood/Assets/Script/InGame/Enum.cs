@@ -18,3 +18,10 @@ public enum eTextType
     AtkSpd,
     Spd,
 }
+
+public enum eStatueType
+{
+    Heal,
+    Strength,
+    Speed,
+}

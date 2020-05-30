@@ -24,41 +24,43 @@ public class Weapon : MonoBehaviour
         //TODO 현재 공격 패드 방향 따라가기 , 공격 버튼 이동 패드같이 수정
         if (Player.Instance.hori > 0) //좌
         {
-                mRenderer.sortingOrder = 2;
+                mRenderer.sortingOrder = 10;
                 transform.rotation = Quaternion.Euler(0, 180, 45);
             
         }
         else if (Player.Instance.hori < 0)//우
         {
-                mRenderer.sortingOrder = 0;
+                mRenderer.sortingOrder = 8;
                 transform.rotation = Quaternion.Euler(0, 180, -135);
         }
         else if (Player.Instance.ver > 0) //상
         {
-                mRenderer.sortingOrder = 0;
+                mRenderer.sortingOrder = 8;
                 transform.rotation = Quaternion.Euler(0, 180, -45);
             
         }
         else if (Player.Instance.ver < 0) //하
         {
-                mRenderer.sortingOrder = 2;
+                mRenderer.sortingOrder = 10;
                 transform.rotation = Quaternion.Euler(0, 180, 135);
             
         }
-        
-
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (mAttackCooltime == false)
-            {
-                StartCoroutine(Attack());
-            }
-
+            Attack();
         }
-        
+
     }
 
-    IEnumerator Attack()
+    public void Attack()
+    {
+        if (mAttackCooltime == false)
+        {
+            StartCoroutine(AttackCooltime());
+        }
+    }
+
+    private IEnumerator AttackCooltime()
     {
         WaitForSeconds Cool =new WaitForSeconds(Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd * Time.fixedDeltaTime);
         mAttackCooltime = true;

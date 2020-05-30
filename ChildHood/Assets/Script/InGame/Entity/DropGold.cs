@@ -13,7 +13,6 @@ public class DropGold : MonoBehaviour
     public Sprite[] mSprites;
 
     public bool DropEnd;
-    public int GoldStack =0;//골드 중첩
 
     private void Awake()
     {

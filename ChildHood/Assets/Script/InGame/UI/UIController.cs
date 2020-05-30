@@ -13,6 +13,10 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Text mHPText;
 
+    [SerializeField]
+    private RawImage mMiniMapCamera;
+    private bool Minimap;
+
     private void Awake()
     {
         if (Instance == null)
@@ -23,7 +27,22 @@ public class UIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        ShowHP();
+        Minimap = false;
+    }
+
+    public void ShowMiniMap()
+    {
+        if (Minimap == true)
+        {
+            Minimap = false;
+            mMiniMapCamera.gameObject.SetActive(false);
+        }
+        else if(Minimap==false)
+        {
+            Minimap = true;
+            mMiniMapCamera.gameObject.SetActive(true);
+
+        }
     }
 
     public float StatSetting

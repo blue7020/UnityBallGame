@@ -42,6 +42,9 @@ public class MonsterStat
     public float AtkSpd;
     public float Spd;
 
+    public float Skill_Cooltime;
+    public float Skill_Duration;
+
 }
 
 [Serializable]

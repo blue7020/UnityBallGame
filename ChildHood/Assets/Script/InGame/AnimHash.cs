@@ -9,7 +9,7 @@ public class AnimHash : MonoBehaviour
     public static readonly int Walk = Animator.StringToHash("IsWalk");
 
 
-    //mimic
-    public static readonly int Move = Animator.StringToHash("IsMove");
-
+    //All monster has IsMove, IsAttack
+    public static readonly int Enemy_Move = Animator.StringToHash("IsMove");
+    public static readonly int Enemy_Attack = Animator.StringToHash("IsAttack");
 }

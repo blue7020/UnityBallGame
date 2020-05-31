@@ -5,7 +5,7 @@ public enum eMonsterState
 {
     Idle,
     Move,
-    Skill,
+    Traking,
     Die
 }
 

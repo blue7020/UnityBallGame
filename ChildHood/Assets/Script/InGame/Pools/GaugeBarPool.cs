@@ -14,12 +14,12 @@ public class GaugeBarPool : ObjectPool<GaugeBar>
         if (Instance == null)
         {
             Instance = this;
-            PoolSetup();
         }
         else
         {
             Destroy(gameObject);
         }
+        PoolSetup();
     }
 
     protected override GaugeBar CreateNewObj(int id)

@@ -55,7 +55,7 @@ public class Player : InformationLoader
         Moveing();
         
     }
-
+    
     private void Moveing()
     {
         hori = Input.GetAxis("Horizontal");

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,20 +13,21 @@ public class Enemy : InformationLoader
     private int mDelayCount;
 
     [SerializeField]
-    public int mID;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
+    public int mID;
     private Sprite[] mMonsterSpriteArr;
 
     [SerializeField]
     private Transform mGoldPos;
     [SerializeField]
     private Transform mHPBarPos;
+    [SerializeField]
+    EnemySkill mEnemySkill;
     private Player mPlayer;
     private GaugeBar mHPBar;
 
     private bool AttackOn;
     private bool HPBarOn;
 
-    //private Rigidbody2D mRB2D;
     private Animator mAnim;
     [SerializeField]
     public float mCurrentHP;
@@ -51,15 +53,14 @@ public class Enemy : InformationLoader
         }
         LoadJson(out mInfoArr, Path.MONSTER_STAT);
         mAnim = GetComponent<Animator>();
-        //mRB2D = GetComponent<Rigidbody2D>();
         mMaxHP = mInfoArr[mID].Hp;
-    }
-
-    private void OnEnable()
-    {
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+    }
+    private void Start()
+    {
         State = eMonsterState.Idle;
         mDelayCount = 0;
+        StartCoroutine(StateMachine());
         StartCoroutine(Attack());
     }
 
@@ -71,21 +72,21 @@ public class Enemy : InformationLoader
             mHPBar.transform.position = mHPBarPos.position;
             mHPBar.SetGauge(mCurrentHP, mMaxHP);
         }
-        if (State!=eMonsterState.Skill&&State!=eMonsterState.Die)
+        if (State != eMonsterState.Traking && State != eMonsterState.Die)
         {
-                int rand = Random.Range(0, 2);//0~1
+            int rand = UnityEngine.Random.Range(0, 2);//0~1
             if (rand == 0)
             {
                 State = eMonsterState.Idle;
                 mDelayCount = 0;
             }
-            else
+            else if (rand == 1)
             {
                 State = eMonsterState.Move;
                 mDelayCount = 0;
             }
-            
-        }   
+
+        }
     }
 
     public IEnumerator StateMachine()
@@ -99,7 +100,6 @@ public class Enemy : InformationLoader
                     if (mDelayCount >= 20)
                     {
                         transform.position = transform.position;
-                        //mRB2D.velocity = Vector2.zero;
                         mDelayCount = 0;
                     }
                     else
@@ -111,7 +111,6 @@ public class Enemy : InformationLoader
                     if (mDelayCount >= 20)
                     {
                         transform.position = transform.position;
-                        //mRB2D.velocity = Vector2.zero;
                         mDelayCount = 0;
                     }
                     else
@@ -119,7 +118,7 @@ public class Enemy : InformationLoader
                         mDelayCount++;
                     }
                     break;
-                case eMonsterState.Skill:
+                case eMonsterState.Traking:
                     if (mDelayCount >= 20)
                     {
                         mDelayCount = 0;
@@ -137,7 +136,7 @@ public class Enemy : InformationLoader
                     }
                     else if (mDelayCount >= 10)
                     {
-                        mAnim.SetBool(AnimHash.Move, false);
+                        mAnim.SetBool(AnimHash.Enemy_Move, false);
                         //TODO 사망 시 색상 변경->회색
                         gameObject.SetActive(false);
                     }
@@ -165,7 +164,6 @@ public class Enemy : InformationLoader
         }
         if (mCurrentHP <= 0)
         {
-
             mHPBar.gameObject.SetActive(false);
             gameObject.SetActive(false);
             mHPBar = null;
@@ -193,7 +191,7 @@ public class Enemy : InformationLoader
 
     public void GoldDrop(DropGold dropGold,float Gold)
     {
-        if (mInfoArr[mID].Gold>=10)
+        if (mInfoArr[mID].Gold>=10&& mInfoArr[mID].Gold<20)
         {
             dropGold.mRenderer.sprite = dropGold.mSprites[1];
         }
@@ -216,6 +214,8 @@ public class Enemy : InformationLoader
         }
     }
 
+    
+
     private void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -227,33 +227,33 @@ public class Enemy : InformationLoader
         }
     }
 
-    //TODO 플레이어가 방을 나갔을 때 원래 위치로 돌아가는 BackHome 기능 추가하기
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            State = eMonsterState.Skill;
+            State = eMonsterState.Traking;
             mDelayCount = 0;
         }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
+
         StartCoroutine(MoveToPlayer());
     }
 
     private IEnumerator MoveToPlayer()
     {
-        if (State==eMonsterState.Skill)
+        if (State==eMonsterState.Traking)
         {
-
+            mEnemySkill.Skill(); //아마도 스킬 부분은 코루틴으로 불어와야할것같음
             WaitForSeconds one = new WaitForSeconds(2f);
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
-            mAnim.SetBool(AnimHash.Move, true);
-            transform.position += dir.normalized * mInfoArr[mID].Spd * Time.deltaTime;
+            mAnim.SetBool(AnimHash.Enemy_Move, true);
+            transform.position += dir.normalized * mInfoArr[mID].Spd * Time.fixedDeltaTime;
             yield return one;
+            
         }
         
     }
@@ -263,7 +263,7 @@ public class Enemy : InformationLoader
         if (other.gameObject.CompareTag("Player"))
         {
             State = eMonsterState.Idle;
-            mAnim.SetBool(AnimHash.Move, false);
+            mAnim.SetBool(AnimHash.Enemy_Move, false);
         }
         
         

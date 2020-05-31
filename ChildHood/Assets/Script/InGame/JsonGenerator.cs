@@ -95,17 +95,17 @@ public class JsonGenerator : MonoBehaviour
 
     public void GenerateMonsterStatInfo()
     {
-        MonsterStat[] infoArr = new MonsterStat[2];
+        MonsterStat[] infoArr = new MonsterStat[3];
         //미믹
         infoArr[0] = new MonsterStat();
         infoArr[0].ID = 0;
-        infoArr[0].Gold = 5;
+        infoArr[0].Gold = 10;
         
 
         infoArr[0].Hp = 5;
         infoArr[0].Atk = 1;
-        infoArr[0].AtkSpd = 1;
-        infoArr[0].Spd = 10;
+        infoArr[0].AtkSpd = 2;
+        infoArr[0].Spd = 3;
 
         //슬라임
         infoArr[1] = new MonsterStat();
@@ -115,8 +115,19 @@ public class JsonGenerator : MonoBehaviour
 
         infoArr[1].Hp = 5;
         infoArr[1].Atk = 1;
-        infoArr[1].AtkSpd = 1;
-        infoArr[1].Spd = 10;
+        infoArr[1].AtkSpd = 2;
+        infoArr[1].Spd = 3;
+
+        //고스트
+        infoArr[2] = new MonsterStat();
+        infoArr[2].ID = 1;
+        infoArr[2].Gold = 20;
+
+
+        infoArr[2].Hp = 3;
+        infoArr[2].Atk = 1;
+        infoArr[2].AtkSpd = 4;
+        infoArr[2].Spd = 3;
 
 
 

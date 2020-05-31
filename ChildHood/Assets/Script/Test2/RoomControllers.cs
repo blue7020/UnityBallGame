@@ -59,16 +59,15 @@ public class RoomControllers : MonoBehaviour
         //Vector2[] NowMap = new Vector2[rand];
         LoadRoom("Start", 0, 0);
 
-        LoadRoom("Empty", 1, 0);
-        LoadRoom("Empty", -1, 0);
-        LoadRoom("Empty", 0, 1);
-        LoadRoom("Empty", 0, -1);
-        LoadRoom("Empty", 1, 1);
-        LoadRoom("Empty", -1, -1);
-        LoadRoom("Empty", 1, -1);
-        LoadRoom("Empty", -1, 1);
+        LoadRoom("Empty1", 1, 0);
+        LoadRoom("Empty1", -1, 0);
+        LoadRoom("Empty2", 0, 1);
+        LoadRoom("Empty2", 0, -1);
 
-        //질문
+        //질문- 몬스터의 '추적 범위 콜라이더'와 플레이어의 공격 범위 콜라이더가 충돌할 때 몬스터가 데미지를 입지 않게 하려면 어떻게 하는지.
+        //질문- 모든 방이 연결되게 랜덤 배치가 가능한 방법, 방이 3개 이상일 때 3번째 방부터 오브젝트들에 스크립트가 빠져있는 것에 대해
+
+
         //for(int i=0; i < rand; i++)
         //{
         //    Exit = false;

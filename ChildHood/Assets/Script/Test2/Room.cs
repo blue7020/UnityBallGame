@@ -8,7 +8,6 @@ public class Room : MonoBehaviour
     public int Width;
     public int Height;
 
-    public DoorCheck IsDoor;
     public int X;
     public int Y;
     // Start is called before the first frame update

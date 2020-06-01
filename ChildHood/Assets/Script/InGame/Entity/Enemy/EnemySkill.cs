@@ -5,18 +5,22 @@ using UnityEngine;
 public class EnemySkill : MonoBehaviour
 {
     [SerializeField]
+    private Enemy mEnemy;
+    [SerializeField]
     private float mDamage;
+    [SerializeField]
+    private EnemyAttackArea mAttackArea;
 
     public void Skill()
     {
-        switch (Enemy.Instance.mID)
+        switch (mEnemy.mID)
         {
             case 0://Mimic
                 break;
             case 1://Slime
                 break;
             case 2://Ghost
-                StartCoroutine(GhostAttack());
+                GhostAttack();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -25,10 +29,8 @@ public class EnemySkill : MonoBehaviour
     }
 
 
-    private IEnumerator GhostAttack()//id = 2
+    private void GhostAttack()//id = 2
     {
-        WaitForSeconds cool = new WaitForSeconds(3f);
-        yield return cool;
-        EnemyAttackArea.Instance.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mAttackArea.mAnim.SetTrigger(AnimHash.Enemy_Attack);
     }
 }

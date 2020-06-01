@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class RoomInfo
 {
@@ -19,11 +20,15 @@ public class RoomControllers : MonoBehaviour
 
     RoomInfo CurrentLoadRoomData;
 
+    Room CurrentRoom;
+
     Queue<RoomInfo> LoadRoomQueue = new Queue<RoomInfo>();
 
     public List<Room> LoadedRooms = new List<Room>();
 
     bool isLoadingRoom = false;
+    bool spawnedBossRoom = false;
+    bool updatedRooms = false;
 
     private void Awake()
     {
@@ -53,50 +58,11 @@ public class RoomControllers : MonoBehaviour
 
     private void Start()
     {
-        //bool Exit;//for j를 탈출
-        //int rand = Random.Range(3,7);
-        //Vector2[] MapCheck = new Vector2[rand];
-        //Vector2[] NowMap = new Vector2[rand];
-        LoadRoom("Start", 0, 0);
-
-        LoadRoom("Empty1", 1, 0);
-        LoadRoom("Empty1", -1, 0);
-        LoadRoom("Empty2", 0, 1);
-        LoadRoom("Empty2", 0, -1);
-
-        //질문- 몬스터의 '추적 범위 콜라이더'와 플레이어의 공격 범위 콜라이더가 충돌할 때 몬스터가 데미지를 입지 않게 하려면 어떻게 하는지.
-        //질문- 모든 방이 연결되게 랜덤 배치가 가능한 방법, 방이 3개 이상일 때 3번째 방부터 오브젝트들에 스크립트가 빠져있는 것에 대해
-
-
-        //for(int i=0; i < rand; i++)
-        //{
-        //    Exit = false;
-        //    int randX = Random.Range(-3, 4);
-        //    int randY = Random.Range(-3, 4);
-        //    NowMap[i] = new Vector2(randX, randY);
-        //    MapCheck[i] = NowMap[i];
-        //    if (Exit == true)
-        //    {
-        //        continue;
-        //    }
-        //    //현재 생성한 랜드 x y값을 배열에 저장, 만약 중복 위치가 할당되면 continue
-        //    for (int j=0; j<i;j++)
-        //    {
-        //        if (NowMap[i]==MapCheck[j])
-        //        {
-        //            Exit = true;
-        //        }
-        //        else
-        //        {
-        //            LoadRoom("Empty",randX,randY);
-        //        }
-
-        //        if (Exit==true)
-        //        {
-        //            break;
-        //        }
-        //    }
-        //}
+        //LoadRoom("Start", 0, 0);
+        //LoadRoom("Empty1", 1, 0);
+        //LoadRoom("Empty1", -1, 0);
+        //LoadRoom("Empty2", 0, 1);
+        //LoadRoom("Empty2", 0, -1);
     }
 
     private void Update()
@@ -112,6 +78,18 @@ public class RoomControllers : MonoBehaviour
         }
         if (LoadRoomQueue.Count ==0)
         {
+            if (!spawnedBossRoom)
+            {
+                StartCoroutine(SpawnBossRoom());
+            }
+            else if (spawnedBossRoom &&!updatedRooms)
+            {
+                foreach (Room room in LoadedRooms)
+                {
+                    room.RemoveUnconnectedDoors();
+                }
+                updatedRooms = true;
+            }
             return;
         }
 
@@ -119,6 +97,22 @@ public class RoomControllers : MonoBehaviour
         isLoadingRoom = true;
 
         StartCoroutine(LoadRoomRouine(CurrentLoadRoomData));
+    }
+
+    private IEnumerator SpawnBossRoom()
+    {
+        WaitForSeconds point = new WaitForSeconds(0.5f);
+        spawnedBossRoom = true;
+        yield return point;
+        if (LoadRoomQueue.Count==0)
+        {
+            Room bossRoom = LoadedRooms[LoadedRooms.Count - 1];
+            Room tempRoom = new Room(bossRoom.X, bossRoom.Y);
+            Destroy(bossRoom.gameObject);
+            var roomToRemove = LoadedRooms.Single(r => r.X == tempRoom.X && r.Y == tempRoom.Y);
+            LoadedRooms.Remove(roomToRemove);
+            LoadRoom("End",tempRoom.X,tempRoom.Y);
+        }
     }
 
     private IEnumerator LoadRoomRouine(RoomInfo info)
@@ -134,20 +128,41 @@ public class RoomControllers : MonoBehaviour
 
     public void RegisterRoom(Room room)
     {
-        room.transform.position = new Vector2(CurrentLoadRoomData.X * room.Width, CurrentLoadRoomData.Y * room.Height);
+        if (!DoesRoomExist(CurrentLoadRoomData.X,CurrentLoadRoomData.Y))
+        {
+            room.transform.position = new Vector2(CurrentLoadRoomData.X * room.Width, CurrentLoadRoomData.Y * room.Height);
 
-        room.X = CurrentLoadRoomData.X;
-        room.Y = CurrentLoadRoomData.Y;
-        room.name = CurrentWorldName + "_" + CurrentLoadRoomData.name + " " + room.X + ", " + room.Y;
-        room.transform.parent = transform;
+            room.X = CurrentLoadRoomData.X;
+            room.Y = CurrentLoadRoomData.Y;
+            room.name = CurrentWorldName + "_" + CurrentLoadRoomData.name + " " + room.X + ", " + room.Y;
+            room.transform.parent = transform;
 
-        isLoadingRoom = false;
+            isLoadingRoom = false;
 
-        LoadedRooms.Add(room);
+
+            LoadedRooms.Add(room);
+        }
+        else
+        {
+            Destroy(room.gameObject);
+            isLoadingRoom = false;
+        }
+        
     }
 
-    //public bool DoesRoomExist(int x, int y)
-    //{
-    //    return LoadedRooms.Find(item => item.X == x && item.Y == y) != null;
-    //}
+    public bool DoesRoomExist(int x, int y)
+    {
+        return LoadedRooms.Find(item => item.X == x && item.Y == y) != null;
+    }
+
+    public Room FindRoom(int x, int y)
+    {
+        return LoadedRooms.Find(item => item.X == x && item.Y == y);
+    }
+
+    public void OnPlaerEnterRoom(Room room)
+    {
+        //플레이어가 해당 방에 들어왔을 때.
+        CurrentRoom = room;
+    }
 }

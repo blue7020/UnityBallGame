@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Statue : MonoBehaviour
 {
-    public static Statue Instance;
-
     [SerializeField]
     private float CoolTime;
     private bool IsCoolTime;
@@ -22,14 +20,6 @@ public class Statue : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance==null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(Instance);
-        }
         IsCoolTime = false;
     }
 

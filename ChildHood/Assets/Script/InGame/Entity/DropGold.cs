@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class DropGold : MonoBehaviour
 {
-
-    public static DropGold Instance;
-
     [SerializeField]
     public SpriteRenderer mRenderer;
     [SerializeField]
     public Sprite[] mSprites;
 
     public bool DropEnd;
+    public float mGold;
 
     private void Awake()
     {
-        if (Instance==null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
         mRenderer.sprite = mSprites[0];
+    }
+
+    public void GoldDrop(DropGold dropGold, float Gold)
+    {
+        mGold = Gold;
+        if (mGold >= 10 && mGold < 20)
+        {
+            dropGold.mRenderer.sprite = dropGold.mSprites[1];
+        }
+        else if (mGold >= 20)
+        {
+            dropGold.mRenderer.sprite = dropGold.mSprites[2];
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -33,7 +36,7 @@ public class DropGold : MonoBehaviour
         //TODO 골드 스택이 증가하면 쌓인 골드 둘을 비교한 후 더 작은 쪽이 큰 쪽한테 골드를 넘겨주고 gameobject 비활성화
         if (other.gameObject.GetComponent<Player>())
         {
-            Player.Instance.mInfoArr[Player.Instance.mID].Gold += Enemy.Instance.mInfoArr[Enemy.Instance.mID].Gold;
+            Player.Instance.mInfoArr[Player.Instance.mID].Gold += mGold;
             UIController.Instance.ShowGold();
             gameObject.SetActive(false);
         }

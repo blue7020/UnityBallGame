@@ -20,7 +20,6 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        //블렌드 트리 애니메이션을 사용해 비슷하게 만들 수 있음
         //TODO 현재 공격 패드 방향 따라가기 , 공격 버튼 이동 패드같이 수정
         if (Player.Instance.hori > 0) //좌
         {

@@ -4,21 +4,12 @@ using UnityEngine;
 
 public class EnemyAttackArea : MonoBehaviour
 {
-
-    public static EnemyAttackArea Instance;
-
+    [SerializeField]
+    private Enemy mEnemy;
     public Animator mAnim;
 
     private void Awake()
     {
-        if (Instance==null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
         mAnim = GetComponent<Animator>();
     }
 
@@ -30,7 +21,7 @@ public class EnemyAttackArea : MonoBehaviour
         {
             if (Player.Instance.mCurrentHP > 0)
             {
-                other.gameObject.GetComponent<Player>().Hit(Enemy.Instance.mInfoArr[Enemy.Instance.mID].Atk);
+                other.gameObject.GetComponent<Player>().Hit(mEnemy.mInfoArr[mEnemy.mID].Atk);
             }
 
 

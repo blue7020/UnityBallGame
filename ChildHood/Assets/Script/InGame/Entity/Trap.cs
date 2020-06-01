@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-
-    //TODO Pause 시 트랩 발동 중지
     private Player mPlayer;
     [SerializeField]
     private float mDamage;
@@ -18,7 +16,6 @@ public class Trap : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                //아까랑 똑같이 업데이트에서 처리하되 온트리거익스트로 나가면 꺼지게끔!
                 TrapTrigger = true;
                 mPlayer = other.GetComponent<Player>();
             }

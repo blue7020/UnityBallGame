@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : InformationLoader
 {
     //TODO 몬스터 생성 시 해당 ID에 맞는 몬스터의 정보와 스프라이트를 출력하게끔
-
-    public static Enemy Instance;
-
     public eMonsterState State;
-    private int mDelayCount;
+    public int mDelayCount;
 
     [SerializeField]
     public int mID;
@@ -21,14 +17,17 @@ public class Enemy : InformationLoader
     [SerializeField]
     private Transform mHPBarPos;
     [SerializeField]
-    EnemySkill mEnemySkill;
+    private EnemySkill mEnemySkill;
+    [SerializeField]
+    private EnemyAttackArea mAttackArea;
     private Player mPlayer;
     private GaugeBar mHPBar;
-
+    
     private bool AttackOn;
     private bool HPBarOn;
+    public Coroutine mCoroutine;
 
-    private Animator mAnim;
+    public Animator mAnim;
     [SerializeField]
     public float mCurrentHP;
     public float mMaxHP;
@@ -43,14 +42,6 @@ public class Enemy : InformationLoader
 
     private void Awake()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
         LoadJson(out mInfoArr, Path.MONSTER_STAT);
         mAnim = GetComponent<Animator>();
         mMaxHP = mInfoArr[mID].Hp;
@@ -184,20 +175,8 @@ public class Enemy : InformationLoader
             DropGold mDropGold;
             mDropGold = GameController.Instance.mGoldPool.GetFromPool();
             mDropGold.transform.position = mGoldPos.position;
-            GoldDrop(mDropGold,mInfoArr[mID].Gold);
+            mDropGold.GoldDrop(mDropGold,mInfoArr[mID].Gold);
 
-        }
-    }
-
-    public void GoldDrop(DropGold dropGold,float Gold)
-    {
-        if (mInfoArr[mID].Gold>=10&& mInfoArr[mID].Gold<20)
-        {
-            dropGold.mRenderer.sprite = dropGold.mSprites[1];
-        }
-        else if (mInfoArr[mID].Gold>=20)
-        {
-            dropGold.mRenderer.sprite = dropGold.mSprites[2];
         }
     }
 
@@ -227,27 +206,25 @@ public class Enemy : InformationLoader
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+
+
+    public IEnumerator SkillCast()
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (State == eMonsterState.Traking)
         {
-            State = eMonsterState.Traking;
-            mDelayCount = 0;
+            WaitForSeconds cool = new WaitForSeconds(4f);
+            mEnemySkill.Skill();
+            yield return cool;
+            
         }
+        mCoroutine = null;
     }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-
-        StartCoroutine(MoveToPlayer());
-    }
-
-    private IEnumerator MoveToPlayer()
+    public IEnumerator MoveToPlayer()
     {
         if (State==eMonsterState.Traking)
         {
-            mEnemySkill.Skill(); //아마도 스킬 부분은 코루틴으로 불어와야할것같음
-            WaitForSeconds one = new WaitForSeconds(2f);
+            WaitForSeconds one = new WaitForSeconds(0.1f);
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
             mAnim.SetBool(AnimHash.Enemy_Move, true);
@@ -257,15 +234,5 @@ public class Enemy : InformationLoader
         }
         
     }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            State = eMonsterState.Idle;
-            mAnim.SetBool(AnimHash.Enemy_Move, false);
-        }
-        
-        
-    }
+    
 }

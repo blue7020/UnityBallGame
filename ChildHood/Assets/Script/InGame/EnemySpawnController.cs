@@ -1,0 +1,37 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemySpawnController : MonoBehaviour
+{
+    public static EnemySpawnController Instance;
+
+    [SerializeField]
+    private EnemyPool mEnemyPool;
+    [SerializeField]
+    private int length;
+
+    private void Awake()
+    {
+        if (Instance==null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        for (int i=0;i<length;i++)
+        {
+            int rand = Random.Range(0, 3);//현재는 몬스터가 3마리 뿐이니 이렇게 함.
+            Enemy mEnemy = mEnemyPool.GetFromPool(rand);
+            int randX = Random.Range(-18,19);
+            int randY = Random.Range(-5, 6);
+            mEnemy.transform.position = new Vector2(randX,randY);
+        }
+    }
+}

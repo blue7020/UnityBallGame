@@ -10,8 +10,6 @@ public class GameController : MonoBehaviour
     public GoldPool mGoldPool;
     [SerializeField]
     public GaugeBarPool mGaugeBarPool;
-    [SerializeField]
-    public EnemyPool mEnemyPool;
 
     public bool pause;
 
@@ -44,6 +42,5 @@ public class GameController : MonoBehaviour
         }
     }
 }
-//TODO 맵 랜덤 생성 로직 구현
 //TODO 몬스터 풀 만들어서 빈 방에 위치 할당
 //TODO 씬 파일 만들어서 로비(캐릭터 선택까지)

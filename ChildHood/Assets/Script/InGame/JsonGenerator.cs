@@ -15,6 +15,7 @@ public class JsonGenerator : MonoBehaviour
     //}
 
     //메서드를 문자열로 바꾸기
+    /*
     public void GeneratePlayerStatInfo()
     {
         PlayerStat[] infoArr = new PlayerStat[3];
@@ -252,6 +253,24 @@ public class JsonGenerator : MonoBehaviour
 
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
         WriteFile(data, "ArtifactTextStat.json");
+    }
+    */
+    public void GenerateStatueStatInfo()
+    {
+        StatuetStat[] infoArr = new StatuetStat[1];
+        infoArr[0] = new StatuetStat();
+        infoArr[0].ID = 0;
+
+        infoArr[0].Atk = 5;
+        infoArr[0].Def = 0;
+        infoArr[0].AtkSpd = 0;
+        infoArr[0].Spd = 0;
+
+        infoArr[0].Cooltime = 0;
+        infoArr[0].Duration = 0;
+
+        string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
+        WriteFile(data, "StatueStat.json");
     }
 
     private void WriteFile(string data, string fileName)

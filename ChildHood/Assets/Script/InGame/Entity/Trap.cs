@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    private Player mPlayer;
+    private Player mTarget;
     [SerializeField]
     private float mDamage;
     private bool TrapTrigger;//애니메이션 비례 함정 작동
@@ -17,7 +17,7 @@ public class Trap : MonoBehaviour
             if (other.gameObject.CompareTag("Player"))
             {
                 TrapTrigger = true;
-                mPlayer = other.GetComponent<Player>();
+                mTarget = other.GetComponent<Player>();
             }
         }
         
@@ -26,14 +26,14 @@ public class Trap : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         TrapTrigger = false;
-        mPlayer = null;
+        mTarget = null;
     }
 
     public void Damage()
     {
-        if(mPlayer!= null)
+        if(mTarget!= null)
         {
-            mPlayer.Hit(mDamage);
+            mTarget.Hit(mDamage);
         }
     }
 }

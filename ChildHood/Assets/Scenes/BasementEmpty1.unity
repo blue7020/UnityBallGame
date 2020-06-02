@@ -1070,7 +1070,7 @@ GameObject:
   - component: {fileID: 927724060}
   - component: {fileID: 927724058}
   m_Layer: 0
-  m_Name: Heal_Statue
+  m_Name: Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1114,12 +1114,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97108ea55e61aeb47a16641d023bf43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoolTime: 5
   mHealAmount: 4
   mRenderer: {fileID: 927724060}
   mSprites:
   - {fileID: -2454941762573499149, guid: 88e309c3dbc5ead4cb83a1dba60ee285, type: 3}
   - {fileID: -2571630066272180882, guid: 88e309c3dbc5ead4cb83a1dba60ee285, type: 3}
+  - {fileID: -5002108520719407633, guid: 88e309c3dbc5ead4cb83a1dba60ee285, type: 3}
+  - {fileID: 1927927182414549428, guid: 88e309c3dbc5ead4cb83a1dba60ee285, type: 3}
+  - {fileID: -3106294857400001233, guid: 88e309c3dbc5ead4cb83a1dba60ee285, type: 3}
+  - {fileID: -686365935643368447, guid: 88e309c3dbc5ead4cb83a1dba60ee285, type: 3}
+  mID: 0
+  mInfoArr:
+  - ID: 0
+    Hp: 0
+    Atk: 0
+    Def: 0
+    AtkSpd: 0
+    Spd: 0
+    Cooltime: 0
+    Duration: 0
+  - ID: 0
+    Hp: 0
+    Atk: 0
+    Def: 0
+    AtkSpd: 0
+    Spd: 0
+    Cooltime: 0
+    Duration: 0
+  - ID: 0
+    Hp: 0
+    Atk: 0
+    Def: 0
+    AtkSpd: 0
+    Spd: 0
+    Cooltime: 0
+    Duration: 0
   Type: 0
 --- !u!212 &927724060
 SpriteRenderer:
@@ -1220,10 +1249,10 @@ MonoBehaviour:
   Height: 15
   X: 0
   Y: 0
-  leftDoor: {fileID: 0}
-  rightDoor: {fileID: 0}
-  topDoor: {fileID: 0}
-  bottomDoor: {fileID: 0}
+  leftDoor: {fileID: 1352619256}
+  rightDoor: {fileID: 237745865}
+  topDoor: {fileID: 1103220128}
+  bottomDoor: {fileID: 1477566459}
   doors: []
 --- !u!4 &979375126
 Transform:

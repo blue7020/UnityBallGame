@@ -29,9 +29,9 @@ public class EnemySpawnController : MonoBehaviour
         {
             int rand = Random.Range(0, 3);//현재는 몬스터가 3마리 뿐이니 이렇게 함.
             Enemy mEnemy = mEnemyPool.GetFromPool(rand);
-            int randX = Random.Range(-18,19);
+            int randX = Random.Range(-9,10);
             int randY = Random.Range(-5, 6);
-            mEnemy.transform.position = new Vector2(randX,randY);
+            mEnemy.transform.position += new Vector3(randX,randY, 0);
         }
     }
 }

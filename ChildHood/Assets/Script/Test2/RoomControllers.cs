@@ -14,6 +14,7 @@ public class RoomInfo
 
 public class RoomControllers : MonoBehaviour
 {
+    
     public static RoomControllers Instance;
 
     string CurrentWorldName = "Basement";
@@ -25,6 +26,7 @@ public class RoomControllers : MonoBehaviour
     Queue<RoomInfo> LoadRoomQueue = new Queue<RoomInfo>();
 
     public List<Room> LoadedRooms = new List<Room>();
+
 
     bool isLoadingRoom = false;
     bool spawnedBossRoom = false;
@@ -44,10 +46,10 @@ public class RoomControllers : MonoBehaviour
     
     public void LoadRoom(string name, int x,int y)
     {
-        //if (DoesRoomExist(x, y))
-        //{
-        //    return;
-        //}
+        if (DoesRoomExist(x, y))
+        {
+            return;
+        }
         RoomInfo newRoomData = new RoomInfo();
         newRoomData.name = name;
         newRoomData.X = x;
@@ -56,18 +58,10 @@ public class RoomControllers : MonoBehaviour
         LoadRoomQueue.Enqueue(newRoomData);
     }
 
-    private void Start()
-    {
-        //LoadRoom("Start", 0, 0);
-        //LoadRoom("Empty1", 1, 0);
-        //LoadRoom("Empty1", -1, 0);
-        //LoadRoom("Empty2", 0, 1);
-        //LoadRoom("Empty2", 0, -1);
-    }
-
     private void Update()
     {
         UpdateRoomQueue();
+        
     }
 
     private void UpdateRoomQueue()
@@ -160,9 +154,22 @@ public class RoomControllers : MonoBehaviour
         return LoadedRooms.Find(item => item.X == x && item.Y == y);
     }
 
+    public string GetRandomRoomName()
+    {
+        string[] possibleRooms = new string[]
+        {
+            "Empty",
+            "Empty1",
+            "Empty2"
+        };
+
+        return possibleRooms[Random.Range(0, possibleRooms.Length)];
+    }
+
     public void OnPlaerEnterRoom(Room room)
     {
         //플레이어가 해당 방에 들어왔을 때.
         CurrentRoom = room;
+
     }
 }

@@ -33,9 +33,9 @@ public class Enemy : InformationLoader
     public float mMaxHP;
 
     [SerializeField]
-    public PlayerStat[] mInfoArr;
+    public MonsterStat[] mInfoArr;
 
-    public PlayerStat[] GetInfoArr()
+    public MonsterStat[] GetInfoArr()
     {
         return mInfoArr;
     }

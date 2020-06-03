@@ -24,8 +24,11 @@ public class TrackingRange : MonoBehaviour
         {
             mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
         }
-
-        StartCoroutine(mEnemy.MoveToPlayer());
+        if (mEnemy.mCurrentHP>0)
+        {
+            StartCoroutine(mEnemy.MoveToPlayer());
+        }
+        
     }
     private void OnTriggerExit2D(Collider2D other)
     {

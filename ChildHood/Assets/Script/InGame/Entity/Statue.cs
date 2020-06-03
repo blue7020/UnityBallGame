@@ -28,18 +28,26 @@ public class Statue : InformationLoader
 
     private void Awake()
     {
+        LoadJson(out mInfoArr, Path.STATUE_STAT);
+        IsCoolTime = false;
+    }
+    private void Start()
+    {
         int rand = Random.Range(0, mInfoArr.Length);
         switch (rand)
         {
             case 0:
                 Type = eStatueType.Heal;
+                mID = 0;
                 mRenderer.sprite = mSprites[0];
                 break;
             case 1:
                 Type = eStatueType.Strength;
+                mID = 1;
                 mRenderer.sprite = mSprites[2];
                 break;
             case 2:
+                mID = 2;
                 Type = eStatueType.Speed;
                 mRenderer.sprite = mSprites[4];
                 break;
@@ -47,8 +55,6 @@ public class Statue : InformationLoader
                 Debug.LogError("Wrong StatueType");
                 break;
         }
-        LoadJson(out mInfoArr, Path.STATUE_STAT);
-        IsCoolTime = false;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -129,17 +135,16 @@ public class Statue : InformationLoader
 
     private IEnumerator Atk()
     {
-        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
         Player.Instance.mInfoArr[Player.Instance.mID].Atk += mInfoArr[mID].Atk;
+        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
         yield return Dura;
         Player.Instance.mInfoArr[Player.Instance.mID].Atk -= mInfoArr[mID].Atk;
-
     }
 
     private IEnumerator Speed()
     {
-        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
         Player.Instance.mInfoArr[Player.Instance.mID].Spd += mInfoArr[mID].Spd;
+        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
         yield return Dura;
         Player.Instance.mInfoArr[Player.Instance.mID].Spd -= mInfoArr[mID].Spd;
 

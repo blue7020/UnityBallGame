@@ -42,6 +42,10 @@ public class RoomControllers : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (SceneManager.GetActiveScene.name == "")
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
     
     public void LoadRoom(string name, int x,int y)

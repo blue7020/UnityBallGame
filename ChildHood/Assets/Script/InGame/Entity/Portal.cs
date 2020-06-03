@@ -15,7 +15,10 @@ public class Portal : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            int NowScene = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            DontDestroyOnLoad()
+            Destroy();
         }
     }
 }

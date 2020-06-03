@@ -6,6 +6,8 @@ public class Enemy : InformationLoader
 {
     //TODO 몬스터 생성 시 해당 ID에 맞는 몬스터의 정보와 스프라이트를 출력하게끔
     public eMonsterState State;
+    [SerializeField]
+    public eEnemyType eType;
     public int mDelayCount;
 
     [SerializeField]
@@ -170,6 +172,10 @@ public class Enemy : InformationLoader
         }
         if (mCurrentHP <= 0)
         {
+            if (eType == eEnemyType.Boss)
+            {
+                //포탈 활성화
+            }
             State = eMonsterState.Die;
             mDelayCount = 0;
             DropGold mDropGold;

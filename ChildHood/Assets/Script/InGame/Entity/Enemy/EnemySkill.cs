@@ -15,12 +15,14 @@ public class EnemySkill : MonoBehaviour
     {
         switch (mEnemy.mID)
         {
-            case 0://Mimic
+            case 0://Mimic_Wood
                 break;
             case 1://Slime
                 break;
             case 2://Ghost
                 GhostAttack();
+                break;
+            case 3://Mimic_Gold
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");

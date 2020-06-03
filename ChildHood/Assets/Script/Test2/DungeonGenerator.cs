@@ -5,6 +5,7 @@ using UnityEngine;
 public class DungeonGenerator : MonoBehaviour
 {
     public DungeonGenerationData dungeonGenerationData;
+    
     private List<Vector2Int> dungeonRooms;
 
     private void Start()

@@ -5,20 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Portal Instance;
+    private void Awake()
     {
-        
+        if (Instance==null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void ShowPortal()
+    {
+        //TODO 포탈 생성 이펙트
+        gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            int NowScene = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            DontDestroyOnLoad()
-            Destroy();
+            RoomControllers.Instance.RestartRoom();
         }
     }
 }

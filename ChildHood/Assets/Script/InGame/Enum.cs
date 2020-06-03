@@ -25,3 +25,9 @@ public enum eStatueType
     Strength,
     Speed,
 }
+
+public enum eEnemyType
+{
+    Normal,
+    Boss
+}

@@ -144,9 +144,11 @@ public class Statue : InformationLoader
     private IEnumerator Speed()
     {
         Player.Instance.mInfoArr[Player.Instance.mID].Spd += mInfoArr[mID].Spd;
+        Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd -= mInfoArr[mID].AtkSpd;
         WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
         yield return Dura;
         Player.Instance.mInfoArr[Player.Instance.mID].Spd -= mInfoArr[mID].Spd;
+        Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd += mInfoArr[mID].AtkSpd;
 
     }
 }

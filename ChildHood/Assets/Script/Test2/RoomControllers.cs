@@ -22,6 +22,8 @@ public class RoomControllers : MonoBehaviour
     RoomInfo CurrentLoadRoomData;
 
     Room CurrentRoom;
+    public int RoomLength = 0;
+    public int Level = 1;
 
     Queue<RoomInfo> LoadRoomQueue = new Queue<RoomInfo>();
 
@@ -42,12 +44,26 @@ public class RoomControllers : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (SceneManager.GetActiveScene.name == "")
-        {
-            DontDestroyOnLoad(gameObject);
-        }
     }
     
+
+    //TODO 포탈 진입 시 스테이지 재시작, Level이 5라면 보스방 진입
+    public void RestartRoom()
+    {
+        Level++;
+        if (Level==5)
+        {
+            Level = 1;
+            Debug.Log("보스방 진입");
+            
+        }
+        else
+        {
+            Debug.Log("방 재시작, 현재 지하 " + Level + "층");//4층까지 존재 
+        }
+        
+    }
+
     public void LoadRoom(string name, int x,int y)
     {
         if (DoesRoomExist(x, y))
@@ -59,6 +75,7 @@ public class RoomControllers : MonoBehaviour
         newRoomData.X = x;
         newRoomData.Y = y;
 
+        RoomLength++;
         LoadRoomQueue.Enqueue(newRoomData);
     }
 

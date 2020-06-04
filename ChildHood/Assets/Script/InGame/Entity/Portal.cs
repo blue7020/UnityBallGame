@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Portal : MonoBehaviour
 {
@@ -30,5 +31,11 @@ public class Portal : MonoBehaviour
         {
             RoomControllers.Instance.RestartRoom();
         }
+    }
+
+    public void nextroom()
+    {
+        SceneManager.LoadScene(0);
+
     }
 }

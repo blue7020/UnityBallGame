@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Statue : InformationLoader
@@ -51,6 +50,11 @@ public class Statue : InformationLoader
                 Type = eStatueType.Speed;
                 mRenderer.sprite = mSprites[4];
                 break;
+            case 3:
+                mID = 3;
+                Type = eStatueType.Def;
+                mRenderer.sprite = mSprites[6];
+                break;
             default:
                 Debug.LogError("Wrong StatueType");
                 break;
@@ -85,6 +89,10 @@ public class Statue : InformationLoader
                     StartCoroutine(Speed());
                     mRenderer.sprite = mSprites[5];
                     break;
+                case eStatueType.Def:
+                    StartCoroutine(Speed());
+                    mRenderer.sprite = mSprites[7];
+                    break;
                 default:
                     Debug.LogError("Wrong StatueType");
                     break;
@@ -106,8 +114,8 @@ public class Statue : InformationLoader
                 mRenderer.sprite = mSprites[1];
                 break;
             case eStatueType.Speed:
-                break;
             case eStatueType.Strength:
+            case eStatueType.Def:
                 break;
             default:
                 Debug.LogError("Wrong StatueType");
@@ -135,6 +143,7 @@ public class Statue : InformationLoader
 
     private IEnumerator Atk()
     {
+        //TODO 애니메이션 이펙트 추가
         Player.Instance.mInfoArr[Player.Instance.mID].Atk += mInfoArr[mID].Atk;
         WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
         yield return Dura;
@@ -150,5 +159,13 @@ public class Statue : InformationLoader
         Player.Instance.mInfoArr[Player.Instance.mID].Spd -= mInfoArr[mID].Spd;
         Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd += mInfoArr[mID].AtkSpd;
 
+    }
+
+    private IEnumerator Def()
+    {
+        Player.Instance.mInfoArr[Player.Instance.mID].Def += mInfoArr[mID].Def;
+        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
+        yield return Dura;
+        Player.Instance.mInfoArr[Player.Instance.mID].Def -= mInfoArr[mID].Def;
     }
 }

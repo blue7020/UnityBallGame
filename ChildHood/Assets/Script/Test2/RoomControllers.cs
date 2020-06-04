@@ -25,7 +25,7 @@ public class RoomControllers : MonoBehaviour
     public int RoomLength = 0;
     public int Level = 1;
 
-    Queue<RoomInfo> LoadRoomQueue = new Queue<RoomInfo>();
+    public Queue<RoomInfo> LoadRoomQueue = new Queue<RoomInfo>();
 
     public List<Room> LoadedRooms = new List<Room>();
 
@@ -33,6 +33,7 @@ public class RoomControllers : MonoBehaviour
     bool isLoadingRoom = false;
     bool spawnedBossRoom = false;
     bool updatedRooms = false;
+    private List<string> roomNameList;
 
     private void Awake()
     {
@@ -59,6 +60,7 @@ public class RoomControllers : MonoBehaviour
         }
         else
         {
+            SceneManager.LoadScene(6);
             Debug.Log("방 재시작, 현재 지하 " + Level + "층");//4층까지 존재 
         }
         
@@ -133,7 +135,6 @@ public class RoomControllers : MonoBehaviour
     private IEnumerator LoadRoomRouine(RoomInfo info)
     {
         string roomName = CurrentWorldName + info.name;
-
         AsyncOperation loadRoom = SceneManager.LoadSceneAsync(roomName, LoadSceneMode.Additive);
         while (loadRoom.isDone==false)
         {

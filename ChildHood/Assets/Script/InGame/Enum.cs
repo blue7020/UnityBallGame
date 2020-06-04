@@ -24,6 +24,7 @@ public enum eStatueType
     Heal,
     Strength,
     Speed,
+    Def
 }
 
 public enum eEnemyType

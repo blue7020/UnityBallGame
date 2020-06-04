@@ -14,7 +14,7 @@ public class DungeonGenerator : MonoBehaviour
         SpawnRooms(dungeonRooms);
     }
 
-    private void SpawnRooms(IEnumerable<Vector2Int> rooms)
+    public void SpawnRooms(IEnumerable<Vector2Int> rooms)
     {
         RoomControllers.Instance.LoadRoom("Start", 0, 0);
         foreach (Vector2Int roomLocation in rooms)

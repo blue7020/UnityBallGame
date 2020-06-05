@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class StoryText
 {
     //csv 파일에 쓴 이름과 똑같이 변수명을 만들어야한다.

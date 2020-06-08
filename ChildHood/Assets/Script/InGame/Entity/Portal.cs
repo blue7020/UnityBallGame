@@ -36,6 +36,7 @@ public class Portal : MonoBehaviour
     public void nextroom()
     {
         SceneManager.LoadScene(0);
+        Player.Instance.transform.position = new Vector2(0, 0);
 
     }
 }

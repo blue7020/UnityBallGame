@@ -180,7 +180,7 @@ public class RoomControllers : MonoBehaviour
     {
         string[] possibleRooms = new string[]
         {
-            "Empty",
+            //"Empty",
             "Empty1",
             "Empty2"
         };

@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
         pause = false;
     }
     

@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class MiniMap : MonoBehaviour
 {
-    public Player mPlayer;
     private void LateUpdate()
     {
-        Vector2 Pos = mPlayer.transform.position;
+        Vector2 Pos = Player.Instance.transform.position;
     }
 }

@@ -7,7 +7,7 @@ public class DungeonGenerator : MonoBehaviour
     public DungeonGenerationData dungeonGenerationData;
     
     private List<Vector2Int> dungeonRooms;
-
+    private bool starton=false;
     private void Start()
     {
         dungeonRooms = DungeonCrawlerController.GenerateDungeon(dungeonGenerationData);
@@ -16,7 +16,12 @@ public class DungeonGenerator : MonoBehaviour
 
     public void SpawnRooms(IEnumerable<Vector2Int> rooms)
     {
-        RoomControllers.Instance.LoadRoom("Start", 0, 0);
+        if (starton==false)
+        {
+            RoomControllers.Instance.LoadRoom("Start", 0, 0);
+            starton = true;
+        }
+        
         foreach (Vector2Int roomLocation in rooms)
         {
             RoomControllers.Instance.LoadRoom(RoomControllers.Instance.GetRandomRoomName(), roomLocation.x, roomLocation.y);

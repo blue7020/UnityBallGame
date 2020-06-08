@@ -19,6 +19,8 @@ public class UIController : MonoBehaviour
     private Button mStatButton;
     [SerializeField]
     private Button mSKillButton;
+    [SerializeField]
+    private Button mAttackButton;
 
     [SerializeField]
     private RawImage mMiniMapCamera;
@@ -34,7 +36,16 @@ public class UIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
         Minimap = false;
+
+        
+    }
+    private void Start()
+    {
+        ShowHP();
+        ShowGold();
+        mAttackButton.onClick.AddListener(Weapon.instance.Attack);
     }
 
     //Plz Fix

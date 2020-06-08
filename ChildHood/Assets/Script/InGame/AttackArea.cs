@@ -4,26 +4,36 @@ using UnityEngine;
 
 public class AttackArea : Timer
 {
+    public static AttackArea instance;
+
     private Animator mAnim;
-    //private Enemy mEnemy;
     [SerializeField]
     private bool mAttackEnd;
     private SpriteRenderer mRenderer;
 
     private void Awake()
     {
+        if (instance==null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
         mRenderer = GetComponent<SpriteRenderer>();
         mAnim = GetComponent<Animator>();
         mAttackEnd=false;
     }
 
     //TODO 이펙트 풀을 사용하여 플레이어 캐릭터에 맞는 공격 스프라이트로 변경
-
-    private void FixedUpdate()
+    public void Attack()
     {
-        
+        gameObject.SetActive(true);
         if (mAttackEnd == true)
         {
+            mAnim.SetBool(AnimHash.Attack, true);
             if (Player.Instance.ver > 0) //상
             {
                 mRenderer.sortingOrder = 0;
@@ -32,17 +42,14 @@ public class AttackArea : Timer
             if (Player.Instance.ver < 0) //하
             {
                 mRenderer.sortingOrder = 3;
-
             }
-            mAnim.SetBool(AnimHash.Attack, false);
-            gameObject.SetActive(false);
-        }
+        }  
     }
 
-    public void Attack()
+    public void AttackEnd()
     {
-        gameObject.SetActive(true);
-        mAnim.SetBool(AnimHash.Attack, true);
+        mAnim.SetBool(AnimHash.Attack, false);
+        gameObject.SetActive(false);
     }
 
 

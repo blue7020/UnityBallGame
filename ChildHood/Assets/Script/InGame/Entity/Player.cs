@@ -37,6 +37,7 @@ public class Player : InformationLoader
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();

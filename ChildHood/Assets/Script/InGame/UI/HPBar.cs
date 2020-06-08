@@ -5,33 +5,34 @@ using UnityEngine.UI;
 
 public class HPBar : MonoBehaviour
 {
-    [SerializeField]
-    private Player mPlayer;
+    //[SerializeField]
+    //private Player mPlayer;
     private Image mHPBar;
     //변경점을 확인하기 위해
     private float mNowHP;
     private float mNowMaxHP;
-    private string value;
 
     private void Awake()
     {
         mHPBar = GetComponent<Image>();
-        mNowHP = mPlayer.mCurrentHP;
-        mNowMaxHP = mPlayer.mMaxHP;
-        mHPBar.fillAmount = mNowHP/ mNowMaxHP;
-
+    }
+    private void Start()
+    {
+        mNowHP = Player.Instance.mCurrentHP;
+        mNowMaxHP = Player.Instance.mMaxHP;
+        mHPBar.fillAmount = mNowHP / mNowMaxHP;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         mHPBar.fillAmount = mNowHP / mNowMaxHP;
-        if (mNowHP!=mPlayer.mCurrentHP)
+        if (mNowHP!= Player.Instance.mCurrentHP)
         {
-            mNowHP = mPlayer.mCurrentHP;
+            mNowHP = Player.Instance.mCurrentHP;
         }
-        else if (mNowMaxHP != mPlayer.mCurrentHP)
+        else if (mNowMaxHP != Player.Instance.mCurrentHP)
         {
-            mNowMaxHP = mPlayer.mMaxHP;
+            mNowMaxHP = Player.Instance.mMaxHP;
         }
     }
 

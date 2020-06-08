@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class CSVLoader : MonoBehaviour
 {
@@ -10,6 +11,34 @@ public class CSVLoader : MonoBehaviour
     private void Start()
     {
         LoadCSV(out InfoArr, "CsvFiles/StoryPage");
+        //Dictionary로 ID 매핑하는 방법
+        Dictionary<int, int> dic = new Dictionary<int, int>();
+        for (int i=0; i<InfoArr.Length; i++)
+        {
+            dic[InfoArr[i].ID] = i;//== dic.Add(i);
+
+        }
+        ////Dictionary Key값 가져오는 방법
+        //int[] keyarr = dic.Keys.ToArray(); //이걸 사용하려면 System.Linq를 사용해야한다. 다만 다중 for문이 꼬일 때도 있으니 Dictionary에서만 사용해야한다.
+        //for (int i=0; i<keyarr.Length; i++)
+        //{
+        //    Debug.LogFormat("Key {0} // value{1}",keyarr[i], dic[keyarr[i]]);
+        //}
+
+        //Item[] itemArr = new Item[10];
+        ////특정 범위를 찾는 것은 빠르지만 전체 Array에서 찾는 것에서는 느리다
+        //Dictionary<eRankType, List<int>> rankDic = new Dictionary<eRankType, List<int>>();
+        //for(int i=0; i<itemArr.Length; i++)
+        //{
+        //    if (!rankDic.ContainsKey(itemArr[i].RankType))//해당 키값이 존재하지 않을 때
+        //    {
+        //        rankDic[itemArr[i].RankType] = new List<int>();
+        //    }
+        //    rankDic[itemArr[i].RankType].Add(i);
+        //    //가독성을 위해 리스트 선언을 하고 id를 찾는 것이 낫다.
+        //    List<int> list = rankDic[eRankType.Epic];
+        //    int pickedID = list[UnityEngine.Random.Range(0, list.Count)];
+        //}
     }
 
     public void LoadCSV<T>(out T[] OutputArr, string path) where T : new() //new 키워드를 통해 만들어질 수 있는 애들(==데이터 클래스들 등)만 타입으로 넣을 수 있다 라는 뜻
@@ -51,9 +80,16 @@ public class CSVLoader : MonoBehaviour
         OutputArr = new T[lineData.Length - 2];
         string[] fieldNameArr = lineData[0].Split(',');
 
-        for (int i=1;i<lineData.Length-2;i++)
+        for (int i = 1; i < lineData.Length - 2; i++)
         {
+            lineData[i+1] = lineData[i + 1].Replace("\"\"", "\"");
+            lineData[i + 1] = lineData[i + 1].Replace("\"[", "[");
+            lineData[i + 1] = lineData[i + 1].Replace("]\"", "]");
+            lineData[i + 1] = lineData[i + 1].Replace("\"{", "{");
+            lineData[i + 1] = lineData[i + 1].Replace("}\"", "}");
+
             string[] currentLineSplited = GenerateLineSplit(lineData[i+1]);
+
             OutputArr[i] = new T();
             Type type = typeof(T);
             System.Reflection.FieldInfo[] fields = type.GetFields();
@@ -241,12 +277,7 @@ public class CSVLoader : MonoBehaviour
 
         if (currentLine.IndexOfAny(MarkArr) >= 0)
         {
-            currentLine = currentLine.Replace("\"\"", "\"");
-            currentLine = currentLine.Replace("\"\"", "\"");
-            currentLine = currentLine.Replace("\"[", "[");
-            currentLine = currentLine.Replace("]\"", "]");
-            currentLine = currentLine.Replace("\"{", "{");
-            currentLine = currentLine.Replace("}\"", "}");
+            
 
             List<string> result = new List<string>();
 
@@ -311,6 +342,11 @@ public class CSVLoader : MonoBehaviour
                     markIndex = currentLine.IndexOfAny(MarkArr, startIndex);
                 }
                 commaIndex = currentLine.IndexOf(',', startIndex);
+                if (startIndex == commaIndex && startIndex < currentLine.Length)
+                {
+                    startIndex++;
+                    commaIndex = currentLine.IndexOf(',', startIndex);
+                }
             }
             currentLineSplited = result.ToArray();
         }

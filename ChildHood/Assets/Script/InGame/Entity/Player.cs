@@ -8,10 +8,11 @@ public class Player : InformationLoader
 
     public static Player Instance;
 
-    public int mID = 0;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
+    public int mID;
     private Sprite[] mPlayerSpriteArr;
     public float mMaxHP;
     public float mCurrentHP;
+    public int Level;
 
     [SerializeField]
     public PlayerStat[] mInfoArr;
@@ -21,6 +22,8 @@ public class Player : InformationLoader
 
     public float hori;
     public float ver;
+
+    public bool IsBuff;//석상의 버프를 받고 있는지
 
     //public PlayerStat[] GetInfoArr()
     //{
@@ -38,13 +41,18 @@ public class Player : InformationLoader
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+        mID = 1;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
     }
 
+    //TODO 스테이지를 넘어갈 때마다 IsBuff를 false로 바꾸기, 만약 이전 스테이지에서 버프를 받고 있었다면 버프를 제거하고, 플레이어 능력치 원상 복구
+
     private void Start()
     {
+        Level = 1;
+        IsBuff = false;
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         UIController.Instance.ShowHP();
@@ -66,12 +74,13 @@ public class Player : InformationLoader
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.identity;
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            
         }
         else if (hori < 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.rotation = Quaternion.identity;
         }
         else if (ver > 0 || ver < 0)
         {
@@ -87,8 +96,36 @@ public class Player : InformationLoader
 
     public void Hit(float damage)
     {
-        mCurrentHP -= damage;
+        if (damage - mInfoArr[mID].Def <1)
+        {
+            damage = 0.5f;
+            mCurrentHP -= damage;
+        }
+        else
+        {
+            mCurrentHP -= damage - mInfoArr[mID].Def;
+        }
+        
         UIController.Instance.ShowHP();
+    }
+
+    public void PlayerSkill()
+    {
+        //mValue = Player.Instance.mInfoArr[Player.Instance.mID].Atk;
+        //벨류는 스킬에 따라 각각 적용하기로
+        switch (mID)
+        {
+            case 0: //구르기
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                Debug.LogError("Wrong Player ID");
+                break;
+
+        }
     }
 
 }

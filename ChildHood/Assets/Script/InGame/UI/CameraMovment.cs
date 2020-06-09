@@ -4,9 +4,25 @@ using UnityEngine;
 
 public class CameraMovment : MonoBehaviour
 {
+
+    public static CameraMovment Instance;
     [SerializeField]
     private GameObject mPlayerObj, mCamera;
     private Vector3 mOffset;
+
+    private void Awake()
+    {
+        if (Instance==null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {

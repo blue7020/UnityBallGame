@@ -19,7 +19,7 @@ public class JsonGenerator : MonoBehaviour
     public void GeneratePlayerStatInfo()
     {
         PlayerStat[] infoArr = new PlayerStat[3];
-        //스피나
+        //
         infoArr[0] = new PlayerStat();
         infoArr[0].Gold = 0;
         infoArr[0].ID = 0;
@@ -35,14 +35,11 @@ public class JsonGenerator : MonoBehaviour
         infoArr[0].CritDamage = 30;
         infoArr[0].CooltimeReduce = 0;
         infoArr[0].CCReduce = 0;
-        infoArr[0].Damage = 1;
 
-        infoArr[0].Skill1_Cooltime = 1;
-        infoArr[0].Skill1_Duration = 0;
-        infoArr[0].Skill2_Cooltime = 15;
-        infoArr[0].Skill2_Duration = 5;
+        infoArr[0].Skill_Cooltime = 1;
+        infoArr[0].Skill_Duration = 0;
 
-        //이앙카
+        //
         infoArr[1] = new PlayerStat();
         infoArr[1].Gold = 0;
         infoArr[1].ID = 1;
@@ -58,13 +55,11 @@ public class JsonGenerator : MonoBehaviour
         infoArr[1].CritDamage = 30;
         infoArr[1].CooltimeReduce = 0;
         infoArr[1].CCReduce = 0;
-        infoArr[1].Damage = 1;
 
-        infoArr[1].Skill1_Cooltime = 1;
-        infoArr[1].Skill1_Duration = 0;
-        infoArr[1].Skill2_Cooltime = 15;
-        infoArr[1].Skill2_Duration = 5;
-        //카샤
+        infoArr[1].Skill_Cooltime = 1;
+        infoArr[1].Skill_Duration = 0;
+
+        //
         infoArr[2] = new PlayerStat();
         infoArr[2].Gold = 0;
         infoArr[2].ID = 2;
@@ -80,12 +75,9 @@ public class JsonGenerator : MonoBehaviour
         infoArr[2].CritDamage = 30;
         infoArr[2].CooltimeReduce = 0;
         infoArr[2].CCReduce = 0;
-        infoArr[2].Damage = 1;
 
-        infoArr[2].Skill1_Cooltime = 1;
-        infoArr[2].Skill1_Duration = 0;
-        infoArr[2].Skill2_Cooltime = 15;
-        infoArr[2].Skill2_Duration = 5;
+        infoArr[2].Skill_Cooltime = 1;
+        infoArr[2].Skill_Duration = 0;
 
 
 

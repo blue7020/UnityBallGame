@@ -6,7 +6,9 @@ public class Trap : MonoBehaviour
 {
     private Player mTarget;
     [SerializeField]
-    private float mDamage;
+    private eTrapType mType;
+    [SerializeField]
+    private float mValue;
     private bool TrapTrigger;//애니메이션 비례 함정 작동
     private bool PlayerOnTrap;//플레이어가 함정 위에 있는가
 
@@ -16,8 +18,23 @@ public class Trap : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                TrapTrigger = true;
+                
                 mTarget = other.GetComponent<Player>();
+                
+                switch (mType)
+                {
+                    case eTrapType.Damage:
+                        TrapTrigger = true;
+                        //애니메이션에서 처리
+                        break;
+                    case eTrapType.Slow:
+                        Slow();
+                        break;
+                    default:
+                        Debug.LogError("Wrong Trap Type");
+                        break;
+                }
+                
             }
         }
         
@@ -25,15 +42,40 @@ public class Trap : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        TrapTrigger = false;
-        mTarget = null;
+        
+        switch (mType)
+        {
+            case eTrapType.Damage:
+                TrapTrigger = false;
+                //애니메이션에서 처리
+                break;
+            case eTrapType.Slow:
+                Debug.Log(mTarget);
+                mTarget.mInfoArr[mTarget.mID].Spd += mValue;
+                mTarget = null;
+                break;
+            default:
+                Debug.LogError("Wrong Trap Type");
+                break;
+        }
     }
 
     public void Damage()
     {
         if(mTarget!= null)
         {
-            mTarget.Hit(mDamage);
+            if(TrapTrigger==true){
+                mTarget.Hit(mValue);
+            }
+            
+        }
+    }
+
+    public void Slow()
+    {
+        if (mTarget != null)
+        {
+            mTarget.mInfoArr[mTarget.mID].Spd -= mValue;
         }
     }
 }

@@ -29,37 +29,43 @@ public class Room : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (RoomControllers.Instance==null)
+        if (Player.Instance.Level<5)
         {
-            Debug.Log("You pressed play in the wrong scene!");
-            return;
-        }
-
-        Door[] ds = GetComponentsInChildren<Door>();
-        foreach(Door d in ds)
-        {
-            doors.Add(d);
-            switch (d.doorType)
+            if (RoomControllers.Instance == null)
             {
-                case Door.DoorType.right:
-                    rightDoor = d;
-                    break;
-                case Door.DoorType.left:
-                    leftDoor = d;
-                    break;
-                case Door.DoorType.top:
-                    topDoor = d;
-                    break;
-                case Door.DoorType.bottom:
-                    bottomDoor = d;
-                    break;
-                default:
-                    Debug.LogError("wrong Door type");
-                    break;
+                Debug.Log("You pressed play in the wrong scene!");
+                return;
             }
-        }
 
-        RoomControllers.Instance.RegisterRoom(this);
+            Door[] ds = GetComponentsInChildren<Door>();
+            foreach (Door d in ds)
+            {
+                doors.Add(d);
+                switch (d.doorType)
+                {
+                    case Door.DoorType.right:
+                        rightDoor = d;
+                        break;
+                    case Door.DoorType.left:
+                        leftDoor = d;
+                        break;
+                    case Door.DoorType.top:
+                        topDoor = d;
+                        break;
+                    case Door.DoorType.bottom:
+                        bottomDoor = d;
+                        break;
+                    default:
+                        Debug.LogError("wrong Door type");
+                        break;
+                }
+            }
+
+            RoomControllers.Instance.RegisterRoom(this);
+        }
+        
+
+        
     }
 
     private void Update()

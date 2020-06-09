@@ -9,6 +9,7 @@ public class PlayerStat
     public float Gold;
 
     public int ID;
+    public string Name;
 
     public float Hp;
     public float Atk;

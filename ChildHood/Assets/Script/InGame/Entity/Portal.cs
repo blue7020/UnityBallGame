@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
 
 public class Portal : MonoBehaviour
 {
@@ -35,8 +34,19 @@ public class Portal : MonoBehaviour
 
     public void nextroom()
     {
-        SceneManager.LoadScene(0);
-        Player.Instance.transform.position = new Vector2(0, 0);
+        if (Player.Instance.Level==5)
+        {
+            SceneManager.LoadScene(7);
+            Player.Instance.transform.position = new Vector2(0, -10.5f);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+            Player.Instance.transform.position = new Vector2(0, 0);
+        }
+        UIController.Instance.ShowHP();
+        
+
 
     }
 }

@@ -5,16 +5,14 @@ using UnityEngine.UI;
 
 public class HPBar : MonoBehaviour
 {
-    //[SerializeField]
-    //private Player mPlayer;
     private Image mHPBar;
-    //변경점을 확인하기 위해
     private float mNowHP;
     private float mNowMaxHP;
 
     private void Awake()
     {
         mHPBar = GetComponent<Image>();
+        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {

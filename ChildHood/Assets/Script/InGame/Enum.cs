@@ -32,3 +32,17 @@ public enum eEnemyType
     Normal,
     Boss
 }
+
+public enum eTrapType
+{
+    Damage,
+    Slow
+}
+
+public enum eDirection
+{
+    Up,
+    Down,
+    Right,
+    Left
+}

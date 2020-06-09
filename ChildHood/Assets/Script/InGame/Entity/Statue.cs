@@ -17,6 +17,7 @@ public class Statue : InformationLoader
     [SerializeField]
     public StatuetStat[] mInfoArr;
 
+
     public StatuetStat[] GetInfoArr()
     {
         return mInfoArr;
@@ -90,7 +91,7 @@ public class Statue : InformationLoader
                     mRenderer.sprite = mSprites[5];
                     break;
                 case eStatueType.Def:
-                    StartCoroutine(Speed());
+                    StartCoroutine(Def());
                     mRenderer.sprite = mSprites[7];
                     break;
                 default:
@@ -143,29 +144,44 @@ public class Statue : InformationLoader
 
     private IEnumerator Atk()
     {
-        //TODO 애니메이션 이펙트 추가
-        Player.Instance.mInfoArr[Player.Instance.mID].Atk += mInfoArr[mID].Atk;
-        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
-        yield return Dura;
-        Player.Instance.mInfoArr[Player.Instance.mID].Atk -= mInfoArr[mID].Atk;
+        Player.Instance.IsBuff = true;
+        if (Player.Instance.IsBuff == true)
+        {
+            //TODO 애니메이션 이펙트 추가
+            Player.Instance.mInfoArr[Player.Instance.mID].Atk += mInfoArr[mID].Atk;
+            WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
+            yield return Dura;
+            Player.Instance.mInfoArr[Player.Instance.mID].Atk -= mInfoArr[mID].Atk;
+        }
+        
     }
 
     private IEnumerator Speed()
     {
-        Player.Instance.mInfoArr[Player.Instance.mID].Spd += mInfoArr[mID].Spd;
-        Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd -= mInfoArr[mID].AtkSpd;
-        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
-        yield return Dura;
-        Player.Instance.mInfoArr[Player.Instance.mID].Spd -= mInfoArr[mID].Spd;
-        Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd += mInfoArr[mID].AtkSpd;
+        Player.Instance.IsBuff = true;
+        if (Player.Instance.IsBuff == true)
+        {
+            Player.Instance.mInfoArr[Player.Instance.mID].Spd += mInfoArr[mID].Spd;
+            Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd -= mInfoArr[mID].AtkSpd;
+            WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
+            yield return Dura;
+            Player.Instance.mInfoArr[Player.Instance.mID].Spd -= mInfoArr[mID].Spd;
+            Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd += mInfoArr[mID].AtkSpd;
+            Player.Instance.IsBuff = false;
+        }
 
     }
 
     private IEnumerator Def()
     {
-        Player.Instance.mInfoArr[Player.Instance.mID].Def += mInfoArr[mID].Def;
-        WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
-        yield return Dura;
-        Player.Instance.mInfoArr[Player.Instance.mID].Def -= mInfoArr[mID].Def;
+        Player.Instance.IsBuff = true;
+        if (Player.Instance.IsBuff == true)
+        {
+            Player.Instance.mInfoArr[Player.Instance.mID].Def += mInfoArr[mID].Def;
+            WaitForSeconds Dura = new WaitForSeconds(mInfoArr[mID].Duration);
+            yield return Dura;
+            Player.Instance.mInfoArr[Player.Instance.mID].Def -= mInfoArr[mID].Def;
+            Player.Instance.IsBuff = false;
+        }
     }
 }

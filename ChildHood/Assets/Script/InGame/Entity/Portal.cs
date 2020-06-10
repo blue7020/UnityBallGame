@@ -34,8 +34,13 @@ public class Portal : MonoBehaviour
 
     public void nextroom()
     {
-        if (Player.Instance.Level==5)
+        
+        Player.Instance.Level++;
+        Debug.Log(Player.Instance.Level);
+        if (Player.Instance.Level == 5)
         {
+
+            Debug.Log("potal보스방 진입");
             SceneManager.LoadScene(7);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
         }
@@ -45,7 +50,7 @@ public class Portal : MonoBehaviour
             Player.Instance.transform.position = new Vector2(0, 0);
         }
         UIController.Instance.ShowHP();
-        
+        UIController.Instance.ShowGold();
 
 
     }

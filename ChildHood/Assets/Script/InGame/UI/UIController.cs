@@ -14,6 +14,8 @@ public class UIController : MonoBehaviour
     private Text mHPText;
     [SerializeField]
     private Text mStatText, mNameText;
+    [SerializeField]
+    private Image[] mPlayerImage, mSkillImage;
 
     [SerializeField]
     private Button mStatButton;
@@ -24,7 +26,9 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     private RawImage mMiniMapCamera;
-    private bool Minimap;
+    [SerializeField]
+    private Button mMiniMapButton;
+    private int Minimap;
 
     private void Awake()
     {
@@ -37,29 +41,28 @@ public class UIController : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        Minimap = false;
+        Minimap = 0;
 
         
     }
     private void Start()
     {
-        ShowHP();
-        ShowGold();
         mAttackButton.onClick.AddListener(Weapon.instance.Attack);
+        mMiniMapButton.onClick.AddListener(ShowMiniMap);
     }
     
 
     public void ShowMiniMap()
     {
-        if (Minimap == true)
+        if (Minimap == 1)
         {
-            Minimap = false;
-            mMiniMapCamera.gameObject.SetActive(false);
-        }
-        else if(Minimap==false)
-        {
-            Minimap = true;
+            Minimap = 0;
             mMiniMapCamera.gameObject.SetActive(true);
+        }
+        else if(Minimap==0)
+        {
+            Minimap = 1;
+            mMiniMapCamera.gameObject.SetActive(false);
 
         }
     }
@@ -82,6 +85,32 @@ public class UIController : MonoBehaviour
     {
         string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Hp.ToString());
         mHPText.text = HP;
+    }
+
+    public void ShowPlayer()
+    {
+        switch (Player.Instance.mID)
+        {
+            case 0:
+                //플레이어 이미지
+                break;
+            default:
+                Debug.LogError("Wrong Player Sprites");
+                break;
+        }
+    }
+
+    public void ShowSkill()
+    {
+        switch (Player.Instance.mID)
+        {
+            case 0:
+                //스킬 이미지
+                break;
+            default:
+                Debug.LogError("Wrong Skill Sprites");
+                break;
+        }
     }
 
     public void ShowStat()

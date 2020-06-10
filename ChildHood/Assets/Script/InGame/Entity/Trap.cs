@@ -18,16 +18,15 @@ public class Trap : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                
-                mTarget = other.GetComponent<Player>();
-                
                 switch (mType)
                 {
                     case eTrapType.Damage:
+                        mTarget = other.GetComponent<Player>();
                         TrapTrigger = true;
                         //애니메이션에서 처리
                         break;
                     case eTrapType.Slow:
+                        mTarget = other.GetComponent<Player>();
                         Slow();
                         break;
                     default:
@@ -40,24 +39,26 @@ public class Trap : MonoBehaviour
         
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        
-        switch (mType)
+        if (other.gameObject.CompareTag("Player"))
         {
-            case eTrapType.Damage:
-                TrapTrigger = false;
-                //애니메이션에서 처리
-                break;
-            case eTrapType.Slow:
-                Debug.Log(mTarget);
-                mTarget.mInfoArr[mTarget.mID].Spd += mValue;
-                mTarget = null;
-                break;
-            default:
-                Debug.LogError("Wrong Trap Type");
-                break;
+            switch (mType)
+            {
+                case eTrapType.Damage:
+                    TrapTrigger = false;
+                    //애니메이션에서 처리
+                    break;
+                case eTrapType.Slow:
+                    mTarget.mInfoArr[mTarget.mID].Spd += mValue;
+                    mTarget = null;
+                    break;
+                default:
+                    Debug.LogError("Wrong Trap Type");
+                    break;
+            }
         }
+            
     }
 
     public void Damage()

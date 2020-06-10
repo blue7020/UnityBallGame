@@ -7,7 +7,7 @@ public class EnemySkill : MonoBehaviour
     [SerializeField]
     private Enemy mEnemy;
     [SerializeField]
-    private float mDamage;
+    public float mDamage;
     [SerializeField]
     private EnemyAttackArea mAttackArea;
 
@@ -19,10 +19,11 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 1://Slime
                 break;
-            case 2://Ghost
-                GhostAttack();
+            case 2://Mold_King
+                MoldKingAttack();
                 break;
-            case 3://Mimic_Gold
+            case 3://Moldling
+                MoldlingAttack();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -31,7 +32,12 @@ public class EnemySkill : MonoBehaviour
     }
 
 
-    private void GhostAttack()//id = 2
+    private void MoldKingAttack()//id = 2
+    {
+        mAttackArea.mAnim.SetTrigger(AnimHash.Enemy_Attack);
+        BulletPool.Instance.GetFromPool(0);
+    }
+    private void MoldlingAttack()//id = 3
     {
         mAttackArea.mAnim.SetTrigger(AnimHash.Enemy_Attack);
     }

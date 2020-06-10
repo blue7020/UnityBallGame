@@ -41,7 +41,7 @@ public class Player : InformationLoader
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        mID = 1;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
+        mID = 0;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
@@ -55,12 +55,12 @@ public class Player : InformationLoader
         IsBuff = false;
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
-        UIController.Instance.ShowHP();
+        UIController.Instance.ShowGold();
     }
 
     private void FixedUpdate()
     {
-
+        UIController.Instance.ShowHP();
         Moveing();
         
     }
@@ -105,8 +105,6 @@ public class Player : InformationLoader
         {
             mCurrentHP -= damage - mInfoArr[mID].Def;
         }
-        
-        UIController.Instance.ShowHP();
     }
 
     public void PlayerSkill()

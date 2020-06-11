@@ -9,6 +9,10 @@ public class EnemySkill : MonoBehaviour
     [SerializeField]
     public float mDamage;
     [SerializeField]
+    private Transform mBulletPos;
+    [SerializeField]
+    private BulletPool mbulletPool;
+    [SerializeField]
     private EnemyAttackArea mAttackArea;
 
     public void Skill()
@@ -32,13 +36,24 @@ public class EnemySkill : MonoBehaviour
     }
 
 
-    private void MoldKingAttack()//id = 2
+    private IEnumerator MoldKingAttack()//id = 2
     {
-        mAttackArea.mAnim.SetTrigger(AnimHash.Enemy_Attack);
-        BulletPool.Instance.GetFromPool(0);
+        Debug.Log("발사");
+        WaitForSeconds Cool = new WaitForSeconds(mEnemy.mInfoArr[mEnemy.mID].AtkSpd);
+        mEnemy.mAnim.SetTrigger(AnimHash.Enemy_Attack);
+        for (int i=0; i<4; i++)
+        {
+            Bullet bolt = mbulletPool.GetFromPool(0);
+            //bolt.transform.position = 
+            bolt.transform.LookAt(Player.Instance.transform.position);
+            bolt.ResetDir();
+            yield return Cool;
+        }
+
+
     }
     private void MoldlingAttack()//id = 3
     {
-        mAttackArea.mAnim.SetTrigger(AnimHash.Enemy_Attack);
+        mEnemy.mAnim.SetTrigger(AnimHash.Enemy_Attack);
     }
 }

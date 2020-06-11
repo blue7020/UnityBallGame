@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
+
     public static Portal Instance;
     private void Awake()
     {
-        if (Instance==null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -17,11 +18,10 @@ public class Portal : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
     public void ShowPortal()
     {
-        //TODO 포탈 생성 이펙트
         gameObject.SetActive(true);
+        //TODO 포탈 생성 이펙트
     }
 
     private void OnTriggerEnter2D(Collider2D other)

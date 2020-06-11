@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField]
-    private eDirection Dir;
     protected Rigidbody2D mRB2D;
     private EnemySkill mEnemySkill;
     private float mDamage =1f;
@@ -14,28 +12,6 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         mRB2D = GetComponent<Rigidbody2D>();
-    }
-
-    private void OnEnable()
-    {
-        switch (Dir)
-        {
-            case eDirection.Up:
-                transform.Translate(new Vector3(0,5,0));
-                break;
-            case eDirection.Right:
-                transform.Translate(new Vector3(5, 0, 0));
-                break;
-            case eDirection.Left:
-                transform.Translate(new Vector3(-5, 0, 0));
-                break;
-            case eDirection.Down:
-                transform.Translate(new Vector3(0, -5, 0));
-                break;
-            default:
-                Debug.LogError("Wrong Direction");
-                break;
-        }
     }
 
     public void ResetDir()
@@ -48,10 +24,6 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.GetComponent("Player"))
         {
             Player.Instance.Hit(mDamage);
-        }
-        if (other.gameObject.GetComponent("Walls"))
-        {
-            Destroy(gameObject);
         }
     }
 }

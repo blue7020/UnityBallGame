@@ -27,8 +27,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private RawImage mMiniMapCamera;
     [SerializeField]
-    private Button mMiniMapButton;
-    private int Minimap;
+    private Toggle mMiniMapButton;
 
     private void Awake()
     {
@@ -41,29 +40,24 @@ public class UIController : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        Minimap = 0;
 
         
     }
-    private void Start()
-    {
-        mAttackButton.onClick.AddListener(Weapon.instance.Attack);
-        mMiniMapButton.onClick.AddListener(ShowMiniMap);
-    }
-    
 
-    public void ShowMiniMap()
+
+    public void ShowMiniMap(bool ButtonOn)
     {
-        if (Minimap == 1)
+        Debug.Log(ButtonOn);
+        if (ButtonOn)
         {
-            Minimap = 0;
+            Debug.Log("on");
             mMiniMapCamera.gameObject.SetActive(true);
         }
-        else if(Minimap==0)
+        else
         {
-            Minimap = 1;
+            
             mMiniMapCamera.gameObject.SetActive(false);
-
+            Debug.Log("off");
         }
     }
 

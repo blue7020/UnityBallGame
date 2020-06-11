@@ -9,6 +9,7 @@ public class Enemy : InformationLoader
     [SerializeField]
     public eEnemyType eType;
     public int mDelayCount;
+    public bool BossDeath;
 
     [SerializeField]
     public int mID;
@@ -174,7 +175,7 @@ public class Enemy : InformationLoader
         {
             if (eType == eEnemyType.Boss)
             {
-                //포탈 활성화
+                BossDeath = true;
             }
             State = eMonsterState.Die;
             mDelayCount = 0;
@@ -219,7 +220,7 @@ public class Enemy : InformationLoader
     {
         if (State == eMonsterState.Traking)
         {
-            WaitForSeconds cool = new WaitForSeconds(4f);
+            WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
             mEnemySkill.Skill();
             yield return cool;
             

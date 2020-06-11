@@ -55,12 +55,12 @@ public class Player : InformationLoader
         IsBuff = false;
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
-        UIController.Instance.ShowGold();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         UIController.Instance.ShowHP();
+        UIController.Instance.ShowGold();
         Moveing();
         
     }

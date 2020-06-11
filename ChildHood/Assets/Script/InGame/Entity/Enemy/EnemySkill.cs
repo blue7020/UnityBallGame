@@ -36,18 +36,16 @@ public class EnemySkill : MonoBehaviour
     }
 
 
-    private IEnumerator MoldKingAttack()//id = 2
+    private void MoldKingAttack()//id = 2
     {
         Debug.Log("발사");
-        WaitForSeconds Cool = new WaitForSeconds(mEnemy.mInfoArr[mEnemy.mID].AtkSpd);
         mEnemy.mAnim.SetTrigger(AnimHash.Enemy_Attack);
         for (int i=0; i<4; i++)
         {
             Bullet bolt = mbulletPool.GetFromPool(0);
-            //bolt.transform.position = 
+            bolt.transform.position = mBulletPos.position;
             bolt.transform.LookAt(Player.Instance.transform.position);
             bolt.ResetDir();
-            yield return Cool;
         }
 
 

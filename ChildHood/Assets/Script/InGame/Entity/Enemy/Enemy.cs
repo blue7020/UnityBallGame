@@ -197,7 +197,6 @@ public class Enemy : InformationLoader
             Player.Instance.Hit(mInfoArr[mID].Atk);
 
             yield return AtkSpd;
-            AttackOn = true;
         }
     }
 

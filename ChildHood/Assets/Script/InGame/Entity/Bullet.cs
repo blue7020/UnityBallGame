@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         mRB2D = GetComponent<Rigidbody2D>();
+        ResetDir();
     }
 
     public void ResetDir()
@@ -24,6 +25,7 @@ public class Bullet : MonoBehaviour
         if (other.gameObject.GetComponent("Player"))
         {
             Player.Instance.Hit(mDamage);
+            Destroy(gameObject);
         }
     }
 }

@@ -13,6 +13,7 @@ public class TrackingRange : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             mEnemy.State = eMonsterState.Traking;
+            mEnemy.StartCoroutine(mEnemy.SkillCast());
             mEnemy.mDelayCount = 0;
 
         }

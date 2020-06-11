@@ -13,7 +13,10 @@ public class PortalTrigger : MonoBehaviour
     {
         if (Boss.BossDeath == true)
         {
-            Player.Instance.Level = 1;
+            if (Player.Instance.Level == 5)
+            {
+                Player.Instance.Level = 1;
+            }
             portal.ShowPortal();
             Boss.BossDeath = false;
         }

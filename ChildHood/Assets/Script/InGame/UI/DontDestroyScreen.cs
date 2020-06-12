@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoldPool : ObjectPool<DropGold>
+public class DontDestroyScreen : MonoBehaviour
 {
-    public static GoldPool Instance;
+    public static DontDestroyScreen Instance;
     private void Awake()
     {
         if (Instance==null)
@@ -15,6 +15,6 @@ public class GoldPool : ObjectPool<DropGold>
         {
             Destroy(gameObject);
         }
-        PoolSetup();
+        DontDestroyOnLoad(gameObject);
     }
 }

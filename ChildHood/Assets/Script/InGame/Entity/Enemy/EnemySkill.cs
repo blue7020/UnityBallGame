@@ -15,6 +15,8 @@ public class EnemySkill : MonoBehaviour
     [SerializeField]
     private EnemyAttackArea mAttackArea;
 
+    private int RepeatControll;
+
     public void Skill()
     {
         switch (mEnemy.mID)
@@ -38,20 +40,31 @@ public class EnemySkill : MonoBehaviour
 
     private void MoldKingAttack()//id = 2
     {
-        Debug.Log("발사");
-        mEnemy.mAnim.SetTrigger(AnimHash.Enemy_Attack);
-        for (int i=0; i<4; i++)
+        RepeatControll = 0;
+        if (RepeatControll<4)
         {
-            Bullet bolt = mbulletPool.GetFromPool(0);
-            bolt.transform.position = mBulletPos.position;
-            bolt.transform.LookAt(Player.Instance.transform.position);
-            bolt.ResetDir();
+            Debug.Log("발사");
+            Invoke("Shot", 0.2f);
         }
-
-
     }
     private void MoldlingAttack()//id = 3
     {
-        mEnemy.mAnim.SetTrigger(AnimHash.Enemy_Attack);
+
+    }
+
+    public void ResetDir()
+    {
+        Bullet bolt = mbulletPool.GetFromPool(0);
+        bolt.transform.position = mBulletPos.position;
+        bolt.transform.rotation = mBulletPos.rotation;
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - bolt.transform.position;
+        dir = dir.normalized;
+        bolt.mRB2D.velocity = dir * bolt.mSpeed;
+    }
+    public void Shot()
+    {
+        ResetDir();
+        RepeatControll++;
     }
 }

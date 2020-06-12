@@ -19,6 +19,7 @@ public class GaugeBarPool : ObjectPool<GaugeBar>
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
         PoolSetup();
     }
 

@@ -123,21 +123,8 @@ public class Enemy : InformationLoader
                     }
                     break;
                 case eMonsterState.Die:
-                    if (mDelayCount == 0)
-                    {
-                        mDelayCount++;
-
-                    }
-                    else if (mDelayCount >= 10)
-                    {
-                        mAnim.SetBool(AnimHash.Enemy_Move, false);
-                        //TODO 사망 시 색상 변경->회색
-                        gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        mDelayCount++;
-                    }
+                    //TODO 사망 시 색상 변경->회색
+                    gameObject.SetActive(false);
                     break;
                 default:
                     Debug.LogError("Wrong State");
@@ -159,9 +146,20 @@ public class Enemy : InformationLoader
         if (mCurrentHP <= 0)
         {
             mHPBar.gameObject.SetActive(false);
-            gameObject.SetActive(false);
             mHPBar = null;
             HPBarOn = false;
+            DropGold mDropGold;
+            mDropGold = GoldPool.Instance.GetFromPool(0);
+            mDropGold.transform.position = mGoldPos.position;
+            mDropGold.GoldDrop(mDropGold, mInfoArr[mID].Gold);
+            mAnim.SetBool(AnimHash.Enemy_Move, false);
+            if (eType == eEnemyType.Boss)
+            {
+                BossDeath = true;
+            }
+
+            State = eMonsterState.Die;
+
 
         }
         else
@@ -170,20 +168,6 @@ public class Enemy : InformationLoader
             mHPBar.SetGauge(mCurrentHP, mMaxHP);
             mHPBar.transform.position = mHPBarPos.position;
             HPBarOn = true;
-        }
-        if (mCurrentHP <= 0)
-        {
-            if (eType == eEnemyType.Boss)
-            {
-                BossDeath = true;
-            }
-            State = eMonsterState.Die;
-            mDelayCount = 0;
-            DropGold mDropGold;
-            mDropGold = GameController.Instance.mGoldPool.GetFromPool();
-            mDropGold.transform.position = mGoldPos.position;
-            mDropGold.GoldDrop(mDropGold,mInfoArr[mID].Gold);
-
         }
     }
 
@@ -219,10 +203,12 @@ public class Enemy : InformationLoader
     {
         if (State == eMonsterState.Traking)
         {
+            mAnim.SetBool(AnimHash.Enemy_Attack, true);
             WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
             mEnemySkill.Skill();
             yield return cool;
-            
+            mAnim.SetBool(AnimHash.Enemy_Attack, false);
+
         }
         mCoroutine = null;
     }
@@ -235,7 +221,7 @@ public class Enemy : InformationLoader
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
             mAnim.SetBool(AnimHash.Enemy_Move, true);
-            transform.position += dir.normalized * mInfoArr[mID].Spd * Time.fixedDeltaTime;
+            transform.Translate(dir.normalized * (mInfoArr[mID].Spd * Time.deltaTime));
             yield return one;
             
         }

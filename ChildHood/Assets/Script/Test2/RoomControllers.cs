@@ -50,7 +50,7 @@ public class RoomControllers : MonoBehaviour
     //TODO 포탈 진입 시 스테이지 재시작, Level이 5라면 보스방 진입
     public void RestartRoom()
     {
-        if (Player.Instance.Level > 1)
+        if (Player.Instance.Level > 4)
         { 
             Debug.Log("room보스방 진입");
             SceneManager.LoadScene(7);

@@ -43,6 +43,7 @@ public class Portal : MonoBehaviour
             Debug.Log("potal보스방 진입");
             SceneManager.LoadScene(7);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
+            Player.Instance.Level=1;
         }
         else
         {

@@ -7,8 +7,6 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
 
     [SerializeField]
-    public GoldPool mGoldPool;
-    [SerializeField]
     public GaugeBarPool mGaugeBarPool;
 
     public bool pause;

@@ -12,11 +12,6 @@ public class DropGold : MonoBehaviour
     public bool DropEnd;
     public float mGold;
 
-    private void Awake()
-    {
-        mRenderer.sprite = mSprites[0];
-    }
-
     public void GoldDrop(DropGold dropGold, float Gold)
     {
         mGold = Gold;
@@ -27,6 +22,10 @@ public class DropGold : MonoBehaviour
         else if (mGold >= 20)
         {
             dropGold.mRenderer.sprite = dropGold.mSprites[2];
+        }
+        else
+        {
+            mRenderer.sprite = mSprites[0];
         }
     }
 

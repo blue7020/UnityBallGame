@@ -16,8 +16,6 @@ public class Enemy : InformationLoader
     private Sprite[] mMonsterSpriteArr;
 
     [SerializeField]
-    private Transform mGoldPos;
-    [SerializeField]
     private Transform mHPBarPos;
     [SerializeField]
     private EnemySkill mEnemySkill;
@@ -25,7 +23,7 @@ public class Enemy : InformationLoader
     private EnemyAttackArea mAttackArea;
     private Player mPlayer;
     private GaugeBar mHPBar;
-    
+
     private bool AttackOn;
     private bool HPBarOn;
     public Coroutine mCoroutine;
@@ -132,7 +130,7 @@ public class Enemy : InformationLoader
             }
             yield return pointOne;
         }
-       
+
     }
 
     public void Hit(float damage)
@@ -148,11 +146,12 @@ public class Enemy : InformationLoader
             mHPBar.gameObject.SetActive(false);
             mHPBar = null;
             HPBarOn = false;
-            DropGold mDropGold;
-            mDropGold = GoldPool.Instance.GetFromPool(0);
-            mDropGold.transform.position = mGoldPos.position;
-            mDropGold.GoldDrop(mDropGold, mInfoArr[mID].Gold);
+            //
+            DropGold mGold = GoldPool.Instance.GetFromPool();
+            mGold.transform.position = transform.position;
+            mGold.GoldDrop(mGold, mInfoArr[mID].Gold);
             mAnim.SetBool(AnimHash.Enemy_Move, false);
+            //
             if (eType == eEnemyType.Boss)
             {
                 BossDeath = true;
@@ -173,7 +172,7 @@ public class Enemy : InformationLoader
 
     public IEnumerator Attack()
     {
-        if(AttackOn == true)
+        if (AttackOn == true)
         {
             AttackOn = false;
             WaitForSeconds AtkSpd = new WaitForSeconds(mInfoArr[mID].AtkSpd);
@@ -184,7 +183,7 @@ public class Enemy : InformationLoader
         }
     }
 
-    
+
 
     private void OnCollisionStay2D(Collision2D other)
     {
@@ -203,11 +202,12 @@ public class Enemy : InformationLoader
     {
         if (State == eMonsterState.Traking)
         {
-            mAnim.SetBool(AnimHash.Enemy_Attack, true);
-            WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
-            mEnemySkill.Skill();
-            yield return cool;
             mAnim.SetBool(AnimHash.Enemy_Attack, false);
+            WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);  
+            yield return cool;
+            mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            mEnemySkill.Skill();
+            
 
         }
         mCoroutine = null;
@@ -215,7 +215,7 @@ public class Enemy : InformationLoader
 
     public IEnumerator MoveToPlayer()
     {
-        if (State==eMonsterState.Traking)
+        if (State == eMonsterState.Traking)
         {
             WaitForSeconds one = new WaitForSeconds(0.1f);
             Vector3 Pos = Player.Instance.transform.position;
@@ -223,9 +223,9 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Move, true);
             transform.Translate(dir.normalized * (mInfoArr[mID].Spd * Time.deltaTime));
             yield return one;
-            
+
         }
-        
+
     }
-    
+
 }

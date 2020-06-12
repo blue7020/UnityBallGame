@@ -7,11 +7,10 @@ public class BulletPool : ObjectPool<Bullet>
     [SerializeField]
     private List<Bullet>[] mPool;
 
-    private void Start()
+    private void Awake()
     {
         PoolSetup();
     }
-
     protected override Bullet CreateNewObj(int id)
     {
         Bullet newObj = Instantiate(mOriginArr[id]);

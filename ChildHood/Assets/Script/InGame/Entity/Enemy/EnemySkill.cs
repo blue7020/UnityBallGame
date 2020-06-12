@@ -9,13 +9,11 @@ public class EnemySkill : MonoBehaviour
     [SerializeField]
     public float mDamage;
     [SerializeField]
+    public BulletPool mBulletPool;
+    [SerializeField]
     private Transform mBulletPos;
     [SerializeField]
-    private BulletPool mbulletPool;
-    [SerializeField]
     private EnemyAttackArea mAttackArea;
-
-    private int RepeatControll;
 
     public void Skill()
     {
@@ -26,7 +24,7 @@ public class EnemySkill : MonoBehaviour
             case 1://Slime
                 break;
             case 2://Mold_King
-                MoldKingAttack();
+                StartCoroutine(MoldKingAttack());
                 break;
             case 3://Moldling
                 MoldlingAttack();
@@ -38,23 +36,21 @@ public class EnemySkill : MonoBehaviour
     }
 
 
-    private void MoldKingAttack()//id = 2
+    private IEnumerator MoldKingAttack()//id = 2
     {
-        RepeatControll = 0;
-        if (RepeatControll<4)
-        {
-            Debug.Log("발사");
-            Invoke("Shot", 0.2f);
-        }
+        WaitForSeconds Cool = new WaitForSeconds(0.2f);
+        Shot(0);
+        yield return Cool;
     }
+
     private void MoldlingAttack()//id = 3
     {
-
+        Shot(1);
     }
 
-    public void ResetDir()
+    public void ResetDir(int BulletID)
     {
-        Bullet bolt = mbulletPool.GetFromPool(0);
+        Bullet bolt = mBulletPool.GetFromPool(BulletID);
         bolt.transform.position = mBulletPos.position;
         bolt.transform.rotation = mBulletPos.rotation;
         Vector3 Pos = Player.Instance.transform.position;
@@ -62,9 +58,9 @@ public class EnemySkill : MonoBehaviour
         dir = dir.normalized;
         bolt.mRB2D.velocity = dir * bolt.mSpeed;
     }
-    public void Shot()
+    public void Shot(int ID)
     {
-        ResetDir();
-        RepeatControll++;
+        int BulletID = ID;
+        ResetDir(BulletID);
     }
 }

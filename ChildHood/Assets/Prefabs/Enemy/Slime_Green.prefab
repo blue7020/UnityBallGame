@@ -45,9 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 1355041504053474430}
   mDamage: 0
+  mAttackArea: {fileID: 998365557147949601}
   mBulletPool: {fileID: 8736183964176908660}
   mBulletPos: {fileID: 5653032198776001358}
-  mAttackArea: {fileID: 998365557147949601}
 --- !u!1 &4042561253634113895
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +411,7 @@ GameObject:
   - component: {fileID: 9024079673159237600}
   - component: {fileID: 9024079673159237602}
   - component: {fileID: 1355041504053474430}
+  - component: {fileID: -8068411688457360490}
   m_Layer: 0
   m_Name: Slime_Green
   m_TagString: Enemy
@@ -558,6 +559,27 @@ MonoBehaviour:
   mCurrentHP: 0
   mMaxHP: 0
   mInfoArr: []
+--- !u!50 &-8068411688457360490
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9024079673159237604}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &9024079674477343052
 GameObject:
   m_ObjectHideFlags: 0

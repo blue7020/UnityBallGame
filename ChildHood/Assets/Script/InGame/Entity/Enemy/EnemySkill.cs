@@ -9,11 +9,11 @@ public class EnemySkill : MonoBehaviour
     [SerializeField]
     public float mDamage;
     [SerializeField]
+    private EnemyAttackArea mAttackArea;
+    [SerializeField]
     public BulletPool mBulletPool;
     [SerializeField]
     private Transform mBulletPos;
-    [SerializeField]
-    private EnemyAttackArea mAttackArea;
 
     public void Skill()
     {
@@ -39,28 +39,21 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator MoldKingAttack()//id = 2
     {
         WaitForSeconds Cool = new WaitForSeconds(0.2f);
-        Shot(0);
+        ResetDir(0);
         yield return Cool;
     }
 
     private void MoldlingAttack()//id = 3
     {
-        Shot(1);
+        ResetDir(0);
     }
 
-    public void ResetDir(int BulletID)
+    public void ResetDir(int ID)
     {
-        Bullet bolt = mBulletPool.GetFromPool(BulletID);
+        Bullet bolt = mBulletPool.GetFromPool(ID);
         bolt.transform.position = mBulletPos.position;
-        bolt.transform.rotation = mBulletPos.rotation;
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - bolt.transform.position;
-        dir = dir.normalized;
-        bolt.mRB2D.velocity = dir * bolt.mSpeed;
-    }
-    public void Shot(int ID)
-    {
-        int BulletID = ID;
-        ResetDir(BulletID);
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
     }
 }

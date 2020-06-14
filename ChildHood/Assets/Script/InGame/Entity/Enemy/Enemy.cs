@@ -14,6 +14,7 @@ public class Enemy : InformationLoader
     [SerializeField]
     public int mID;
     private Sprite[] mMonsterSpriteArr;
+    public Rigidbody2D mRB2D;
 
     [SerializeField]
     private Transform mHPBarPos;
@@ -44,6 +45,7 @@ public class Enemy : InformationLoader
     private void Awake()
     {
         LoadJson(out mInfoArr, Path.MONSTER_STAT);
+        mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
@@ -150,7 +152,7 @@ public class Enemy : InformationLoader
             DropGold mGold = GoldPool.Instance.GetFromPool();
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, mInfoArr[mID].Gold);
-            mAnim.SetBool(AnimHash.Enemy_Move, false);
+            mAnim.SetBool(AnimHash.Enemy_Attack, false);
             //
             if (eType == eEnemyType.Boss)
             {
@@ -202,12 +204,11 @@ public class Enemy : InformationLoader
     {
         if (State == eMonsterState.Traking)
         {
-            mAnim.SetBool(AnimHash.Enemy_Attack, false);
-            WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);  
-            yield return cool;
+            WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Attack, true);
             mEnemySkill.Skill();
-            
+            yield return cool;
+            mAnim.SetBool(AnimHash.Enemy_Attack, false);
 
         }
         mCoroutine = null;
@@ -220,8 +221,8 @@ public class Enemy : InformationLoader
             WaitForSeconds one = new WaitForSeconds(0.1f);
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
-            mAnim.SetBool(AnimHash.Enemy_Move, true);
-            transform.Translate(dir.normalized * (mInfoArr[mID].Spd * Time.deltaTime));
+            mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            mRB2D.velocity = dir.normalized * mInfoArr[mID].Spd;
             yield return one;
 
         }

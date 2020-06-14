@@ -140,9 +140,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 3217655493586254252}
   mDamage: 1
+  mAttackArea: {fileID: 1673243851994868465}
   mBulletPool: {fileID: 7501255331589604416}
   mBulletPos: {fileID: 1673243853001787354}
-  mAttackArea: {fileID: 1673243851994868465}
 --- !u!1 &1673243852843888621
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 1673243852843888623}
   - component: {fileID: 1673243852843888620}
   - component: {fileID: 3217655493586254252}
+  - component: {fileID: 8750831227859933320}
   m_Layer: 0
   m_Name: MoldLing
   m_TagString: Enemy
@@ -303,6 +304,27 @@ MonoBehaviour:
   mCurrentHP: 0
   mMaxHP: 0
   mInfoArr: []
+--- !u!50 &8750831227859933320
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673243852843888621}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1673243852845892599
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,5 +552,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mOriginArr:
-  - {fileID: 6484951015602042870, guid: 5273a01660d2ef04c94ca9ecea71b425, type: 3}
   - {fileID: 6777862820506086611, guid: ada233da5d4416146bf53463fed2cc00, type: 3}

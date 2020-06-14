@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 6777862820506086188}
   - component: {fileID: 6777862820506086610}
   - component: {fileID: 6777862820506086611}
-  - component: {fileID: 1273182841123105681}
+  - component: {fileID: -2897846756443167238}
   m_Layer: 0
   m_Name: Bullet_Ling
   m_TagString: Untagged
@@ -154,9 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d60368b160b8c41bffa46c4158edac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mRB2D: {fileID: 1273182841123105681}
-  mSpeed: 3
---- !u!50 &1273182841123105681
+  mDamage: 1
+  mSpeed: 5
+--- !u!50 &-2897846756443167238
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6777862820506086608}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

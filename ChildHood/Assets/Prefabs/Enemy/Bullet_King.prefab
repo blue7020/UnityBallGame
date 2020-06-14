@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6484951015602040841}
   - component: {fileID: 6484951015602042871}
   - component: {fileID: 6484951015602042870}
-  - component: {fileID: 1191508084712364389}
+  - component: {fileID: 4462426949038035655}
   m_Layer: 0
   m_Name: Bullet_King
   m_TagString: Untagged
@@ -72,9 +72,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d60368b160b8c41bffa46c4158edac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mRB2D: {fileID: 1191508084712364389}
-  mSpeed: 4
---- !u!50 &1191508084712364389
+  mDamage: 1
+  mSpeed: 5
+--- !u!50 &4462426949038035655
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -82,7 +82,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6484951015602042869}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

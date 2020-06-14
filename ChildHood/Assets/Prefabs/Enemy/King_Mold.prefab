@@ -110,9 +110,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 767499559989549158}
   mDamage: 1
+  mAttackArea: {fileID: 585550490146552579}
   mBulletPool: {fileID: 1263525565613337183}
   mBulletPos: {fileID: 4706843973959029249}
-  mAttackArea: {fileID: 585550490146552579}
 --- !u!1 &1263525565613337182
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +158,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mOriginArr:
   - {fileID: 6484951015602042870, guid: 5273a01660d2ef04c94ca9ecea71b425, type: 3}
-  - {fileID: 6777862820506086611, guid: ada233da5d4416146bf53463fed2cc00, type: 3}
 --- !u!1 &1803073132450870687
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +242,7 @@ GameObject:
   - component: {fileID: 3787186870694598204}
   - component: {fileID: 3787186870694598206}
   - component: {fileID: 767499559989549158}
+  - component: {fileID: -7878203268523589357}
   m_Layer: 0
   m_Name: King_Mold
   m_TagString: Enemy
@@ -390,6 +390,27 @@ MonoBehaviour:
   mCurrentHP: 0
   mMaxHP: 0
   mInfoArr: []
+--- !u!50 &-7878203268523589357
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3787186870694598200}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &3787186871482161296
 GameObject:
   m_ObjectHideFlags: 0

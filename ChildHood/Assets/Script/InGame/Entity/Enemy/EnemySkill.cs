@@ -14,6 +14,8 @@ public class EnemySkill : MonoBehaviour
     public BulletPool mBulletPool;
     [SerializeField]
     private Transform mBulletPos;
+    [SerializeField]
+    private EnemyPool mEnemyPool;
 
     public void Skill()
     {
@@ -28,6 +30,9 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 3://Moldling
                 MoldlingAttack();
+                break;
+            case 4://KingSlime
+                StartCoroutine(KingSlime());
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -55,5 +60,26 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - bolt.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+    }
+
+    private IEnumerator KingSlime()
+    {
+        if (mEnemy.mCurrentHP > 3)
+        {
+            WaitForSeconds Cool = new WaitForSeconds(0.3f);
+            SpawnSlime(0);
+            SpawnSlime(0);
+            yield return Cool;
+        }
+        else
+        {
+            StopCoroutine(KingSlime());
+        }
+    }
+    private void SpawnSlime(int ID)
+    {
+        mEnemy.mCurrentHP -= 2;
+        Enemy mSpawnEnemy = mEnemyPool.GetFromPool(ID);
+        mSpawnEnemy.transform.position = mBulletPos.position;
     }
 }

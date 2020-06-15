@@ -4,21 +4,62 @@ using UnityEngine;
 
 public class PortalTrigger : MonoBehaviour
 {
+    public static PortalTrigger Instance;
+
     [SerializeField]
     private Portal portal;
     [SerializeField]
-    private Enemy Boss;
+    private Enemy[] BossArr;
+    [SerializeField]
+    private Enemy[] StageBossArr;
+    private Enemy NowBoss;
+
+    public bool BossDeath;
+
+
+    private int rand;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        if (Player.Instance.Level<5)
+        {
+            rand = Random.Range(0, BossArr.Length);
+            NowBoss = BossArr[rand];
+        }
+        else if(Player.Instance.Level ==5)
+        {
+            NowBoss = StageBossArr[0];
+            //TODO 스테이지 정보에 따라 다르게
+        }
+        
+    }
+    private void Start()
+    {
+        BossDeath = false;
+        Instantiate(NowBoss,transform.position,Quaternion.identity);
+    }
 
     private void Update()
     {
-        if (Boss.BossDeath == true)
+        if (BossDeath == true)
         {
-            if (Player.Instance.Level == 5)
+            if (portal.Type == ePortalType.Stage)
             {
-                Player.Instance.Level = 1;
+                if (Player.Instance.Level == 5)
+                {
+                    Player.Instance.Level = 1;
+                }
             }
             portal.ShowPortal();
-            Boss.BossDeath = false;
+            BossDeath = false;
         }
     }
 }

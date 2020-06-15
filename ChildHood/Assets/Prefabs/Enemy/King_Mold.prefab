@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &753966737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 753966738}
+  - component: {fileID: 753966739}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &753966738
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753966737}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3787186870694598207}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &753966739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753966737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 435acb26f8f4e7749bc55efd266b0d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mOriginArr: []
 --- !u!1 &585550490146552583
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,6 +157,7 @@ MonoBehaviour:
   mAttackArea: {fileID: 585550490146552579}
   mBulletPool: {fileID: 1263525565613337183}
   mBulletPos: {fileID: 4706843973959029249}
+  mEnemyPool: {fileID: 753966739}
 --- !u!1 &1263525565613337182
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +313,7 @@ Transform:
   - {fileID: 6552761803175733978}
   - {fileID: 5795698947301622094}
   - {fileID: 3787186871482161303}
+  - {fileID: 753966738}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -381,8 +427,8 @@ MonoBehaviour:
   State: 0
   eType: 1
   mDelayCount: 0
-  BossDeath: 0
   mID: 2
+  mRB2D: {fileID: 0}
   mHPBarPos: {fileID: 3787186871482161303}
   mEnemySkill: {fileID: 4795640427477383038}
   mAttackArea: {fileID: 585550490146552579}

@@ -58,7 +58,7 @@ public class AttackArea : Timer
         if (other.gameObject.CompareTag("Enemy"))
         {
             Enemy Target = other.GetComponent<Enemy>();
-            if (Target.mCurrentHP > -1&&Target!=null)
+            if (Target.mCurrentHP > 0&&Target!=null)
             {
                 Target.Hit(Player.Instance.mInfoArr[Player.Instance.mID].Atk);
             }

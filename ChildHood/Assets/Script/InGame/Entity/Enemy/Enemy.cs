@@ -9,11 +9,11 @@ public class Enemy : InformationLoader
     [SerializeField]
     public eEnemyType eType;
     public int mDelayCount;
-    public bool BossDeath;
 
     [SerializeField]
     public int mID;
     private Sprite[] mMonsterSpriteArr;
+
     public Rigidbody2D mRB2D;
 
     [SerializeField]
@@ -154,10 +154,14 @@ public class Enemy : InformationLoader
             mGold.GoldDrop(mGold, mInfoArr[mID].Gold);
             mAnim.SetBool(AnimHash.Enemy_Attack, false);
             //
-            Player.Instance.NowEnemyCount--;
+            if (Player.Instance.NowEnemyCount>0)
+            {
+                Player.Instance.NowEnemyCount--;
+            }
+            
             if (eType == eEnemyType.Boss)
             {
-                BossDeath = true;
+                PortalTrigger.Instance.BossDeath = true;
             }
 
             State = eMonsterState.Die;
@@ -171,7 +175,8 @@ public class Enemy : InformationLoader
             mHPBar.transform.position = mHPBarPos.position;
             HPBarOn = true;
         }
-    }
+    
+}
 
     public IEnumerator Attack()
     {

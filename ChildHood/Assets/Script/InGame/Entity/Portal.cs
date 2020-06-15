@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum ePortalType
+{
+    Stage,
+    level
+}
+
 public class Portal : MonoBehaviour
 {
 
     public static Portal Instance;
+    [SerializeField]
+    public ePortalType Type;
     private void Awake()
     {
         if (Instance == null)
@@ -39,8 +47,6 @@ public class Portal : MonoBehaviour
         Debug.Log(Player.Instance.Level);
         if (Player.Instance.Level == 5)
         {
-
-            Debug.Log("potal보스방 진입");
             SceneManager.LoadScene(7);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
             Player.Instance.Level=1;

@@ -50,14 +50,11 @@ public class UIController : MonoBehaviour
         Debug.Log(ButtonOn);
         if (ButtonOn)
         {
-            Debug.Log("on");
             mMiniMapCamera.gameObject.SetActive(true);
         }
         else
         {
-            
             mMiniMapCamera.gameObject.SetActive(false);
-            Debug.Log("off");
         }
     }
 

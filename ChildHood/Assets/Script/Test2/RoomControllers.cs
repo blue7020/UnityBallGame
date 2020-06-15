@@ -10,6 +10,8 @@ public class RoomInfo
 
     public int X;
     public int Y;
+    public bool IsFound;
+    public int EnemyCount;
 }
 
 public class RoomControllers : MonoBehaviour
@@ -74,6 +76,8 @@ public class RoomControllers : MonoBehaviour
         newRoomData.name = name;
         newRoomData.X = x;
         newRoomData.Y = y;
+        newRoomData.IsFound = false;
+        newRoomData.EnemyCount = 0;
 
         RoomLength++;
         LoadRoomQueue.Enqueue(newRoomData);
@@ -179,8 +183,8 @@ public class RoomControllers : MonoBehaviour
         string[] possibleRooms = new string[]
         {
             //"Empty",
-            "Empty1",
-            "Empty2"
+            "Statue",
+            "Enemy"
         };
 
         return possibleRooms[Random.Range(0, possibleRooms.Length)];
@@ -190,6 +194,10 @@ public class RoomControllers : MonoBehaviour
     {
         //플레이어가 해당 방에 들어왔을 때.
         CurrentRoom = room;
-
+        Player.Instance.NowEnemyCount = CurrentRoom.EnemyCount;
+        if (CurrentRoom.IsFound == false)
+        {
+            CurrentRoom.IsFound = true;
+        }
     }
 }

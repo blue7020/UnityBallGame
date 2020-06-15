@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerDoor : MonoBehaviour
+public class RoomBlackOut : MonoBehaviour
 {
     [SerializeField]
-    public GameObject mDoor;
+    private Room room;
 
     private void Start()
     {
-        mDoor.gameObject.SetActive(false);
+        room.IsFound = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            mDoor.gameObject.SetActive(true);
+            room.IsFound = true;
+            gameObject.SetActive(false);
         }
     }
 }

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ObjectRoomSpawner : MonoBehaviour
 {
+    [SerializeField]
+    public Room room;
+
+
     [System.Serializable]
     public struct RandomSpawner
     {
@@ -36,6 +40,7 @@ public class ObjectRoomSpawner : MonoBehaviour
             int randomPos = Random.Range(1, grid.availabePoints.Count-1);
             GameObject go = Instantiate(data.spawnerData.itemToSpawn, grid.availabePoints[randomPos], Quaternion.identity, transform) as GameObject;
             grid.availabePoints.RemoveAt(randomPos);
+            room.EnemyCount++;
         }
     }
 }

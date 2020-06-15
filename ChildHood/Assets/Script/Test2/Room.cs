@@ -25,7 +25,10 @@ public class Room : MonoBehaviour
     public Door bottomDoor;
 
     public List<Door> doors = new List<Door>();
-    
+
+    public bool IsFound;
+    public int EnemyCount;
+
     // Start is called before the first frame update
     void Start()
     {

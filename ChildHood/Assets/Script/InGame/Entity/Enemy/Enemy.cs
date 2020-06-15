@@ -154,6 +154,7 @@ public class Enemy : InformationLoader
             mGold.GoldDrop(mGold, mInfoArr[mID].Gold);
             mAnim.SetBool(AnimHash.Enemy_Attack, false);
             //
+            Player.Instance.NowEnemyCount--;
             if (eType == eEnemyType.Boss)
             {
                 BossDeath = true;

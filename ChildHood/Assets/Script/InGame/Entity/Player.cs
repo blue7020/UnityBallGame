@@ -14,6 +14,9 @@ public class Player : InformationLoader
     public float mCurrentHP;
     public int Level;
 
+    public Room CurrentRoom;
+    public int NowEnemyCount;
+
     [SerializeField]
     public PlayerStat[] mInfoArr;
 
@@ -51,6 +54,7 @@ public class Player : InformationLoader
 
     private void Start()
     {
+        NowEnemyCount = 0;
         Level = 1;
         IsBuff = false;
         mMaxHP = mInfoArr[mID].Hp;

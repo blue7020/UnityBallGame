@@ -62,8 +62,11 @@ public class AttackArea : Timer
             {
                 Target.Hit(Player.Instance.mInfoArr[Player.Instance.mID].Atk);
             }
-
-
+        }
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            Bullet Target = other.GetComponent<Bullet>();
+            Target.gameObject.SetActive(false);
         }
     }
 }

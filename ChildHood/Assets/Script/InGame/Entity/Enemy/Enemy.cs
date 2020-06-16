@@ -178,7 +178,7 @@ public class Enemy : InformationLoader
     
 }
 
-    public IEnumerator Attack()
+    public IEnumerator Attack() 
     {
         if (AttackOn == true)
         {
@@ -190,7 +190,6 @@ public class Enemy : InformationLoader
             yield return AtkSpd;
         }
     }
-
 
 
     private void OnCollisionStay2D(Collision2D other)

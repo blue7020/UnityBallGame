@@ -17,6 +17,8 @@ public class EnemySkill : MonoBehaviour
     [SerializeField]
     private EnemyPool mEnemyPool;
 
+    public bool Skilltrigger;
+
     public void Skill()
     {
         switch (mEnemy.mID)
@@ -32,7 +34,10 @@ public class EnemySkill : MonoBehaviour
                 MoldlingAttack();
                 break;
             case 4://KingSlime
-                StartCoroutine(KingSlime());
+                KingSlime();
+                break;
+            case 5://PotatoGolem
+                PotatoGolem();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -40,46 +45,57 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-
-    private IEnumerator MoldKingAttack()//id = 2
+    public IEnumerator MoldKingAttack()//id = 2
     {
-        WaitForSeconds Cool = new WaitForSeconds(0.2f);
+        WaitForSeconds cool = new WaitForSeconds(0.1f);
         ResetDir(0);
-        yield return Cool;
+        yield return cool;
     }
 
     private void MoldlingAttack()//id = 3
     {
         ResetDir(0);
     }
-
     public void ResetDir(int ID)
     {
         Bullet bolt = mBulletPool.GetFromPool(ID);
         bolt.transform.position = mBulletPos.position;
-        Vector3 Pos = Player.Instance.transform.position;
-        Vector3 dir = Pos - bolt.transform.position;
-        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        if (bolt.Type == eBulletType.homing)
+        {
+            StartCoroutine(bolt.MoveToPlayer());
+        }
+        else if (bolt.Type == eBulletType.normal)
+        {
+            Vector3 Pos = Player.Instance.transform.position;
+            Vector3 dir = Pos - transform.position;
+            bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        }
     }
 
-    private IEnumerator KingSlime()
+    private void KingSlime()
     {
-        if (mEnemy.mCurrentHP > 3)
+        if (mEnemy.mCurrentHP>3)
         {
-            WaitForSeconds Cool = new WaitForSeconds(0.3f);
-            SpawnSlime(0);
-            SpawnSlime(0);
-            yield return Cool;
+            mEnemy.mCurrentHP -= 2;
+            Enemy mSpawnEnemy = mEnemyPool.GetFromPool();
+            mSpawnEnemy.transform.position = mBulletPos.position;
         }
-        else
-        {
-            StopCoroutine(KingSlime());
-        }
+        
     }
-    private void SpawnSlime(int ID)
+
+    private void PotatoGolem()
     {
-        mEnemy.mCurrentHP -= 2;
-        Enemy mSpawnEnemy = mEnemyPool.GetFromPool(ID);
-        mSpawnEnemy.transform.position = mBulletPos.position;
+        StartCoroutine(MoveToPlayerGolem());
+    }
+
+    public IEnumerator MoveToPlayerGolem()
+    {
+        //구를 때 충돌 시 1초간 기절
+        WaitForSeconds one = new WaitForSeconds(0.1f);
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        mEnemy.mRB2D.velocity = dir.normalized * mEnemy.mInfoArr[mEnemy.mID].Spd;
+        yield return one;
     }
 }

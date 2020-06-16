@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum eBulletType
+{
+    normal,
+    homing
+}
+
 public class Bullet : MonoBehaviour
 {
     [SerializeField]
@@ -9,10 +15,22 @@ public class Bullet : MonoBehaviour
     [SerializeField]
     public float mSpeed;
     public Rigidbody2D mRB2D;
+    [SerializeField]
+    public eBulletType Type;
 
     private void Awake()
     {
         mRB2D = GetComponent<Rigidbody2D>();
+    }
+
+    public IEnumerator MoveToPlayer()
+    {
+        WaitForSeconds one = new WaitForSeconds(0.1f);
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        mRB2D.velocity = dir.normalized * mSpeed;
+        yield return one;
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)

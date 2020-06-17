@@ -194,6 +194,7 @@ public class RoomControllers : MonoBehaviour
     {
         //플레이어가 해당 방에 들어왔을 때.
         CurrentRoom = room;
+        Player.Instance.CurrentRoom = CurrentRoom;
         Player.Instance.NowEnemyCount = CurrentRoom.EnemyCount;
         if (CurrentRoom.IsFound == false)
         {

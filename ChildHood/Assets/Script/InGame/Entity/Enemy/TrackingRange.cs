@@ -37,8 +37,9 @@ public class TrackingRange : MonoBehaviour
         {
             mEnemy.State = eMonsterState.Idle;
             mEnemy.mRB2D.velocity = Vector2.zero;
-            StopCoroutine(mEnemy.MoveToPlayer());
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+            StopCoroutine(mEnemy.MoveToPlayer());
+           
         }
 
 

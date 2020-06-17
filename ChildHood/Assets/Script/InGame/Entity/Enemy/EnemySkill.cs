@@ -18,9 +18,12 @@ public class EnemySkill : MonoBehaviour
     private EnemyPool mEnemyPool;
 
     public bool Skilltrigger;
+    public int Skilltick;
 
     public void Skill()
     {
+        Skilltick = 0;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         switch (mEnemy.mID)
         {
             case 0://Mimic_Wood
@@ -48,8 +51,10 @@ public class EnemySkill : MonoBehaviour
     public IEnumerator MoldKingAttack()//id = 2
     {
         WaitForSeconds cool = new WaitForSeconds(0.1f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         ResetDir(0);
         yield return cool;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
     private void MoldlingAttack()//id = 3
@@ -74,7 +79,7 @@ public class EnemySkill : MonoBehaviour
 
     private void KingSlime()
     {
-        if (mEnemy.mCurrentHP>3)
+        if (mEnemy.mCurrentHP>5)
         {
             mEnemy.mCurrentHP -= 2;
             Enemy mSpawnEnemy = mEnemyPool.GetFromPool();
@@ -85,17 +90,42 @@ public class EnemySkill : MonoBehaviour
 
     private void PotatoGolem()
     {
-        StartCoroutine(MoveToPlayerGolem());
+        Skilltrigger = true;
+        if (Skilltick==0)
+        {
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            StartCoroutine(MoveToPlayerGolem());
+        }
+        else
+        {
+            Skilltick++;
+        }
+        
     }
 
     public IEnumerator MoveToPlayerGolem()
     {
-        //구를 때 충돌 시 1초간 기절
-        WaitForSeconds one = new WaitForSeconds(0.1f);
-        Vector3 Pos = Player.Instance.transform.position;
-        Vector3 dir = Pos - transform.position;
-        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        mEnemy.mRB2D.velocity = dir.normalized * mEnemy.mInfoArr[mEnemy.mID].Spd;
-        yield return one;
+        if (Skilltrigger==true)
+        {
+            if (Skilltick<60)
+            {
+                //구를 때 충돌 시 1초간 기절
+                WaitForSeconds one = new WaitForSeconds(0.1f);
+                Skilltrigger = false;
+                Vector3 Pos = Player.Instance.transform.position;
+                Vector3 dir = Pos - transform.position;
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+                mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mInfoArr[mEnemy.mID].Spd * 2);
+                Skilltick++;
+                yield return one;
+            }
+            else if(Skilltick>=60)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                Skilltick = -7;
+            }
+            
+        }
+        
     }
 }

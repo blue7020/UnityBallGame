@@ -9,6 +9,7 @@ public class AnimHash : MonoBehaviour
     public static readonly int Walk = Animator.StringToHash("IsWalk");
 
 
-    //All monster has Idle, IsAttack
+    //All monster has Idle, IsWalk, IsAttack
     public static readonly int Enemy_Attack = Animator.StringToHash("IsAttack");
+    public static readonly int Enemy_Walk = Animator.StringToHash("IsWalk");
 }

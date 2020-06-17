@@ -68,18 +68,7 @@ public class Enemy : InformationLoader
         }
         if (State != eMonsterState.Traking && State != eMonsterState.Die)
         {
-            int rand = UnityEngine.Random.Range(0, 2);//0~1
-            if (rand == 0)
-            {
-                State = eMonsterState.Idle;
-                mDelayCount = 0;
-            }
-            else if (rand == 1)
-            {
-                State = eMonsterState.Move;
-                mDelayCount = 0;
-            }
-
+            State = eMonsterState.Idle;
         }
     }
 
@@ -93,17 +82,8 @@ public class Enemy : InformationLoader
                 case eMonsterState.Idle:
                     if (mDelayCount >= 20)
                     {
-                        transform.position = transform.position;
-                        mDelayCount = 0;
-                    }
-                    else
-                    {
-                        mDelayCount++;
-                    }
-                    break;
-                case eMonsterState.Move:
-                    if (mDelayCount >= 20)
-                    {
+                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
+                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
                         transform.position = transform.position;
                         mDelayCount = 0;
                     }
@@ -115,6 +95,7 @@ public class Enemy : InformationLoader
                 case eMonsterState.Traking:
                     if (mDelayCount >= 20)
                     {
+                        mAnim.SetBool(AnimHash.Enemy_Walk, true);
                         mDelayCount = 0;
                     }
                     else
@@ -192,7 +173,7 @@ public class Enemy : InformationLoader
     }
 
 
-    private void OnCollisionStay2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
@@ -202,7 +183,13 @@ public class Enemy : InformationLoader
             }
         }
     }
-
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            AttackOn = false;
+        }
+    }
 
 
     public IEnumerator SkillCast()
@@ -210,10 +197,9 @@ public class Enemy : InformationLoader
         if (State == eMonsterState.Traking)
         {
             WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
-            mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            mAnim.SetBool(AnimHash.Enemy_Attack, true);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             mEnemySkill.Skill();
             yield return cool;
-            mAnim.SetBool(AnimHash.Enemy_Attack, false);
 
         }
         mCoroutine = null;
@@ -226,7 +212,6 @@ public class Enemy : InformationLoader
             WaitForSeconds one = new WaitForSeconds(0.1f);
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
-            mAnim.SetBool(AnimHash.Enemy_Attack, true);
             mRB2D.velocity = dir.normalized * mInfoArr[mID].Spd;
             yield return one;
 

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public static Weapon instance;
-
     [SerializeField]
     private GameObject WeaponImage;
 
@@ -30,7 +29,7 @@ public class Weapon : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         mAnim = GetComponent<Animator>();
         mRenderer = WeaponImage.GetComponent<SpriteRenderer>();
         dir = eDirection.Left;

@@ -12,12 +12,13 @@ public class Room : MonoBehaviour
     public int Y;
 
     private bool updatedDoors = false;
-
+#pragma warning disable 0649
     public Room(int x,int y)
     {
         X = x;
         Y = y;
     }
+#pragma warning restore 0649
 
     public Door leftDoor;
     public Door rightDoor;

@@ -6,8 +6,7 @@ public class GaugeBarPool : ObjectPool<GaugeBar>
 {
     public static GaugeBarPool Instance;
 
-    [SerializeField]
-    private Transform mGaugeBarArea;
+    public Transform mGaugeBarArea;
 
     private void Awake()
     {
@@ -19,7 +18,6 @@ public class GaugeBarPool : ObjectPool<GaugeBar>
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
         PoolSetup();
     }
 

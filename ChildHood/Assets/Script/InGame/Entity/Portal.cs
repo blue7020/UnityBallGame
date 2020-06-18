@@ -36,7 +36,7 @@ public class Portal : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            RoomControllers.Instance.RestartRoom();
+            nextroom();
         }
     }
 
@@ -44,12 +44,17 @@ public class Portal : MonoBehaviour
     {
         
         Player.Instance.Level++;
+        Debug.Log("방 재시작, 현재 지하 " + Player.Instance.Level + "층");//4층까지 존재 
         Debug.Log(Player.Instance.Level);
         if (Player.Instance.Level == 5)
         {
             SceneManager.LoadScene(7);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
-            Player.Instance.Level=1;
+            Player.Instance.Level=6;
+        }
+        else if (Player.Instance.Level>5)
+        {
+            Debug.LogError("Clear Stage 1!");
         }
         else
         {

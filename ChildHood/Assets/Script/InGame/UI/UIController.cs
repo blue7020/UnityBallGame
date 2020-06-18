@@ -15,7 +15,11 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Text mStatText, mNameText;
     [SerializeField]
-    private Image[] mPlayerImage, mSkillImage;
+    private Image mPlayerImage;
+    [SerializeField]
+    public Sprite[] mCharacterSprite;
+    [SerializeField]
+    private Sprite[] mSkillImage;
 
     [SerializeField]
     private Button mStatButton;
@@ -28,6 +32,7 @@ public class UIController : MonoBehaviour
     private RawImage mMiniMapCamera;
     [SerializeField]
     private Toggle mMiniMapButton;
+    
 
     private void Awake()
     {
@@ -40,10 +45,27 @@ public class UIController : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-
         
     }
 
+    public void CharacterImage()
+    {
+        switch (Player.Instance.mID)
+        {
+            case 0:
+                mPlayerImage.sprite = mCharacterSprite[0];
+                break;
+            case 1:
+                mPlayerImage.sprite = mCharacterSprite[1];
+                break;
+            case 2:
+                mPlayerImage.sprite = mCharacterSprite[2];
+                break;
+            default:
+                Debug.LogError("Wrong Character Image");
+                break;
+        }
+    }
 
     public void ShowMiniMap(bool ButtonOn)
     {

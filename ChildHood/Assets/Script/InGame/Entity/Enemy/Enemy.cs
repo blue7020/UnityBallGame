@@ -95,11 +95,13 @@ public class Enemy : InformationLoader
                 case eMonsterState.Traking:
                     if (mDelayCount >= 20)
                     {
-                        mAnim.SetBool(AnimHash.Enemy_Walk, true);
+                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
+
                         mDelayCount = 0;
                     }
                     else
                     {
+                        mAnim.SetBool(AnimHash.Enemy_Walk, true);
                         mDelayCount++;
                     }
                     break;
@@ -183,13 +185,6 @@ public class Enemy : InformationLoader
             }
         }
     }
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            AttackOn = false;
-        }
-    }
 
 
     public IEnumerator SkillCast()
@@ -197,6 +192,7 @@ public class Enemy : InformationLoader
         if (State == eMonsterState.Traking)
         {
             WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
+            mAnim.SetBool(AnimHash.Enemy_Walk, false);
             mAnim.SetBool(AnimHash.Enemy_Attack, true);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             mEnemySkill.Skill();
             yield return cool;

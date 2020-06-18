@@ -6,8 +6,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
-    [SerializeField]
-    public GaugeBarPool mGaugeBarPool;
+    //[SerializeField]
+    //public GaugeBarPool mGaugeBarPool;
 
     public bool pause;
 
@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         pause = false;
+        UIController.Instance.CharacterImage();
     }
     
 
@@ -41,5 +42,4 @@ public class GameController : MonoBehaviour
         }
     }
 }
-//TODO 몬스터 풀 만들어서 빈 방에 위치 할당
 //TODO 씬 파일 만들어서 로비(캐릭터 선택까지)

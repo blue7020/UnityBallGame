@@ -5,12 +5,10 @@ using UnityEngine;
 public class DungeonCrawler : MonoBehaviour
 {
     public Vector2Int Position { get; set; }
-#pragma warning disable 0649
     public DungeonCrawler(Vector2Int StartPos)
     {
         Position = StartPos;
     }
-#pragma warning restore 0649
 
     public Vector2Int Move(Dictionary<Direction,Vector2Int> directionMovementMap)
     {

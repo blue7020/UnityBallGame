@@ -45,3 +45,10 @@ public enum eDirection
     Right,
     Left
 }
+
+public enum eChest
+{
+    Wood,
+    Silver,
+    Gold
+}

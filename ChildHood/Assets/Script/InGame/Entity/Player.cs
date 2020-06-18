@@ -20,6 +20,8 @@ public class Player : InformationLoader
     [SerializeField]
     public PlayerStat[] mInfoArr;
 
+    [SerializeField]
+    public SpriteRenderer mRenderer;
     private Rigidbody2D mRB2D;
     private Animator mAnim;
 

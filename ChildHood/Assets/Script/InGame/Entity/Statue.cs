@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Statue : InformationLoader
 {
-    private bool IsCoolTime;
+    //private bool IsCoolTime;
     [SerializeField]
     private float mHealAmount;
 
@@ -25,11 +25,13 @@ public class Statue : InformationLoader
 
     [SerializeField]
     private eStatueType Type;
+    private bool IsUse;
 
     private void Awake()
     {
         LoadJson(out mInfoArr, Path.STATUE_STAT);
-        IsCoolTime = false;
+        //IsCoolTime = false;
+        IsUse = false;
     }
     private void Start()
     {
@@ -64,80 +66,48 @@ public class Statue : InformationLoader
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (IsUse==false)
         {
-            switch (Type)
+            if (other.gameObject.CompareTag("Player"))
             {
-                case eStatueType.Heal:
-                    if (IsCoolTime == false)
-                    {
-                        if (Type == eStatueType.Heal)
-                        {
-                            StartCoroutine(Cooltime());
-                        }
+                switch (Type)
+                {
+                    case eStatueType.Heal:
+                        Heal();
+                        mRenderer.sprite = mSprites[1];
+                        break;
+                    case eStatueType.Strength:
+                        StartCoroutine(Atk());
+                        mRenderer.sprite = mSprites[3];
+                        break;
+                    case eStatueType.Speed:
+                        StartCoroutine(Speed());
+                        mRenderer.sprite = mSprites[5];
+                        break;
+                    case eStatueType.Def:
+                        StartCoroutine(Def());
+                        mRenderer.sprite = mSprites[7];
+                        break;
+                    default:
+                        Debug.LogError("Wrong StatueType");
+                        break;
+                }
+                IsUse = true;
 
-                    }
-                    else
-                    {
-                        Debug.Log("Cooltime");
-                    }
-                    break;
-                case eStatueType.Strength:
-                    StartCoroutine(Atk());
-                    mRenderer.sprite = mSprites[3];
-                    break;
-                case eStatueType.Speed:
-                    StartCoroutine(Speed());
-                    mRenderer.sprite = mSprites[5];
-                    break;
-                case eStatueType.Def:
-                    StartCoroutine(Def());
-                    mRenderer.sprite = mSprites[7];
-                    break;
-                default:
-                    Debug.LogError("Wrong StatueType");
-                    break;
             }
-            
-        }
-    }
-
-    private IEnumerator Cooltime()
-    {
-        //밸런스 조정으로 쿨타임 기능은 사라질 수도 있음
-        WaitForSeconds Cool = new WaitForSeconds(mInfoArr[mID].Cooltime);
-        IsCoolTime = true;
-        
-        switch (Type)
-        {
-            case eStatueType.Heal:
-                Heal();
-                mRenderer.sprite = mSprites[1];
-                break;
-            case eStatueType.Speed:
-            case eStatueType.Strength:
-            case eStatueType.Def:
-                break;
-            default:
-                Debug.LogError("Wrong StatueType");
-                break;
         }
         
-        yield return Cool;
-        IsCoolTime = false;
-        mRenderer.sprite = mSprites[0];
     }
-
+    //TODO 각 버프 중 플레이어한테 이펙트 표시
     private void Heal()
     {
-        Debug.Log("healing");
         if ((Player.Instance.mCurrentHP + mHealAmount) >= Player.Instance.mMaxHP)
         {
             Player.Instance.mCurrentHP = Player.Instance.mMaxHP;
         }
         else
         {
-            Player.Instance.mCurrentHP += mHealAmount;
+            Player.Instance.mCurrentHP += mHealAmount;//+회복량 증가 옵션
         }
         UIController.Instance.ShowHP();
     }
@@ -184,4 +154,29 @@ public class Statue : InformationLoader
             Player.Instance.IsBuff = false;
         }
     }
+
+    //private IEnumerator Cooltime()
+    //{
+    //    //밸런스 조정으로 쿨타임 기능은 사라질 수도 있음
+    //    WaitForSeconds Cool = new WaitForSeconds(mInfoArr[mID].Cooltime);
+    //    IsCoolTime = true;
+
+    //    switch (Type)
+    //    {
+    //        case eStatueType.Heal:
+    //            Heal();
+    //            break;
+    //        case eStatueType.Speed:
+    //        case eStatueType.Strength:
+    //        case eStatueType.Def:
+    //            break;
+    //        default:
+    //            Debug.LogError("Wrong StatueType");
+    //            break;
+    //    }
+
+    //    yield return Cool;
+    //    IsCoolTime = false;
+    //    mRenderer.sprite = mSprites[0];
+    //}
 }

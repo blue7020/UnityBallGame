@@ -12,7 +12,6 @@ public class HPBar : MonoBehaviour
     private void Awake()
     {
         mHPBar = GetComponent<Image>();
-        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {

@@ -27,6 +27,7 @@ public class Room : MonoBehaviour
     public List<Door> doors = new List<Door>();
 
     public bool IsFound;
+    [SerializeField]
     public int EnemyCount;
 
     // Start is called before the first frame update
@@ -46,103 +47,103 @@ public class Room : MonoBehaviour
                 doors.Add(d);
                 switch (d.doorType)
                 {
-                    case Door.DoorType.right:
-                        rightDoor = d;
-                        break;
-                    case Door.DoorType.left:
-                        leftDoor = d;
-                        break;
-                    case Door.DoorType.top:
+                    case DoorType.top:
                         topDoor = d;
                         break;
-                    case Door.DoorType.bottom:
+                    case DoorType.bot:
                         bottomDoor = d;
                         break;
+                    case DoorType.right:
+                        rightDoor = d;
+                        break;
+                    case DoorType.left:
+                        leftDoor = d;
+                        break;
                     default:
-                        Debug.LogError("wrong Door type");
+                        Debug.LogError("Wrong DoorType");
                         break;
                 }
             }
 
             RoomControllers.Instance.RegisterRoom(this);
         }
-
-
     }
 
     private void Update()
     {
-        if (name.Contains("End")&&!updatedDoors)
+        if (RoomControllers.Instance.AllRoomGen==true)
         {
-            RemoveUnconnectedDoors();
-            updatedDoors = true;
-        }
-        if (name.Contains("Shop") && !updatedDoors)
-        {
-            RemoveUnconnectedDoors();
-            updatedDoors = true;
-        }
-        if (name.Contains("Statue") && !updatedDoors)
-        {
-            RemoveUnconnectedDoors();
-            updatedDoors = true;
-        }
-        if (name.Contains("Chest") && !updatedDoors)
-        {
-            RemoveUnconnectedDoors();
-            updatedDoors = true;
+            if (name.Contains("End") && !updatedDoors)
+            {
+                RemoveUnconnectedDoors();
+                updatedDoors = true;
+            }
+            if (name.Contains("Shop") && !updatedDoors)
+            {
+                RemoveUnconnectedDoors();
+                updatedDoors = true;
+            }
+            if (name.Contains("Statue") && !updatedDoors)
+            {
+                RemoveUnconnectedDoors();
+                updatedDoors = true;
+            }
+            if (name.Contains("Chest") && !updatedDoors)
+            {
+                RemoveUnconnectedDoors();
+                updatedDoors = true;
+            }
         }
     }
 
     public void RemoveUnconnectedDoors()
     {
-        foreach (Door door in doors)
+        foreach(Door door in doors)
         {
             switch (door.doorType)
             {
-                case Door.DoorType.right:
-                    if (GetRight() != null)
+                case DoorType.top:
+                    if (GetTop()!=null)
                     {
                         door.gameObject.SetActive(false);
                     }
                     break;
-                case Door.DoorType.left:
-                    if (GetLeft() != null)
-                    {
-                        door.gameObject.SetActive(false);
-                    }
-                    break;
-                case Door.DoorType.top:
-                    if (GetTop() != null)
-                    {
-                        door.gameObject.SetActive(false);
-                    }
-                    break;
-                case Door.DoorType.bottom:
+                case DoorType.bot:
                     if (GetBottom() != null)
                     {
                         door.gameObject.SetActive(false);
                     }
                     break;
+                case DoorType.right:
+                    if (GetRight() != null)
+                    {
+                        door.gameObject.SetActive(false);
+                    }
+                    break;
+                case DoorType.left:
+                    if (GetLeft() != null)
+                    {
+                        door.gameObject.SetActive(false);
+                    }
+                    break;
                 default:
-                    Debug.LogError("wrong Door type");
+                    Debug.LogError("Wrong DoorType");
                     break;
             }
         }
-        
     }
-    
 
     public Room GetRight()
     {
         if (RoomControllers.Instance.DoesRoomExist(X+1,Y))
         {
-            return RoomControllers.Instance.FindRoom(X + 1, Y);
+            return RoomControllers.Instance.FindRoom(X+1,Y);
         }
         return null;
     }
     public Room GetLeft()
     {
+
         if (RoomControllers.Instance.DoesRoomExist(X - 1, Y))
         {
             return RoomControllers.Instance.FindRoom(X - 1, Y);
@@ -151,21 +152,20 @@ public class Room : MonoBehaviour
     }
     public Room GetTop()
     {
-        if (RoomControllers.Instance.DoesRoomExist(X, Y+1))
+        if (RoomControllers.Instance.DoesRoomExist(X, Y + 1))
         {
-            return RoomControllers.Instance.FindRoom(X, Y+1);
+            return RoomControllers.Instance.FindRoom(X, Y + 1);
         }
         return null;
     }
     public Room GetBottom()
     {
-        if (RoomControllers.Instance.DoesRoomExist(X, Y-1))
+        if (RoomControllers.Instance.DoesRoomExist(X, Y - 1))
         {
-            return RoomControllers.Instance.FindRoom(X, Y-1);
+            return RoomControllers.Instance.FindRoom(X, Y - 1);
         }
         return null;
     }
-
 
     private void OnDrawGizmos()
     {

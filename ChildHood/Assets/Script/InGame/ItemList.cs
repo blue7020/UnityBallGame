@@ -26,19 +26,19 @@ public class ItemList : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void ItemSpawn(eChest Type)//,Item 아이템
+    public void ItemSpawn(eChestType Type)//,Item 아이템
     {
         int rand;
         switch (Type)
         {
-            case eChest.Wood:
+            case eChestType.Wood:
                 rand = Random.Range(0, ItemCommon.Count);
                 //rand 번째에 해당하는 아이템 값을 넘겨주면된다.
                 break;
-            case eChest.Silver:
+            case eChestType.Silver:
                 rand = Random.Range(0, ItemRare.Count);
                 break;
-            case eChest.Gold:
+            case eChestType.Gold:
                 rand = Random.Range(0, ItemEpic.Count);
                 break;
             default:

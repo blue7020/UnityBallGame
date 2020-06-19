@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DoorType
+{
+    top,
+    bot,
+    right,
+    left
+}
+
 public class Door : MonoBehaviour
 {
-    public enum DoorType
-    {
-        left,right,top,bottom
-    }
-
     public DoorType doorType;
+
 }
+

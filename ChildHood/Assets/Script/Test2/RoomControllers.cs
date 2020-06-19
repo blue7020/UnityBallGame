@@ -34,10 +34,11 @@ public class RoomControllers : MonoBehaviour
     bool spawnedShopRoom = false;
     bool spawnedStatueRoom = false;
     bool spawnedChestRoom = false;
-
+    public bool AllRoomGen = false;
 
     bool isLoadingRoom = false;
     bool updatedRooms = false;
+
     private List<string> roomNameList;
 
     private void Awake()
@@ -88,9 +89,9 @@ public class RoomControllers : MonoBehaviour
             {
                 StartCoroutine(SpawnEndRoom());
             }
-            else if (spawnedEndRoom && spawnedShopRoom && spawnedStatueRoom && !updatedRooms)
+            else if(spawnedEndRoom && spawnedShopRoom && spawnedStatueRoom &&spawnedChestRoom&& !updatedRooms)
             {
-                foreach (Room room in LoadedRooms)
+                foreach(Room room in LoadedRooms)
                 {
                     room.RemoveUnconnectedDoors();
                 }
@@ -116,13 +117,6 @@ public class RoomControllers : MonoBehaviour
         //나머지 특수한 방 생성
         if (LoadRoomQueue.Count==0)
         {
-            //Shop
-            Room ShopRoom = LoadedRooms[LoadedRooms.Count - 2];
-            Room tempRoom1 = new Room(ShopRoom.X, ShopRoom.Y);
-            Destroy(ShopRoom.gameObject);
-            var roomToRemove1 = LoadedRooms.Single(r => r.X == tempRoom1.X && r.Y == tempRoom1.Y);
-            LoadedRooms.Remove(roomToRemove1);
-            LoadRoom("Shop", tempRoom1.X, tempRoom1.Y);
 
             //Endroom
             Room BossRoom = LoadedRooms[LoadedRooms.Count - 1];
@@ -130,12 +124,27 @@ public class RoomControllers : MonoBehaviour
             Destroy(BossRoom.gameObject);
             var roomToRemove2 = LoadedRooms.Single(r => r.X == tempRoom2.X && r.Y == tempRoom2.Y);
             LoadedRooms.Remove(roomToRemove2);
-            LoadRoom("End",tempRoom2.X,tempRoom2.Y);
+            LoadRoom("End", tempRoom2.X, tempRoom2.Y);
 
-            //이것들은 Empty룸을 검출해서 그 중 하나를 바꾼다.
-            for (int i=0; i<LoadedRooms.Count-3; i++)
+            for (int i = 0; i < LoadedRooms.Count; i++)
             {
-                if (LoadedRooms[i].name.Contains("Empty"))
+                //Shop
+                if (LoadedRooms[i].name.Contains("Empty")|| LoadedRooms[i].name.Contains("Enemy"))
+                {
+                    Room ShopRoom = LoadedRooms[i];
+                    Room tempRoom1 = new Room(ShopRoom.X, ShopRoom.Y);
+                    Destroy(ShopRoom.gameObject);
+                    var roomToRemove1 = LoadedRooms.Single(r => r.X == tempRoom1.X && r.Y == tempRoom1.Y);
+                    LoadedRooms.Remove(roomToRemove1);
+                    LoadRoom("Shop", tempRoom1.X, tempRoom1.Y);
+                    break;
+                }   
+            } 
+            //Empty룸을 검출해서 그 중 하나를 바꾼다.
+            bool StatueRoomGen = false;
+            for (int i=0; i<LoadedRooms.Count; i++)
+            {
+                if (LoadedRooms[i].name.Contains("Empty")&&StatueRoomGen==false)
                 {
                     //StatueRoom
                     Room StatueRoom = LoadedRooms[i];
@@ -144,25 +153,22 @@ public class RoomControllers : MonoBehaviour
                     var roomToRemove3 = LoadedRooms.Single(r => r.X == tempRoom3.X && r.Y == tempRoom3.Y);
                     LoadedRooms.Remove(roomToRemove3);
                     LoadRoom("Statue", tempRoom3.X, tempRoom3.Y);
-                    break;
+                    StatueRoomGen = true;
+                    continue;
                 }
-
-            }
-            for (int i = 0; i < LoadedRooms.Count - 4; i++)
-            {
-                if (LoadedRooms[i].name.Contains("Empty"))
+                if (LoadedRooms[i].name.Contains("Empty")&&StatueRoomGen==true)
                 {
-                    Debug.Log("Chest");
                     Room ChestRoom = LoadedRooms[i];
                     Room tempRoom4 = new Room(ChestRoom.X, ChestRoom.Y);
                     Destroy(ChestRoom.gameObject);
-                    var roomToRemove3 = LoadedRooms.Single(r => r.X == tempRoom4.X && r.Y == tempRoom4.Y);
-                    LoadedRooms.Remove(roomToRemove3);
+                    var roomToRemove4 = LoadedRooms.Single(r => r.X == tempRoom4.X && r.Y == tempRoom4.Y);
+                    LoadedRooms.Remove(roomToRemove4);
                     LoadRoom("Chest", tempRoom4.X, tempRoom4.Y);
                     break;
                 }
 
             }
+            AllRoomGen = true;
         }
     }
 
@@ -215,9 +221,7 @@ public class RoomControllers : MonoBehaviour
     {
         string[] possibleRooms = new string[]
         {
-            //Statue",
             "Enemy",
-            //"Chest",
             "Empty"
         };
 

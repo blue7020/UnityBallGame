@@ -46,7 +46,7 @@ public enum eDirection
     Left
 }
 
-public enum eChest
+public enum eChestType
 {
     Wood,
     Silver,

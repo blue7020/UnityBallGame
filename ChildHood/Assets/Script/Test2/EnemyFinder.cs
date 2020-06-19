@@ -32,16 +32,13 @@ public class EnemyFinder : MonoBehaviour
             {
                 room.EnemyCount = 1;
                 Player.Instance.NowEnemyCount = room.EnemyCount;
-                
+
             }
-            if (room.EnemyCount > 0)
+            if (Player.Instance.NowEnemyCount > 0)
             {
                 mDoor.gameObject.SetActive(true);
             }
-            else
-            {
-                mDoor.gameObject.SetActive(false);
-            }
+            
         }
     }
 
@@ -54,5 +51,6 @@ public class EnemyFinder : MonoBehaviour
                 mDoor.gameObject.SetActive(false);
             }
         }
+        
     }
 }

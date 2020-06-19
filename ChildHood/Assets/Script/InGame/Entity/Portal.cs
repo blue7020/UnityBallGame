@@ -54,7 +54,7 @@ public class Portal : MonoBehaviour
         }
         else if (Player.Instance.Level>5)
         {
-            Debug.LogError("Clear Stage 1!");
+            StageClear.Instance.EndGame();
         }
         else
         {

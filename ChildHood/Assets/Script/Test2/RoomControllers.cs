@@ -118,55 +118,64 @@ public class RoomControllers : MonoBehaviour
         if (LoadRoomQueue.Count==0)
         {
 
-            //Endroom
-            Room BossRoom = LoadedRooms[LoadedRooms.Count - 1];
-            Room tempRoom2 = new Room(BossRoom.X, BossRoom.Y);
-            Destroy(BossRoom.gameObject);
-            var roomToRemove2 = LoadedRooms.Single(r => r.X == tempRoom2.X && r.Y == tempRoom2.Y);
-            LoadedRooms.Remove(roomToRemove2);
-            LoadRoom("End", tempRoom2.X, tempRoom2.Y);
-
-            for (int i = 0; i < LoadedRooms.Count; i++)
-            {
-                //Shop
-                if (LoadedRooms[i].name.Contains("Empty")|| LoadedRooms[i].name.Contains("Enemy"))
-                {
-                    Room ShopRoom = LoadedRooms[i];
-                    Room tempRoom1 = new Room(ShopRoom.X, ShopRoom.Y);
-                    Destroy(ShopRoom.gameObject);
-                    var roomToRemove1 = LoadedRooms.Single(r => r.X == tempRoom1.X && r.Y == tempRoom1.Y);
-                    LoadedRooms.Remove(roomToRemove1);
-                    LoadRoom("Shop", tempRoom1.X, tempRoom1.Y);
-                    break;
-                }   
-            } 
-            //Empty룸을 검출해서 그 중 하나를 바꾼다.
-            bool StatueRoomGen = false;
+            //Empty룸을 검출해서 랜덤으로 방을 바꾼다.
+            List<int> Empty = new List<int>();
             for (int i=0; i<LoadedRooms.Count; i++)
             {
-                if (LoadedRooms[i].name.Contains("Empty")&&StatueRoomGen==false)
+                if (LoadedRooms[i].name.Contains("Empty"))
                 {
-                    //StatueRoom
-                    Room StatueRoom = LoadedRooms[i];
-                    Room tempRoom3 = new Room(StatueRoom.X, StatueRoom.Y);
-                    Destroy(StatueRoom.gameObject);
-                    var roomToRemove3 = LoadedRooms.Single(r => r.X == tempRoom3.X && r.Y == tempRoom3.Y);
-                    LoadedRooms.Remove(roomToRemove3);
-                    LoadRoom("Statue", tempRoom3.X, tempRoom3.Y);
-                    StatueRoomGen = true;
-                    continue;
-                }
-                if (LoadedRooms[i].name.Contains("Empty")&&StatueRoomGen==true)
-                {
-                    Room ChestRoom = LoadedRooms[i];
-                    Room tempRoom4 = new Room(ChestRoom.X, ChestRoom.Y);
-                    Destroy(ChestRoom.gameObject);
-                    var roomToRemove4 = LoadedRooms.Single(r => r.X == tempRoom4.X && r.Y == tempRoom4.Y);
-                    LoadedRooms.Remove(roomToRemove4);
-                    LoadRoom("Chest", tempRoom4.X, tempRoom4.Y);
-                    break;
+                    Empty.Add(i);
                 }
 
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                int Count = Empty.Count;
+                switch (i)
+                {
+                    case 0:
+                        int rand0 = Random.Range(1, Empty.Count);
+                        Room ShopRoom = LoadedRooms[rand0];
+                        Room tempRoom1 = new Room(ShopRoom.X, ShopRoom.Y);
+                        Destroy(ShopRoom.gameObject);
+                        var roomToRemove1 = LoadedRooms.Single(r => r.X == tempRoom1.X && r.Y == tempRoom1.Y);
+                        LoadedRooms.Remove(roomToRemove1);
+                        LoadRoom("Shop", tempRoom1.X, tempRoom1.Y);
+                        break;
+                    case 1:
+                        //StatueRoom
+                        int rand1 = Random.Range(1, Empty.Count);
+                        Room StatueRoom = LoadedRooms[rand1];
+                        Room tempRoom3 = new Room(StatueRoom.X, StatueRoom.Y);
+                        Destroy(StatueRoom.gameObject);
+                        var roomToRemove3 = LoadedRooms.Single(r => r.X == tempRoom3.X && r.Y == tempRoom3.Y);
+                        LoadedRooms.Remove(roomToRemove3);
+                        LoadRoom("Statue", tempRoom3.X, tempRoom3.Y);
+                        break;
+                    case 2:
+                        int rand2 = Random.Range(1, Empty.Count);
+                        Room ChestRoom = LoadedRooms[rand2];
+                        Room tempRoom4 = new Room(ChestRoom.X, ChestRoom.Y);
+                        Destroy(ChestRoom.gameObject);
+                        var roomToRemove4 = LoadedRooms.Single(r => r.X == tempRoom4.X && r.Y == tempRoom4.Y);
+                        LoadedRooms.Remove(roomToRemove4);
+                        LoadRoom("Chest", tempRoom4.X, tempRoom4.Y);
+                        break;
+                    case 3:
+                        //Endroom
+                        Room BossRoom = LoadedRooms[LoadedRooms.Count - 1];
+                        Room tempRoom2 = new Room(BossRoom.X, BossRoom.Y);
+                        Destroy(BossRoom.gameObject);
+                        var roomToRemove2 = LoadedRooms.Single(r => r.X == tempRoom2.X && r.Y == tempRoom2.Y);
+                        LoadedRooms.Remove(roomToRemove2);
+                        LoadRoom("End", tempRoom2.X, tempRoom2.Y);
+                        break;
+                    default:
+                        Debug.LogError("Wrong Index");
+                        break;
+                }
+                Empty.Remove(Count);
+                Count--;
             }
             AllRoomGen = true;
         }

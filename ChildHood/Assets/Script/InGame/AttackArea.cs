@@ -21,7 +21,6 @@ public class AttackArea : Timer
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
         mRenderer = GetComponent<SpriteRenderer>();
         mAnim = GetComponent<Animator>();
         mAttackEnd=false;

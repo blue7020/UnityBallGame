@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestPool : ObjectPool<ChestController>
+public class ChestPool : ObjectPool<Chest>
 {
     [SerializeField]
     private List<GameObject>[] mPool;

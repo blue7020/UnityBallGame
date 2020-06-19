@@ -38,6 +38,10 @@ public class EnemyFinder : MonoBehaviour
             {
                 mDoor.gameObject.SetActive(true);
             }
+            else
+            {
+                mDoor.gameObject.SetActive(false);
+            }
         }
     }
 

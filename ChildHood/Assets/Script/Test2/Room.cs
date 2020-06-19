@@ -77,6 +77,21 @@ public class Room : MonoBehaviour
             RemoveUnconnectedDoors();
             updatedDoors = true;
         }
+        if (name.Contains("Shop") && !updatedDoors)
+        {
+            RemoveUnconnectedDoors();
+            updatedDoors = true;
+        }
+        if (name.Contains("Statue") && !updatedDoors)
+        {
+            RemoveUnconnectedDoors();
+            updatedDoors = true;
+        }
+        if (name.Contains("Chest") && !updatedDoors)
+        {
+            RemoveUnconnectedDoors();
+            updatedDoors = true;
+        }
     }
 
     public void RemoveUnconnectedDoors()

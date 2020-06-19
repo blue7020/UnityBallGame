@@ -688,6 +688,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &633269070
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 633269071}
+  - component: {fileID: 633269072}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &633269071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633269070}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 979375126}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &633269072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633269070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 435acb26f8f4e7749bc55efd266b0d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mOriginArr:
+  - {fileID: 318890475179379525, guid: db6aa5256902c4446a0300ff79981867, type: 3}
+  - {fileID: 318890475179379525, guid: db6aa5256902c4446a0300ff79981867, type: 3}
+  - {fileID: 318890475179379525, guid: db6aa5256902c4446a0300ff79981867, type: 3}
 --- !u!1 &655403288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,6 +1100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978266059}
+  - component: {fileID: 978266060}
   m_Layer: 0
   m_Name: ChestPool
   m_TagString: Untagged
@@ -1074,6 +1122,22 @@ Transform:
   m_Father: {fileID: 979375126}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &978266060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978266058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0ec64e64d77d24b8bda97096b659e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mOriginArr:
+  - {fileID: 4755436727392108300, guid: 4f9cb19edc01f5947b1c9870fcc78d8d, type: 3}
+  - {fileID: 4755436727392108300, guid: 4f9cb19edc01f5947b1c9870fcc78d8d, type: 3}
+  - {fileID: 4755436727392108300, guid: 4f9cb19edc01f5947b1c9870fcc78d8d, type: 3}
 --- !u!1 &979375124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,6 +1197,7 @@ Transform:
   - {fileID: 1203914219}
   - {fileID: 1007786657}
   - {fileID: 978266059}
+  - {fileID: 633269071}
   - {fileID: 1987526280}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1762,7 +1827,7 @@ GameObject:
   m_Layer: 0
   m_Name: ChestPos
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1774,7 +1839,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301893706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 979375126}
@@ -1792,9 +1857,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3332c7e2a55cbb346a1b73a11270cf13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mChestPool: {fileID: 0}
-  mMimic: []
-  mItem: {fileID: 0}
+  mChestPool: {fileID: 978266060}
+  mEnemytPool: {fileID: 633269072}
+  mItem: {fileID: 1730982847930378327, guid: 1e5f5d090b3b7de4a8500dec438f8c10, type: 3}
 --- !u!1 &1330287692
 GameObject:
   m_ObjectHideFlags: 0
@@ -2606,7 +2671,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 979375126}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1987526281
 BoxCollider2D:

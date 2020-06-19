@@ -8,25 +8,26 @@ public class ChestController : MonoBehaviour
     [SerializeField]
     private ChestPool mChestPool;
     [SerializeField]
-    private GameObject[] mMimic;
-    private bool IsMimic;
+    private EnemyPool mEnemytPool;
     [SerializeField]
     public GameObject mItem;
 
-    private void Start()
+    private void Awake()
     {
         int rand = Random.Range(0, 3);
         switch (rand)
         {
             case 0:
                 Type = eChest.Wood;
-                //mchest와 미믹의 이미지
+                Wood();
                 break;
             case 1:
                 Type = eChest.Silver;
+                Silver();
                 break;
             case 2:
                 Type = eChest.Gold;
+                Gold();
                 break;
             default:
                 Debug.LogError("Wrong ChestType");
@@ -41,13 +42,15 @@ public class ChestController : MonoBehaviour
         float rand;
 
         rand = Random.Range(0, 1f);
-        if (rand > 0.49f)//상자
+        if (rand > 0.5f)//상자
         {
-
+            Chest mChest = mChestPool.GetFromPool(0);
+            mChest.transform.position = transform.position;
         }
         else//미믹
         {
-            mChestPool.GetFromPool(3);
+            Enemy mEnemy = mEnemytPool.GetFromPool(0);
+            mEnemy.transform.position = transform.position;
         }
     }
 
@@ -56,13 +59,15 @@ public class ChestController : MonoBehaviour
         float rand;
 
         rand = Random.Range(0, 1f);
-        if (rand > 0.29f)//상자
+        if (rand > 0.3f)//상자
         {
-
+            Chest mChest = mChestPool.GetFromPool(1);
+            mChest.transform.position = transform.position;
         }
         else//미믹
         {
-            mChestPool.GetFromPool(4);
+            Enemy mEnemy = mEnemytPool.GetFromPool(1);
+            mEnemy.transform.position = transform.position;
         }
     }
 
@@ -71,13 +76,15 @@ public class ChestController : MonoBehaviour
         float rand;
 
         rand = Random.Range(0, 1f);
-        if (rand > 0.09f)//상자
+        if (rand > 0.1f)//상자
         {
-
+            Chest mChest = mChestPool.GetFromPool(2);
+            mChest.transform.position = transform.position;
         }
         else//미믹
         {
-            mChestPool.GetFromPool(5);
+            Enemy mEnemy = mEnemytPool.GetFromPool(3);
+            mEnemy.transform.position = transform.position;
         }
     }
 }

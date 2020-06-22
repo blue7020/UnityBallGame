@@ -20,6 +20,10 @@ public class UIController : MonoBehaviour
     public Sprite[] mCharacterSprite;
     [SerializeField]
     private Sprite[] mSkillImage;
+    [SerializeField]
+    public Sprite DefaultItemImage;
+    [SerializeField]
+    public Sprite NowItemImage;
 
     [SerializeField]
     private Button mStatButton;
@@ -45,6 +49,28 @@ public class UIController : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        CharacterImage();
+    }
+
+    private void Update()
+    {
+        ShowItemImage();
+    }
+
+    public void ShowItemImage()
+    {
+        if (Player.Instance.NowItem==null)
+        {
+            NowItemImage = DefaultItemImage;
+        }
+        else
+        {
+            NowItemImage = Player.Instance.NowItem.mRenderer.sprite;
+        }
         
     }
 
@@ -69,7 +95,6 @@ public class UIController : MonoBehaviour
 
     public void ShowMiniMap(bool ButtonOn)
     {
-        Debug.Log(ButtonOn);
         if (ButtonOn)
         {
             mMiniMapCamera.gameObject.SetActive(true);
@@ -98,19 +123,6 @@ public class UIController : MonoBehaviour
     {
         string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Hp.ToString());
         mHPText.text = HP;
-    }
-
-    public void ShowPlayer()
-    {
-        switch (Player.Instance.mID)
-        {
-            case 0:
-                //플레이어 이미지
-                break;
-            default:
-                Debug.LogError("Wrong Player Sprites");
-                break;
-        }
     }
 
     public void ShowSkill()

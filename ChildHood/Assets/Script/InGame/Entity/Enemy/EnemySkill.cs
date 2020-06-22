@@ -41,6 +41,8 @@ public class EnemySkill : MonoBehaviour
             case 5://PotatoGolem
                 PotatoGolem();
                 break;
+            case 6://AngerTomato
+                break;
             default:
                 Debug.LogError("wrong Enemy ID");
                 break;

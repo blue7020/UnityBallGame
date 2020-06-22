@@ -12,4 +12,5 @@ public class AnimHash : MonoBehaviour
     //All monster has Idle, IsWalk, IsAttack
     public static readonly int Enemy_Attack = Animator.StringToHash("IsAttack");
     public static readonly int Enemy_Walk = Animator.StringToHash("IsWalk");
+    public static readonly int Enemy_Death = Animator.StringToHash("IsDeath");
 }

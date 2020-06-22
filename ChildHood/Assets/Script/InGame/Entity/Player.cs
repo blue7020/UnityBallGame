@@ -12,13 +12,17 @@ public class Player : InformationLoader
     private Sprite[] mPlayerSpriteArr;
     public float mMaxHP;
     public float mCurrentHP;
-    public int Level;
+
+    public int Level;//현재 층
+    public int MapLevel;//현재 스테이지
 
     public Room CurrentRoom;
     public int NowEnemyCount;
 
     [SerializeField]
     public PlayerStat[] mInfoArr;
+    [SerializeField]
+    public UsingItem NowItem;
 
     [SerializeField]
     public SpriteRenderer mRenderer;
@@ -46,6 +50,7 @@ public class Player : InformationLoader
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+        MapLevel = 1;//나중에 맵 선택 시 해당 레벨을 부여하는 것으로 수정
         mID = 0;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
@@ -56,6 +61,7 @@ public class Player : InformationLoader
 
     private void Start()
     {
+        NowItem = null;
         NowEnemyCount = 0;
         Level = 1;
         IsBuff = false;
@@ -112,7 +118,6 @@ public class Player : InformationLoader
             mCurrentHP -= damage - mInfoArr[mID].Def;
         }
     }
-
     public void PlayerSkill()
     {
         //mValue = Player.Instance.mInfoArr[Player.Instance.mID].Atk;
@@ -129,6 +134,75 @@ public class Player : InformationLoader
                 Debug.LogError("Wrong Player ID");
                 break;
 
+        }
+    }
+
+    //buffs
+    //TODO 각 버프 중 플레이어한테 이펙트 표시
+    public void Heal(float mHealAmount)
+    {
+        if ((mCurrentHP + mHealAmount) >= mMaxHP)
+        {
+            mCurrentHP = mMaxHP;
+        }
+        else
+        {
+            mCurrentHP += mHealAmount;//+회복량 증가 옵션
+        }
+        UIController.Instance.ShowHP();
+    }
+
+    public IEnumerator Atk(float value,float Cool)
+    {
+        Instance.IsBuff = true;
+        if (Instance.IsBuff == true)
+        {
+            //TODO 애니메이션 이펙트 추가
+            mInfoArr[Instance.mID].Atk += value;
+            WaitForSeconds Dura = new WaitForSeconds(Cool);
+            yield return Dura;
+            mInfoArr[Instance.mID].Atk -= value;
+        }
+    }
+
+    public IEnumerator Speed(float value, float Cool)
+    {
+        IsBuff = true;
+        if (IsBuff == true)
+        {
+            mInfoArr[mID].Spd += value;
+            mInfoArr[mID].AtkSpd -= value;
+            WaitForSeconds Dura = new WaitForSeconds(Cool);
+            yield return Dura;
+            mInfoArr[mID].Spd -= value;
+            mInfoArr[mID].AtkSpd += value;
+            IsBuff = false;
+        }
+    }
+
+    public IEnumerator AtkSpeed(float value, float Cool)
+    {
+        IsBuff = true;
+        if (IsBuff == true)
+        {
+            mInfoArr[mID].AtkSpd -= value;
+            WaitForSeconds Dura = new WaitForSeconds(Cool);
+            yield return Dura;
+            mInfoArr[mID].AtkSpd += value;
+            IsBuff = false;
+        }
+    }
+
+    public IEnumerator Def(float value, float Cool)
+    {
+        IsBuff = true;
+        if (IsBuff == true)
+        {
+            mInfoArr[mID].Def += value;
+            WaitForSeconds Dura = new WaitForSeconds(Cool);
+            yield return Dura;
+            mInfoArr[mID].Def -= value;
+            IsBuff = false;
         }
     }
 

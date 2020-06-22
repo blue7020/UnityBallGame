@@ -59,16 +59,16 @@ public class Enemy : InformationLoader
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (HPBarOn == true)
         {
             mHPBar.transform.position = mHPBarPos.position;
             mHPBar.SetGauge(mCurrentHP, mMaxHP);
         }
-        if (State != eMonsterState.Traking && State != eMonsterState.Die)
+        if (mCurrentHP < 1)
         {
-            State = eMonsterState.Idle;
+            State = eMonsterState.Die;
         }
     }
 
@@ -106,9 +106,29 @@ public class Enemy : InformationLoader
                     }
                     break;
                 case eMonsterState.Die:
-                    //TODO 사망 시 색상 변경->회색
-                    gameObject.SetActive(false);
+                    if (mDelayCount >= 10)
+                    {
+                        gameObject.SetActive(false);
+                    }
+                    else if (mDelayCount >= 3)
+                    {
+                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
+                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                        mAnim.SetBool(AnimHash.Enemy_Death, true);
+                        //TODO 사망 시 색상 변경->회색
+                        if (eType == eEnemyType.Boss)
+                        {
+                            PortalTrigger.Instance.BossDeath = true;
+                        }
+                        mDelayCount++;
+                    }
+                    else
+                    {
+                        AttackOn = false;
+                        mDelayCount++;
+                    }
                     break;
+                    
                 default:
                     Debug.LogError("Wrong State");
                     break;
@@ -141,15 +161,6 @@ public class Enemy : InformationLoader
             {
                 Player.Instance.NowEnemyCount--;
             }
-            
-            if (eType == eEnemyType.Boss)
-            {
-                PortalTrigger.Instance.BossDeath = true;
-            }
-
-            State = eMonsterState.Die;
-
-
         }
         else
         {
@@ -207,6 +218,7 @@ public class Enemy : InformationLoader
         if (State == eMonsterState.Traking)
         {
             WaitForSeconds one = new WaitForSeconds(0.1f);
+            mAnim.SetBool(AnimHash.Enemy_Walk, true);
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
             mRB2D.velocity = dir.normalized * mInfoArr[mID].Spd;

@@ -288,13 +288,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 104399366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3024c707433579445bcc8388448ecae9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4016f4cbcecb0b84f969d8258f500ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mPos: {fileID: 1904430813}
-  mItempool: {fileID: 21853836}
-  ItemBowl: {fileID: 1904430812}
   Sell: 0
+  item: {fileID: 0}
+  ItemBowl: {fileID: 1904430812}
 --- !u!1 &116682745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,13 +1382,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 441635361}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3024c707433579445bcc8388448ecae9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4016f4cbcecb0b84f969d8258f500ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mPos: {fileID: 927215562}
-  mItempool: {fileID: 21853836}
-  ItemBowl: {fileID: 927215561}
   Sell: 0
+  item: {fileID: 0}
+  ItemBowl: {fileID: 927215561}
 --- !u!1 &520050441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,13 +1656,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 555827209}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3024c707433579445bcc8388448ecae9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4016f4cbcecb0b84f969d8258f500ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mPos: {fileID: 2128821369}
-  mItempool: {fileID: 21853836}
-  ItemBowl: {fileID: 2128821368}
   Sell: 0
+  item: {fileID: 0}
+  ItemBowl: {fileID: 2128821368}
 --- !u!1 &657516646
 GameObject:
   m_ObjectHideFlags: 0
@@ -2633,6 +2630,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1177434561}
   - component: {fileID: 1177434562}
+  - component: {fileID: 1177434563}
   m_Layer: 0
   m_Name: Shopkeeper
   m_TagString: Untagged
@@ -2674,6 +2672,27 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1177434563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177434560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3024c707433579445bcc8388448ecae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mPos:
+  - {fileID: 1904430813}
+  - {fileID: 2128821369}
+  - {fileID: 927215562}
+  itembuy:
+  - {fileID: 104399370}
+  - {fileID: 555827213}
+  - {fileID: 441635365}
+  mItempool: {fileID: 21853836}
 --- !u!1 &1183067250
 GameObject:
   m_ObjectHideFlags: 0

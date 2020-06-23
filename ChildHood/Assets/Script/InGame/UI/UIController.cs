@@ -17,20 +17,23 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Image mPlayerImage;
     [SerializeField]
+    private Image mitemImage;
+
+    [SerializeField]
     public Sprite[] mCharacterSprite;
     [SerializeField]
-    private Sprite[] mSkillImage;
+    private Sprite[] mSkillSprite;
     [SerializeField]
-    public Sprite DefaultItemImage;
-    [SerializeField]
-    public Sprite NowItemImage;
+    public Sprite DefaultItemSprite;
 
     [SerializeField]
     private Button mStatButton;
     [SerializeField]
-    private Button mSKillButton;
+    public Button mSKillButton;
     [SerializeField]
     private Button mAttackButton;
+    [SerializeField]
+    public Button mItemButton;
 
     [SerializeField]
     private RawImage mMiniMapCamera;
@@ -54,6 +57,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         CharacterImage();
+        mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
     }
 
     private void Update()
@@ -65,13 +69,12 @@ public class UIController : MonoBehaviour
     {
         if (Player.Instance.NowItem==null)
         {
-            NowItemImage = DefaultItemImage;
+            mitemImage.sprite = DefaultItemSprite;
         }
         else
         {
-            NowItemImage = Player.Instance.NowItem.mRenderer.sprite;
+            mitemImage.sprite = Player.Instance.NowItem.mRenderer.sprite;
         }
-        
     }
 
     public void CharacterImage()
@@ -121,7 +124,7 @@ public class UIController : MonoBehaviour
 
     public void ShowHP()
     {
-        string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Hp.ToString());
+        string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString());
         mHPText.text = HP;
     }
 
@@ -150,7 +153,7 @@ public class UIController : MonoBehaviour
                                   "치명타 피해: {7}\n" +
                                   "\n" +
                                   "쿨타임 감소: {8}\n" +
-                                  "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Hp.ToString(),
+                                  "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
                                   Player.Instance.mInfoArr[Player.Instance.mID].Atk.ToString(),
                                   Player.Instance.mInfoArr[Player.Instance.mID].Def.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd.ToString("N2"),
                                   Player.Instance.mInfoArr[Player.Instance.mID].Spd.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Crit.ToString("P1"),

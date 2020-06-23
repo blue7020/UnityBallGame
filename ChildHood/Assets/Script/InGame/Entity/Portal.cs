@@ -61,6 +61,7 @@ public class Portal : MonoBehaviour
             SceneManager.LoadScene(0);
             Player.Instance.transform.position = new Vector2(0, 0);
         }
+        Player.Instance.IsBuff = false;
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();
 

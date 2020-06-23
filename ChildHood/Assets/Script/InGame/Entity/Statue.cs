@@ -69,6 +69,7 @@ public class Statue : InformationLoader
         {
             if (other.gameObject.CompareTag("Player"))
             {
+                Player.Instance.IsBuff = true;
                 switch (Type)
                 {
                     case eStatueType.Heal:

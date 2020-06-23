@@ -41,5 +41,15 @@ public class GameController : MonoBehaviour
             Time.timeScale = 0;
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Player.Instance.mInfoArr[Player.Instance.mID].Gold += 200;
+            Player.Instance.mInfoArr[Player.Instance.mID].Atk += 5;
+        }
+    }
+
 }
 //TODO 씬 파일 만들어서 로비(캐릭터 선택까지)

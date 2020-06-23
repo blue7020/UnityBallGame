@@ -18,6 +18,7 @@ public class Player : InformationLoader
 
     public Room CurrentRoom;
     public int NowEnemyCount;
+    public int EnemySwitch;
 
     [SerializeField]
     public PlayerStat[] mInfoArr;
@@ -32,6 +33,7 @@ public class Player : InformationLoader
     public float hori;
     public float ver;
 
+    [SerializeField]
     public bool IsBuff;//석상의 버프를 받고 있는지
 
     //public PlayerStat[] GetInfoArr()
@@ -51,13 +53,11 @@ public class Player : InformationLoader
         }
         DontDestroyOnLoad(gameObject);
         MapLevel = 1;//나중에 맵 선택 시 해당 레벨을 부여하는 것으로 수정
-        mID = 0;//나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
+        mID = 0;//TODO 나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
     }
-
-    //TODO 스테이지를 넘어갈 때마다 IsBuff를 false로 바꾸기, 만약 이전 스테이지에서 버프를 받고 있었다면 버프를 제거하고, 플레이어 능력치 원상 복구
 
     private void Start()
     {
@@ -120,7 +120,7 @@ public class Player : InformationLoader
     }
     public void PlayerSkill()
     {
-        //mValue = Player.Instance.mInfoArr[Player.Instance.mID].Atk;
+        //TODO mValue = Player.Instance.mInfoArr[Player.Instance.mID].Atk;
         //벨류는 스킬에 따라 각각 적용하기로
         switch (mID)
         {
@@ -135,6 +135,20 @@ public class Player : InformationLoader
                 break;
 
         }
+    }
+
+    public void ItemUse()
+    {
+        if (NowItem!=null)
+        {
+            NowItem.UseItem();
+            UIController.Instance.ShowHP();
+        }
+        else
+        {
+            Debug.Log("아이템 없음");
+        }
+        
     }
 
     //buffs
@@ -154,8 +168,7 @@ public class Player : InformationLoader
 
     public IEnumerator Atk(float value,float Cool)
     {
-        Instance.IsBuff = true;
-        if (Instance.IsBuff == true)
+        if (IsBuff == true)
         {
             //TODO 애니메이션 이펙트 추가
             mInfoArr[Instance.mID].Atk += value;
@@ -167,22 +180,18 @@ public class Player : InformationLoader
 
     public IEnumerator Speed(float value, float Cool)
     {
-        IsBuff = true;
         if (IsBuff == true)
         {
             mInfoArr[mID].Spd += value;
-            mInfoArr[mID].AtkSpd -= value;
             WaitForSeconds Dura = new WaitForSeconds(Cool);
             yield return Dura;
             mInfoArr[mID].Spd -= value;
-            mInfoArr[mID].AtkSpd += value;
             IsBuff = false;
         }
     }
 
     public IEnumerator AtkSpeed(float value, float Cool)
     {
-        IsBuff = true;
         if (IsBuff == true)
         {
             mInfoArr[mID].AtkSpd -= value;
@@ -195,7 +204,6 @@ public class Player : InformationLoader
 
     public IEnumerator Def(float value, float Cool)
     {
-        IsBuff = true;
         if (IsBuff == true)
         {
             mInfoArr[mID].Def += value;

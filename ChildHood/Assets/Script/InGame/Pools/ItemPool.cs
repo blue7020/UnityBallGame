@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ItemPool : ObjectPool<UsingItem>
 {
-    [SerializeField]
-    public Transform mPos;
 
     private void Awake()
     {
@@ -14,7 +12,7 @@ public class ItemPool : ObjectPool<UsingItem>
 
     protected override UsingItem CreateNewObj(int id)
     {
-        UsingItem newObj = Instantiate(mOriginArr[id], mPos);
+        UsingItem newObj = Instantiate(mOriginArr[id]);
         mPools[id].Add(newObj);
         return newObj;
     }

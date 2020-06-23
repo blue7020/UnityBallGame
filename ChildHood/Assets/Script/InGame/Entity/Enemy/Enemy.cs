@@ -12,7 +12,8 @@ public class Enemy : InformationLoader
 
     [SerializeField]
     public int mID;
-    private Sprite[] mMonsterSpriteArr;
+    [SerializeField]
+    private GameObject mSprite;
 
     public Rigidbody2D mRB2D;
 
@@ -106,8 +107,12 @@ public class Enemy : InformationLoader
                     }
                     break;
                 case eMonsterState.Die:
-                    if (mDelayCount >= 10)
+                    if (mDelayCount >= 8)
                     {
+                        if (eType == eEnemyType.Boss)
+                        {
+                            PortalTrigger.Instance.BossDeath = true;
+                        }
                         gameObject.SetActive(false);
                     }
                     else if (mDelayCount >= 3)
@@ -115,11 +120,8 @@ public class Enemy : InformationLoader
                         mAnim.SetBool(AnimHash.Enemy_Walk, false);
                         mAnim.SetBool(AnimHash.Enemy_Attack, false);
                         mAnim.SetBool(AnimHash.Enemy_Death, true);
-                        //TODO 사망 시 색상 변경->회색
-                        if (eType == eEnemyType.Boss)
-                        {
-                            PortalTrigger.Instance.BossDeath = true;
-                        }
+
+                        mSprite.GetComponent<SpriteRenderer>().color = Color.grey;
                         mDelayCount++;
                     }
                     else
@@ -140,8 +142,9 @@ public class Enemy : InformationLoader
 
     public void Hit(float damage)
     {
+        StartCoroutine(HitAnimation());
         mCurrentHP -= damage;
-        //TODO 타격 시 색상 변경 0.5초간 빨강
+        
         if (mHPBar == null)
         {
             mHPBar = GaugeBarPool.Instance.GetFromPool();
@@ -171,6 +174,14 @@ public class Enemy : InformationLoader
         }
     
 }
+    private IEnumerator HitAnimation()
+    {
+        WaitForSeconds Time = new WaitForSeconds(0.3f);
+        mSprite.GetComponent<SpriteRenderer>().color = Color.red;
+        yield return Time;
+        mSprite.GetComponent<SpriteRenderer>().color = Color.white;
+        StopCoroutine(HitAnimation());
+    }
 
     public IEnumerator Attack() 
     {

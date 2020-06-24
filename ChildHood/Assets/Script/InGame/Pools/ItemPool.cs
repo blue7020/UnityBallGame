@@ -10,7 +10,7 @@ public class ItemPool : ObjectPool<UsingItem>
         PoolSetup();
     }
 
-    protected override UsingItem CreateNewObj(int id)
+    protected override UsingItem CreateNewObj(int id, Vector3 Pos = new Vector3())
     {
         UsingItem newObj = Instantiate(mOriginArr[id]);
         mPools[id].Add(newObj);

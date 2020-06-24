@@ -23,14 +23,22 @@ public class Bullet : MonoBehaviour
         mRB2D = GetComponent<Rigidbody2D>();
     }
 
-    public IEnumerator MoveToPlayer()
+    private void Update()
+    {
+        if (Type ==eBulletType.homing)
+        {
+            StartCoroutine(MovetoPlayer());
+        }
+        
+    }
+
+    private IEnumerator MovetoPlayer()
     {
         WaitForSeconds one = new WaitForSeconds(0.1f);
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         mRB2D.velocity = dir.normalized * mSpeed;
         yield return one;
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)

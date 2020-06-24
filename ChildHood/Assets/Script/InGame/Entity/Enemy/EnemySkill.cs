@@ -11,10 +11,6 @@ public class EnemySkill : MonoBehaviour
     [SerializeField]
     private EnemyAttackArea mAttackArea;
     [SerializeField]
-    public BulletPool mBulletPool;
-    [SerializeField]
-    private Transform mBulletPos;
-    [SerializeField]
     private EnemyPool mEnemyPool;
 
     public bool Skilltrigger;
@@ -48,11 +44,88 @@ public class EnemySkill : MonoBehaviour
                 break;
         }
     }
+    public void DieSkill()
+    {
+        Skilltick = 0;
+        switch (mEnemy.mID)
+        {
+            case 0://Mimic_Wood
+                break;
+            case 1://Slime
+                break;
+            case 2://Mold_King
+                break;
+            case 3://Moldling
+                break;
+            case 4://KingSlime
+                break;
+            case 5://PotatoGolem
+                break;
+            case 6://AngerTomato
+                AngerTomato();
+                break;
+            default:
+                Debug.LogError("wrong Enemy ID");
+                break;
+        }
+    }
+
+    public void ResetDir(int ID, int bulletDir=0)
+    {
+        Bullet bolt = BulletPool.Instance.GetFromPool(ID, mEnemy.transform.position);
+        switch (bulletDir)
+        {
+            case 0:
+                if (bolt.Type == eBulletType.normal)
+                {
+                    Vector3 Pos = Player.Instance.transform.position;
+                    Vector3 dir = Pos - transform.position;
+                    bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+                }
+                break;
+            case 1:
+                Vector3 dir1 = new Vector3(-1, 1, 0);
+                bolt.mRB2D.velocity = dir1.normalized * bolt.mSpeed;
+                break;
+            case 2:
+                Vector3 dir2 = new Vector3(0, 1, 0);
+                bolt.mRB2D.velocity = dir2.normalized * bolt.mSpeed;
+                break;
+            case 3:
+                Vector3 dir3 = new Vector3(1, 1, 0);
+                bolt.mRB2D.velocity = dir3.normalized * bolt.mSpeed;
+                break;
+            case 4:
+                Vector3 dir4 = new Vector3(-1, 0, 0);
+                bolt.mRB2D.velocity = dir4.normalized * bolt.mSpeed;
+                break;
+            case 5:
+                Vector3 dir5 = new Vector3(1, 0, 0);
+                bolt.mRB2D.velocity = dir5.normalized * bolt.mSpeed;
+                break;
+            case 6:
+                Vector3 dir6 = new Vector3(-1, -1, 0);
+                bolt.mRB2D.velocity = dir6.normalized * bolt.mSpeed;
+                break;
+            case 7:
+                Vector3 dir7 = new Vector3(0, -1, 0);
+                bolt.mRB2D.velocity = dir7.normalized * bolt.mSpeed;
+                break;
+            case 8:
+                Vector3 dir8 = new Vector3(1, -1, 0);
+                bolt.mRB2D.velocity = dir8.normalized * bolt.mSpeed;
+                break;
+            default:
+                Debug.LogError("Wrong BulletID or bulletDir");
+                break;
+        }
+        
+    }
 
     public IEnumerator MoldKingAttack()//id = 2
     {
         WaitForSeconds cool = new WaitForSeconds(0.1f);
-        ResetDir(0);
+        ResetDir(1);
         yield return cool;
     }
 
@@ -60,34 +133,18 @@ public class EnemySkill : MonoBehaviour
     {
         ResetDir(0);
     }
-    public void ResetDir(int ID)
-    {
-        Bullet bolt = mBulletPool.GetFromPool(ID);
-        bolt.transform.position = mBulletPos.position;
-        if (bolt.Type == eBulletType.homing)
-        {
-            StartCoroutine(bolt.MoveToPlayer());
-        }
-        else if (bolt.Type == eBulletType.normal)
-        {
-            Vector3 Pos = Player.Instance.transform.position;
-            Vector3 dir = Pos - transform.position;
-            bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
-        }
-    }
 
-    private void KingSlime()
+    private void KingSlime()//id = 4
     {
         if (mEnemy.mCurrentHP>5)
         {
             mEnemy.mCurrentHP -= 2;
-            Enemy mSpawnEnemy = mEnemyPool.GetFromPool();
-            mSpawnEnemy.transform.position = mBulletPos.position;
+            Enemy mSpawnEnemy = mEnemyPool.GetFromPool(0, mEnemy.transform.position);
         }
         
     }
 
-    private void PotatoGolem()
+    private void PotatoGolem()//id = 5
     {
         Skilltrigger = true;
         if (Skilltick==0)
@@ -102,7 +159,6 @@ public class EnemySkill : MonoBehaviour
         }
         
     }
-
     public IEnumerator MoveToPlayerGolem()
     {
         if (Skilltrigger==true)
@@ -126,5 +182,13 @@ public class EnemySkill : MonoBehaviour
             
         }
         
+    }
+
+    private void AngerTomato()//id = 6
+    {
+        for (int i=1; i<9;i++)
+        {
+            ResetDir(2, i);
+        }
     }
 }

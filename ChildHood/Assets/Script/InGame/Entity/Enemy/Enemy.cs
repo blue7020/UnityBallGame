@@ -60,7 +60,7 @@ public class Enemy : InformationLoader
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (HPBarOn == true)
         {
@@ -115,13 +115,11 @@ public class Enemy : InformationLoader
                         }
                         gameObject.SetActive(false);
                     }
-                    else if (mDelayCount >= 3)
+                    else if (mDelayCount >=2)
                     {
+                        mSprite.GetComponent<SpriteRenderer>().color = Color.grey;
                         mAnim.SetBool(AnimHash.Enemy_Walk, false);
                         mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                        mAnim.SetBool(AnimHash.Enemy_Death, true);
-
-                        mSprite.GetComponent<SpriteRenderer>().color = Color.grey;
                         mDelayCount++;
                     }
                     else
@@ -154,6 +152,9 @@ public class Enemy : InformationLoader
             mHPBar.gameObject.SetActive(false);
             mHPBar = null;
             HPBarOn = false;
+
+            mAnim.SetBool(AnimHash.Enemy_Death, true);
+            mEnemySkill.DieSkill();
             //
             DropGold mGold = GoldPool.Instance.GetFromPool();
             mGold.transform.position = transform.position;

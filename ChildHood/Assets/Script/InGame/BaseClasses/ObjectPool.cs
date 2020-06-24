@@ -24,7 +24,7 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
         }
     }
 
-    public T GetFromPool(int id = 0)
+    public T GetFromPool(int id = 0, Vector3 Pos = new Vector3())
     {
         for(int i = 0; i < mPools[id].Count; i++)
         {
@@ -34,10 +34,10 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
                 return mPools[id][i];
             }
         }
-        return CreateNewObj(id);
+        return CreateNewObj(id, Pos);
     }
 
-    virtual protected T CreateNewObj(int id)
+    virtual protected T CreateNewObj(int id, Vector3 Pos = new Vector3())
     {
         T newObj = Instantiate(mOriginArr[id]);
         mPools[id].Add(newObj);

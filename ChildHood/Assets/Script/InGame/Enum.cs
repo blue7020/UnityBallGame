@@ -26,6 +26,14 @@ public enum eStatueType
     Def
 }
 
+public enum eBuffType
+{
+    Atk,
+    Spd,
+    AtkSpd,
+    Def
+}
+
 public enum eEnemyType
 {
     Normal,

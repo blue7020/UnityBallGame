@@ -913,12 +913,14 @@ MonoBehaviour:
   CurrentRoom: {fileID: 0}
   NowEnemyCount: 0
   EnemySwitch: 0
+  NowBuffValue: []
+  NowBuffType: 
+  NowBuffActive: 
   mInfoArr: []
   NowItem: {fileID: 0}
   mRenderer: {fileID: 0}
   hori: 0
   ver: 0
-  IsBuff: 0
 --- !u!4 &269513522
 Transform:
   m_ObjectHideFlags: 0
@@ -3395,7 +3397,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Money Cheat : z key'
+  m_Text: 'Cheat : z key'
 --- !u!222 &1135629826
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3969,6 +3971,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205176665}
   m_CullTransparentMesh: 0
+--- !u!1 &1236979962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1236979964}
+  - component: {fileID: 1236979963}
+  m_Layer: 0
+  m_Name: BoltPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1236979963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236979962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d889ee1a841974746a3ab4df9c8baca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mOriginArr:
+  - {fileID: 6777862820506086611, guid: ada233da5d4416146bf53463fed2cc00, type: 3}
+  - {fileID: 6484951015602042870, guid: 5273a01660d2ef04c94ca9ecea71b425, type: 3}
+  - {fileID: 3516715822435042191, guid: 08049c06605d67f4d9382dac34842b4f, type: 3}
+--- !u!4 &1236979964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236979962}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1246851440
 GameObject:
   m_ObjectHideFlags: 0

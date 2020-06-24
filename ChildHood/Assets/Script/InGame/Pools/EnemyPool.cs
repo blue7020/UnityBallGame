@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class EnemyPool : ObjectPool<Enemy>
 {
-    [SerializeField]
-    public Transform mPos;
 
     private void Awake()
     {
         PoolSetup();
     }
 
-    protected override Enemy CreateNewObj(int id)
+    protected override Enemy CreateNewObj(int id, Vector3 Pos = new Vector3())
     {
-        Enemy newObj = Instantiate(mOriginArr[id], mPos);
+        Enemy newObj = Instantiate(mOriginArr[id], Pos,Quaternion.identity);
         mPools[id].Add(newObj);
         return newObj;
     }

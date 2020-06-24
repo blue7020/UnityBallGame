@@ -21,6 +21,12 @@ public class Player : InformationLoader
     public int EnemySwitch;
 
     [SerializeField]
+    public List<Coroutine> NowBuff;
+    public List<float> NowBuffValue;
+    public List<eBuffType> NowBuffType;
+    public List<bool> NowBuffActive;
+
+    [SerializeField]
     public PlayerStat[] mInfoArr;
     [SerializeField]
     public UsingItem NowItem;
@@ -32,9 +38,6 @@ public class Player : InformationLoader
 
     public float hori;
     public float ver;
-
-    [SerializeField]
-    public bool IsBuff;//석상의 버프를 받고 있는지
 
     //public PlayerStat[] GetInfoArr()
     //{
@@ -61,10 +64,13 @@ public class Player : InformationLoader
 
     private void Start()
     {
+        NowBuff = new List<Coroutine>();
+        NowBuffType = new List<eBuffType>();
+        NowBuffValue = new List<float>();
+        NowBuffActive = new List<bool>();
         NowItem = null;
         NowEnemyCount = 0;
         Level = 1;
-        IsBuff = false;
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
@@ -76,7 +82,7 @@ public class Player : InformationLoader
         Moveing();
         
     }
-    
+
     private void Moveing()
     {
         hori = Input.GetAxis("Horizontal");
@@ -153,7 +159,7 @@ public class Player : InformationLoader
 
     //buffs
     //TODO 각 버프 중 플레이어한테 이펙트 표시
-    public void Heal(float mHealAmount)
+    public void Heal(float mHealAmount, float BonusHeal = 0)
     {
         if ((mCurrentHP + mHealAmount) >= mMaxHP)
         {
@@ -161,56 +167,82 @@ public class Player : InformationLoader
         }
         else
         {
-            mCurrentHP += mHealAmount;//+회복량 증가 옵션
+            mCurrentHP += mHealAmount + BonusHeal;//추가 회복값
         }
         UIController.Instance.ShowHP();
     }
 
-    public IEnumerator Atk(float value,float Cool)
+    public IEnumerator Atk(float value = 0, float Cool = 0)
     {
-        if (IsBuff == true)
+        //TODO 애니메이션 이펙트 추가
+        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        int ID = NowBuff.Count;
+        Debug.Log(ID);
+        NowBuffActive.Add(true);
+        NowBuffValue.Add(value);
+        mInfoArr[Instance.mID].Atk += NowBuffValue[ID];
+        NowBuffType.Add(eBuffType.Atk);
+        yield return Dura;
+        if (NowBuffActive[ID] == true)
         {
-            //TODO 애니메이션 이펙트 추가
-            mInfoArr[Instance.mID].Atk += value;
-            WaitForSeconds Dura = new WaitForSeconds(Cool);
-            yield return Dura;
-            mInfoArr[Instance.mID].Atk -= value;
+            mInfoArr[mID].Atk -= NowBuffValue[ID];
+            Debug.Log("off");
+            NowBuffActive[ID] = false;
         }
     }
 
     public IEnumerator Speed(float value, float Cool)
     {
-        if (IsBuff == true)
+        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        int ID = NowBuff.Count;
+        Debug.Log(ID);
+        NowBuffActive.Add(true);
+        NowBuffValue.Add(value);
+        mInfoArr[mID].Spd += NowBuffValue[ID];
+        NowBuffType.Add(eBuffType.Spd);
+        yield return Dura;
+        if (NowBuffActive[ID] ==true)
         {
-            mInfoArr[mID].Spd += value;
-            WaitForSeconds Dura = new WaitForSeconds(Cool);
-            yield return Dura;
-            mInfoArr[mID].Spd -= value;
-            IsBuff = false;
+            mInfoArr[mID].Spd -= NowBuffValue[ID];
+            Debug.Log("off");
+            NowBuffActive[ID] = false;
         }
+        
     }
 
     public IEnumerator AtkSpeed(float value, float Cool)
     {
-        if (IsBuff == true)
+        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        int ID = NowBuff.Count;
+        Debug.Log(ID);
+        NowBuffActive.Add(true);
+        NowBuffValue.Add(value);
+        mInfoArr[mID].AtkSpd -= NowBuffValue[ID];
+        NowBuffType.Add(eBuffType.AtkSpd);
+        yield return Dura;
+        if (NowBuffActive[ID] == true)
         {
-            mInfoArr[mID].AtkSpd -= value;
-            WaitForSeconds Dura = new WaitForSeconds(Cool);
-            yield return Dura;
-            mInfoArr[mID].AtkSpd += value;
-            IsBuff = false;
+            mInfoArr[mID].AtkSpd += NowBuffValue[ID];
+            Debug.Log("off");
+            NowBuffActive[ID] = false;
         }
     }
 
     public IEnumerator Def(float value, float Cool)
     {
-        if (IsBuff == true)
+        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        int ID = NowBuff.Count;
+        Debug.Log(ID);
+        NowBuffActive.Add(true);
+        NowBuffValue.Add(value);
+        mInfoArr[mID].Def += NowBuffValue[ID];
+        NowBuffType.Add(eBuffType.Def);
+        yield return Dura;
+        if (NowBuffActive[ID] == true)
         {
-            mInfoArr[mID].Def += value;
-            WaitForSeconds Dura = new WaitForSeconds(Cool);
-            yield return Dura;
-            mInfoArr[mID].Def -= value;
-            IsBuff = false;
+            mInfoArr[mID].Def -= NowBuffValue[ID];
+            Debug.Log("off");
+            NowBuffActive[ID] = false;
         }
     }
 

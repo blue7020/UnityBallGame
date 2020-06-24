@@ -82,16 +82,16 @@ public class RoomControllers : MonoBehaviour
         {
             return;
         }
-        if (LoadRoomQueue.Count ==0)
+        if (LoadRoomQueue.Count == 0)
         {
 
             if (!spawnedEndRoom)
             {
                 StartCoroutine(SpawnEndRoom());
             }
-            else if(spawnedEndRoom && spawnedShopRoom && spawnedStatueRoom &&spawnedChestRoom&& !updatedRooms)
+            else if (spawnedShopRoom && spawnedStatueRoom && spawnedChestRoom && spawnedEndRoom && !updatedRooms)
             {
-                foreach(Room room in LoadedRooms)
+                foreach (Room room in LoadedRooms)
                 {
                     room.RemoveUnconnectedDoors();
                 }
@@ -109,10 +109,10 @@ public class RoomControllers : MonoBehaviour
     private IEnumerator SpawnEndRoom()
     {
         WaitForSeconds point = new WaitForSeconds(0.5f);
-        spawnedEndRoom = true;
         spawnedShopRoom = true;
         spawnedStatueRoom = true;
         spawnedChestRoom = true;
+        spawnedEndRoom = true;
         yield return point;
         //나머지 특수한 방 생성
         if (LoadRoomQueue.Count==0)

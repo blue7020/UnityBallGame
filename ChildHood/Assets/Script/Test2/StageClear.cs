@@ -20,7 +20,6 @@ public class StageClear : MonoBehaviour
 
     public void EndGame()
     {
-        gameObject.SetActive(true);
         GameController.Instance.GamePause();
     }
 }

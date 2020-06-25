@@ -21,7 +21,7 @@ public class GaugeBarPool : ObjectPool<GaugeBar>
         PoolSetup();
     }
 
-    protected override GaugeBar CreateNewObj(int id, Vector3 Pos = new Vector3())
+    protected override GaugeBar CreateNewObj(int id)
     {
         GaugeBar newObj = Instantiate(mOriginArr[id], mGaugeBarArea);
         mPools[id].Add(newObj);

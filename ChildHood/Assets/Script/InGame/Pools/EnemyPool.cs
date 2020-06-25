@@ -10,9 +10,9 @@ public class EnemyPool : ObjectPool<Enemy>
         PoolSetup();
     }
 
-    protected override Enemy CreateNewObj(int id, Vector3 Pos = new Vector3())
+    protected override Enemy CreateNewObj(int id)
     {
-        Enemy newObj = Instantiate(mOriginArr[id], Pos,Quaternion.identity);
+        Enemy newObj = Instantiate(mOriginArr[id]);
         mPools[id].Add(newObj);
         return newObj;
     }

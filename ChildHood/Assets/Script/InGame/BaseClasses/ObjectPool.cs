@@ -24,20 +24,21 @@ public class ObjectPool<T> : MonoBehaviour where T : Component
         }
     }
 
-    public T GetFromPool(int id = 0, Vector3 Pos = new Vector3())
+    public T GetFromPool(int id = 0)
     {
         for(int i = 0; i < mPools[id].Count; i++)
         {
             if(!mPools[id][i].gameObject.activeInHierarchy)
             {
                 mPools[id][i].gameObject.SetActive(true);
+
                 return mPools[id][i];
             }
         }
-        return CreateNewObj(id, Pos);
+        return CreateNewObj(id);
     }
 
-    virtual protected T CreateNewObj(int id, Vector3 Pos = new Vector3())
+    virtual protected T CreateNewObj(int id)
     {
         T newObj = Instantiate(mOriginArr[id]);
         mPools[id].Add(newObj);

@@ -107,7 +107,7 @@ public class Enemy : InformationLoader
                     }
                     break;
                 case eMonsterState.Die:
-                    if (mDelayCount >= 8)
+                    if (mDelayCount >= 10)
                     {
                         if (eType == eEnemyType.Boss)
                         {

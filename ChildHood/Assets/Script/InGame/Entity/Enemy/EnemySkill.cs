@@ -72,7 +72,8 @@ public class EnemySkill : MonoBehaviour
 
     public void ResetDir(int ID, int bulletDir=0)
     {
-        Bullet bolt = BulletPool.Instance.GetFromPool(ID, mEnemy.transform.position);
+        Bullet bolt = BulletPool.Instance.GetFromPool(ID);
+        bolt.transform.position = mEnemy.transform.position;
         switch (bulletDir)
         {
             case 0:
@@ -139,7 +140,8 @@ public class EnemySkill : MonoBehaviour
         if (mEnemy.mCurrentHP>5)
         {
             mEnemy.mCurrentHP -= 2;
-            Enemy mSpawnEnemy = mEnemyPool.GetFromPool(0, mEnemy.transform.position);
+            Enemy mSpawnEnemy = mEnemyPool.GetFromPool(0);
+            mSpawnEnemy.transform.position = mEnemy.transform.position;
         }
         
     }

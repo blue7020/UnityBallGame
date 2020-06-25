@@ -12,6 +12,8 @@ public class Chest : MonoBehaviour
     public SpriteRenderer mRenderer;
     [SerializeField]
     private Sprite[] mSprites;
+    [SerializeField]
+    private GameObject mMimicPos;
 
     private bool ChestOpen;
     private eChestType Type;
@@ -52,6 +54,7 @@ public class Chest : MonoBehaviour
         else//미믹
         {
             Enemy mEnemy = mEnemyPool.GetFromPool(0);
+            mEnemy.transform.position = gameObject.transform.position;
             gameObject.SetActive(false);
         }
     }
@@ -68,6 +71,7 @@ public class Chest : MonoBehaviour
         else//미믹
         {  
             Enemy mEnemy = mEnemyPool.GetFromPool(1);
+            mEnemy.transform.position = gameObject.transform.position;
             gameObject.SetActive(false);
         }
     }
@@ -84,6 +88,7 @@ public class Chest : MonoBehaviour
         else//미믹
         {
             Enemy mEnemy = mEnemyPool.GetFromPool(2);
+            mEnemy.transform.position = gameObject.transform.position;
             gameObject.SetActive(false);
         }
     }

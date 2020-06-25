@@ -18,9 +18,9 @@ public class BulletPool : ObjectPool<Bullet>
         }
         PoolSetup();
     }
-    protected override Bullet CreateNewObj(int id, Vector3 Pos = new Vector3())
+    protected override Bullet CreateNewObj(int id)
     {
-        Bullet newObj = Instantiate(mOriginArr[id], Pos,Quaternion.identity);
+        Bullet newObj = Instantiate(mOriginArr[id]);
         mPools[id].Add(newObj);
         return newObj;
     }

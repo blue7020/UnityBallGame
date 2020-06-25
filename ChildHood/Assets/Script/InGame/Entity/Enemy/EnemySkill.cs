@@ -10,8 +10,6 @@ public class EnemySkill : MonoBehaviour
     public float mDamage;
     [SerializeField]
     private EnemyAttackArea mAttackArea;
-    [SerializeField]
-    private EnemyPool mEnemyPool;
 
     public bool Skilltrigger;
     public int Skilltick;
@@ -38,31 +36,7 @@ public class EnemySkill : MonoBehaviour
                 PotatoGolem();
                 break;
             case 6://AngerTomato
-                break;
-            default:
-                Debug.LogError("wrong Enemy ID");
-                break;
-        }
-    }
-    public void DieSkill()
-    {
-        Skilltick = 0;
-        switch (mEnemy.mID)
-        {
-            case 0://Mimic_Wood
-                break;
-            case 1://Slime
-                break;
-            case 2://Mold_King
-                break;
-            case 3://Moldling
-                break;
-            case 4://KingSlime
-                break;
-            case 5://PotatoGolem
-                break;
-            case 6://AngerTomato
-                AngerTomato();
+                StartCoroutine(AngerTomato());
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -89,38 +63,22 @@ public class EnemySkill : MonoBehaviour
                 bolt.mRB2D.velocity = dir1.normalized * bolt.mSpeed;
                 break;
             case 2:
-                Vector3 dir2 = new Vector3(0, 1, 0);
+                Vector3 dir2 = new Vector3(1, 1, 0);
                 bolt.mRB2D.velocity = dir2.normalized * bolt.mSpeed;
                 break;
             case 3:
-                Vector3 dir3 = new Vector3(1, 1, 0);
+                Vector3 dir3 = new Vector3(-1, -1, 0);
                 bolt.mRB2D.velocity = dir3.normalized * bolt.mSpeed;
                 break;
             case 4:
-                Vector3 dir4 = new Vector3(-1, 0, 0);
+                Vector3 dir4 = new Vector3(1, -1, 0);
                 bolt.mRB2D.velocity = dir4.normalized * bolt.mSpeed;
-                break;
-            case 5:
-                Vector3 dir5 = new Vector3(1, 0, 0);
-                bolt.mRB2D.velocity = dir5.normalized * bolt.mSpeed;
-                break;
-            case 6:
-                Vector3 dir6 = new Vector3(-1, -1, 0);
-                bolt.mRB2D.velocity = dir6.normalized * bolt.mSpeed;
-                break;
-            case 7:
-                Vector3 dir7 = new Vector3(0, -1, 0);
-                bolt.mRB2D.velocity = dir7.normalized * bolt.mSpeed;
-                break;
-            case 8:
-                Vector3 dir8 = new Vector3(1, -1, 0);
-                bolt.mRB2D.velocity = dir8.normalized * bolt.mSpeed;
                 break;
             default:
                 Debug.LogError("Wrong BulletID or bulletDir");
                 break;
         }
-        
+
     }
 
     public IEnumerator MoldKingAttack()//id = 2
@@ -140,7 +98,7 @@ public class EnemySkill : MonoBehaviour
         if (mEnemy.mCurrentHP>5)
         {
             mEnemy.mCurrentHP -= 2;
-            Enemy mSpawnEnemy = mEnemyPool.GetFromPool(0);
+            Enemy mSpawnEnemy = EnemyPool.Instance.GetFromPool(3);
             mSpawnEnemy.transform.position = mEnemy.transform.position;
         }
         
@@ -186,11 +144,18 @@ public class EnemySkill : MonoBehaviour
         
     }
 
-    private void AngerTomato()//id = 6
+    private IEnumerator AngerTomato()//id = 6
     {
-        for (int i=1; i<9;i++)
+        WaitForSeconds Cool = new WaitForSeconds(1.5f);
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2 && Skilltrigger == true)
         {
-            ResetDir(2, i);
+            Skilltrigger = false;
+            for (int i = 0; i < 4; i++)
+            {
+                ResetDir(2, i + 1);
+            }
         }
+        yield return Cool;
+        Skilltrigger = true;
     }
 }

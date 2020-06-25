@@ -119,22 +119,22 @@ public class RoomControllers : MonoBehaviour
         {
 
             //Empty룸을 검출해서 랜덤으로 방을 바꾼다.
-            List<int> Empty = new List<int>();
+            List<int> EnemyRoom = new List<int>();
             for (int i=0; i<LoadedRooms.Count; i++)
             {
-                if (LoadedRooms[i].name.Contains("Empty"))
+                if (LoadedRooms[i].name.Contains("Enemy"))
                 {
-                    Empty.Add(i);
+                    EnemyRoom.Add(i);
                 }
 
             }
             for (int i = 0; i < 4; i++)
             {
-                int Count = Empty.Count;
+                int Count = EnemyRoom.Count;
                 switch (i)
                 {
                     case 0:
-                        int rand0 = Random.Range(1, Empty.Count);
+                        int rand0 = Random.Range(1, EnemyRoom.Count);
                         Room ShopRoom = LoadedRooms[rand0];
                         Room tempRoom1 = new Room(ShopRoom.X, ShopRoom.Y);
                         Destroy(ShopRoom.gameObject);
@@ -144,7 +144,7 @@ public class RoomControllers : MonoBehaviour
                         break;
                     case 1:
                         //StatueRoom
-                        int rand1 = Random.Range(1, Empty.Count);
+                        int rand1 = Random.Range(1, EnemyRoom.Count);
                         Room StatueRoom = LoadedRooms[rand1];
                         Room tempRoom3 = new Room(StatueRoom.X, StatueRoom.Y);
                         Destroy(StatueRoom.gameObject);
@@ -153,7 +153,7 @@ public class RoomControllers : MonoBehaviour
                         LoadRoom("Statue", tempRoom3.X, tempRoom3.Y);
                         break;
                     case 2:
-                        int rand2 = Random.Range(1, Empty.Count);
+                        int rand2 = Random.Range(1, EnemyRoom.Count);
                         Room ChestRoom = LoadedRooms[rand2];
                         Room tempRoom4 = new Room(ChestRoom.X, ChestRoom.Y);
                         Destroy(ChestRoom.gameObject);
@@ -174,7 +174,7 @@ public class RoomControllers : MonoBehaviour
                         Debug.LogError("Wrong Index");
                         break;
                 }
-                Empty.Remove(Count);
+                EnemyRoom.Remove(Count);
                 Count--;
             }
             AllRoomGen = true;
@@ -230,8 +230,8 @@ public class RoomControllers : MonoBehaviour
     {
         string[] possibleRooms = new string[]
         {
-            "Enemy",
-            "Empty"
+            "Enemy"
+            //"Empty"
         };
 
         return possibleRooms[Random.Range(0, possibleRooms.Length)];

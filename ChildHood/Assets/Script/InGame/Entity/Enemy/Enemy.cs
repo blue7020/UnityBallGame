@@ -27,6 +27,7 @@ public class Enemy : InformationLoader
     private GaugeBar mHPBar;
 
     private bool AttackOn;
+    private bool AttackCheck;
     private bool HPBarOn;
     public Coroutine mCoroutine;
 
@@ -53,10 +54,12 @@ public class Enemy : InformationLoader
     }
     private void Start()
     {
+        AttackOn = false;
+        AttackCheck = true;
         State = eMonsterState.Idle;
         mDelayCount = 0;
         StartCoroutine(StateMachine());
-        StartCoroutine(Attack());
+
     }
 
     // Update is called once per frame
@@ -107,7 +110,12 @@ public class Enemy : InformationLoader
                     }
                     break;
                 case eMonsterState.Die:
-                    if (mDelayCount >= 10)
+                    AttackOn = false;
+                    mAnim.SetBool(AnimHash.Enemy_Walk, false);
+                    mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                    mAnim.SetBool(AnimHash.Enemy_Death, true);
+                    mSprite.GetComponent<SpriteRenderer>().color = Color.grey;
+                    if (mDelayCount >= 6)
                     {
                         if (eType == eEnemyType.Boss)
                         {
@@ -115,16 +123,8 @@ public class Enemy : InformationLoader
                         }
                         gameObject.SetActive(false);
                     }
-                    else if (mDelayCount >=2)
-                    {
-                        mSprite.GetComponent<SpriteRenderer>().color = Color.grey;
-                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
-                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                        mDelayCount++;
-                    }
                     else
                     {
-                        AttackOn = false;
                         mDelayCount++;
                     }
                     break;
@@ -142,7 +142,7 @@ public class Enemy : InformationLoader
     {
         StartCoroutine(HitAnimation());
         mCurrentHP -= damage;
-        
+
         if (mHPBar == null)
         {
             mHPBar = GaugeBarPool.Instance.GetFromPool();
@@ -153,15 +153,11 @@ public class Enemy : InformationLoader
             mHPBar = null;
             HPBarOn = false;
 
-            mAnim.SetBool(AnimHash.Enemy_Death, true);
-            mEnemySkill.DieSkill();
-            //
             DropGold mGold = GoldPool.Instance.GetFromPool();
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, mInfoArr[mID].Gold);
-            mAnim.SetBool(AnimHash.Enemy_Attack, false);
-            //
-            if (Player.Instance.NowEnemyCount>0)
+
+            if (Player.Instance.NowEnemyCount > 0)
             {
                 Player.Instance.NowEnemyCount--;
             }
@@ -173,8 +169,9 @@ public class Enemy : InformationLoader
             mHPBar.transform.position = mHPBarPos.position;
             HPBarOn = true;
         }
-    
-}
+
+    }
+
     private IEnumerator HitAnimation()
     {
         WaitForSeconds Time = new WaitForSeconds(0.3f);
@@ -184,30 +181,40 @@ public class Enemy : InformationLoader
         StopCoroutine(HitAnimation());
     }
 
-    public IEnumerator Attack() 
-    {
-        if (AttackOn == true)
-        {
-            AttackOn = false;
-            WaitForSeconds AtkSpd = new WaitForSeconds(mInfoArr[mID].AtkSpd);
-
-            Player.Instance.Hit(mInfoArr[mID].Atk);
-
-            yield return AtkSpd;
-            AttackOn = true;
-        }
-    }
-
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (State != eMonsterState.Die)
+            if (State == eMonsterState.Traking)
             {
-                AttackOn = true;
+                if (AttackCheck == true)
+                {
+                    AttackOn=true;
+                }
+                StartCoroutine(Attack());
             }
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            AttackOn = false;
+            AttackCheck = true;
+        }
+    }
+
+    public IEnumerator Attack()
+    {
+        WaitForSeconds Cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
+        if (AttackOn == true)
+        {
+            AttackOn = false;
+            Player.Instance.Hit(mInfoArr[mID].Atk);
+        }
+        yield return Cool;
+        AttackOn = true;
     }
 
 

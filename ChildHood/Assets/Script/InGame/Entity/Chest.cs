@@ -5,21 +5,21 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     [SerializeField]
-    private EnemyPool mEnemyPool;
-    [SerializeField]
     public GameObject mItem;
     [SerializeField]
     public SpriteRenderer mRenderer;
     [SerializeField]
     private Sprite[] mSprites;
     [SerializeField]
-    private GameObject mMimicPos;
+    private Chest mChest;
+    private bool IsMimicSpawn;
 
     private bool ChestOpen;
     private eChestType Type;
     
     private void Start()
     {
+        IsMimicSpawn = false;
         int rand = Random.Range(0, 3);
         switch (rand)
         {
@@ -53,8 +53,12 @@ public class Chest : MonoBehaviour
         }
         else//미믹
         {
-            Enemy mEnemy = mEnemyPool.GetFromPool(0);
-            mEnemy.transform.position = gameObject.transform.position;
+            Enemy mEnemy = EnemyPool.Instance.GetFromPool(0);
+
+            IsMimicSpawn = true;
+        }
+        if (IsMimicSpawn == true)
+        {
             gameObject.SetActive(false);
         }
     }
@@ -70,8 +74,12 @@ public class Chest : MonoBehaviour
         }
         else//미믹
         {  
-            Enemy mEnemy = mEnemyPool.GetFromPool(1);
-            mEnemy.transform.position = gameObject.transform.position;
+            Enemy mEnemy = EnemyPool.Instance.GetFromPool(1);
+            mEnemy.transform.position = mChest.transform.position;
+            IsMimicSpawn = true;
+        }
+        if (IsMimicSpawn == true)
+        {
             gameObject.SetActive(false);
         }
     }
@@ -87,8 +95,12 @@ public class Chest : MonoBehaviour
         }
         else//미믹
         {
-            Enemy mEnemy = mEnemyPool.GetFromPool(2);
-            mEnemy.transform.position = gameObject.transform.position;
+            Enemy mEnemy = EnemyPool.Instance.GetFromPool(2);
+            mEnemy.transform.position = mChest.transform.position;
+            IsMimicSpawn = true;
+        }
+        if (IsMimicSpawn == true)
+        {
             gameObject.SetActive(false);
         }
     }

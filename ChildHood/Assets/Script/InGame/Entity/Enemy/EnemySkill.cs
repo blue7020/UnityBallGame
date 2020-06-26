@@ -98,7 +98,7 @@ public class EnemySkill : MonoBehaviour
         if (mEnemy.mCurrentHP>5)
         {
             mEnemy.mCurrentHP -= 2;
-            Enemy mSpawnEnemy = EnemyPool.Instance.GetFromPool(3);
+            Enemy mSpawnEnemy = EnemyPool.Instance.GetFromPool(0);
             mSpawnEnemy.transform.position = mEnemy.transform.position;
         }
         

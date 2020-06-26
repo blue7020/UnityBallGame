@@ -33,7 +33,7 @@ public class ObjectRoomSpawner : MonoBehaviour
 
     public void SpawnObjects(RandomSpawner data)
     {
-        int randomIteration = Random.Range(data.spawnerData.minSpawn, data.spawnerData.maxSpawn+1);
+        int randomIteration = Random.Range(data.spawnerData.minSpawn, data.spawnerData.maxSpawn);
 
         for (int i = 0; i < randomIteration; i++)
         {

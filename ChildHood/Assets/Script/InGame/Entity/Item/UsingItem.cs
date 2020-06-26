@@ -59,22 +59,40 @@ public class UsingItem : InformationLoader
         UIController.Instance.ShowItemImage();
     }
 
+    public void ItemChange()
+    {
+        //로직 수정
+        if (Player.Instance.NowItem == null)
+        {
+            Instantiate(this, Player.Instance.gameObject.transform);
+            Player.Instance.NowItem = this;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            //TODO 플레이어가 현재 가진 아이템의 게임 오브젝트와 이 오브젝트의 능력치를 교체
+            //땅에 있는 오브젝트는 이 오브젝트가 되고 현재 가진 아이템이 원래 땅에 있던 오브젝트가 됨
+            //상점아이템이면 원레 가지고 있던 아이템을 주변에 드롭함
+            UsingItem backUp = Player.Instance.NowItem;
+            Player.Instance.NowItem = this;
+            mID = backUp.mID;
+            mRenderer.sprite = backUp.mRenderer.sprite;
+            gameObject.SetActive(false);
+            LoadJson(out mInfoArr, Path.ITEM_STAT);
+            Instantiate(gameObject, Player.Instance.CurrentRoom.transform);
+            gameObject.transform.position += new Vector3(0, -1, 0);
+        }
+        UIController.Instance.ShowItemImage();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+
         if (IsShopItem == false)
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                if (Player.Instance.NowItem == null)
-                {
-                    //TODO 플레이어가 현재 가진 아이템의 게임 오브젝트와 이 오브젝트의 능력치를 교체
-                    //땅에 있는 오브젝트는 이 오브젝트가 되고 현재 가진 아이템이 원래 땅에 있던 오브젝트가 됨
-                }
-                else
-                {
-                    Player.Instance.NowItem = this;
-                    gameObject.SetActive(false);
-                }
+                ItemChange();
 
             }
         }

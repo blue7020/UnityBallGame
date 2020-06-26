@@ -81,7 +81,7 @@ public class Portal : MonoBehaviour
         Debug.Log(Player.Instance.Level);
         if (Player.Instance.Level == 5)
         {
-            SceneManager.LoadScene(7);
+            SceneManager.LoadScene(6);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
             Player.Instance.Level=6;
         }

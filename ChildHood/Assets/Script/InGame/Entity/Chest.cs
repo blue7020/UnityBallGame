@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Chest : MonoBehaviour
 {
     [SerializeField]
@@ -11,28 +12,29 @@ public class Chest : MonoBehaviour
     [SerializeField]
     private Sprite[] mSprites;
     [SerializeField]
-    private Chest mChest;
-    private bool IsMimicSpawn;
+    private MimicSpawner mMimicPos;
 
     private bool ChestOpen;
     private eChestType Type;
     
-    private void Start()
+    private void Awake()
     {
-        IsMimicSpawn = false;
         int rand = Random.Range(0, 3);
         switch (rand)
         {
             case 0:
                 Type = eChestType.Wood;
+                mMimicPos.Type = eChestType.Wood;
                 Wood();
                 break;
             case 1:
                 Type = eChestType.Silver;
+                mMimicPos.Type = eChestType.Silver;
                 Silver();
                 break;
             case 2:
                 Type = eChestType.Gold;
+                mMimicPos.Type = eChestType.Gold;
                 Gold();
                 break;
             default:
@@ -53,12 +55,7 @@ public class Chest : MonoBehaviour
         }
         else//미믹
         {
-            Enemy mEnemy = EnemyPool.Instance.GetFromPool(0);
-
-            IsMimicSpawn = true;
-        }
-        if (IsMimicSpawn == true)
-        {
+            mMimicPos.gameObject.SetActive(true);
             gameObject.SetActive(false);
         }
     }
@@ -73,13 +70,8 @@ public class Chest : MonoBehaviour
             mRenderer.sprite = mSprites[2];
         }
         else//미믹
-        {  
-            Enemy mEnemy = EnemyPool.Instance.GetFromPool(1);
-            mEnemy.transform.position = mChest.transform.position;
-            IsMimicSpawn = true;
-        }
-        if (IsMimicSpawn == true)
         {
+            mMimicPos.gameObject.SetActive(true);
             gameObject.SetActive(false);
         }
     }
@@ -95,17 +87,13 @@ public class Chest : MonoBehaviour
         }
         else//미믹
         {
-            Enemy mEnemy = EnemyPool.Instance.GetFromPool(2);
-            mEnemy.transform.position = mChest.transform.position;
-            IsMimicSpawn = true;
-        }
-        if (IsMimicSpawn == true)
-        {
+            mMimicPos.gameObject.SetActive(true);
             gameObject.SetActive(false);
         }
     }
     private void OnCollisionEnter2D(Collision2D other)
     {
+
         if (other.gameObject.CompareTag("Player"))
         {
             if (ChestOpen == false)

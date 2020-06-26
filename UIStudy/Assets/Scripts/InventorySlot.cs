@@ -61,7 +61,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             Debug.Log("endDrag");
             mItemImage.color = Color.white;
             mDragTarget.gameObject.SetActive(false);
+            mbDragging = false;
+            InventrotyController.Instance.EndDragging();
         }
-        mbDragging = false;
     }
 }

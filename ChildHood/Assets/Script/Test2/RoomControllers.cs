@@ -113,8 +113,8 @@ public class RoomControllers : MonoBehaviour
         spawnedStatueRoom = true;
         spawnedChestRoom = true;
         spawnedEndRoom = true;
+
         yield return point;
-        //나머지 특수한 방 생성
         if (LoadRoomQueue.Count==0)
         {
 
@@ -170,6 +170,7 @@ public class RoomControllers : MonoBehaviour
                         LoadedRooms.Remove(roomToRemove2);
                         LoadRoom("End", tempRoom2.X, tempRoom2.Y);
                         break;
+
                     default:
                         Debug.LogError("Wrong Index");
                         break;

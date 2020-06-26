@@ -44,6 +44,31 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
+    public void DieSkill()
+    {
+        switch (mEnemy.mID)
+        {
+            case 0://Mimic_Wood
+                break;
+            case 1://Slime
+                break;
+            case 2://Mold_King
+                break;
+            case 3://Moldling
+                break;
+            case 4://KingSlime
+                break;
+            case 5://PotatoGolem
+                break;
+            case 6://AngerTomato
+                AngerTomato2();
+                break;
+            default:
+                Debug.LogError("wrong Enemy ID");
+                break;
+        }
+    }
+
     public void ResetDir(int ID, int bulletDir=0)
     {
         Bullet bolt = BulletPool.Instance.GetFromPool(ID);
@@ -138,10 +163,8 @@ public class EnemySkill : MonoBehaviour
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 Skilltick = -7;
-            }
-            
+            }  
         }
-        
     }
 
     private IEnumerator AngerTomato()//id = 6
@@ -157,5 +180,12 @@ public class EnemySkill : MonoBehaviour
         }
         yield return Cool;
         Skilltrigger = true;
+    }
+    private void AngerTomato2()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            ResetDir(2, i + 1);
+        }
     }
 }

@@ -157,7 +157,7 @@ public class Enemy : InformationLoader
             DropGold mGold = GoldPool.Instance.GetFromPool();
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, mInfoArr[mID].Gold);
-
+            mEnemySkill.DieSkill();
             if (Player.Instance.NowEnemyCount > 0)
             {
                 Player.Instance.NowEnemyCount--;

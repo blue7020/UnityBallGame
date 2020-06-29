@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5726077323257423392}
   - component: {fileID: 5610220366322830701}
   - component: {fileID: 1851820192016520471}
+  - component: {fileID: -667343470626769879}
   m_Layer: 0
   m_Name: HP++
   m_TagString: Untagged
@@ -101,6 +102,28 @@ MonoBehaviour:
     Spd: 0
     Damage: 0
     Duration: 0
+  IsShopItem: 0
+--- !u!50 &-667343470626769879
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2942421740962138188}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &3192371632298613524
 GameObject:
   m_ObjectHideFlags: 0

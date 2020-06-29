@@ -29,7 +29,6 @@ public class Statue : InformationLoader
     private void Awake()
     {
         LoadJson(out mInfoArr, Path.STATUE_STAT);
-        //IsCoolTime = false;
         IsUse = false;
     }
     private void Start()

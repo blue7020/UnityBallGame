@@ -49,15 +49,23 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
         CharacterImage();
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     private void Update()

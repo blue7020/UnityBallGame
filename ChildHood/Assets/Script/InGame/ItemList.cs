@@ -23,7 +23,10 @@ public class ItemList : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public void ItemSpawn(eChestType Type)//,Item 아이템

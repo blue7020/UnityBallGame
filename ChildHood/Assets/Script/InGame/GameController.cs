@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
-    //[SerializeField]
-    //public GaugeBarPool mGaugeBarPool;
-
     public bool pause;
+    public bool GotoMain;
 
     private void Awake()
     {
@@ -19,13 +18,24 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
-        DontDestroyOnLoad(gameObject);
+        GotoMain = false;
         pause = false;
         UIController.Instance.CharacterImage();
     }
-    
+
+    private void Start()
+    {
+        if (GotoMain==false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+    public void Delete()
+    {
+        Destroy(gameObject);
+    }
 
     public void GamePause()
     {
@@ -42,14 +52,28 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void MainMenu()
+    {
+        GotoMain = true;
+        CameraMovment.Instance.Delete();
+        UIController.Instance.Delete();
+        DontDestroyScreen.Instance.Delete();
+        //Skill.Instance.Delete(); TODO 플레이어 스킬 스크립트 추가
+        Player.Instance.Delete();
+        Delete();
+        SceneManager.LoadScene(0);
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (GotoMain==false)
         {
-            Player.Instance.mInfoArr[Player.Instance.mID].Gold += 200;
-            Player.Instance.mInfoArr[Player.Instance.mID].Atk += 5;
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Player.Instance.mInfoArr[Player.Instance.mID].Gold += 200;
+                Player.Instance.mInfoArr[Player.Instance.mID].Atk += 5;
+            }
         }
     }
 
 }
-//TODO 씬 파일 만들어서 로비(캐릭터 선택까지)

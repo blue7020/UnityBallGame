@@ -18,14 +18,22 @@ public class CameraMovment : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
-        DontDestroyOnLoad(gameObject);
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
         mPlayerObj = GameObject.FindGameObjectWithTag("Player");// .find 사용 금지 / FindGameObjectsWithTag는 어레이를 찾으니까 헷갈리면 안된다.
         mOffset = transform.position - mPlayerObj.transform.position; //카메라의 위치 설정
     }

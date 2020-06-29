@@ -13,8 +13,20 @@ public class DontDestroyScreen : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
-        DontDestroyOnLoad(gameObject);
     }
+    private void Start()
+    {
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
+    }
+
 }

@@ -52,9 +52,8 @@ public class Player : InformationLoader
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
-        DontDestroyOnLoad(gameObject);
         MapLevel = 1;//나중에 맵 선택 시 해당 레벨을 부여하는 것으로 수정
         mID = 0;//TODO 나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
@@ -64,6 +63,10 @@ public class Player : InformationLoader
 
     private void Start()
     {
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
         NowBuff = new List<Coroutine>();
         NowBuffType = new List<eBuffType>();
         NowBuffValue = new List<float>();
@@ -73,6 +76,11 @@ public class Player : InformationLoader
         Level = 1;
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     private void Update()

@@ -27,7 +27,6 @@ public class MimicSpawner : MonoBehaviour
             mSpawnEnemy = Instantiate(mEnemyArr[2], MimicPos);
             mSpawnEnemy.transform.SetParent(MimicPos);
         }
-        Debug.Log(mSpawnEnemy.transform.position);
     }
 
 }

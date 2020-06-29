@@ -29,7 +29,6 @@ public class Weapon : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //DontDestroyOnLoad(gameObject);
         mAnim = GetComponent<Animator>();
         mRenderer = WeaponImage.GetComponent<SpriteRenderer>();
         dir = eDirection.Left;

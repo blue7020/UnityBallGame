@@ -54,48 +54,40 @@ public class UsingItem : InformationLoader
         {
             StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Def, mInfoArr[mID].Duration));
         }
-
+        Player.Instance.NowItem.gameObject.SetActive(false);
         Player.Instance.NowItem = null;
+
+        
         UIController.Instance.ShowItemImage();
     }
 
     public void ItemChange()
     {
-        //로직 수정
+
         if (Player.Instance.NowItem == null)
         {
-            Instantiate(this, Player.Instance.gameObject.transform);
-            Player.Instance.NowItem = this;
+            transform.SetParent(Player.Instance.gameObject.transform);
+            transform.position = Vector3.zero;
             gameObject.SetActive(false);
+            Player.Instance.NowItem = this;
         }
-        else
+        else //TODO 게임을 플레이하면서 비활성화된 아이템이 쌓이니까 처리할 방법 모색(destroy?)
         {
-            //TODO 플레이어가 현재 가진 아이템의 게임 오브젝트와 이 오브젝트의 능력치를 교체
-            //땅에 있는 오브젝트는 이 오브젝트가 되고 현재 가진 아이템이 원래 땅에 있던 오브젝트가 됨
-            //상점아이템이면 원레 가지고 있던 아이템을 주변에 드롭함
-            UsingItem backUp = Player.Instance.NowItem;
+            UsingItem drop = Player.Instance.NowItem;
+            Player.Instance.NowItem = null;
+            drop.gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
+            //TODO 현재 아이템을 드롭하면 고정좌표에 드롭하기 때문에 아이템이 사라질 수 있음, 더 나은 방법이 없는지 모색
+            drop.gameObject.transform.position = Player.Instance.gameObject.transform.position + new Vector3(0, -1, 0);
+            drop.gameObject.SetActive(true);
             Player.Instance.NowItem = this;
-            mID = backUp.mID;
-            mRenderer.sprite = backUp.mRenderer.sprite;
+            gameObject.transform.SetParent(Player.Instance.gameObject.transform);
             gameObject.SetActive(false);
-            LoadJson(out mInfoArr, Path.ITEM_STAT);
-            Instantiate(gameObject, Player.Instance.CurrentRoom.transform);
-            gameObject.transform.position += new Vector3(0, -1, 0);
         }
         UIController.Instance.ShowItemImage();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-
-        if (IsShopItem == false)
-        {
-            if (other.gameObject.CompareTag("Player"))
-            {
-                ItemChange();
-
-            }
-        }
-        
+        ItemChange();
     }
 }

@@ -10,7 +10,9 @@ public class ShopController : MonoBehaviour
     [SerializeField]
     private ItemBuy[] itembuy;
     [SerializeField]
-    private ItemPool mItempool;
+    private UsingItem[] mItemList;
+    [SerializeField]
+    private Room Shop;
 
     private UsingItem item;
 
@@ -18,15 +20,13 @@ public class ShopController : MonoBehaviour
     {
         for (int i=0; i<mPos.Length;i++)
         {
-            int rand = Random.Range(0, mItempool.Items);
-            item = mItempool.GetFromPool(rand);
+            int rand = Random.Range(0, mItemList.Length);
+            item = Instantiate(mItemList[rand], mPos[i].position,Quaternion.identity);
+            Debug.Log(item.transform.position);
             item.transform.SetParent(mPos[i]);
-            item.transform.position = mPos[i].transform.position;
             item.IsShopItem = true;
             itembuy[i].item = item;
             item = null;
         }
     }
-
-    
 }

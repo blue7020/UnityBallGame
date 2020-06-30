@@ -8,7 +8,7 @@ public class UsingItem : InformationLoader
     [SerializeField]
     public int mID;
 
-    private Rigidbody2D mRB2D;
+    public Rigidbody2D mRB2D;
     [SerializeField]
     public SpriteRenderer mRenderer;
 
@@ -60,16 +60,13 @@ public class UsingItem : InformationLoader
         {
             Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Def, mInfoArr[mID].Duration));
         }
-        Player.Instance.NowItem.gameObject.SetActive(false);
+        Destroy(Player.Instance.NowItem.gameObject);
         Player.Instance.NowItem = null;
-
-        
         UIController.Instance.ShowItemImage();
     }
 
     public void ItemChange()
     {
-        Clamp();
         if (Player.Instance.NowItem == null)
         {
             transform.SetParent(Player.Instance.gameObject.transform);
@@ -79,6 +76,7 @@ public class UsingItem : InformationLoader
         }
         else //TODO 게임을 플레이하면서 비활성화된 아이템이 쌓이니까 처리할 방법 모색(destroy?)
         {
+            Clamp();
             UsingItem drop = Player.Instance.NowItem;
             Player.Instance.NowItem = null;
             drop.gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
@@ -107,9 +105,10 @@ public class UsingItem : InformationLoader
     {
         backupPos = transform.position;
         Currentroom = Player.Instance.CurrentRoom;
-        int RoomXMax = Currentroom.Width-1, RoomXMin = -Currentroom.Width+1;
-        int RoomYMax = Currentroom.Height-1, RoomYMin = -Currentroom.Height+1;
+        int RoomXMax = Currentroom.Width - 1, RoomXMin = -Currentroom.Width + 1;
+        int RoomYMax = Currentroom.Height - 1, RoomYMin = -Currentroom.Height + 1;
         mRB2D.position = new Vector3(Mathf.Clamp(mRB2D.position.x, RoomXMax, RoomXMin), Mathf.Clamp(mRB2D.position.y, RoomYMax, RoomYMin), 0);
+
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -119,97 +118,101 @@ public class UsingItem : InformationLoader
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        
         if (other.gameObject.CompareTag("Walls"))
         {
-            switch (other.GetComponent<WallDir>().Type)
+            if (Currentroom != null)
             {
-                case eWallType.Top:
-                    int rand = UnityEngine.Random.Range(0, 5);
-                    switch (rand)
-                    {
-                        case 0:
-                            gameObject.transform.position += new Vector3(0, -1, 0);
-                            break;
-                        case 1:
-                            gameObject.transform.position += new Vector3(1, 0, 0);
-                            break;
-                        case 2:
-                            gameObject.transform.position += new Vector3(-1, 0, 0);
-                            break;
-                        case 3:
-                            gameObject.transform.position += new Vector3(1, -1, 0);
-                            break;
-                        case 4:
-                            gameObject.transform.position += new Vector3(-1, -1, 0);
-                            break;
-                    }
-                    break;
-                case eWallType.Bot:
-                    int rand2 = UnityEngine.Random.Range(0, 5);
-                    switch (rand2)
-                    {
-                        case 0:
-                            gameObject.transform.position += new Vector3(0, 1, 0);
-                            break;
-                        case 1:
-                            gameObject.transform.position += new Vector3(1, 0, 0);
-                            break;
-                        case 2:
-                            gameObject.transform.position += new Vector3(-1, 0, 0);
-                            break;
-                        case 3:
-                            gameObject.transform.position += new Vector3(1, 1, 0);
-                            break;
-                        case 4:
-                            gameObject.transform.position += new Vector3(-1, 1, 0);
-                            break;
-                    }
-                    break;
-                case eWallType.Right:
-                    int rand3 = UnityEngine.Random.Range(0, 5);
-                    switch (rand3)
-                    {
-                        case 0:
-                            gameObject.transform.position += new Vector3(-1, 0, 0);
-                            break;
-                        case 1:
-                            gameObject.transform.position += new Vector3(0, -1, 0);
-                            break;
-                        case 2:
-                            gameObject.transform.position += new Vector3(0, 1, 0);
-                            break;
-                        case 3:
-                            gameObject.transform.position += new Vector3(-1, 1, 0);
-                            break;
-                        case 4:
-                            gameObject.transform.position += new Vector3(-1, -1, 0);
-                            break;
-                    }
-                    break;
-                case eWallType.Left:
-                    int rand4 = UnityEngine.Random.Range(0, 5);
-                    switch (rand4)
-                    {
-                        case 0:
-                            gameObject.transform.position += new Vector3(1, 0, 0);
-                            break;
-                        case 1:
-                            gameObject.transform.position += new Vector3(0, -1, 0);
-                            break;
-                        case 2:
-                            gameObject.transform.position += new Vector3(0, 1, 0);
-                            break;
-                        case 3:
-                            gameObject.transform.position += new Vector3(1, 1, 0);
-                            break;
-                        case 4:
-                            gameObject.transform.position += new Vector3(1, -1, 0);
-                            break;
-                    }
-                    break;
-                default:
-                    Debug.LogError("Wrong Wall Type");
-                    break;
+                switch (other.GetComponent<WallDir>().Type)
+                {
+                    case eWallType.Top:
+                        int rand = UnityEngine.Random.Range(0, 5);
+                        switch (rand)
+                        {
+                            case 0:
+                                gameObject.transform.position += new Vector3(0, -1, 0);
+                                break;
+                            case 1:
+                                gameObject.transform.position += new Vector3(1, 0, 0);
+                                break;
+                            case 2:
+                                gameObject.transform.position += new Vector3(-1, 0, 0);
+                                break;
+                            case 3:
+                                gameObject.transform.position += new Vector3(1, -1, 0);
+                                break;
+                            case 4:
+                                gameObject.transform.position += new Vector3(-1, -1, 0);
+                                break;
+                        }
+                        break;
+                    case eWallType.Bot:
+                        int rand2 = UnityEngine.Random.Range(0, 5);
+                        switch (rand2)
+                        {
+                            case 0:
+                                gameObject.transform.position += new Vector3(0, 1, 0);
+                                break;
+                            case 1:
+                                gameObject.transform.position += new Vector3(1, 0, 0);
+                                break;
+                            case 2:
+                                gameObject.transform.position += new Vector3(-1, 0, 0);
+                                break;
+                            case 3:
+                                gameObject.transform.position += new Vector3(1, 1, 0);
+                                break;
+                            case 4:
+                                gameObject.transform.position += new Vector3(-1, 1, 0);
+                                break;
+                        }
+                        break;
+                    case eWallType.Right:
+                        int rand3 = UnityEngine.Random.Range(0, 5);
+                        switch (rand3)
+                        {
+                            case 0:
+                                gameObject.transform.position += new Vector3(-1, 0, 0);
+                                break;
+                            case 1:
+                                gameObject.transform.position += new Vector3(0, -1, 0);
+                                break;
+                            case 2:
+                                gameObject.transform.position += new Vector3(0, 1, 0);
+                                break;
+                            case 3:
+                                gameObject.transform.position += new Vector3(-1, 1, 0);
+                                break;
+                            case 4:
+                                gameObject.transform.position += new Vector3(-1, -1, 0);
+                                break;
+                        }
+                        break;
+                    case eWallType.Left:
+                        int rand4 = UnityEngine.Random.Range(0, 5);
+                        switch (rand4)
+                        {
+                            case 0:
+                                gameObject.transform.position += new Vector3(1, 0, 0);
+                                break;
+                            case 1:
+                                gameObject.transform.position += new Vector3(0, -1, 0);
+                                break;
+                            case 2:
+                                gameObject.transform.position += new Vector3(0, 1, 0);
+                                break;
+                            case 3:
+                                gameObject.transform.position += new Vector3(1, 1, 0);
+                                break;
+                            case 4:
+                                gameObject.transform.position += new Vector3(1, -1, 0);
+                                break;
+                        }
+                        break;
+                    default:
+                        Debug.LogError("Wrong Wall Type");
+                        break;
+                }
             }
         }
     }

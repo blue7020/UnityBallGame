@@ -13,6 +13,9 @@ public class UsingItem : InformationLoader
     public SpriteRenderer mRenderer;
 
     [SerializeField]
+    public Room Currentroom;
+    public Vector3 backupPos;
+    [SerializeField]
     public ItemStat[] mInfoArr;
 
     public ItemStat[] GetInfoArr()
@@ -67,7 +70,7 @@ public class UsingItem : InformationLoader
 
     public void ItemChange()
     {
-
+        Clamp();
         if (Player.Instance.NowItem == null)
         {
             transform.SetParent(Player.Instance.gameObject.transform);
@@ -97,26 +100,37 @@ public class UsingItem : InformationLoader
         {
             ItemChange();
         }
+        
     }
 
+
+    public void Clamp()
+    {
+        backupPos = transform.position;
+        Currentroom = Player.Instance.CurrentRoom;
+        int RoomXMax = Currentroom.Width-1, RoomXMin = -Currentroom.Width+1;
+        int RoomYMax = Currentroom.Height-1, RoomYMin = -Currentroom.Height+1;
+        mRB2D.position = new Vector3(Mathf.Clamp(mRB2D.position.x, RoomXMax, RoomXMin), Mathf.Clamp(mRB2D.position.y, RoomYMax, RoomYMin), 0);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        transform.position = backupPos;
+        Debug.Log(Player.Instance.CurrentRoom);
+    }
 
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Walls"))
         {
-            Room Currentroom = Player.Instance.CurrentRoom;
-            int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
-            int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
-            mRB2D.position = new Vector3(Mathf.Clamp(mRB2D.position.x, RoomXMax, RoomXMin), Mathf.Clamp(mRB2D.position.y, RoomYMax, RoomYMin), 0);
-            GameObject Target = other.gameObject;
-            switch (Target.GetComponent<WallDir>().Type)
+            switch (other.GetComponent<WallDir>().Type)
             {
                 case eWallType.Top:
                     int rand = UnityEngine.Random.Range(0, 5);
                     switch (rand)
                     {
                         case 0:
-                            gameObject.transform.position += new Vector3(0, -2, 0);
+                            gameObject.transform.position += new Vector3(0, -1, 0);
                             break;
                         case 1:
                             gameObject.transform.position += new Vector3(1, 0, 0);
@@ -137,7 +151,7 @@ public class UsingItem : InformationLoader
                     switch (rand2)
                     {
                         case 0:
-                            gameObject.transform.position += new Vector3(0, 2, 0);
+                            gameObject.transform.position += new Vector3(0, 1, 0);
                             break;
                         case 1:
                             gameObject.transform.position += new Vector3(1, 0, 0);
@@ -158,7 +172,7 @@ public class UsingItem : InformationLoader
                     switch (rand3)
                     {
                         case 0:
-                            gameObject.transform.position += new Vector3(-2, 0, 0);
+                            gameObject.transform.position += new Vector3(-1, 0, 0);
                             break;
                         case 1:
                             gameObject.transform.position += new Vector3(0, -1, 0);
@@ -179,7 +193,7 @@ public class UsingItem : InformationLoader
                     switch (rand4)
                     {
                         case 0:
-                            gameObject.transform.position += new Vector3(2, 0, 0);
+                            gameObject.transform.position += new Vector3(1, 0, 0);
                             break;
                         case 1:
                             gameObject.transform.position += new Vector3(0, -1, 0);

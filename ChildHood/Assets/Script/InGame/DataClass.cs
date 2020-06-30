@@ -10,6 +10,7 @@ public class PlayerStat
 
     public int ID;
     public string Name;
+    public string EngName;
 
     public float Hp;
     public float Atk;

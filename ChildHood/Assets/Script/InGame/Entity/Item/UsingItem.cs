@@ -36,7 +36,6 @@ public class UsingItem : InformationLoader
 
     public void UseItem()
     {
-        Debug.Log("아이템사용");
         if (mInfoArr[mID].Heal > 0)
         {
             if (mID==0|| mID == 1)
@@ -47,19 +46,19 @@ public class UsingItem : InformationLoader
         }
         if (mInfoArr[mID].Atk > 0)
         {
-            StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Atk, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Atk, mInfoArr[mID].Duration));
         }
         if (mInfoArr[mID].AtkSpd > 0)
         {
-            StartCoroutine(Player.Instance.Atk(mInfoArr[mID].AtkSpd, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].AtkSpd, mInfoArr[mID].Duration));
         }
         if (mInfoArr[mID].Spd > 0)
         {
-            StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Spd, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Spd, mInfoArr[mID].Duration));
         }
         if (mInfoArr[mID].Def > 0)
         {
-            StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Def, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Def, mInfoArr[mID].Duration));
         }
         Player.Instance.NowItem.gameObject.SetActive(false);
         Player.Instance.NowItem = null;
@@ -116,7 +115,6 @@ public class UsingItem : InformationLoader
     private void OnTriggerExit2D(Collider2D other)
     {
         transform.position = backupPos;
-        Debug.Log(Player.Instance.CurrentRoom);
     }
 
     private void OnTriggerStay2D(Collider2D other)

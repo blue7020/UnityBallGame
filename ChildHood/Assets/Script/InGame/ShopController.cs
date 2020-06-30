@@ -18,7 +18,7 @@ public class ShopController : MonoBehaviour
     {
         for (int i=0; i<mPos.Length;i++)
         {
-            int rand = Random.Range(0, 3);//TODO 이후 아이템 수만큼 수정
+            int rand = Random.Range(0, mItempool.Items);
             item = mItempool.GetFromPool(rand);
             item.transform.SetParent(mPos[i]);
             item.transform.position = mPos[i].transform.position;

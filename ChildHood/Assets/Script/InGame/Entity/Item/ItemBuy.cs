@@ -28,7 +28,6 @@ public class ItemBuy : MonoBehaviour
                     Player.Instance.mInfoArr[Player.Instance.mID].Gold -= item.mInfoArr[item.mID].Price;
                     item.ItemChange();
                     ItemBowl.gameObject.SetActive(false);
-                    Debug.Log("구입하였습니다!" + item);
                 }
                 else
                 {

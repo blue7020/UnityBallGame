@@ -39,7 +39,8 @@ public class UIController : MonoBehaviour
     private RawImage mMiniMapCamera;
     [SerializeField]
     private Toggle mMiniMapButton;
-    
+    [SerializeField]
+    private Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
 
     private void Awake()
     {
@@ -71,6 +72,55 @@ public class UIController : MonoBehaviour
     private void Update()
     {
         ShowItemImage();
+    }
+
+    public void BGMPlus()
+    {
+        if (GameSetting.Instance.BGMSetting < 10)
+        {
+            GameSetting.Instance.BGMSetting++;
+        }
+        else
+        {
+            GameSetting.Instance.BGMSetting = 10;
+        }
+        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
+    }
+    public void BGMMinus()
+    {
+        if (GameSetting.Instance.BGMSetting > 0)
+        {
+            GameSetting.Instance.BGMSetting--;
+        }
+        else
+        {
+            GameSetting.Instance.BGMSetting = 0;
+        }
+        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
+    }
+    public void SEPlus()
+    {
+        if (GameSetting.Instance.SESetting < 10)
+        {
+            GameSetting.Instance.SESetting++;
+        }
+        else
+        {
+            GameSetting.Instance.SESetting = 10;
+        }
+        mSEText.text = GameSetting.Instance.SESetting.ToString();
+    }
+    public void SEMinus()
+    {
+        if (GameSetting.Instance.SESetting > 0)
+        {
+            GameSetting.Instance.SESetting--;
+        }
+        else
+        {
+            GameSetting.Instance.SESetting = 0;
+        }
+        mSEText.text = GameSetting.Instance.SESetting.ToString();
     }
 
     public void ShowItemImage()
@@ -151,23 +201,52 @@ public class UIController : MonoBehaviour
 
     public void ShowStat()
     {
-        string Name = Player.Instance.mInfoArr[Player.Instance.mID].Name;
-        string Stat = string.Format("체력: {0} / {1}\n" +
-                                  "공격력: {2}\n" +
-                                  "방어력: {3}\n" +
-                                  "공격속도: {4}\n" +
-                                  "이동속도: {5}\n" +
-                                  "치명타 확률: {6}\n" +
-                                  "치명타 피해: {7}\n" +
-                                  "\n" +
-                                  "쿨타임 감소: {8}\n" +
-                                  "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
-                                  Player.Instance.mInfoArr[Player.Instance.mID].Atk.ToString(),
-                                  Player.Instance.mInfoArr[Player.Instance.mID].Def.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd.ToString("N2"),
-                                  Player.Instance.mInfoArr[Player.Instance.mID].Spd.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Crit.ToString("P1"),
-                                  Player.Instance.mInfoArr[Player.Instance.mID].CritDamage.ToString("P1"),
-                                  Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce.ToString("P0"), Player.Instance.mInfoArr[Player.Instance.mID].CCReduce.ToString("P0"));
-        mStatText.text = Stat;
-        mNameText.text = Name;
+
+        if (GameSetting.Instance.Language == 0)
+        {//한국어
+            mStatTitle.text = "캐릭터정보";
+            mArtifactTitle.text = "유물";
+            string Name = Player.Instance.mInfoArr[Player.Instance.mID].Name;
+            string Stat = string.Format("체력: {0} / {1}\n" +
+                                      "공격력: {2}\n" +
+                                      "방어력: {3}\n" +
+                                      "공격속도: {4}\n" +
+                                      "이동속도: {5}\n" +
+                                      "치명타 확률: {6}\n" +
+                                      "치명타 피해: {7}\n" +
+                                      "\n" +
+                                      "쿨타임 감소: {8}\n" +
+                                      "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].Atk.ToString(),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].Def.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd.ToString("N2"),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].Spd.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Crit.ToString("P1"),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].CritDamage.ToString("P1"),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce.ToString("P0"), Player.Instance.mInfoArr[Player.Instance.mID].CCReduce.ToString("P0"));
+            mStatText.text = Stat;
+            mNameText.text = Name;
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {//영어
+            mStatTitle.text = "Stat";
+            mArtifactTitle.text = "Artifact";
+            string Name = Player.Instance.mInfoArr[Player.Instance.mID].EngName;
+            string Stat = string.Format("HP: {0} / {1}\n" +
+                                      "Atk: {2}\n" +
+                                      "Def: {3}\n" +
+                                      "Atk Spd: {4}\n" +
+                                      "Movement Spd: {5}\n" +
+                                      "Crit: {6}\n" +
+                                      "Crit Damage: {7}\n" +
+                                      "\n" +
+                                      "Cooldown reduce: {8}\n" +
+                                      "Resistance: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].Atk.ToString(),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].Def.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd.ToString("N2"),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].Spd.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Crit.ToString("P1"),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].CritDamage.ToString("P1"),
+                                      Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce.ToString("P0"), Player.Instance.mInfoArr[Player.Instance.mID].CCReduce.ToString("P0"));
+            mStatText.text = Stat;
+            mNameText.text = Name;
+        }
     }
 }

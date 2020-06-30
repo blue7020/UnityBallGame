@@ -158,10 +158,6 @@ public class Player : InformationLoader
             NowItem.UseItem();
             UIController.Instance.ShowHP();
         }
-        else
-        {
-            Debug.Log("아이템 없음");
-        }
         
     }
 

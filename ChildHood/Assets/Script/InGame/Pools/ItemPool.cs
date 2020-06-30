@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class ItemPool : ObjectPool<UsingItem>
 {
+    public int Items;
 
     private void Awake()
     {
         PoolSetup();
+        Items = mOriginArr.Length;
     }
 
     protected override UsingItem CreateNewObj(int id)

@@ -12,21 +12,38 @@ public class ShopController : MonoBehaviour
     [SerializeField]
     private UsingItem[] mItemList;
     [SerializeField]
-    private Room Shop;
+    private Artifacts[] mArtifactList;
 
     private UsingItem item;
+    private Artifacts artifact;
 
     private void Start()
     {
-        for (int i=0; i<mPos.Length;i++)
+        if (Player.Instance.Level % 2 == 1)
         {
-            int rand = Random.Range(0, mItemList.Length);
-            item = Instantiate(mItemList[rand], mPos[i].position,Quaternion.identity);
-            Debug.Log(item.transform.position);
-            item.transform.SetParent(mPos[i]);
-            item.IsShopItem = true;
-            itembuy[i].item = item;
-            item = null;
+            for (int i = 0; i < mPos.Length; i++)
+            {
+                int rand = Random.Range(0, mItemList.Length);
+                item = Instantiate(mItemList[rand], mPos[i].position, Quaternion.identity);
+                item.transform.SetParent(mPos[i]);
+                item.IsShopItem = true;
+                itembuy[i].item = item;
+                item = null;
+            }
         }
+        else
+        {
+            for (int i = 0; i < mPos.Length; i++)
+            {
+                int rand = Random.Range(0, mArtifactList.Length);
+                artifact = Instantiate(mArtifactList[rand], mPos[i].position, Quaternion.identity);
+                artifact.transform.SetParent(mPos[i]);
+                artifact.IsShopItem = true;
+                itembuy[i].artifact = artifact;
+                artifact = null;
+            }
+        }
+        
+        
     }
 }

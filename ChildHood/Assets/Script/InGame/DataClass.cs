@@ -26,11 +26,8 @@ public class PlayerStat
 
     public float Damage;
 
-    public float Skill1_Cooltime;
-    public float Skill1_Duration;
-
-    public float Skill2_Cooltime;
-    public float Skill2_Duration;
+    public float Skill_Cooltime;
+    public float Skill_Duration;
 }
 
 [Serializable]
@@ -76,7 +73,7 @@ public class ItemTextStat
 }
 
 [Serializable]
-public class ArtifactStat
+public class Artifact
 {
     public int ID;
     public int Price;
@@ -87,7 +84,6 @@ public class ArtifactStat
     public float AtkSpd;
     public float Spd;
 
-    public bool IsPercent;
     public float Crit;
     public float CritDamage;
     public float CooltimeReduce;
@@ -104,6 +100,7 @@ public class ArtifactTextStat
     public int ID;
 
     public string Title;
+    public string EngTitle;
     public string ContensFormat;
 
     public string Flavortext;

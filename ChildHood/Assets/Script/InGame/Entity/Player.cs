@@ -30,11 +30,19 @@ public class Player : InformationLoader
     public PlayerStat[] mInfoArr;
     [SerializeField]
     public UsingItem NowItem;
+    [SerializeField]
+    public Artifacts NowUsingArtifact;
+    [SerializeField]
+    public Artifacts[] Inventory = new Artifacts[16];
+    [SerializeField]
+    public Artifacts UseItemInventory;
 
     [SerializeField]
     public SpriteRenderer mRenderer;
     private Rigidbody2D mRB2D;
     private Animator mAnim;
+
+    public bool Nodamage;
 
     public float hori;
     public float ver;
@@ -72,10 +80,13 @@ public class Player : InformationLoader
         NowBuffValue = new List<float>();
         NowBuffActive = new List<bool>();
         NowItem = null;
+        NowUsingArtifact = null;
+
         NowEnemyCount = 0;
         Level = 1;
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+        Nodamage = false;
     }
 
     public void Delete()
@@ -122,15 +133,19 @@ public class Player : InformationLoader
 
     public void Hit(float damage)
     {
-        if (damage - mInfoArr[mID].Def <1)
+        if (Nodamage ==false)
         {
-            damage = 0.5f;
-            mCurrentHP -= damage;
+            if (damage - mInfoArr[mID].Def < 1)
+            {
+                damage = 0.5f;
+                mCurrentHP -= damage;
+            }
+            else
+            {
+                mCurrentHP -= damage - mInfoArr[mID].Def;
+            }
         }
-        else
-        {
-            mCurrentHP -= damage - mInfoArr[mID].Def;
-        }
+        
     }
     public void PlayerSkill()
     {
@@ -159,6 +174,14 @@ public class Player : InformationLoader
             UIController.Instance.ShowHP();
         }
         
+    }
+    public void ArtifactUse()
+    {
+        if (NowUsingArtifact != null)
+        {
+            NowUsingArtifact.UseArtifact();
+            UIController.Instance.ShowHP();
+        }
     }
 
     //buffs

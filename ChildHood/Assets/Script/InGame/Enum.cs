@@ -60,3 +60,9 @@ public enum eChestType
     Silver,
     Gold
 }
+
+public enum eArtifactType
+{
+    Use,
+    Passive
+}

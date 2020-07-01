@@ -142,7 +142,16 @@ public class Enemy : InformationLoader
     public void Hit(float damage)
     {
         StartCoroutine(HitAnimation());
-        mCurrentHP -= damage;
+        float rand = UnityEngine.Random.Range(0,1f);
+        if (rand<= Player.Instance.mInfoArr[Player.Instance.mID].Crit / 100)
+        {
+            mCurrentHP -= damage * (1+ (Player.Instance.mInfoArr[Player.Instance.mID].CritDamage /100));
+            Debug.Log(damage);
+        }
+        else
+        {
+            mCurrentHP -= damage;
+        }
 
         if (mHPBar == null)
         {

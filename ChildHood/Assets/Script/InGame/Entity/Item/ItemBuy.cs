@@ -8,6 +8,7 @@ public class ItemBuy : MonoBehaviour
     private bool Sell;
 
     public UsingItem item;
+    public Artifacts artifact;
     [SerializeField]
     private GameObject ItemBowl;
 
@@ -22,16 +23,33 @@ public class ItemBuy : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                if (Player.Instance.mInfoArr[Player.Instance.mID].Gold >= item.mInfoArr[item.mID].Price)
+                if (Player.Instance.Level % 2==1)//홀수층일 때
                 {
-                    Sell = true;
-                    Player.Instance.mInfoArr[Player.Instance.mID].Gold -= item.mInfoArr[item.mID].Price;
-                    item.ItemChange();
-                    ItemBowl.gameObject.SetActive(false);
+                    if (Player.Instance.mInfoArr[Player.Instance.mID].Gold >= item.mInfoArr[item.mID].Price)
+                    {
+                        Sell = true;
+                        Player.Instance.mInfoArr[Player.Instance.mID].Gold -= item.mInfoArr[item.mID].Price;
+                        item.ItemChange();
+                        ItemBowl.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("돈이 부족합니다!");
+                    }
                 }
                 else
                 {
-                    Debug.Log("돈이 부족합니다!");
+                    if (Player.Instance.mInfoArr[Player.Instance.mID].Gold >= artifact.mInfoArr[artifact.mID].Price)
+                    {
+                        Sell = true;
+                        Player.Instance.mInfoArr[Player.Instance.mID].Gold -= artifact.mInfoArr[artifact.mID].Price;
+                        artifact.ItemChange();
+                        ItemBowl.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("돈이 부족합니다!");
+                    }
                 }
 
             }

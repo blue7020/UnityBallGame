@@ -17,7 +17,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Image mPlayerImage;
     [SerializeField]
-    private Image mitemImage;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage;
 
     [SerializeField]
     public Sprite[] mCharacterSprite;
@@ -33,7 +33,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Button mAttackButton;
     [SerializeField]
-    public Button mItemButton;
+    public Button mItemButton, mArtifactButton;
 
     [SerializeField]
     private RawImage mMiniMapCamera;
@@ -62,6 +62,7 @@ public class UIController : MonoBehaviour
         }
         CharacterImage();
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
+        mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
     }
 
     public void Delete()
@@ -134,6 +135,31 @@ public class UIController : MonoBehaviour
             mitemImage.sprite = Player.Instance.NowItem.mRenderer.sprite;
         }
     }
+    public void ShowArtifactImage()
+    {
+        if (Player.Instance.NowUsingArtifact == null)
+        {
+            mArtifactImage.sprite = DefaultItemSprite;
+        }
+        else
+        {
+            mArtifactImage.sprite = Player.Instance.NowUsingArtifact.mRenderer.sprite;
+        }
+    }
+
+
+    public void ShowSkill()
+    {
+        switch (Player.Instance.mID)
+        {
+            case 0:
+                //스킬 이미지
+                break;
+            default:
+                Debug.LogError("Wrong Skill Sprites");
+                break;
+        }
+    }
 
     public void CharacterImage()
     {
@@ -184,19 +210,6 @@ public class UIController : MonoBehaviour
     {
         string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString());
         mHPText.text = HP;
-    }
-
-    public void ShowSkill()
-    {
-        switch (Player.Instance.mID)
-        {
-            case 0:
-                //스킬 이미지
-                break;
-            default:
-                Debug.LogError("Wrong Skill Sprites");
-                break;
-        }
     }
 
     public void ShowStat()

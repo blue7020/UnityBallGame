@@ -245,6 +245,7 @@ public class RoomControllers : MonoBehaviour
         Player.Instance.CurrentRoom = CurrentRoom;
         if (CurrentRoom.IsFound == false)
         {
+            CurrentRoom.RoomBlackOut();
             CurrentRoom.IsFound = true;
             Player.Instance.NowEnemyCount = CurrentRoom.EnemyCount;
         }

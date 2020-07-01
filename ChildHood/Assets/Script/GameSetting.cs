@@ -21,5 +21,7 @@ public class GameSetting : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+        BGMSetting = 3;
+        SESetting = 3;
     }
 }

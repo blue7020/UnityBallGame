@@ -29,6 +29,8 @@ public class Room : MonoBehaviour
     public bool IsFound;
     [SerializeField]
     public int EnemyCount;
+    [SerializeField]
+    private GameObject blackOut;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +68,7 @@ public class Room : MonoBehaviour
             }
 
             RoomControllers.Instance.RegisterRoom(this);
+
         }
     }
 
@@ -94,6 +97,12 @@ public class Room : MonoBehaviour
                 updatedDoors = true;
             }
         }
+    }
+
+
+    public void RoomBlackOut()
+    {
+        blackOut.gameObject.SetActive(false);
     }
 
     public void RemoveUnconnectedDoors()

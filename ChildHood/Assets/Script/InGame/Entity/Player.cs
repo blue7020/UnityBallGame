@@ -40,8 +40,8 @@ public class Player : InformationLoader
 
     [SerializeField]
     public SpriteRenderer mRenderer;
-    private Rigidbody2D mRB2D;
-    private Animator mAnim;
+    public Rigidbody2D mRB2D;
+    public Animator mAnim;
 
     public bool Nodamage;
 

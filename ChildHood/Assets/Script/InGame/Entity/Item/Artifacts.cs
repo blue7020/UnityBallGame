@@ -70,7 +70,7 @@ public class Artifacts : InformationLoader
             Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd -= mInfoArr[mID].AtkSpd;
             Player.Instance.mInfoArr[Player.Instance.mID].Spd += mInfoArr[mID].Spd;
             Player.Instance.mInfoArr[Player.Instance.mID].Def += mInfoArr[mID].Def;
-            Player.Instance.mInfoArr[Player.Instance.mID].Crit += mInfoArr[mID].Crit;
+            Player.Instance.mInfoArr[Player.Instance.mID].Crit += mInfoArr[mID].Crit / 100;
             Player.Instance.mInfoArr[Player.Instance.mID].CritDamage += mInfoArr[mID].CritDamage;
             Player.Instance.mInfoArr[Player.Instance.mID].CCReduce += mInfoArr[mID].CCReduce;
             Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce += mInfoArr[mID].CooltimeReduce;
@@ -79,6 +79,7 @@ public class Artifacts : InformationLoader
                 Player.Instance.NowUsingArtifact = this;
                 UIController.Instance.ShowArtifactImage();
             }
+            UIController.Instance.ShowHP();
 
         }
     }
@@ -92,10 +93,11 @@ public class Artifacts : InformationLoader
             Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd += mInfoArr[mID].AtkSpd;
             Player.Instance.mInfoArr[Player.Instance.mID].Spd -= mInfoArr[mID].Spd;
             Player.Instance.mInfoArr[Player.Instance.mID].Def -= mInfoArr[mID].Def;
-            Player.Instance.mInfoArr[Player.Instance.mID].Crit -= mInfoArr[mID].Crit;
+            Player.Instance.mInfoArr[Player.Instance.mID].Crit -= mInfoArr[mID].Crit/100;
             Player.Instance.mInfoArr[Player.Instance.mID].CritDamage -= mInfoArr[mID].CritDamage;
             Player.Instance.mInfoArr[Player.Instance.mID].CCReduce -= mInfoArr[mID].CCReduce;
             Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce -= mInfoArr[mID].CooltimeReduce;
+            UIController.Instance.ShowHP();
             Equip = false;
         }
     }
@@ -108,7 +110,7 @@ public class Artifacts : InformationLoader
         {
             if (Player.Instance.InventoryIndex < Player.Instance.Inventory.Length)
             {
-                Equip = true;
+                EquipArtifact();
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
                 transform.position = Vector3.zero;
                 Player.Instance.Inventory[Player.Instance.InventoryIndex] = this;
@@ -133,9 +135,9 @@ public class Artifacts : InformationLoader
         {
             if (mType == eArtifactType.Use && drop.mType == eArtifactType.Use)
             {
+                drop.ClearArtifact();
                 Clamp();
                 Player.Instance.NowUsingArtifact = null;
-                drop.ClearArtifact();
                 drop.gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
                 int randx = UnityEngine.Random.Range(-1, 1);
                 int randy = UnityEngine.Random.Range(-1, 1);

@@ -105,7 +105,6 @@ public class UsingItem : InformationLoader
     public void Clamp()
     {
         Currentroom = Player.Instance.CurrentRoom;
-        Debug.Log(Currentroom);
         int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
         int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax-1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);

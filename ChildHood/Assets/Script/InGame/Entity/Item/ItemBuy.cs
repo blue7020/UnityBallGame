@@ -2,10 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum eShopType
+{
+    Item,
+    Artifact
+}
+
 public class ItemBuy : MonoBehaviour
 {
     [SerializeField]
     private bool Sell;
+
+    [SerializeField]
+    public eShopType ShopType;
 
     public UsingItem item;
     public Artifacts artifact;
@@ -23,11 +32,12 @@ public class ItemBuy : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                if (Player.Instance.Level % 2==1)//홀수층일 때
+                if (ShopType==eShopType.Item)
                 {
                     if (Player.Instance.mInfoArr[Player.Instance.mID].Gold >= item.mInfoArr[item.mID].Price)
                     {
                         Sell = true;
+                        item.IsShopItem = false;
                         Player.Instance.mInfoArr[Player.Instance.mID].Gold -= item.mInfoArr[item.mID].Price;
                         item.ItemChange();
                         ItemBowl.gameObject.SetActive(false);
@@ -41,15 +51,41 @@ public class ItemBuy : MonoBehaviour
                 {
                     if (Player.Instance.mInfoArr[Player.Instance.mID].Gold >= artifact.mInfoArr[artifact.mID].Price)
                     {
-                        Sell = true;
-                        Player.Instance.mInfoArr[Player.Instance.mID].Gold -= artifact.mInfoArr[artifact.mID].Price;
-                        artifact.ItemChange();
-                        ItemBowl.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        Debug.Log("돈이 부족합니다!");
-                    }
+                        if (artifact.mType == eArtifactType.Passive)
+                        {
+                            if (Player.Instance.InventoryIndex < Player.Instance.Inventory.Length)
+                            {
+                                if (Player.Instance.mInfoArr[Player.Instance.mID].Gold >= artifact.mInfoArr[artifact.mID].Price)
+                                {
+                                    Sell = true;
+                                    artifact.IsShopItem = false;
+                                    Player.Instance.mInfoArr[Player.Instance.mID].Gold -= artifact.mInfoArr[artifact.mID].Price;
+                                    artifact.ItemChange();
+                                    ItemBowl.gameObject.SetActive(false);
+                                }
+                                else
+                                {
+                                    Debug.Log("돈이 부족합니다!");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Player.Instance.mInfoArr[Player.Instance.mID].Gold >= artifact.mInfoArr[artifact.mID].Price)
+                            {
+                                Sell = true;
+                                artifact.IsShopItem = false;
+                                Player.Instance.mInfoArr[Player.Instance.mID].Gold -= artifact.mInfoArr[artifact.mID].Price;
+                                artifact.ItemChange();
+                                ItemBowl.gameObject.SetActive(false);
+                            }
+                            else
+                            {
+                                Debug.Log("돈이 부족합니다!");
+                            }
+                        }
+                        
+                    } 
                 }
 
             }

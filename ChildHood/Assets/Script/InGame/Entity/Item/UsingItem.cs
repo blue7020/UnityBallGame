@@ -8,7 +8,6 @@ public class UsingItem : InformationLoader
     [SerializeField]
     public int mID;
 
-    public Rigidbody2D mRB2D;
     [SerializeField]
     public SpriteRenderer mRenderer;
 
@@ -29,7 +28,6 @@ public class UsingItem : InformationLoader
     private void Awake()
     {
         LoadJson(out mInfoArr, Path.ITEM_STAT);
-        mRB2D = GetComponent<Rigidbody2D>();
         IsShopItem = false;
         PosSet = false;
     }
@@ -95,7 +93,10 @@ public class UsingItem : InformationLoader
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            ItemChange();
+            if (IsShopItem == false)
+            {
+                ItemChange();
+            }
         }
         
     }
@@ -103,17 +104,12 @@ public class UsingItem : InformationLoader
 
     public void Clamp()
     {
-        backupPos = transform.position;
         Currentroom = Player.Instance.CurrentRoom;
-        int RoomXMax = Currentroom.Width - 1, RoomXMin = -Currentroom.Width + 1;
-        int RoomYMax = Currentroom.Height - 1, RoomYMin = -Currentroom.Height + 1;
-        mRB2D.position = new Vector3(Mathf.Clamp(mRB2D.position.x, RoomXMax, RoomXMin), Mathf.Clamp(mRB2D.position.y, RoomYMax, RoomYMin), 0);
+        Debug.Log(Currentroom);
+        int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
+        int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax-1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);
 
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        transform.position = backupPos;
     }
 
     private void OnTriggerStay2D(Collider2D other)

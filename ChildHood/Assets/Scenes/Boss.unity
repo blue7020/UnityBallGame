@@ -257,6 +257,7 @@ GameObject:
   - component: {fileID: 183290967}
   - component: {fileID: 183290969}
   - component: {fileID: 183290968}
+  - component: {fileID: 183290970}
   m_Layer: 0
   m_Name: Left2 (1)
   m_TagString: Walls
@@ -355,6 +356,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &183290970
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183290966}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &269709164
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,6 +828,7 @@ GameObject:
   - component: {fileID: 471745886}
   - component: {fileID: 471745888}
   - component: {fileID: 471745887}
+  - component: {fileID: 471745889}
   m_Layer: 0
   m_Name: Left1
   m_TagString: Walls
@@ -905,6 +928,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &471745889
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471745885}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &503159501
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +1006,7 @@ GameObject:
   - component: {fileID: 605548372}
   - component: {fileID: 605548374}
   - component: {fileID: 605548373}
+  - component: {fileID: 605548375}
   m_Layer: 0
   m_Name: Bottom1
   m_TagString: Walls
@@ -1060,6 +1105,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &605548375
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605548371}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &638484096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,6 +1301,7 @@ GameObject:
   - component: {fileID: 780414635}
   - component: {fileID: 780414637}
   - component: {fileID: 780414636}
+  - component: {fileID: 780414638}
   m_Layer: 0
   m_Name: Top1
   m_TagString: Walls
@@ -1334,6 +1401,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &780414638
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780414634}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &780895694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,7 +1501,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!212 &780895699
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1571,6 +1659,7 @@ GameObject:
   - component: {fileID: 871226510}
   - component: {fileID: 871226512}
   - component: {fileID: 871226511}
+  - component: {fileID: 871226513}
   m_Layer: 0
   m_Name: Bottom3
   m_TagString: Untagged
@@ -1669,6 +1758,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &871226513
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871226509}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &979375124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1710,6 +1820,7 @@ MonoBehaviour:
   doors: []
   IsFound: 0
   EnemyCount: 0
+  blackOut: {fileID: 0}
 --- !u!4 &979375126
 Transform:
   m_ObjectHideFlags: 0
@@ -1925,6 +2036,7 @@ GameObject:
   - component: {fileID: 1112598226}
   - component: {fileID: 1112598228}
   - component: {fileID: 1112598227}
+  - component: {fileID: 1112598229}
   m_Layer: 0
   m_Name: Right1
   m_TagString: Walls
@@ -2024,6 +2136,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1112598229
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112598225}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1149355826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2035,6 +2168,7 @@ GameObject:
   - component: {fileID: 1149355827}
   - component: {fileID: 1149355829}
   - component: {fileID: 1149355828}
+  - component: {fileID: 1149355830}
   m_Layer: 0
   m_Name: Top2
   m_TagString: Walls
@@ -2134,6 +2268,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1149355830
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149355826}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1233196526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2145,6 +2300,7 @@ GameObject:
   - component: {fileID: 1233196527}
   - component: {fileID: 1233196529}
   - component: {fileID: 1233196528}
+  - component: {fileID: 1233196530}
   m_Layer: 0
   m_Name: Left2
   m_TagString: Walls
@@ -2243,6 +2399,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1233196530
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233196526}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1353161478
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,7 +2681,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!212 &1418212957
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2793,6 +2970,7 @@ GameObject:
   - component: {fileID: 1650247171}
   - component: {fileID: 1650247173}
   - component: {fileID: 1650247172}
+  - component: {fileID: 1650247174}
   m_Layer: 0
   m_Name: Bottom2
   m_TagString: Walls
@@ -2891,6 +3069,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1650247174
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650247170}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1736357428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2902,6 +3101,7 @@ GameObject:
   - component: {fileID: 1736357429}
   - component: {fileID: 1736357431}
   - component: {fileID: 1736357430}
+  - component: {fileID: 1736357432}
   m_Layer: 0
   m_Name: Right2
   m_TagString: Walls
@@ -3000,6 +3200,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1736357432
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736357428}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1759397993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3250,7 +3471,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!212 &1966162781
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3669,6 +3890,7 @@ GameObject:
   - component: {fileID: 2120950546}
   - component: {fileID: 2120950548}
   - component: {fileID: 2120950547}
+  - component: {fileID: 2120950549}
   m_Layer: 0
   m_Name: Right2 (1)
   m_TagString: Walls
@@ -3767,6 +3989,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &2120950549
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120950545}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &2137668480
 GameObject:
   m_ObjectHideFlags: 0

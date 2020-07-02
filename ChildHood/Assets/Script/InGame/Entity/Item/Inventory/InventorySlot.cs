@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour
 {
     [SerializeField]
-    private Image mItemImage;
+    public Image mItemImage;
     private int mID;//Slot ID
 
     public void Init(int id, Sprite image)
@@ -18,6 +18,7 @@ public class InventorySlot : MonoBehaviour
 
     public void SetSprite(Sprite image)
     {
+        Debug.Log(mItemImage);
         mItemImage.sprite = image;
     }
 }

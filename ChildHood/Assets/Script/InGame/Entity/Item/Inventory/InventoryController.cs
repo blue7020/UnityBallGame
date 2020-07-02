@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class InventoryController : MonoBehaviour
     private InventorySlot mSlotPrefab;
     [SerializeField]
     private Transform mSlotParents;
+    [SerializeField]
+    private Sprite mVoidImage;
 
 
     public InventorySlot[] mSlotArr;
@@ -28,7 +31,7 @@ public class InventoryController : MonoBehaviour
             for (int i = 0; i < SLOT_COUNT; i++)
             {
                 mSlotArr[i] = Instantiate(mSlotPrefab, mSlotParents);
-                mSlotArr[i].Init(i, null);
+                mSlotArr[i].Init(i, mVoidImage);
             }
         }
         else

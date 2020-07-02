@@ -33,9 +33,10 @@ public class Player : InformationLoader
     [SerializeField]
     public Artifacts NowUsingArtifact;
     [SerializeField]
-    public Artifacts[] Inventory = new Artifacts[16];
+    public Artifacts[] Inventory;
     [SerializeField]
     public Artifacts UseItemInventory;
+    public int InventoryIndex;
 
     [SerializeField]
     public SpriteRenderer mRenderer;
@@ -67,6 +68,7 @@ public class Player : InformationLoader
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
+        Inventory = new Artifacts[16];
     }
 
     private void Start()
@@ -81,8 +83,8 @@ public class Player : InformationLoader
         NowBuffActive = new List<bool>();
         NowItem = null;
         NowUsingArtifact = null;
-
         NowEnemyCount = 0;
+        InventoryIndex = 0;
         Level = 1;
         mMaxHP = mInfoArr[mID].Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
@@ -204,7 +206,6 @@ public class Player : InformationLoader
         //TODO 애니메이션 이펙트 추가
         WaitForSeconds Dura = new WaitForSeconds(Cool);
         int ID = NowBuff.Count;
-        Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
         mInfoArr[Instance.mID].Atk += NowBuffValue[ID];

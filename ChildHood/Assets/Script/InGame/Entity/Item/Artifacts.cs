@@ -7,9 +7,8 @@ public class Artifacts : InformationLoader
     [SerializeField]
     public int mID;
     [SerializeField]
-    public eArtifactType Type;
+    public eArtifactType mType;
 
-    public Rigidbody2D mRB2D;
     [SerializeField]
     public SpriteRenderer mRenderer;
 
@@ -27,21 +26,18 @@ public class Artifacts : InformationLoader
     }
 
     public bool IsShopItem;
-    private bool PosSet;
 
     private void Awake()
     {
         LoadJson(out mInfoArr, Path.ARTIFACT_STAT);
-        mRB2D = GetComponent<Rigidbody2D>();
         IsShopItem = false;
-        PosSet = false;
         Equip = false;
         Cool = false;
     }
 
     public void UseArtifact()
     {
-        if (Type == eArtifactType.Use)
+        if (mType == eArtifactType.Use)
         {
             if (Cool == false)
             {
@@ -78,10 +74,10 @@ public class Artifacts : InformationLoader
             Player.Instance.mInfoArr[Player.Instance.mID].CritDamage += mInfoArr[mID].CritDamage;
             Player.Instance.mInfoArr[Player.Instance.mID].CCReduce += mInfoArr[mID].CCReduce;
             Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce += mInfoArr[mID].CooltimeReduce;
-            if (Type == eArtifactType.Use)
+            if (mType == eArtifactType.Use)
             {
                 Player.Instance.NowUsingArtifact = this;
-                UIController.Instance.ShowItemImage();
+                UIController.Instance.ShowArtifactImage();
             }
 
         }
@@ -108,39 +104,34 @@ public class Artifacts : InformationLoader
 
     public void ItemChange()
     { 
-        Artifacts drop = Player.Instance.NowUsingArtifact;
-        if (Type == eArtifactType.Passive)
+        if (mType == eArtifactType.Passive)
         {
-            for (int i = 0; i < Player.Instance.Inventory.Length; i++)
+            if (Player.Instance.InventoryIndex < Player.Instance.Inventory.Length)
             {
-                if (Player.Instance.Inventory[i] == null || Player.Instance.Inventory[i].mID < 0)
-                {
-                    Equip = true;
-                    transform.SetParent(Player.Instance.gameObject.transform);
-                    transform.position = Vector3.zero;
-                    Player.Instance.Inventory[i] = this;
-                    Debug.Log(mRenderer.sprite);
-                    InventoryController.Instance.mSlotArr[i].SetSprite(mRenderer.sprite);
-                    mRenderer.color = Color.clear;
-                    break;
-                }
+                Equip = true;
+                gameObject.transform.SetParent(Player.Instance.gameObject.transform);
+                transform.position = Vector3.zero;
+                Player.Instance.Inventory[Player.Instance.InventoryIndex] = this;
+                InventoryController.Instance.mSlotArr[Player.Instance.InventoryIndex].mItemImage.sprite = mRenderer.sprite;
+                mRenderer.color = Color.clear;
+                Player.Instance.InventoryIndex++;
             }
         }
-        if (Player.Instance.NowUsingArtifact == null && Type == eArtifactType.Use)
+        if (Player.Instance.NowUsingArtifact == null && mType == eArtifactType.Use)
         {
             transform.SetParent(Player.Instance.gameObject.transform);
             transform.position = Vector3.zero;
             Player.Instance.NowUsingArtifact = this;
             Player.Instance.UseItemInventory = this;
-            UIController.Instance.mUsingArtifactImage.sprite = mRenderer.sprite;
+            UIController.Instance.ShowArtifactImage();
             mRenderer.color = Color.clear;
 
         }
 
-
+        Artifacts drop = Player.Instance.NowUsingArtifact;
         if (drop!=null)
         {
-            if (Type == eArtifactType.Use && drop.Type == eArtifactType.Use)
+            if (mType == eArtifactType.Use && drop.mType == eArtifactType.Use)
             {
                 Clamp();
                 Player.Instance.NowUsingArtifact = null;
@@ -152,7 +143,8 @@ public class Artifacts : InformationLoader
                 drop.gameObject.transform.position = Player.Instance.gameObject.transform.position + new Vector3(randx, randy, 0);
                 Player.Instance.NowUsingArtifact = this;
                 Player.Instance.UseItemInventory = this;
-                UIController.Instance.mUsingArtifactImage.sprite = mRenderer.sprite;
+                UIController.Instance.mUsingArtifactImage.sprite = Player.Instance.NowUsingArtifact.mRenderer.sprite;
+                UIController.Instance.ShowArtifactImage();
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
                 mRenderer.color = Color.clear;
                 EquipArtifact();
@@ -174,29 +166,21 @@ public class Artifacts : InformationLoader
 
     public void Clamp()
     {
-        backupPos = transform.position;
         Currentroom = Player.Instance.CurrentRoom;
         int RoomXMax = Currentroom.Width - 1, RoomXMin = -Currentroom.Width + 1;
         int RoomYMax = Currentroom.Height - 1, RoomYMin = -Currentroom.Height + 1;
-        mRB2D.position = new Vector3(Mathf.Clamp(mRB2D.position.x, RoomXMax, RoomXMin), Mathf.Clamp(mRB2D.position.y, RoomYMax, RoomYMin), 0);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax, RoomXMin), Mathf.Clamp(transform.position.y, RoomYMax, RoomYMin), 0);
 
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (Type == eArtifactType.Use)
-        {
-            transform.position = backupPos;
-        }
-    }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (Type == eArtifactType.Use)
+        if (mType == eArtifactType.Use)
         {
             if (other.gameObject.CompareTag("Walls"))
             {
-                if (Currentroom != null)
+                if (Currentroom != null&&Equip==false)
                 {
                     switch (other.GetComponent<WallDir>().Type)
                     {

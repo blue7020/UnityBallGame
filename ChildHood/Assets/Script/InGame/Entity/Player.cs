@@ -8,6 +8,9 @@ public class Player : InformationLoader
 
     public static Player Instance;
 
+    [SerializeField]
+    public VirtualJoyStick joyskick;
+
     public int mID;
     private Sprite[] mPlayerSpriteArr;
     public float mMaxHP;
@@ -106,8 +109,10 @@ public class Player : InformationLoader
 
     private void Moveing()
     {
-        hori = Input.GetAxis("Horizontal");
-        ver = Input.GetAxis("Vertical");
+        //hori = Input.GetAxis("Horizontal");
+        //ver = Input.GetAxis("Vertical");
+        hori = joyskick.Horizontal();
+        ver = joyskick.Vectical();
         Vector2 dir = new Vector2(hori, ver);
         dir = dir.normalized * mInfoArr[mID].Spd;
         if (hori > 0)

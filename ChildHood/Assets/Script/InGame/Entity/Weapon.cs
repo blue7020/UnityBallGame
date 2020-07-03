@@ -38,33 +38,33 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         //TODO 현재 공격 패드 방향 따라가기 , 공격 버튼 이동 패드같이 수정
-        if (Player.Instance.hori > 0) //우
-        {
+        //if (Player.Instance.hori > 0) //우
+        //{
 
-            dir = eDirection.Right;
-            WeaponImage.transform.rotation = Quaternion.Euler(0, 180, 135);
-            mRenderer.sortingOrder = 10;
+        //    dir = eDirection.Right;
+        //    WeaponImage.transform.rotation = Quaternion.Euler(0, 180, 135);
+        //    mRenderer.sortingOrder = 10;
 
-        }
-        else if (Player.Instance.hori < 0)//좌
-        {
-            dir = eDirection.Left;
+        //}
+        //else if (Player.Instance.hori < 0)//좌
+        //{
+        //    dir = eDirection.Left;
             
-            WeaponImage.transform.rotation = Quaternion.Euler(0, 180, -45);
-            mRenderer.sortingOrder = 8;
-        }
-        else if (Player.Instance.ver > 0) //상
-        {
-            dir = eDirection.Up;
-            WeaponImage.transform.rotation = Quaternion.Euler(0, 180, 45);
-            mRenderer.sortingOrder = 8;
-        }
-        else if (Player.Instance.ver < 0) //하
-        {
-            dir = eDirection.Down;
-            WeaponImage.transform.rotation = Quaternion.Euler(0, 180, -135);
-            mRenderer.sortingOrder = 10;
-        }
+        //    WeaponImage.transform.rotation = Quaternion.Euler(0, 180, -45);
+        //    mRenderer.sortingOrder = 8;
+        //}
+        //else if (Player.Instance.ver > 0) //상
+        //{
+        //    dir = eDirection.Up;
+        //    WeaponImage.transform.rotation = Quaternion.Euler(0, 180, 45);
+        //    mRenderer.sortingOrder = 8;
+        //}
+        //else if (Player.Instance.ver < 0) //하
+        //{
+        //    dir = eDirection.Down;
+        //    WeaponImage.transform.rotation = Quaternion.Euler(0, 180, -135);
+        //    mRenderer.sortingOrder = 10;
+        //}
 
     }
 

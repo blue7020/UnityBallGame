@@ -99,4 +99,13 @@ public class MainScreenUIController : MonoBehaviour
         SceneManager.LoadScene(2);
         //SceneManager.LoadScene(1);
     }
+
+    public void Toast()
+    {
+        GameSetting.Instance.PlayerID = 0;
+    }
+    public void Hamegg()
+    {
+        GameSetting.Instance.PlayerID = 1;
+    }
 }

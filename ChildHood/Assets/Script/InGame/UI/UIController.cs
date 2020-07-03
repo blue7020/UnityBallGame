@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Text mStatText, mNameText;
     [SerializeField]
-    private Image mPlayerImage;
+    public Image mPlayerImage, mMinimapPlayerImage;
     [SerializeField]
     public Image mitemImage, mArtifactImage, mUsingArtifactImage;
 
@@ -150,7 +150,7 @@ public class UIController : MonoBehaviour
 
     public void ShowSkill()
     {
-        switch (Player.Instance.mID)
+        switch (GameSetting.Instance.PlayerID)
         {
             case 0:
                 //스킬 이미지
@@ -163,16 +163,15 @@ public class UIController : MonoBehaviour
 
     public void CharacterImage()
     {
-        switch (Player.Instance.mID)
+        switch (GameSetting.Instance.PlayerID)
         {
             case 0:
                 mPlayerImage.sprite = mCharacterSprite[0];
+                mMinimapPlayerImage.sprite = mCharacterSprite[0];
                 break;
             case 1:
                 mPlayerImage.sprite = mCharacterSprite[1];
-                break;
-            case 2:
-                mPlayerImage.sprite = mCharacterSprite[2];
+                mMinimapPlayerImage.sprite = mCharacterSprite[1];
                 break;
             default:
                 Debug.LogError("Wrong Character Image");

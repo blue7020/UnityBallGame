@@ -6,6 +6,7 @@ public class GameSetting : MonoBehaviour
 {
     public static GameSetting Instance;
 
+    public int PlayerID;
     public int BGMSetting;
     public int SESetting;
     public int Language; //0 = 한국어 / 1 = 영어

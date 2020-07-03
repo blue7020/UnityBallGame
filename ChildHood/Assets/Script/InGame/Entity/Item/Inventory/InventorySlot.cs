@@ -13,12 +13,10 @@ public class InventorySlot : MonoBehaviour
     {
         mID = id;
         mItemImage.sprite = image;
-        mItemImage.color = Color.white;
     }
 
     public void SetSprite(Sprite image)
     {
-        Debug.Log(mItemImage);
         mItemImage.sprite = image;
     }
 }

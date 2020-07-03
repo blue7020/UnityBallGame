@@ -12,7 +12,8 @@ public class Player : InformationLoader
     public VirtualJoyStick joyskick;
 
     public int mID;
-    private Sprite[] mPlayerSpriteArr;
+    [SerializeField]
+    public Sprite PlayerImage;
     public float mMaxHP;
     public float mCurrentHP;
 
@@ -67,7 +68,6 @@ public class Player : InformationLoader
             Delete();
         }
         MapLevel = 1;//나중에 맵 선택 시 해당 레벨을 부여하는 것으로 수정
-        mID = 0;//TODO 나중에 캐릭터 선택 시 해당 아이디를 부여하는 것으로 수정
         LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
@@ -228,7 +228,6 @@ public class Player : InformationLoader
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
         int ID = NowBuff.Count;
-        Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
         mInfoArr[mID].Spd += NowBuffValue[ID];

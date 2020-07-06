@@ -7,10 +7,11 @@ using UnityEngine.EventSystems;
 public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     public static AttackPad Instance;
-
     [SerializeField]
-    private Image BG, Stick;
+    private Image BG, Stick, CoolWheel;
     public Vector2 inputVector;
+    private bool AttackSwitch;
+    float AttackCurrentTime;
 
     private void Awake()
     {
@@ -22,20 +23,27 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         {
             Destroy(gameObject);
         }
+        AttackSwitch = false;
+        AttackCurrentTime = 0;
     }
 
-    public virtual void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData ped)
     {
-        Vector2 pos = Vector2.zero;
+        if (AttackCurrentTime <= 0)
+        {
+            StartCoroutine(CooltimeRoutine());
+            AttackSwitch = true;
+        }
+        Vector2 pos;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BG.rectTransform,
-                                                                    eventData.position,
-                                                                    eventData.pressEventCamera,
+                                                                    ped.position,
+                                                                    ped.pressEventCamera,
                                                                     out pos))
         {
             pos.x = (pos.x / BG.rectTransform.sizeDelta.x);
             pos.y = (pos.y / BG.rectTransform.sizeDelta.y);
 
-            inputVector = new Vector2(pos.x * 2 + 1, pos.y * 2 - 1);
+            inputVector = new Vector2(pos.x * 2, pos.y * 2);
             inputVector = (inputVector.magnitude > 1.0f) ? inputVector.normalized : inputVector;
 
             //Move Joystick
@@ -43,26 +51,70 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2),
                               inputVector.y * (BG.rectTransform.sizeDelta.y / 2));
 
+            //무기 방향 돌리기
+            float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
+            Weapon.instance.transform.rotation = Quaternion.AngleAxis(angle+180, Vector3.forward);
+            if (AttackSwitch == true)
+            {
+                Weapon.instance.Attack();
+                StartCoroutine(AttackCooltime());
+            }
         }
 
-        //무기 방향 돌리기
-        float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
-        Weapon.instance.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        Weapon.instance.Attack();
     }
 
 
 
     public virtual void OnPointerDown(PointerEventData ped)
     {
-        OnDrag(ped);
+        if (AttackSwitch==false)
+        {
+            if (Weapon.instance.Attackon == false)
+            {
+                OnDrag(ped);
+            }
+        }
+        
     }
 
     public virtual void OnPointerUp(PointerEventData ped)
     {
-        Weapon.instance.transform.rotation = Quaternion.identity;
-        inputVector = Vector3.zero;
         Stick.rectTransform.anchoredPosition = Vector3.zero;
     }
+
+    private IEnumerator AttackCooltime()
+    {
+        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd);
+        yield return Cool;
+        AttackSwitch = false;
+
+    }
+
+    public void ShowCooltime(float maxTime, float currentTime)
+    {
+        if (currentTime > 0)
+        {
+            CoolWheel.gameObject.SetActive(true);
+            CoolWheel.fillAmount = currentTime / maxTime;
+        }
+        else
+        {
+            CoolWheel.gameObject.SetActive(false);
+        }
+    }
+
+    private IEnumerator CooltimeRoutine()
+    {
+        WaitForFixedUpdate frame = new WaitForFixedUpdate();
+        float maxTime = Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd;
+        AttackCurrentTime = maxTime;
+        while (AttackCurrentTime >= 0)
+        {
+            yield return frame;
+            AttackCurrentTime -= Time.fixedDeltaTime;
+            ShowCooltime(maxTime, AttackCurrentTime);
+        }
+    }
+
 
 }

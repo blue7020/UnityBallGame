@@ -38,6 +38,9 @@ public class EnemySkill : MonoBehaviour
             case 6://AngerTomato
                 StartCoroutine(AngerTomato());
                 break;
+            case 7://SandWitch
+                SandWitch();
+                break;
             default:
                 Debug.LogError("wrong Enemy ID");
                 break;
@@ -62,6 +65,8 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 6://AngerTomato
                 AngerTomato2();
+                break;
+            case 7://SandWitch
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -187,5 +192,10 @@ public class EnemySkill : MonoBehaviour
         {
             ResetDir(2, i + 1);
         }
+    }
+
+    private void SandWitch()
+    {
+        //스킬 사용 시 이동속도는 0으로
     }
 }

@@ -6,10 +6,10 @@ public class Weapon : MonoBehaviour
 {
     public static Weapon instance;
     [SerializeField]
-    private GameObject WeaponImage;
+    public GameObject WeaponImage;
 
     private Animator mAnim;
-    private SpriteRenderer mRenderer;
+    public SpriteRenderer mRenderer;
 
     [SerializeField]
     private AttackArea mAttackArea;

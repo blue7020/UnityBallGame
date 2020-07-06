@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
-
     [SerializeField]
     private Image BG, Stick;
     private Vector2 inputVector;
@@ -22,7 +21,7 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
             pos.x = (pos.x / BG.rectTransform.sizeDelta.x);
             pos.y = (pos.y / BG.rectTransform.sizeDelta.y);
 
-            inputVector = new Vector2(pos.x * 2 + 1, pos.y * 2 - 1);
+            inputVector = new Vector2(pos.x * 2 , pos.y * 2 );
             inputVector = (inputVector.magnitude > 1.0f) ?inputVector.normalized : inputVector;
 
             //Move Joystick

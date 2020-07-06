@@ -16,6 +16,8 @@ public class Player : InformationLoader
     public Sprite PlayerImage;
     public float mMaxHP;
     public float mCurrentHP;
+    [SerializeField]
+    public eDirection Look;
 
     public int Level;//현재 층
     public int MapLevel;//현재 스테이지
@@ -118,12 +120,14 @@ public class Player : InformationLoader
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
+            Look = eDirection.Right;
             transform.rotation = Quaternion.Euler(0, 180, 0);
             
         }
         else if (hori < 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
+            Look = eDirection.Left;
             transform.rotation = Quaternion.identity;
         }
         else if (ver > 0 || ver < 0)

@@ -58,7 +58,6 @@ public class UsingItem : InformationLoader
         {
             Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Def, mInfoArr[mID].Duration));
         }
-        Destroy(Player.Instance.NowItem.gameObject);
         Player.Instance.NowItem = null;
         UIController.Instance.ShowItemImage();
     }

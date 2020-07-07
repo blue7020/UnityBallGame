@@ -4,31 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class InventorySlot : MonoBehaviour , IPointerDownHandler
+public class UsingArtifactInventory : MonoBehaviour, IPointerDownHandler
 {
-    [SerializeField]
-    public Image mItemImage;
-    private int mID;//Slot ID
     public Artifacts art;
-
-
-    public void Init(int id, Sprite image)
-    {
-        mID = id;
-        mItemImage.sprite = image;
-    }
-
-    //public void SetSprite(Sprite image,Artifacts arti)
-    //{
-    //    mItemImage.sprite = image;
-    //    art = arti;
-    //}
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Player.Instance.Inventory[mID]!=null)
+        if (Player.Instance.NowUsingArtifact != null)
         {
-            art = Player.Instance.Inventory[mID];
+            art = Player.Instance.NowUsingArtifact;
             if (GameSetting.Instance.Language == 0)
             {
                 UIController.Instance.tooltip.ShowTooltip(art.mStatInfoArr[art.mID].ContensFormat);
@@ -38,6 +22,6 @@ public class InventorySlot : MonoBehaviour , IPointerDownHandler
                 UIController.Instance.tooltip.ShowTooltip(art.mStatInfoArr[art.mID].EngContensFormat);
             }
         }
-        
+
     }
 }

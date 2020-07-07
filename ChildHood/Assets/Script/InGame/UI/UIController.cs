@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Text mStatText, mNameText;
     [SerializeField]
-    public Image mPlayerImage, mMinimapPlayerImage;
+    public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage;
     [SerializeField]
     public Image mitemImage, mArtifactImage, mUsingArtifactImage;
 
@@ -41,6 +41,10 @@ public class UIController : MonoBehaviour
     private Toggle mMiniMapButton;
     [SerializeField]
     private Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
+    [SerializeField]
+    public Tooltip tooltip;
+
+
 
     private void Awake()
     {
@@ -61,9 +65,11 @@ public class UIController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         CharacterImage();
+        //TODO mWeaponImage = Player.Instance.nowweapon.sprite;
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
     }
+
 
     public void Delete()
     {

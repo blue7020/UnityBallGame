@@ -64,15 +64,6 @@ public class ItemStat
 }
 
 [Serializable]
-public class ItemTextStat
-{
-    public int ID;
-
-    public string Title;
-    public string ContensFormat;
-}
-
-[Serializable]
 public class Artifact
 {
     public int ID;
@@ -102,8 +93,7 @@ public class ArtifactTextStat
     public string Title;
     public string EngTitle;
     public string ContensFormat;
-
-    public string Flavortext;
+    public string EngContensFormat;
 }
 
 [Serializable]

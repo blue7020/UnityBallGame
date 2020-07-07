@@ -17,6 +17,8 @@ public class Artifacts : InformationLoader
     public Vector3 backupPos;
     [SerializeField]
     public Artifact[] mInfoArr;
+    [SerializeField]
+    public ArtifactTextStat[] mStatInfoArr;
     public bool Equip;
     public bool Cool;
 
@@ -30,6 +32,7 @@ public class Artifacts : InformationLoader
     private void Awake()
     {
         LoadJson(out mInfoArr, Path.ARTIFACT_STAT);
+        LoadJson(out mStatInfoArr, Path.ARTIFACT_TEXT_STAT);
         IsShopItem = false;
         Equip = false;
         Cool = false;
@@ -45,7 +48,7 @@ public class Artifacts : InformationLoader
                 Debug.Log("유물 사용");
                 StartCoroutine(Cooldown(realCoolDown));
                 //TODO 델리게이트를 사용해 추가 효과 부여
-                //메서드 클래스
+                //메서드 클래스 생성
             }
 
         }
@@ -110,13 +113,13 @@ public class Artifacts : InformationLoader
         {
             if (Player.Instance.InventoryIndex < Player.Instance.Inventory.Length)
             {
-                EquipArtifact();
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
-                transform.position = Vector3.zero;
                 Player.Instance.Inventory[Player.Instance.InventoryIndex] = this;
                 InventoryController.Instance.mSlotArr[Player.Instance.InventoryIndex].mItemImage.sprite = mRenderer.sprite;
+                transform.position = Vector3.zero;
                 mRenderer.color = Color.clear;
                 Player.Instance.InventoryIndex++;
+                EquipArtifact();
             }
         }
         if (Player.Instance.NowUsingArtifact == null && mType == eArtifactType.Use)

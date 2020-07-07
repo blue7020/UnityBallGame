@@ -9,8 +9,6 @@ public class InventoryController : MonoBehaviour
     private const int SLOT_COUNT = 16;
     public static InventoryController Instance;
 
-
-    private List<Artifact> mArtifactInfoList;
     [SerializeField]
     private InventorySlot mSlotPrefab;
     [SerializeField]
@@ -26,7 +24,6 @@ public class InventoryController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            mArtifactInfoList = new List<Artifact>();
             mSlotArr = new InventorySlot[SLOT_COUNT];
             for (int i = 0; i < SLOT_COUNT; i++)
             {
@@ -38,10 +35,5 @@ public class InventoryController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    public void AddItem(Artifact data)
-    {
-        mArtifactInfoList.Add(data);
     }
 }

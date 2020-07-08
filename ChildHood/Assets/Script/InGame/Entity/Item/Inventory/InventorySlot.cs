@@ -12,30 +12,29 @@ public class InventorySlot : MonoBehaviour , IPointerDownHandler
     public Artifacts art;
 
 
-    public void Init(int id, Sprite image)
+    public void Init(int id, Sprite image,Artifact art = null)
     {
         mID = id;
         mItemImage.sprite = image;
     }
 
-    //public void SetSprite(Sprite image,Artifacts arti)
-    //{
-    //    mItemImage.sprite = image;
-    //    art = arti;
-    //}
+    public void SetItem(Artifacts arti)
+    {
+        art = arti;
+        mItemImage.sprite = art.mRenderer.sprite;
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Player.Instance.Inventory[mID]!=null)
+        if (art!=null)
         {
-            art = Player.Instance.Inventory[mID];
             if (GameSetting.Instance.Language == 0)
             {
-                UIController.Instance.tooltip.ShowTooltip(art.mStatInfoArr[art.mID].ContensFormat);
+                UIController.Instance.tooltip.ShowTooltip(art.TextStats.ContensFormat);
             }
             else if (GameSetting.Instance.Language == 1)
             {
-                UIController.Instance.tooltip.ShowTooltip(art.mStatInfoArr[art.mID].EngContensFormat);
+                UIController.Instance.tooltip.ShowTooltip(art.TextStats.EngContensFormat);
             }
         }
         

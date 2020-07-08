@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : InformationLoader
+public class Player : MonoBehaviour
 {
     //TODO 캐릭터 선택 시 해당 ID에 맞는 캐릭터의 정보와 스프라이트를 출력하게끔
 
@@ -19,9 +19,6 @@ public class Player : InformationLoader
     [SerializeField]
     public eDirection Look;
 
-    public int Level;//현재 층
-    public int MapLevel;//현재 스테이지
-
     public Room CurrentRoom;
     public int NowEnemyCount;
     public int EnemySwitch;
@@ -32,17 +29,18 @@ public class Player : InformationLoader
     public List<eBuffType> NowBuffType;
     public List<bool> NowBuffActive;
 
+    public PlayerStat Stats;
+
     [SerializeField]
-    public PlayerStat[] mInfoArr;
+    public Weapon NowPlayerWeapon;
     [SerializeField]
     public UsingItem NowItem;
     [SerializeField]
     public Artifacts NowUsingArtifact;
     [SerializeField]
-    public Artifacts[] Inventory;
-    [SerializeField]
     public Artifacts UseItemInventory;
-    public int InventoryIndex;
+
+    
 
     [SerializeField]
     public SpriteRenderer mRenderer;
@@ -69,11 +67,8 @@ public class Player : InformationLoader
         {
             Delete();
         }
-        MapLevel = 1;//나중에 맵 선택 시 해당 레벨을 부여하는 것으로 수정
-        LoadJson(out mInfoArr, Path.PLAYER_STAT);
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        Inventory = new Artifacts[16];
     }
 
     private void Start()
@@ -89,9 +84,7 @@ public class Player : InformationLoader
         NowItem = null;
         NowUsingArtifact = null;
         NowEnemyCount = 0;
-        InventoryIndex = 0;
-        Level = 1;
-        mMaxHP = mInfoArr[mID].Hp;
+        mMaxHP = Stats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
     }
@@ -111,12 +104,10 @@ public class Player : InformationLoader
 
     private void Moveing()
     {
-        //hori = Input.GetAxis("Horizontal");
-        //ver = Input.GetAxis("Vertical");
         hori = joyskick.Horizontal();
         ver = joyskick.Vectical();
         Vector2 dir = new Vector2(hori, ver);
-        dir = dir.normalized * mInfoArr[mID].Spd;
+        dir = dir.normalized * Stats.Spd;
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
@@ -146,14 +137,14 @@ public class Player : InformationLoader
     {
         if (Nodamage ==false)
         {
-            if (damage - mInfoArr[mID].Def < 1)
+            if (damage - Stats.Def < 1)
             {
                 damage = 0.5f;
                 mCurrentHP -= damage;
             }
             else
             {
-                mCurrentHP -= damage - mInfoArr[mID].Def;
+                mCurrentHP -= damage - Stats.Def;
             }
         }
         
@@ -217,13 +208,12 @@ public class Player : InformationLoader
         int ID = NowBuff.Count;
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        mInfoArr[Instance.mID].Atk += NowBuffValue[ID];
+        Stats.Atk += NowBuffValue[ID];
         NowBuffType.Add(eBuffType.Atk);
         yield return Dura;
         if (NowBuffActive[ID] == true)
         {
-            mInfoArr[mID].Atk -= NowBuffValue[ID];
-            Debug.Log("off");
+            Stats.Atk -= NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
     }
@@ -234,13 +224,12 @@ public class Player : InformationLoader
         int ID = NowBuff.Count;
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        mInfoArr[mID].Spd += NowBuffValue[ID];
+        Stats.Spd += NowBuffValue[ID];
         NowBuffType.Add(eBuffType.Spd);
         yield return Dura;
         if (NowBuffActive[ID] ==true)
         {
-            mInfoArr[mID].Spd -= NowBuffValue[ID];
-            Debug.Log("off");
+            Stats.Spd -= NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
         
@@ -253,13 +242,12 @@ public class Player : InformationLoader
         Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        mInfoArr[mID].AtkSpd -= NowBuffValue[ID];
+        Stats.AtkSpd -= NowBuffValue[ID];
         NowBuffType.Add(eBuffType.AtkSpd);
         yield return Dura;
         if (NowBuffActive[ID] == true)
         {
-            mInfoArr[mID].AtkSpd += NowBuffValue[ID];
-            Debug.Log("off");
+            Stats.AtkSpd += NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
     }
@@ -271,13 +259,12 @@ public class Player : InformationLoader
         Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        mInfoArr[mID].Def += NowBuffValue[ID];
+        Stats.Def += NowBuffValue[ID];
         NowBuffType.Add(eBuffType.Def);
         yield return Dura;
         if (NowBuffActive[ID] == true)
         {
-            mInfoArr[mID].Def -= NowBuffValue[ID];
-            Debug.Log("off");
+            Stats.Def -= NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
     }

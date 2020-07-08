@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20670013581033514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 20670014377021061}
@@ -144,7 +144,15 @@ MonoBehaviour:
   mAnim: {fileID: 20670014377021069}
   mCurrentHP: 0
   mMaxHP: 0
-  mInfoArr: []
+  Stats:
+    ID: 0
+    Gold: 0
+    Hp: 0
+    Atk: 0
+    AtkSpd: 0
+    Spd: 0
+    Skill_Cooltime: 0
+    Skill_Duration: 0
 --- !u!50 &2768969394395748777
 Rigidbody2D:
   serializedVersion: 4

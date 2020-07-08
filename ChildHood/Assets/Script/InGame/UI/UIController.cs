@@ -65,7 +65,6 @@ public class UIController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         CharacterImage();
-        //TODO mWeaponImage = Player.Instance.nowweapon.sprite;
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
     }
@@ -152,6 +151,11 @@ public class UIController : MonoBehaviour
             mArtifactImage.sprite = Player.Instance.NowUsingArtifact.mRenderer.sprite;
         }
     }
+    public void ShowWeaponImage()
+    {
+        mWeaponImage.sprite = Player.Instance.NowPlayerWeapon.mRenderer.sprite;
+    }
+
 
 
     public void ShowSkill()
@@ -208,7 +212,7 @@ public class UIController : MonoBehaviour
 
     public void ShowGold()
     {
-        mGoldText.text = Player.Instance.mInfoArr[Player.Instance.mID].Gold.ToString();
+        mGoldText.text = Player.Instance.Stats.Gold.ToString();
     }
 
     public void ShowHP()
@@ -224,7 +228,7 @@ public class UIController : MonoBehaviour
         {//한국어
             mStatTitle.text = "캐릭터정보";
             mArtifactTitle.text = "유물";
-            string Name = Player.Instance.mInfoArr[Player.Instance.mID].Name;
+            string Name = Player.Instance.Stats.Name;
             string Stat = string.Format("체력: {0} / {1}\n" +
                                       "공격력: {2}\n" +
                                       "방어력: {3}\n" +
@@ -235,11 +239,11 @@ public class UIController : MonoBehaviour
                                       "\n" +
                                       "쿨타임 감소: {8}\n" +
                                       "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].Atk.ToString(),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].Def.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd.ToString("N2"),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].Spd.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Crit.ToString("P1"),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].CritDamage.ToString("P1"),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce.ToString("P0"), Player.Instance.mInfoArr[Player.Instance.mID].CCReduce.ToString("P0"));
+                                      Player.Instance.Stats.Atk.ToString(),
+                                      Player.Instance.Stats.Def.ToString(), Player.Instance.Stats.AtkSpd.ToString("N2"),
+                                      Player.Instance.Stats.Spd.ToString(), Player.Instance.Stats.Crit.ToString("P1"),
+                                      Player.Instance.Stats.CritDamage.ToString("P1"),
+                                      Player.Instance.Stats.CooltimeReduce.ToString("P0"), Player.Instance.Stats.CCReduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;
         }
@@ -247,7 +251,7 @@ public class UIController : MonoBehaviour
         {//영어
             mStatTitle.text = "Stat";
             mArtifactTitle.text = "Artifact";
-            string Name = Player.Instance.mInfoArr[Player.Instance.mID].EngName;
+            string Name = Player.Instance.Stats.EngName;
             string Stat = string.Format("HP: {0} / {1}\n" +
                                       "Atk: {2}\n" +
                                       "Def: {3}\n" +
@@ -258,11 +262,11 @@ public class UIController : MonoBehaviour
                                       "\n" +
                                       "Cooldown reduce: {8}\n" +
                                       "Resistance: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].Atk.ToString(),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].Def.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd.ToString("N2"),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].Spd.ToString(), Player.Instance.mInfoArr[Player.Instance.mID].Crit.ToString("P1"),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].CritDamage.ToString("P1"),
-                                      Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce.ToString("P0"), Player.Instance.mInfoArr[Player.Instance.mID].CCReduce.ToString("P0"));
+                                      Player.Instance.Stats.Atk.ToString(),
+                                      Player.Instance.Stats.Def.ToString(), Player.Instance.Stats.AtkSpd.ToString("N2"),
+                                      Player.Instance.Stats.Spd.ToString(), Player.Instance.Stats.Crit.ToString("P1"),
+                                      Player.Instance.Stats.CritDamage.ToString("P1"),
+                                      Player.Instance.Stats.CooltimeReduce.ToString("P0"), Player.Instance.Stats.CCReduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;
         }

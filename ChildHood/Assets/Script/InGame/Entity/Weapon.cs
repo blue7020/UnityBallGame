@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public static Weapon instance;
+    public static Weapon Instance;
     [SerializeField]
     public GameObject WeaponImage;
+
+    [SerializeField]
+    public eWeaponType eType;
 
     private Animator mAnim;
     public SpriteRenderer mRenderer;
@@ -20,9 +23,9 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        if (instance==null)
+        if (Instance==null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -34,51 +37,58 @@ public class Weapon : MonoBehaviour
         Attackon = false;
     }
 
-    // Update is called once per frame
     private void FixedUpdate()
     {
-        //TODO 현재 공격 패드 방향 따라가기 , 공격 버튼 이동 패드같이 수정
         if (Player.Instance.hori > 0) //우
         {
-            //WeaponImage.transform.rotation = Quaternion.Euler(0, 180, 135);
             mRenderer.sortingOrder = 10;
 
         }
         else if (Player.Instance.hori < 0)//좌
         {
-
-            //WeaponImage.transform.rotation = Quaternion.Euler(0, 180, -45);
             mRenderer.sortingOrder = 8;
         }
         else if (Player.Instance.ver > 0) //상
         {
-            //WeaponImage.transform.rotation = Quaternion.Euler(0, 180, 45);
             mRenderer.sortingOrder = 8;
         }
         else if (Player.Instance.ver < 0) //하
         {
-            //WeaponImage.transform.rotation = Quaternion.Euler(0, 180, -135);
             mRenderer.sortingOrder = 10;
         }
 
     }
 
-    public void Attack()
+    public void MeleeAttack()
     {
         if (mAttackCooltime == false)
         {
-            StartCoroutine(AttackCooltime());
+            StartCoroutine(MeleeCool());
         }
     }
-
-    private IEnumerator AttackCooltime()
+    private IEnumerator MeleeCool()
     {
-        mAnim.SetBool(AnimHash.Attack, true);
-        WaitForSeconds Cool =new WaitForSeconds(Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd);
+        WaitForSeconds Cool =new WaitForSeconds(Player.Instance.Stats.AtkSpd);
         mAttackCooltime = true;
-        mAttackArea.Attack();
+        mAttackArea.Melee();
         yield return Cool;
         mAttackCooltime = false;
-        mAnim.SetBool(AnimHash.Attack, false);
     }
+
+    public void RangeAttack()
+    {
+        if (mAttackCooltime == false)
+        {
+            StartCoroutine(RangeCool());
+        }
+    }
+    private IEnumerator RangeCool()
+    {
+        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.Stats.AtkSpd);
+        mAttackCooltime = true;
+        mAttackArea.Range();
+        yield return Cool;
+        mAttackCooltime = false;
+    }
+
 }

@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Artifacts : InformationLoader
 {
-    [SerializeField]
     public int mID;
-    [SerializeField]
     public eArtifactType mType;
 
     [SerializeField]
@@ -15,24 +13,19 @@ public class Artifacts : InformationLoader
     [SerializeField]
     public Room Currentroom;
     public Vector3 backupPos;
-    [SerializeField]
-    public Artifact[] mInfoArr;
-    [SerializeField]
-    public ArtifactTextStat[] mStatInfoArr;
+
+    public Artifact Stats;
+    public ArtifactTextStat TextStats;
+
     public bool Equip;
     public bool Cool;
 
-    public Artifact[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
-
     public bool IsShopItem;
 
-    private void Awake()
+    private void Start()
     {
-        LoadJson(out mInfoArr, Path.ARTIFACT_STAT);
-        LoadJson(out mStatInfoArr, Path.ARTIFACT_TEXT_STAT);
+        Stats = ArtifactController.Instance.mInfoArr[mID];
+        TextStats = ArtifactController.Instance.mStatInfoArr[mID];
         IsShopItem = false;
         Equip = false;
         Cool = false;
@@ -44,7 +37,7 @@ public class Artifacts : InformationLoader
         {
             if (Cool == false)
             {
-                float realCoolDown = mInfoArr[mID].Skill_Cooltime * (1 + Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce / 100);
+                float realCoolDown = Stats.Skill_Cooltime * (1 + Player.Instance.Stats.CooltimeReduce / 100);
                 Debug.Log("유물 사용");
                 StartCoroutine(Cooldown(realCoolDown));
                 //TODO 델리게이트를 사용해 추가 효과 부여
@@ -68,15 +61,15 @@ public class Artifacts : InformationLoader
         if (Equip == false)
         {
             Equip = true;
-            Player.Instance.mMaxHP += mInfoArr[mID].Hp;
-            Player.Instance.mInfoArr[Player.Instance.mID].Atk += mInfoArr[mID].Atk;
-            Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd -= mInfoArr[mID].AtkSpd;
-            Player.Instance.mInfoArr[Player.Instance.mID].Spd += mInfoArr[mID].Spd;
-            Player.Instance.mInfoArr[Player.Instance.mID].Def += mInfoArr[mID].Def;
-            Player.Instance.mInfoArr[Player.Instance.mID].Crit += mInfoArr[mID].Crit / 100;
-            Player.Instance.mInfoArr[Player.Instance.mID].CritDamage += mInfoArr[mID].CritDamage;
-            Player.Instance.mInfoArr[Player.Instance.mID].CCReduce += mInfoArr[mID].CCReduce;
-            Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce += mInfoArr[mID].CooltimeReduce;
+            Player.Instance.mMaxHP += Stats.Hp;
+            Player.Instance.Stats.Atk += Stats.Atk;
+            Player.Instance.Stats.AtkSpd -= Stats.AtkSpd;
+            Player.Instance.Stats.Spd += Stats.Spd;
+            Player.Instance.Stats.Def += Stats.Def;
+            Player.Instance.Stats.Crit += Stats.Crit / 100;
+            Player.Instance.Stats.CritDamage += Stats.CritDamage;
+            Player.Instance.Stats.CCReduce += Stats.CCReduce;
+            Player.Instance.Stats.CooltimeReduce += Stats.CooltimeReduce;
             if (mType == eArtifactType.Use)
             {
                 Player.Instance.NowUsingArtifact = this;
@@ -91,15 +84,15 @@ public class Artifacts : InformationLoader
     {
         if (Equip == true)
         {
-            Player.Instance.mMaxHP += mInfoArr[mID].Hp;
-            Player.Instance.mInfoArr[Player.Instance.mID].Atk -= mInfoArr[mID].Atk;
-            Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd += mInfoArr[mID].AtkSpd;
-            Player.Instance.mInfoArr[Player.Instance.mID].Spd -= mInfoArr[mID].Spd;
-            Player.Instance.mInfoArr[Player.Instance.mID].Def -= mInfoArr[mID].Def;
-            Player.Instance.mInfoArr[Player.Instance.mID].Crit -= mInfoArr[mID].Crit/100;
-            Player.Instance.mInfoArr[Player.Instance.mID].CritDamage -= mInfoArr[mID].CritDamage;
-            Player.Instance.mInfoArr[Player.Instance.mID].CCReduce -= mInfoArr[mID].CCReduce;
-            Player.Instance.mInfoArr[Player.Instance.mID].CooltimeReduce -= mInfoArr[mID].CooltimeReduce;
+            Player.Instance.mMaxHP += Stats.Hp;
+            Player.Instance.Stats.Atk -= Stats.Atk;
+            Player.Instance.Stats.AtkSpd += Stats.AtkSpd;
+            Player.Instance.Stats.Spd -= Stats.Spd;
+            Player.Instance.Stats.Def -= Stats.Def;
+            Player.Instance.Stats.Crit -= Stats.Crit / 100;
+            Player.Instance.Stats.CritDamage -= Stats.CritDamage;
+            Player.Instance.Stats.CCReduce -= Stats.CCReduce;
+            Player.Instance.Stats.CooltimeReduce -= Stats.CooltimeReduce;
             UIController.Instance.ShowHP();
             Equip = false;
         }
@@ -111,14 +104,14 @@ public class Artifacts : InformationLoader
     { 
         if (mType == eArtifactType.Passive)
         {
-            if (Player.Instance.InventoryIndex < Player.Instance.Inventory.Length)
+
+            if (InventoryController.Instance.nowIndex < InventoryController.Instance.mSlotArr.Length)
             {
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
-                Player.Instance.Inventory[Player.Instance.InventoryIndex] = this;
-                InventoryController.Instance.mSlotArr[Player.Instance.InventoryIndex].mItemImage.sprite = mRenderer.sprite;
+                InventoryController.Instance.Additem(this, InventoryController.Instance.nowIndex);
                 transform.position = Vector3.zero;
                 mRenderer.color = Color.clear;
-                Player.Instance.InventoryIndex++;
+                InventoryController.Instance.nowIndex++;
                 EquipArtifact();
             }
         }

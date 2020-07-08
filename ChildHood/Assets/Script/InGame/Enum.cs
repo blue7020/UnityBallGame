@@ -66,3 +66,15 @@ public enum eArtifactType
     Use,
     Passive
 }
+
+public enum eWeaponType
+{
+    Melee,
+    Range
+}
+
+public enum eBulletType
+{
+    normal,
+    homing
+}

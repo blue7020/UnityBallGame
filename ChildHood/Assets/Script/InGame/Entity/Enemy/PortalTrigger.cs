@@ -14,8 +14,6 @@ public class PortalTrigger : MonoBehaviour
     private Enemy[] StageBossArr;
     private Enemy NowBoss;
 
-    public bool BossDeath;
-
     private int rand;
 
     private void Awake()
@@ -32,33 +30,28 @@ public class PortalTrigger : MonoBehaviour
     }
     private void Start()
     {
-        if (Player.Instance.Level >= 5)
+        if (GameController.Instance.Level >= 5)
         {
             NowBoss = StageBossArr[0];
             //TODO 스테이지 정보에 따라 다르게
         }
-        else if (Player.Instance.Level < 5)
+        else if (GameController.Instance.Level < 5)
         {
             NowBoss = BossArr[rand];
         }
-        
-        BossDeath = false;
         Instantiate(NowBoss,transform.position,Quaternion.identity);
     }
 
-    private void Update()
+    public void BossDeath()
     {
-        if (BossDeath == true)
+
+        if (portal.Type == ePortalType.Stage)
         {
-            if (portal.Type == ePortalType.Stage)
+            if (GameController.Instance.Level == 5)
             {
-                if (Player.Instance.Level == 5)
-                {
-                    Player.Instance.Level = 1;
-                }
+                GameController.Instance.Level = 1;
             }
-            portal.ShowPortal();
-            BossDeath = false;
         }
+        portal.ShowPortal();
     }
 }

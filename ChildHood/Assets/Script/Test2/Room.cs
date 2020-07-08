@@ -35,7 +35,7 @@ public class Room : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Player.Instance.Level<5)
+        if (GameController.Instance.Level<5)
         {
             if (RoomControllers.Instance == null)
             {

@@ -9,7 +9,12 @@ public class AttackArea : Timer
     private Animator mAnim;
     [SerializeField]
     private bool mAttackEnd;
+    [SerializeField]
+    private Weapon weapon;
     private SpriteRenderer mRenderer;
+
+    private Enemy Target;
+
 
     private void Awake()
     {
@@ -26,23 +31,39 @@ public class AttackArea : Timer
         mAttackEnd=false;
     }
 
-    //TODO 이펙트 풀을 사용하여 플레이어 캐릭터에 맞는 공격 스프라이트로 변경
-    public void Attack()
+    //TODO 이펙트 풀을 사용하여 플레이어 캐릭터에 맞는 공격 스프라이트로 변경 원거리, 근접 공격, 근접 범위 공격
+    public void Melee()
     {
-        gameObject.SetActive(true);
-        if (mAttackEnd == true)
+        if (weapon.eType == eWeaponType.Melee)
         {
-            mAnim.SetBool(AnimHash.Attack, true);
-            if (Player.Instance.ver > 0) //상
+            gameObject.SetActive(true);
+            if (mAttackEnd == true)
             {
-                mRenderer.sortingOrder = 0;
+                mAnim.SetBool(AnimHash.Attack, true);
+                if (Player.Instance.ver > 0) //상
+                {
+                    mRenderer.sortingOrder = 0;
 
+                }
+                if (Player.Instance.ver < 0) //하
+                {
+                    mRenderer.sortingOrder = 3;
+                }
             }
-            if (Player.Instance.ver < 0) //하
-            {
-                mRenderer.sortingOrder = 3;
-            }
-        }  
+        }
+    }
+
+    public void Range()
+    {
+        if (weapon.eType == eWeaponType.Range)
+        {
+            PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(0);//TODO 플레이어 무기에 따라 투사체 ID변경
+            bolt.transform.position = Player.Instance.NowPlayerWeapon.transform.position;
+            float angle = Mathf.Atan2(AttackPad.Instance.inputVector.y, AttackPad.Instance.inputVector.x) * Mathf.Rad2Deg;
+            bolt.transform.rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
+            Vector3 Pos = transform.position;
+            bolt.mRB2D.velocity = Pos.normalized * bolt.mSpeed;
+        }
     }
 
     public void AttackEnd()
@@ -52,20 +73,37 @@ public class AttackArea : Timer
     }
 
 
+    
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (weapon.eType == eWeaponType.Melee)
         {
-            Enemy Target = other.GetComponent<Enemy>();
-            if (Target.mCurrentHP > 0&&Target!=null)
+            if (other.gameObject.CompareTag("Enemy"))
             {
-                Target.Hit(Player.Instance.mInfoArr[Player.Instance.mID].Atk);
+                Target = other.GetComponent<Enemy>();
+                if (Target.mCurrentHP > 0 && Target != null)
+                {
+                    float rand = UnityEngine.Random.Range(0, 1f);
+                    if (rand <= Player.Instance.Stats.Crit / 100)
+                    {
+                        Target.Hit(Player.Instance.Stats.Atk * (1 + (Player.Instance.Stats.CritDamage / 100)));
+
+                    }
+                    else
+                    {
+                        Target.Hit(Player.Instance.Stats.Atk);
+                    }
+                    
+                }
             }
-        }
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            Bullet Target = other.GetComponent<Bullet>();
-            Target.gameObject.SetActive(false);
+            if (other.gameObject.CompareTag("Bullet"))
+            {
+                Bullet Target = other.GetComponent<Bullet>();
+                Target.gameObject.SetActive(false);
+
+            }
         }
     }
 }

@@ -16,8 +16,8 @@ public class InventoryController : MonoBehaviour
     [SerializeField]
     private Sprite mVoidImage;
 
-
     public InventorySlot[] mSlotArr;
+    public int nowIndex = 0;
 
     private void Awake()
     {
@@ -35,5 +35,10 @@ public class InventoryController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Additem(Artifacts art,int nowIndex)
+    {
+        mSlotArr[nowIndex].SetItem(art);
     }
 }

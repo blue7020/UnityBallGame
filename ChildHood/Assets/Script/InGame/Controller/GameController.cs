@@ -10,6 +10,10 @@ public class GameController : MonoBehaviour
     public bool pause;
     public bool GotoMain;
 
+    public int Level;//현재 층
+    public int MapLevel;//현재 스테이지
+
+
     private void Awake()
     {
         if (Instance==null)
@@ -31,6 +35,9 @@ public class GameController : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        MapLevel = 1;//나중에 맵 선택 시 해당 레벨을 부여하는 것으로 수정
+
+        Level = 1;
     }
     public void Delete()
     {
@@ -70,8 +77,8 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                Player.Instance.mInfoArr[Player.Instance.mID].Gold += 200;
-                Player.Instance.mInfoArr[Player.Instance.mID].Atk += 5;
+                Player.Instance.Stats.Gold += 200;
+                Player.Instance.Stats.Atk += 5;
             }
         }
     }

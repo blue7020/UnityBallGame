@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eBulletType
-{
-    normal,
-    homing
-}
-
 public class Bullet : MonoBehaviour
 {
     [SerializeField]

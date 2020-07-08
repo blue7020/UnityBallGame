@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemList : MonoBehaviour
+public class ItemList : InformationLoader
 {
     public static ItemList Instance;
+
+    [SerializeField]
+    public ItemStat[] mInfoArr;
 
     [SerializeField]
     private List<GameObject> ItemCommon;
@@ -12,6 +15,12 @@ public class ItemList : MonoBehaviour
     private List<GameObject> ItemRare;
     [SerializeField]
     private List<GameObject> ItemEpic;
+
+    public ItemStat[] GetInfoArr()
+    {
+        return mInfoArr;
+    }
+
 
     private void Awake()
     {
@@ -27,6 +36,7 @@ public class ItemList : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        LoadJson(out mInfoArr, Path.ITEM_STAT);
     }
 
     public void ItemSpawn(eChestType Type)//,Item 아이템

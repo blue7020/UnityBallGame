@@ -15,11 +15,11 @@ public class UsingArtifactInventory : MonoBehaviour, IPointerDownHandler
             art = Player.Instance.NowUsingArtifact;
             if (GameSetting.Instance.Language == 0)
             {
-                UIController.Instance.tooltip.ShowTooltip(art.mStatInfoArr[art.mID].ContensFormat);
+                UIController.Instance.tooltip.ShowTooltip(art.TextStats.ContensFormat);
             }
             else if (GameSetting.Instance.Language == 1)
             {
-                UIController.Instance.tooltip.ShowTooltip(art.mStatInfoArr[art.mID].EngContensFormat);
+                UIController.Instance.tooltip.ShowTooltip(art.TextStats.EngContensFormat);
             }
         }
 

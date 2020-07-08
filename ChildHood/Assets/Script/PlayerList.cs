@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerList : MonoBehaviour
+public class PlayerList : InformationLoader
 {
     public static PlayerList Instance;
 
-    [SerializeField]
     public Player[] mPlayer;
 
-    [SerializeField]
     public VirtualJoyStick stick;
+    public PlayerStat[] mInfoArr;
 
     private void Awake()
     {
@@ -22,6 +21,7 @@ public class PlayerList : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        LoadJson(out mInfoArr, Path.PLAYER_STAT);
     }
     private void Start()
     {
@@ -33,13 +33,17 @@ public class PlayerList : MonoBehaviour
         {
             case 0:
                 Player p0 = Instantiate(mPlayer[0], Vector3.zero, Quaternion.identity);
-                p0.joyskick = stick;
                 UIController.Instance.CharacterImage();
+                Player.Instance.Stats = mInfoArr[0];
+                p0.joyskick = stick;
+                Player.Instance.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(0);
                 break;
             case 1:
                 Player p1 = Instantiate(mPlayer[1], Vector3.zero, Quaternion.identity);
                 UIController.Instance.CharacterImage();
+                Player.Instance.Stats = mInfoArr[1];
                 p1.joyskick = stick;
+                Player.Instance.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(1);
                 break;
             default:
                 Debug.LogError("Wrong Player ID");

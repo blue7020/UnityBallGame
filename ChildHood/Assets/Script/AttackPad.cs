@@ -53,11 +53,18 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
             //무기 방향 돌리기
             float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
-            Weapon.instance.transform.rotation = Quaternion.AngleAxis(angle+180, Vector3.forward);
+            Player.Instance.NowPlayerWeapon.transform.rotation = Quaternion.AngleAxis(angle+180, Vector3.forward);
             if (AttackSwitch == true)
             {
-                Weapon.instance.Attack();
-                StartCoroutine(AttackCooltime());
+                if (Player.Instance.NowPlayerWeapon.eType==eWeaponType.Melee)
+                {
+                    Player.Instance.NowPlayerWeapon.MeleeAttack();
+                }
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+                {
+                    Player.Instance.NowPlayerWeapon.RangeAttack();
+                }
+                    StartCoroutine(AttackCooltime());
             }
         }
 
@@ -69,7 +76,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     {
         if (AttackSwitch==false)
         {
-            if (Weapon.instance.Attackon == false)
+            if (Player.Instance.NowPlayerWeapon.Attackon == false)
             {
                 OnDrag(ped);
             }
@@ -84,7 +91,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
     private IEnumerator AttackCooltime()
     {
-        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd);
+        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.Stats.AtkSpd);
         yield return Cool;
         AttackSwitch = false;
 
@@ -106,7 +113,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     private IEnumerator CooltimeRoutine()
     {
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
-        float maxTime = Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd;
+        float maxTime = Player.Instance.Stats.AtkSpd;
         AttackCurrentTime = maxTime;
         while (AttackCurrentTime >= 0)
         {

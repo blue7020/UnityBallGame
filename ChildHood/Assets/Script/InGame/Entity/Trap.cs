@@ -50,7 +50,7 @@ public class Trap : MonoBehaviour
                     //애니메이션에서 처리
                     break;
                 case eTrapType.Slow:
-                    mTarget.mInfoArr[mTarget.mID].Spd += mValue;
+                    mTarget.Stats.Spd += mValue;
                     mTarget = null;
                     break;
                 default:
@@ -76,7 +76,7 @@ public class Trap : MonoBehaviour
     {
         if (mTarget != null)
         {
-            mTarget.mInfoArr[mTarget.mID].Spd -= mValue;
+            mTarget.Stats.Spd -= mValue;
         }
     }
 }

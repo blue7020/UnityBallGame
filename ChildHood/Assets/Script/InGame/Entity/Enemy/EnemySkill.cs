@@ -156,13 +156,13 @@ public class EnemySkill : MonoBehaviour
             if (Skilltick<60)
             {
                 //구를 때 충돌 시 1초간 기절
-                WaitForSeconds one = new WaitForSeconds(0.1f);
+                WaitForSeconds pointOneSec = new WaitForSeconds(0.1f);
                 Skilltrigger = false;
                 Vector3 Pos = Player.Instance.transform.position;
                 Vector3 dir = Pos - transform.position;
-                mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mInfoArr[mEnemy.mID].Spd * 2);
+                mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.Stats.Spd * 2);
                 Skilltick++;
-                yield return one;
+                yield return pointOneSec;
             }
             else if(Skilltick>=60)
             {
@@ -196,6 +196,6 @@ public class EnemySkill : MonoBehaviour
 
     private void SandWitch()
     {
-        //스킬 사용 시 이동속도는 0으로
+        mEnemy.mRB2D.velocity = Vector3.zero;
     }
 }

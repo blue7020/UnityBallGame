@@ -52,7 +52,7 @@ public class ShopController : MonoBehaviour
 
     private void Start()
     {
-        if (Player.Instance.Level % 2 == 1)
+        if (GameController.Instance.Level % 2 == 1)
         {
             int rand = Random.Range(0, mItemList.Count);
             item = Instantiate(mItemList[rand], mPos[0].position, Quaternion.identity);

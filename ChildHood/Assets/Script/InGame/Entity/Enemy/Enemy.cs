@@ -24,7 +24,6 @@ public class Enemy : InformationLoader
     private EnemySkill mEnemySkill;
     [SerializeField]
     private EnemyAttackArea mAttackArea;
-    private Player mPlayer;
     private GaugeBar mHPBar;
 
     private bool AttackOn;
@@ -37,20 +36,14 @@ public class Enemy : InformationLoader
     public float mCurrentHP;
     public float mMaxHP;
 
-    [SerializeField]
-    public MonsterStat[] mInfoArr;
-
-    public MonsterStat[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
+    public MonsterStat Stats;
 
     private void Awake()
     {
-        LoadJson(out mInfoArr, Path.MONSTER_STAT);
+        Stats=EnemyController.Instance.mInfoArr[mID];
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        mMaxHP = mInfoArr[mID].Hp;
+        mMaxHP = Stats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
     private void Start()
@@ -69,7 +62,6 @@ public class Enemy : InformationLoader
         if (HPBarOn == true)
         {
             mHPBar.transform.position = mHPBarPos.position;
-            mHPBar.SetGauge(mCurrentHP, mMaxHP);
         }
         if (mCurrentHP < 1)
         {
@@ -89,7 +81,7 @@ public class Enemy : InformationLoader
                     {
                         mAnim.SetBool(AnimHash.Enemy_Walk, false);
                         mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                        transform.position = transform.position;
+                        mRB2D.velocity = Vector3.zero;
                         mDelayCount = 0;
                     }
                     else
@@ -120,7 +112,7 @@ public class Enemy : InformationLoader
                     {
                         if (eType == eEnemyType.Boss)
                         {
-                            PortalTrigger.Instance.BossDeath = true;
+                            PortalTrigger.Instance.BossDeath();
                         }
                         gameObject.SetActive(false);
                     }
@@ -142,16 +134,7 @@ public class Enemy : InformationLoader
     public void Hit(float damage)
     {
         StartCoroutine(HitAnimation());
-        float rand = UnityEngine.Random.Range(0,1f);
-        if (rand<= Player.Instance.mInfoArr[Player.Instance.mID].Crit / 100)
-        {
-            mCurrentHP -= damage * (1+ (Player.Instance.mInfoArr[Player.Instance.mID].CritDamage /100));
-            Debug.Log(damage);
-        }
-        else
-        {
-            mCurrentHP -= damage;
-        }
+        mCurrentHP -= damage;
 
         if (mHPBar == null)
         {
@@ -165,7 +148,7 @@ public class Enemy : InformationLoader
 
             DropGold mGold = GoldPool.Instance.GetFromPool();
             mGold.transform.position = transform.position;
-            mGold.GoldDrop(mGold, mInfoArr[mID].Gold);
+            mGold.GoldDrop(mGold, Stats.Gold);
             mEnemySkill.DieSkill();
             if (Player.Instance.NowEnemyCount > 0)
             {
@@ -195,14 +178,11 @@ public class Enemy : InformationLoader
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (State == eMonsterState.Traking)
+            if (AttackCheck == true)
             {
-                if (AttackCheck == true)
-                {
-                    AttackOn=true;
-                }
-                StartCoroutine(Attack());
+                AttackOn = true;
             }
+            StartCoroutine(Attack());
         }
     }
 
@@ -217,11 +197,11 @@ public class Enemy : InformationLoader
 
     public IEnumerator Attack()
     {
-        WaitForSeconds Cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
+        WaitForSeconds Cool = new WaitForSeconds(Stats.AtkSpd);
         if (AttackOn == true)
         {
             AttackOn = false;
-            Player.Instance.Hit(mInfoArr[mID].Atk);
+            Player.Instance.Hit(Stats.Atk);
         }
         yield return Cool;
         AttackOn = true;
@@ -232,7 +212,7 @@ public class Enemy : InformationLoader
     {
         if (State == eMonsterState.Traking)
         {
-            WaitForSeconds cool = new WaitForSeconds(mInfoArr[mID].AtkSpd);
+            WaitForSeconds cool = new WaitForSeconds(Stats.AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
             mAnim.SetBool(AnimHash.Enemy_Attack, true);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             mEnemySkill.Skill();
@@ -250,7 +230,7 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Walk, true);
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
-            mRB2D.velocity = dir.normalized * mInfoArr[mID].Spd;
+            mRB2D.velocity = dir.normalized * Stats.Spd;
             yield return one;
 
         }

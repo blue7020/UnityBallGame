@@ -44,48 +44,16 @@ public class Portal : MonoBehaviour
 
     public void nextroom()
     {
-        //버프초기화
-        for (int i = 0; i < Player.Instance.NowBuff.Count; i++)
-        {
-            if (Player.Instance.NowBuffActive[i] == true)
-            {
-                StopCoroutine(Player.Instance.NowBuff[i]);
-                if (Player.Instance.NowBuffType[i] == eBuffType.Atk)
-                {
-                    Player.Instance.mInfoArr[Player.Instance.mID].Atk -= Player.Instance.NowBuffValue[i];
-                    Debug.Log("off");
-                }
-                if (Player.Instance.NowBuffType[i] == eBuffType.AtkSpd)
-                {
-                    Player.Instance.mInfoArr[Player.Instance.mID].AtkSpd += Player.Instance.NowBuffValue[i];
-                    Debug.Log("off");
-                }
-                if (Player.Instance.NowBuffType[i] == eBuffType.Spd)
-                {
-                    Player.Instance.mInfoArr[Player.Instance.mID].Spd -= Player.Instance.NowBuffValue[i];
-                    Debug.Log("off");
-                }
-                if (Player.Instance.NowBuffType[i] == eBuffType.Def)
-                {
-                    Player.Instance.mInfoArr[Player.Instance.mID].Def -= Player.Instance.NowBuffValue[i];
-                    Debug.Log("off");
-                }
-            }
-            Player.Instance.NowBuff.RemoveAt(i);
-            Player.Instance.NowBuffActive.RemoveAt(i);
-            Player.Instance.NowBuffValue.RemoveAt(i);
-            Player.Instance.NowBuffType.RemoveAt(i);
-        }
-        Player.Instance.Level++;
-        Debug.Log("방 재시작, 현재 지하 " + Player.Instance.Level + "층");//4층까지 존재 
-        Debug.Log(Player.Instance.Level);
-        if (Player.Instance.Level == 5)
+        GameController.Instance.Level++;
+        Debug.Log("방 재시작, 현재 지하 " + GameController.Instance.Level + "층");//4층까지 존재 
+        Debug.Log(GameController.Instance.Level);
+        if (GameController.Instance.Level == 5)
         {
             SceneManager.LoadScene(8);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
-            Player.Instance.Level=7;
+            GameController.Instance.Level=7;
         }
-        else if (Player.Instance.Level>5)
+        else if (GameController.Instance.Level>5)
         {
            mClear.gameObject.SetActive(true);
            mClear.EndGame();

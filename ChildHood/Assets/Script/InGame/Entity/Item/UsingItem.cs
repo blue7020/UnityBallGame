@@ -14,49 +14,45 @@ public class UsingItem : InformationLoader
     [SerializeField]
     public Room Currentroom;
     public Vector3 backupPos;
-    [SerializeField]
-    public ItemStat[] mInfoArr;
 
-    public ItemStat[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
+    public ItemStat Stats;
+
 
     public bool IsShopItem;
     private bool PosSet;
 
-    private void Awake()
+    private void Start()
     {
-        LoadJson(out mInfoArr, Path.ITEM_STAT);
+        Stats = ItemList.Instance.mInfoArr[mID];
         IsShopItem = false;
         PosSet = false;
     }
 
     public void UseItem()
     {
-        if (mInfoArr[mID].Heal > 0)
+        if (Stats.Heal > 0)
         {
             if (mID==0|| mID == 1)
             {
-                Player.Instance.mMaxHP += mInfoArr[mID].Heal;
+                Player.Instance.mMaxHP += Stats.Heal;
             }
-            Player.Instance.Heal(mInfoArr[mID].Heal);
+            Player.Instance.Heal(Stats.Heal);
         }
-        if (mInfoArr[mID].Atk > 0)
+        if (Stats.Atk > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Atk, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.Atk, Stats.Duration));
         }
-        if (mInfoArr[mID].AtkSpd > 0)
+        if (Stats.AtkSpd > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].AtkSpd, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.AtkSpd, Stats.Duration));
         }
-        if (mInfoArr[mID].Spd > 0)
+        if (Stats.Spd > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Spd, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.Spd, Stats.Duration));
         }
-        if (mInfoArr[mID].Def > 0)
+        if (Stats.Def > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Def, mInfoArr[mID].Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.Def, Stats.Duration));
         }
         Player.Instance.NowItem = null;
         UIController.Instance.ShowItemImage();

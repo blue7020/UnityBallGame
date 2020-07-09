@@ -11,6 +11,7 @@ public class AttackArea : Timer
     private bool mAttackEnd;
     [SerializeField]
     private Weapon weapon;
+    public Transform BulletStarter;
     private SpriteRenderer mRenderer;
 
     private Enemy Target;
@@ -43,7 +44,6 @@ public class AttackArea : Timer
                 if (Player.Instance.ver > 0) //상
                 {
                     mRenderer.sortingOrder = 0;
-
                 }
                 if (Player.Instance.ver < 0) //하
                 {
@@ -58,11 +58,8 @@ public class AttackArea : Timer
         if (weapon.eType == eWeaponType.Range)
         {
             PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(0);//TODO 플레이어 무기에 따라 투사체 ID변경
-            bolt.transform.position = Player.Instance.NowPlayerWeapon.transform.position;
-            float angle = Mathf.Atan2(AttackPad.Instance.inputVector.y, AttackPad.Instance.inputVector.x) * Mathf.Rad2Deg;
-            bolt.transform.rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
-            Vector3 Pos = transform.position;
-            bolt.mRB2D.velocity = Pos.normalized * bolt.mSpeed;
+            bolt.transform.position = Player.Instance.transform.position;
+            bolt.ResetDir();
         }
     }
 

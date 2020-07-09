@@ -21,6 +21,7 @@ public class PlayerBulletPool : ObjectPool<PlayerBullet>
     protected override PlayerBullet CreateNewObj(int id)
     {
         PlayerBullet newObj = Instantiate(mOriginArr[id]);
+        newObj.transform.rotation = Quaternion.identity;
         mPools[id].Add(newObj);
         return newObj;
     }

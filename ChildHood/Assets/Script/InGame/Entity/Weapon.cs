@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     public eWeaponType eType;
 
+
     private Animator mAnim;
     public SpriteRenderer mRenderer;
 

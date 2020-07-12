@@ -9,7 +9,7 @@ public class MainScreenUIController : MonoBehaviour
     public static MainScreenUIController Instance;
 
     [SerializeField]
-    private Text mStartText, mExitText, mBGMText, mSEText;
+    private Text mStartText, mBGMText, mSEText;
 
     [SerializeField]
     private Button mEngButton, mKorButton;
@@ -33,16 +33,14 @@ public class MainScreenUIController : MonoBehaviour
         mEngButton.gameObject.SetActive(false);
         mKorButton.gameObject.SetActive(true);
         GameSetting.Instance.Language = 1;
-        mStartText.text = "Start";
-        mExitText.text = "Exit";
+        mStartText.text = "Touch to Start";
     }
     public void LanguagetoEng()
     {
         mKorButton.gameObject.SetActive(false);
         mEngButton.gameObject.SetActive(true);
         GameSetting.Instance.Language = 0;
-        mStartText.text = "시작";
-        mExitText.text = "종료";
+        mStartText.text = "화면을 터치해주세요";
     }
 
     public void BGMPlus()

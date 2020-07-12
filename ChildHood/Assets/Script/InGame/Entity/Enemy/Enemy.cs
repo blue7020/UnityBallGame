@@ -10,6 +10,7 @@ public class Enemy : InformationLoader
     [SerializeField]
     public eEnemyType eType;
     public int mDelayCount;
+    public bool Focus;
 
     [SerializeField]
     public int mID;
@@ -43,6 +44,7 @@ public class Enemy : InformationLoader
         Stats=EnemyController.Instance.mInfoArr[mID];
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
+        Focus = false;
         mMaxHP = Stats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
@@ -147,9 +149,11 @@ public class Enemy : InformationLoader
             HPBarOn = false;
 
             DropGold mGold = GoldPool.Instance.GetFromPool();
+            mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, Stats.Gold);
             mEnemySkill.DieSkill();
+            Player.Instance.TargetList.RemoveAt(0);
             if (Player.Instance.NowEnemyCount > 0)
             {
                 Player.Instance.NowEnemyCount--;

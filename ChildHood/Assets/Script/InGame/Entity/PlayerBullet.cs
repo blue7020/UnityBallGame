@@ -8,53 +8,28 @@ public class PlayerBullet : MonoBehaviour
     public float mSpeed;
     public Rigidbody2D mRB2D;
     private Enemy Target;
-
     private void Awake()
     {
         mRB2D = GetComponent<Rigidbody2D>();
+        StartCoroutine(Homming());
     }
 
-    private void Start()
+    private IEnumerator Homming()
     {
-        StartCoroutine(Guide());
-    }
-
-    private void Update()
-    {
-        if (Target!=null)
-        {
-            Vector2 dir = Target.transform.position - transform.position;
-            mRB2D.velocity = dir.normalized * mSpeed;
-
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
-        
-    }
-
-    private IEnumerator Guide()
-    {
-        WaitForSeconds pointThree = new WaitForSeconds(0.3f);//0.3초마다 타겟의 좌표 찾기
+        WaitForSeconds OnePoint = new WaitForSeconds(0.3f);
         while (true)
         {
-            GameObject obj = GameObject.FindGameObjectWithTag("Enemy");//태그가 중복되면 가장 가까운 태그를 지목한다.
-            if (obj != null)//obj가 있을때만 작동
+            if (Player.Instance.TargetList.Count > 0)
             {
-                Target = obj.GetComponent<Enemy>();
+                int index = Player.Instance.TargetList.Count - 1;
+                Target = Player.Instance.TargetList[index];
                 Vector3 pos = Target.transform.position;
                 Vector3 direction = pos - transform.position;//방향벡터 = 목적지 - 나
-                direction = direction.normalized;
-                mRB2D.velocity = direction * mSpeed;
-                transform.LookAt(pos);//해당 방향으로 향한다.
+                mRB2D.velocity = direction.normalized * mSpeed;
+                yield return OnePoint;
             }
-
-            yield return pointThree; }
-    }
-
-
-    public void ResetDir()
-    {
-        mRB2D.velocity = transform.forward * mSpeed;
+        }
+        
     }
 
 
@@ -67,19 +42,23 @@ public class PlayerBullet : MonoBehaviour
             if (Target.mCurrentHP > 0 && Target != null)
             {
                 float rand = UnityEngine.Random.Range(0, 1f);
-                if (rand <= Player.Instance.Stats.Crit / 100)
+                if (rand <= Player.Instance.mStats.Crit / 100)
                 {
-                    Target.Hit(Player.Instance.Stats.Atk * (1 + (Player.Instance.Stats.CritDamage / 100)));
+                    Target.Hit(Player.Instance.mStats.Atk * (1 + (Player.Instance.mStats.CritDamage / 100)));
 
                 }
                 else
                 {
-                    Target.Hit(Player.Instance.Stats.Atk);
+                    Target.Hit(Player.Instance.mStats.Atk);
                 }
             }
             gameObject.SetActive(false);
         }
         if (other.gameObject.CompareTag("Walls"))
+        {
+            gameObject.SetActive(false);
+        }
+        if (other.gameObject.CompareTag("Gold"))
         {
             gameObject.SetActive(false);
         }

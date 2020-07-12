@@ -12,7 +12,9 @@ public class AttackArea : Timer
     [SerializeField]
     private Weapon weapon;
     public Transform BulletStarter;
+    public Transform BulletEnd;
     private SpriteRenderer mRenderer;
+    private PlayerBullet bolt;
 
     private Enemy Target;
 
@@ -32,7 +34,7 @@ public class AttackArea : Timer
         mAttackEnd=false;
     }
 
-    //TODO 이펙트 풀을 사용하여 플레이어 캐릭터에 맞는 공격 스프라이트로 변경 원거리, 근접 공격, 근접 범위 공격
+    //TODO 이펙트 풀을 사용하여 플레이어 캐릭터에 맞는 공격 스프라이트로 변경 원거리, 직선 공격, 범위 공격
     public void Melee()
     {
         if (weapon.eType == eWeaponType.Melee)
@@ -57,10 +59,16 @@ public class AttackArea : Timer
     {
         if (weapon.eType == eWeaponType.Range)
         {
-            PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(0);//TODO 플레이어 무기에 따라 투사체 ID변경
-            bolt.transform.position = Player.Instance.transform.position;
-            bolt.ResetDir();
+            bolt = PlayerBulletPool.Instance.GetFromPool(0);//TODO 플레이어 무기에 따라 투사체 ID변경
+            ResetDir();
         }
+    }
+
+    public void ResetDir()
+    {
+        bolt.transform.position = BulletStarter.position;
+        Vector2 dir = BulletStarter.position - BulletEnd.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
     }
 
     public void AttackEnd()
@@ -83,14 +91,14 @@ public class AttackArea : Timer
                 if (Target.mCurrentHP > 0 && Target != null)
                 {
                     float rand = UnityEngine.Random.Range(0, 1f);
-                    if (rand <= Player.Instance.Stats.Crit / 100)
+                    if (rand <= Player.Instance.mStats.Crit / 100)
                     {
-                        Target.Hit(Player.Instance.Stats.Atk * (1 + (Player.Instance.Stats.CritDamage / 100)));
+                        Target.Hit(Player.Instance.mStats.Atk * (1 + (Player.Instance.mStats.CritDamage / 100)));
 
                     }
                     else
                     {
-                        Target.Hit(Player.Instance.Stats.Atk);
+                        Target.Hit(Player.Instance.mStats.Atk);
                     }
                     
                 }

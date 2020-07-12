@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6837545873989974470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2026311932102855707}
+  - component: {fileID: 5538643584466700447}
+  - component: {fileID: 7170634528277820419}
+  m_Layer: 0
+  m_Name: Range
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2026311932102855707
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6837545873989974470}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7152121431756567062}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5538643584466700447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6837545873989974470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1ef97e7b0282e40ad2e60b9849a1b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &7170634528277820419
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6837545873989974470}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5.5
 --- !u!1 &7152121430612233987
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +174,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7152121430612233986}
+  - {fileID: 2026311932102855707}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -135,37 +196,35 @@ MonoBehaviour:
   mMaxHP: 0
   mCurrentHP: 0
   Look: 0
-  Level: 0
-  MapLevel: 0
+  mRange: {fileID: 7170634528277820419}
   CurrentRoom: {fileID: 0}
   NowEnemyCount: 0
   EnemySwitch: 0
   NowBuffValue: []
   NowBuffType: 
   NowBuffActive: 
-  mInfoArr: []
+  mStats:
+    Gold: 0
+    ID: 0
+    Name: 
+    EngName: 
+    Hp: 0
+    Atk: 0
+    Def: 0
+    AtkSpd: 0
+    Spd: 0
+    IsPercent: 0
+    Crit: 0
+    CritDamage: 0
+    CooltimeReduce: 0
+    CCReduce: 0
+    Damage: 0
+    Skill_Cooltime: 0
+    Skill_Duration: 0
   NowPlayerWeapon: {fileID: 0}
   NowItem: {fileID: 0}
   NowUsingArtifact: {fileID: 0}
-  Inventory:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   UseItemInventory: {fileID: 0}
-  InventoryIndex: 0
   mRenderer: {fileID: 0}
   mRB2D: {fileID: 0}
   mAnim: {fileID: 0}

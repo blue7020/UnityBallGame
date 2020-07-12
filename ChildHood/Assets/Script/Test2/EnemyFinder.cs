@@ -37,6 +37,7 @@ public class EnemyFinder : MonoBehaviour
             if (Player.Instance.NowEnemyCount > 0)
             {
                 mDoor.gameObject.SetActive(true);
+                Player.Instance.TargetReset();
             }
             
         }

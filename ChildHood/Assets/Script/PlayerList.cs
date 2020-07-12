@@ -34,14 +34,14 @@ public class PlayerList : InformationLoader
             case 0:
                 Player p0 = Instantiate(mPlayer[0], Vector3.zero, Quaternion.identity);
                 UIController.Instance.CharacterImage();
-                Player.Instance.Stats = mInfoArr[0];
+                Player.Instance.mStats = mInfoArr[0];
                 p0.joyskick = stick;
                 Player.Instance.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(0);
                 break;
             case 1:
                 Player p1 = Instantiate(mPlayer[1], Vector3.zero, Quaternion.identity);
                 UIController.Instance.CharacterImage();
-                Player.Instance.Stats = mInfoArr[1];
+                Player.Instance.mStats = mInfoArr[1];
                 p1.joyskick = stick;
                 Player.Instance.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(1);
                 break;

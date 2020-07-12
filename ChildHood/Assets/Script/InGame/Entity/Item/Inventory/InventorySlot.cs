@@ -12,7 +12,7 @@ public class InventorySlot : MonoBehaviour , IPointerDownHandler
     public Artifacts art;
 
 
-    public void Init(int id, Sprite image,Artifact art = null)
+    public void Init(int id, Sprite image,ArtifactStat art = null)
     {
         mID = id;
         mItemImage.sprite = image;

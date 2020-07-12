@@ -69,7 +69,7 @@ public class Weapon : MonoBehaviour
     }
     private IEnumerator MeleeCool()
     {
-        WaitForSeconds Cool =new WaitForSeconds(Player.Instance.Stats.AtkSpd);
+        WaitForSeconds Cool =new WaitForSeconds(Player.Instance.mStats.AtkSpd);
         mAttackCooltime = true;
         mAttackArea.Melee();
         yield return Cool;
@@ -85,7 +85,7 @@ public class Weapon : MonoBehaviour
     }
     private IEnumerator RangeCool()
     {
-        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.Stats.AtkSpd);
+        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.mStats.AtkSpd);
         mAttackCooltime = true;
         mAttackArea.Range();
         yield return Cool;

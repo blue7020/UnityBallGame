@@ -34,11 +34,11 @@ public class ItemBuy : MonoBehaviour
             {
                 if (ShopType==eShopType.Item)
                 {
-                    if (Player.Instance.Stats.Gold >= item.Stats.Price)
+                    if (Player.Instance.mStats.Gold >= item.Stats.Price)
                     {
                         Sell = true;
                         item.IsShopItem = false;
-                        Player.Instance.Stats.Gold -= item.Stats.Price;
+                        Player.Instance.mStats.Gold -= item.Stats.Price;
                         item.ItemChange();
                         ItemBowl.gameObject.SetActive(false);
                     }
@@ -49,17 +49,17 @@ public class ItemBuy : MonoBehaviour
                 }
                 else
                 {
-                    if (Player.Instance.Stats.Gold >= artifact.Stats.Price)
+                    if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
                     {
                         if (artifact.mType == eArtifactType.Passive)
                         {
                             if (InventoryController.Instance.nowIndex < InventoryController.Instance.mSlotArr.Length)
                             {
-                                if (Player.Instance.Stats.Gold >= artifact.Stats.Price)
+                                if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
                                 {
                                     Sell = true;
                                     artifact.IsShopItem = false;
-                                    Player.Instance.Stats.Gold -= artifact.Stats.Price;
+                                    Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                     artifact.ItemChange();
                                     ItemBowl.gameObject.SetActive(false);
                                 }
@@ -71,11 +71,11 @@ public class ItemBuy : MonoBehaviour
                         }
                         else
                         {
-                            if (Player.Instance.Stats.Gold >= artifact.Stats.Price)
+                            if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
                             {
                                 Sell = true;
                                 artifact.IsShopItem = false;
-                                Player.Instance.Stats.Gold -= artifact.Stats.Price;
+                                Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                 artifact.ItemChange();
                                 ItemBowl.gameObject.SetActive(false);
                             }

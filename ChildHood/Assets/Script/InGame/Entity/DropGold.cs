@@ -35,7 +35,7 @@ public class DropGold : MonoBehaviour
         //TODO 골드 스택이 증가하면 쌓인 골드 둘을 비교한 후 더 작은 쪽이 큰 쪽한테 골드를 넘겨주고 gameobject 비활성화
         if (other.gameObject.GetComponent<Player>())
         {
-            Player.Instance.Stats.Gold += mGold;
+            Player.Instance.mStats.Gold += mGold;
             UIController.Instance.ShowGold();
             gameObject.SetActive(false);
         }

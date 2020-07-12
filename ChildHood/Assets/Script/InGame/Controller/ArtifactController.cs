@@ -7,11 +7,11 @@ public class ArtifactController : InformationLoader
     public static ArtifactController Instance;
 
     [SerializeField]
-    public Artifact[] mInfoArr;
+    public ArtifactStat[] mInfoArr;
     [SerializeField]
     public ArtifactTextStat[] mStatInfoArr;
 
-    public Artifact[] GetInfoArr()
+    public ArtifactStat[] GetInfoArr()
     {
         return mInfoArr;
     }

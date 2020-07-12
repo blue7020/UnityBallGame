@@ -77,8 +77,8 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                Player.Instance.Stats.Gold += 200;
-                Player.Instance.Stats.Atk += 5;
+                Player.Instance.mStats.Gold += 200;
+                Player.Instance.mStats.Atk += 5;
             }
         }
     }

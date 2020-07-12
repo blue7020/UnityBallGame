@@ -91,7 +91,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
     private IEnumerator AttackCooltime()
     {
-        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.Stats.AtkSpd);
+        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.mStats.AtkSpd);
         yield return Cool;
         AttackSwitch = false;
 
@@ -113,7 +113,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     private IEnumerator CooltimeRoutine()
     {
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
-        float maxTime = Player.Instance.Stats.AtkSpd;
+        float maxTime = Player.Instance.mStats.AtkSpd;
         AttackCurrentTime = maxTime;
         while (AttackCurrentTime >= 0)
         {

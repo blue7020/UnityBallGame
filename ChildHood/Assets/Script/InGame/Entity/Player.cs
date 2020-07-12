@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     public float mCurrentHP;
     [SerializeField]
     public eDirection Look;
+    [SerializeField]
+    private CircleCollider2D mRange;
 
     public Room CurrentRoom;
     public int NowEnemyCount;
@@ -28,19 +30,25 @@ public class Player : MonoBehaviour
     public List<float> NowBuffValue;
     public List<eBuffType> NowBuffType;
     public List<bool> NowBuffActive;
-
-    public PlayerStat Stats;
-
     [SerializeField]
+    public List<Enemy> TargetList;
+
+    public PlayerStat mStats;
+
     public Weapon NowPlayerWeapon;
-    [SerializeField]
     public UsingItem NowItem;
-    [SerializeField]
     public Artifacts NowUsingArtifact;
-    [SerializeField]
     public Artifacts UseItemInventory;
 
-    
+    public PlayerStat GetPlayerStats()
+    {
+        return mStats;
+    }
+
+    public void SetPlayerStats(PlayerStat stat)
+    {
+        mStats = stat;
+    }
 
     [SerializeField]
     public SpriteRenderer mRenderer;
@@ -52,10 +60,6 @@ public class Player : MonoBehaviour
     public float hori;
     public float ver;
 
-    //public PlayerStat[] GetInfoArr()
-    //{
-    //    return mInfoArr;
-    //}
 
     private void Awake()
     {
@@ -69,6 +73,7 @@ public class Player : MonoBehaviour
         }
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
+        TargetReset();
     }
 
     private void Start()
@@ -84,7 +89,7 @@ public class Player : MonoBehaviour
         NowItem = null;
         NowUsingArtifact = null;
         NowEnemyCount = 0;
-        mMaxHP = Stats.Hp;
+        mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
     }
@@ -107,7 +112,7 @@ public class Player : MonoBehaviour
         hori = joyskick.Horizontal();
         ver = joyskick.Vectical();
         Vector2 dir = new Vector2(hori, ver);
-        dir = dir.normalized * Stats.Spd;
+        dir = dir.normalized * mStats.Spd;
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
@@ -133,25 +138,33 @@ public class Player : MonoBehaviour
         mRB2D.velocity = dir;
     }
 
+    //대상 초기화
+    public void TargetReset()
+    {
+        Debug.Log(TargetList.Count);
+        TargetList = new List<Enemy>();
+        Debug.Log(TargetList.Count);
+    }
+
     public void Hit(float damage)
     {
         if (Nodamage ==false)
         {
-            if (damage - Stats.Def < 1)
+            if (damage - mStats.Def < 1)
             {
                 damage = 0.5f;
                 mCurrentHP -= damage;
             }
             else
             {
-                mCurrentHP -= damage - Stats.Def;
+                mCurrentHP -= damage - mStats.Def;
             }
         }
         
     }
     public void PlayerSkill()
     {
-        //TODO mValue = Player.Instance.mInfoArr[Player.Instance.mID].Atk;
+        //TODO mValue = Player.Instance.Stats.Atk;
         //벨류는 스킬에 따라 각각 적용하기로
         switch (mID)
         {
@@ -201,19 +214,19 @@ public class Player : MonoBehaviour
         UIController.Instance.ShowHP();
     }
 
-    public IEnumerator Atk(float value = 0, float Cool = 0)
+    public IEnumerator Atk(float value, float Cool)
     {
         //TODO 애니메이션 이펙트 추가
         WaitForSeconds Dura = new WaitForSeconds(Cool);
         int ID = NowBuff.Count;
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        Stats.Atk += NowBuffValue[ID];
+        mStats.Atk += NowBuffValue[ID];
         NowBuffType.Add(eBuffType.Atk);
         yield return Dura;
         if (NowBuffActive[ID] == true)
         {
-            Stats.Atk -= NowBuffValue[ID];
+            mStats.Atk -= NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
     }
@@ -224,12 +237,12 @@ public class Player : MonoBehaviour
         int ID = NowBuff.Count;
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        Stats.Spd += NowBuffValue[ID];
+        mStats.Spd += NowBuffValue[ID];
         NowBuffType.Add(eBuffType.Spd);
         yield return Dura;
         if (NowBuffActive[ID] ==true)
         {
-            Stats.Spd -= NowBuffValue[ID];
+            mStats.Spd -= NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
         
@@ -242,12 +255,12 @@ public class Player : MonoBehaviour
         Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        Stats.AtkSpd -= NowBuffValue[ID];
+        mStats.AtkSpd -= NowBuffValue[ID];
         NowBuffType.Add(eBuffType.AtkSpd);
         yield return Dura;
         if (NowBuffActive[ID] == true)
         {
-            Stats.AtkSpd += NowBuffValue[ID];
+            mStats.AtkSpd += NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
     }
@@ -259,14 +272,47 @@ public class Player : MonoBehaviour
         Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        Stats.Def += NowBuffValue[ID];
+        mStats.Def += NowBuffValue[ID];
         NowBuffType.Add(eBuffType.Def);
         yield return Dura;
         if (NowBuffActive[ID] == true)
         {
-            Stats.Def -= NowBuffValue[ID];
+            mStats.Def -= NowBuffValue[ID];
             NowBuffActive[ID] = false;
         }
     }
-
+    //Artifact
+    public void EquipArtifact(Artifacts art)
+    {
+        art.Equip = true;
+        mMaxHP += art.mStats.Hp;
+        mStats.Atk += art.mStats.Atk;
+        mStats.AtkSpd -= art.mStats.AtkSpd;
+        mStats.Spd += art.mStats.Spd;
+        mStats.Def += art.mStats.Def;
+        mStats.Crit += art.mStats.Crit / 100;
+        mStats.CritDamage += art.mStats.CritDamage;
+        mStats.CCReduce += art.mStats.CCReduce;
+        mStats.CooltimeReduce += art.mStats.CooltimeReduce;
+        if (art.mType == eArtifactType.Use)
+        {
+            NowUsingArtifact = art;
+            UIController.Instance.ShowArtifactImage();
+        }
+        UIController.Instance.ShowHP();
+    }
+    public void UnequipArtifact(Artifacts art)
+    {
+        mMaxHP += art.mStats.Hp;
+        mStats.Atk -= art.mStats.Atk;
+        mStats.AtkSpd += art.mStats.AtkSpd;
+        mStats.Spd -= art.mStats.Spd;
+        mStats.Def -= art.mStats.Def;
+        mStats.Crit -= art.mStats.Crit / 100;
+        mStats.CritDamage -= art.mStats.CritDamage;
+        mStats.CCReduce -= art.mStats.CCReduce;
+        mStats.CooltimeReduce -= art.mStats.CooltimeReduce;
+        UIController.Instance.ShowHP();
+        art.Equip = false;
+    }
 }

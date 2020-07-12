@@ -44,6 +44,7 @@ public class Portal : MonoBehaviour
 
     public void nextroom()
     {
+        Player.Instance.TargetReset();
         GameController.Instance.Level++;
         Debug.Log("방 재시작, 현재 지하 " + GameController.Instance.Level + "층");//4층까지 존재 
         Debug.Log(GameController.Instance.Level);

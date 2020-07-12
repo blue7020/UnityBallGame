@@ -14,7 +14,7 @@ public class Artifacts : InformationLoader
     public Room Currentroom;
     public Vector3 backupPos;
 
-    public Artifact Stats;
+    public ArtifactStat mStats;
     public ArtifactTextStat TextStats;
 
     public bool Equip;
@@ -24,7 +24,7 @@ public class Artifacts : InformationLoader
 
     private void Start()
     {
-        Stats = ArtifactController.Instance.mInfoArr[mID];
+        mStats = ArtifactController.Instance.mInfoArr[mID];
         TextStats = ArtifactController.Instance.mStatInfoArr[mID];
         IsShopItem = false;
         Equip = false;
@@ -37,7 +37,7 @@ public class Artifacts : InformationLoader
         {
             if (Cool == false)
             {
-                float realCoolDown = Stats.Skill_Cooltime * (1 + Player.Instance.Stats.CooltimeReduce / 100);
+                float realCoolDown = mStats.Skill_Cooltime * (1 + Player.Instance.mStats.CooltimeReduce / 100);
                 Debug.Log("유물 사용");
                 StartCoroutine(Cooldown(realCoolDown));
                 //TODO 델리게이트를 사용해 추가 효과 부여
@@ -60,23 +60,7 @@ public class Artifacts : InformationLoader
     {
         if (Equip == false)
         {
-            Equip = true;
-            Player.Instance.mMaxHP += Stats.Hp;
-            Player.Instance.Stats.Atk += Stats.Atk;
-            Player.Instance.Stats.AtkSpd -= Stats.AtkSpd;
-            Player.Instance.Stats.Spd += Stats.Spd;
-            Player.Instance.Stats.Def += Stats.Def;
-            Player.Instance.Stats.Crit += Stats.Crit / 100;
-            Player.Instance.Stats.CritDamage += Stats.CritDamage;
-            Player.Instance.Stats.CCReduce += Stats.CCReduce;
-            Player.Instance.Stats.CooltimeReduce += Stats.CooltimeReduce;
-            if (mType == eArtifactType.Use)
-            {
-                Player.Instance.NowUsingArtifact = this;
-                UIController.Instance.ShowArtifactImage();
-            }
-            UIController.Instance.ShowHP();
-
+            Player.Instance.EquipArtifact(this);
         }
     }
 
@@ -84,17 +68,7 @@ public class Artifacts : InformationLoader
     {
         if (Equip == true)
         {
-            Player.Instance.mMaxHP += Stats.Hp;
-            Player.Instance.Stats.Atk -= Stats.Atk;
-            Player.Instance.Stats.AtkSpd += Stats.AtkSpd;
-            Player.Instance.Stats.Spd -= Stats.Spd;
-            Player.Instance.Stats.Def -= Stats.Def;
-            Player.Instance.Stats.Crit -= Stats.Crit / 100;
-            Player.Instance.Stats.CritDamage -= Stats.CritDamage;
-            Player.Instance.Stats.CCReduce -= Stats.CCReduce;
-            Player.Instance.Stats.CooltimeReduce -= Stats.CooltimeReduce;
-            UIController.Instance.ShowHP();
-            Equip = false;
+            Player.Instance.UnequipArtifact(this);
         }
     }
 

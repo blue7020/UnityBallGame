@@ -64,7 +64,7 @@ public class ItemStat
 }
 
 [Serializable]
-public class Artifact
+public class ArtifactStat
 {
     public int ID;
     public int Price;

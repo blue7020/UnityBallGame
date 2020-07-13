@@ -7,6 +7,7 @@ public class PlayerList : InformationLoader
     public static PlayerList Instance;
 
     public Player[] mPlayer;
+    public Room StartRoom;
 
     public VirtualJoyStick stick;
     public PlayerStat[] mInfoArr;
@@ -33,17 +34,19 @@ public class PlayerList : InformationLoader
         {
             case 0:
                 Player p0 = Instantiate(mPlayer[0], Vector3.zero, Quaternion.identity);
-                UIController.Instance.CharacterImage();
                 Player.Instance.mStats = mInfoArr[0];
                 p0.joyskick = stick;
-                Player.Instance.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(0);
+                p0.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(0);
+                UIController.Instance.CharacterImage();
+                UIController.Instance.ShowWeaponImage();
                 break;
             case 1:
                 Player p1 = Instantiate(mPlayer[1], Vector3.zero, Quaternion.identity);
-                UIController.Instance.CharacterImage();
                 Player.Instance.mStats = mInfoArr[1];
                 p1.joyskick = stick;
-                Player.Instance.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(1);
+                p1.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(1);
+                UIController.Instance.CharacterImage();
+                UIController.Instance.ShowWeaponImage();
                 break;
             default:
                 Debug.LogError("Wrong Player ID");

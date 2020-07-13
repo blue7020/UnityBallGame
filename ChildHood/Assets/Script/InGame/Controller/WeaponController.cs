@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArtifactController : InformationLoader
+public class WeaponController : InformationLoader
 {
-    public static ArtifactController Instance;
 
-    public ArtifactStat[] mInfoArr;
-    public ArtifactTextStat[] mStatInfoArr;
+    public static WeaponController Instance;
 
-    public ArtifactStat[] GetInfoArr()
+    [SerializeField]
+    public WeaponStat[] mInfoArr;
+
+    public WeaponStat[] GetInfoArr()
     {
         return mInfoArr;
     }
@@ -28,7 +29,6 @@ public class ArtifactController : InformationLoader
         {
             DontDestroyOnLoad(gameObject);
         }
-        LoadJson(out mInfoArr, Path.ARTIFACT_STAT);
-        LoadJson(out mStatInfoArr, Path.ARTIFACT_TEXT_STAT);
+        LoadJson(out mInfoArr, Path.WEAPON_STAT);
     }
 }

@@ -30,8 +30,8 @@ public class Player : MonoBehaviour
     public List<float> NowBuffValue;
     public List<eBuffType> NowBuffType;
     public List<bool> NowBuffActive;
-    [SerializeField]
-    public List<Enemy> TargetList;
+    //[SerializeField]
+    //public List<Enemy> TargetList;
 
     public PlayerStat mStats;
 
@@ -73,8 +73,14 @@ public class Player : MonoBehaviour
         }
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        TargetReset();
+        //TargetReset();
     }
+
+    //대상 초기화
+    //public void TargetReset()
+    //{
+    //    TargetList = new List<Enemy>();
+    //}
 
     private void Start()
     {
@@ -136,14 +142,6 @@ public class Player : MonoBehaviour
         }
 
         mRB2D.velocity = dir;
-    }
-
-    //대상 초기화
-    public void TargetReset()
-    {
-        Debug.Log(TargetList.Count);
-        TargetList = new List<Enemy>();
-        Debug.Log(TargetList.Count);
     }
 
     public void Hit(float damage)

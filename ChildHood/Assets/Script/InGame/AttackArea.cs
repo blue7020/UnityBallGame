@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackArea : Timer
 {
-    public static AttackArea instance;
+    public static AttackArea Instance;
 
     private Animator mAnim;
     [SerializeField]
@@ -12,7 +12,6 @@ public class AttackArea : Timer
     [SerializeField]
     private Weapon weapon;
     public Transform BulletStarter;
-    public Transform BulletEnd;
     private SpriteRenderer mRenderer;
     private PlayerBullet bolt;
 
@@ -21,9 +20,9 @@ public class AttackArea : Timer
 
     private void Awake()
     {
-        if (instance==null)
+        if (Instance==null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -64,11 +63,10 @@ public class AttackArea : Timer
         }
     }
 
-    public void ResetDir()
+    private void ResetDir()
     {
         bolt.transform.position = BulletStarter.position;
-        Vector2 dir = BulletStarter.position - BulletEnd.position;
-        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        bolt.mRB2D.AddForce(BulletStarter.up*bolt.mSpeed,ForceMode2D.Impulse);
     }
 
     public void AttackEnd()

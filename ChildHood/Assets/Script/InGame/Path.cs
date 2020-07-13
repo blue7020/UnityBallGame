@@ -12,4 +12,5 @@ public class Path
     public const string ARTIFACT_STAT = JSON_FILE_LOCATION + "ArtifactStat";
     public const string ARTIFACT_TEXT_STAT = JSON_FILE_LOCATION + "ArtifactTextStat";
     public const string STATUE_STAT = JSON_FILE_LOCATION + "StatueStat";
+    public const string WEAPON_STAT = JSON_FILE_LOCATION + "WeaponStat";
 }

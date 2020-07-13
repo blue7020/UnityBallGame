@@ -153,7 +153,6 @@ public class Enemy : InformationLoader
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, Stats.Gold);
             mEnemySkill.DieSkill();
-            Player.Instance.TargetList.RemoveAt(0);
             if (Player.Instance.NowEnemyCount > 0)
             {
                 Player.Instance.NowEnemyCount--;

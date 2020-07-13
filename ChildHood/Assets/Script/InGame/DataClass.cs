@@ -31,6 +31,19 @@ public class PlayerStat
 }
 
 [Serializable]
+public class WeaponStat
+{
+    public int ID;
+    public string Name;
+    public string EngName;
+
+    public float Atk;
+    public float AtkSpd;
+    public float Crit;
+    public float CritDamage;
+}
+
+[Serializable]
 public class MonsterStat
 {
     public int ID;

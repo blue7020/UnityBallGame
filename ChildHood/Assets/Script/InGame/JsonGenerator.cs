@@ -249,20 +249,31 @@ public class JsonGenerator : MonoBehaviour
     */
     public void GenerateStatueStatInfo()
     {
-        StatuetStat[] infoArr = new StatuetStat[1];
-        infoArr[0] = new StatuetStat();
+        WeaponStat[] infoArr = new WeaponStat[2];
+        infoArr[0] = new WeaponStat();
         infoArr[0].ID = 0;
+        infoArr[0].Name = "이쑤시개";
+        infoArr[0].EngName = "Toothpick";
 
-        infoArr[0].Atk = 5;
-        infoArr[0].Def = 0;
+        infoArr[0].Atk = 1;
+        infoArr[0].AtkSpd = 1.0f;
+
         infoArr[0].AtkSpd = 0;
-        infoArr[0].Spd = 0;
+        infoArr[0].CritDamage = 0;
 
-        infoArr[0].Cooltime = 0;
-        infoArr[0].Duration = 0;
+        infoArr[1] = new WeaponStat();
+        infoArr[1].ID = 1;
+        infoArr[1].Name = "케첩";
+        infoArr[1].EngName = "Ketchup";
+
+        infoArr[1].Atk = 0.5f;
+        infoArr[1].AtkSpd = 0.5f;
+
+        infoArr[1].AtkSpd = 0;
+        infoArr[1].CritDamage = 0;
 
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
-        WriteFile(data, "StatueStat.json");
+        WriteFile(data, "WeaponStat.json");
     }
 
     private void WriteFile(string data, string fileName)

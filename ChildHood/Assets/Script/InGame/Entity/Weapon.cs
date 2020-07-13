@@ -5,20 +5,19 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public static Weapon Instance;
-    [SerializeField]
-    public GameObject WeaponImage;
 
-    [SerializeField]
+    public Sprite mWeaponImage;
+
     public eWeaponType eType;
 
+    public WeaponStat mStats;
 
     private Animator mAnim;
     public SpriteRenderer mRenderer;
 
     [SerializeField]
     private AttackArea mAttackArea;
-    //TODO 해당 캐릭터 선택 시 캐릭터의 ID와 같은 ID의 무기 스프라이트 불러오기
-    private int mID=0;
+    public int mID;
     private bool mAttackCooltime;
     public bool Attackon;
 
@@ -32,8 +31,8 @@ public class Weapon : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        mStats = WeaponController.Instance.mInfoArr[mID];
         mAnim = GetComponent<Animator>();
-        mRenderer = WeaponImage.GetComponent<SpriteRenderer>();
         mAttackCooltime = false;
         Attackon = false;
     }

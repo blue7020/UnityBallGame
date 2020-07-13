@@ -131,7 +131,10 @@ public class Artifacts : InformationLoader
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            ItemChange();
+            if (IsShopItem == false)
+            {
+                ItemChange();
+            }
         }
     }
 

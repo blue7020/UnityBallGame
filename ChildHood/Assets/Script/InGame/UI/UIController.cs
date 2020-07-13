@@ -14,25 +14,17 @@ public class UIController : MonoBehaviour
     private Text mHPText;
     [SerializeField]
     private Text mStatText, mNameText;
-    [SerializeField]
     public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage;
-    [SerializeField]
     public Image mitemImage, mArtifactImage, mUsingArtifactImage;
 
-    [SerializeField]
     public Sprite[] mCharacterSprite;
     [SerializeField]
     private Sprite[] mSkillSprite;
-    [SerializeField]
     public Sprite DefaultItemSprite;
 
     [SerializeField]
     private Button mStatButton;
-    [SerializeField]
     public Button mSKillButton;
-    [SerializeField]
-    private Button mAttackButton;
-    [SerializeField]
     public Button mItemButton, mArtifactButton;
 
     [SerializeField]
@@ -41,7 +33,6 @@ public class UIController : MonoBehaviour
     private Toggle mMiniMapButton;
     [SerializeField]
     private Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
-    [SerializeField]
     public Tooltip tooltip;
 
 
@@ -56,6 +47,8 @@ public class UIController : MonoBehaviour
         {
             Delete();
         }
+        mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
+        mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
     }
 
     private void Start()
@@ -64,9 +57,6 @@ public class UIController : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        CharacterImage();
-        mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
-        mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
     }
 
 
@@ -151,18 +141,20 @@ public class UIController : MonoBehaviour
             mArtifactImage.sprite = Player.Instance.NowUsingArtifact.mRenderer.sprite;
         }
     }
+
     public void ShowWeaponImage()
     {
-        mWeaponImage.sprite = Player.Instance.NowPlayerWeapon.mRenderer.sprite;
+       mWeaponImage.sprite = Player.Instance.NowPlayerWeapon.mRenderer.sprite;
     }
-
-
 
     public void ShowSkill()
     {
         switch (GameSetting.Instance.PlayerID)
         {
             case 0:
+                //스킬 이미지
+                break;
+            case 1:
                 //스킬 이미지
                 break;
             default:

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -148,6 +149,7 @@ public class Player : MonoBehaviour
     {
         if (Nodamage ==false)
         {
+                StartCoroutine(HitAnimation());
             if (damage - mStats.Def < 1)
             {
                 damage = 0.5f;
@@ -158,8 +160,21 @@ public class Player : MonoBehaviour
                 mCurrentHP -= damage - mStats.Def;
             }
         }
-        
+        if (mCurrentHP <= 0)
+        {
+            GameController.Instance.GameOver();
+        }
     }
+
+    private IEnumerator HitAnimation()
+    {
+        WaitForSeconds Time = new WaitForSeconds(0.3f);
+        mRenderer.color = Color.red;
+        yield return Time;
+        mRenderer.color = Color.white;
+        StopCoroutine(HitAnimation());
+    }
+
     public void PlayerSkill()
     {
         //TODO mValue = Player.Instance.Stats.Atk;
@@ -312,5 +327,27 @@ public class Player : MonoBehaviour
         mStats.CooltimeReduce -= art.mStats.CooltimeReduce;
         UIController.Instance.ShowHP();
         art.Equip = false;
+    }
+
+    internal void EquipWeapon(Weapon weapon)
+    {
+        weapon.Equip = true;
+        mStats.Atk += weapon.mStats.Atk;
+        mStats.AtkSpd += weapon.mStats.AtkSpd;
+        mStats.Crit += weapon.mStats.Crit / 100;
+        mStats.CritDamage += weapon.mStats.CritDamage;
+        NowPlayerWeapon = weapon;
+        UIController.Instance.ShowWeaponImage();
+    }
+
+    internal void UnequipWeapon(Weapon weapon)
+    {
+        mStats.Atk -= weapon.mStats.Atk;
+        mStats.AtkSpd -= weapon.mStats.AtkSpd;
+        mStats.Crit -= weapon.mStats.Crit / 100;
+        mStats.CritDamage -= weapon.mStats.CritDamage;
+        NowPlayerWeapon = null;
+        UIController.Instance.ShowWeaponImage();
+        weapon.Equip = false;
     }
 }

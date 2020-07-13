@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public static Weapon Instance;
 
     public Sprite mWeaponImage;
+    public bool Equip;
 
     public eWeaponType eType;
 
@@ -23,18 +23,11 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance==null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
         mStats = WeaponController.Instance.mInfoArr[mID];
         mAnim = GetComponent<Animator>();
         mAttackCooltime = false;
         Attackon = false;
+        Equip = false;
     }
 
     private void FixedUpdate()
@@ -61,7 +54,7 @@ public class Weapon : MonoBehaviour
 
     public void MeleeAttack()
     {
-        if (mAttackCooltime == false)
+        if (mAttackCooltime == false && Player.Instance.mStats.AtkSpd > 0f)
         {
             StartCoroutine(MeleeCool());
         }
@@ -77,7 +70,7 @@ public class Weapon : MonoBehaviour
 
     public void RangeAttack()
     {
-        if (mAttackCooltime == false)
+        if (mAttackCooltime == false && Player.Instance.mStats.AtkSpd > 0f)
         {
             StartCoroutine(RangeCool());
         }
@@ -91,4 +84,20 @@ public class Weapon : MonoBehaviour
         mAttackCooltime = false;
     }
 
+
+    public void EquipWeapon()
+    {
+        if (Equip == false)
+        {
+            Player.Instance.EquipWeapon(this);
+        }
+    }
+
+    public void UnequipWeapon()
+    {
+        if (Equip == true)
+        {
+            Player.Instance.UnequipWeapon(this);
+        }
+    }
 }

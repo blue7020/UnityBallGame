@@ -37,6 +37,7 @@ public class PlayerList : InformationLoader
                 Player.Instance.mStats = mInfoArr[0];
                 p0.joyskick = stick;
                 p0.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(0);
+                p0.NowPlayerWeapon.EquipWeapon();
                 UIController.Instance.CharacterImage();
                 UIController.Instance.ShowWeaponImage();
                 break;
@@ -45,6 +46,7 @@ public class PlayerList : InformationLoader
                 Player.Instance.mStats = mInfoArr[1];
                 p1.joyskick = stick;
                 p1.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(1);
+                p1.NowPlayerWeapon.EquipWeapon();
                 UIController.Instance.CharacterImage();
                 UIController.Instance.ShowWeaponImage();
                 break;

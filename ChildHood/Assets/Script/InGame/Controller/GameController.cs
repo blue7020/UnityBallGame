@@ -59,6 +59,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void GameOver()
+    {
+        Debug.LogError("GameOver!");
+    }
+
     public void MainMenu()
     {
         GotoMain = true;

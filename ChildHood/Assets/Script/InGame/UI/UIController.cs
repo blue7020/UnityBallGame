@@ -144,7 +144,14 @@ public class UIController : MonoBehaviour
 
     public void ShowWeaponImage()
     {
-       mWeaponImage.sprite = Player.Instance.NowPlayerWeapon.mRenderer.sprite;
+        if (Player.Instance.NowPlayerWeapon==null)
+        {
+            mWeaponImage.sprite = DefaultItemSprite;
+        }
+        else
+        {
+            mWeaponImage.sprite = Player.Instance.NowPlayerWeapon.mRenderer.sprite;
+        }
     }
 
     public void ShowSkill()

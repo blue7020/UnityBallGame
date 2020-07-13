@@ -144,15 +144,15 @@ public class Enemy : InformationLoader
         }
         if (mCurrentHP <= 0)
         {
-            mHPBar.gameObject.SetActive(false);
-            mHPBar = null;
-            HPBarOn = false;
 
             DropGold mGold = GoldPool.Instance.GetFromPool();
             mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, Stats.Gold);
             mEnemySkill.DieSkill();
+            mHPBar.gameObject.SetActive(false);
+            mHPBar = null;
+            HPBarOn = false;
             if (Player.Instance.NowEnemyCount > 0)
             {
                 Player.Instance.NowEnemyCount--;

@@ -64,7 +64,7 @@ public class Artifacts : InformationLoader
         }
     }
 
-    public void ClearArtifact()
+    public void UnequipArtifact()
     {
         if (Equip == true)
         {
@@ -105,7 +105,7 @@ public class Artifacts : InformationLoader
         {
             if (mType == eArtifactType.Use && drop.mType == eArtifactType.Use)
             {
-                drop.ClearArtifact();
+                drop.UnequipArtifact();
                 Clamp();
                 Player.Instance.NowUsingArtifact = null;
                 drop.gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);

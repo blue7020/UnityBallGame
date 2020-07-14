@@ -42,8 +42,9 @@ public enum eEnemyType
 
 public enum eTrapType
 {
-    Damage,
-    Slow
+    TickSpike,
+    Slow,
+    Spike
 }
 
 public enum eDirection

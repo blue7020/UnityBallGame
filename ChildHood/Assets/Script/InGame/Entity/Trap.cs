@@ -10,7 +10,6 @@ public class Trap : MonoBehaviour
     [SerializeField]
     private float mValue;
     private bool TrapTrigger;//애니메이션 비례 함정 작동
-    private bool PlayerOnTrap;//플레이어가 함정 위에 있는가
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -20,7 +19,7 @@ public class Trap : MonoBehaviour
             {
                 switch (mType)
                 {
-                    case eTrapType.Damage:
+                    case eTrapType.TickSpike:
                         mTarget = other.GetComponent<Player>();
                         TrapTrigger = true;
                         //애니메이션에서 처리
@@ -28,6 +27,11 @@ public class Trap : MonoBehaviour
                     case eTrapType.Slow:
                         mTarget = other.GetComponent<Player>();
                         Slow();
+                        break;
+                    case eTrapType.Spike:
+                        mTarget = other.GetComponent<Player>();
+                        TrapTrigger = true;
+                        StartCoroutine(Spike());
                         break;
                     default:
                         Debug.LogError("Wrong Trap Type");
@@ -45,13 +49,17 @@ public class Trap : MonoBehaviour
         {
             switch (mType)
             {
-                case eTrapType.Damage:
+                case eTrapType.TickSpike:
                     TrapTrigger = false;
                     //애니메이션에서 처리
                     break;
                 case eTrapType.Slow:
                     mTarget.mStats.Spd += mValue;
                     mTarget = null;
+                    break;
+                case eTrapType.Spike:
+                    TrapTrigger = false;
+                    StopCoroutine(Spike());
                     break;
                 default:
                     Debug.LogError("Wrong Trap Type");
@@ -78,5 +86,12 @@ public class Trap : MonoBehaviour
         {
             mTarget.mStats.Spd -= mValue;
         }
+    }
+
+    private IEnumerator Spike()
+    {
+        WaitForSeconds Delay = new WaitForSeconds(0.5f);
+        Damage();
+        yield return Delay;
     }
 }

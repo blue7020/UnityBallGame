@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class Chest : MonoBehaviour
 {
-    [SerializeField]
     public GameObject mItem;
-    [SerializeField]
     public SpriteRenderer mRenderer;
     [SerializeField]
     private Sprite[] mSprites;
@@ -49,7 +47,7 @@ public class Chest : MonoBehaviour
         float rand;
 
         rand = Random.Range(0, 1f);
-        if (rand > 0.5f)//상자
+        if (rand > 0.4f)//상자
         {
             mRenderer.sprite = mSprites[0];
         }

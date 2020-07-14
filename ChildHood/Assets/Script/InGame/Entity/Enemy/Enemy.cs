@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class Enemy : InformationLoader
 {
-    //TODO 몬스터 생성 시 해당 ID에 맞는 몬스터의 정보와 스프라이트를 출력하게끔
     public eMonsterState State;
-    [SerializeField]
     public eEnemyType eType;
     public int mDelayCount;
     public bool Focus;
@@ -33,7 +31,6 @@ public class Enemy : InformationLoader
     public Coroutine mCoroutine;
 
     public Animator mAnim;
-    [SerializeField]
     public float mCurrentHP;
     public float mMaxHP;
 
@@ -45,11 +42,11 @@ public class Enemy : InformationLoader
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
         Focus = false;
-        mMaxHP = Stats.Hp;
-        mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
     private void Start()
     {
+        mMaxHP = Stats.Hp + ((GameController.Instance.StageHP + GameController.Instance.MapLevel) * GameController.Instance.Level);
+        mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         AttackOn = false;
         AttackCheck = true;
         State = eMonsterState.Idle;

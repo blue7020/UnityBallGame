@@ -58,6 +58,8 @@ public class AttackArea : Timer
     {
         if (weapon.eType == eWeaponType.Range)
         {
+            weapon.nowBullet--;
+            UIController.Instance.bulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
             bolt = PlayerBulletPool.Instance.GetFromPool(0);//TODO 플레이어 무기에 따라 투사체 ID변경
             ResetDir();
         }

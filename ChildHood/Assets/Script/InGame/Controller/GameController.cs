@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     public int Level;//현재 층
     public int MapLevel;//현재 스테이지
+    public int StageHP;
 
 
     private void Awake()
@@ -24,6 +25,7 @@ public class GameController : MonoBehaviour
         {
             Delete();
         }
+        StageHP = 4;
         GotoMain = false;
         pause = false;
         UIController.Instance.CharacterImage();

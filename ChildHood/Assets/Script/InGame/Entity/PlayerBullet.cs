@@ -11,28 +11,7 @@ public class PlayerBullet : MonoBehaviour
     private void Awake()
     {
         mRB2D = GetComponent<Rigidbody2D>();
-        //StartCoroutine(Homming());
     }
-
-    //TODO 현재 오류 : 대상 몬스터가 사망하여 탄환이 대상을 잃었을 때 터짐
-    //private IEnumerator Homming()
-    //{
-    //    WaitForSeconds OnePoint = new WaitForSeconds(0.3f);
-    //    while (true)
-    //    {
-    //        if (Player.Instance.TargetList.Count > 0)
-    //        {
-    //            int index = Player.Instance.TargetList.Count - 1;
-    //            Target = Player.Instance.TargetList[index];
-    //            Vector3 pos = Target.transform.position;
-    //            Vector3 direction = pos - transform.position;//방향벡터 = 목적지 - 나
-    //            mRB2D.velocity = direction.normalized * mSpeed;
-    //        }
-    //        yield return OnePoint;
-    //    }
-        
-    //}
-
 
 
     private void OnTriggerEnter2D(Collider2D other)

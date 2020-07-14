@@ -12,6 +12,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     public Vector2 inputVector;
     private bool AttackSwitch;
     float AttackCurrentTime;
+    float CoolMaxtime;
 
     private void Awake()
     {
@@ -29,11 +30,6 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
     public virtual void OnDrag(PointerEventData ped)
     {
-        if (AttackCurrentTime <= 0)
-        {
-            StartCoroutine(CooltimeRoutine());
-            AttackSwitch = true;
-        }
         Vector2 pos;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BG.rectTransform,
                                                                     ped.position,
@@ -51,6 +47,19 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2),
                               inputVector.y * (BG.rectTransform.sizeDelta.y / 2));
 
+            if (AttackCurrentTime <= 0)
+            {
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee|| Player.Instance.NowPlayerWeapon.nowBullet>=1)
+                {
+                    CoolMaxtime = Player.Instance.mStats.AtkSpd;
+                }
+                else if(Player.Instance.NowPlayerWeapon.nowBullet<= 0)
+                {
+                    CoolMaxtime = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                }
+                StartCoroutine(CooltimeRoutine(CoolMaxtime));
+                AttackSwitch = true;
+            }
             //무기 방향 돌리기
             float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
             Player.Instance.NowPlayerWeapon.transform.rotation = Quaternion.AngleAxis(angle+180, Vector3.forward);
@@ -59,12 +68,21 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 if (Player.Instance.NowPlayerWeapon.eType==eWeaponType.Melee)
                 {
                     Player.Instance.NowPlayerWeapon.MeleeAttack();
+                    StartCoroutine(AttackCooltime());
                 }
                 if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
                 {
-                    Player.Instance.NowPlayerWeapon.RangeAttack();
+                    if (Player.Instance.NowPlayerWeapon.nowBullet >=1)
+                    {
+                        Player.Instance.NowPlayerWeapon.RangeAttack();
+                        StartCoroutine(AttackCooltime());
+                    }
+                    else
+                    {
+                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                    }
                 }
-                    StartCoroutine(AttackCooltime());
+                    
             }
         }
 
@@ -110,16 +128,16 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         }
     }
 
-    private IEnumerator CooltimeRoutine()
+    private IEnumerator CooltimeRoutine(float maxTime)
     {
+        float CoolTime = maxTime;
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
-        float maxTime = Player.Instance.mStats.AtkSpd;
-        AttackCurrentTime = maxTime;
+        AttackCurrentTime = CoolTime;
         while (AttackCurrentTime >= 0)
         {
             yield return frame;
             AttackCurrentTime -= Time.fixedDeltaTime;
-            ShowCooltime(maxTime, AttackCurrentTime);
+            ShowCooltime(CoolTime, AttackCurrentTime);
         }
     }
 

@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     public VirtualJoyStick joyskick;
 
     public int mID;
-    [SerializeField]
     public Sprite PlayerImage;
     public float mMaxHP;
     public float mCurrentHP;
@@ -26,7 +25,6 @@ public class Player : MonoBehaviour
     public int NowEnemyCount;
     public int EnemySwitch;
 
-    [SerializeField]
     public List<Coroutine> NowBuff;
     public List<float> NowBuffValue;
     public List<eBuffType> NowBuffType;
@@ -51,7 +49,6 @@ public class Player : MonoBehaviour
         mStats = stat;
     }
 
-    [SerializeField]
     public SpriteRenderer mRenderer;
     public Rigidbody2D mRB2D;
     public Animator mAnim;
@@ -74,14 +71,7 @@ public class Player : MonoBehaviour
         }
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        //TargetReset();
     }
-
-    //대상 초기화
-    //public void TargetReset()
-    //{
-    //    TargetList = new List<Enemy>();
-    //}
 
     private void Start()
     {
@@ -99,6 +89,7 @@ public class Player : MonoBehaviour
         mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
+        UIController.Instance.ShowNowBulletText();
     }
 
     public void Delete()
@@ -170,8 +161,10 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Time = new WaitForSeconds(0.3f);
         mRenderer.color = Color.red;
+        Nodamage = true;
         yield return Time;
         mRenderer.color = Color.white;
+        Nodamage = false;
         StopCoroutine(HitAnimation());
     }
 

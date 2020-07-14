@@ -11,6 +11,8 @@ public class Weapon : MonoBehaviour
     public eWeaponType eType;
 
     public WeaponStat mStats;
+    public int nowBullet;
+    public int MaxBullet;
 
     private Animator mAnim;
     public SpriteRenderer mRenderer;
@@ -28,6 +30,8 @@ public class Weapon : MonoBehaviour
         mAttackCooltime = false;
         Attackon = false;
         Equip = false;
+        MaxBullet = mStats.Bullet;
+        nowBullet = MaxBullet;
     }
 
     private void FixedUpdate()

@@ -12,8 +12,7 @@ public class UIController : MonoBehaviour
     private Text mGoldText;
     [SerializeField]
     private Text mHPText;
-    [SerializeField]
-    private Text mStatText, mNameText;
+    public Text mStatText, mNameText, bulletText;
     public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage;
 
@@ -153,6 +152,19 @@ public class UIController : MonoBehaviour
             mWeaponImage.sprite = Player.Instance.NowPlayerWeapon.mRenderer.sprite;
         }
     }
+    public void ShowNowBulletText()
+    {
+        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+        {
+            bulletText.gameObject.SetActive(true);
+            bulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+        }
+        else if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
+        {
+            bulletText.gameObject.SetActive(false);
+        }
+    }
+
 
     public void ShowSkill()
     {

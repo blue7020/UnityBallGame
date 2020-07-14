@@ -39,6 +39,8 @@ public class WeaponStat
 
     public float Atk;
     public float AtkSpd;
+    public float ReloadCool;
+    public int Bullet;
     public float Crit;
     public float CritDamage;
 }

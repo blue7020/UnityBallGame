@@ -14,6 +14,8 @@ public class MainScreenUIController : MonoBehaviour
     [SerializeField]
     private Button mEngButton, mKorButton;
 
+    public int SceneNumber; //테스트 용도로 나중엔 1이나 2로 고정하기
+
     private void Awake()
     {
         if (Instance == null)
@@ -94,8 +96,7 @@ public class MainScreenUIController : MonoBehaviour
 
     public void GameStart()
     {
-        SceneManager.LoadScene(2);
-        //SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneNumber);
     }
 
     public void Toast()

@@ -13,7 +13,7 @@ public class Room : MonoBehaviour
 
     private bool updatedDoors = false;
 
-    public Room(int x,int y)
+    public Room(int x, int y)
     {
         X = x;
         Y = y;
@@ -35,7 +35,7 @@ public class Room : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameController.Instance.Level<5)
+        if (GameController.Instance.Level < 5)
         {
             if (RoomControllers.Instance == null)
             {
@@ -74,7 +74,7 @@ public class Room : MonoBehaviour
 
     private void Update()
     {
-        if (RoomControllers.Instance.AllRoomGen==true)
+        if (RoomControllers.Instance.AllRoomGen == true)
         {
             if (name.Contains("End") && !updatedDoors)
             {
@@ -107,12 +107,12 @@ public class Room : MonoBehaviour
 
     public void RemoveUnconnectedDoors()
     {
-        foreach(Door door in doors)
+        foreach (Door door in doors)
         {
             switch (door.doorType)
             {
                 case DoorType.top:
-                    if (GetTop()!=null)
+                    if (GetTop() != null)
                     {
                         door.gameObject.SetActive(false);
                     }
@@ -144,9 +144,9 @@ public class Room : MonoBehaviour
 
     public Room GetRight()
     {
-        if (RoomControllers.Instance.DoesRoomExist(X+1,Y))
+        if (RoomControllers.Instance.DoesRoomExist(X + 1, Y))
         {
-            return RoomControllers.Instance.FindRoom(X+1,Y);
+            return RoomControllers.Instance.FindRoom(X + 1, Y);
         }
         return null;
     }

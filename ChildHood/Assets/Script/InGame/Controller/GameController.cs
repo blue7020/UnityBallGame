@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance==null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        if (GotoMain==false)
+        if (GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);
         }
@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
         {
             pause = false;
             Time.timeScale = 1;
-            
+
         }
         else
         {
@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (GotoMain==false)
+        if (GotoMain == false)
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {

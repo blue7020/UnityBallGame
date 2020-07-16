@@ -18,7 +18,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         if (starton==false)
         {
-            RoomControllers.Instance.LoadRoom("Start", 0, 0);
+            RoomControllers.Instance.LoadRoom(0, 0, 0);
             starton = true;
         }
         

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //TODO 캐릭터 선택 시 해당 ID에 맞는 캐릭터의 정보와 스프라이트를 출력하게끔
-
     public static Player Instance;
 
     [SerializeField]
@@ -29,8 +27,7 @@ public class Player : MonoBehaviour
     public List<float> NowBuffValue;
     public List<eBuffType> NowBuffType;
     public List<bool> NowBuffActive;
-    //[SerializeField]
-    //public List<Enemy> TargetList;
+    public int mNowStage;
 
     public PlayerStat mStats;
 
@@ -57,7 +54,6 @@ public class Player : MonoBehaviour
 
     public float hori;
     public float ver;
-
 
     private void Awake()
     {
@@ -90,6 +86,8 @@ public class Player : MonoBehaviour
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
         UIController.Instance.ShowNowBulletText();
+        UIController.Instance.ShowHP();
+        UIController.Instance.ShowGold();
     }
 
     public void Delete()
@@ -99,8 +97,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        UIController.Instance.ShowHP();
-        UIController.Instance.ShowGold();
         Moveing();
         
     }
@@ -155,6 +151,7 @@ public class Player : MonoBehaviour
         {
             GameController.Instance.GameOver();
         }
+        UIController.Instance.ShowHP();
     }
 
     private IEnumerator HitAnimation()

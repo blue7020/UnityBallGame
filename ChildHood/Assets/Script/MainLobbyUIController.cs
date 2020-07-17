@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class MainScreenUIController : MonoBehaviour
+public class MainLobbyUIController : MonoBehaviour
 {
-    public static MainScreenUIController Instance;
+
+    public static MainLobbyUIController Instance;
+
+    public MainLobbyPlayer[] mPlayerList;
 
     [SerializeField]
-    private Text mStartText, mBGMText, mSEText;
+    private Text mCashText;
 
-    [SerializeField]
-    private Button mEngButton, mKorButton;
+
+    private Text mBGMText, mSEText;
+    //public Tooltip tooltip;
+
+
 
     private void Awake()
     {
@@ -24,36 +29,19 @@ public class MainScreenUIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        mKorButton.gameObject.SetActive(false);
-    }
-
-    //0 = 한국어 / 1 = 영어
-    public void LanguagetoKor()
-    {
-        mEngButton.gameObject.SetActive(false);
-        mKorButton.gameObject.SetActive(true);
-        GameSetting.Instance.Language = 1;
-        mStartText.text = "Touch to Start";
-    }
-    public void LanguagetoEng()
-    {
-        mKorButton.gameObject.SetActive(false);
-        mEngButton.gameObject.SetActive(true);
-        GameSetting.Instance.Language = 0;
-        mStartText.text = "화면을 터치해주세요";
     }
 
     public void BGMPlus()
     {
-        if (GameSetting.Instance.BGMSetting<10)
+        if (GameSetting.Instance.BGMSetting < 10)
         {
             GameSetting.Instance.BGMSetting++;
         }
         else
         {
-            GameSetting.Instance.BGMSetting=10;
+            GameSetting.Instance.BGMSetting = 10;
         }
-        mBGMText.text =GameSetting.Instance.BGMSetting.ToString();
+        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
     }
     public void BGMMinus()
     {
@@ -92,8 +80,12 @@ public class MainScreenUIController : MonoBehaviour
         mSEText.text = GameSetting.Instance.SESetting.ToString();
     }
 
-    public void GameStart()
+    public void Toast()
     {
-        SceneManager.LoadScene(1);
+        GameSetting.Instance.PlayerID = 0;
+    }
+    public void Hamegg()
+    {
+        GameSetting.Instance.PlayerID = 1;
     }
 }

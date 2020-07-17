@@ -230,6 +230,7 @@ public class UIController : MonoBehaviour
     {
         string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString());
         mHPText.text = HP;
+        HPBar.Instance.ShowHPBar();
     }
 
     public void ShowStat()

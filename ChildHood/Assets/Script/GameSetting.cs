@@ -7,9 +7,15 @@ public class GameSetting : MonoBehaviour
     public static GameSetting Instance;
 
     public int PlayerID;
+    //저장해야할 것
     public int BGMSetting;
     public int SESetting;
     public int Language; //0 = 한국어 / 1 = 영어
+
+    public bool[] StageOpen;
+
+    private const int CharacterCount = 2;
+    public bool[] CharacterOpen;
 
     private void Awake()
     {
@@ -24,5 +30,9 @@ public class GameSetting : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         BGMSetting = 3;
         SESetting = 3;
+        StageOpen = new bool[6];
+        CharacterOpen = new bool[CharacterCount];
+        StageOpen[0] = true;//1스테이지 오픈
+        CharacterOpen[0] = true;//기본캐릭터 오픈
     }
 }

@@ -49,14 +49,14 @@ public class Portal : MonoBehaviour
         Debug.Log(GameController.Instance.Level);
         if (GameController.Instance.Level == 5)
         {
-            SceneManager.LoadScene(8);
+            SceneManager.LoadScene(3);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
-            GameController.Instance.Level=7;
+            GameController.Instance.Level=6;
         }
         else if (GameController.Instance.Level>5)
         {
-           mClear.gameObject.SetActive(true);
-           mClear.EndGame();
+            GameSetting.Instance.StageOpen[Player.Instance.mNowStage] = true;
+            SceneManager.LoadScene(1);
         }
         else
         {

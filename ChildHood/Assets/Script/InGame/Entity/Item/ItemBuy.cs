@@ -87,7 +87,7 @@ public class ItemBuy : MonoBehaviour
                         
                     } 
                 }
-
+                UIController.Instance.ShowGold();
             }
         }
     }

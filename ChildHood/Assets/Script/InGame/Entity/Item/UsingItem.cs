@@ -19,13 +19,11 @@ public class UsingItem : InformationLoader
 
 
     public bool IsShopItem;
-    private bool PosSet;
+
 
     private void Start()
     {
         Stats = ItemList.Instance.mInfoArr[mID];
-        IsShopItem = false;
-        PosSet = false;
     }
 
     public void UseItem()
@@ -67,7 +65,7 @@ public class UsingItem : InformationLoader
             gameObject.SetActive(false);
             Player.Instance.NowItem = this;
         }
-        else //TODO 게임을 플레이하면서 비활성화된 아이템이 쌓이니까 처리할 방법 모색(destroy?)
+        else
         {
             Clamp();
             UsingItem drop = Player.Instance.NowItem;

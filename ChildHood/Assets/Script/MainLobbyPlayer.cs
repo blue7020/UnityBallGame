@@ -12,17 +12,7 @@ public class MainLobbyPlayer : MonoBehaviour
     public Sprite PlayerImage;
     public eDirection Look;
 
-    public PlayerStat mStats;
-
-    public PlayerStat GetPlayerStats()
-    {
-        return mStats;
-    }
-
-    public void SetPlayerStats(PlayerStat stat)
-    {
-        mStats = stat;
-    }
+    private int mSpeed;
 
     public SpriteRenderer mRenderer;
     public Rigidbody2D mRB2D;
@@ -43,8 +33,8 @@ public class MainLobbyPlayer : MonoBehaviour
         }
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        mStats.Spd = 10;
         mID= GameSetting.Instance.PlayerID;
+        mSpeed = 10;
     }
 
     public void Delete()
@@ -62,7 +52,7 @@ public class MainLobbyPlayer : MonoBehaviour
         hori = joyskick.Horizontal();
         ver = joyskick.Vectical();
         Vector2 dir = new Vector2(hori, ver);
-        dir = dir.normalized * mStats.Spd;
+        dir = dir.normalized * mSpeed;
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);

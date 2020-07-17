@@ -86,8 +86,8 @@ public class Player : MonoBehaviour
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
         UIController.Instance.ShowNowBulletText();
-        UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();
+        UIController.Instance.ShowHP();
     }
 
     public void Delete()

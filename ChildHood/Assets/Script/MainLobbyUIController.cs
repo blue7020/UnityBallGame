@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainLobbyUIController : MonoBehaviour
 {
@@ -9,11 +10,11 @@ public class MainLobbyUIController : MonoBehaviour
     public static MainLobbyUIController Instance;
 
     public MainLobbyPlayer[] mPlayerList;
+    private bool pause;
 
     [SerializeField]
     private Text mCashText;
-
-
+    
     private Text mBGMText, mSEText;
     //public Tooltip tooltip;
 
@@ -29,6 +30,28 @@ public class MainLobbyUIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        pause = false;
+    }
+
+    public void GamePause()
+    {
+        if (pause)
+        {
+            pause = false;
+            Time.timeScale = 1;
+
+        }
+        else
+        {
+            pause = true;
+            Time.timeScale = 0;
+        }
+    }
+
+    public void MainStart()
+    {
+        //TODO 저장기능
+        SceneManager.LoadScene(0);
     }
 
     public void BGMPlus()

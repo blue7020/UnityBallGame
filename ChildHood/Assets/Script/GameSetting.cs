@@ -35,4 +35,9 @@ public class GameSetting : MonoBehaviour
         StageOpen[0] = true;//1스테이지 오픈
         CharacterOpen[0] = true;//기본캐릭터 오픈
     }
+
+    public void CharacterOpenCheat()
+    {
+        CharacterOpen[1] = true;
+    }
 }

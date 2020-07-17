@@ -26,7 +26,6 @@ public class Artifacts : InformationLoader
     {
         mStats = ArtifactController.Instance.mInfoArr[mID];
         TextStats = ArtifactController.Instance.mStatInfoArr[mID];
-        IsShopItem = false;
         Equip = false;
         Cool = false;
     }

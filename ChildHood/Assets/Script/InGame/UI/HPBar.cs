@@ -18,6 +18,7 @@ public class HPBar : MonoBehaviour
         {
             Instance = this;
             mHPBar = GetComponent<Image>();
+
         }
         else
         {
@@ -34,7 +35,6 @@ public class HPBar : MonoBehaviour
 
     public void ShowHPBar()
     {
-        mHPBar.fillAmount = mNowHP / mNowMaxHP;
         if (mNowHP!= Player.Instance.mCurrentHP)
         {
             mNowHP = Player.Instance.mCurrentHP;
@@ -43,6 +43,7 @@ public class HPBar : MonoBehaviour
         {
             mNowMaxHP = Player.Instance.mMaxHP;
         }
+        mHPBar.fillAmount = mNowHP / mNowMaxHP;
     }
 
 }

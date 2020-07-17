@@ -72,13 +72,14 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 }
                 if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
                 {
-                    if (Player.Instance.NowPlayerWeapon.nowBullet >=1)
+                    if (Player.Instance.NowPlayerWeapon.nowBullet >= 1)
                     {
                         Player.Instance.NowPlayerWeapon.RangeAttack();
                         StartCoroutine(AttackCooltime());
                     }
                     else
                     {
+
                         Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
                     }
                 }

@@ -56,6 +56,7 @@ public class ShopController : MonoBehaviour
         {
             int rand = Random.Range(0, mItemList.Count);
             item = Instantiate(mItemList[rand], mPos[0].position, Quaternion.identity);
+            item.IsShopItem = true;
             itembuy[0].item = item;
             mItemList.RemoveAt(rand);
             for (int i = 1; i < mPos.Length; i++)
@@ -74,6 +75,7 @@ public class ShopController : MonoBehaviour
         {
             int rand = Random.Range(0, mItemList.Count);
             item = Instantiate(mItemList[rand], mPos[0].position, Quaternion.identity);
+            item.IsShopItem = true;
             itembuy[0].item = item;
             mItemList.RemoveAt(rand);
             for (int i = 1; i < mPos.Length; i++)

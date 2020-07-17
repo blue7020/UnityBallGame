@@ -6,8 +6,7 @@ public class PlayerSelectController : MonoBehaviour
 {
     public static PlayerSelectController Instance;
 
-    [SerializeField]
-    private PlayerSelect[] mCharacterList;
+    public PlayerSelect[] mCharacterList;
 
     private void Awake()
     {
@@ -21,7 +20,7 @@ public class PlayerSelectController : MonoBehaviour
         }
         for (int i=1; i<mCharacterList.Length;i++)//기본 캐릭터는 식빵이기에 id 0번은 처음에 활성화하지않는다.
         {
-            if (GameSetting.Instance.CharacterOpen[i]==true)
+            if (GameSetting.Instance.CharacterOpen[i]==true&&GameSetting.Instance.PlayerID!=i)
             {
                 mCharacterList[i].gameObject.SetActive(true);
             }

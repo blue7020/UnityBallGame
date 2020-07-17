@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class EnemySkill : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField]
     private Enemy mEnemy;
-    [SerializeField]
     public float mDamage;
     [SerializeField]
     private EnemyAttackArea mAttackArea;
+#pragma warning restore 0649
 
     public bool Skilltrigger;
     public int Skilltick;

@@ -6,9 +6,11 @@ using UnityEngine.EventSystems;
 
 public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
+#pragma warning disable 0649
     [SerializeField]
     private Image BG, Stick;
     private Vector2 inputVector;
+#pragma warning restore 0649
 
     public virtual void OnDrag(PointerEventData ped)
     {

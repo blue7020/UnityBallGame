@@ -9,12 +9,14 @@ public class InventoryController : MonoBehaviour
     private const int SLOT_COUNT = 16;
     public static InventoryController Instance;
 
+#pragma warning disable 0649
     [SerializeField]
     private InventorySlot mSlotPrefab;
     [SerializeField]
     private Transform mSlotParents;
     [SerializeField]
     private Sprite mVoidImage;
+#pragma warning restore 0649
 
     public InventorySlot[] mSlotArr;
     public int nowIndex = 0;

@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class GaugeBar : MonoBehaviour
 {
-
-    [SerializeField]
-    private Image mGauge;
+    public Image mGauge;
 
     public void SetGauge(float current, float max)
     {

@@ -9,12 +9,14 @@ public class ItemList : InformationLoader
     [SerializeField]
     public ItemStat[] mInfoArr;
 
+#pragma warning disable 0649
     [SerializeField]
     private List<GameObject> ItemCommon;
     [SerializeField]
     private List<GameObject> ItemRare;
     [SerializeField]
     private List<GameObject> ItemEpic;
+#pragma warning restore 0649
 
     public ItemStat[] GetInfoArr()
     {

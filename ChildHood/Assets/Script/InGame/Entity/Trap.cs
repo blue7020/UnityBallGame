@@ -5,10 +5,12 @@ using UnityEngine;
 public class Trap : MonoBehaviour
 {
     private Player mTarget;
+#pragma warning disable 0649
     [SerializeField]
     private eTrapType mType;
     [SerializeField]
     private float mValue;
+#pragma warning restore 0649
     private bool TrapTrigger;//애니메이션 비례 함정 작동
 
     private void OnTriggerEnter2D(Collider2D other)

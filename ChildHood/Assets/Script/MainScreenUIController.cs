@@ -8,11 +8,12 @@ public class MainScreenUIController : MonoBehaviour
 {
     public static MainScreenUIController Instance;
 
+#pragma warning disable 0649
     [SerializeField]
     private Text mStartText, mBGMText, mSEText;
-
     [SerializeField]
     private Button mEngButton, mKorButton;
+#pragma warning restore 0649
 
     private void Awake()
     {

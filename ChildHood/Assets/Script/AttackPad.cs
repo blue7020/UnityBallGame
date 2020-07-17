@@ -7,8 +7,7 @@ using UnityEngine.EventSystems;
 public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     public static AttackPad Instance;
-    [SerializeField]
-    private Image BG, Stick, CoolWheel;
+    public Image BG, Stick, CoolWheel;
     public Vector2 inputVector;
     private bool AttackSwitch;
     float AttackCurrentTime;

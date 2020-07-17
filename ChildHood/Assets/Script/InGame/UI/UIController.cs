@@ -8,11 +8,7 @@ public class UIController : MonoBehaviour
 
     public static UIController Instance;
 
-    [SerializeField]
-    private Text mGoldText;
-    [SerializeField]
-    private Text mHPText;
-    public Text mStatText, mNameText, bulletText;
+    public Text mGoldText, mHPText,mStatText, mNameText, bulletText;
     public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage;
 
@@ -26,12 +22,14 @@ public class UIController : MonoBehaviour
     public Button mSKillButton;
     public Button mItemButton, mArtifactButton;
 
+#pragma warning disable 0649
     [SerializeField]
     private RawImage mMiniMapCamera;
     [SerializeField]
     private Toggle mMiniMapButton;
     [SerializeField]
     private Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
+#pragma warning restore 0649
     public Tooltip tooltip;
 
 
@@ -228,9 +226,9 @@ public class UIController : MonoBehaviour
 
     public void ShowHP()
     {
+        HPBar.Instance.ShowHPBar();
         string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString());
         mHPText.text = HP;
-        HPBar.Instance.ShowHPBar();
     }
 
     public void ShowStat()

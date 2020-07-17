@@ -7,10 +7,12 @@ public class AttackArea : Timer
     public static AttackArea Instance;
 
     private Animator mAnim;
+#pragma warning disable 0649
     [SerializeField]
     private bool mAttackEnd;
     [SerializeField]
     private Weapon weapon;
+#pragma warning restore 0649
     public Transform BulletStarter;
     private SpriteRenderer mRenderer;
     private PlayerBullet bolt;

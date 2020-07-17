@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShopController : MonoBehaviour
 {
 
+#pragma warning disable 0649
     [SerializeField]
     public Transform[] mPos;
     [SerializeField]
@@ -23,6 +24,7 @@ public class ShopController : MonoBehaviour
 
     [SerializeField]
     private Room Shop;
+#pragma warning restore 0649
 
     private UsingItem item;
     private Artifacts artifact;

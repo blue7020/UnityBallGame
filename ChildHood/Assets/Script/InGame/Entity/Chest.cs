@@ -7,10 +7,8 @@ public class Chest : MonoBehaviour
 {
     public GameObject mItem;
     public SpriteRenderer mRenderer;
-    [SerializeField]
-    private Sprite[] mSprites;
-    [SerializeField]
-    private MimicSpawner mMimicPos;
+    public Sprite[] mSprites;
+    public MimicSpawner mMimicPos;
 
     private bool ChestOpen;
     private eChestType Type;

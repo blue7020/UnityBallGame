@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
     {
         if (Nodamage ==false)
         {
-                StartCoroutine(HitAnimation());
+            StartCoroutine(HitAnimation());
             if (damage - mStats.Def < 1)
             {
                 damage = 0.5f;
@@ -146,12 +146,12 @@ public class Player : MonoBehaviour
             {
                 mCurrentHP -= damage - mStats.Def;
             }
+            UIController.Instance.ShowHP();
         }
         if (mCurrentHP <= 0)
         {
             GameController.Instance.GameOver();
         }
-        UIController.Instance.ShowHP();
     }
 
     private IEnumerator HitAnimation()
@@ -255,7 +255,6 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
         int ID = NowBuff.Count;
-        Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
         mStats.AtkSpd -= NowBuffValue[ID];
@@ -272,7 +271,6 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
         int ID = NowBuff.Count;
-        Debug.Log(ID);
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
         mStats.Def += NowBuffValue[ID];

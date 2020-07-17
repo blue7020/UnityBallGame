@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class Tooltip : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField]
     private Text tooltipContents;
     [SerializeField]
     private RectTransform BG;
+#pragma warning restore 0649
 
     public void ShowTooltip(string contents)
     {

@@ -10,12 +10,14 @@ public enum eRoomType
 
 public class EnemyFinder : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField]
     private Room room;
     [SerializeField]
     private GameObject mDoor;
     [SerializeField]
     private eRoomType Type;
+#pragma warning restore 0649
 
     public int mMonsterCount;
 

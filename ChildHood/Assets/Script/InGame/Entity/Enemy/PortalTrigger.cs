@@ -6,6 +6,7 @@ public class PortalTrigger : MonoBehaviour
 {
     public static PortalTrigger Instance;
 
+#pragma warning disable 0649
     [SerializeField]
     private Portal portal;
     [SerializeField]
@@ -13,6 +14,7 @@ public class PortalTrigger : MonoBehaviour
     [SerializeField]
     private Enemy[] StageBossArr;
     private Enemy NowBoss;
+#pragma warning restore 0649
 
     private int rand;
 

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerSelect : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField]
     private int mID;
+#pragma warning restore 0649
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))

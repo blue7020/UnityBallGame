@@ -6,11 +6,8 @@ using UnityEngine.SceneManagement;
 public class StageController : MonoBehaviour
 {
 
-    [SerializeField]
-    private int mStageNum;
-
-    [SerializeField]
-    private GameObject mPortal;
+    public int mStageNum;
+    public GameObject mPortal;
 
     private void Awake()
     {

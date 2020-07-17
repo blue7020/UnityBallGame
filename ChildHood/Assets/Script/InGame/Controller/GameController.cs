@@ -75,6 +75,8 @@ public class GameController : MonoBehaviour
         //Skill.Instance.Delete(); TODO 플레이어 스킬 스크립트 추가
         Player.Instance.Delete();
         Delete();
+        pause = false;
+        Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
 

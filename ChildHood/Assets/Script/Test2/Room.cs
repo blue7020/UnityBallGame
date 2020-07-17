@@ -27,10 +27,9 @@ public class Room : MonoBehaviour
     public List<Door> doors = new List<Door>();
 
     public bool IsFound;
-    [SerializeField]
+
     public int EnemyCount;
-    [SerializeField]
-    private GameObject blackOut;
+    public GameObject blackOut;
 
     // Start is called before the first frame update
     void Start()

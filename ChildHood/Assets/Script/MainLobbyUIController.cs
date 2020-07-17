@@ -12,10 +12,7 @@ public class MainLobbyUIController : MonoBehaviour
     public MainLobbyPlayer[] mPlayerList;
     private bool pause;
 
-    [SerializeField]
-    private Text mCashText;
-    
-    private Text mBGMText, mSEText;
+    public Text mCashText,mBGMText, mSEText;
     //public Tooltip tooltip;
 
 
@@ -51,6 +48,8 @@ public class MainLobbyUIController : MonoBehaviour
     public void MainStart()
     {
         //TODO 저장기능
+        pause = false;
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 

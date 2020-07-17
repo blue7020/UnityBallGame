@@ -17,8 +17,7 @@ public class Weapon : MonoBehaviour
     private Animator mAnim;
     public SpriteRenderer mRenderer;
 
-    [SerializeField]
-    private AttackArea mAttackArea;
+    public AttackArea mAttackArea;
     public int mID;
     private bool mAttackCooltime;
     public bool Attackon;

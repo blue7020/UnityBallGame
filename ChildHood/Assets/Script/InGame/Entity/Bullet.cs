@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField]
     private float mDamage;
-    [SerializeField]
     public float mSpeed;
     public Rigidbody2D mRB2D;
-    [SerializeField]
+#pragma warning restore 0649
     public eBulletType Type;
 
     private void Awake()

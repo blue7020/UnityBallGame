@@ -10,16 +10,17 @@ public enum eShopType
 
 public class ItemBuy : MonoBehaviour
 {
+#pragma warning disable 0649
     [SerializeField]
     private bool Sell;
 
-    [SerializeField]
     public eShopType ShopType;
 
     public UsingItem item;
     public Artifacts artifact;
     [SerializeField]
     private GameObject ItemBowl;
+#pragma warning restore 0649
 
     private void Start()
     {
@@ -42,10 +43,6 @@ public class ItemBuy : MonoBehaviour
                         item.ItemChange();
                         ItemBowl.gameObject.SetActive(false);
                     }
-                    else
-                    {
-                        Debug.Log("돈이 부족합니다!");
-                    }
                 }
                 else
                 {
@@ -63,10 +60,6 @@ public class ItemBuy : MonoBehaviour
                                     artifact.ItemChange();
                                     ItemBowl.gameObject.SetActive(false);
                                 }
-                                else
-                                {
-                                    Debug.Log("돈이 부족합니다!");
-                                }
                             }
                         }
                         else
@@ -78,10 +71,6 @@ public class ItemBuy : MonoBehaviour
                                 Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                 artifact.ItemChange();
                                 ItemBowl.gameObject.SetActive(false);
-                            }
-                            else
-                            {
-                                Debug.Log("돈이 부족합니다!");
                             }
                         }
                         

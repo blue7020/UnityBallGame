@@ -10,11 +10,10 @@ public class Enemy : InformationLoader
     public int mDelayCount;
     public bool Focus;
 
-    [SerializeField]
     public int mID;
+#pragma warning disable 0649
     [SerializeField]
     private GameObject mSprite;
-
     public Rigidbody2D mRB2D;
 
     [SerializeField]
@@ -23,6 +22,8 @@ public class Enemy : InformationLoader
     private EnemySkill mEnemySkill;
     [SerializeField]
     private EnemyAttackArea mAttackArea;
+#pragma warning restore 0649
+
     private GaugeBar mHPBar;
 
     private bool AttackOn;
@@ -147,9 +148,8 @@ public class Enemy : InformationLoader
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, Stats.Gold);
             mEnemySkill.DieSkill();
-            mHPBar.gameObject.SetActive(false);
-            mHPBar = null;
             HPBarOn = false;
+            mHPBar.gameObject.SetActive(false);
             if (Player.Instance.NowEnemyCount > 0)
             {
                 Player.Instance.NowEnemyCount--;

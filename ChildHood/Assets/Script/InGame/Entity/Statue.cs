@@ -3,17 +3,12 @@ using UnityEngine;
 
 public class Statue : InformationLoader
 {
-    [SerializeField]
-    private float mHealAmount;
+    public float mHealAmount;
 
-    [SerializeField]
     public SpriteRenderer mRenderer;
-    [SerializeField]
     public Sprite[] mSprites;
 
-    [SerializeField]
-    private int mID;
-    [SerializeField]
+    public int mID;
     public StatuetStat[] mInfoArr;
 
 

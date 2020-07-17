@@ -7,8 +7,7 @@ public class BossRoomController : MonoBehaviour
 
     public static BossRoomController Instance;
 
-    [SerializeField]
-    private Room[] bossRoom;
+    public Room[] bossRoom;
     private void Awake()
     {
         if (Instance==null)

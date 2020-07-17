@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnemyAttackArea : MonoBehaviour
 {
-    [SerializeField]
-    private Enemy mEnemy;
+    public Enemy mEnemy;
     public Animator mAnim;
 
     private void Awake()

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class TrackingRange : MonoBehaviour
 {
-    [SerializeField]
-    private Enemy mEnemy;
+    public Enemy mEnemy;
     
 
     private void OnTriggerEnter2D(Collider2D other)

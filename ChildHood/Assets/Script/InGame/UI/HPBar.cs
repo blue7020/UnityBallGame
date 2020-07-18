@@ -35,6 +35,8 @@ public class HPBar : MonoBehaviour
 
     public void ShowHPBar()
     {
+        mNowHP = Player.Instance.mCurrentHP;
+        mNowMaxHP = Player.Instance.mMaxHP;
         if (mNowHP!= Player.Instance.mCurrentHP)
         {
             mNowHP = Player.Instance.mCurrentHP;

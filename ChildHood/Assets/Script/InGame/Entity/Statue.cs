@@ -70,18 +70,17 @@ public class Statue : InformationLoader
                         mRenderer.sprite = mSprites[1];
                         break;
                     case eStatueType.Strength:
-                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.Atk(mInfoArr[mID].Atk,mInfoArr[mID].Duration)));
+                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + mInfoArr[mID].Atk)), mInfoArr[mID].Duration)));
                         mRenderer.sprite = mSprites[3];
                         
                         break;
                     case eStatueType.Speed:
-                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.Speed(mInfoArr[mID].Spd, mInfoArr[mID].Duration)));
-                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.AtkSpeed(mInfoArr[mID].AtkSpd, mInfoArr[mID].Duration)));
+                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + mInfoArr[mID].Spd)), mInfoArr[mID].Duration)));
+                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd - (Player.Instance.mStats.AtkSpd * (1 + mInfoArr[mID].AtkSpd)), mInfoArr[mID].Duration)));
                         mRenderer.sprite = mSprites[5];
                         break;
                     case eStatueType.Def:
-                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.Def(mInfoArr[mID].Def, mInfoArr[mID].Duration)));
-                        mRenderer.sprite = mSprites[7];
+                        Player.Instance.NowBuff.Add(StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + mInfoArr[mID].Def)), mInfoArr[mID].Duration)));
                         break;
                     default:
                         Debug.LogError("Wrong StatueType");

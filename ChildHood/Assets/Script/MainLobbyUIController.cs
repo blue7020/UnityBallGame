@@ -50,6 +50,7 @@ public class MainLobbyUIController : MonoBehaviour
         //TODO 저장기능
         pause = false;
         Time.timeScale = 1;
+        GameSetting.Instance.Restart();
         SceneManager.LoadScene(0);
     }
 

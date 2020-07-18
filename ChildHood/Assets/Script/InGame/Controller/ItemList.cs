@@ -32,13 +32,18 @@ public class ItemList : InformationLoader
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
         if (GameController.Instance.GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);
         }
         LoadJson(out mInfoArr, Path.ITEM_STAT);
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     public void ItemSpawn(eChestType Type)//,Item 아이템

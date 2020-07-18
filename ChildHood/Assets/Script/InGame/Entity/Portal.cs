@@ -13,10 +13,8 @@ public class Portal : MonoBehaviour
 {
 
     public static Portal Instance;
-    [SerializeField]
     public ePortalType Type;
-    [SerializeField]
-    private StageClear mClear;
+    public StageClear mClear;
     private void Awake()
     {
         if (Instance == null)

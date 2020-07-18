@@ -95,7 +95,7 @@ public class AttackArea : Timer
                     float rand = UnityEngine.Random.Range(0, 1f);
                     if (rand <= Player.Instance.mStats.Crit / 100)
                     {
-                        Target.Hit(Player.Instance.mStats.Atk * (1 + (Player.Instance.mStats.CritDamage / 100)));
+                        Target.Hit(Player.Instance.mStats.Atk * (1 + Player.Instance.mStats.CritDamage));
 
                     }
                     else

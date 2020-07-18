@@ -224,7 +224,7 @@ public class Player : MonoBehaviour
         int ID = NowBuff.Count;
         NowBuffActive.Add(true);
         NowBuffValue.Add(value);
-        mStats.Atk += NowBuffValue[ID];
+        mStats.Atk += (NowBuffValue[ID]);
         NowBuffType.Add(eBuffType.Atk);
         yield return Dura;
         if (NowBuffActive[ID] == true)

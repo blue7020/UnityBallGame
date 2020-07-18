@@ -6,11 +6,22 @@ using UnityEngine.EventSystems;
 
 public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
+
+    public static VirtualJoyStick Instance;
+
 #pragma warning disable 0649
     [SerializeField]
     private Image BG, Stick;
     private Vector2 inputVector;
 #pragma warning restore 0649
+
+    private void Awake()
+    {
+        if (GameSetting.Instance.Ingame==true)
+        {
+            PlayerList.Instance.stick = this;
+        }
+    }
 
     public virtual void OnDrag(PointerEventData ped)
     {

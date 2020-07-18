@@ -22,7 +22,7 @@ public class ArtifactController : InformationLoader
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
         if (GameController.Instance.GotoMain == false)
         {
@@ -30,5 +30,10 @@ public class ArtifactController : InformationLoader
         }
         LoadJson(out mInfoArr, Path.ARTIFACT_STAT);
         LoadJson(out mStatInfoArr, Path.ARTIFACT_TEXT_STAT);
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 }

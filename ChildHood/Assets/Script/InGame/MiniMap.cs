@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MiniMap : MonoBehaviour
 {
     public static MiniMap Instance;
+
+    public bool MinimapOn;
+
     private void Awake()
     {
         if (Instance==null)
@@ -15,10 +19,14 @@ public class MiniMap : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        MinimapOn = false;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
-        Vector2 Pos = Player.Instance.transform.position;
+        if (MinimapOn==true)
+        {
+            Vector2 Pos = Player.Instance.transform.position;
+        }
     }
 }

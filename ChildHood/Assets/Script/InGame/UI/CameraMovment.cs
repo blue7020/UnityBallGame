@@ -35,14 +35,21 @@ public class CameraMovment : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        mPlayerObj = GameObject.FindGameObjectWithTag("Player");// .find 사용 금지 / FindGameObjectsWithTag는 어레이를 찾으니까 헷갈리면 안된다.
+    }
+
+    public void PlayerSetting(GameObject player)
+    {
+        mPlayerObj = player;
         mOffset = transform.position - mPlayerObj.transform.position; //카메라의 위치 설정
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        transform.position = mPlayerObj.transform.position + mOffset;
+        if (mPlayerObj!=null)
+        {
+            transform.position = mPlayerObj.transform.position + mOffset;
+        }
     }
 
 }

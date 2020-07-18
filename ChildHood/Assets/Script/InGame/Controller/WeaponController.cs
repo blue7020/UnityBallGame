@@ -23,12 +23,17 @@ public class WeaponController : InformationLoader
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
         if (GameController.Instance.GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);
         }
         LoadJson(out mInfoArr, Path.WEAPON_STAT);
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 }

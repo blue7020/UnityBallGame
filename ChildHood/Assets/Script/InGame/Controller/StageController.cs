@@ -21,6 +21,7 @@ public class StageController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            GameSetting.Instance.Ingame = true;
             SceneManager.LoadScene(2);//TODO 스테이지마다 다르게
         }
     }

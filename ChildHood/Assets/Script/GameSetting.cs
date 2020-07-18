@@ -7,6 +7,7 @@ public class GameSetting : MonoBehaviour
     public static GameSetting Instance;
 
     public int PlayerID;
+    public bool Ingame;
     //저장해야할 것
     public int BGMSetting;
     public int SESetting;
@@ -27,17 +28,18 @@ public class GameSetting : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
-        BGMSetting = 3;
-        SESetting = 3;
         StageOpen = new bool[6];
         CharacterOpen = new bool[CharacterCount];
         StageOpen[0] = true;//1스테이지 오픈
         CharacterOpen[0] = true;//기본캐릭터 오픈
+        Restart();
+        
     }
 
-    public void CharacterOpenCheat()
+    public void Restart()
     {
-        CharacterOpen[1] = true;
+        CharacterOpen[1] = true;//햄에그캐릭터 오픈
+        PlayerID = 0;
+        Ingame = false;
     }
 }

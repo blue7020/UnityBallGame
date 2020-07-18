@@ -25,8 +25,7 @@ public class UIController : MonoBehaviour
 #pragma warning disable 0649
     [SerializeField]
     private RawImage mMiniMapCamera;
-    [SerializeField]
-    private Toggle mMiniMapButton;
+    public Toggle mMiniMapButton;
     [SerializeField]
     private Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
 #pragma warning restore 0649
@@ -203,10 +202,12 @@ public class UIController : MonoBehaviour
         if (ButtonOn)
         {
             mMiniMapCamera.gameObject.SetActive(true);
+            MiniMap.Instance.MinimapOn = true;
         }
         else
         {
             mMiniMapCamera.gameObject.SetActive(false);
+            MiniMap.Instance.MinimapOn = false;
         }
     }
 

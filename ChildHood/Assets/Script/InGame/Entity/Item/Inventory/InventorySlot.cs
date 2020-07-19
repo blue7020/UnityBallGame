@@ -21,7 +21,7 @@ public class InventorySlot : MonoBehaviour , IPointerDownHandler
     public void SetItem(Artifacts arti)
     {
         art = arti;
-        mItemImage.sprite = art.mRenderer.sprite;
+        mItemImage.sprite = arti.mRenderer.sprite;
     }
 
     public void OnPointerDown(PointerEventData eventData)

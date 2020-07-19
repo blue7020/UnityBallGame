@@ -5,13 +5,10 @@ using UnityEngine;
 
 public class UsingItem : InformationLoader
 {
-    [SerializeField]
     public int mID;
 
-    [SerializeField]
     public SpriteRenderer mRenderer;
 
-    [SerializeField]
     public Room Currentroom;
     public Vector3 backupPos;
 
@@ -38,19 +35,19 @@ public class UsingItem : InformationLoader
         }
         if (Stats.Atk > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.Atk, Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + -Stats.Atk)), Stats.Duration));
         }
         if (Stats.AtkSpd > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.AtkSpd, Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd - (Player.Instance.mStats.AtkSpd * (1 + Stats.AtkSpd)), Stats.Duration));
         }
         if (Stats.Spd > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.Spd, Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + -Stats.Spd)), Stats.Duration));
         }
         if (Stats.Def > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(Stats.Def, Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + -Stats.Def)), Stats.Duration));
         }
         Player.Instance.NowItem = null;
         UIController.Instance.ShowItemImage();

@@ -37,9 +37,9 @@ public class ItemBuy : MonoBehaviour
                 {
                     if (Player.Instance.mStats.Gold >= item.Stats.Price)
                     {
-                        Sell = true;
                         item.IsShopItem = false;
                         Player.Instance.mStats.Gold -= item.Stats.Price;
+                        Sell = true;
                         item.ItemChange();
                         ItemBowl.gameObject.SetActive(false);
                     }
@@ -50,13 +50,13 @@ public class ItemBuy : MonoBehaviour
                     {
                         if (artifact.mType == eArtifactType.Passive)
                         {
-                            if (InventoryController.Instance.nowIndex < InventoryController.Instance.mSlotArr.Length)
+                            if (InventoryController.Instance.nowIndex <= InventoryController.Instance.mSlotArr.Length)
                             {
                                 if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
                                 {
-                                    Sell = true;
                                     artifact.IsShopItem = false;
                                     Player.Instance.mStats.Gold -= artifact.mStats.Price;
+                                    Sell = true;
                                     artifact.ItemChange();
                                     ItemBowl.gameObject.SetActive(false);
                                 }
@@ -66,9 +66,9 @@ public class ItemBuy : MonoBehaviour
                         {
                             if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
                             {
-                                Sell = true;
                                 artifact.IsShopItem = false;
                                 Player.Instance.mStats.Gold -= artifact.mStats.Price;
+                                Sell = true;
                                 artifact.ItemChange();
                                 ItemBowl.gameObject.SetActive(false);
                             }

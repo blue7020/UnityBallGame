@@ -64,10 +64,20 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.LogError("GameOver!");
+
     }
 
     public void MainMenu()
+    {
+        DestroyController();
+        pause = false;
+        Time.timeScale = 1;
+        GameSetting.Instance.Restart();
+        GotoMain = false;
+        SceneManager.LoadScene(1);
+    }
+
+    public void DestroyController()
     {
         GotoMain = true;
         CameraMovment.Instance.Delete();
@@ -80,11 +90,6 @@ public class GameController : MonoBehaviour
         WeaponController.Instance.Delete();
         //Skill.Instance.Delete(); TODO 플레이어 스킬 스크립트 추가
         Delete();
-        pause = false;
-        Time.timeScale = 1;
-        GameSetting.Instance.Restart();
-        GotoMain = false;
-        SceneManager.LoadScene(1);
     }
 
     private void Update()

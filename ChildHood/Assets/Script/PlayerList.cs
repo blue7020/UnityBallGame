@@ -61,5 +61,6 @@ public class PlayerList : InformationLoader
                 Debug.LogError("Wrong Player ID");
                 break;
         }
+        UIController.Instance.ShowItemImage();
     }
 }

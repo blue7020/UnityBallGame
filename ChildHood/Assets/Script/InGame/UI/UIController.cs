@@ -61,9 +61,9 @@ public class UIController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void Update()
+    public void StageClear()
     {
-        ShowItemImage();
+        //TODO 점수 및 재화 계산 UI 띄우기 
     }
 
     public void BGMPlus()

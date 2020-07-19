@@ -43,8 +43,7 @@ public class Portal : MonoBehaviour
     public void nextroom()
     {
         GameController.Instance.Level++;
-        Debug.Log("방 재시작, 현재 지하 " + GameController.Instance.Level + "층");//4층까지 존재 
-        Debug.Log(GameController.Instance.Level);
+        Debug.Log("현재 지하 " + GameController.Instance.Level + "층");//4층까지 존재 
         if (GameController.Instance.Level == 5)
         {
             SceneManager.LoadScene(3);
@@ -54,6 +53,8 @@ public class Portal : MonoBehaviour
         else if (GameController.Instance.Level>5)
         {
             GameSetting.Instance.StageOpen[Player.Instance.mNowStage] = true;
+            GameController.Instance.DestroyController();//TODO 나중에 점수 계산 ui 나올때 버튼  기능으로 넣기
+            UIController.Instance.StageClear();
             SceneManager.LoadScene(1);
         }
         else

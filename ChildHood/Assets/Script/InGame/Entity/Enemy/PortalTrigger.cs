@@ -46,14 +46,6 @@ public class PortalTrigger : MonoBehaviour
 
     public void BossDeath()
     {
-
-        if (portal.Type == ePortalType.Stage)
-        {
-            if (GameController.Instance.Level == 5)
-            {
-                GameController.Instance.Level = 1;
-            }
-        }
         portal.ShowPortal();
     }
 }

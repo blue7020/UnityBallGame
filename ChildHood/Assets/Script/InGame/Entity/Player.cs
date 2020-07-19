@@ -7,14 +7,12 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
 
-    [SerializeField]
     public VirtualJoyStick joyskick;
 
     public int mID;
     public Sprite PlayerImage;
     public float mMaxHP;
     public float mCurrentHP;
-    [SerializeField]
     public eDirection Look;
     [SerializeField]
     private CircleCollider2D mRange;
@@ -23,10 +21,6 @@ public class Player : MonoBehaviour
     public int NowEnemyCount;
     public int EnemySwitch;
 
-    public List<Coroutine> NowBuff;
-    public List<float> NowBuffValue;
-    public List<eBuffType> NowBuffType;
-    public List<bool> NowBuffActive;
     public int mNowStage;
 
     public PlayerStat mStats;
@@ -75,10 +69,6 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        NowBuff = new List<Coroutine>();
-        NowBuffType = new List<eBuffType>();
-        NowBuffValue = new List<float>();
-        NowBuffActive = new List<bool>();
         NowItem = null;
         NowUsingArtifact = null;
         NowEnemyCount = 0;
@@ -221,67 +211,42 @@ public class Player : MonoBehaviour
     {
         //TODO 애니메이션 이펙트 추가
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        int ID = NowBuff.Count;
-        NowBuffActive.Add(true);
-        NowBuffValue.Add(value);
-        mStats.Atk += (NowBuffValue[ID]);
-        NowBuffType.Add(eBuffType.Atk);
+        Debug.Log(value);
+        mStats.Atk += value;
         yield return Dura;
-        if (NowBuffActive[ID] == true)
-        {
-            mStats.Atk -= NowBuffValue[ID];
-            NowBuffActive[ID] = false;
-        }
+        mStats.Atk -= value;
     }
 
     public IEnumerator Speed(float value, float Cool)
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        int ID = NowBuff.Count;
-        NowBuffActive.Add(true);
-        NowBuffValue.Add(value);
-        mStats.Spd += NowBuffValue[ID];
-        NowBuffType.Add(eBuffType.Spd);
+        mStats.Spd += value;
         yield return Dura;
-        if (NowBuffActive[ID] ==true)
-        {
-            mStats.Spd -= NowBuffValue[ID];
-            NowBuffActive[ID] = false;
-        }
-        
+        mStats.Spd -= value;
+
     }
 
     public IEnumerator AtkSpeed(float value, float Cool)
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        int ID = NowBuff.Count;
-        NowBuffActive.Add(true);
-        NowBuffValue.Add(value);
-        mStats.AtkSpd -= NowBuffValue[ID];
-        NowBuffType.Add(eBuffType.AtkSpd);
+        mStats.AtkSpd -= value;
         yield return Dura;
-        if (NowBuffActive[ID] == true)
-        {
-            mStats.AtkSpd += NowBuffValue[ID];
-            NowBuffActive[ID] = false;
-        }
+        mStats.AtkSpd += value;
     }
 
     public IEnumerator Def(float value, float Cool)
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        int ID = NowBuff.Count;
-        NowBuffActive.Add(true);
-        NowBuffValue.Add(value);
-        mStats.Def += NowBuffValue[ID];
-        NowBuffType.Add(eBuffType.Def);
-        yield return Dura;
-        if (NowBuffActive[ID] == true)
+        if (mStats.Def < 1)
         {
-            mStats.Def -= NowBuffValue[ID];
-            NowBuffActive[ID] = false;
+            value = 1;
         }
+        mStats.Def += value;
+        yield return Dura;
+        mStats.Def -= value;
     }
+
+
     //Artifact
     public void EquipArtifact(Artifacts art)
     {

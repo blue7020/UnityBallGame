@@ -19,7 +19,7 @@ public class InventoryController : MonoBehaviour
 #pragma warning restore 0649
 
     public InventorySlot[] mSlotArr;
-    public int nowIndex = 0;
+    public int nowIndex;
 
     private void Awake()
     {
@@ -37,6 +37,7 @@ public class InventoryController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        nowIndex = 0;
     }
 
     public void Additem(Artifacts art,int nowIndex)

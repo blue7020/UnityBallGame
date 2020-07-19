@@ -78,7 +78,7 @@ public class Artifacts : InformationLoader
         if (mType == eArtifactType.Passive)
         {
 
-            if (InventoryController.Instance.nowIndex < InventoryController.Instance.mSlotArr.Length)
+            if (InventoryController.Instance.nowIndex <= InventoryController.Instance.mSlotArr.Length)
             {
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
                 InventoryController.Instance.Additem(this, InventoryController.Instance.nowIndex);

@@ -57,13 +57,13 @@ public class PlayerSkill : MonoBehaviour
     {
         if (currentTime > 0)
         {
-            UIController.Instance.CoolWheel.gameObject.SetActive(true);
-            UIController.Instance.CoolWheel.fillAmount = currentTime / maxTime;
+            UIController.Instance.SkillCoolWheel.gameObject.SetActive(true);
+            UIController.Instance.SkillCoolWheel.fillAmount = currentTime / maxTime;
         }
         else
         {
             IsSkillCool = false;
-            UIController.Instance.CoolWheel.gameObject.SetActive(false);
+            UIController.Instance.SkillCoolWheel.gameObject.SetActive(false);
         }
     }
 

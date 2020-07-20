@@ -14,6 +14,7 @@ public class PortalTrigger : MonoBehaviour
     [SerializeField]
     private Enemy[] StageBossArr;
     private Enemy NowBoss;
+    private int rand;
 #pragma warning restore 0649
 
     private void Awake()
@@ -26,6 +27,7 @@ public class PortalTrigger : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        rand = Random.Range(0, BossArr.Length);
     }
     private void Start()
     {
@@ -35,7 +37,6 @@ public class PortalTrigger : MonoBehaviour
         }
         else if (GameController.Instance.Level < 5)
         {
-            int rand = Random.Range(0, BossArr.Length);
             NowBoss = BossArr[rand];
         }
         Instantiate(NowBoss,transform.position,Quaternion.identity);

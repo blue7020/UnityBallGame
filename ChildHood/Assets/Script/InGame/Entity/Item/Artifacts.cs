@@ -16,7 +16,7 @@ public class Artifacts : InformationLoader
     public ArtifactTextStat TextStats;
 
     public bool Equip;
-    public bool Cool;
+    public bool IsArtifactCool;
 
     public bool IsShopItem;
 
@@ -26,32 +26,57 @@ public class Artifacts : InformationLoader
         mStats = ArtifactController.Instance.mStatInfoArr[mID];
         TextStats = ArtifactController.Instance.mTextInfoArr[mID];
         Equip = false;
-        Cool = false;
+        IsArtifactCool = false;
     }
 
     public void UseArtifact()
     {
         if (mType == eArtifactType.Use)
         {
-            if (Cool == false)
+            if (IsArtifactCool == false)
             {
-                float realCoolDown = mStats.Skill_Cooltime * (1 + Player.Instance.mStats.CooltimeReduce / 100);
-                Debug.Log("유물 사용");
-                StartCoroutine(Cooldown(realCoolDown));
-                //TODO 델리게이트를 사용해 추가 효과 부여
-                //메서드 클래스 생성
+                StartCoroutine(SkillCool());
             }
 
         }
 
     }
 
-    public IEnumerator Cooldown(float realCooldown)
-    {    
-        WaitForSeconds cool = new WaitForSeconds(realCooldown);
-        Cool = true;
-        yield return cool;
-        Cool = false;
+    private IEnumerator SkillCool()
+    {
+        WaitForSeconds Cool = new WaitForSeconds(mStats.Skill_Cooltime);
+        IsArtifactCool = true;
+        //TODO 델리게이트로 해당하는 ID의 스킬 가져오기
+        StartCoroutine(CooltimeRoutine());
+        Debug.Log("유믈 사용");
+        yield return Cool;
+    }
+    public void ShowCooltime(float maxTime, float currentTime)
+    {
+        if (currentTime > 0)
+        {
+            UIController.Instance.ArtifactCoolWheel.gameObject.SetActive(true);
+            UIController.Instance.ArtifactCoolWheel.fillAmount = currentTime / maxTime;
+        }
+        else
+        {
+            IsArtifactCool = false;
+            UIController.Instance.ArtifactCoolWheel.gameObject.SetActive(false);
+        }
+    }
+
+    private IEnumerator CooltimeRoutine()
+    {
+        float maxTime = mStats.Skill_Cooltime + (mStats.Skill_Cooltime - (mStats.Skill_Cooltime * (1 + Player.Instance.mStats.CooltimeReduce)));
+        float CoolTime = maxTime;
+        WaitForFixedUpdate frame = new WaitForFixedUpdate();
+        float AttackCurrentTime = CoolTime;
+        while (AttackCurrentTime >= 0)
+        {
+            yield return frame;
+            AttackCurrentTime -= Time.fixedDeltaTime;
+            ShowCooltime(CoolTime, AttackCurrentTime);
+        }
     }
 
     public void EquipArtifact()

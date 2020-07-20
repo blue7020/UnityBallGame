@@ -33,7 +33,7 @@ public class PortalTrigger : MonoBehaviour
     {
         if (GameController.Instance.Level >= 5)
         {
-            NowBoss = StageBossArr[Player.Instance.mNowStage-1];
+            NowBoss = StageBossArr[0];//TODO 스테이지에 따라 보스 다르게!
         }
         else if (GameController.Instance.Level < 5)
         {

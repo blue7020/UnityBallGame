@@ -7,6 +7,7 @@ public class PlayerList : InformationLoader
     public static PlayerList Instance;
 
     public Player[] mPlayer;
+    public PlayerSkill mSkill;
 
     public VirtualJoyStick stick;
     public PlayerStat[] mInfoArr;
@@ -43,8 +44,8 @@ public class PlayerList : InformationLoader
                 p0.joyskick = stick;
                 p0.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(0);
                 p0.NowPlayerWeapon.EquipWeapon();
+                p0.NowPlayerSkill = mSkill;
                 UIController.Instance.CharacterImage();
-                UIController.Instance.ShowWeaponImage();
                 CameraMovment.Instance.PlayerSetting(p0.gameObject);
                 break;
             case 1:
@@ -53,14 +54,17 @@ public class PlayerList : InformationLoader
                 p1.joyskick = stick;
                 p1.NowPlayerWeapon = WeaponPool.Instance.GetFromPool(1);
                 p1.NowPlayerWeapon.EquipWeapon();
-                UIController.Instance.CharacterImage();
-                UIController.Instance.ShowWeaponImage();
+                p1.NowPlayerSkill = mSkill;
+                UIController.Instance.CharacterImage();               
                 CameraMovment.Instance.PlayerSetting(p1.gameObject);
                 break;
             default:
                 Debug.LogError("Wrong Player ID");
                 break;
         }
+        mSkill.transform.SetParent(Player.Instance.gameObject.transform);
+        UIController.Instance.ShowSkillImage();
         UIController.Instance.ShowItemImage();
+        UIController.Instance.ShowWeaponImage();
     }
 }

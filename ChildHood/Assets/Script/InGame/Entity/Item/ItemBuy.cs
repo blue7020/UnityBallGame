@@ -48,6 +48,7 @@ public class ItemBuy : MonoBehaviour
                                     artifact.IsShopItem = false;
                                     Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                     Sell = true;
+                                    artifact.Currentroom = Player.Instance.CurrentRoom;
                                     artifact.ItemChange();
                                 }
                             }
@@ -59,6 +60,7 @@ public class ItemBuy : MonoBehaviour
                                 artifact.IsShopItem = false;
                                 Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                 Sell = true;
+                                artifact.Currentroom = Player.Instance.CurrentRoom;
                                 artifact.ItemChange();
                             }
                         }

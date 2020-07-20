@@ -6,12 +6,12 @@ public class ArtifactController : InformationLoader
 {
     public static ArtifactController Instance;
 
-    public ArtifactStat[] mInfoArr;
-    public ArtifactTextStat[] mStatInfoArr;
+    public ArtifactStat[] mStatInfoArr;
+    public ArtifactTextStat[] mTextInfoArr;
 
     public ArtifactStat[] GetInfoArr()
     {
-        return mInfoArr;
+        return mStatInfoArr;
     }
 
     private void Awake()
@@ -28,8 +28,8 @@ public class ArtifactController : InformationLoader
         {
             DontDestroyOnLoad(gameObject);
         }
-        LoadJson(out mInfoArr, Path.ARTIFACT_STAT);
-        LoadJson(out mStatInfoArr, Path.ARTIFACT_TEXT_STAT);
+        LoadJson(out mStatInfoArr, Path.ARTIFACT_STAT);
+        LoadJson(out mTextInfoArr, Path.ARTIFACT_TEXT_STAT);
     }
 
     public void Delete()

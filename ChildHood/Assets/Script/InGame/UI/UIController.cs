@@ -9,12 +9,10 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
 
     public Text mGoldText, mHPText,mStatText, mNameText, bulletText;
-    public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage;
+    public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage, CoolWheel;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage;
 
     public Sprite[] mCharacterSprite;
-    [SerializeField]
-    private Sprite[] mSkillSprite;
     public Sprite DefaultItemSprite;
 
     [SerializeField]
@@ -43,8 +41,6 @@ public class UIController : MonoBehaviour
         {
             Delete();
         }
-        mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
-        mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
     }
 
     private void Start()
@@ -53,6 +49,9 @@ public class UIController : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+                mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
+        mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
+        mSKillButton.onClick.AddListener(() => { Player.Instance.NowPlayerSkill.SkillUse(); });
     }
 
 
@@ -138,6 +137,13 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void ShowSkillImage()
+    {
+        mSkillImage.sprite = Player.Instance.NowPlayerSkill.mSkillIcon;
+    }
+
+
+
     public void ShowWeaponImage()
     {
         if (Player.Instance.NowPlayerWeapon==null)
@@ -159,23 +165,6 @@ public class UIController : MonoBehaviour
         else if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
         {
             bulletText.gameObject.SetActive(false);
-        }
-    }
-
-
-    public void ShowSkill()
-    {
-        switch (GameSetting.Instance.PlayerID)
-        {
-            case 0:
-                //스킬 이미지
-                break;
-            case 1:
-                //스킬 이미지
-                break;
-            default:
-                Debug.LogError("Wrong Skill Sprites");
-                break;
         }
     }
 

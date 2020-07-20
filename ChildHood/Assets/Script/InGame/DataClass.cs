@@ -124,7 +124,37 @@ public class StatuetStat
 
     public float Cooltime;
     public float Duration;
+}
 
+
+[Serializable]
+public class SkillStat
+{
+    public int ID;
+
+    public float Damage;
+    public float Heal;
+    public float Atk;
+    public float Def;
+    public float AtkSpd;
+    public float Spd;
+
+    public float Crit;
+
+    public float Cooltime;
+    public float Duration;
+}
+
+[Serializable]
+public class SkillText
+{
+    public int ID;
+    public int Price;
+
+    public string Title;
+    public string EngTitle;
+    public string ContensFormat;
+    public string EngContensFormat;
 }
 
 [Serializable]

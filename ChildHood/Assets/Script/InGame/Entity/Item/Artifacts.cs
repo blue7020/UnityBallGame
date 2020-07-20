@@ -7,10 +7,8 @@ public class Artifacts : InformationLoader
     public int mID;
     public eArtifactType mType;
 
-    [SerializeField]
     public SpriteRenderer mRenderer;
 
-    [SerializeField]
     public Room Currentroom;
     public Vector3 backupPos;
 
@@ -24,8 +22,9 @@ public class Artifacts : InformationLoader
 
     private void Start()
     {
-        mStats = ArtifactController.Instance.mInfoArr[mID];
-        TextStats = ArtifactController.Instance.mStatInfoArr[mID];
+        mRenderer = GetComponent<SpriteRenderer>();
+        mStats = ArtifactController.Instance.mStatInfoArr[mID];
+        TextStats = ArtifactController.Instance.mTextInfoArr[mID];
         Equip = false;
         Cool = false;
     }
@@ -80,11 +79,11 @@ public class Artifacts : InformationLoader
 
             if (InventoryController.Instance.nowIndex <= InventoryController.Instance.mSlotArr.Length)
             {
-                InventoryController.Instance.Additem(InventoryController.Instance.nowIndex, this);
-                InventoryController.Instance.nowIndex++;
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
                 transform.position = Vector3.zero;
-                mRenderer.color = Color.clear;
+                gameObject.SetActive(false);
+                InventoryController.Instance.Additem(InventoryController.Instance.nowIndex, this);
+                InventoryController.Instance.nowIndex++;
                 EquipArtifact();
             }
         }

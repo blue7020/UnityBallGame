@@ -39,8 +39,17 @@ public class InventoryController : MonoBehaviour
         nowIndex = 0;
     }
 
+    private void Start()
+    {
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     public void Additem(int nowIndex, Artifacts art)
     {
-        mSlotArr[nowIndex].SetItem(art);
+        mSlotArr[nowIndex].artifact = art;
+        mSlotArr[nowIndex].mItemImage.sprite = art.mRenderer.sprite;
     }
 }

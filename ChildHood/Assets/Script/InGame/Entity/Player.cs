@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     public PlayerStat mStats;
 
     public Weapon NowPlayerWeapon;
+    public PlayerSkill NowPlayerSkill;
     public UsingItem NowItem;
     public Artifacts NowUsingArtifact;
     public Artifacts UseItemInventory;

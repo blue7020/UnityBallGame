@@ -31,17 +31,16 @@ public class Room : MonoBehaviour
     public int EnemyCount;
     public GameObject blackOut;
 
+
+    private void Awake()
+    {
+        EnemyCount = 0;
+    }
     // Start is called before the first frame update
     void Start()
     {
         if (GameController.Instance.Level < 5)
         {
-            if (RoomControllers.Instance == null)
-            {
-                Debug.Log("You pressed play in the wrong scene!");
-                return;
-            }
-
             Door[] ds = GetComponentsInChildren<Door>();
             foreach (Door d in ds)
             {

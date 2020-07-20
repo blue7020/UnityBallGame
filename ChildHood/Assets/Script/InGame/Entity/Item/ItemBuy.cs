@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eShopType
-{
-    Item,
-    Artifact
-}
-
 public class ItemBuy : MonoBehaviour
 {
 #pragma warning disable 0649
@@ -18,8 +12,6 @@ public class ItemBuy : MonoBehaviour
 
     public UsingItem item;
     public Artifacts artifact;
-    [SerializeField]
-    private GameObject ItemBowl;
 #pragma warning restore 0649
 
     private void Start()
@@ -41,7 +33,6 @@ public class ItemBuy : MonoBehaviour
                         Player.Instance.mStats.Gold -= item.Stats.Price;
                         Sell = true;
                         item.ItemChange();
-                        ItemBowl.gameObject.SetActive(false);
                     }
                 }
                 else
@@ -58,7 +49,6 @@ public class ItemBuy : MonoBehaviour
                                     Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                     Sell = true;
                                     artifact.ItemChange();
-                                    ItemBowl.gameObject.SetActive(false);
                                 }
                             }
                         }
@@ -70,7 +60,6 @@ public class ItemBuy : MonoBehaviour
                                 Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                 Sell = true;
                                 artifact.ItemChange();
-                                ItemBowl.gameObject.SetActive(false);
                             }
                         }
                         

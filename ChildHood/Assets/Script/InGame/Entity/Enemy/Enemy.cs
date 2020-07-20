@@ -147,12 +147,12 @@ public class Enemy : InformationLoader
             mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, Stats.Gold);
-            mEnemySkill.DieSkill();
             HPBarOn = false;
             mHPBar.gameObject.SetActive(false);
-            if (Player.Instance.NowEnemyCount > 0)
+            mEnemySkill.DieSkill();
+            if (Player.Instance.CurrentRoom.EnemyCount > 0)
             {
-                Player.Instance.NowEnemyCount--;
+                Player.Instance.CurrentRoom.EnemyCount--;
             }
         }
         else

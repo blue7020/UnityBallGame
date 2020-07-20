@@ -16,8 +16,6 @@ public class PortalTrigger : MonoBehaviour
     private Enemy NowBoss;
 #pragma warning restore 0649
 
-    private int rand;
-
     private void Awake()
     {
         if (Instance == null)
@@ -28,17 +26,16 @@ public class PortalTrigger : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        rand = Random.Range(0, BossArr.Length);
     }
     private void Start()
     {
         if (GameController.Instance.Level >= 5)
         {
-            NowBoss = StageBossArr[0];
-            //TODO 스테이지 정보에 따라 다르게
+            NowBoss = StageBossArr[Player.Instance.mNowStage-1];
         }
         else if (GameController.Instance.Level < 5)
         {
+            int rand = Random.Range(0, BossArr.Length);
             NowBoss = BossArr[rand];
         }
         Instantiate(NowBoss,transform.position,Quaternion.identity);

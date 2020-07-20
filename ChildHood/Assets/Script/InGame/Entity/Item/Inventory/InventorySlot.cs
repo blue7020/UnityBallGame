@@ -6,13 +6,12 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : MonoBehaviour , IPointerDownHandler
 {
-    [SerializeField]
     public Image mItemImage;
-    private int mID;//Slot ID
+    public int mID;//Slot ID
     public Artifacts art;
 
 
-    public void Init(int id, Sprite image,ArtifactStat art = null)
+    public void Init(int id, Sprite image)
     {
         mID = id;
         mItemImage.sprite = image;

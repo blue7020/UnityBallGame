@@ -18,14 +18,6 @@ public class EnemyFinder : MonoBehaviour
     [SerializeField]
     private eRoomType Type;
 #pragma warning restore 0649
-
-    public int mMonsterCount;
-
-    private void Start()
-    {
-        mMonsterCount = 0;
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -33,13 +25,11 @@ public class EnemyFinder : MonoBehaviour
             if (Type == eRoomType.End)
             {
                 room.EnemyCount = 1;
-                Player.Instance.NowEnemyCount = room.EnemyCount;
 
             }
-            if (Player.Instance.NowEnemyCount > 0)
+            if (room.EnemyCount > 0)
             {
                 mDoor.gameObject.SetActive(true);
-                //Player.Instance.TargetReset();
             }
             
         }
@@ -49,7 +39,7 @@ public class EnemyFinder : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (Player.Instance.NowEnemyCount == 0)
+            if (Player.Instance.CurrentRoom.EnemyCount == 0)
             {
                 gameObject.SetActive(false);
             }

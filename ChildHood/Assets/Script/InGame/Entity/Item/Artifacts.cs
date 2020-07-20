@@ -80,11 +80,11 @@ public class Artifacts : InformationLoader
 
             if (InventoryController.Instance.nowIndex <= InventoryController.Instance.mSlotArr.Length)
             {
+                InventoryController.Instance.Additem(InventoryController.Instance.nowIndex, this);
+                InventoryController.Instance.nowIndex++;
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
-                InventoryController.Instance.Additem(this, InventoryController.Instance.nowIndex);
                 transform.position = Vector3.zero;
                 mRenderer.color = Color.clear;
-                InventoryController.Instance.nowIndex++;
                 EquipArtifact();
             }
         }

@@ -43,7 +43,6 @@ public class Portal : MonoBehaviour
     public void nextroom()
     {
         GameController.Instance.Level++;
-        Debug.Log("현재 지하 " + GameController.Instance.Level + "층");//4층까지 존재 
         if (GameController.Instance.Level == 5)
         {
             SceneManager.LoadScene(3);
@@ -59,6 +58,7 @@ public class Portal : MonoBehaviour
         }
         else
         {
+            Debug.Log("현재 지하 " + GameController.Instance.Level + "층");//4층까지 존재 
             SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);
         }

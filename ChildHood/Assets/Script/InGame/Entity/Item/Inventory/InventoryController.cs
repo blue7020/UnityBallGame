@@ -10,8 +10,7 @@ public class InventoryController : MonoBehaviour
     public static InventoryController Instance;
 
 #pragma warning disable 0649
-    [SerializeField]
-    private InventorySlot mSlotPrefab;
+    public InventorySlot mSlotPrefab;
     [SerializeField]
     private Transform mSlotParents;
     [SerializeField]
@@ -40,7 +39,7 @@ public class InventoryController : MonoBehaviour
         nowIndex = 0;
     }
 
-    public void Additem(Artifacts art,int nowIndex)
+    public void Additem(int nowIndex, Artifacts art)
     {
         mSlotArr[nowIndex].SetItem(art);
     }

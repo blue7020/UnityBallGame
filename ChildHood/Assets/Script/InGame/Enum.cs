@@ -79,3 +79,9 @@ public enum eBulletType
     normal,
     homing
 }
+
+public enum eShopType
+{
+    Item,
+    Artifact
+}

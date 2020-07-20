@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     private CircleCollider2D mRange;
 
     public Room CurrentRoom;
-    public int NowEnemyCount;
     public int EnemySwitch;
 
     public int mNowStage;
@@ -71,7 +70,6 @@ public class Player : MonoBehaviour
         }
         NowItem = null;
         NowUsingArtifact = null;
-        NowEnemyCount = 0;
         mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
@@ -211,7 +209,6 @@ public class Player : MonoBehaviour
     {
         //TODO 애니메이션 이펙트 추가
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        Debug.Log(value);
         mStats.Atk += value;
         yield return Dura;
         mStats.Atk -= value;

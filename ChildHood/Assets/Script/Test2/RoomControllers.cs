@@ -235,18 +235,13 @@ public class RoomControllers : MonoBehaviour
 
     public void OnPlaerEnterRoom(Room room)
     {
+        Room CurrentRoom =room;
         //플레이어가 해당 방에 들어왔을 때.
-        CurrentRoom = room;
         Player.Instance.CurrentRoom = CurrentRoom;
         if (CurrentRoom.IsFound == false)
         {
             CurrentRoom.RoomBlackOut();
             CurrentRoom.IsFound = true;
-            Player.Instance.NowEnemyCount = CurrentRoom.EnemyCount;
-        }
-        else
-        {
-            CurrentRoom.EnemyCount = 0;
         }
     }
 }

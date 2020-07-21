@@ -34,9 +34,14 @@ public class InventoryController : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
         nowIndex = 0;
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     private void Start()

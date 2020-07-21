@@ -6,7 +6,6 @@ public class ShopController : MonoBehaviour
 {
 
 #pragma warning disable 0649
-    [SerializeField]
     public Transform[] mPos;
     [SerializeField]
     private ItemBuy[] itembuy;
@@ -88,6 +87,7 @@ public class ShopController : MonoBehaviour
                 artifact.Currentroom = Shop;
                 artifact.IsShopItem = true;
                 itembuy[i].artifact = artifact;
+                mUsingArtifact.Remove(artifact);
                 //사용 아이템 1개 액티브 유물 2개
             }
         }

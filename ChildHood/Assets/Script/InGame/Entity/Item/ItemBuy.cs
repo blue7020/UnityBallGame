@@ -5,9 +5,7 @@ using UnityEngine;
 public class ItemBuy : MonoBehaviour
 {
 #pragma warning disable 0649
-    [SerializeField]
-    private bool Sell;
-
+    public bool Sell;
     public eShopType ShopType;
 
     public UsingItem item;

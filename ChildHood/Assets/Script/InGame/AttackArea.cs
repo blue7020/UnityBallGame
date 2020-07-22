@@ -9,6 +9,7 @@ public class AttackArea : MonoBehaviour
     public Transform BulletStarter;
     public SpriteRenderer mRenderer;
     private PlayerBullet bolt;
+    public int boltID;
 
     private Enemy Target;
 
@@ -30,7 +31,7 @@ public class AttackArea : MonoBehaviour
     {
         weapon.nowBullet--;
         UIController.Instance.bulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
-        bolt = PlayerBulletPool.Instance.GetFromPool(0);//TODO 플레이어 무기에 따라 투사체 ID변경
+        bolt = PlayerBulletPool.Instance.GetFromPool(boltID);
         ResetDir();
     }
 

@@ -51,14 +51,11 @@ public class Portal : MonoBehaviour
         }
         else if (GameController.Instance.Level>5)
         {
-            GameSetting.Instance.StageOpen[Player.Instance.mNowStage] = true;
-            GameController.Instance.DestroyController();//TODO 나중에 점수 계산 ui 나올때 버튼  기능으로 넣기
-            UIController.Instance.StageClear();
-            SceneManager.LoadScene(1);
+            UIController.Instance.ShowClearText();
         }
         else
         {
-            Debug.Log("현재 지하 " + GameController.Instance.Level + "층");//4층까지 존재 
+            StartCoroutine(UIController.Instance.ShowLevel());
             SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);
         }

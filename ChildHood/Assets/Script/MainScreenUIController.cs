@@ -9,6 +9,8 @@ public class MainScreenUIController : MonoBehaviour
     public static MainScreenUIController Instance;
 
 #pragma warning disable 0649
+    public Image ScreenLoadDelay;
+    public Button mStartButton;
     [SerializeField]
     private Text mStartText, mBGMText, mSEText;
     [SerializeField]
@@ -26,6 +28,15 @@ public class MainScreenUIController : MonoBehaviour
             Destroy(gameObject);
         }
         mKorButton.gameObject.SetActive(false);
+        StartCoroutine(Loading());
+    }
+
+    private IEnumerator Loading()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        ScreenLoadDelay.gameObject.SetActive(false);
+        mStartButton.gameObject.SetActive(true);
+        yield return delay;
     }
 
     //0 = 한국어 / 1 = 영어

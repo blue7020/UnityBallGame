@@ -9,6 +9,7 @@ public class Chest : MonoBehaviour
     public SpriteRenderer mRenderer;
     public Sprite[] mSprites;
     public MimicSpawner mMimicPos;
+    public Room Currentroom;
 
     private bool ChestOpen;
     private eChestType Type;
@@ -38,6 +39,22 @@ public class Chest : MonoBehaviour
                 break;
         }
         ChestOpen = false;
+    }
+
+    private void Start()
+    {
+        while (true)
+        {
+            //TODO 상자의 등급에 따라 아이템 배열 다르게 설정
+            int rand = Random.Range(0, 4);
+            if (Player.Instance.NowPlayerWeapon.mID!=rand)
+            {
+                Weapon mWeapon = WeaponPool.Instance.GetFromPool(rand);
+                mWeapon.transform.SetParent(mItem.transform);
+                mWeapon.Currentroom = Currentroom;
+                break;
+            }
+        }
     }
 
     private void Wood()
@@ -87,6 +104,16 @@ public class Chest : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    private void Open()
+    {
+        ChestOpen = true;
+        mItem.SetActive(true);
+        int randx = UnityEngine.Random.Range(-1, 1);
+        int randy = UnityEngine.Random.Range(-1, 1);
+        mItem.transform.localPosition = gameObject.transform.position + new Vector3(randx, randy, 0);
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
 
@@ -94,7 +121,8 @@ public class Chest : MonoBehaviour
         {
             if (ChestOpen == false)
             {
-                ChestOpen = true;
+                Open();
+                
                 switch (Type)
                 {
                     case eChestType.Wood:
@@ -110,7 +138,6 @@ public class Chest : MonoBehaviour
                         Debug.LogError("Wrong Chest Sprite");
                         break;
                 }
-                //상자의 등급에 따라 아이템 배열 다르게
             }
 
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +9,9 @@ public class UIController : MonoBehaviour
 
     public static UIController Instance;
 
-    public Text mGoldText, mHPText,mStatText, mNameText, bulletText;
+    public Text mGoldText, mHPText,mStatText, mNameText, bulletText,mLevelText;
     public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage, SkillCoolWheel;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage;
 
     public Sprite[] mCharacterSprite;
     public Sprite DefaultItemSprite;
@@ -49,7 +50,8 @@ public class UIController : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-                mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
+        StartCoroutine(ShowLevel());
+        mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
         mSKillButton.onClick.AddListener(() => { Player.Instance.NowPlayerSkill.SkillUse(); });
     }
@@ -58,11 +60,6 @@ public class UIController : MonoBehaviour
     public void Delete()
     {
         Destroy(gameObject);
-    }
-
-    public void StageClear()
-    {
-        //TODO 점수 및 재화 계산 UI 띄우기 
     }
 
     public void BGMPlus()
@@ -112,6 +109,20 @@ public class UIController : MonoBehaviour
             GameSetting.Instance.SESetting = 0;
         }
         mSEText.text = GameSetting.Instance.SESetting.ToString();
+    }
+
+    public IEnumerator ShowLevel()
+    {
+        WaitForSeconds delay = new WaitForSeconds(2f);
+        mLevelText.text = "-B" + (GameController.Instance.Level+1) + "F-";
+        mLevelText.gameObject.SetActive(true);
+        yield return delay;
+        mLevelText.gameObject.SetActive(false);
+    }
+
+    public void ShowClearText()
+    {
+        mClearImage.gameObject.SetActive(true);
     }
 
     public void ShowItemImage()

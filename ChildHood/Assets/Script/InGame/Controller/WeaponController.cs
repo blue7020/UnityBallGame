@@ -62,6 +62,6 @@ public class WeaponController : InformationLoader
     }
     public void Baguette(Enemy Target)
     {
-        Target.mRB2D.AddForce((Target.transform.position)/2, ForceMode2D.Impulse);
+        //Target.mRB2D.AddForce((Target.transform.position)/2, ForceMode2D.Impulse);
     }
 }

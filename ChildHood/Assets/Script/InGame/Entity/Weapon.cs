@@ -6,26 +6,27 @@ public class Weapon : MonoBehaviour
 {
 
     public Sprite mWeaponImage;
+    public GameObject Aim;
     public bool Equip;
 
+    public Room Currentroom;
     public eWeaponType eType;
 
     public WeaponStat mStats;
     public int nowBullet;
     public int MaxBullet;
 
-    private Animator mAnim;
     public SpriteRenderer mRenderer;
+    public Animator mAnim;
 
     public AttackArea mAttackArea;
     public int mID;
-    private bool mAttackCooltime;
+    public bool mAttackCooltime;
     public bool Attackon;
 
     private void Awake()
     {
         mStats = WeaponController.Instance.mInfoArr[mID];
-        mAnim = GetComponent<Animator>();
         mAttackCooltime = false;
         Attackon = false;
         Equip = false;
@@ -66,9 +67,20 @@ public class Weapon : MonoBehaviour
     {
         WaitForSeconds Cool =new WaitForSeconds(Player.Instance.mStats.AtkSpd);
         mAttackCooltime = true;
-        mAttackArea.Melee();
+        StartCoroutine(Slash());
         yield return Cool;
         mAttackCooltime = false;
+    }
+
+    private IEnumerator Slash()
+    {
+        WaitForSeconds few = new WaitForSeconds(0.3f);
+        mAnim.SetBool(AnimHash.Attack, true);
+        mAttackArea.gameObject.SetActive(true);
+        mAttackArea.Melee();
+        yield return few;
+        mAnim.SetBool(AnimHash.Attack, false);
+        mAttackArea.gameObject.SetActive(false);
     }
 
     public void RangeAttack()
@@ -87,12 +99,22 @@ public class Weapon : MonoBehaviour
         mAttackCooltime = false;
     }
 
-
     public void EquipWeapon()
     {
         if (Equip == false)
         {
+            Equip = true;
+            if (eType== eWeaponType.Range)
+            {
+                Aim.gameObject.SetActive(true);
+                mAttackArea.gameObject.SetActive(true);
+            }
             Player.Instance.EquipWeapon(this);
+            Currentroom = Player.Instance.CurrentRoom;
+            transform.SetParent(Player.Instance.gameObject.transform);
+            UIController.Instance.ShowNowBulletText();
+            UIController.Instance.ShowWeaponImage();
+            transform.localPosition = new Vector3(0, 0, 0);
         }
     }
 
@@ -100,7 +122,159 @@ public class Weapon : MonoBehaviour
     {
         if (Equip == true)
         {
+            Equip = false;
+            Clamp();
+            if (eType == eWeaponType.Range)
+            {
+                Aim.gameObject.SetActive(false);
+                mAttackArea.gameObject.SetActive(false);
+            }
             Player.Instance.UnequipWeapon(this);
+            gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
+            int randx = UnityEngine.Random.Range(-1, 1);
+            int randy = UnityEngine.Random.Range(-1, 1);
+            gameObject.transform.position = Player.Instance.gameObject.transform.position + new Vector3(randx, randy, 0);
         }
     }
+
+    public void WeaponChange()
+    {
+        if (Player.Instance.NowPlayerWeapon == null)
+        {
+            EquipWeapon();
+        }
+        else
+        {
+            Weapon drop = Player.Instance.NowPlayerWeapon;
+            drop.UnequipWeapon();
+            EquipWeapon();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            WeaponChange();
+        }
+
+    }
+
+
+    public void Clamp()
+    {
+        Currentroom = Player.Instance.CurrentRoom;
+        int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
+        int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax - 1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);
+
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+
+        if (Equip==false)
+        {
+            if (other.gameObject.CompareTag("Walls"))
+            {
+                if (Currentroom != null)
+                {
+                    switch (other.GetComponent<WallDir>().Type)
+                    {
+                        case eWallType.Top:
+                            int rand = UnityEngine.Random.Range(0, 5);
+                            switch (rand)
+                            {
+                                case 0:
+                                    gameObject.transform.position += new Vector3(0, -1, 0);
+                                    break;
+                                case 1:
+                                    gameObject.transform.position += new Vector3(1, 0, 0);
+                                    break;
+                                case 2:
+                                    gameObject.transform.position += new Vector3(-1, 0, 0);
+                                    break;
+                                case 3:
+                                    gameObject.transform.position += new Vector3(1, -1, 0);
+                                    break;
+                                case 4:
+                                    gameObject.transform.position += new Vector3(-1, -1, 0);
+                                    break;
+                            }
+                            break;
+                        case eWallType.Bot:
+                            int rand2 = UnityEngine.Random.Range(0, 5);
+                            switch (rand2)
+                            {
+                                case 0:
+                                    gameObject.transform.position += new Vector3(0, 1, 0);
+                                    break;
+                                case 1:
+                                    gameObject.transform.position += new Vector3(1, 0, 0);
+                                    break;
+                                case 2:
+                                    gameObject.transform.position += new Vector3(-1, 0, 0);
+                                    break;
+                                case 3:
+                                    gameObject.transform.position += new Vector3(1, 1, 0);
+                                    break;
+                                case 4:
+                                    gameObject.transform.position += new Vector3(-1, 1, 0);
+                                    break;
+                            }
+                            break;
+                        case eWallType.Right:
+                            int rand3 = UnityEngine.Random.Range(0, 5);
+                            switch (rand3)
+                            {
+                                case 0:
+                                    gameObject.transform.position += new Vector3(-1, 0, 0);
+                                    break;
+                                case 1:
+                                    gameObject.transform.position += new Vector3(0, -1, 0);
+                                    break;
+                                case 2:
+                                    gameObject.transform.position += new Vector3(0, 1, 0);
+                                    break;
+                                case 3:
+                                    gameObject.transform.position += new Vector3(-1, 1, 0);
+                                    break;
+                                case 4:
+                                    gameObject.transform.position += new Vector3(-1, -1, 0);
+                                    break;
+                            }
+                            break;
+                        case eWallType.Left:
+                            int rand4 = UnityEngine.Random.Range(0, 5);
+                            switch (rand4)
+                            {
+                                case 0:
+                                    gameObject.transform.position += new Vector3(1, 0, 0);
+                                    break;
+                                case 1:
+                                    gameObject.transform.position += new Vector3(0, -1, 0);
+                                    break;
+                                case 2:
+                                    gameObject.transform.position += new Vector3(0, 1, 0);
+                                    break;
+                                case 3:
+                                    gameObject.transform.position += new Vector3(1, 1, 0);
+                                    break;
+                                case 4:
+                                    gameObject.transform.position += new Vector3(1, -1, 0);
+                                    break;
+                            }
+                            break;
+                        default:
+                            Debug.LogError("Wrong Wall Type");
+                            break;
+                    }
+                }
+            }
+        }
+        
+    }
+
+
+    
 }

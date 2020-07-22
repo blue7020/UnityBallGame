@@ -97,4 +97,25 @@ public class MainScreenUIController : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+
+    int ClickCount = 0;
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ClickCount++;
+            if (!IsInvoking("DoubleClick"))
+                Invoke("DoubleClick", 1.0f);
+
+        }
+        else if (ClickCount == 2)
+        {
+            Application.Quit();
+        }
+
+    }
+    void DoubleClick()
+    {
+        ClickCount = 0;
+    }
 }

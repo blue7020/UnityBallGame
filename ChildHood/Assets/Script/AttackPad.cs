@@ -59,9 +59,12 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 StartCoroutine(CooltimeRoutine(CoolMaxtime));
                 AttackSwitch = true;
             }
+
             //무기 방향 돌리기
             float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
-            Player.Instance.NowPlayerWeapon.transform.rotation = Quaternion.AngleAxis(angle+180, Vector3.forward);
+            Player.Instance.NowPlayerWeapon.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
+            
+
             if (AttackSwitch == true)
             {
                 if (Player.Instance.NowPlayerWeapon.eType==eWeaponType.Melee)

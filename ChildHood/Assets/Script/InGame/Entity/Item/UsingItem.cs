@@ -88,7 +88,7 @@ public class UsingItem : InformationLoader
                 ItemChange();
             }
         }
-        
+
     }
 
 
@@ -97,13 +97,13 @@ public class UsingItem : InformationLoader
         Currentroom = Player.Instance.CurrentRoom;
         int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
         int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax-1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax - 1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);
 
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        
+
         if (other.gameObject.CompareTag("Walls"))
         {
             if (Currentroom != null)

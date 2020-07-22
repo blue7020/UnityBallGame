@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
-    [SerializeField]
+    public int mWeaponID;
     public float mSpeed;
     public Rigidbody2D mRB2D;
     private Enemy Target;
@@ -21,6 +21,7 @@ public class PlayerBullet : MonoBehaviour
             Target = other.GetComponent<Enemy>();
             if (Target.mCurrentHP > 0 && Target != null)
             {
+                WeaponController.Instance.WeaponSkill(mWeaponID, Target);
                 float rand = UnityEngine.Random.Range(0, 1f);
                 if (rand <= Player.Instance.mStats.Crit / 100)
                 {

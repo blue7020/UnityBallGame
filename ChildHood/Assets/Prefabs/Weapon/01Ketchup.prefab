@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1668089395024223784}
   - component: {fileID: 1668089395024223790}
-  - component: {fileID: 1668089395024223785}
+  - component: {fileID: 7206957528886429093}
   m_Layer: 0
   m_Name: 01Ketchup
   m_TagString: Weapone
@@ -49,7 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mWeaponImage: {fileID: -6523628323415844430, guid: d77753863bbab6d438712410ca0e8a1c,
     type: 3}
+  Aim: {fileID: 5064496805207647573}
   Equip: 0
+  Currentroom: {fileID: 0}
   eType: 1
   mStats:
     ID: 0
@@ -64,28 +66,36 @@ MonoBehaviour:
   nowBullet: 0
   MaxBullet: 0
   mRenderer: {fileID: 1668089395061802988}
+  mAnim: {fileID: 0}
   mAttackArea: {fileID: 1668089396310826510}
   mID: 1
   Attackon: 0
---- !u!95 &1668089395024223785
-Animator:
-  serializedVersion: 3
+--- !u!61 &7206957528886429093
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1668089395024223787}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.06065516, y: 0.0027569532}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.87868965, y: 0.5202725}
+  m_EdgeRadius: 0
 --- !u!1 &1668089395061802990
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,7 +190,6 @@ GameObject:
   - component: {fileID: 1668089396310826507}
   - component: {fileID: 1668089396310826510}
   - component: {fileID: 1668089396310826505}
-  - component: {fileID: 1668089396310826504}
   m_Layer: 0
   m_Name: AttackArea
   m_TagString: Untagged
@@ -214,10 +223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99c61b00dd470b4bafbdc045690c16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTime: 0.5
-  mAttackEnd: 0
   weapon: {fileID: 1668089395024223790}
   BulletStarter: {fileID: 7513381052594123658}
+  mRenderer: {fileID: 0}
 --- !u!61 &1668089396310826505
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -244,25 +252,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
---- !u!95 &1668089396310826504
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668089396310826506}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6544939b8cf194f4ab197a4885269f94, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4860574362309304808
 GameObject:
   m_ObjectHideFlags: 0

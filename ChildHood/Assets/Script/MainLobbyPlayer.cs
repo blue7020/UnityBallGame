@@ -12,7 +12,7 @@ public class MainLobbyPlayer : MonoBehaviour
     public Sprite PlayerImage;
     public eDirection Look;
 
-    private int mSpeed;
+    public int mSpeed;
 
     public SpriteRenderer mRenderer;
     public Rigidbody2D mRB2D;
@@ -34,7 +34,6 @@ public class MainLobbyPlayer : MonoBehaviour
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
         mID= GameSetting.Instance.PlayerID;
-        mSpeed = 10;
     }
 
     public void Delete()

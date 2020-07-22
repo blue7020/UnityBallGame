@@ -8,7 +8,6 @@ public class Enemy : InformationLoader
     public eMonsterState State;
     public eEnemyType eType;
     public int mDelayCount;
-    public bool Focus;
 
     public int mID;
 #pragma warning disable 0649
@@ -16,19 +15,17 @@ public class Enemy : InformationLoader
     private GameObject mSprite;
     public Rigidbody2D mRB2D;
 
-    [SerializeField]
-    private Transform mHPBarPos;
+    public Transform mHPBarPos;
     [SerializeField]
     private EnemySkill mEnemySkill;
     [SerializeField]
     private EnemyAttackArea mAttackArea;
 #pragma warning restore 0649
 
-    private GaugeBar mHPBar;
+    public GaugeBar mHPBar;
 
     private bool AttackOn;
     private bool AttackCheck;
-    private bool HPBarOn;
     public Coroutine mCoroutine;
 
     public Animator mAnim;
@@ -42,7 +39,6 @@ public class Enemy : InformationLoader
         Stats=EnemyController.Instance.mInfoArr[mID];
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
-        Focus = false;
     }
     private void Start()
     {
@@ -59,10 +55,6 @@ public class Enemy : InformationLoader
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (HPBarOn == true)
-        {
-            mHPBar.transform.position = mHPBarPos.position;
-        }
         if (mCurrentHP < 1)
         {
             State = eMonsterState.Die;
@@ -110,6 +102,10 @@ public class Enemy : InformationLoader
                     mSprite.GetComponent<SpriteRenderer>().color = Color.grey;
                     if (mDelayCount >= 6)
                     {
+                        if (Player.Instance.CurrentRoom.EnemyCount > 0)
+                        {
+                            Player.Instance.CurrentRoom.EnemyCount--;
+                        }
                         if (eType == eEnemyType.Boss)
                         {
                             PortalTrigger.Instance.BossDeath();
@@ -139,6 +135,7 @@ public class Enemy : InformationLoader
         if (mHPBar == null)
         {
             mHPBar = GaugeBarPool.Instance.GetFromPool();
+            mHPBar.mEnemy = this;
         }
         if (mCurrentHP <= 0)
         {
@@ -147,20 +144,14 @@ public class Enemy : InformationLoader
             mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
             mGold.transform.position = transform.position;
             mGold.GoldDrop(mGold, Stats.Gold);
-            HPBarOn = false;
-            mHPBar.gameObject.SetActive(false);
             mEnemySkill.DieSkill();
-            if (Player.Instance.CurrentRoom.EnemyCount > 0)
-            {
-                Player.Instance.CurrentRoom.EnemyCount--;
-            }
+            mHPBar.CloseGauge();
         }
         else
         {
             mHPBar.gameObject.SetActive(true);
             mHPBar.SetGauge(mCurrentHP, mMaxHP);
             mHPBar.transform.position = mHPBarPos.position;
-            HPBarOn = true;
         }
 
     }

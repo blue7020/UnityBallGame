@@ -43,8 +43,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
             //Move Joystick
             Stick.rectTransform.anchoredPosition
-                = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2),
-                              inputVector.y * (BG.rectTransform.sizeDelta.y / 2));
+                = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2/2),
+                              inputVector.y * (BG.rectTransform.sizeDelta.y / 2)/2);
 
             if (AttackCurrentTime <= 0)
             {

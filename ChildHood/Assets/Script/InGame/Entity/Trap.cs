@@ -10,6 +10,7 @@ public class Trap : MonoBehaviour
     private eTrapType mType;
     [SerializeField]
     private float mValue;
+    private float mBackup;
 #pragma warning restore 0649
     private bool TrapTrigger;//애니메이션 비례 함정 작동
 
@@ -56,7 +57,7 @@ public class Trap : MonoBehaviour
                     //애니메이션에서 처리
                     break;
                 case eTrapType.Slow:
-                    mTarget.mStats.Spd += mValue;
+                    mTarget.mStats.Spd += mBackup;
                     mTarget = null;
                     break;
                 case eTrapType.Spike:
@@ -76,7 +77,7 @@ public class Trap : MonoBehaviour
         if(mTarget!= null)
         {
             if(TrapTrigger==true){
-                mTarget.Hit(mValue);
+                mTarget.mCurrentHP -= mValue;//고정 피해
             }
             
         }
@@ -86,7 +87,8 @@ public class Trap : MonoBehaviour
     {
         if (mTarget != null)
         {
-            mTarget.mStats.Spd -= mValue;
+            mBackup = mTarget.mStats.Spd - (mTarget.mStats.Spd * (1 + -mValue));
+            mTarget.mStats.Spd -= mBackup;
         }
     }
 

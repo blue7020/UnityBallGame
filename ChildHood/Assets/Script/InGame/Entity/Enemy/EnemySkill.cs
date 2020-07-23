@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class EnemySkill : MonoBehaviour
 {
-#pragma warning disable 0649
-    [SerializeField]
-    private Enemy mEnemy;
+    public Enemy mEnemy;
     public float mDamage;
-    [SerializeField]
-    private EnemyAttackArea mAttackArea;
-#pragma warning restore 0649
+    public EnemyAttackArea mAttackArea;
+    int Count;
 
     public bool Skilltrigger;
     public int Skilltick;
@@ -197,6 +194,27 @@ public class EnemySkill : MonoBehaviour
 
     private void SandWitch()
     {
-        mEnemy.mRB2D.velocity = Vector3.zero;
+        Count = 0;
+        while (true)
+        {
+            if (Count>=6)
+            {
+                break;
+            }
+            else
+            {
+                mEnemy.mRB2D.velocity = Vector3.zero;
+                Invoke("PowderBoom", 0.2f);
+            }
+        }
+    }
+    private void PowderBoom()
+    {
+        int Xpos = Random.Range(-7, 8);
+        int Ypos = Random.Range(-7, 8);
+        Vector3 Pos = new Vector3(Xpos,Ypos,0);
+        Bullet bolt = BulletPool.Instance.GetFromPool(3);
+        bolt.transform.localPosition = Pos;
+        Count++;
     }
 }

@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-#pragma warning disable 0649
-    [SerializeField]
-    private float mDamage;
+    public float mDamage;
     public float mSpeed;
     public Rigidbody2D mRB2D;
-#pragma warning restore 0649
     public eBulletType Type;
-
-    private void Awake()
-    {
-        mRB2D = GetComponent<Rigidbody2D>();
-    }
+    public Animator mAnim;
 
     private void Update()
     {
@@ -25,6 +18,13 @@ public class Bullet : MonoBehaviour
         }
         
     }
+
+    public void Boom()
+    {
+        //mAnim.SetBool(AnimHash.Bullet_Boom, true);
+        gameObject.SetActive(false);
+    }
+
 
     private IEnumerator MovetoPlayer()
     {

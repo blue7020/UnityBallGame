@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 5625888379483268581}
   m_Layer: 0
   m_Name: Lock
-  m_TagString: Walls
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -964,7 +964,7 @@ GameObject:
   - component: {fileID: 5625888379864682925}
   m_Layer: 0
   m_Name: Top
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1190,7 +1190,7 @@ GameObject:
   - component: {fileID: 5625888379996890980}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1299,7 +1299,7 @@ GameObject:
   - component: {fileID: 5625888380034895823}
   m_Layer: 0
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1691,7 +1691,7 @@ GameObject:
   - component: {fileID: 5625888380156184468}
   m_Layer: 0
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2156,7 +2156,7 @@ MonoBehaviour:
   rightDoor: {fileID: 5625888381384035439}
   topDoor: {fileID: 5625888379438143273}
   bottomDoor: {fileID: 5625888381263488947}
-  eType: 1
+  eType: 3
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 5625888381149798499}
   doors: []
@@ -2368,7 +2368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5625888380704422466
 Transform:
   m_ObjectHideFlags: 0
@@ -3203,7 +3203,6 @@ GameObject:
   - component: {fileID: 5625888381149798501}
   - component: {fileID: 5625888381149798496}
   - component: {fileID: 5625888381149798499}
-  - component: {fileID: 5625888381149798498}
   m_Layer: 0
   m_Name: LockDoor
   m_TagString: Untagged
@@ -3239,7 +3238,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00000047683716, y: 0.036321163}
+  m_Offset: {x: 0, y: 0.095388174}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3250,7 +3249,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 18.06237, y: 10.936852}
+  m_Size: {x: 18.06237, y: 10.818718}
   m_EdgeRadius: 0
 --- !u!114 &5625888381149798499
 MonoBehaviour:
@@ -3268,19 +3267,6 @@ MonoBehaviour:
   mDoor: {fileID: 5625888379483268580}
   Type: 1
   SpawnAll: 0
---- !u!114 &5625888381149798498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5625888381149798500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0f1ab2a784ee894bb3cb221ce77c6eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mDoor: {fileID: 5625888379483268580}
 --- !u!1 &5625888381240497391
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,10 @@ public class EnemyFinder : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        mDoor.gameObject.SetActive(true);
+        if (other.gameObject.CompareTag("Player"))
+        {
+            mDoor.gameObject.SetActive(true);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)

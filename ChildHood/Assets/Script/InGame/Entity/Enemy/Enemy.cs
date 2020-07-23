@@ -37,7 +37,6 @@ public class Enemy : InformationLoader
     private void Awake()
     {
         Stats=EnemyController.Instance.mInfoArr[mID];
-        mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
     }
     private void Start()

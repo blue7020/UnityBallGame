@@ -193,6 +193,18 @@ public class Room : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            if (eType==eRoomType.Shop)
+            {
+                for (int i=0; i < CanvasFinder.Instance.mPriceText.Length;i++)
+                {
+                    CanvasFinder.Instance.mPriceText[i].gameObject.SetActive(true);
+                }
+                
+            }
+            if (eType == eRoomType.StageEnd)
+            {
+                PortalTrigger.Instance.BossSpawn();
+            }
             RoomControllers.Instance.OnPlaerEnterRoom(this);
         }
     }

@@ -63,6 +63,7 @@ public class ShopController : MonoBehaviour
         itembuy[0].item = item;
         itembuy[0].mPrice.text = item.mStats.Price.ToString() + "G";
         mItemList.RemoveAt(rand);
+        itembuy[0].mPrice.gameObject.SetActive(false);
         if (GameController.Instance.Level % 2 == 1)
         {          
             for (int i = 1; i < mPos.Length; i++)
@@ -75,6 +76,7 @@ public class ShopController : MonoBehaviour
                 itembuy[i].artifact = artifact;
                 itembuy[i].mPrice.text = artifact.mStats.Price.ToString() + "G";
                 mPassiveArtifact.Remove(artifact);
+                itembuy[i].mPrice.gameObject.SetActive(false);
                 //사용 아이템 1개 패시브 유물 2개
             }
         }
@@ -90,10 +92,10 @@ public class ShopController : MonoBehaviour
                 itembuy[i].artifact = artifact;
                 itembuy[i].mPrice.text = artifact.mStats.Price.ToString()+"G";
                 mUsingArtifact.Remove(artifact);
+                itembuy[i].mPrice.gameObject.SetActive(false);
                 //사용 아이템 1개 액티브 유물 2개
             }
         }
-        
         
     }
 }

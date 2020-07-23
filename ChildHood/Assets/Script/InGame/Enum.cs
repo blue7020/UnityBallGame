@@ -77,7 +77,8 @@ public enum eWeaponType
 public enum eBulletType
 {
     normal,
-    homing
+    homing,
+    boom
 }
 
 public enum eShopType
@@ -90,5 +91,7 @@ public enum eRoomType
 {
     Monster,
     Boss,
-    Normal
+    Normal,
+    StageEnd,
+    Shop
 }

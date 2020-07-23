@@ -20,8 +20,6 @@ public class RoomControllers : MonoBehaviour
     public static RoomControllers Instance;
 
     RoomInfo CurrentLoadRoomData;
-
-    Room CurrentRoom;
     public int RoomLength = 0;
 
     public Queue<RoomInfo> LoadRoomQueue = new Queue<RoomInfo>();
@@ -238,15 +236,19 @@ public class RoomControllers : MonoBehaviour
         Room CurrentRoom =room;
         //플레이어가 해당 방에 들어왔을 때.
         Player.Instance.CurrentRoom = CurrentRoom;
-        if (CurrentRoom.IsFound == false)
+        if (GameController.Instance.Level<5)
         {
-            if (CurrentRoom.eType!=eRoomType.Normal)
+            if (CurrentRoom.IsFound == false)
             {
-                StartCoroutine(MonsterSpawn(CurrentRoom));
+                if (CurrentRoom.eType != eRoomType.Normal || CurrentRoom.eType != eRoomType.StageEnd)
+                {
+                    StartCoroutine(MonsterSpawn(CurrentRoom));
+                }
+                CurrentRoom.RoomBlackOut();
+                CurrentRoom.IsFound = true;
             }
-            CurrentRoom.RoomBlackOut();
-            CurrentRoom.IsFound = true;
         }
+        
     }
 
     public IEnumerator MonsterSpawn(Room currentRoom)

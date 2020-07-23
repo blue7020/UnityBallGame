@@ -195,26 +195,29 @@ public class EnemySkill : MonoBehaviour
     private void SandWitch()
     {
         Count = 0;
+        StartCoroutine(PowderBoom());
+    }
+    private IEnumerator PowderBoom()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.2f);
         while (true)
         {
-            if (Count>=6)
+            if (Count>5)
             {
                 break;
             }
             else
             {
                 mEnemy.mRB2D.velocity = Vector3.zero;
-                Invoke("PowderBoom", 0.2f);
+                int Xpos = Random.Range(-7, 8);
+                int Ypos = Random.Range(-7, 8);
+                Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+                Bullet bolt = BulletPool.Instance.GetFromPool(3);
+                bolt.transform.localPosition = Pos;
+                Count++;
+                yield return delay;
             }
         }
-    }
-    private void PowderBoom()
-    {
-        int Xpos = Random.Range(-7, 8);
-        int Ypos = Random.Range(-7, 8);
-        Vector3 Pos = new Vector3(Xpos,Ypos,0);
-        Bullet bolt = BulletPool.Instance.GetFromPool(3);
-        bolt.transform.localPosition = Pos;
-        Count++;
+        
     }
 }

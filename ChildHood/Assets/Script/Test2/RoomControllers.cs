@@ -259,11 +259,6 @@ public class RoomControllers : MonoBehaviour
         {
             currentRoom.mGrid.GenerateGrid();
         }
-        if (currentRoom.eType == eRoomType.Boss)
-        {
-            PortalTrigger.Instance.BossSpawn();
-
-        }
         
     }
 }

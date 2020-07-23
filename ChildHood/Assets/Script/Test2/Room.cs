@@ -31,7 +31,7 @@ public class Room : MonoBehaviour
     public List<Door> doors = new List<Door>();
 
     public bool IsFound;
-
+    public bool Special;
     public int EnemyCount;
     public GameObject blackOut;
 
@@ -39,6 +39,7 @@ public class Room : MonoBehaviour
     private void Awake()
     {
         EnemyCount = 0;
+        Special = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -191,7 +192,7 @@ public class Room : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&& Special==false)
         {
             if (eType==eRoomType.Shop)
             {
@@ -201,10 +202,13 @@ public class Room : MonoBehaviour
                 }
                 
             }
-            if (eType == eRoomType.StageEnd)
+            if (eType == eRoomType.Boss)
             {
                 PortalTrigger.Instance.BossSpawn();
+                EnemyCount++;
+
             }
+            Special = true;
             RoomControllers.Instance.OnPlaerEnterRoom(this);
         }
     }

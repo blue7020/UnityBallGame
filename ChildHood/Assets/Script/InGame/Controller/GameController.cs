@@ -20,15 +20,17 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            StageHP = 4;
+            MapLevel = GameSetting.Instance.NowStage;
+            GotoMain = false;
+            pause = false;
+            Level = 1;
+            UIController.Instance.CharacterImage();
         }
         else
         {
             Delete();
         }
-        StageHP = 4;
-        GotoMain = false;
-        pause = false;
-        UIController.Instance.CharacterImage();
     }
 
     private void Delete()
@@ -42,9 +44,6 @@ public class GameController : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        MapLevel = 1;//나중에 맵 선택 시 해당 레벨을 부여하는 것으로 수정
-
-        Level = 1;
     }
 
     public void GamePause()

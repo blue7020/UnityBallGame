@@ -1,20 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemBuy : MonoBehaviour
 {
-#pragma warning disable 0649
+    public int mID;
     public bool Sell;
     public eShopType ShopType;
+    public ShopController mShopController;
 
     public UsingItem item;
     public Artifacts artifact;
-#pragma warning restore 0649
+    public Text mPrice;
 
     private void Start()
     {
         Sell = false;
+        mPrice.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+        mPrice.transform.localScale = new Vector3(10, 10, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -25,10 +29,10 @@ public class ItemBuy : MonoBehaviour
             {
                 if (ShopType==eShopType.Item)
                 {
-                    if (Player.Instance.mStats.Gold >= item.Stats.Price)
+                    if (Player.Instance.mStats.Gold >= item.mStats.Price)
                     {
                         item.IsShopItem = false;
-                        Player.Instance.mStats.Gold -= item.Stats.Price;
+                        Player.Instance.mStats.Gold -= item.mStats.Price;
                         Sell = true;
                         item.ItemChange();
                     }
@@ -66,6 +70,7 @@ public class ItemBuy : MonoBehaviour
                     } 
                 }
                 UIController.Instance.ShowGold();
+                CanvasFinder.Instance.DeletePrice(mID);
             }
         }
     }

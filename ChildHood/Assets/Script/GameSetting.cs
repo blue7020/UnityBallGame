@@ -14,6 +14,7 @@ public class GameSetting : MonoBehaviour
     public int Language; //0 = 한국어 / 1 = 영어
 
     public bool[] StageOpen;
+    public int NowStage;
 
     private const int CharacterCount = 2;
     public bool[] CharacterOpen;
@@ -33,11 +34,13 @@ public class GameSetting : MonoBehaviour
         StageOpen[0] = true;//1스테이지 오픈
         CharacterOpen[0] = true;//기본캐릭터 오픈
         Restart();
-        
+
+
     }
 
     public void Restart()
     {
+        NowStage = 0;
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         PlayerID = 0;
         Ingame = false;

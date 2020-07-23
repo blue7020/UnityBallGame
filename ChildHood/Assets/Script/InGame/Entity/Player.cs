@@ -14,8 +14,6 @@ public class Player : MonoBehaviour
     public float mMaxHP;
     public float mCurrentHP;
     public eDirection Look;
-    [SerializeField]
-    private CircleCollider2D mRange;
 
     public Room CurrentRoom;
     public int EnemySwitch;

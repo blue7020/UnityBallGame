@@ -20,9 +20,8 @@ public class Artifacts : InformationLoader
 
     public bool IsShopItem;
 
-    private void Start()
+    private void Awake()
     {
-        mRenderer = GetComponent<SpriteRenderer>();
         mStats = ArtifactController.Instance.mStatInfoArr[mID];
         TextStats = ArtifactController.Instance.mTextInfoArr[mID];
         Equip = false;

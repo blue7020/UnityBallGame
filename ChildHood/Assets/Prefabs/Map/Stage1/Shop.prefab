@@ -1276,6 +1276,8 @@ MonoBehaviour:
   - {fileID: 6652159711787591488, guid: b199cf7051b421c4f90ee80e9c98eb86, type: 3}
   mUsingArtifact: []
   mPassiveArtifact: []
+  mPriceText: {fileID: 4259675381478528485, guid: 7b6276d31765d2743aa8f6a3e1aec48c,
+    type: 3}
   Shop: {fileID: 2037662612893619756}
 --- !u!1 &2037662612965688413
 GameObject:
@@ -1851,6 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sell: 0
   ShopType: 1
+  mShopController: {fileID: 2037662612932392550}
   item: {fileID: 0}
   artifact: {fileID: 0}
 --- !u!1 &2037662613357508856
@@ -2938,7 +2941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2037662613771624585
 Transform:
   m_ObjectHideFlags: 0
@@ -3079,6 +3082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sell: 0
   ShopType: 1
+  mShopController: {fileID: 2037662612932392550}
   item: {fileID: 0}
   artifact: {fileID: 0}
 --- !u!1 &2037662613860292780
@@ -3496,6 +3500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sell: 0
   ShopType: 0
+  mShopController: {fileID: 2037662612932392550}
   item: {fileID: 0}
   artifact: {fileID: 0}
 --- !u!1 &2037662614070381462

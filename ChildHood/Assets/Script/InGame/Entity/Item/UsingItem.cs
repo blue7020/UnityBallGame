@@ -12,42 +12,42 @@ public class UsingItem : InformationLoader
     public Room Currentroom;
     public Vector3 backupPos;
 
-    public ItemStat Stats;
+    public ItemStat mStats;
 
 
     public bool IsShopItem;
 
 
-    private void Start()
+    private void Awake()
     {
-        Stats = ItemList.Instance.mInfoArr[mID];
+        mStats = ItemList.Instance.mInfoArr[mID];
     }
 
     public void UseItem()
     {
-        if (Stats.Heal > 0)
+        if (mStats.Heal > 0)
         {
             if (mID==0|| mID == 1)
             {
-                Player.Instance.mMaxHP += Stats.Heal;
+                Player.Instance.mMaxHP += mStats.Heal;
             }
-            Player.Instance.Heal(Stats.Heal);
+            Player.Instance.Heal(mStats.Heal);
         }
-        if (Stats.Atk > 0)
+        if (mStats.Atk > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + -Stats.Atk)), Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + -mStats.Atk)), mStats.Duration));
         }
-        if (Stats.AtkSpd > 0)
+        if (mStats.AtkSpd > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd - (Player.Instance.mStats.AtkSpd * (1 + Stats.AtkSpd)), Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd - (Player.Instance.mStats.AtkSpd * (1 + mStats.AtkSpd)), mStats.Duration));
         }
-        if (Stats.Spd > 0)
+        if (mStats.Spd > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + -Stats.Spd)), Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + -mStats.Spd)), mStats.Duration));
         }
-        if (Stats.Def > 0)
+        if (mStats.Def > 0)
         {
-            Player.Instance.StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + -Stats.Def)), Stats.Duration));
+            Player.Instance.StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + -mStats.Def)), mStats.Duration));
         }
         Player.Instance.NowItem = null;
         UIController.Instance.ShowItemImage();

@@ -55,9 +55,9 @@ public class Portal : MonoBehaviour
         }
         else
         {
-            StartCoroutine(UIController.Instance.ShowLevel());
             SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);
+            UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
         }
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();

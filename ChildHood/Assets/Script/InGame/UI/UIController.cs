@@ -114,7 +114,7 @@ public class UIController : MonoBehaviour
     public IEnumerator ShowLevel()
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
-        mLevelText.text = "-B" + (GameController.Instance.Level+1) + "F-";
+        mLevelText.text = "-B" + GameController.Instance.Level + "F-";
         mLevelText.gameObject.SetActive(true);
         yield return delay;
         mLevelText.gameObject.SetActive(false);

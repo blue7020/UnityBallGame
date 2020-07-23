@@ -109,8 +109,8 @@ public class Chest : MonoBehaviour
     {
         ChestOpen = true;
         mItem.SetActive(true);
-        int randx = UnityEngine.Random.Range(-1, 1);
-        int randy = UnityEngine.Random.Range(-1, 1);
+        int randx = Random.Range(-2, 2);
+        int randy = Random.Range(-2, 2);
         mItem.transform.localPosition = gameObject.transform.position + new Vector3(randx, randy, 0);
     }
 

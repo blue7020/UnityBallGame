@@ -8,14 +8,8 @@ public class MainScreenUIController : MonoBehaviour
 {
     public static MainScreenUIController Instance;
 
-#pragma warning disable 0649
-    public Image ScreenLoadDelay;
-    public Button mStartButton;
-    [SerializeField]
-    private Text mStartText, mBGMText, mSEText;
-    [SerializeField]
-    private Button mEngButton, mKorButton;
-#pragma warning restore 0649
+    public Text mStartText,mEndText, mBGMText, mSEText;
+    public Button mEngButton, mKorButton;
 
     private void Awake()
     {
@@ -28,15 +22,6 @@ public class MainScreenUIController : MonoBehaviour
             Destroy(gameObject);
         }
         mKorButton.gameObject.SetActive(false);
-        StartCoroutine(Loading());
-    }
-
-    private IEnumerator Loading()
-    {
-        WaitForSeconds delay = new WaitForSeconds(1f);
-        ScreenLoadDelay.gameObject.SetActive(false);
-        mStartButton.gameObject.SetActive(true);
-        yield return delay;
     }
 
     //0 = 한국어 / 1 = 영어
@@ -45,14 +30,16 @@ public class MainScreenUIController : MonoBehaviour
         mEngButton.gameObject.SetActive(false);
         mKorButton.gameObject.SetActive(true);
         GameSetting.Instance.Language = 1;
-        mStartText.text = "Touch to Start";
+        mStartText.text = "Start";
+        mEndText.text = "Quit";
     }
     public void LanguagetoEng()
     {
         mKorButton.gameObject.SetActive(false);
         mEngButton.gameObject.SetActive(true);
         GameSetting.Instance.Language = 0;
-        mStartText.text = "화면을 터치해주세요";
+        mStartText.text = "게임 시작";
+        mEndText.text = "게임 종료";
     }
 
     public void BGMPlus()
@@ -109,6 +96,12 @@ public class MainScreenUIController : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void GameQuit()
+    {
+        Application.Quit();
+    }
+
+
     int ClickCount = 0;
     void Update()
     {
@@ -121,7 +114,7 @@ public class MainScreenUIController : MonoBehaviour
         }
         else if (ClickCount == 2)
         {
-            Application.Quit();
+            GameQuit();
         }
 
     }

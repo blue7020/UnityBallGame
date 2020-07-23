@@ -25,5 +25,9 @@ public class GaugeBar : MonoBehaviour
         {
             transform.position = mEnemy.mHPBarPos.transform.position;
         }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

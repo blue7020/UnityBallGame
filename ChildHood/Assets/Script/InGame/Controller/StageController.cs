@@ -22,7 +22,27 @@ public class StageController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             GameSetting.Instance.Ingame = true;
-            SceneManager.LoadScene(2);//TODO 스테이지마다 다르게
+            GameSetting.Instance.NowStage = mStageNum;
+            switch (mStageNum)
+            {
+                case 1:
+                    SceneManager.LoadScene(2);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                default:
+                    Debug.LogError("Wrong Stage Number");
+                    break;
+
+            }
         }
     }
 }

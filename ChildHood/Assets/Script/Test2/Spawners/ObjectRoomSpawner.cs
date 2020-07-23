@@ -37,11 +37,12 @@ public class ObjectRoomSpawner : MonoBehaviour
 
         for (int i = 0; i < randomIteration; i++)
         {
+            //TODO 몬스터 생성 애니메이션
             int randomPos = Random.Range(1, grid.availabePoints.Count);
             GameObject go = Instantiate(data.spawnerData.itemToSpawn, grid.availabePoints[randomPos], Quaternion.identity, transform) as GameObject;
             grid.availabePoints.RemoveAt(randomPos);
             room.EnemyCount++;
-
         }
+        room.mEnemyFinder.SpawnAll = true;
     }
 }

@@ -1053,6 +1053,9 @@ MonoBehaviour:
   rightDoor: {fileID: 2037662613688182896}
   topDoor: {fileID: 2037662614081620404}
   bottomDoor: {fileID: 2037662613542357467}
+  eType: 2
+  mGrid: {fileID: 0}
+  mEnemyFinder: {fileID: 0}
   doors: []
   IsFound: 0
   EnemyCount: 0
@@ -1851,11 +1854,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4016f4cbcecb0b84f969d8258f500ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mID: 0
   Sell: 0
   ShopType: 1
   mShopController: {fileID: 2037662612932392550}
   item: {fileID: 0}
   artifact: {fileID: 0}
+  mPrice: {fileID: 0}
 --- !u!1 &2037662613357508856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2941,7 +2946,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2037662613771624585
 Transform:
   m_ObjectHideFlags: 0
@@ -3080,11 +3085,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4016f4cbcecb0b84f969d8258f500ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mID: 0
   Sell: 0
   ShopType: 1
   mShopController: {fileID: 2037662612932392550}
   item: {fileID: 0}
   artifact: {fileID: 0}
+  mPrice: {fileID: 0}
 --- !u!1 &2037662613860292780
 GameObject:
   m_ObjectHideFlags: 0
@@ -3498,11 +3505,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4016f4cbcecb0b84f969d8258f500ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mID: 0
   Sell: 0
   ShopType: 0
   mShopController: {fileID: 2037662612932392550}
   item: {fileID: 0}
   artifact: {fileID: 0}
+  mPrice: {fileID: 0}
 --- !u!1 &2037662614070381462
 GameObject:
   m_ObjectHideFlags: 0

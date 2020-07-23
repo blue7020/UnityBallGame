@@ -385,6 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30911a6fb6de414cabfb2b3360a85a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  room: {fileID: 5625888380593018315}
   portal: {fileID: 5625888380797890135}
   BossArr:
   - {fileID: 5497011858306152034, guid: 00ad1ed4df307294095e5f9473b38c95, type: 3}
@@ -2155,6 +2156,9 @@ MonoBehaviour:
   rightDoor: {fileID: 5625888381384035439}
   topDoor: {fileID: 5625888379438143273}
   bottomDoor: {fileID: 5625888381263488947}
+  eType: 1
+  mGrid: {fileID: 0}
+  mEnemyFinder: {fileID: 5625888381149798499}
   doors: []
   IsFound: 0
   EnemyCount: 0
@@ -2364,7 +2368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5625888380704422466
 Transform:
   m_ObjectHideFlags: 0
@@ -2579,7 +2583,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
-  mClear: {fileID: 0}
 --- !u!61 &5625888380797890132
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3236,7 +3239,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.3}
+  m_Offset: {x: -0.00000047683716, y: 0.036321163}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3247,7 +3250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19, y: 12}
+  m_Size: {x: 18.06237, y: 10.936852}
   m_EdgeRadius: 0
 --- !u!114 &5625888381149798499
 MonoBehaviour:
@@ -3256,14 +3259,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5625888381149798500}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 942506bb5e916aa4c9f71dfc8b71c392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   room: {fileID: 5625888380593018315}
   mDoor: {fileID: 5625888379483268580}
-  Type: 0
+  Type: 1
+  SpawnAll: 0
 --- !u!114 &5625888381149798498
 MonoBehaviour:
   m_ObjectHideFlags: 0

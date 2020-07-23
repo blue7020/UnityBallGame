@@ -2768,6 +2768,9 @@ MonoBehaviour:
   rightDoor: {fileID: 307319481749906193}
   topDoor: {fileID: 307319480799389579}
   bottomDoor: {fileID: 307319481610466073}
+  eType: 0
+  mGrid: {fileID: 0}
+  mEnemyFinder: {fileID: 307319482399688086}
   doors: []
   IsFound: 0
   EnemyCount: 0
@@ -3014,7 +3017,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.3}
+  m_Offset: {x: 0, y: 0.5231142}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3025,7 +3028,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19, y: 12}
+  m_Size: {x: 19, y: 10.740097}
   m_EdgeRadius: 0
 --- !u!114 &307319482399688086
 MonoBehaviour:
@@ -3041,7 +3044,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   room: {fileID: 307319481970007067}
   mDoor: {fileID: 307319480794322926}
-  Type: 1
+  Type: 0
+  SpawnAll: 0
 --- !u!114 &307319482399688084
 MonoBehaviour:
   m_ObjectHideFlags: 0

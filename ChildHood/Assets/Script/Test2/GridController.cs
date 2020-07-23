@@ -23,7 +23,7 @@ public class GridController : MonoBehaviour
         room = GetComponentInParent<Room>();
         grid.columns = room.Width - 2;
         grid.rows = room.Height - 2;
-        GenerateGrid();
+        room.mGrid = this;
     }
 
     public void GenerateGrid()

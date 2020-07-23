@@ -14,7 +14,6 @@ public class Portal : MonoBehaviour
 
     public static Portal Instance;
     public ePortalType Type;
-    public StageClear mClear;
     private void Awake()
     {
         if (Instance == null)

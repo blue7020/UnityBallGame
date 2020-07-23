@@ -240,8 +240,28 @@ public class RoomControllers : MonoBehaviour
         Player.Instance.CurrentRoom = CurrentRoom;
         if (CurrentRoom.IsFound == false)
         {
+            if (CurrentRoom.eType!=eRoomType.Normal)
+            {
+                StartCoroutine(MonsterSpawn(CurrentRoom));
+            }
             CurrentRoom.RoomBlackOut();
             CurrentRoom.IsFound = true;
         }
+    }
+
+    public IEnumerator MonsterSpawn(Room currentRoom)
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        yield return delay;
+        if (currentRoom.eType == eRoomType.Monster)
+        {
+            currentRoom.mGrid.GenerateGrid();
+        }
+        if (currentRoom.eType == eRoomType.Boss)
+        {
+            PortalTrigger.Instance.BossSpawn();
+
+        }
+        
     }
 }

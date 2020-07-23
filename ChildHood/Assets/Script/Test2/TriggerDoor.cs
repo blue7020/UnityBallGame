@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TriggerDoor : MonoBehaviour
 {
-    [SerializeField]
     public GameObject mDoor;
 
     private void Start()
@@ -15,7 +14,7 @@ public class TriggerDoor : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Player"))
-            {
+        {
             mDoor.gameObject.SetActive(true);
         }
 

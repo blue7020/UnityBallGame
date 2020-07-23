@@ -11,6 +11,5 @@ public enum eWallType
 }
 public class WallDir : MonoBehaviour
 {
-    [SerializeField]
     public eWallType Type;
 }

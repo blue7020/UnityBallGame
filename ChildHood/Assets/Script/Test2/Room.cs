@@ -24,6 +24,10 @@ public class Room : MonoBehaviour
     public Door topDoor;
     public Door bottomDoor;
 
+    public eRoomType eType;
+    public GridController mGrid;
+    public EnemyFinder mEnemyFinder;
+
     public List<Door> doors = new List<Door>();
 
     public bool IsFound;

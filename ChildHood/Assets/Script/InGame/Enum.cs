@@ -85,3 +85,10 @@ public enum eShopType
     Item,
     Artifact
 }
+
+public enum eRoomType
+{
+    Monster,
+    Boss,
+    Normal
+}

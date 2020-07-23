@@ -7,6 +7,7 @@ public class PortalTrigger : MonoBehaviour
     public static PortalTrigger Instance;
 
 #pragma warning disable 0649
+    public Room room;
     [SerializeField]
     private Portal portal;
     [SerializeField]
@@ -27,10 +28,11 @@ public class PortalTrigger : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        rand = Random.Range(0, BossArr.Length);
     }
-    private void Start()
+    public void BossSpawn()
     {
+        room.mEnemyFinder.SpawnAll = true;
+        rand = Random.Range(0, BossArr.Length);
         if (GameController.Instance.Level >= 5)
         {
             NowBoss = StageBossArr[0];//TODO 스테이지에 따라 보스 다르게!
@@ -39,7 +41,7 @@ public class PortalTrigger : MonoBehaviour
         {
             NowBoss = BossArr[rand];
         }
-        Instantiate(NowBoss,transform.position,Quaternion.identity);
+        Instantiate(NowBoss, transform.position, Quaternion.identity);
     }
 
     public void BossDeath()

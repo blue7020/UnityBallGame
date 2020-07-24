@@ -23,6 +23,7 @@ public class Weapon : MonoBehaviour
     public int mID;
     public bool mAttackCooltime;
     public bool Attackon;
+    public bool GetCooltime;
 
     private void Awake()
     {
@@ -32,6 +33,7 @@ public class Weapon : MonoBehaviour
         Equip = false;
         MaxBullet = mStats.Bullet;
         nowBullet = MaxBullet;
+        GetCooltime = false;
     }
 
     private void FixedUpdate()
@@ -151,11 +153,23 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    private IEnumerator GetCool()
+    {
+        WaitForSeconds cool = new WaitForSeconds(1f);
+        GetCooltime = true;
+        WeaponChange();
+        yield return cool;
+        GetCooltime = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            WeaponChange();
+            if (GetCooltime == false)
+            {
+                StartCoroutine(GetCool());
+            }
         }
 
     }

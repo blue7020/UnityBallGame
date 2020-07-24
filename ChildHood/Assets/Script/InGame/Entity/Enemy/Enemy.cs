@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class Enemy : InformationLoader
 {
-    public eMonsterState State;
+    public eMonsterState mState;
     public eEnemyType eType;
     public int mDelayCount;
 
     public int mID;
     public GameObject[] mSprite;
     public Rigidbody2D mRB2D;
+    public Player mTarget;
 
     public Transform mHPBarPos;
     public EnemySkill mEnemySkill;
@@ -24,6 +25,7 @@ public class Enemy : InformationLoader
     public Coroutine mCoroutine;
     public bool Spawned;
     public bool IsMimic;
+    public bool SkillWating;
 
     public Animator mAnim;
     public float mCurrentHP;
@@ -42,14 +44,16 @@ public class Enemy : InformationLoader
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         AttackOn = false;
         AttackCheck = true;
+        SkillWating = false;
         if (IsMimic==false)
         {
-            State = eMonsterState.Spawning;
+            mState = eMonsterState.Spawning;
         }
         else
         {
-            State = eMonsterState.Idle;
+            mState = eMonsterState.Idle;
             Spawned = true;
+            AttackCheck = false;
         }
         mDelayCount = 0;
         StartCoroutine(StateMachine());
@@ -61,7 +65,7 @@ public class Enemy : InformationLoader
     {
         if (mCurrentHP < 1)
         {
-            State = eMonsterState.Die;
+            mState = eMonsterState.Die;
         }
     }
 
@@ -70,8 +74,9 @@ public class Enemy : InformationLoader
         mAnim.SetBool(AnimHash.Enemy_Spawn, true);
         mSprite[0].gameObject.SetActive(false);
         mSprite[1].gameObject.SetActive(true);
-        State = eMonsterState.Idle;
         Spawned = true;
+        AttackCheck = false;
+        mState = eMonsterState.Idle;
     }
 
     public IEnumerator StateMachine()
@@ -79,10 +84,10 @@ public class Enemy : InformationLoader
         WaitForSeconds pointOne = new WaitForSeconds(0.1f);
         while (true)
         {
-            switch (State)
+            switch (mState)
             {
                 case eMonsterState.Spawning:
-                    State = eMonsterState.Idle;
+                    mState = eMonsterState.Idle;
                     break;
                 case eMonsterState.Idle:
                     if (mDelayCount >= 20)
@@ -190,12 +195,8 @@ public class Enemy : InformationLoader
     {
         if (other.gameObject.CompareTag("Player")&&Spawned==true)
         {
-            if (AttackCheck == true)
-            {
-                AttackOn = true;
-                AttackCheck = false;
-            }
-            StartCoroutine(Attack());
+            AttackCheck = true;
+
         }
     }
 
@@ -203,27 +204,22 @@ public class Enemy : InformationLoader
     {
         if (other.gameObject.CompareTag("Player") && Spawned == true)
         {
-            AttackOn = false;
-            AttackCheck = true;
+            AttackCheck = false;
         }
     }
 
-    public IEnumerator Attack()
+    public void Attack()
     {
-        WaitForSeconds Cool = new WaitForSeconds(mStats.AtkSpd);
-        if (AttackOn == true)
+        if (AttackCheck==true)
         {
-            AttackOn = false;
-            Player.Instance.Hit(mStats.Atk);
+            mTarget.Hit(mStats.Atk);
         }
-        yield return Cool;
-        AttackOn = true;
     }
 
 
     public IEnumerator SkillCast()
     {
-        if (State == eMonsterState.Traking)
+        if (mState == eMonsterState.Traking)
         {
             WaitForSeconds cool = new WaitForSeconds(mStats.AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
@@ -238,13 +234,16 @@ public class Enemy : InformationLoader
 
     public IEnumerator MoveToPlayer()
     {
-        if (State == eMonsterState.Traking&&Spawned==true)
+        if (mState == eMonsterState.Traking&&Spawned==true)
         {
             WaitForSeconds one = new WaitForSeconds(0.1f);
-            mAnim.SetBool(AnimHash.Enemy_Walk, true);
-            Vector3 Pos = Player.Instance.transform.position;
-            Vector3 dir = Pos - transform.position;
-            mRB2D.velocity = dir.normalized * mStats.Spd;
+            if (SkillWating==false)
+            {
+                mAnim.SetBool(AnimHash.Enemy_Walk, true);
+                Vector3 Pos = mTarget.transform.position;
+                Vector3 dir = Pos - transform.position;
+                mRB2D.velocity = dir.normalized * mStats.Spd;
+            }
             yield return one;
 
         }

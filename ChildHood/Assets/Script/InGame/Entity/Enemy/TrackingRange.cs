@@ -5,27 +5,29 @@ using UnityEngine;
 public class TrackingRange : MonoBehaviour
 {
     public Enemy mEnemy;
-    
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            mEnemy.State = eMonsterState.Traking;
-            mEnemy.StartCoroutine(mEnemy.SkillCast());
-            mEnemy.mDelayCount = 0;
-        }
-    }
+    public bool Setting;
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (mEnemy.mCoroutine == null)
+        if (other.gameObject.CompareTag("Player"))
         {
-            mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
-        }
-        if (mEnemy.mCurrentHP>0)
-        {
-            StartCoroutine(mEnemy.MoveToPlayer());
+            if (Setting == false)
+            {
+                mEnemy.mTarget = other.GetComponent<Player>();
+                mEnemy.mState = eMonsterState.Traking;
+                mEnemy.StartCoroutine(mEnemy.SkillCast());
+                mEnemy.mDelayCount = 0;
+                Setting = true;
+            }
+
+            if (mEnemy.mCoroutine == null)
+            {
+                mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
+            }
+            if (mEnemy.mCurrentHP > 0)
+            {
+                StartCoroutine(mEnemy.MoveToPlayer());
+            }
         }
         
     }
@@ -33,11 +35,13 @@ public class TrackingRange : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            mEnemy.State = eMonsterState.Idle;
+            mEnemy.mState = eMonsterState.Idle;
             mEnemy.mRB2D.velocity = Vector2.zero;
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
             StopCoroutine(mEnemy.MoveToPlayer());
-           
+            Setting = false;
+
+
         }
 
 

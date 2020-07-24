@@ -31,7 +31,7 @@ public class EnemySkill : MonoBehaviour
                 CursedPowder();
                 break;
             case 5://PotatoGolem
-                PotatoGolem();
+                StartCoroutine(PotatoGolem());
                 break;
             case 6://AngerTomato
                 StartCoroutine(AngerTomato());
@@ -103,6 +103,7 @@ public class EnemySkill : MonoBehaviour
                 Debug.LogError("Wrong BulletID or bulletDir");
                 break;
         }
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
 
     }
 
@@ -125,15 +126,11 @@ public class EnemySkill : MonoBehaviour
         ResetDir(0);
     }
 
-    private void PotatoGolem()//id = 5
+    private IEnumerator PotatoGolem()//id = 5
     {
-        Skilltrigger = true;
-        for (int i = 0; i < 7; i++)
-        {
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        }
-        Skilltrigger = false;
-
+        WaitForSeconds delay = new WaitForSeconds(3f);
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
     private IEnumerator AngerTomato()//id = 6
@@ -162,6 +159,7 @@ public class EnemySkill : MonoBehaviour
     private void CursedPowder()//id=4
     {
         Count = 0;
+        mEnemy.SkillWating = true;
         StartCoroutine(PowderBoom());
     }
     private IEnumerator PowderBoom()
@@ -169,8 +167,10 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.2f);
         while (true)
         {
-            if (Count>5)
+            mEnemy.mRB2D.velocity = Vector3.zero;
+            if (Count>7)
             {
+                mEnemy.SkillWating = false;
                 break;
             }
             else

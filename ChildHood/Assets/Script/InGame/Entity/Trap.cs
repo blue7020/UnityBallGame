@@ -95,7 +95,7 @@ public class Trap : MonoBehaviour
 
     private IEnumerator Spike()
     {
-        WaitForSeconds Delay = new WaitForSeconds(0.3f);
+        WaitForSeconds Delay = new WaitForSeconds(0.5f);
         while (mTarget!=null&& TrapTrigger==true)
         {
             Damage();

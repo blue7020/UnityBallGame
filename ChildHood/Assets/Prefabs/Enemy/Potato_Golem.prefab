@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 5497011858306152034}
+  Setting: 0
 --- !u!1 &8241923240764045372
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +198,7 @@ GameObject:
   - component: {fileID: 8241923240764045370}
   - component: {fileID: 5497011858306152034}
   - component: {fileID: 6072264343579537175}
-  - component: {fileID: 7532206381759506809}
+  - component: {fileID: 6813471768590595393}
   m_Layer: 0
   m_Name: Potato_Golem
   m_TagString: Enemy
@@ -314,6 +315,7 @@ MonoBehaviour:
   - {fileID: 8506723135249431873}
   - {fileID: 8672545933689145716}
   mRB2D: {fileID: 6072264343579537175}
+  mTarget: {fileID: 0}
   mHPBarPos: {fileID: 8241923241551541907}
   mEnemySkill: {fileID: 315940744337168762}
   mAttackArea: {fileID: 5678952200667993351}
@@ -353,7 +355,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7532206381759506809
+--- !u!61 &6813471768590595393
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,7 +368,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.2, y: -0.3}
+  m_Offset: {x: 0.29999995, y: -0.30294442}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -377,7 +379,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5}
+  m_Size: {x: 2.5, y: 2.6058888}
   m_EdgeRadius: 0
 --- !u!1 &8241923241551541908
 GameObject:

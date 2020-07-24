@@ -14,20 +14,24 @@ public class ItemBuy : MonoBehaviour
     public Artifacts artifact;
     public Text mPrice;
 
-    private void Start()
+    private void OnEnable()
     {
         Sell = false;
+    }
+
+    private void Start()
+    {
         mPrice.transform.position = transform.position + new Vector3(0, -0.5f, 0);
         mPrice.transform.localScale = new Vector3(10, 10, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (Sell == false)
+        if (other.gameObject.CompareTag("Player"))
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (Sell == false)
             {
-                if (ShopType==eShopType.Item)
+                if (ShopType == eShopType.Item)
                 {
                     if (Player.Instance.mStats.Gold >= item.mStats.Price)
                     {
@@ -35,6 +39,8 @@ public class ItemBuy : MonoBehaviour
                         Player.Instance.mStats.Gold -= item.mStats.Price;
                         Sell = true;
                         item.ItemChange();
+                        CanvasFinder.Instance.DeletePrice(mID);
+                        UIController.Instance.ShowGold();
                     }
                 }
                 else
@@ -66,11 +72,10 @@ public class ItemBuy : MonoBehaviour
                                 artifact.ItemChange();
                             }
                         }
-                        
-                    } 
+                        CanvasFinder.Instance.DeletePrice(mID);
+                        UIController.Instance.ShowGold();
+                    }
                 }
-                UIController.Instance.ShowGold();
-                CanvasFinder.Instance.DeletePrice(mID);
             }
         }
     }

@@ -79,6 +79,7 @@ public class Trap : MonoBehaviour
             if(TrapTrigger==true){
                 mTarget.mCurrentHP -= mValue;//고정 피해
             }
+            UIController.Instance.ShowHP();
             
         }
     }
@@ -98,6 +99,7 @@ public class Trap : MonoBehaviour
         while (mTarget!=null&& TrapTrigger==true)
         {
             Damage();
+            UIController.Instance.ShowHP();
             yield return Delay;
         }
 

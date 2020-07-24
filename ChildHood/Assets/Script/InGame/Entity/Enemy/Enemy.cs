@@ -10,7 +10,7 @@ public class Enemy : InformationLoader
     public int mDelayCount;
 
     public int mID;
-    public GameObject mSprite;
+    public GameObject[] mSprite;
     public Rigidbody2D mRB2D;
 
     public Transform mHPBarPos;
@@ -22,24 +22,34 @@ public class Enemy : InformationLoader
     private bool AttackOn;
     private bool AttackCheck;
     public Coroutine mCoroutine;
+    public bool Spawned;
+    public bool IsMimic;
 
     public Animator mAnim;
     public float mCurrentHP;
     public float mMaxHP;
 
-    public MonsterStat Stats;
+    public MonsterStat mStats;
 
     private void Awake()
     {
-        Stats=EnemyController.Instance.mInfoArr[mID];
+        mStats =EnemyController.Instance.mInfoArr[mID];
+        Spawned = false;
     }
     private void Start()
     {
-        mMaxHP = Stats.Hp + ((GameController.Instance.StageHP + GameController.Instance.MapLevel) * GameController.Instance.Level);
+        mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameController.Instance.MapLevel) * GameController.Instance.Level);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         AttackOn = false;
         AttackCheck = true;
-        State = eMonsterState.Idle;
+        if (IsMimic==false)
+        {
+            State = eMonsterState.Spawning;
+        }
+        else
+        {
+            State = eMonsterState.Idle;
+        }
         mDelayCount = 0;
         StartCoroutine(StateMachine());
 
@@ -54,6 +64,15 @@ public class Enemy : InformationLoader
         }
     }
 
+    public void EnemySpawned()
+    {
+        mAnim.SetBool(AnimHash.Enemy_Spawn, true);
+        mSprite[0].gameObject.SetActive(false);
+        mSprite[1].gameObject.SetActive(true);
+        State = eMonsterState.Idle;
+        Spawned = true;
+    }
+
     public IEnumerator StateMachine()
     {
         WaitForSeconds pointOne = new WaitForSeconds(0.1f);
@@ -61,6 +80,9 @@ public class Enemy : InformationLoader
         {
             switch (State)
             {
+                case eMonsterState.Spawning:
+                    State = eMonsterState.Traking;
+                    break;
                 case eMonsterState.Idle:
                     if (mDelayCount >= 20)
                     {
@@ -87,12 +109,23 @@ public class Enemy : InformationLoader
                         mDelayCount++;
                     }
                     break;
+                case eMonsterState.Skill:
+                    if (mDelayCount >= 20)
+                    {
+                        mDelayCount = 0;
+                        State = eMonsterState.Traking;
+                    }
+                    else
+                    {
+                        mDelayCount++;
+                    }
+                    break;
                 case eMonsterState.Die:
                     AttackOn = false;
                     mAnim.SetBool(AnimHash.Enemy_Walk, false);
                     mAnim.SetBool(AnimHash.Enemy_Attack, false);
                     mAnim.SetBool(AnimHash.Enemy_Death, true);
-                    mSprite.GetComponent<SpriteRenderer>().color = Color.grey;
+                    mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
                     if (mDelayCount >= 6)
                     {
                         if (Player.Instance.CurrentRoom.EnemyCount > 0)
@@ -122,51 +155,56 @@ public class Enemy : InformationLoader
 
     public void Hit(float damage)
     {
-        StartCoroutine(HitAnimation());
-        mCurrentHP -= damage;
+        if (Spawned == true)
+        {
+            StartCoroutine(HitAnimation());
+            mCurrentHP -= damage;
 
-        if (mHPBar == null)
-        {
-            mHPBar = GaugeBarPool.Instance.GetFromPool();
-            mHPBar.mEnemy = this;
-        }
-        if (mCurrentHP <= 0)
-        {
-            if (Stats.Gold>0)
+            if (mHPBar == null)
             {
-                DropGold mGold = GoldPool.Instance.GetFromPool();
-                mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
-                mGold.transform.position = transform.position;
-                mGold.GoldDrop(mGold, Stats.Gold);
+                mHPBar = GaugeBarPool.Instance.GetFromPool();
+                mHPBar.mEnemy = this;
             }
-            mEnemySkill.DieSkill();
-            mHPBar.CloseGauge();
+            if (mCurrentHP <= 0)
+            {
+                if (mStats.Gold > 0)
+                {
+                    DropGold mGold = GoldPool.Instance.GetFromPool();
+                    mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
+                    mGold.transform.position = transform.position;
+                    mGold.GoldDrop(mGold, mStats.Gold);
+                }
+                mEnemySkill.DieSkill();
+                mHPBar.CloseGauge();
+            }
+            else
+            {
+                mHPBar.gameObject.SetActive(true);
+                mHPBar.SetGauge(mCurrentHP, mMaxHP);
+                mHPBar.transform.position = mHPBarPos.position;
+            }
         }
-        else
-        {
-            mHPBar.gameObject.SetActive(true);
-            mHPBar.SetGauge(mCurrentHP, mMaxHP);
-            mHPBar.transform.position = mHPBarPos.position;
-        }
+        
 
     }
 
     private IEnumerator HitAnimation()
     {
         WaitForSeconds Time = new WaitForSeconds(0.3f);
-        mSprite.GetComponent<SpriteRenderer>().color = Color.red;
+        mSprite[1].GetComponent<SpriteRenderer>().color = Color.red;
         yield return Time;
-        mSprite.GetComponent<SpriteRenderer>().color = Color.white;
+        mSprite[1].GetComponent<SpriteRenderer>().color = Color.white;
         StopCoroutine(HitAnimation());
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&&Spawned==true)
         {
             if (AttackCheck == true)
             {
                 AttackOn = true;
+                AttackCheck = false;
             }
             StartCoroutine(Attack());
         }
@@ -174,7 +212,7 @@ public class Enemy : InformationLoader
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && Spawned == true)
         {
             AttackOn = false;
             AttackCheck = true;
@@ -183,11 +221,11 @@ public class Enemy : InformationLoader
 
     public IEnumerator Attack()
     {
-        WaitForSeconds Cool = new WaitForSeconds(Stats.AtkSpd);
+        WaitForSeconds Cool = new WaitForSeconds(mStats.AtkSpd);
         if (AttackOn == true)
         {
             AttackOn = false;
-            Player.Instance.Hit(Stats.Atk);
+            Player.Instance.Hit(mStats.Atk);
         }
         yield return Cool;
         AttackOn = true;
@@ -198,7 +236,8 @@ public class Enemy : InformationLoader
     {
         if (State == eMonsterState.Traking)
         {
-            WaitForSeconds cool = new WaitForSeconds(Stats.AtkSpd);
+            State = eMonsterState.Skill;
+            WaitForSeconds cool = new WaitForSeconds(mStats.AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
             mAnim.SetBool(AnimHash.Enemy_Attack, true);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             mEnemySkill.Skill();
@@ -216,7 +255,7 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Walk, true);
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
-            mRB2D.velocity = dir.normalized * Stats.Spd;
+            mRB2D.velocity = dir.normalized * mStats.Spd;
             yield return one;
 
         }

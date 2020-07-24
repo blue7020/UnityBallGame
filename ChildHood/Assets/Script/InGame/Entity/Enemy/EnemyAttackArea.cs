@@ -20,7 +20,7 @@ public class EnemyAttackArea : MonoBehaviour
         {
             if (Player.Instance.mCurrentHP > 0)
             {
-                other.gameObject.GetComponent<Player>().Hit(mEnemy.Stats.Atk);
+                other.gameObject.GetComponent<Player>().Hit(mEnemy.mStats.Atk);
             }
 
 

@@ -5,7 +5,9 @@ public enum eMonsterState
 {
     Idle,
     Traking,
-    Die
+    Die,
+    Skill,
+    Spawning
 }
 
 public enum eTextType

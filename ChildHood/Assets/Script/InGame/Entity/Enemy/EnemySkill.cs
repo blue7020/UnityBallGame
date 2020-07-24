@@ -108,25 +108,21 @@ public class EnemySkill : MonoBehaviour
 
     public IEnumerator MoldKingAttack()//id = 2
     {
-        WaitForSeconds cool = new WaitForSeconds(0.1f);
-        ResetDir(1);
-        yield return cool;
+        Count = 0;
+        WaitForSeconds cool = new WaitForSeconds(0.3f);
+        while (Count<3)
+        {
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            ResetDir(1);
+            yield return cool;
+            Count++;
+        }
     }
 
     private void MoldlingAttack()//id = 3
     {
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         ResetDir(0);
-    }
-
-    private void KingSlime()//id = 4
-    {
-        if (mEnemy.mCurrentHP>5)
-        {
-            mEnemy.mCurrentHP -= 2;
-            Enemy mSpawnEnemy = EnemyPool.Instance.GetFromPool(0);
-            mSpawnEnemy.transform.position = mEnemy.transform.position;
-        }
-        
     }
 
     private void PotatoGolem()//id = 5
@@ -155,7 +151,7 @@ public class EnemySkill : MonoBehaviour
                 Skilltrigger = false;
                 Vector3 Pos = Player.Instance.transform.position;
                 Vector3 dir = Pos - transform.position;
-                mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.Stats.Spd * 2);
+                mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * 2);
                 Skilltick++;
                 yield return pointOneSec;
             }
@@ -175,6 +171,7 @@ public class EnemySkill : MonoBehaviour
             Skilltrigger = false;
             for (int i = 0; i < 4; i++)
             {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
                 ResetDir(2, i + 1);
             }
         }
@@ -189,7 +186,7 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-    private void CursedPowder()
+    private void CursedPowder()//id=4
     {
         Count = 0;
         StartCoroutine(PowderBoom());
@@ -199,7 +196,6 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.2f);
         while (true)
         {
-            mEnemy.mRB2D.velocity = Vector3.zero;
             if (Count>5)
             {
                 break;
@@ -215,6 +211,6 @@ public class EnemySkill : MonoBehaviour
                 yield return delay;
             }
         }
-        
+
     }
 }

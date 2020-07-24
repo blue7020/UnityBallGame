@@ -27,17 +27,14 @@ public class EnemySkill : MonoBehaviour
             case 3://Moldling
                 MoldlingAttack();
                 break;
-            case 4://KingSlime
-                KingSlime();
+            case 4://CursedPowder
+                CursedPowder();
                 break;
             case 5://PotatoGolem
                 PotatoGolem();
                 break;
             case 6://AngerTomato
                 StartCoroutine(AngerTomato());
-                break;
-            case 7://SandWitch
-                SandWitch();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -192,7 +189,7 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-    private void SandWitch()
+    private void CursedPowder()
     {
         Count = 0;
         StartCoroutine(PowderBoom());

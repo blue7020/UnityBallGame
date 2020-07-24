@@ -101,6 +101,7 @@ public class GameController : MonoBehaviour
                 Player.Instance.mStats.Gold += 200;
                 Player.Instance.mStats.Atk += 5;
                 UIController.Instance.ShowGold();
+                Level = 4;
             }
         }
     }

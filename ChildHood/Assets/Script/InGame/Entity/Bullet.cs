@@ -9,6 +9,13 @@ public class Bullet : MonoBehaviour
     public Rigidbody2D mRB2D;
     public eBulletType Type;
     public Animator mAnim;
+    public GameObject[] Spirte;
+    public bool DamageOn;
+
+    private void Awake()
+    {
+        DamageOn = true;
+    }
 
     private void Update()
     {
@@ -19,9 +26,21 @@ public class Bullet : MonoBehaviour
         
     }
 
+
+    public void ShowWarning()
+    {
+        Spirte[1].gameObject.SetActive(false);
+        Spirte[0].gameObject.SetActive(true);
+    }
+    public void Warning()
+    {
+        Spirte[0].gameObject.SetActive(false);
+        Spirte[1].gameObject.SetActive(true);
+    }
+
     public void Boom()
     {
-        //mAnim.SetBool(AnimHash.Bullet_Boom, true);
+        DamageOn = true;
         gameObject.SetActive(false);
     }
 
@@ -37,14 +56,18 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (DamageOn == true)
         {
-            Player.Instance.Hit(mDamage);
-            gameObject.SetActive(false);
+            if (other.gameObject.CompareTag("Player"))
+            {
+                Player.Instance.Hit(mDamage);
+                gameObject.SetActive(false);
+            }
+            if (other.gameObject.CompareTag("DestroyZone"))
+            {
+                gameObject.SetActive(false);
+            }
         }
-        if (other.gameObject.CompareTag("DestroyZone"))
-        {
-            gameObject.SetActive(false);
-        }
+        
     }
 }

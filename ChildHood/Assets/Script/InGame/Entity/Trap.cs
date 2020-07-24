@@ -62,7 +62,7 @@ public class Trap : MonoBehaviour
                     break;
                 case eTrapType.Spike:
                     TrapTrigger = false;
-                    StopCoroutine(Spike());
+                    mTarget = null;
                     break;
                 default:
                     Debug.LogError("Wrong Trap Type");
@@ -94,8 +94,12 @@ public class Trap : MonoBehaviour
 
     private IEnumerator Spike()
     {
-        WaitForSeconds Delay = new WaitForSeconds(0.5f);
-        Damage();
-        yield return Delay;
+        WaitForSeconds Delay = new WaitForSeconds(0.3f);
+        while (mTarget!=null&& TrapTrigger==true)
+        {
+            Damage();
+            yield return Delay;
+        }
+
     }
 }

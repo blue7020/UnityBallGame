@@ -10,17 +10,12 @@ public class Enemy : InformationLoader
     public int mDelayCount;
 
     public int mID;
-#pragma warning disable 0649
-    [SerializeField]
-    private GameObject mSprite;
+    public GameObject mSprite;
     public Rigidbody2D mRB2D;
 
     public Transform mHPBarPos;
-    [SerializeField]
-    private EnemySkill mEnemySkill;
-    [SerializeField]
-    private EnemyAttackArea mAttackArea;
-#pragma warning restore 0649
+    public EnemySkill mEnemySkill;
+    public EnemyAttackArea mAttackArea;
 
     public GaugeBar mHPBar;
 
@@ -37,7 +32,6 @@ public class Enemy : InformationLoader
     private void Awake()
     {
         Stats=EnemyController.Instance.mInfoArr[mID];
-        mAnim = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -138,11 +132,13 @@ public class Enemy : InformationLoader
         }
         if (mCurrentHP <= 0)
         {
-
-            DropGold mGold = GoldPool.Instance.GetFromPool();
-            mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
-            mGold.transform.position = transform.position;
-            mGold.GoldDrop(mGold, Stats.Gold);
+            if (Stats.Gold>0)
+            {
+                DropGold mGold = GoldPool.Instance.GetFromPool();
+                mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
+                mGold.transform.position = transform.position;
+                mGold.GoldDrop(mGold, Stats.Gold);
+            }
             mEnemySkill.DieSkill();
             mHPBar.CloseGauge();
         }

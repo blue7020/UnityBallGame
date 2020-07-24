@@ -114,8 +114,8 @@ public class EnemySkill : MonoBehaviour
         {
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             ResetDir(1);
-            yield return cool;
             Count++;
+            yield return cool;
         }
     }
 
@@ -128,39 +128,12 @@ public class EnemySkill : MonoBehaviour
     private void PotatoGolem()//id = 5
     {
         Skilltrigger = true;
-        if (Skilltick==0)
+        for (int i = 0; i < 7; i++)
         {
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-            StartCoroutine(MoveToPlayerGolem());
         }
-        else
-        {
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-            Skilltick++;
-        }
-        
-    }
-    public IEnumerator MoveToPlayerGolem()
-    {
-        if (Skilltrigger==true)
-        {
-            if (Skilltick<60)
-            {
-                //구를 때 충돌 시 1초간 기절
-                WaitForSeconds pointOneSec = new WaitForSeconds(0.1f);
-                Skilltrigger = false;
-                Vector3 Pos = Player.Instance.transform.position;
-                Vector3 dir = Pos - transform.position;
-                mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * 2);
-                Skilltick++;
-                yield return pointOneSec;
-            }
-            else if(Skilltick>=60)
-            {
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                Skilltick = -7;
-            }  
-        }
+        Skilltrigger = false;
+
     }
 
     private IEnumerator AngerTomato()//id = 6

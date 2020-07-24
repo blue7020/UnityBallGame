@@ -6,7 +6,6 @@ public enum eMonsterState
     Idle,
     Traking,
     Die,
-    Skill,
     Spawning
 }
 

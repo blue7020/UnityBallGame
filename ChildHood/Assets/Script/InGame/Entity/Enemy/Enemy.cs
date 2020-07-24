@@ -49,6 +49,7 @@ public class Enemy : InformationLoader
         else
         {
             State = eMonsterState.Idle;
+            Spawned = true;
         }
         mDelayCount = 0;
         StartCoroutine(StateMachine());
@@ -81,7 +82,7 @@ public class Enemy : InformationLoader
             switch (State)
             {
                 case eMonsterState.Spawning:
-                    State = eMonsterState.Traking;
+                    State = eMonsterState.Idle;
                     break;
                 case eMonsterState.Idle:
                     if (mDelayCount >= 20)
@@ -99,24 +100,12 @@ public class Enemy : InformationLoader
                 case eMonsterState.Traking:
                     if (mDelayCount >= 20)
                     {
-                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
 
                         mDelayCount = 0;
                     }
                     else
                     {
                         mAnim.SetBool(AnimHash.Enemy_Walk, true);
-                        mDelayCount++;
-                    }
-                    break;
-                case eMonsterState.Skill:
-                    if (mDelayCount >= 20)
-                    {
-                        mDelayCount = 0;
-                        State = eMonsterState.Traking;
-                    }
-                    else
-                    {
                         mDelayCount++;
                     }
                     break;
@@ -236,10 +225,10 @@ public class Enemy : InformationLoader
     {
         if (State == eMonsterState.Traking)
         {
-            State = eMonsterState.Skill;
             WaitForSeconds cool = new WaitForSeconds(mStats.AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
-            mAnim.SetBool(AnimHash.Enemy_Attack, true);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+            mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            mRB2D.velocity = Vector3.zero;
             mEnemySkill.Skill();
             yield return cool;
 
@@ -249,7 +238,7 @@ public class Enemy : InformationLoader
 
     public IEnumerator MoveToPlayer()
     {
-        if (State == eMonsterState.Traking)
+        if (State == eMonsterState.Traking&&Spawned==true)
         {
             WaitForSeconds one = new WaitForSeconds(0.1f);
             mAnim.SetBool(AnimHash.Enemy_Walk, true);

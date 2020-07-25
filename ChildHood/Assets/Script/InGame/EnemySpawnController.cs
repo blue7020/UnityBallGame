@@ -6,12 +6,8 @@ public class EnemySpawnController : MonoBehaviour
 {
     public static EnemySpawnController Instance;
 
-#pragma warning disable 0649
-    [SerializeField]
-    private EnemyPool mEnemyPool;
-    [SerializeField]
-    private int length;
-#pragma warning restore 0649
+    public EnemyPool mEnemyPool;
+    public int length;
 
     private void Awake()
     {

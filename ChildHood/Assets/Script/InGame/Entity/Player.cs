@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     public Sprite PlayerImage;
     public float mMaxHP;
     public float mCurrentHP;
-    public eDirection Look;
 
     public Room CurrentRoom;
     public int EnemySwitch;
@@ -22,6 +21,7 @@ public class Player : MonoBehaviour
 
     public PlayerStat mStats;
 
+    public GameObject mDirection;
     public Weapon NowPlayerWeapon;
     public PlayerSkill NowPlayerSkill;
     public UsingItem NowItem;
@@ -97,14 +97,12 @@ public class Player : MonoBehaviour
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            Look = eDirection.Right;
             transform.rotation = Quaternion.Euler(0, 180, 0);
             
         }
         else if (hori < 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            Look = eDirection.Left;
             transform.rotation = Quaternion.identity;
         }
         else if (ver > 0 || ver < 0)

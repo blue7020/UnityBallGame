@@ -7,6 +7,7 @@ public class GameSetting : MonoBehaviour
     public static GameSetting Instance;
 
     public int PlayerID;
+    public int PlayerSkillID;
     public bool Ingame;
     //저장해야할 것
     public int BGMSetting;
@@ -35,7 +36,7 @@ public class GameSetting : MonoBehaviour
         CharacterOpen[0] = true;//기본캐릭터 오픈
         Restart();
 
-
+        PlayerSkillID = 0;
     }
 
     public void Restart()

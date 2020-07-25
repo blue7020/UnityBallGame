@@ -175,8 +175,8 @@ public class EnemySkill : MonoBehaviour
             }
             else
             {
-                int Xpos = Random.Range(-7, 8);
-                int Ypos = Random.Range(-7, 8);
+                int Xpos = Random.Range(-5, 6);
+                int Ypos = Random.Range(-5, 6);
                 Vector3 Pos = new Vector3(Xpos, Ypos, 0);
                 Bullet bolt = BulletPool.Instance.GetFromPool(3);
                 bolt.transform.localPosition = Pos;

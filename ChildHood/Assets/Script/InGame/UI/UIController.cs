@@ -11,7 +11,7 @@ public class UIController : MonoBehaviour
 
     public Text mGoldText, mHPText,mStatText, mNameText, bulletText,mLevelText;
     public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage, SkillCoolWheel;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint;
 
     public Sprite[] mCharacterSprite;
     public Sprite DefaultItemSprite;

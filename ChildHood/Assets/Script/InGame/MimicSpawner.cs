@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class MimicSpawner : MonoBehaviour
 {
-#pragma warning disable 0649
-    [SerializeField]
-    private Transform MimicPos;
-    [SerializeField]
-    private Enemy[] mEnemyArr;
-#pragma warning restore 0649
+    public Transform MimicPos;
+    public Enemy[] mEnemyArr;
+
     private Enemy mSpawnEnemy;
     public eChestType Type;
     private void Start()

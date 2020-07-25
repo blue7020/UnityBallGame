@@ -9,11 +9,8 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
 
     public static VirtualJoyStick Instance;
 
-#pragma warning disable 0649
-    [SerializeField]
-    private Image BG, Stick;
-    private Vector2 inputVector;
-#pragma warning restore 0649
+    public Image BG, Stick;
+    public Vector2 inputVector;
 
     private void Awake()
     {
@@ -34,7 +31,7 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
             pos.x = (pos.x / BG.rectTransform.sizeDelta.x);
             pos.y = (pos.y / BG.rectTransform.sizeDelta.y);
 
-            inputVector = new Vector2(pos.x * 2 , pos.y * 2 );
+            inputVector = new Vector2(pos.x * 2 , pos.y * 2);
             inputVector = (inputVector.magnitude > 1.0f) ?inputVector.normalized : inputVector;
 
             //Move Joystick
@@ -42,6 +39,13 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
                 = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2)/2,
                               inputVector.y * (BG.rectTransform.sizeDelta.y / 2)/2);
 
+            if (GameSetting.Instance.Ingame==true&&Player.Instance!=null)
+            {
+                //플레이어 방향 벡터
+                float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
+                Player.Instance.mDirection.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+                UIController.Instance.mPlayerLookPoint.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            }
         }
     }
 

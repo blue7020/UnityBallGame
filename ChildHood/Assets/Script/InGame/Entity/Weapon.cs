@@ -38,23 +38,27 @@ public class Weapon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Player.Instance.hori > 0) //우
+        if (Equip==true)
         {
-            mRenderer.sortingOrder = 10;
+            if (Player.Instance.hori > 0) //우
+            {
+                mRenderer.sortingOrder = 10;
 
+            }
+            else if (Player.Instance.hori < 0)//좌
+            {
+                mRenderer.sortingOrder = 8;
+            }
+            else if (Player.Instance.ver > 0) //상
+            {
+                mRenderer.sortingOrder = 8;
+            }
+            else if (Player.Instance.ver < 0) //하
+            {
+                mRenderer.sortingOrder = 10;
+            }
         }
-        else if (Player.Instance.hori < 0)//좌
-        {
-            mRenderer.sortingOrder = 8;
-        }
-        else if (Player.Instance.ver > 0) //상
-        {
-            mRenderer.sortingOrder = 8;
-        }
-        else if (Player.Instance.ver < 0) //하
-        {
-            mRenderer.sortingOrder = 10;
-        }
+        
 
     }
 
@@ -125,6 +129,7 @@ public class Weapon : MonoBehaviour
         if (Equip == true)
         {
             Equip = false;
+            mRenderer.sortingOrder = 8;
             Clamp();
             if (eType == eWeaponType.Range)
             {

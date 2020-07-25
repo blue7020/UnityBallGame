@@ -31,6 +31,7 @@ public class PlayerSkill : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        mID = GameSetting.Instance.PlayerSkillID;
         mStat = SkillController.Instance.mStatInfoArr[mID];
         IsSkillCool = false;
         mSkillIcon = SkillController.Instance.SkillIcon[mID];
@@ -48,9 +49,8 @@ public class PlayerSkill : MonoBehaviour
     {
         WaitForSeconds Cool = new WaitForSeconds(mStat.Cooltime);
         IsSkillCool = true;
-        //TODO 델리게이트로 해당하는 ID의 스킬 가져오기
+        SkillList.Instance.SkillSetting(mID);
         StartCoroutine(CooltimeRoutine());
-        Debug.Log("스킬 사용");
         yield return Cool;
     }
     public void ShowCooltime(float maxTime, float currentTime)

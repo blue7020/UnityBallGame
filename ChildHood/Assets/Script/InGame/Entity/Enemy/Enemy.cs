@@ -25,8 +25,6 @@ public class Enemy : InformationLoader
     public Coroutine mCoroutine;
     public bool Spawned;
     public bool IsMimic;
-    public bool SkillWating;
-
     public Animator mAnim;
     public float mCurrentHP;
     public float mMaxHP;
@@ -44,7 +42,6 @@ public class Enemy : InformationLoader
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         AttackOn = false;
         AttackCheck = true;
-        SkillWating = false;
         if (IsMimic==false)
         {
             mState = eMonsterState.Spawning;
@@ -77,6 +74,7 @@ public class Enemy : InformationLoader
         Spawned = true;
         AttackCheck = false;
         mState = eMonsterState.Idle;
+        StartCoroutine(SkillCast());
     }
 
     public IEnumerator StateMachine()
@@ -234,16 +232,13 @@ public class Enemy : InformationLoader
 
     public IEnumerator MoveToPlayer()
     {
-        if (mState == eMonsterState.Traking&&Spawned==true)
+        if (mState == eMonsterState.Traking && Spawned == true)
         {
             WaitForSeconds one = new WaitForSeconds(0.1f);
-            if (SkillWating==false)
-            {
-                mAnim.SetBool(AnimHash.Enemy_Walk, true);
-                Vector3 Pos = mTarget.transform.position;
-                Vector3 dir = Pos - transform.position;
-                mRB2D.velocity = dir.normalized * mStats.Spd;
-            }
+            mAnim.SetBool(AnimHash.Enemy_Walk, true);
+            Vector3 Pos = mTarget.transform.position;
+            Vector3 dir = Pos - transform.position;
+            mRB2D.velocity = dir.normalized * mStats.Spd;
             yield return one;
 
         }

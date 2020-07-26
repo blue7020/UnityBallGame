@@ -7,7 +7,8 @@ public class EnemySkill : MonoBehaviour
     public Enemy mEnemy;
     public float mDamage;
     public EnemyAttackArea mAttackArea;
-    int Count;
+    private int Count;
+    private float BackupSpeed;
 
     public bool Skilltrigger;
     public int Skilltick;
@@ -109,8 +110,11 @@ public class EnemySkill : MonoBehaviour
 
     public IEnumerator MoldKingAttack()//id = 2
     {
-        Count = 0;
         WaitForSeconds cool = new WaitForSeconds(0.3f);
+        Count = 0;
+        BackupSpeed = mEnemy.mStats.Spd;
+        mEnemy.mStats.Spd = 0f;
+        mEnemy.mRB2D.velocity = Vector3.zero;
         while (Count<3)
         {
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
@@ -118,6 +122,7 @@ public class EnemySkill : MonoBehaviour
             Count++;
             yield return cool;
         }
+        mEnemy.mStats.Spd = BackupSpeed;
     }
 
     private void MoldlingAttack()//id = 3
@@ -159,7 +164,8 @@ public class EnemySkill : MonoBehaviour
     private void CursedPowder()//id=4
     {
         Count = 0;
-        mEnemy.SkillWating = true;
+        BackupSpeed = mEnemy.mStats.Spd;
+        mEnemy.mStats.Spd = 0f;
         StartCoroutine(PowderBoom());
     }
     private IEnumerator PowderBoom()
@@ -170,7 +176,8 @@ public class EnemySkill : MonoBehaviour
             mEnemy.mRB2D.velocity = Vector3.zero;
             if (Count>7)
             {
-                mEnemy.SkillWating = false;
+                mEnemy.mStats.Spd = BackupSpeed;
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
             }
             else

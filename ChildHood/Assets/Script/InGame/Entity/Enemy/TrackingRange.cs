@@ -15,7 +15,6 @@ public class TrackingRange : MonoBehaviour
             {
                 mEnemy.mTarget = other.GetComponent<Player>();
                 mEnemy.mState = eMonsterState.Traking;
-                mEnemy.StartCoroutine(mEnemy.SkillCast());
                 mEnemy.mDelayCount = 0;
                 Setting = true;
             }

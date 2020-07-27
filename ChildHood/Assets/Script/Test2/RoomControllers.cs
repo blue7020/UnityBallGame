@@ -26,7 +26,8 @@ public class RoomControllers : MonoBehaviour
 
     public List<Room> LoadedRooms = new List<Room>();
 
-    public Room[] rooms; //7
+    public Room[] rooms; //6
+    public bool RoomSetting;
 
     bool spawnedEndRoom = false;
     bool spawnedShopRoom = false;
@@ -44,11 +45,21 @@ public class RoomControllers : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            rooms = new Room[6];
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < rooms.Length; i++)
+        {
+            rooms[i] = GameSetting.Instance.NowStageRoom[i];
+        }
+        RoomSetting = true;
     }
 
     public void LoadRoom(int id, int x, int y)
@@ -70,7 +81,10 @@ public class RoomControllers : MonoBehaviour
 
     private void Update()
     {
-        UpdateRoomQueue();
+        if (RoomSetting==true)
+        {
+            UpdateRoomQueue();
+        }
 
     }
 

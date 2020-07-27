@@ -16,9 +16,12 @@ public class GameSetting : MonoBehaviour
 
     public bool[] StageOpen;
     public int NowStage;
+    public Room[] NowStageRoom;
 
     private const int CharacterCount = 2;
     public bool[] CharacterOpen;
+
+    public bool FirstSetting = false;
 
     private void Awake()
     {
@@ -30,19 +33,23 @@ public class GameSetting : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        StageOpen = new bool[6];
-        CharacterOpen = new bool[CharacterCount];
-        StageOpen[0] = true;//1스테이지 오픈
-        CharacterOpen[0] = true;//기본캐릭터 오픈
+        DontDestroyOnLoad(gameObject);
+        if (FirstSetting!=true)
+        {
+            StageOpen = new bool[6];
+            CharacterOpen = new bool[CharacterCount];
+            StageOpen[0] = true;//1스테이지 오픈
+            CharacterOpen[0] = true;//기본캐릭터 오픈
+            PlayerSkillID = 0;
+            CharacterOpen[1] = true;//햄에그캐릭터 오픈
+        }
         Restart();
-
-        PlayerSkillID = 0;
     }
 
     public void Restart()
     {
+        NowStageRoom = new Room[6];
         NowStage = 0;
-        CharacterOpen[1] = true;//햄에그캐릭터 오픈
         PlayerID = 0;
         Ingame = false;
     }

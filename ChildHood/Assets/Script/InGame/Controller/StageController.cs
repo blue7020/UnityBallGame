@@ -9,6 +9,8 @@ public class StageController : MonoBehaviour
     public int mStageNum;
     public GameObject mPortal;
 
+    public Room[] mStage;
+
     private void Awake()
     {
         if (GameSetting.Instance.StageOpen[mStageNum-1]==false)
@@ -21,28 +23,13 @@ public class StageController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            for (int i= 0; i<mStage.Length;i++)
+            {
+                GameSetting.Instance.NowStageRoom[i] = mStage[i];
+            }
             GameSetting.Instance.Ingame = true;
             GameSetting.Instance.NowStage = mStageNum;
-            switch (mStageNum)
-            {
-                case 1:
-                    SceneManager.LoadScene(2);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                default:
-                    Debug.LogError("Wrong Stage Number");
-                    break;
-
-            }
+            SceneManager.LoadScene(2);
         }
     }
 }

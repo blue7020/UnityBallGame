@@ -20,7 +20,7 @@ public class EnemySkill : MonoBehaviour
         {
             case 0://Mimic_Wood
                 break;
-            case 1://Slime
+            case 1://Slime_Butter
                 break;
             case 2://Mold_King
                 StartCoroutine(MoldKingAttack());
@@ -36,6 +36,17 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 6://AngerTomato
                 StartCoroutine(AngerTomato());
+                break;
+            case 7://Mimic_Silver
+                break;
+            case 8://Mimic_Gold
+                break;
+            case 9://Ketchup_Slime
+                break;
+            case 10://Hambug
+                break;
+            case 11://Flied
+                Flied1();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -62,7 +73,17 @@ public class EnemySkill : MonoBehaviour
             case 6://AngerTomato
                 AngerTomato2();
                 break;
-            case 7://SandWitch
+            case 7://Mimic_Silver
+                break;
+            case 8://Mimic_Gold
+                break;
+            case 9://Ketchup_Slime
+                StartCoroutine(AngerTomato());
+                break;
+            case 10://Hambug
+                break;
+            case 11://Flied
+                Flied2();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -138,7 +159,7 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
-    private IEnumerator AngerTomato()//id = 6
+    private IEnumerator AngerTomato()//id = 6 , 9
     {
         WaitForSeconds Cool = new WaitForSeconds(1.5f);
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2 && Skilltrigger == true)
@@ -174,7 +195,7 @@ public class EnemySkill : MonoBehaviour
         while (true)
         {
             mEnemy.mRB2D.velocity = Vector3.zero;
-            if (Count>7)
+            if (Count>10)
             {
                 mEnemy.mStats.Spd = BackupSpeed;
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
@@ -192,5 +213,18 @@ public class EnemySkill : MonoBehaviour
             }
         }
 
+    }
+
+    private void Flied1()
+    {
+        //애니메이션 후 플레이어 위치로 돌진
+    }
+
+    private void Flied2()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            ResetDir(4, i + 1);
+        }
     }
 }

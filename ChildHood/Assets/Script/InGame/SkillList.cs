@@ -49,29 +49,29 @@ public class SkillList : MonoBehaviour
 
     public void Tumble()//0
     {
-        Debug.Log("실행");
-        float DashSpeed = 5f;
-        Player.Instance.mRB2D.velocity = Vector3.zero;
-        Player.Instance.mRB2D.AddForce(new Vector2(1,1)*DashSpeed,ForceMode2D.Force);
+        Player.Instance.mAnim.SetBool(AnimHash.Tumble, true);
+        int DashSpeed = 20;
+        Vector3 tumble = Player.Instance.mDirection.transform.up;
+        Player.Instance.Dash(tumble,DashSpeed);
     }
 
     public void Cabbage_Boomerang()//1
     {
-
+        Debug.Log("양배추부메랑");
     }
 
     public void Dash()//2
     {
-
+        Debug.Log("돌진");
     }
 
     public void Power_of_Oven()//3
     {
-
+        Debug.Log("오븐의 힘");
     }
 
     public void Ice_Barrier()//4
     {
-
+        Debug.Log("얼음보호막");
     }
 }

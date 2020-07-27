@@ -13,8 +13,7 @@ public class BossRoomController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            Debug.Log(Player.Instance.mNowStage);
-            Instantiate(bossRoom[Player.Instance.mNowStage]);
+            Instantiate(bossRoom[GameSetting.Instance.NowStage-1]);
         }
         else
         {

@@ -49,6 +49,9 @@ public class WeaponStat
 public class MonsterStat
 {
     public int ID;
+    public string Name;
+    public string EngName;
+
     public int Gold;
 
     public float Hp;

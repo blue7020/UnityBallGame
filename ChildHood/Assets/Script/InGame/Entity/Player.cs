@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     public int EnemySwitch;
 
     public int mNowStage;
+    public bool PlayerSkillStand;
+
 
     public PlayerStat mStats;
 
@@ -67,6 +69,7 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        PlayerSkillStand = false;
         NowItem = null;
         NowUsingArtifact = null;
         mMaxHP = mStats.Hp;
@@ -84,12 +87,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Moveing();
-        
+            Moveing();
     }
 
     private void Moveing()
     {
+
         hori = joyskick.Horizontal();
         ver = joyskick.Vectical();
         Vector2 dir = new Vector2(hori, ver);
@@ -98,7 +101,7 @@ public class Player : MonoBehaviour
         {
             mAnim.SetBool(AnimHash.Walk, true);
             transform.rotation = Quaternion.Euler(0, 180, 0);
-            
+
         }
         else if (hori < 0)
         {
@@ -113,8 +116,11 @@ public class Player : MonoBehaviour
         {
             mAnim.SetBool(AnimHash.Walk, false);
         }
+        if (PlayerSkillStand == false)
+        {
+            mRB2D.velocity = dir;
+        }
 
-        mRB2D.velocity = dir;
     }
 
     public void Hit(float damage)
@@ -150,23 +156,23 @@ public class Player : MonoBehaviour
         StopCoroutine(HitAnimation());
     }
 
-    public void PlayerSkill()
+    public void Dash(Vector3 dir,int speed)
     {
-        //TODO mValue = Player.Instance.Stats.Atk;
-        //벨류는 스킬에 따라 각각 적용하기로
-        switch (mID)
-        {
-            case 0: //구르기
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                Debug.LogError("Wrong Player ID");
-                break;
+        PlayerSkillStand = true;
+        Nodamage = true;
+        mRB2D.velocity = Vector3.zero;
+        mRB2D.velocity = dir.normalized * speed;
+        StartCoroutine(StandingCool());
+    }
 
-        }
+    private IEnumerator StandingCool()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.2f);
+        yield return delay;
+        PlayerSkillStand = false;
+        Nodamage = false;
+        mAnim.SetBool(AnimHash.Tumble, false);
+        transform.rotation = Quaternion.identity;
     }
 
     public void ItemUse()

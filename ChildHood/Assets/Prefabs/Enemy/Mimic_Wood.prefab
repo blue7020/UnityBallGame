@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1e3507806eae24e9831accd40fa0ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  State: 0
+  mState: 0
   eType: 0
   mDelayCount: 0
   mID: 0
@@ -204,6 +204,7 @@ MonoBehaviour:
   - {fileID: 2838573010758583088}
   - {fileID: 2343567780831097339}
   mRB2D: {fileID: 1323521786057134289}
+  mTarget: {fileID: 0}
   mHPBarPos: {fileID: 2343567781294228416}
   mEnemySkill: {fileID: 4935332831632946858}
   mAttackArea: {fileID: 8715208537198141542}
@@ -254,7 +255,7 @@ GameObject:
   - component: {fileID: 2343567780831096836}
   - component: {fileID: 2343567780831096837}
   m_Layer: 0
-  m_Name: Monster_0
+  m_Name: EnemySprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -507,6 +508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 318890475179379525}
+  Setting: 0
 --- !u!1 &7836876050417533985
 GameObject:
   m_ObjectHideFlags: 0

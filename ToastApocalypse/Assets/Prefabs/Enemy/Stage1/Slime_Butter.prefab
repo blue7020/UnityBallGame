@@ -320,7 +320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9198931104984211559
 Transform:
   m_ObjectHideFlags: 0
@@ -374,6 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 1355041504053474430}
+  Setting: 0
 --- !u!1 &9024079673159237604
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a1e3507806eae24e9831accd40fa0ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  State: 0
+  mState: 0
   eType: 0
   mDelayCount: 0
   mID: 1
@@ -530,10 +531,14 @@ MonoBehaviour:
   - {fileID: 4168372395029809777}
   - {fileID: 6802382841741441065}
   mRB2D: {fileID: -8068411688457360490}
+  mTarget: {fileID: 0}
   mHPBarPos: {fileID: 9024079674477343051}
   mEnemySkill: {fileID: 2403742484238469194}
   mAttackArea: {fileID: 998365557147949601}
+  mTrackingRange: {fileID: 1908126275561688926}
   mHPBar: {fileID: 0}
+  Nodamage: 0
+  AttackOn: 0
   Spawned: 0
   IsMimic: 0
   mAnim: {fileID: 9024079673159237600}
@@ -541,6 +546,8 @@ MonoBehaviour:
   mMaxHP: 0
   mStats:
     ID: 0
+    Name: 
+    EngName: 
     Gold: 0
     Hp: 0
     Atk: 0

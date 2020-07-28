@@ -13,7 +13,8 @@ public class Chest : MonoBehaviour
 
     private bool ChestOpen;
     private eChestType Type;
-    
+    private Weapon mWeapon;
+
     private void Awake()
     {
         int rand = Random.Range(0, 3);
@@ -49,7 +50,7 @@ public class Chest : MonoBehaviour
             int rand = Random.Range(0, 4);
             if (Player.Instance.NowPlayerWeapon.mID!=rand)
             {
-                Weapon mWeapon = WeaponPool.Instance.GetFromPool(rand);
+                mWeapon = WeaponPool.Instance.GetFromPool(rand);
                 mWeapon.transform.SetParent(mItem.transform);
                 mWeapon.Currentroom = Currentroom;
                 break;
@@ -114,19 +115,19 @@ public class Chest : MonoBehaviour
         {
             case 0:
                 Vector3 dir1 = new Vector3(-1, 1, 0);
-                mItem.transform.localPosition = gameObject.transform.position + dir1;
+                mWeapon.transform.position = mItem.transform.position + dir1;
                 break;
             case 1:
                 Vector3 dir2 = new Vector3(1, 1, 0);
-                mItem.transform.localPosition = gameObject.transform.position + dir2;
+                mWeapon.transform.position = mItem.transform.position + dir2;
                 break;
             case 2:
                 Vector3 dir3 = new Vector3(-1, -1, 0);
-                mItem.transform.localPosition = gameObject.transform.position + dir3;
+                mWeapon.transform.position = mItem.transform.position + dir3;
                 break;
             case 3:
                 Vector3 dir4 = new Vector3(1, -1, 0);
-                mItem.transform.localPosition = gameObject.transform.position + dir4;
+                mWeapon.transform.position = mItem.transform.position + dir4;
                 break;
             default:
                 Debug.LogError("Wrong randID");

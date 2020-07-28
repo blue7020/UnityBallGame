@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2459533422202361071
 Transform:
   m_ObjectHideFlags: 0
@@ -344,7 +344,10 @@ MonoBehaviour:
   mHPBarPos: {fileID: 2355619142393513411}
   mEnemySkill: {fileID: 8993935339554749634}
   mAttackArea: {fileID: 5787626523128983209}
+  mTrackingRange: {fileID: 5183688505406208982}
   mHPBar: {fileID: 0}
+  Nodamage: 0
+  AttackOn: 0
   Spawned: 0
   IsMimic: 0
   mAnim: {fileID: 2355619143745014632}
@@ -352,6 +355,8 @@ MonoBehaviour:
   mMaxHP: 0
   mStats:
     ID: 0
+    Name: 
+    EngName: 
     Gold: 0
     Hp: 0
     Atk: 0

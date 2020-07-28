@@ -48,6 +48,11 @@ public class EnemySkill : MonoBehaviour
             case 11://Flied
                 Flied1();
                 break;
+            case 12:
+                break;
+            case 13://Portatargp
+                Potatargo();
+                break;
             default:
                 Debug.LogError("wrong Enemy ID");
                 break;
@@ -84,6 +89,10 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 11://Flied
                 Flied2();
+                break;
+            case 12:
+                break;
+            case 13://Portatargp
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -215,7 +224,7 @@ public class EnemySkill : MonoBehaviour
 
     }
 
-    private void Flied1()
+    private void Flied1()//id = 11
     {
         Count = 0;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
@@ -228,7 +237,6 @@ public class EnemySkill : MonoBehaviour
             }
         }
     }
-
     private void MoveFlied()
     {
         Vector3 Pos = mEnemy.mTarget.transform.position;
@@ -236,12 +244,70 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mRB2D.velocity = dir.normalized * mEnemy.mStats.Spd;
         Count++;
     }
-
     private void Flied2()
     {
         for (int i = 0; i < 4; i++)
         {
             ResetDir(4, i + 1);
         }
+    }
+
+    private void Potatargo()//id = 13
+    {
+        Count = 0;
+
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            mEnemy.mStats.AtkSpd = mEnemy.mStats.AtkSpd *2f;
+            BackupSpeed = mEnemy.mStats.Spd;
+            mEnemy.mStats.Spd = 0f;
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            mEnemy.Nodamage = true;
+            StartCoroutine(ShellIn());
+        }
+        else
+        {
+            while (true)
+            {
+                Invoke("PotatoShot", 0.3f);
+                if (Count <= 4)
+                {
+                    break;
+                }
+            }
+        }  
+    }
+
+    private IEnumerator ShellIn()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        Count = 0;
+        while (true)
+        {
+            mEnemy.mRB2D.velocity = Vector3.zero;
+            if (Count >= 50)
+            {
+                mEnemy.mStats.Spd = BackupSpeed;
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                mEnemy.Nodamage = false;
+                break;
+            }
+            else
+            {
+                Invoke("PotatoShot", 0.8f);
+                yield return delay;
+            }
+        }
+
+    }
+    private void PotatoShot()
+    {
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        Bullet bolt = BulletPool.Instance.GetFromPool(5);
+        bolt.transform.localPosition = mEnemy.transform.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        Count++;
+        Debug.Log(Count);
     }
 }

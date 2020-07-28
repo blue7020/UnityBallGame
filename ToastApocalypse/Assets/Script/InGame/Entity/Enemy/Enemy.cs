@@ -17,8 +17,11 @@ public class Enemy : InformationLoader
     public Transform mHPBarPos;
     public EnemySkill mEnemySkill;
     public EnemyAttackArea mAttackArea;
+    public TrackingRange mTrackingRange;
 
     public GaugeBar mHPBar;
+
+    public bool Nodamage;
 
     public bool AttackOn;
     private bool AttackCheck;
@@ -41,16 +44,19 @@ public class Enemy : InformationLoader
         mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameController.Instance.MapLevel) * GameController.Instance.Level);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         AttackOn = false;
+        Nodamage = true;
         AttackCheck = true;
         if (IsMimic==false)
         {
             mState = eMonsterState.Spawning;
+            Nodamage = false;
         }
         else
         {
             mState = eMonsterState.Idle;
             Spawned = true;
             AttackCheck = false;
+            mTrackingRange.gameObject.SetActive(true);
         }
         mDelayCount = 0;
         StartCoroutine(StateMachine());
@@ -74,6 +80,8 @@ public class Enemy : InformationLoader
         Spawned = true;
         AttackCheck = false;
         mState = eMonsterState.Idle;
+        Nodamage = false;
+        mTrackingRange.gameObject.SetActive(true);
         StartCoroutine(SkillCast());
     }
 
@@ -149,32 +157,36 @@ public class Enemy : InformationLoader
     {
         if (Spawned == true)
         {
-            StartCoroutine(HitAnimation());
-            mCurrentHP -= damage;
+            if (Nodamage==false)
+            {
+                StartCoroutine(HitAnimation());
+                mCurrentHP -= damage;
 
-            if (mHPBar == null)
-            {
-                mHPBar = GaugeBarPool.Instance.GetFromPool();
-                mHPBar.mEnemy = this;
-            }
-            if (mCurrentHP <= 0)
-            {
-                if (mStats.Gold > 0)
+                if (mHPBar == null)
                 {
-                    DropGold mGold = GoldPool.Instance.GetFromPool();
-                    mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
-                    mGold.transform.position = transform.position;
-                    mGold.GoldDrop(mGold, mStats.Gold);
+                    mHPBar = GaugeBarPool.Instance.GetFromPool();
+                    mHPBar.mEnemy = this;
                 }
-                mEnemySkill.DieSkill();
-                mHPBar.CloseGauge();
+                if (mCurrentHP <= 0)
+                {
+                    if (mStats.Gold > 0)
+                    {
+                        DropGold mGold = GoldPool.Instance.GetFromPool();
+                        mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
+                        mGold.transform.position = transform.position;
+                        mGold.GoldDrop(mGold, mStats.Gold);
+                    }
+                    mEnemySkill.DieSkill();
+                    mHPBar.CloseGauge();
+                }
+                else
+                {
+                    mHPBar.gameObject.SetActive(true);
+                    mHPBar.SetGauge(mCurrentHP, mMaxHP);
+                    mHPBar.transform.position = mHPBarPos.position;
+                }
             }
-            else
-            {
-                mHPBar.gameObject.SetActive(true);
-                mHPBar.SetGauge(mCurrentHP, mMaxHP);
-                mHPBar.transform.position = mHPBarPos.position;
-            }
+            
         }
         
 
@@ -221,7 +233,6 @@ public class Enemy : InformationLoader
         {
             WaitForSeconds cool = new WaitForSeconds(mStats.AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
-            mAnim.SetBool(AnimHash.Enemy_Attack, true);
             mRB2D.velocity = Vector3.zero;
             mEnemySkill.Skill();
             yield return cool;
@@ -238,6 +249,7 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Walk, true);
             Vector3 Pos = mTarget.transform.position;
             Vector3 dir = Pos - transform.position;
+            //TODO 에너미 기준으로 플레이어의 방향에 따라 에너미 좌우 반전시키기
             mRB2D.velocity = dir.normalized * mStats.Spd;
             yield return one;
 

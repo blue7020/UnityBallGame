@@ -36,6 +36,8 @@ public class GameSetting : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         if (FirstSetting!=true)
         {
+            BGMSetting =3;
+            SESetting = 3;
             StageOpen = new bool[6];
             CharacterOpen = new bool[CharacterCount];
             StageOpen[0] = true;//1스테이지 오픈
@@ -43,6 +45,8 @@ public class GameSetting : MonoBehaviour
             CharacterOpen[1] = true;//햄에그캐릭터 오픈
         }
         Restart();
+        StageOpen[1] = true;//2스테이지 오픈
+        StageOpen[2] = true;//3스테이지 오픈
     }
 
     public void Restart()

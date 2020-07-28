@@ -50,7 +50,7 @@ public class SkillList : MonoBehaviour
     public void Tumble()//0
     {
         Player.Instance.mAnim.SetBool(AnimHash.Tumble, true);
-        int DashSpeed = 20;
+        int DashSpeed = 15;
         Vector3 tumble = Player.Instance.mDirection.transform.up;
         Player.Instance.Dash(tumble,DashSpeed);
     }

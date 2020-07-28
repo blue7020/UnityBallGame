@@ -109,9 +109,29 @@ public class Chest : MonoBehaviour
     {
         ChestOpen = true;
         mItem.SetActive(true);
-        int randx = Random.Range(-2, 2);
-        int randy = Random.Range(-2, 2);
-        mItem.transform.localPosition = gameObject.transform.position + new Vector3(randx, randy, 0);
+        int rand = Random.Range(0, 4);
+        switch (rand)
+        {
+            case 0:
+                Vector3 dir1 = new Vector3(-1, 1, 0);
+                mItem.transform.localPosition = gameObject.transform.position + dir1;
+                break;
+            case 1:
+                Vector3 dir2 = new Vector3(1, 1, 0);
+                mItem.transform.localPosition = gameObject.transform.position + dir2;
+                break;
+            case 2:
+                Vector3 dir3 = new Vector3(-1, -1, 0);
+                mItem.transform.localPosition = gameObject.transform.position + dir3;
+                break;
+            case 3:
+                Vector3 dir4 = new Vector3(1, -1, 0);
+                mItem.transform.localPosition = gameObject.transform.position + dir4;
+                break;
+            default:
+                Debug.LogError("Wrong randID");
+                break;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

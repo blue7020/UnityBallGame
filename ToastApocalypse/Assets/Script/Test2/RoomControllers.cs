@@ -20,11 +20,11 @@ public class RoomControllers : MonoBehaviour
     public static RoomControllers Instance;
 
     RoomInfo CurrentLoadRoomData;
-    public int RoomLength = 0;
+    public int RoomLength;
 
-    public Queue<RoomInfo> LoadRoomQueue = new Queue<RoomInfo>();
+    public Queue<RoomInfo> LoadRoomQueue;
 
-    public List<Room> LoadedRooms = new List<Room>();
+    public List<Room> LoadedRooms;
 
     public Room[] rooms; //6
     public bool RoomSetting;
@@ -38,14 +38,15 @@ public class RoomControllers : MonoBehaviour
     bool isLoadingRoom = false;
     bool updatedRooms = false;
 
-    private List<string> roomNameList;
-
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            LoadedRooms = new List<Room>();
+            LoadRoomQueue = new Queue<RoomInfo>();
             rooms = new Room[6];
+            RoomLength = 0;
         }
         else
         {
@@ -175,7 +176,7 @@ public class RoomControllers : MonoBehaviour
                         break;
                     case 3:
                         //Endroom
-                        Room BossRoom = LoadedRooms[LoadedRooms.Count - 1];
+                        Room BossRoom = LoadedRooms[LoadedRooms.Count-1];
                         Room tempRoom2 = new Room(BossRoom.X, BossRoom.Y);
                         Destroy(BossRoom.gameObject);
                         var roomToRemove2 = LoadedRooms.Single(r => r.X == tempRoom2.X && r.Y == tempRoom2.Y);
@@ -188,6 +189,7 @@ public class RoomControllers : MonoBehaviour
                         break;
                 }
                 EnemyRoom.Remove(Count);
+                RoomLength--;
                 Count--;
             }
             AllRoomGen = true;

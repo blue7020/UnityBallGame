@@ -22,11 +22,11 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 1://Slime_Butter
                 break;
-            case 2://Mold_King
-                StartCoroutine(MoldKingAttack());
-                break;
-            case 3://Moldling
+            case 2://Moldling
                 MoldlingAttack();
+                break;
+            case 3://Mold_King
+                StartCoroutine(MoldKingAttack());
                 break;
             case 4://CursedPowder
                 CursedPowder();
@@ -78,7 +78,7 @@ public class EnemySkill : MonoBehaviour
             case 8://Mimic_Gold
                 break;
             case 9://Ketchup_Slime
-                StartCoroutine(AngerTomato());
+                AngerTomato2();
                 break;
             case 10://Hambug
                 break;
@@ -217,7 +217,24 @@ public class EnemySkill : MonoBehaviour
 
     private void Flied1()
     {
-        //애니메이션 후 플레이어 위치로 돌진
+        Count = 0;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        while (true)
+        {
+            Invoke("MoveFlied",0.1f);
+            if (Count <= 30)
+            {
+                break;
+            }
+        }
+    }
+
+    private void MoveFlied()
+    {
+        Vector3 Pos = mEnemy.mTarget.transform.position;
+        Vector3 dir = Pos - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * mEnemy.mStats.Spd;
+        Count++;
     }
 
     private void Flied2()

@@ -20,7 +20,7 @@ public class Enemy : InformationLoader
 
     public GaugeBar mHPBar;
 
-    private bool AttackOn;
+    public bool AttackOn;
     private bool AttackCheck;
     public Coroutine mCoroutine;
     public bool Spawned;

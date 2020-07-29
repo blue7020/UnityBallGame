@@ -18,7 +18,6 @@ public class PlayerBulletPool : ObjectPool<PlayerBullet>
         }
         PoolSetup();
     }
-
     protected override PlayerBullet CreateNewObj(int id)
     {
         PlayerBullet newObj = Instantiate(mOriginArr[id]);

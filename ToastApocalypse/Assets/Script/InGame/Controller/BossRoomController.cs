@@ -8,12 +8,14 @@ public class BossRoomController : MonoBehaviour
     public static BossRoomController Instance;
 
     public Room[] bossRoom;
+    private Room CurrentRoom;
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            Instantiate(bossRoom[GameSetting.Instance.NowStage-1]);
+            CurrentRoom=Instantiate(bossRoom[GameSetting.Instance.NowStage-1]);
+            Player.Instance.CurrentRoom = CurrentRoom;
         }
         else
         {

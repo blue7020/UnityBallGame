@@ -88,6 +88,7 @@ public class GameController : MonoBehaviour
         Player.Instance.Delete();
         PlayerList.Instance.Delete();
         ItemList.Instance.Delete();
+        WeaponController.Instance.Delete();
         ArtifactController.Instance.Delete();
         WeaponController.Instance.Delete();
         Delete();
@@ -100,7 +101,8 @@ public class GameController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Player.Instance.mStats.Gold += 200;
-                Player.Instance.mStats.Atk += 10;
+                Player.Instance.mStats.Atk += 5;
+                Level = 4;
                 UIController.Instance.ShowGold();
             }
         }

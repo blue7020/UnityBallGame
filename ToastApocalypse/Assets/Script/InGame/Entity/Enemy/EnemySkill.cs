@@ -11,11 +11,10 @@ public class EnemySkill : MonoBehaviour
     private float BackupSpeed;
 
     public bool Skilltrigger;
-    public int Skilltick;
 
     public void Skill()
     {
-        Skilltick = 0;
+        Count = 0;
         switch (mEnemy.mID)
         {
             case 0://Mimic_Wood
@@ -50,8 +49,11 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 12:
                 break;
-            case 13://Portatargp
+            case 13://Portatargo
                 Potatargo();
+                break;
+            case 14://Burger-Pac
+                CabbageBoomerang();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -92,7 +94,9 @@ public class EnemySkill : MonoBehaviour
                 break;
             case 12:
                 break;
-            case 13://Portatargp
+            case 13://Portatargo
+                break;
+            case 14://Burger-Pac
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -308,6 +312,39 @@ public class EnemySkill : MonoBehaviour
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
-        Debug.Log(Count);
     }
+
+    private void CabbageBoomerang()//id =14
+    {
+        for (int i=0; i<4; i++)
+        {
+            Vector3 Pos = Player.Instance.transform.position;
+            Vector3 dir = Pos - transform.position;
+            Bullet bolt = BulletPool.Instance.GetFromPool(6);
+            bolt.transform.localPosition = mEnemy.transform.position;
+            bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        }
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            if (Skilltrigger==false)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    EnemyPool.Instance.GetFromPool(0);
+                }
+                Skilltrigger = true;
+            }
+            XShot();
+        }
+    }
+
+    private void XShot()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            ResetDir(5, i + 1);
+        }
+    }
+
 }

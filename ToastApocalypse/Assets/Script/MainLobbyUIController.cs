@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class MainLobbyUIController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class MainLobbyUIController : MonoBehaviour
     public MainLobbyPlayer[] mPlayerList;
     private bool pause;
 
+    public Image[] mParts;
+    public Image[] mPartsLock;
     public Text mCashText,mBGMText, mSEText;
     //public Tooltip tooltip;
 
@@ -28,6 +31,7 @@ public class MainLobbyUIController : MonoBehaviour
             Destroy(gameObject);
         }
         pause = false;
+        ShowSyrupText();
     }
 
     public void GamePause()
@@ -50,7 +54,6 @@ public class MainLobbyUIController : MonoBehaviour
         //TODO 저장기능
         pause = false;
         Time.timeScale = 1;
-        GameSetting.Instance.Restart();
         SceneManager.LoadScene(0);
     }
 
@@ -101,6 +104,22 @@ public class MainLobbyUIController : MonoBehaviour
             GameSetting.Instance.SESetting = 0;
         }
         mSEText.text = GameSetting.Instance.SESetting.ToString();
+    }
+
+    public void ShowSyrupText()
+    {
+        mCashText.text = GameSetting.Instance.Syrup.ToString();
+    }
+
+    public void ShowParts()
+    {
+        for (int i=0; i < 6; i++)
+        {
+            if (GameSetting.Instance.StagePartsget[i]==true)
+            {
+                mPartsLock[i].color = Color.clear;
+            }
+        }
     }
 
     public void Toast()

@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public int MapLevel;//현재 스테이지
     public int StageHP;
 
+    public int SyrupInStage;
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
             GotoMain = false;
             pause = false;
             Level = 1;
+            SyrupInStage = 0;
             UIController.Instance.CharacterImage();
         }
         else
@@ -71,8 +73,8 @@ public class GameController : MonoBehaviour
         DestroyController();
         pause = false;
         Time.timeScale = 1;
-        GameSetting.Instance.Restart();
         GotoMain = false;
+        GameSetting.Instance.Restart();
         SceneManager.LoadScene(1);
     }
 

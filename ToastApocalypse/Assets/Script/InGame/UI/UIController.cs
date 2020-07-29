@@ -16,18 +16,11 @@ public class UIController : MonoBehaviour
     public Sprite[] mCharacterSprite;
     public Sprite DefaultItemSprite;
 
-    [SerializeField]
-    private Button mStatButton;
-    public Button mSKillButton;
-    public Button mItemButton, mArtifactButton;
+    public Button mStatButton, mSKillButton,mItemButton, mArtifactButton;
 
-#pragma warning disable 0649
-    [SerializeField]
-    private RawImage mMiniMapCamera;
+    public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
-    [SerializeField]
-    private Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
-#pragma warning restore 0649
+    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mGuideText;
     public Tooltip tooltip;
 
 
@@ -122,7 +115,20 @@ public class UIController : MonoBehaviour
 
     public void ShowClearText()
     {
+        GameController.Instance.pause = true;
+        Time.timeScale = 0;
+        if (GameSetting.Instance.Language == 0)
+        {//한국어
+            mClearText.text = GameSetting.Instance.NowStage + "스테이지 클리어!\n\n획득한 시럽: +"+GameController.Instance.SyrupInStage;
+            mGuideText.text = "터치 시 로비로 이동합니다.";
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {//영어
+            mClearText.text = GameSetting.Instance.NowStage+ "Stage Clear!\n\nSyrup: +" + GameController.Instance.SyrupInStage;
+            mGuideText.text = "Touch to move to the lobby.";
+        }
         mClearImage.gameObject.SetActive(true);
+        GameSetting.Instance.Syrup += GameController.Instance.SyrupInStage;
     }
 
     public void ShowItemImage()
@@ -201,12 +207,12 @@ public class UIController : MonoBehaviour
     {
         if (ButtonOn)
         {
-            mMiniMapCamera.gameObject.SetActive(true);
+            mMiniMapImage.gameObject.SetActive(true);
             MiniMap.Instance.MinimapOn = true;
         }
         else
         {
-            mMiniMapCamera.gameObject.SetActive(false);
+            mMiniMapImage.gameObject.SetActive(false);
             MiniMap.Instance.MinimapOn = false;
         }
     }

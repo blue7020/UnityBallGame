@@ -176,6 +176,7 @@ public class Enemy : InformationLoader
                         mGold.transform.position = transform.position;
                         mGold.GoldDrop(mGold, mStats.Gold);
                     }
+                    GameController.Instance.SyrupInStage +=mStats.Syrup;
                     mEnemySkill.DieSkill();
                     mHPBar.CloseGauge();
                 }

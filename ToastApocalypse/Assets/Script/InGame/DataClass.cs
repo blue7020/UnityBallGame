@@ -53,6 +53,7 @@ public class MonsterStat
     public string EngName;
 
     public int Gold;
+    public int Syrup;
 
     public float Hp;
     public float Atk;

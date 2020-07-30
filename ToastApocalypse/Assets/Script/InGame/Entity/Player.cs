@@ -75,7 +75,6 @@ public class Player : MonoBehaviour
         mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
-        UIController.Instance.ShowNowBulletText();
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();
     }
@@ -282,7 +281,7 @@ public class Player : MonoBehaviour
         art.Equip = false;
     }
 
-    internal void EquipWeapon(Weapon weapon)
+    public void EquipWeapon(Weapon weapon)
     {
         weapon.Equip = true;
         mStats.Atk += weapon.mStats.Atk;
@@ -293,7 +292,7 @@ public class Player : MonoBehaviour
         UIController.Instance.ShowWeaponImage();
     }
 
-    internal void UnequipWeapon(Weapon weapon)
+    public void UnequipWeapon(Weapon weapon)
     {
         mStats.Atk -= weapon.mStats.Atk;
         mStats.AtkSpd -= weapon.mStats.AtkSpd;

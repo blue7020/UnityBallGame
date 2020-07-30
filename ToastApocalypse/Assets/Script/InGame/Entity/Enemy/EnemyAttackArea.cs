@@ -12,8 +12,6 @@ public class EnemyAttackArea : MonoBehaviour
         mAnim = GetComponent<Animator>();
     }
 
-    //TODO 이펙트 풀을 사용하여 몬스터에 맞는 공격 스프라이트로 변경
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -22,8 +20,6 @@ public class EnemyAttackArea : MonoBehaviour
             {
                 other.gameObject.GetComponent<Player>().Hit(mEnemy.mStats.Atk);
             }
-
-
         }
     }
 }

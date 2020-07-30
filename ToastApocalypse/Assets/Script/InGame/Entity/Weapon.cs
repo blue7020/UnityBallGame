@@ -110,7 +110,7 @@ public class Weapon : MonoBehaviour
         if (Equip == false)
         {
             Equip = true;
-            if (eType== eWeaponType.Range)
+            if (eType == eWeaponType.Range)
             {
                 Aim.gameObject.SetActive(true);
                 mAttackArea.gameObject.SetActive(true);
@@ -120,12 +120,12 @@ public class Weapon : MonoBehaviour
             transform.SetParent(Player.Instance.gameObject.transform);
             UIController.Instance.ShowNowBulletText();
             UIController.Instance.ShowWeaponImage();
-            transform.localPosition = new Vector3(0, 0, 0);
         }
     }
 
     public void UnequipWeapon()
     {
+        Debug.Log("dd");
         if (Equip == true)
         {
             Equip = false;
@@ -136,11 +136,9 @@ public class Weapon : MonoBehaviour
                 Aim.gameObject.SetActive(false);
                 mAttackArea.gameObject.SetActive(false);
             }
-            Player.Instance.UnequipWeapon(this);
             gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
-            int randx = UnityEngine.Random.Range(-1, 1);
-            int randy = UnityEngine.Random.Range(-1, 1);
-            gameObject.transform.position = Player.Instance.gameObject.transform.position + new Vector3(randx, randy, 0);
+            gameObject.transform.position = Vector3.zero;
+            Player.Instance.UnequipWeapon(this);
         }
     }
 
@@ -158,7 +156,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private IEnumerator GetCool()
+    private IEnumerator DropCool()
     {
         WaitForSeconds cool = new WaitForSeconds(1f);
         GetCooltime = true;
@@ -167,13 +165,14 @@ public class Weapon : MonoBehaviour
         GetCooltime = false;
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (GetCooltime == false)
+            if (Equip==false)
             {
-                StartCoroutine(GetCool());
+                StartCoroutine(DropCool());
             }
         }
 
@@ -182,10 +181,14 @@ public class Weapon : MonoBehaviour
 
     public void Clamp()
     {
-        Currentroom = Player.Instance.CurrentRoom;
-        int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
-        int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax - 1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);
+        if (Player.Instance.CurrentRoom!=null)
+        {
+            Currentroom = Player.Instance.CurrentRoom;
+            int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
+            int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax - 1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);
+        }
+        
 
     }
 

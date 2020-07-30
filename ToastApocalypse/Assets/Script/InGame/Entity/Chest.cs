@@ -6,6 +6,7 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     public GameObject mItem;
+    private Rigidbody2D mRB2D;
     public SpriteRenderer mRenderer;
     public Sprite[] mSprites;
     public MimicSpawner mMimicPos;
@@ -53,6 +54,8 @@ public class Chest : MonoBehaviour
                 mWeapon = WeaponPool.Instance.GetFromPool(rand);
                 mWeapon.transform.SetParent(mItem.transform);
                 mWeapon.Currentroom = Currentroom;
+                mWeapon.transform.position = Vector3.zero;
+                mRB2D = mItem.GetComponent<Rigidbody2D>();
                 break;
             }
         }
@@ -114,25 +117,21 @@ public class Chest : MonoBehaviour
         switch (rand)
         {
             case 0:
-                Vector3 dir1 = new Vector3(-1, 1, 0);
-                mWeapon.transform.position = mItem.transform.position + dir1;
+                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(-1, 1, 0);
                 break;
             case 1:
-                Vector3 dir2 = new Vector3(1, 1, 0);
-                mWeapon.transform.position = mItem.transform.position + dir2;
+                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(1, 1, 0);
                 break;
             case 2:
-                Vector3 dir3 = new Vector3(-1, -1, 0);
-                mWeapon.transform.position = mItem.transform.position + dir3;
+                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(1, -1, 0);
                 break;
             case 3:
-                Vector3 dir4 = new Vector3(1, -1, 0);
-                mWeapon.transform.position = mItem.transform.position + dir4;
+                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(-1, -1, 0);
                 break;
             default:
                 Debug.LogError("Wrong randID");
                 break;
-        }
+        }  
     }
 
     private void OnCollisionEnter2D(Collision2D other)

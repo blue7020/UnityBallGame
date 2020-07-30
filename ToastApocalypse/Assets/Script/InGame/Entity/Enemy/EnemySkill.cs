@@ -9,8 +9,10 @@ public class EnemySkill : MonoBehaviour
     public EnemyAttackArea mAttackArea;
     private int Count;
     private float BackupSpeed;
+    private int SkillRand;
 
     public bool Skilltrigger;
+    public Transform[] BulletStarter;
 
     public void Skill()
     {
@@ -47,13 +49,14 @@ public class EnemySkill : MonoBehaviour
             case 11://Flied
                 Flied1();
                 break;
-            case 12:
+            case 12://Burger-Pac
+                CabbageBoomerang();
                 break;
             case 13://Portatargo
                 Potatargo();
                 break;
-            case 14://Burger-Pac
-                CabbageBoomerang();
+            case 14://Dispenster
+                ColaRay();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -92,11 +95,12 @@ public class EnemySkill : MonoBehaviour
             case 11://Flied
                 Flied2();
                 break;
-            case 12:
+            case 12://Burger-Pac
+                CabbageBoomerang();
                 break;
             case 13://Portatargo
                 break;
-            case 14://Burger-Pac
+            case 14://Dispenster
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -282,7 +286,32 @@ public class EnemySkill : MonoBehaviour
         }  
     }
 
-    private IEnumerator ShellIn()
+    private void CabbageBoomerang()//id =12
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Vector3 Pos = Player.Instance.transform.position;
+            Vector3 dir = Pos - transform.position;
+            Bullet bolt = BulletPool.Instance.GetFromPool(6);
+            bolt.transform.localPosition = mEnemy.transform.position;
+            bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        }
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            XShot();
+        }
+    }
+
+    private void XShot()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            ResetDir(5, i + 1);
+        }
+    }
+
+    private IEnumerator ShellIn()//13
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         Count = 0;
@@ -302,7 +331,6 @@ public class EnemySkill : MonoBehaviour
                 yield return delay;
             }
         }
-
     }
     private void PotatoShot()
     {
@@ -314,37 +342,101 @@ public class EnemySkill : MonoBehaviour
         Count++;
     }
 
-    private void CabbageBoomerang()//id =14
+
+    private void ColaRay()//id=14
     {
-        for (int i=0; i<4; i++)
-        {
-            Vector3 Pos = Player.Instance.transform.position;
-            Vector3 dir = Pos - transform.position;
-            Bullet bolt = BulletPool.Instance.GetFromPool(6);
-            bolt.transform.localPosition = mEnemy.transform.position;
-            bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
-        }
+        Count = 0;
+        SkillRand = Random.Range(0, 3);
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-            if (Skilltrigger==false)
+            if (Skilltrigger == false)
             {
+                Count = 0;
+                BackupSpeed = mEnemy.mStats.Spd;
+                mEnemy.mStats.Spd = 0f;
+                StartCoroutine(ColaBoom());
                 for (int i = 0; i < 2; i++)
                 {
-                    EnemyPool.Instance.GetFromPool(0);
+                    EnemyPool.Instance.GetFromPool(0);//햄버그 소환
                 }
+                StartCoroutine(ColaBoom());
                 Skilltrigger = true;
             }
-            XShot();
+            BackupSpeed = mEnemy.mStats.Spd;
+            mEnemy.mStats.Spd = 0f;
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         }
-    }
-
-    private void XShot()
-    {
-        for (int i = 0; i < 4; i++)
+        else
         {
-            ResetDir(5, i + 1);
+            StartCoroutine(DrinkRay());
         }
     }
 
+    private IEnumerator DrinkRay()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        BackupSpeed = mEnemy.mStats.Spd;
+        mEnemy.mStats.Spd = 0f;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        while (true)
+        {
+            Invoke("DrinkShot", 0.1f);
+            if (Count >= 50)
+            {
+                mEnemy.mStats.Spd = BackupSpeed;
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                break;
+            }
+            yield return delay
+
+        }
+    }
+    private void DrinkShot()
+    {
+        int bulletIndex = 0;
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        switch (SkillRand)
+        {
+            case 0://cola
+                bulletIndex = 8;
+                break;
+            case 1://sprite
+                bulletIndex = 9;
+                break;
+            case 2://fanta
+                bulletIndex = 10;
+                break;
+        }
+        Bullet bolt1 = BulletPool.Instance.GetFromPool(bulletIndex);  Bullet bolt2 = BulletPool.Instance.GetFromPool(bulletIndex);
+        bolt1.transform.localPosition = BulletStarter[0].transform.position;  bolt2.transform.localPosition = BulletStarter[1].transform.position;
+        bolt1.mRB2D.velocity = dir.normalized * bolt1.mSpeed;  bolt2.mRB2D.velocity = dir.normalized * bolt2.mSpeed;
+        Count++;
+    }
+
+    private IEnumerator ColaBoom()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.2f);
+        while (true)
+        {
+            mEnemy.mRB2D.velocity = Vector3.zero;
+            if (Count > 8)
+            {
+                mEnemy.mStats.Spd = BackupSpeed;
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                break;
+            }
+            else
+            {
+                int Xpos = Random.Range(-5, 6);
+                int Ypos = Random.Range(-5, 6);
+                Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+                Bullet bolt = BulletPool.Instance.GetFromPool(7);
+                bolt.transform.localPosition = Pos;
+                Count++;
+                yield return delay;
+            }
+        }
+
+    }
 }

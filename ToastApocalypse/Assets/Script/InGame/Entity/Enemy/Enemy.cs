@@ -56,6 +56,7 @@ public class Enemy : InformationLoader
             mState = eMonsterState.Idle;
             Spawned = true;
             AttackCheck = false;
+            Nodamage = false;
             mTrackingRange.gameObject.SetActive(true);
         }
         mDelayCount = 0;

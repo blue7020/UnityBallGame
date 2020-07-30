@@ -117,7 +117,8 @@ public class MainLobbyUIController : MonoBehaviour
         {
             if (GameSetting.Instance.StagePartsget[i]==true)
             {
-                mPartsLock[i].color = Color.clear;
+                //TODO 수정해아함
+                //mPartsLock[i].color = Color.clear;
             }
         }
     }

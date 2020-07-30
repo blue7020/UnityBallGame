@@ -69,7 +69,8 @@ public class GameSetting : MonoBehaviour
     {
         if (StagePartsget[Stage] == false && Instance.PartsIndex < 6)
         {
-            MainLobbyUIController.Instance.mPartsLock[Stage].color = Color.clear;
+            //TODO 수정해야함
+            //MainLobbyUIController.Instance.mPartsLock[Stage].color = Color.clear;
             Instance.StagePartsget[Stage] = true;
             Instance.PartsIndex++;
         }

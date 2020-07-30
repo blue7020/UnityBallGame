@@ -264,7 +264,7 @@ public class EnemySkill : MonoBehaviour
     {
         Count = 0;
 
-        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP * (2/3))
         {
             mEnemy.mStats.AtkSpd = mEnemy.mStats.AtkSpd *2f;
             BackupSpeed = mEnemy.mStats.Spd;
@@ -273,17 +273,14 @@ public class EnemySkill : MonoBehaviour
             mEnemy.Nodamage = true;
             StartCoroutine(ShellIn());
         }
-        else
+        while (true)
         {
-            while (true)
+            Invoke("PotatoShot", 0.3f);
+            if (Count <= 4)
             {
-                Invoke("PotatoShot", 0.3f);
-                if (Count <= 4)
-                {
-                    break;
-                }
+                break;
             }
-        }  
+        }
     }
 
     private void CabbageBoomerang()//id =12
@@ -366,10 +363,7 @@ public class EnemySkill : MonoBehaviour
             mEnemy.mStats.Spd = 0f;
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         }
-        else
-        {
             StartCoroutine(DrinkRay());
-        }
     }
 
     private IEnumerator DrinkRay()
@@ -387,7 +381,7 @@ public class EnemySkill : MonoBehaviour
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
             }
-            yield return delay
+            yield return delay;
 
         }
     }
@@ -395,7 +389,8 @@ public class EnemySkill : MonoBehaviour
     {
         int bulletIndex = 0;
         Vector3 Pos = Player.Instance.transform.position;
-        Vector3 dir = Pos - transform.position;
+        Vector3 dirR = Pos - transform.position;
+        Vector3 dirL = Pos - transform.position*-1;
         switch (SkillRand)
         {
             case 0://cola
@@ -410,7 +405,7 @@ public class EnemySkill : MonoBehaviour
         }
         Bullet bolt1 = BulletPool.Instance.GetFromPool(bulletIndex);  Bullet bolt2 = BulletPool.Instance.GetFromPool(bulletIndex);
         bolt1.transform.localPosition = BulletStarter[0].transform.position;  bolt2.transform.localPosition = BulletStarter[1].transform.position;
-        bolt1.mRB2D.velocity = dir.normalized * bolt1.mSpeed;  bolt2.mRB2D.velocity = dir.normalized * bolt2.mSpeed;
+        bolt1.mRB2D.velocity = dirR.normalized * bolt1.mSpeed;  bolt2.mRB2D.velocity = -dirL.normalized * bolt2.mSpeed;
         Count++;
     }
 
@@ -419,11 +414,9 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.2f);
         while (true)
         {
-            mEnemy.mRB2D.velocity = Vector3.zero;
-            if (Count > 8)
+            if (Count > 10)
             {
                 mEnemy.mStats.Spd = BackupSpeed;
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
             }
             else

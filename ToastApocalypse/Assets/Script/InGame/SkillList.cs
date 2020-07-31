@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class SkillList : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class SkillList : MonoBehaviour
                     Tumble();
                     break;
                 case 1://양상추부메랑
+                    Cabbage_Boomerang();
                     break;
                 case 2://돌진
                     break;
@@ -57,7 +59,33 @@ public class SkillList : MonoBehaviour
 
     public void Cabbage_Boomerang()//1
     {
-        Debug.Log("양배추부메랑");
+        Vector3 dir = Player.Instance.mDirection.transform.up;
+        PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(2);
+        bolt.transform.SetParent(Player.Instance.transform);
+        bolt.transform.position = Player.Instance.transform.position;
+        bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk) + GameController.Instance.Level;
+        bolt.mRB2D.DOMove(dir * bolt.mSpeed, 0.8f).SetEase(Ease.Linear).OnComplete(() => { StartCoroutine(returnPlayer(bolt)); });
+    }
+
+    private IEnumerator returnPlayer(PlayerBullet bolt)
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        bolt.returnPlayer = true;
+        while (true)
+        {
+            if (bolt.returnCheck==true)
+            {
+                bolt.returnCheck = false;
+                bolt.returnPlayer = false;
+                break;
+            }
+            else
+            {
+                Vector3 Pos = Player.Instance.transform.position;
+                bolt.mRB2D.DOMove(Pos, 0.3f);
+                yield return delay;
+            }
+        }
     }
 
     public void Dash()//2

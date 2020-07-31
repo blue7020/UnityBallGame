@@ -38,8 +38,9 @@ public class PlayerSkill : MonoBehaviour
         }
         mID = GameSetting.Instance.PlayerSkillID;
         mStat = SkillController.Instance.mStatInfoArr[mID];
-        IsSkillCool = false;
         mSkillIcon = SkillController.Instance.SkillIcon[mID];
+        IsSkillCool = false;
+        UIController.Instance.ShowSkillImage();
 
     }
     public void SkillUse()

@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     public float mDamage;
     public float mSpeed;
     public Rigidbody2D mRB2D;
-    public eBulletType Type;
+    public eEnemyBulletType Type;
     public Animator mAnim;
     public GameObject[] Spirte;
     public bool DamageOn;
@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        if (Type ==eBulletType.homing)
+        if (Type ==eEnemyBulletType.homing)
         {
             StartCoroutine(MovetoPlayer());
         }

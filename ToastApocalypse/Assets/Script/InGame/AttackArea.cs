@@ -12,8 +12,6 @@ public class AttackArea : MonoBehaviour
     public int boltID;
 
     private Enemy Target;
-
-    //TODO 이펙트 풀을 사용하여 플레이어 캐릭터에 맞는 공격 스프라이트로 변경 원거리, 직선 공격, 범위 공격
     public void Melee()
     {
         mAnim.SetBool(AnimHash.Attack, true);
@@ -38,6 +36,16 @@ public class AttackArea : MonoBehaviour
     private void ResetDir()
     {
         bolt.mWeaponID = weapon.mID;
+        float rand = UnityEngine.Random.Range(0, 1f);
+        if (rand <= Player.Instance.mStats.Crit / 100)
+        {
+            bolt.mDamage = Player.Instance.mStats.Atk + (Player.Instance.mStats.Atk * (1 + Player.Instance.mStats.CritDamage));
+
+        }
+        else
+        {
+            bolt.mDamage = Player.Instance.mStats.Atk;
+        }
         bolt.transform.position = BulletStarter.position;
         bolt.mRB2D.AddForce(BulletStarter.up*bolt.mSpeed,ForceMode2D.Impulse);
     }

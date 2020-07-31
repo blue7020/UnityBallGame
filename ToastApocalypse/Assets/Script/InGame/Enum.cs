@@ -75,11 +75,17 @@ public enum eWeaponType
     Range
 }
 
-public enum eBulletType
+public enum eEnemyBulletType
 {
     normal,
     homing,
     boom
+}
+
+public enum ePlayerBulletType
+{
+    normal,
+    boomerang
 }
 
 public enum eShopType

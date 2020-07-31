@@ -115,7 +115,7 @@ public class EnemySkill : MonoBehaviour
         switch (bulletDir)
         {
             case 0:
-                if (bolt.Type == eBulletType.normal)
+                if (bolt.Type == eEnemyBulletType.normal)
                 {
                     Vector3 Pos = Player.Instance.transform.position;
                     Vector3 dir = Pos - transform.position;

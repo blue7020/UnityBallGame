@@ -49,6 +49,7 @@ public class GameSetting : MonoBehaviour
             CharacterOpen[0] = true;//기본캐릭터 오픈
             Syrup = 0;
             PartsIndex = 0;
+            PlayerSkillID = 0;
         }
         Restart();
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
@@ -62,7 +63,6 @@ public class GameSetting : MonoBehaviour
         Ingame = false;
         NowStage = 0;
         PlayerID = 0;
-        PlayerSkillID = 0;
     }
 
     public void GetParts(int Stage)

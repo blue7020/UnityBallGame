@@ -251,7 +251,14 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Walk, true);
             Vector3 Pos = mTarget.transform.position;
             Vector3 dir = Pos - transform.position;
-            //TODO 에너미 기준으로 플레이어의 방향에 따라 에너미 좌우 반전시키기
+            if (Player.Instance.transform.position.x-transform.position.x>0)//- 좌
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else//+ 우
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
             mRB2D.velocity = dir.normalized * mStats.Spd;
             yield return one;
 

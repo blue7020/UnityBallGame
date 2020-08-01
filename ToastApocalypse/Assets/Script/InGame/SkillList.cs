@@ -59,7 +59,7 @@ public class SkillList : MonoBehaviour
 
     public void Cabbage_Boomerang()//1
     {
-        Vector3 dir = Player.Instance.mDirection.transform.up;
+        Vector3 dir = Player.Instance.mDirection.transform.forward;
         PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(2);
         bolt.transform.SetParent(Player.Instance.transform);
         bolt.transform.position = Player.Instance.transform.position;
@@ -73,17 +73,26 @@ public class SkillList : MonoBehaviour
         bolt.returnPlayer = true;
         while (true)
         {
-            if (bolt.returnCheck==true)
+            if (GameController.Instance.Level>5)
             {
-                bolt.returnCheck = false;
-                bolt.returnPlayer = false;
+                Destroy(bolt.gameObject);
                 break;
             }
             else
             {
-                Vector3 Pos = Player.Instance.transform.position;
-                bolt.mRB2D.DOMove(Pos, 0.3f);
-                yield return delay;
+                if (bolt.returnCheck == true)
+                {
+                    bolt.returnCheck = false;
+                    bolt.returnPlayer = false;
+                    StopCoroutine(returnPlayer(bolt));
+                    break;
+                }
+                else
+                {
+                    Vector3 Pos = Player.Instance.transform.position;
+                    bolt.mRB2D.DOMove(Pos, 0.3f);
+                    yield return delay;
+                }
             }
         }
     }

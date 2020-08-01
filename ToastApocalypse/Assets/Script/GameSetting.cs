@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSetting : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class GameSetting : MonoBehaviour
     public int PlayerID;
     public int PlayerSkillID;
     public bool Ingame;
+
+    public Sprite[] mParts;
 
     private const int CharacterCount = 2;
     //저장해야할 것
@@ -52,6 +55,8 @@ public class GameSetting : MonoBehaviour
             PlayerSkillID = 0;
         }
         Restart();
+
+
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈
@@ -69,10 +74,20 @@ public class GameSetting : MonoBehaviour
     {
         if (StagePartsget[Stage] == false && Instance.PartsIndex < 6)
         {
-            //TODO 수정해야함
-            //MainLobbyUIController.Instance.mPartsLock[Stage].color = Color.clear;
             Instance.StagePartsget[Stage] = true;
             Instance.PartsIndex++;
+        }
+    }
+
+    public void ShowParts()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (StagePartsget[i] == true)
+            {
+                MainLobbyUIController.Instance.mPartsLock[i].sprite = mParts[i];
+                Debug.Log("작동");
+            }
         }
     }
 

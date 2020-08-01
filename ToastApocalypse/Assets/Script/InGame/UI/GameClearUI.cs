@@ -11,6 +11,5 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         GameSetting.Instance.StageOpen[Player.Instance.mNowStage] = true;
         GameSetting.Instance.GetParts(GameSetting.Instance.NowStage);
         GameController.Instance.MainMenu();
-        MainLobbyUIController.Instance.ShowParts();//이건 씬 이동시의 문제니까 알아서 해보기
     }
 }

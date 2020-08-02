@@ -59,7 +59,7 @@ public class SkillList : MonoBehaviour
 
     public void Cabbage_Boomerang()//1
     {
-        Vector3 dir = Player.Instance.mDirection.transform.forward;
+        Vector3 dir = Player.Instance.mDirection.transform.up;
         PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(2);
         bolt.transform.SetParent(Player.Instance.transform);
         bolt.transform.position = Player.Instance.transform.position;

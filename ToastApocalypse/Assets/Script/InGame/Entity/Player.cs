@@ -99,13 +99,13 @@ public class Player : MonoBehaviour
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            mRenderer.transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
 
         }
         else if (hori < 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            mRenderer.transform.rotation = Quaternion.identity;
+            transform.rotation = Quaternion.identity;
         }
         else if (ver > 0 || ver < 0)
         {

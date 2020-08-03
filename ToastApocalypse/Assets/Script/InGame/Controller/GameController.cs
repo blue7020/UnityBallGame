@@ -86,7 +86,6 @@ public class GameController : MonoBehaviour
         InventoryController.Instance.Delete();
         DontDestroyScreen.Instance.Delete();
         PlayerSkill.Insatnce.Delete();
-        SkillController.Instance.Delete();
         Player.Instance.Delete();
         PlayerList.Instance.Delete();
         ItemList.Instance.Delete();

@@ -7,7 +7,6 @@ public class SkillList : MonoBehaviour
 {
     public static SkillList Instance;
 
-
     private void Awake()
     {
         if (Instance==null)
@@ -34,6 +33,7 @@ public class SkillList : MonoBehaviour
                     Cabbage_Boomerang();
                     break;
                 case 2://돌진
+                    Dash();
                     break;
                 case 3://오븐의 힘
                     break;
@@ -99,16 +99,23 @@ public class SkillList : MonoBehaviour
 
     public void Dash()//2
     {
-        Debug.Log("돌진");
+        //대쉬 이펙트
+        //상태이상 제거
+        int DashSpeed = 20;
+        Vector3 dash = Player.Instance.mDirection.transform.up;
+        Player.Instance.Dash(dash, DashSpeed);
+        //부딪힌 대상 2초간 기절
     }
 
     public void Power_of_Oven()//3
     {
         Debug.Log("오븐의 힘");
+        //버프이펙트
     }
 
     public void Ice_Barrier()//4
     {
         Debug.Log("얼음보호막");
+        //방패 이펙트 및 오브젝트 생성
     }
 }

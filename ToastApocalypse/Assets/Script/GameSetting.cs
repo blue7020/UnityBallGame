@@ -20,6 +20,10 @@ public class GameSetting : MonoBehaviour
     public int Language; //0 = 한국어 / 1 = 영어
 
     public int PartsIndex;
+
+    public bool[] PlayerHasSkill;
+    public int PlayerSkillIndex;
+
     public int Syrup;
     public bool[] StageOpen;
     public int NowStage;
@@ -41,22 +45,28 @@ public class GameSetting : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        if (FirstSetting!=true)
+    }
+
+    private void Start()
+    {
+        if (FirstSetting != true)
         {
-            BGMSetting =3;
+            BGMSetting = 3;
             SESetting = 3;
             StageOpen = new bool[6];
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
             CharacterOpen = new bool[CharacterCount];
+            PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈
             Syrup = 0;
             PartsIndex = 0;
             PlayerSkillID = 0;
+            PlayerHasSkill[0] = true;
         }
         Restart();
 
-
+        Syrup = 5500;
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈

@@ -47,7 +47,6 @@ public class PlayerList : InformationLoader
                 Weapon mWeapon0 = WeaponPool.Instance.GetFromPool(0);
                 p0.NowPlayerWeapon = mWeapon0;
                 p0.NowPlayerWeapon.EquipWeapon();
-                GameSetting.Instance.PlayerSkillID = 1;
                 p0.NowPlayerSkill = mSkill;
                 break;
             case 1:
@@ -59,7 +58,6 @@ public class PlayerList : InformationLoader
                 Weapon mWeapon1 = WeaponPool.Instance.GetFromPool(1);
                 p1.NowPlayerWeapon = mWeapon1;
                 p1.NowPlayerWeapon.EquipWeapon();
-                GameSetting.Instance.PlayerSkillID = 0;
                 p1.NowPlayerSkill = mSkill;
                 break;
             default:

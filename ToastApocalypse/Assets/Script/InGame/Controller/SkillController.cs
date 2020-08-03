@@ -17,25 +17,13 @@ public class SkillController : InformationLoader
         if (Instance==null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Delete();
+            Destroy(gameObject);
         }
         LoadJson(out mStatInfoArr, Path.SKILL_STAT);
         LoadJson(out mTextInfoArr, Path.SKILL_TEXT_STAT);
-    }
-
-    public void Delete()
-    {
-        Destroy(gameObject);
-    }
-
-    private void Start()
-    {
-        if (GameController.Instance.GotoMain == false)
-        {
-            DontDestroyOnLoad(gameObject);
-        }
     }
 }

@@ -12,7 +12,7 @@ public class ItemBuy : MonoBehaviour
 
     public UsingItem item;
     public Artifacts artifact;
-    public Text mPrice;
+    public Text mPriceText;
 
     private void OnEnable()
     {
@@ -21,8 +21,8 @@ public class ItemBuy : MonoBehaviour
 
     private void Start()
     {
-        mPrice.transform.position = transform.position + new Vector3(0, -0.5f, 0);
-        mPrice.transform.localScale = new Vector3(10, 10, 0);
+        mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+        mPriceText.transform.localScale = new Vector3(10, 10, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -39,7 +39,7 @@ public class ItemBuy : MonoBehaviour
                         Sell = true;
                         item.ItemChange();
                         item.IsShopItem = false;
-                        CanvasFinder.Instance.DeletePrice(mID);
+                        CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();
                     }
                 }
@@ -72,7 +72,7 @@ public class ItemBuy : MonoBehaviour
                                 artifact.ItemChange();
                             }
                         }
-                        CanvasFinder.Instance.DeletePrice(mID);
+                        CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();
                     }
                 }

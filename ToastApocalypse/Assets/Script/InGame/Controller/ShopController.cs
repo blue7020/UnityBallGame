@@ -47,8 +47,8 @@ public class ShopController : MonoBehaviour
         }
         for (int i = 0; i < itembuy.Length; i++)
         {
-            itembuy[i].mPrice = Instantiate(mPriceText, CanvasFinder.Instance.transform);
-            CanvasFinder.Instance.mPriceText[i] = itembuy[i].mPrice;
+            itembuy[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
+            CanvasFinder.Instance.mShopPriceText[i] = itembuy[i].mPriceText;
             itembuy[i].mID = i;
         }
 
@@ -61,9 +61,9 @@ public class ShopController : MonoBehaviour
         item.transform.SetParent(mPos[0]);
         item.IsShopItem = true;
         itembuy[0].item = item;
-        itembuy[0].mPrice.text = item.mStats.Price.ToString() + "G";
+        itembuy[0].mPriceText.text = item.mStats.Price.ToString() + "G";
         mItemList.RemoveAt(rand);
-        itembuy[0].mPrice.gameObject.SetActive(false);
+        itembuy[0].mPriceText.gameObject.SetActive(false);
         if (GameController.Instance.Level % 2 == 1)
         {          
             for (int i = 1; i < mPos.Length; i++)
@@ -74,9 +74,9 @@ public class ShopController : MonoBehaviour
                 artifact.Currentroom = Shop;
                 artifact.IsShopItem = true;
                 itembuy[i].artifact = artifact;
-                itembuy[i].mPrice.text = artifact.mStats.Price.ToString() + "G";
+                itembuy[i].mPriceText.text = artifact.mStats.Price.ToString() + "G";
                 mPassiveArtifact.Remove(artifact);
-                itembuy[i].mPrice.gameObject.SetActive(false);
+                itembuy[i].mPriceText.gameObject.SetActive(false);
                 //사용 아이템 1개 패시브 유물 2개
             }
         }
@@ -90,9 +90,9 @@ public class ShopController : MonoBehaviour
                 artifact.Currentroom = Shop;
                 artifact.IsShopItem = true;
                 itembuy[i].artifact = artifact;
-                itembuy[i].mPrice.text = artifact.mStats.Price.ToString()+"G";
+                itembuy[i].mPriceText.text = artifact.mStats.Price.ToString()+"G";
                 mUsingArtifact.Remove(artifact);
-                itembuy[i].mPrice.gameObject.SetActive(false);
+                itembuy[i].mPriceText.gameObject.SetActive(false);
                 //사용 아이템 1개 액티브 유물 2개
             }
         }

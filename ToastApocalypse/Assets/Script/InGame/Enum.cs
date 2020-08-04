@@ -26,6 +26,11 @@ public enum eStatueType
     Speed,
     Def
 }
+public enum eStatuePay
+{
+    Pay,
+    Free
+}
 
 public enum eBuffType
 {

@@ -196,9 +196,9 @@ public class Room : MonoBehaviour
         {
             if (eType==eRoomType.Shop)
             {
-                for (int i=0; i < CanvasFinder.Instance.mPriceText.Length;i++)
+                for (int i=0; i < CanvasFinder.Instance.mShopPriceText.Length;i++)
                 {
-                    CanvasFinder.Instance.mPriceText[i].gameObject.SetActive(true);
+                    CanvasFinder.Instance.mShopPriceText[i].gameObject.SetActive(true);
                 }
                 
             }

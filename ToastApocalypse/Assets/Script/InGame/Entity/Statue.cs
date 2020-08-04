@@ -1,60 +1,84 @@
 ﻿using System.Collections;
+using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Statue : InformationLoader
+public class Statue : MonoBehaviour
 {
-    public float mHealAmount;
-
     public SpriteRenderer mRenderer;
-    public Sprite[] mSprites;
 
     public int mID;
-    public StatuetStat[] mInfoArr;
+    public int mStatueID;
+    public StatuetStat mStat;
 
+    public float SpendGold;
+    public Text mPriceText;
 
-    public StatuetStat[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
-
-    [SerializeField]
-    private eStatueType Type;
+    public eStatueType eType;
+    public eStatuePay ePayType;
     private bool IsUse;
 
     private void Awake()
     {
-        LoadJson(out mInfoArr, Path.STATUE_STAT);
         IsUse = false;
     }
-    private void Start()
+
+    public void StatSetting()
     {
-        int rand = Random.Range(0, mInfoArr.Length);
-        switch (rand)
+        switch (mStatueID)
         {
             case 0:
-                Type = eStatueType.Heal;
-                mID = 0;
-                mRenderer.sprite = mSprites[0];
+                eType = eStatueType.Heal;
+                mRenderer.sprite = StatueController.Instance.mSprites[0];
                 break;
             case 1:
-                Type = eStatueType.Strength;
-                mID = 1;
-                mRenderer.sprite = mSprites[2];
+                eType = eStatueType.Strength;
+                mRenderer.sprite = StatueController.Instance.mSprites[2];
                 break;
             case 2:
-                mID = 2;
-                Type = eStatueType.Speed;
-                mRenderer.sprite = mSprites[4];
+                eType = eStatueType.Speed;
+                mRenderer.sprite = StatueController.Instance.mSprites[4];
                 break;
             case 3:
-                mID = 3;
-                Type = eStatueType.Def;
-                mRenderer.sprite = mSprites[6];
+                eType = eStatueType.Def;
+                mRenderer.sprite = StatueController.Instance.mSprites[6];
                 break;
             default:
                 Debug.LogError("Wrong StatueType");
                 break;
         }
+        mStat = StatueController.Instance.mInfoArr[mStatueID];
+        mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+        mPriceText.transform.localScale = new Vector3(10, 10, 0);
+    }
+
+    private void StatueUse()
+    {
+        switch (eType)
+        {
+            case eStatueType.Heal:
+                Player.Instance.Heal(mStat.Hp);
+                mRenderer.sprite = StatueController.Instance.mSprites[1];
+                break;
+            case eStatueType.Strength:
+                StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + -mStat.Atk)), mStat.Duration));
+                mRenderer.sprite = StatueController.Instance.mSprites[3];
+
+                break;
+            case eStatueType.Speed:
+                StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + -mStat.Spd)), mStat.Duration));
+                StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd - (Player.Instance.mStats.AtkSpd * (1 + mStat.AtkSpd)), mStat.Duration));
+                mRenderer.sprite = StatueController.Instance.mSprites[5];
+                break;
+            case eStatueType.Def:
+                StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + -mStat.Def)), mStat.Duration));
+                mRenderer.sprite = StatueController.Instance.mSprites[7];
+                break;
+            default:
+                Debug.LogError("Wrong StatueType");
+                break;
+        }
+        IsUse = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -63,31 +87,20 @@ public class Statue : InformationLoader
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                switch (Type)
+                if (ePayType == eStatuePay.Pay)
                 {
-                    case eStatueType.Heal:
-                        Player.Instance.Heal(mHealAmount);
-                        mRenderer.sprite = mSprites[1];
-                        break;
-                    case eStatueType.Strength:
-                        StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + -mInfoArr[mID].Atk)), mInfoArr[mID].Duration));
-                        mRenderer.sprite = mSprites[3];
-                        
-                        break;
-                    case eStatueType.Speed:
-                        StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + -mInfoArr[mID].Spd)), mInfoArr[mID].Duration));
-                        StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd - (Player.Instance.mStats.AtkSpd * (1 + mInfoArr[mID].AtkSpd)), mInfoArr[mID].Duration));
-                        mRenderer.sprite = mSprites[5];
-                        break;
-                    case eStatueType.Def:     
-                        StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + -mInfoArr[mID].Def)), mInfoArr[mID].Duration));
-                        mRenderer.sprite = mSprites[7];
-                        break;
-                    default:
-                        Debug.LogError("Wrong StatueType");
-                        break;
+                    if (Player.Instance.mStats.Gold>= SpendGold)
+                    {
+                        Player.Instance.mStats.Gold-=SpendGold;
+                        StatueUse();
+                        CanvasFinder.Instance.DeletdStatuePrice(mID);
+                    }
                 }
-                IsUse = true;
+                else
+                {
+                    StatueUse();
+                }
+                
 
             }
         }

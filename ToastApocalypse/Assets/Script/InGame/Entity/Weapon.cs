@@ -118,6 +118,7 @@ public class Weapon : MonoBehaviour
             Player.Instance.EquipWeapon(this);
             Currentroom = Player.Instance.CurrentRoom;
             transform.SetParent(Player.Instance.gameObject.transform);
+            transform.localPosition = Vector3.zero;
             UIController.Instance.ShowNowBulletText();
             UIController.Instance.ShowWeaponImage();
         }
@@ -125,20 +126,19 @@ public class Weapon : MonoBehaviour
 
     public void UnequipWeapon()
     {
-        Debug.Log("dd");
         if (Equip == true)
         {
-            Equip = false;
             mRenderer.sortingOrder = 8;
-            Clamp();
             if (eType == eWeaponType.Range)
             {
                 Aim.gameObject.SetActive(false);
                 mAttackArea.gameObject.SetActive(false);
             }
             gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
-            gameObject.transform.position = Vector3.zero;
+            gameObject.transform.position = Player.Instance.transform.position;
+            StartCoroutine(DropCool());
             Player.Instance.UnequipWeapon(this);
+            Equip = false;
         }
     }
 
@@ -160,9 +160,9 @@ public class Weapon : MonoBehaviour
     {
         WaitForSeconds cool = new WaitForSeconds(1f);
         GetCooltime = true;
-        WeaponChange();
         yield return cool;
         GetCooltime = false;
+        StopCoroutine(DropCool());
     }
 
 
@@ -170,25 +170,11 @@ public class Weapon : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (Equip==false)
+            if (Equip == false && GetCooltime == false)
             {
-                StartCoroutine(DropCool());
+                WeaponChange();
             }
         }
-
-    }
-
-
-    public void Clamp()
-    {
-        if (Player.Instance.CurrentRoom!=null)
-        {
-            Currentroom = Player.Instance.CurrentRoom;
-            int RoomXMax = Currentroom.Width, RoomXMin = -Currentroom.Width;
-            int RoomYMax = Currentroom.Height, RoomYMin = -Currentroom.Height;
-            transform.position = new Vector3(Mathf.Clamp(transform.position.x, RoomXMax - 1, RoomXMin - 1), Mathf.Clamp(transform.position.y, RoomYMax - 1, RoomYMin - 1), 0);
-        }
-        
 
     }
 

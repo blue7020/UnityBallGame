@@ -202,6 +202,17 @@ public class Room : MonoBehaviour
                 }
                 
             }
+            if (eType == eRoomType.Statue)
+            {
+                for (int i = 0; i < CanvasFinder.Instance.mStatuePriceText.Length; i++)
+                {
+                    if (i!=1)
+                    {
+                        CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(true);
+                    }
+                }
+
+            }
             if (eType == eRoomType.Boss)
             {
                 PortalTrigger.Instance.BossSpawn();

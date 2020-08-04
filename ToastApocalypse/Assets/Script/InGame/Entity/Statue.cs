@@ -93,6 +93,7 @@ public class Statue : MonoBehaviour
                     {
                         Player.Instance.mStats.Gold-=SpendGold;
                         StatueUse();
+                        UIController.Instance.ShowGold();
                         CanvasFinder.Instance.DeletdStatuePrice(mID);
                     }
                 }

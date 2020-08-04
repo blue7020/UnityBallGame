@@ -105,5 +105,6 @@ public enum eRoomType
     Boss,
     Normal,
     StageEnd,
-    Shop
+    Shop,
+    Statue
 }

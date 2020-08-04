@@ -13,16 +13,15 @@ public class StatueController : InformationLoader
     public Statue[] mStatueArr;
     public Transform[] mStatuePos;
     public List<int> StatueIDList;
-    public int TextIndex;
 
-    public Sprite[] mSprites;
+    public Sprite[] mStageSprites;
 
     public Text mPriceText;
-    public StatuetStat[] mInfoArr;
+    public StatueStat[] mStatInfoArr;
 
-    public StatuetStat[] GetInfoArr()
+    public StatueStat[] GetStatInfoArr()
     {
-        return mInfoArr;
+        return mStatInfoArr;
     }
 
 
@@ -31,9 +30,8 @@ public class StatueController : InformationLoader
         if (Instance == null)
         {
             Instance = this;
-            LoadJson(out mInfoArr, Path.STATUE_STAT);
+            LoadJson(out mStatInfoArr, Path.STATUE_STAT);
             StatueIDList = new List<int>();
-            TextIndex = 0;
             for (int i=0; i< GameSetting.Instance.StatueOpen.Length; i++)
             {
                 if (GameSetting.Instance.StatueOpen[i]==true)
@@ -52,7 +50,7 @@ public class StatueController : InformationLoader
 
     private void Start()
     {
-        for (int i = 0; i < mStatueArr.Length; i++)
+        for (int i = 0; i < STATUE_COUNT; i++)
         {
             mStatueArr[i] = Instantiate(mStatue, mStatuePos[i]);
             int rand = Random.Range(0, StatueIDList.Count);
@@ -73,7 +71,7 @@ public class StatueController : InformationLoader
             }
             CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(false);
             CanvasFinder.Instance.mStatuePriceText[i].text = mStatueArr[i].SpendGold.ToString()+"G";
-            mStatueArr[i].StatSetting();
+            mStatueArr[i].StatSetting(rand);
             StatueIDList.RemoveAt(rand);
         }
     }

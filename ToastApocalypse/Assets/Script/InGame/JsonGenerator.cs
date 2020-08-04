@@ -249,17 +249,15 @@ public class JsonGenerator : MonoBehaviour
     */
     public void GenerateStatueStatInfo()
     {
-        SkillText[] infoArr = new SkillText[1];
-        infoArr[0] = new SkillText();
-        infoArr[0].ID = 0;
-        infoArr[0].Price = 0;
+        StatueText[] infoArr = new StatueText[1];
 
-        infoArr[0].Title = "구르기";
-        infoArr[0].EngTitle = "Tumble";
-        infoArr[0].ContensFormat = "전방으로 구르며 잠시 무적상태가 됩니다.";
-        infoArr[0].EngContensFormat = "Tumble forward and invincible for a few seconds.";
+        infoArr[0] = new StatueText();
+        infoArr[0].Name = "초콜릿샘";
+        infoArr[0].EngName= "Chocolate fountain";
+        infoArr[0].ContensFormat = "체력을 4 회복합니다";
+        infoArr[0].EngContensFormat = "Restores 4 health";
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
-        WriteFile(data, "SkillText.json");
+        WriteFile(data, "StatueText.json");
     }
 
     private void WriteFile(string data, string fileName)

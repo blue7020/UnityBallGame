@@ -13,7 +13,6 @@ public class MainLobbyUIController : MonoBehaviour
     public Image[] mPartsLock;
     private bool pause;
 
-
     public Text mCashText,mBGMText, mSEText;
     //public Tooltip tooltip;
 

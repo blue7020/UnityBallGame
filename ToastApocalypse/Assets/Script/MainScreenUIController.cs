@@ -21,7 +21,21 @@ public class MainScreenUIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        mKorButton.gameObject.SetActive(false);
+        if (GameSetting.Instance.Language==0)
+        {
+            mStartText.text = "게임 시작";
+            mEndText.text = "게임 종료";
+            mKorButton.gameObject.SetActive(false);
+            mEngButton.gameObject.SetActive(true);
+
+        }
+        else if(GameSetting.Instance.Language == 1)
+        {
+            mStartText.text = "Start";
+            mEndText.text = "Quit";
+            mEngButton.gameObject.SetActive(false);
+            mKorButton.gameObject.SetActive(true);
+        }
     }
 
     //0 = 한국어 / 1 = 영어

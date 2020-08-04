@@ -116,7 +116,7 @@ public class ArtifactTextStat
 }
 
 [Serializable]
-public class StatuetStat
+public class StatueStat
 {
     public int ID;
 
@@ -128,6 +128,16 @@ public class StatuetStat
 
     public float Cooltime;
     public float Duration;
+}
+[Serializable]
+public class StatueText
+{
+    public int ID;
+    public int Price;
+    public string Name;
+    public string EngName;
+    public string ContensFormat;
+    public string EngContensFormat;
 }
 
 

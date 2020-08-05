@@ -56,12 +56,13 @@ public class SkillChangeSlot : MonoBehaviour, IBeginDragHandler,IDragHandler, IE
         mbDragging = false;
         if (mbDragging == false)
         {
-            if (SkillChangeController.Instance.mSelectSlot!=null&& SkillChangeController.Instance.mSelectSlot.mDraggingID>-1)
+            if (SkillChangeController.Instance.mSelectSlot.mDraggingID>-1)
             {
                 SkillChangeController.Instance.mSelectSlot.mIcon.sprite = mIcon.sprite;
                 SkillChangeController.Instance.mSelectSlot.mIcon.color = Color.white;
-                SkillChangeController.Instance.mSelectSlot.mSkill= mSkill;
+                SkillChangeController.Instance.mSelectSlot.mSkill = mSkill;
                 SkillChangeController.Instance.mSelectSlot.mSkillText = mSkillText;
+                SkillChangeController.Instance.mSelectSlot.mSkillID = mSkill.ID;
                 GameSetting.Instance.PlayerSkillID = mSkill.ID;
             }
             mIcon.transform.SetParent(transform);

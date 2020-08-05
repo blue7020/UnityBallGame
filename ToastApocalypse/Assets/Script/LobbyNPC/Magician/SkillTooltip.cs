@@ -25,9 +25,9 @@ public class SkillTooltip : MonoBehaviour,IPointerClickHandler
 
     public void ShowTooltip(string title, string lore, Sprite icon)
     {
-        mIcon.sprite = icon;
         mTitle.text = title;
         mLore.text = lore;
+        mIcon.sprite = icon;
     }
 
     public void OnPointerClick(PointerEventData eventData)

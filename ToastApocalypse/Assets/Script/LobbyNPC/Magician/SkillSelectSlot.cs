@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
-    public int SkillID;
+    public int mSkillID;
     public int mDraggingID;
 
     public Image mIcon;
@@ -22,101 +22,113 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void SetData(int id)
     {
-        mSkill = SkillController.Instance.mStatInfoArr[SkillID];
-        mSkillText = SkillController.Instance.mTextInfoArr[SkillID];
-        SkillID = id;
+        mSkill = SkillController.Instance.mStatInfoArr[mSkillID];
+        mSkillText = SkillController.Instance.mTextInfoArr[mSkillID];
+        mSkillID = id;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        mDraggingID = SkillID;
-        SkillChangeController.Instance.mSelectSlot = this;
-        mSkill = SkillChangeController.Instance.mSkill;
-        mSkillText = SkillChangeController.Instance.mSkillText;
+        mDraggingID = mSkillID;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         mDraggingID = -1;
-        SkillChangeController.Instance.mSelectSlot = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (mSkill!=null&&mSkillText!=null)
         {
-            mTooltip = SkillChangeController.Instance.mTooltip;
             if (GameSetting.Instance.Language == 0)//한국어
             {
+                lore = mSkillText.ContensFormat;
                 if (mSkill.Damage > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 피해량: (" + mSkill.Damage + " * 공격력)+ 현재 스테이지";
+                    lore += " / 피해량: (" + mSkill.Damage + " * 공격력)+ 현재 스테이지";
                 }
                 if (mSkill.Heal > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 회복량: " + mSkill.Heal;
+                    lore += " / 회복량: " + mSkill.Heal;
                 }
                 if (mSkill.Atk > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 공격력: +" + mSkill.Atk + "%";
+                    lore += " / 공격력: +" + mSkill.Atk + "%";
                 }
                 if (mSkill.Def > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 방어력: +" + mSkill.Def + "%";
+                    lore += " / 방어력: +" + mSkill.Def + "%";
                 }
                 if (mSkill.AtkSpd > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 공격 속도: +" + mSkill.AtkSpd + "%";
+                    lore += " / 공격 속도: +" + mSkill.AtkSpd + "%";
                 }
                 if (mSkill.Crit > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 치명타 확률: +" + mSkill.Crit + "%";
+                    lore += " / 치명타 확률: +" + mSkill.Crit + "%";
                 }
                 if (mSkill.Spd > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 이동 속도: +" + mSkill.Spd + "%";
+                    lore +=  " / 이동 속도: +" + mSkill.Spd + "%";
                 }
                 if (mSkill.Duration > 0)
                 {
-                    lore = mSkillText.ContensFormat + "/ 지속 시간: +" + mSkill.Duration + "초";
+                    lore += " / 지속 시간: " + mSkill.Duration + "초";
                 }
-                title = mSkillText.Title + " (재사용 대기시간: " + mSkill.Cooltime + "초)";
+                if (mSkill!=null)
+                {
+                    title = mSkillText.Title + " (재사용 대기시간: " + mSkill.Cooltime.ToString() + "초)";
+                }
+                else
+                {
+                    title = "스킬을 등록해주십시오";
+                }
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
+                lore = mSkillText.EngContensFormat;
                 if (mSkill.Damage > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Damage: (" + mSkill.Damage + " * Atk)+ Now Stage";
+                    lore += " / Damage: (" + mSkill.Damage + " * Atk)+ Now Stage";
                 }
                 if (mSkill.Heal > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Heal amount: " + mSkill.Heal;
+                    lore += " / Heal amount: " + mSkill.Heal;
                 }
                 if (mSkill.Atk > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Atk: +" + mSkill.Atk + "%";
+                    lore += " / Atk: +" + mSkill.Atk + "%";
                 }
                 if (mSkill.Def > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Def: +" + mSkill.Def + "%";
+                    lore += " / Def: +" + mSkill.Def + "%";
                 }
                 if (mSkill.AtkSpd > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Atk Speed: +" + mSkill.AtkSpd + "%";
+                    lore += " / Atk Speed: +" + mSkill.AtkSpd + "%";
                 }
                 if (mSkill.Crit > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Critical chance: +" + mSkill.Crit + "%";
+                    lore += " / Critical chance: +" + mSkill.Crit + "%";
                 }
                 if (mSkill.Spd > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Speed: +" + mSkill.Spd + "%";
+                    lore += " / Speed: +" + mSkill.Spd + "%";
                 }
                 if (mSkill.Duration > 0)
                 {
-                    lore = mSkillText.EngContensFormat + "/ Druation: +" + mSkill.Duration + "Sec";
+                    lore += " / Druation: " + mSkill.Duration + "Sec";
                 }
-                title = mSkillText.EngTitle + " (CoolTime: " + mSkill.Cooltime + "Sec)";
+                if (mSkill != null)
+                {
+                    title = mSkillText.EngTitle + " (CoolTime: " + mSkill.Cooltime.ToString() + "Sec)";
+                }
+                else
+                {
+                    title = "Please setting player skill";
+                }
+
             }
             mTooltip.ShowTooltip(title, lore, mIcon.sprite);
             mTooltip.gameObject.SetActive(true);

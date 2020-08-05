@@ -11,7 +11,6 @@ public class SkillChangeController : MonoBehaviour
     public SkillSelectSlot mSelectSlot;
     public Transform Canvas;
     public Image DragTarget;
-    public SkillTooltip mTooltip;
 
     public int SkillCount;
     public SkillChangeSlot ChangeSlot;
@@ -39,6 +38,12 @@ public class SkillChangeController : MonoBehaviour
         {
             SkillCount++;
         }
+        mSelectSlot.mIcon.sprite = SkillController.Instance.SkillIcon[0];
+        Instance.mSelectSlot.mIcon.color = Color.white;
+        Instance.mSelectSlot.mSkill = SkillController.Instance.mStatInfoArr[0];
+        Instance.mSelectSlot.mSkillText = SkillController.Instance.mTextInfoArr[0]; ;
+        Instance.mSelectSlot.mSkillID = 0;
+        GameSetting.Instance.PlayerSkillID = 0;
         RefreshInventory();
     }
 

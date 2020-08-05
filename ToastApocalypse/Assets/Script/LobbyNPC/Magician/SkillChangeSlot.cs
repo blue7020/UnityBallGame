@@ -9,10 +9,9 @@ public class SkillChangeSlot : MonoBehaviour, IBeginDragHandler,IDragHandler, IE
     public int mID;
     public bool mbDragging;
     public SkillStat mSkill;
+    public SkillText mSkillText;
     public Image mDragTarget;
-
-    public int SkillID;
-    public Image Icon;
+    public Image mIcon;
 
     public void Init(int id)
     {
@@ -22,9 +21,9 @@ public class SkillChangeSlot : MonoBehaviour, IBeginDragHandler,IDragHandler, IE
 
     public void SetData(int id)
     {
-        SkillID = id;
-        Icon.sprite = SkillController.Instance.SkillIcon[SkillID];
-        mSkill = SkillController.Instance.mStatInfoArr[SkillID];
+        mIcon.sprite = SkillController.Instance.SkillIcon[id];
+        mSkill = SkillController.Instance.mStatInfoArr[id];
+        mSkillText = SkillController.Instance.mTextInfoArr[id];
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -34,8 +33,8 @@ public class SkillChangeSlot : MonoBehaviour, IBeginDragHandler,IDragHandler, IE
         {
             mDragTarget = SkillChangeController.Instance.DragTarget;
             mDragTarget.color = Color.white;
-            mDragTarget.sprite = Icon.sprite;
-            Icon.color = Color.clear;
+            mDragTarget.sprite = mIcon.sprite;
+            mIcon.color = Color.clear;
         }
     }
 
@@ -57,16 +56,18 @@ public class SkillChangeSlot : MonoBehaviour, IBeginDragHandler,IDragHandler, IE
         mbDragging = false;
         if (mbDragging == false)
         {
-            if (SkillChangeController.Instance.mSelectSlot!=null)
+            if (SkillChangeController.Instance.mSelectSlot!=null&& SkillChangeController.Instance.mSelectSlot.mDraggingID>-1)
             {
-                SkillChangeController.Instance.mSelectSlot.Icon.sprite = Icon.sprite;
-                SkillChangeController.Instance.mSelectSlot.Icon.color = Color.white;
-                GameSetting.Instance.PlayerID = SkillID;
+                SkillChangeController.Instance.mSelectSlot.mIcon.sprite = mIcon.sprite;
+                SkillChangeController.Instance.mSelectSlot.mIcon.color = Color.white;
+                SkillChangeController.Instance.mSelectSlot.mSkill= mSkill;
+                SkillChangeController.Instance.mSelectSlot.mSkillText = mSkillText;
+                GameSetting.Instance.PlayerSkillID = mSkill.ID;
             }
-            Icon.transform.SetParent(transform);
-            Icon.transform.position = transform.position;
+            mIcon.transform.SetParent(transform);
+            mIcon.transform.position = transform.position;
             mDragTarget.color = Color.clear;
-            Icon.color = Color.white;
+            mIcon.color = Color.white;
         }
     }
 }

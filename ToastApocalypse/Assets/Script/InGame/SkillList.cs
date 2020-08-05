@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Unity.Mathematics;
+using System.Runtime.CompilerServices;
 
 public class SkillList : MonoBehaviour
 {
     public static SkillList Instance;
+
+    public GameObject[] SkillObj;
 
     private void Awake()
     {
@@ -37,8 +40,10 @@ public class SkillList : MonoBehaviour
                     Dash();
                     break;
                 case 3://오븐의 힘
+                    Power_of_Oven();
                     break;
                 case 4://얼음 보호막
+                    Ice_Barrier(); 
                     break;
 
             }
@@ -103,7 +108,7 @@ public class SkillList : MonoBehaviour
     public void Dash()//2
     {
         //대쉬 이펙트
-        //상태이상 제거
+        //BuffController.Instance.RemoveNurf();
         int DashSpeed = 20;
         Vector3 dash = Player.Instance.mDirection.transform.up;
         Player.Instance.Dash(dash, DashSpeed);
@@ -113,12 +118,36 @@ public class SkillList : MonoBehaviour
     public void Power_of_Oven()//3
     {
         Debug.Log("오븐의 힘");
-        //버프이펙트
+        StartCoroutine(Oven());
+    }
+    private IEnumerator Oven()
+    {
+        WaitForSeconds dura = new WaitForSeconds(5f);
+        SkillObj[0].transform.SetParent(Player.Instance.transform);
+        SkillObj[0].transform.localPosition = Vector3.zero;
+        SkillObj[0].SetActive(true);
+        //버프이펙트 애니메이션
+        //버프 적용
+        yield return dura;
+        //버프 비활성화
+        SkillObj[0].SetActive(false);
     }
 
     public void Ice_Barrier()//4
     {
         Debug.Log("얼음보호막");
-        //방패 이펙트 및 오브젝트 생성
+        StartCoroutine(Sheld());
     }
+    private IEnumerator Sheld()
+    {
+        WaitForSeconds dura = new WaitForSeconds(4f);
+        SkillObj[1].transform.SetParent(Player.Instance.transform);
+        SkillObj[1].transform.localPosition = Vector3.zero;
+        SkillObj[1].SetActive(true);
+        //버프이펙트 애니메이션
+        //버프 적용
+        yield return dura;
+        //버프 비활성화
+        SkillObj[1].SetActive(false);
+    } 
 }

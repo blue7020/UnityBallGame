@@ -36,13 +36,6 @@ public enum eStatuePay
     Free
 }
 
-public enum eBuffType
-{
-    Atk,
-    Spd,
-    AtkSpd,
-    Def
-}
 
 public enum eEnemyType
 {
@@ -111,4 +104,10 @@ public enum eRoomType
     StageEnd,
     Shop,
     Statue
+}
+
+public enum eBuffType
+{
+    Buff,
+    Nurf
 }

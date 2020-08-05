@@ -11,10 +11,13 @@ public class SkillChangeController : MonoBehaviour
     public SkillSelectSlot mSelectSlot;
     public Transform Canvas;
     public Image DragTarget;
+    public SkillTooltip mTooltip;
 
     public int SkillCount;
     public SkillChangeSlot ChangeSlot;
     public SkillChangeSlot[] SlotArr;
+    public SkillStat mSkill;
+    public SkillText mSkillText;
     public Transform mChangeParents;
 
     private void Awake()
@@ -22,7 +25,6 @@ public class SkillChangeController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            SkillCount = 0;
             DragTarget.color = Color.clear;
         }
         else

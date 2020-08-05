@@ -10,14 +10,11 @@ public class DungeonCrawler : MonoBehaviour
         Position = StartPos;
     }
 
-    public Vector2Int Move(Dictionary<Direction,Vector2Int> directionMovementMap)
+    public Vector2Int Move(Dictionary<Direction, Vector2Int> directionMovementMap)
     {
-        if (GameController.Instance.Level<5)
-        {
-            Direction toMove = (Direction)Random.Range(0, directionMovementMap.Count);
-            Position += directionMovementMap[toMove];
-            
-        }
+        Direction toMove = (Direction)Random.Range(0, directionMovementMap.Count);
+        Position += directionMovementMap[toMove];
+
         return Position;
     }
 }

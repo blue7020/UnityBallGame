@@ -36,6 +36,7 @@ public class PlayerList : InformationLoader
         {
             DontDestroyOnLoad(gameObject);
         }
+        mSkill.mID = GameSetting.Instance.PlayerSkillID;
         switch (GameSetting.Instance.PlayerID)
         {
             case 0:
@@ -65,6 +66,7 @@ public class PlayerList : InformationLoader
                 break;
         }
         mSkill.transform.SetParent(Player.Instance.gameObject.transform);
+        UIController.Instance.ShowSkillImage();
         UIController.Instance.ShowItemImage();
         UIController.Instance.ShowWeaponImage();
     }

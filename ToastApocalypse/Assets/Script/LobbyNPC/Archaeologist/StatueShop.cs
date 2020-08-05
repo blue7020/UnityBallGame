@@ -33,14 +33,14 @@ public class StatueShop : MonoBehaviour
         {
             mTitle.text = "석상 연구소";
             mStatueName.text = "석상 연구";
-            mStatueLore.text = "석상을 연구하여 스테이지에서 나오는 석상의 종류를 늘립니다";
+            mStatueLore.text = "석상을 연구하여 스테이지에서 출현하는 석상의 종류를 늘립니다";
             mBuyText.text = "연구하기";
         }
         else if (GameSetting.Instance.Language==1)//영어
         {
             mTitle.text = "Statue Lab";
             mStatueName.text = "Statue research";
-            mStatueLore.text = "석상을 연구하여 스테이지에서 나오는 석상의 종류를 늘립니다";
+            mStatueLore.text = "Researching statue increases the type of statues that are appearing in the stage";
             mBuyText.text = "Research";
         }
     }
@@ -61,7 +61,7 @@ public class StatueShop : MonoBehaviour
         if (GameSetting.Instance.Syrup >= mStatueText.Price)
         {
             GameSetting.Instance.Syrup -= mStatueText.Price;
-            GameSetting.Instance.PlayerHasSkill[mStatue.ID] = true;
+            GameSetting.Instance.StatueOpen[mStatue.ID] = true;
             MainLobbyUIController.Instance.ShowSyrupText();
             mBuyButton.interactable = false;
         }

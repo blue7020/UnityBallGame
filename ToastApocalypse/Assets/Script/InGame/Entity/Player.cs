@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
 
 
     public PlayerStat mStats;
+    public float mGoldBonus;
 
     public GameObject mDirection;
     public Weapon NowPlayerWeapon;
@@ -75,6 +76,7 @@ public class Player : MonoBehaviour
         mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
+        mGoldBonus = 0;
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();
     }

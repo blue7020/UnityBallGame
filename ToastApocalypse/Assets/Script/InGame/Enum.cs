@@ -24,7 +24,11 @@ public enum eStatueType
     Heal,
     Strength,
     Speed,
-    Def
+    Def,
+    Gold,
+    War,
+    Heart,
+    Harvest
 }
 public enum eStatuePay
 {

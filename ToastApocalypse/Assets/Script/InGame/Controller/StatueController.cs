@@ -32,6 +32,7 @@ public class StatueController : InformationLoader
             Instance = this;
             LoadJson(out mStatInfoArr, Path.STATUE_STAT);
             StatueIDList = new List<int>();
+            mStageSprites = GameSetting.Instance.mStatueSprites;
             for (int i=0; i< GameSetting.Instance.StatueOpen.Length; i++)
             {
                 if (GameSetting.Instance.StatueOpen[i]==true)

@@ -13,6 +13,8 @@ public class GameSetting : MonoBehaviour
 
     public Sprite[] mParts;
 
+    public Sprite[] mStatueSprites;
+
     private const int CharacterCount = 2;
     //저장해야할 것
     public int BGMSetting;
@@ -59,10 +61,10 @@ public class GameSetting : MonoBehaviour
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
             CharacterOpen = new bool[CharacterCount];
             PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
-            StatueOpen = new bool[4];//석상을 추가할 때마다 수정
+            StatueOpen = new bool[8];//석상을 추가할 때마다 수정
             for (int i=0; i<4;i++)
             {
-                StatueOpen[i] = true; //기본 석상 3개 오픈
+                StatueOpen[i] = true; //기본 석상 4개 오픈
             }
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈

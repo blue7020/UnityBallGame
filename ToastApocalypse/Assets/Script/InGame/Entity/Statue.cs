@@ -44,6 +44,22 @@ public class Statue : MonoBehaviour
                 eType = eStatueType.Def;
                 mRenderer.sprite = StatueController.Instance.mStageSprites[6];
                 break;
+            case 4:
+                eType = eStatueType.Gold;
+                mRenderer.sprite = StatueController.Instance.mStageSprites[8];
+                break;
+            case 5:
+                eType = eStatueType.War;
+                mRenderer.sprite = StatueController.Instance.mStageSprites[10];
+                break;
+            case 6:
+                eType = eStatueType.Heart;
+                mRenderer.sprite = StatueController.Instance.mStageSprites[12];
+                break;
+            case 7:
+                eType = eStatueType.Harvest;
+                mRenderer.sprite = StatueController.Instance.mStageSprites[14];
+                break;
             default:
                 Debug.LogError("Wrong StatueType");
                 break;
@@ -64,7 +80,6 @@ public class Statue : MonoBehaviour
             case eStatueType.Strength:
                 StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + -mStat.Atk)), mStat.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[3];
-
                 break;
             case eStatueType.Speed:
                 StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + -mStat.Spd)), mStat.Duration));
@@ -74,6 +89,22 @@ public class Statue : MonoBehaviour
             case eStatueType.Def:
                 StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + -mStat.Def)), mStat.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[7];
+                break;
+            case eStatueType.Gold:
+                Player.Instance.mGoldBonus += 0.5f;
+                mRenderer.sprite = StatueController.Instance.mStageSprites[9];
+                break;
+            case eStatueType.War:
+                Player.Instance.mStats.Crit += Player.Instance.mStats.Crit*(1 + 0.3f);
+                mRenderer.sprite = StatueController.Instance.mStageSprites[11];
+                break;
+            case eStatueType.Heart:
+                Player.Instance.Heal(Player.Instance.mMaxHP);
+                mRenderer.sprite = StatueController.Instance.mStageSprites[13];
+                break;
+            case eStatueType.Harvest:
+                Debug.Log("재료 드랍율 상승");
+                mRenderer.sprite = StatueController.Instance.mStageSprites[15];
                 break;
             default:
                 Debug.LogError("Wrong StatueType");

@@ -175,7 +175,7 @@ public class Enemy : InformationLoader
                         DropGold mGold = GoldPool.Instance.GetFromPool();
                         mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
                         mGold.transform.position = transform.position;
-                        mGold.GoldDrop(mGold, mStats.Gold);
+                        mGold.GoldDrop(mGold, mStats.Gold+=(int)(mStats.Gold*(1+Player.Instance.mGoldBonus)));
                     }
                     GameController.Instance.SyrupInStage +=mStats.Syrup;
                     mEnemySkill.DieSkill();

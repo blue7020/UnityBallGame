@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
 
     public List<BuffList> PlayerBuffList;
     public int buffIndex;
+    public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도
 
     public PlayerStat mStats;
     public float mGoldBonus;
@@ -64,6 +65,11 @@ public class Player : MonoBehaviour
         }
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
+        buffIncrease = new float[4];
+        for (int i = 0; i < Player.Instance.buffIncrease.Length; i++)
+        {
+            Player.Instance.buffIncrease[i] = 0;
+        }
     }
 
     private void Start()
@@ -100,7 +106,7 @@ public class Player : MonoBehaviour
         hori = joyskick.Horizontal();
         ver = joyskick.Vectical();
         Vector2 dir = new Vector2(hori, ver);
-        dir = dir.normalized * mStats.Spd;
+        dir = dir.normalized * (mStats.Spd+buffIncrease[3]);
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
@@ -132,14 +138,14 @@ public class Player : MonoBehaviour
         if (Nodamage ==false)
         {
             StartCoroutine(HitAnimation());
-            if (damage - mStats.Def < 1)
+            if (damage - mStats.Def+buffIncrease[1] < 1)
             {
                 damage = 0.5f;
                 mCurrentHP -= damage;
             }
             else
             {
-                mCurrentHP -= damage - mStats.Def;
+                mCurrentHP -= damage - (mStats.Def + buffIncrease[1]);
             }
             UIController.Instance.ShowHP();
         }
@@ -214,28 +220,11 @@ public class Player : MonoBehaviour
 
     public IEnumerator Atk(float value, float Cool)
     {
-        //TODO 애니메이션 이펙트 추가
+        //TODO 버프 중첩을 방지하기 위해 코루틴 리스트를 만들어 분배한다.
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        mStats.Atk += value;
+        buffIncrease[0] += value;
         yield return Dura;
-        mStats.Atk -= value;
-    }
-
-    public IEnumerator Speed(float value, float Cool)
-    {
-        WaitForSeconds Dura = new WaitForSeconds(Cool);
-        mStats.Spd += value;
-        yield return Dura;
-        mStats.Spd -= value;
-
-    }
-
-    public IEnumerator AtkSpeed(float value, float Cool)
-    {
-        WaitForSeconds Dura = new WaitForSeconds(Cool);
-        mStats.AtkSpd += value;
-        yield return Dura;
-        mStats.AtkSpd -= value;
+        buffIncrease[0] -= value;
     }
 
     public IEnumerator Def(float value, float Cool)
@@ -243,12 +232,31 @@ public class Player : MonoBehaviour
         WaitForSeconds Dura = new WaitForSeconds(Cool);
         if (mStats.Def < 1)
         {
-            value = 1;
+            buffIncrease[1] = 1;
         }
-        mStats.Def += value;
+        buffIncrease[1] += value;
         yield return Dura;
-        mStats.Def -= value;
+        buffIncrease[1] -= value;
     }
+
+    public IEnumerator AtkSpeed(float value, float Cool)
+    {
+        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        buffIncrease[2] += value;
+        yield return Dura;
+        buffIncrease[2] -= value;
+    }
+
+    public IEnumerator Speed(float value, float Cool)
+    {
+        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        buffIncrease[3] += value;
+        yield return Dura;
+        buffIncrease[3] -= value;
+
+    }
+
+
 
 
     //Artifact
@@ -257,13 +265,13 @@ public class Player : MonoBehaviour
         art.Equip = true;
         mMaxHP *= (1+ art.mStats.Hp);
         mStats.Atk *= (1 + art.mStats.Atk);
-        if (mStats.AtkSpd * (1 - art.mStats.AtkSpd) < 0.1f)
+        if (mStats.AtkSpd - (mStats.AtkSpd * (1 + art.mStats.AtkSpd)) < 0.1f)
         {
             mStats.AtkSpd = 0.1f;
         }
         else
         {
-            mStats.AtkSpd *= (-1 *(1 + art.mStats.AtkSpd));
+            mStats.AtkSpd -= mStats.AtkSpd-(mStats.AtkSpd * (1 + art.mStats.AtkSpd));
         }
         mStats.Spd *= (1 + art.mStats.Spd);
         mStats.Def *= (1 + art.mStats.Def);

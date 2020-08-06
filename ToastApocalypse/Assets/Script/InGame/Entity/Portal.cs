@@ -42,6 +42,11 @@ public class Portal : MonoBehaviour
     public void nextroom()
     {
         GameController.Instance.Level++;
+        for (int i = 0; i < Player.Instance.buffIncrease.Length; i++)
+        {
+            Player.Instance.buffIncrease[i] = 0;
+        }
+        Player.Instance.Nodamage = false;
         if (GameController.Instance.Level == 5)
         {
             SceneManager.LoadScene(3);

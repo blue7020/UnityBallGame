@@ -5,20 +5,24 @@ using UnityEngine.UI;
 
 public class Tooltip : MonoBehaviour
 {
-#pragma warning disable 0649
-    [SerializeField]
-    private Text tooltipContents;
-    [SerializeField]
-    private RectTransform BG;
-#pragma warning restore 0649
+    public Text tooltipContents;
+    public RectTransform BG;
 
     public void ShowTooltip(string contents)
     {
         gameObject.SetActive(true);
         tooltipContents.text = contents;
-        Vector2 size = new Vector2(BG.sizeDelta.x, tooltipContents.preferredHeight);
-        BG.sizeDelta = size;
-
+        Vector2 size = new Vector2(BG.sizeDelta.x, tooltipContents.preferredHeight/6);
+        if (size.y >= 90)
+        {
+            size.y = 90;
+            BG.sizeDelta = size;
+        }
+        else
+        {
+            BG.sizeDelta = size;
+        }
+        
     }
     public void HideTooltip()
     {

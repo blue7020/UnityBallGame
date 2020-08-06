@@ -264,7 +264,7 @@ public class EnemySkill : MonoBehaviour
     {
         Count = 0;
 
-        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP * (2/3))
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP/2)
         {
             mEnemy.mStats.AtkSpd = mEnemy.mStats.AtkSpd *2f;
             BackupSpeed = mEnemy.mStats.Spd;

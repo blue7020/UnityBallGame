@@ -78,16 +78,16 @@ public class Statue : MonoBehaviour
                 mRenderer.sprite = StatueController.Instance.mStageSprites[1];
                 break;
             case eStatueType.Strength:
-                StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + -mStat.Atk)), mStat.Duration));
+                StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk * (1 + mStat.Atk), mStat.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[3];
                 break;
             case eStatueType.Speed:
-                StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + -mStat.Spd)), mStat.Duration));
-                StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd - (Player.Instance.mStats.AtkSpd * (1 + mStat.AtkSpd)), mStat.Duration));
+                StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd * (1 + mStat.Spd), mStat.Duration));
+                StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd * (-1*(1 + mStat.AtkSpd)), mStat.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[5];
                 break;
             case eStatueType.Def:
-                StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + -mStat.Def)), mStat.Duration));
+                StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def * (1 + mStat.Def), mStat.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[7];
                 break;
             case eStatueType.Gold:

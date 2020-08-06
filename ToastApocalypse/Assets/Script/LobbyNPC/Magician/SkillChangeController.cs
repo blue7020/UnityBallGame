@@ -38,12 +38,11 @@ public class SkillChangeController : MonoBehaviour
         {
             SkillCount++;
         }
-        mSelectSlot.mIcon.sprite = SkillController.Instance.SkillIcon[0];
+        mSelectSlot.mIcon.sprite = SkillController.Instance.SkillIcon[GameSetting.Instance.PlayerSkillID];
         Instance.mSelectSlot.mIcon.color = Color.white;
-        Instance.mSelectSlot.mSkill = SkillController.Instance.mStatInfoArr[0];
-        Instance.mSelectSlot.mSkillText = SkillController.Instance.mTextInfoArr[0]; ;
-        Instance.mSelectSlot.mSkillID = 0;
-        GameSetting.Instance.PlayerSkillID = 0;
+        Instance.mSelectSlot.mSkill = SkillController.Instance.mStatInfoArr[GameSetting.Instance.PlayerSkillID];
+        Instance.mSelectSlot.mSkillText = SkillController.Instance.mTextInfoArr[GameSetting.Instance.PlayerSkillID];
+        Instance.mSelectSlot.mSkillID = GameSetting.Instance.PlayerSkillID;
         RefreshInventory();
     }
 

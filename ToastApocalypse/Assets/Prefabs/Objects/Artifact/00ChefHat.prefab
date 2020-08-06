@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2110003252307592359}
   - component: {fileID: 6422954647687145739}
   m_Layer: 0
-  m_Name: Safty_Food _Certification
+  m_Name: Chef_Hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 1.5625}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1.5625, y: 1.5625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -71,8 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60cde802113cd6345bbdeefb3e7750f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mID: 3
-  mType: 0
+  mID: 0
+  mType: 1
   mRenderer: {fileID: 6422954647687145739}
   Currentroom: {fileID: 0}
   backupPos: {x: 0, y: 0, z: 0}
@@ -96,8 +96,10 @@ MonoBehaviour:
     EngTitle: 
     ContensFormat: 
     EngContensFormat: 
+    PlayableText: 
+    EngPlayableText: 
   Equip: 0
-  Cool: 0
+  IsArtifactCool: 0
   IsShopItem: 0
 --- !u!212 &6422954647687145739
 SpriteRenderer:
@@ -138,7 +140,7 @@ SpriteRenderer:
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
   m_SortingOrder: 14
-  m_Sprite: {fileID: 21300000, guid: a507f98efe7583c498296735cd2a4935, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66b34b672c4d9d04b8dee4c0078758b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

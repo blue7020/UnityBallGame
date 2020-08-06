@@ -234,7 +234,7 @@ public class UIController : MonoBehaviour
     public void ShowHP()
     {
         HPBar.Instance.ShowHPBar();
-        string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString());
+        string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"));
         mHPText.text = HP;
     }
 
@@ -255,10 +255,10 @@ public class UIController : MonoBehaviour
                                       "치명타 피해: {7}\n" +
                                       "\n" +
                                       "쿨타임 감소: {8}\n" +
-                                      "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
-                                      Player.Instance.mStats.Atk.ToString(),
-                                      Player.Instance.mStats.Def.ToString(), Player.Instance.mStats.AtkSpd.ToString("N2"),
-                                      Player.Instance.mStats.Spd.ToString(), Player.Instance.mStats.Crit.ToString("P1"),
+                                      "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
+                                      Player.Instance.mStats.Atk.ToString("N1"),
+                                      Player.Instance.mStats.Def.ToString("N1"), Player.Instance.mStats.AtkSpd.ToString("N2"),
+                                      Player.Instance.mStats.Spd.ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
                                       Player.Instance.mStats.CooltimeReduce.ToString("P0"), Player.Instance.mStats.CCReduce.ToString("P0"));
             mStatText.text = Stat;
@@ -278,10 +278,10 @@ public class UIController : MonoBehaviour
                                       "Crit Damage: {7}\n" +
                                       "\n" +
                                       "Cooldown reduce: {8}\n" +
-                                      "Resistance: {9}", Player.Instance.mCurrentHP.ToString(), Player.Instance.mMaxHP.ToString(),
-                                      Player.Instance.mStats.Atk.ToString(),
-                                      Player.Instance.mStats.Def.ToString(), Player.Instance.mStats.AtkSpd.ToString("N2"),
-                                      Player.Instance.mStats.Spd.ToString(), Player.Instance.mStats.Crit.ToString("P1"),
+                                      "Resistance: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
+                                      Player.Instance.mStats.Atk.ToString("N1"),
+                                      Player.Instance.mStats.Def.ToString("N1"), Player.Instance.mStats.AtkSpd.ToString("N2"),
+                                      Player.Instance.mStats.Spd.ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
                                       Player.Instance.mStats.CooltimeReduce.ToString("P0"), Player.Instance.mStats.CCReduce.ToString("P0"));
             mStatText.text = Stat;

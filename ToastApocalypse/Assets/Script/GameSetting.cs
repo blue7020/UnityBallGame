@@ -14,6 +14,7 @@ public class GameSetting : MonoBehaviour
     public Sprite[] mParts;
 
     public Sprite[] mStatueSprites;
+    public Artifacts[] mArtifacts;
 
     private const int CharacterCount = 2;
     //저장해야할 것
@@ -69,6 +70,7 @@ public class GameSetting : MonoBehaviour
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈
             PlayerHasSkill[0] = true;//기본 스킬 오픈
+            PlayerSkillID = 0;
             Syrup = 0;
             PartsIndex = 0;
         }

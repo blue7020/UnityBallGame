@@ -8,16 +8,12 @@ public class ShopController : MonoBehaviour
     public Transform[] mPos;
     public ItemBuy[] itembuy;
 
-    [SerializeField]
-    private UsingItem[] mItemArr;
+    public UsingItem[] mItemArr;
     private List<UsingItem> mItemList;
 
-    [SerializeField]
-    private Artifacts[] mArtifactArr;
-    [SerializeField]
-    private List<Artifacts> mUsingArtifact;
-    [SerializeField]
-    private List<Artifacts> mPassiveArtifact;
+    public Artifacts[] mArtifactArr;
+    public List<Artifacts> mUsingArtifact;
+    public List<Artifacts> mPassiveArtifact;
 
     public Text mPriceText;
     public Room Shop;
@@ -28,6 +24,7 @@ public class ShopController : MonoBehaviour
     private void Awake()
     {
         mItemList = new List<UsingItem>();
+        mArtifactArr = GameSetting.Instance.mArtifacts;
         for (int i=0; i< mItemArr.Length; i++)
         {
             mItemList.Add(mItemArr[i]);

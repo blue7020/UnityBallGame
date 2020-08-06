@@ -88,6 +88,7 @@ public class ArtifactStat
     public int ID;
     public int Price;
 
+    public float Heal;
     public float Hp;
     public float Atk;
     public float Def;
@@ -113,6 +114,8 @@ public class ArtifactTextStat
     public string EngTitle;
     public string ContensFormat;
     public string EngContensFormat;
+    public string PlayableText;
+    public string EngPlayableText;
 }
 
 [Serializable]

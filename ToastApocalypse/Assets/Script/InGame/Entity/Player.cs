@@ -233,9 +233,9 @@ public class Player : MonoBehaviour
     public IEnumerator AtkSpeed(float value, float Cool)
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        mStats.AtkSpd -= value;
-        yield return Dura;
         mStats.AtkSpd += value;
+        yield return Dura;
+        mStats.AtkSpd -= value;
     }
 
     public IEnumerator Def(float value, float Cool)
@@ -255,15 +255,51 @@ public class Player : MonoBehaviour
     public void EquipArtifact(Artifacts art)
     {
         art.Equip = true;
-        mMaxHP += art.mStats.Hp;
-        mStats.Atk += art.mStats.Atk;
-        mStats.AtkSpd -= art.mStats.AtkSpd;
-        mStats.Spd += art.mStats.Spd;
-        mStats.Def += art.mStats.Def;
-        mStats.Crit += art.mStats.Crit / 100;
-        mStats.CritDamage += art.mStats.CritDamage;
-        mStats.CCReduce += art.mStats.CCReduce;
-        mStats.CooltimeReduce += art.mStats.CooltimeReduce;
+        mMaxHP *= (1+ art.mStats.Hp);
+        mStats.Atk *= (1 + art.mStats.Atk);
+        if (mStats.AtkSpd * (1 - art.mStats.AtkSpd) < 0.1f)
+        {
+            mStats.AtkSpd = 0.1f;
+        }
+        else
+        {
+            mStats.AtkSpd *= (-1 *(1 + art.mStats.AtkSpd));
+        }
+        mStats.Spd *= (1 + art.mStats.Spd);
+        mStats.Def *= (1 + art.mStats.Def);
+        if (mStats.Crit + art.mStats.Crit > 1)
+        {
+            mStats.Crit = 1f;
+        }
+        else
+        {
+            mStats.Crit += art.mStats.Crit;
+        }
+        if (mStats.CritDamage + art.mStats.Crit > 2)
+        {
+            mStats.CritDamage = 2f;
+        }
+        else
+        {
+            mStats.CritDamage += art.mStats.CritDamage;
+        }
+        if (mStats.CCReduce + art.mStats.CCReduce > 0.5f)
+        {
+            mStats.CCReduce = 0.5f;
+        }
+        else
+        {
+            mStats.CCReduce += art.mStats.CCReduce;
+        }
+        if (mStats.CooltimeReduce + art.mStats.CooltimeReduce > 0.5f)
+        {
+            mStats.CooltimeReduce = 0.5f;
+        }
+        else
+        {
+            mStats.CooltimeReduce += art.mStats.CooltimeReduce;
+        }
+
         if (art.mType == eArtifactType.Use)
         {
             NowUsingArtifact = art;
@@ -273,12 +309,12 @@ public class Player : MonoBehaviour
     }
     public void UnequipArtifact(Artifacts art)
     {
-        mMaxHP += art.mStats.Hp;
-        mStats.Atk -= art.mStats.Atk;
-        mStats.AtkSpd += art.mStats.AtkSpd;
-        mStats.Spd -= art.mStats.Spd;
-        mStats.Def -= art.mStats.Def;
-        mStats.Crit -= art.mStats.Crit / 100;
+        mMaxHP -= mMaxHP * (1 + art.mStats.Hp);
+        mStats.Atk = -mStats.Atk * (1 + art.mStats.Atk);
+        mStats.AtkSpd = -mStats.AtkSpd * (1 + art.mStats.AtkSpd);
+        mStats.Spd = -mStats.Spd * (1 + art.mStats.Spd);
+        mStats.Def = -mStats.Def * (1 + art.mStats.Def);
+        mStats.Crit -= art.mStats.Crit;
         mStats.CritDamage -= art.mStats.CritDamage;
         mStats.CCReduce -= art.mStats.CCReduce;
         mStats.CooltimeReduce -= art.mStats.CooltimeReduce;

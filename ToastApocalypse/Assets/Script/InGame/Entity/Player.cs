@@ -20,8 +20,6 @@ public class Player : MonoBehaviour
     public int mNowStage;
     public bool PlayerSkillStand;
 
-    public List<BuffList> PlayerBuffList;
-    public int buffIndex;
     public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도
 
     public PlayerStat mStats;
@@ -87,7 +85,6 @@ public class Player : MonoBehaviour
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
         mGoldBonus = 0;
-        buffIndex = 0;
         AttackSpeedStat = 0;
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();

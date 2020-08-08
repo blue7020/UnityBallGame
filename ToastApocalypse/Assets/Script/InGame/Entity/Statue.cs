@@ -133,6 +133,7 @@ public class Statue : MonoBehaviour
                 {
                     StatueUse();
                 }
+                //TODO 석상의 버프가 뭔지 텍스트 애니메이션 추가
                 
 
             }

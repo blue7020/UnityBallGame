@@ -41,7 +41,6 @@ public class BuffList : MonoBehaviour
                     break;
             }
         }
-        Player.Instance.buffIndex++;
     }
 
     private void Atk()

@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class DropGold : MonoBehaviour
 {
-    [SerializeField]
     public SpriteRenderer mRenderer;
-    [SerializeField]
     public Sprite[] mSprites;
 
     public bool DropEnd;
@@ -15,11 +13,11 @@ public class DropGold : MonoBehaviour
     public void GoldDrop(DropGold dropGold, float Gold)
     {
         mGold = Gold;
-        if (mGold >= 10 && mGold < 20)
+        if (mGold >= 20 && mGold < 40)
         {
             dropGold.mRenderer.sprite = dropGold.mSprites[1];
         }
-        else if (mGold >= 20)
+        else if (mGold >= 40)
         {
             dropGold.mRenderer.sprite = dropGold.mSprites[2];
         }

@@ -43,7 +43,7 @@ public class SkillList : MonoBehaviour
                     Power_of_Oven();
                     break;
                 case 4://얼음 보호막
-                    Ice_Barrier(); 
+                    Frost_Shield(); 
                     break;
 
             }
@@ -127,13 +127,13 @@ public class SkillList : MonoBehaviour
         SkillObj[0].transform.localPosition = Vector3.zero;
         SkillObj[0].SetActive(true);
         //버프이펙트 애니메이션
-        //버프 적용
+        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].Atk, SkillController.Instance.mStatInfoArr[3].Cooltime));
+        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].AtkSpd, SkillController.Instance.mStatInfoArr[3].Cooltime));
         yield return dura;
-        //버프 비활성화
         SkillObj[0].SetActive(false);
     }
 
-    public void Ice_Barrier()//4
+    public void Frost_Shield()//4
     {
         Debug.Log("얼음보호막");
         StartCoroutine(Sheld());
@@ -145,9 +145,8 @@ public class SkillList : MonoBehaviour
         SkillObj[1].transform.localPosition = Vector3.zero;
         SkillObj[1].SetActive(true);
         //버프이펙트 애니메이션
-        //버프 적용
+        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[4].Spd, SkillController.Instance.mStatInfoArr[3].Cooltime));
         yield return dura;
-        //버프 비활성화
         SkillObj[1].SetActive(false);
     } 
 }

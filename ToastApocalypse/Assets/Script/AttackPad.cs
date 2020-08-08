@@ -112,7 +112,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
     private IEnumerator AttackCooltime()
     {
-        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.mStats.AtkSpd);
+        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.mStats.AtkSpd/ (1+ Player.Instance.AttackSpeedStat +Player.Instance.buffIncrease[2]));
         yield return Cool;
         AttackSwitch = false;
 

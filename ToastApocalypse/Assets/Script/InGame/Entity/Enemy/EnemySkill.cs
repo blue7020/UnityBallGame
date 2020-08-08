@@ -172,6 +172,7 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator PotatoGolem()//id = 5
     {
         WaitForSeconds delay = new WaitForSeconds(3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
@@ -209,6 +210,7 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator PowderBoom()
     {
         WaitForSeconds delay = new WaitForSeconds(0.2f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         while (true)
         {
             mEnemy.mRB2D.velocity = Vector3.zero;

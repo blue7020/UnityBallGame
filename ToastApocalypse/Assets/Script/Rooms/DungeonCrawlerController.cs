@@ -32,7 +32,7 @@ public class DungeonCrawlerController : MonoBehaviour
             dungeonCrwalers.Add(new DungeonCrawler(Vector2Int.zero));
         }
 
-        int iterations = Random.Range(dungeonData.iterationMin+1, dungeonData.iterationMax);
+        int iterations = Random.Range(dungeonData.iterationMin, dungeonData.iterationMax);
 
         for (int i=0; i<iterations; i++)
         {

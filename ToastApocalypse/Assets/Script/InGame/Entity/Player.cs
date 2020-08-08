@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도
 
     public PlayerStat mStats;
+    //공격속도는 플레이어 기본 공격속도(무기) / (1+ 버프 + 증가 스탯 공격속도)
+    public float AttackSpeedStat;
     public float mGoldBonus;
 
     public GameObject mDirection;
@@ -66,9 +68,9 @@ public class Player : MonoBehaviour
         mRB2D = GetComponent<Rigidbody2D>();
         mAnim = GetComponent<Animator>();
         buffIncrease = new float[4];
-        for (int i = 0; i < Player.Instance.buffIncrease.Length; i++)
+        for (int i = 0; i < buffIncrease.Length; i++)
         {
-            Player.Instance.buffIncrease[i] = 0;
+            buffIncrease[i] = 0;
         }
     }
 
@@ -86,6 +88,7 @@ public class Player : MonoBehaviour
         Nodamage = false;
         mGoldBonus = 0;
         buffIndex = 0;
+        AttackSpeedStat = 0;
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();
     }
@@ -102,11 +105,11 @@ public class Player : MonoBehaviour
 
     private void Moveing()
     {
-
         hori = joyskick.Horizontal();
         ver = joyskick.Vectical();
         Vector2 dir = new Vector2(hori, ver);
-        dir = dir.normalized * (mStats.Spd+buffIncrease[3]);
+        float value = mStats.Spd * (1 + buffIncrease[3]);
+        dir = dir.normalized * value;
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
@@ -138,14 +141,14 @@ public class Player : MonoBehaviour
         if (Nodamage ==false)
         {
             StartCoroutine(HitAnimation());
-            if (damage - mStats.Def+buffIncrease[1] < 1)
+            if (damage - (mStats.Def*(1+buffIncrease[1])) < 1)
             {
                 damage = 0.5f;
                 mCurrentHP -= damage;
             }
             else
             {
-                mCurrentHP -= damage - (mStats.Def + buffIncrease[1]);
+                mCurrentHP -= damage - (mStats.Def * (1 + buffIncrease[1]));
             }
             UIController.Instance.ShowHP();
         }
@@ -230,10 +233,6 @@ public class Player : MonoBehaviour
     public IEnumerator Def(float value, float Cool)
     {
         WaitForSeconds Dura = new WaitForSeconds(Cool);
-        if (mStats.Def < 1)
-        {
-            buffIncrease[1] = 1;
-        }
         buffIncrease[1] += value;
         yield return Dura;
         buffIncrease[1] -= value;
@@ -265,16 +264,9 @@ public class Player : MonoBehaviour
         art.Equip = true;
         mMaxHP *= (1+ art.mStats.Hp);
         mStats.Atk *= (1 + art.mStats.Atk);
-        if (mStats.AtkSpd - (mStats.AtkSpd * (1 + art.mStats.AtkSpd)) < 0.1f)
-        {
-            mStats.AtkSpd = 0.1f;
-        }
-        else
-        {
-            mStats.AtkSpd -= mStats.AtkSpd-(mStats.AtkSpd * (1 + art.mStats.AtkSpd));
-        }
         mStats.Spd *= (1 + art.mStats.Spd);
         mStats.Def *= (1 + art.mStats.Def);
+        AttackSpeedStat+=art.mStats.AtkSpd;
         if (mStats.Crit + art.mStats.Crit > 1)
         {
             mStats.Crit = 1f;
@@ -317,11 +309,11 @@ public class Player : MonoBehaviour
     }
     public void UnequipArtifact(Artifacts art)
     {
-        mMaxHP -= mMaxHP * (1 + art.mStats.Hp);
-        mStats.Atk = -mStats.Atk * (1 + art.mStats.Atk);
-        mStats.AtkSpd = -mStats.AtkSpd * (1 + art.mStats.AtkSpd);
-        mStats.Spd = -mStats.Spd * (1 + art.mStats.Spd);
-        mStats.Def = -mStats.Def * (1 + art.mStats.Def);
+        mMaxHP *= (1 - art.mStats.Hp);
+        mStats.Atk *= (1 - art.mStats.Atk);
+        mStats.Spd *= (1 - art.mStats.Spd);
+        mStats.Def *= (1 - art.mStats.Def);
+        AttackSpeedStat -= art.mStats.AtkSpd;
         mStats.Crit -= art.mStats.Crit;
         mStats.CritDamage -= art.mStats.CritDamage;
         mStats.CCReduce -= art.mStats.CCReduce;

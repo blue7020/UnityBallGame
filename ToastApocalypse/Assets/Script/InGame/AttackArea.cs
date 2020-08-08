@@ -39,12 +39,12 @@ public class AttackArea : MonoBehaviour
         float rand = UnityEngine.Random.Range(0, 1f);
         if (rand <= Player.Instance.mStats.Crit / 100)
         {
-            bolt.mDamage = Player.Instance.mStats.Atk + (Player.Instance.mStats.Atk * (1 + Player.Instance.mStats.CritDamage));
+            bolt.mDamage = (Player.Instance.mStats.Atk *(1+ Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage);
 
         }
         else
         {
-            bolt.mDamage = Player.Instance.mStats.Atk;
+            bolt.mDamage = Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]);
         }
         bolt.transform.position = BulletStarter.position;
         bolt.mRB2D.AddForce(BulletStarter.up*bolt.mSpeed,ForceMode2D.Impulse);
@@ -67,12 +67,12 @@ public class AttackArea : MonoBehaviour
                     float rand = UnityEngine.Random.Range(0, 1f);
                     if (rand <= Player.Instance.mStats.Crit / 100)
                     {
-                        Target.Hit(Player.Instance.mStats.Atk + (Player.Instance.mStats.Atk * (1 + Player.Instance.mStats.CritDamage)));
+                        Target.Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage));
 
                     }
                     else
                     {
-                        Target.Hit(Player.Instance.mStats.Atk);
+                        Target.Hit(Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]));
                     }
 
 

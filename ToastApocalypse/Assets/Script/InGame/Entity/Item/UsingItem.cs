@@ -37,19 +37,19 @@ public class UsingItem : InformationLoader
         }
         if (mStats.Atk > 0)
         {
-            StartCoroutine(Player.Instance.Atk(Player.Instance.mStats.Atk - (Player.Instance.mStats.Atk * (1 + mStats.Atk)), mStats.Duration));
+            StartCoroutine(Player.Instance.Atk(mStats.Atk, mStats.Duration));
         }
         if (mStats.AtkSpd > 0)
         {
-            StartCoroutine(Player.Instance.AtkSpeed(Player.Instance.mStats.AtkSpd-(Player.Instance.mStats.AtkSpd * (1 + mStats.AtkSpd)), mStats.Duration));
+            StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd, mStats.Duration));
         }
         if (mStats.Spd > 0)
         {
-            StartCoroutine(Player.Instance.Speed(Player.Instance.mStats.Spd - (Player.Instance.mStats.Spd * (1 + mStats.Spd)), mStats.Duration));
+            StartCoroutine(Player.Instance.Speed(mStats.Spd, mStats.Duration));
         }
         if (mStats.Def > 0)
         {
-            StartCoroutine(Player.Instance.Def(Player.Instance.mStats.Def - (Player.Instance.mStats.Def * (1 + mStats.Def)), mStats.Duration));
+            StartCoroutine(Player.Instance.Def(mStats.Def, mStats.Duration));
         }
         Player.Instance.NowItem = null;
         UIController.Instance.ShowItemImage();

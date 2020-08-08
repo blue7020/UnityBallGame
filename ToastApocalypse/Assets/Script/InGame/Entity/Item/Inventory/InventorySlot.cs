@@ -68,7 +68,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 }
                 if (artifact.mStats.CCReduce > 0)
                 {
-                    lore += "방해 효과 지속시간 감소: +" + artifact.mStats.CCReduce * 100 + "%\n";
+                    lore += "상태이상 저항: +" + artifact.mStats.CCReduce * 100 + "%\n";
                 }
                 if (artifact.mStats.Skill_Duration > 0)
                 {
@@ -118,7 +118,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 }
                 if (artifact.mStats.CCReduce > 0)
                 {
-                    lore += "CC Reduce: +" + artifact.mStats.CCReduce * 100 + "%\n";
+                    lore += "CC Resistance: +" + artifact.mStats.CCReduce * 100 + "%\n";
                 }
                 if (artifact.mStats.Skill_Duration > 0)
                 {

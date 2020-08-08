@@ -27,8 +27,8 @@ public class Portal : MonoBehaviour
     }
     public void ShowPortal()
     {
+        //TODO 포탈 생성 이펙트 후 setactive true
         gameObject.SetActive(true);
-        //TODO 포탈 생성 이펙트
     }
 
     private void OnTriggerEnter2D(Collider2D other)

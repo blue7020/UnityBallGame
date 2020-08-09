@@ -178,6 +178,7 @@ public class Player : MonoBehaviour
     {
         PlayerSkillStand = true;
         Nodamage = true;
+        BuffController.Instance.SetBuff(7, eBuffType.Buff,0.5f);
         mRB2D.velocity = Vector3.zero;
         mRB2D.velocity = dir.normalized * speed;
         StartCoroutine(StandingCool());
@@ -231,6 +232,7 @@ public class Player : MonoBehaviour
         //TODO 버프 중첩을 방지하기 위해 코루틴 리스트를 만들어 분배한다.
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[0] += value;
+        BuffController.Instance.SetBuff(0, eBuffType.Buff,duration);
         yield return Dura;
         buffIncrease[0] -= value;
     }
@@ -239,6 +241,7 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[1] += value;
+        BuffController.Instance.SetBuff(1, eBuffType.Buff, duration);
         yield return Dura;
         buffIncrease[1] -= value;
     }
@@ -247,6 +250,7 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[2] += value;
+        BuffController.Instance.SetBuff(2, eBuffType.Buff, duration);
         yield return Dura;
         buffIncrease[2] -= value;
     }
@@ -255,6 +259,7 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[3] += value;
+        BuffController.Instance.SetBuff(3,eBuffType.Buff, duration);
         yield return Dura;
         buffIncrease[3] -= value;
 

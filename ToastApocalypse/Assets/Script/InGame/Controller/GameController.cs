@@ -89,6 +89,7 @@ public class GameController : MonoBehaviour
         Player.Instance.Delete();
         PlayerList.Instance.Delete();
         ItemList.Instance.Delete();
+        BuffController.Instance.Delete();
         WeaponController.Instance.Delete();
         ArtifactController.Instance.Delete();
         WeaponController.Instance.Delete();

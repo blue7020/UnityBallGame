@@ -17,6 +17,8 @@ public class Statue : MonoBehaviour
     public eStatueType eType;
     public eStatuePay ePayType;
     private bool IsUse;
+    private string text,bufftext, bufftext2;
+    private TextEffect effect;
 
     private void Awake()
     {
@@ -76,35 +78,121 @@ public class Statue : MonoBehaviour
             case eStatueType.Heal:
                 Player.Instance.Heal(mStats.Hp);
                 mRenderer.sprite = StatueController.Instance.mStageSprites[1];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "체력 회복!";
+                }
+                else
+                {
+                    bufftext = "Restore HP!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
                 break;
             case eStatueType.Strength:
                 StartCoroutine(Player.Instance.Atk(mStats.Atk, mStats.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[3];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "공격력 증가!";
+                }
+                else
+                {
+                    bufftext = "Attack increase!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
                 break;
             case eStatueType.Speed:
                 StartCoroutine(Player.Instance.Speed(mStats.Spd, mStats.Duration));
                 StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd, mStats.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[5];
+
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "이동 속도 증가!";
+                    bufftext2 = "공격 속도 증가!";
+                }
+                else
+                {
+                    bufftext = "Movement speed increase!";
+                    bufftext2 = "Attack speed increase!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.transform.position -= new Vector3(0, 3, 0);
+                effect.SetText(bufftext2);
                 break;
             case eStatueType.Def:
                 StartCoroutine(Player.Instance.Def(mStats.Def, mStats.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[7];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "방어력 증가!";
+                }
+                else
+                {
+                    bufftext = "Defence increase!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
                 break;
             case eStatueType.Gold:
                 Player.Instance.mGoldBonus += 0.5f;
                 mRenderer.sprite = StatueController.Instance.mStageSprites[9];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "골드 획득량 증가!";
+                }
+                else
+                {
+                    bufftext = "Drop gold increase!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
                 break;
             case eStatueType.War:
                 Player.Instance.mStats.Crit += Player.Instance.mStats.Crit*(1 + 0.3f);
                 mRenderer.sprite = StatueController.Instance.mStageSprites[11];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "치명타 확률 증가!";
+                }
+                else
+                {
+                    bufftext = "Critical rate increase!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
                 break;
             case eStatueType.Heart:
                 Player.Instance.Heal(Player.Instance.mMaxHP);
                 mRenderer.sprite = StatueController.Instance.mStageSprites[13];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "체력 전부 회복!";
+                }
+                else
+                {
+                    bufftext = "Restore full HP!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
                 break;
             case eStatueType.Harvest:
-                Debug.Log("재료 드랍율 상승");
+                //기능
                 mRenderer.sprite = StatueController.Instance.mStageSprites[15];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "재료 획득률 상승!";
+                }
+                else
+                {
+                    bufftext = "Material drop rate increase!";
+                }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
                 break;
             default:
                 Debug.LogError("Wrong StatueType");
@@ -128,12 +216,24 @@ public class Statue : MonoBehaviour
                         UIController.Instance.ShowGold();
                         CanvasFinder.Instance.DeletdStatuePrice(mID);
                     }
+                    else
+                    {
+                        if (GameSetting.Instance.Language == 0)
+                        {
+                            text = "골드가 부족합니다!";
+                        }
+                        else
+                        {
+                            text = "Not enough Gold!";
+                        }
+                        TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                        effect.SetText(text);
+                    }
                 }
                 else
                 {
                     StatueUse();
                 }
-                //TODO 석상의 버프가 뭔지 텍스트 애니메이션 추가
                 
 
             }

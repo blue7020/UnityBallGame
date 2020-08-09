@@ -29,7 +29,7 @@ public class StageController : MonoBehaviour
             }
             GameSetting.Instance.Ingame = true;
             GameSetting.Instance.NowStage = mStageNum;
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
         }
     }
 }

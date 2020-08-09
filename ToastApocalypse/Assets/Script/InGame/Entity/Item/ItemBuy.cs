@@ -13,6 +13,7 @@ public class ItemBuy : MonoBehaviour
     public UsingItem item;
     public Artifacts artifact;
     public Text mPriceText;
+    private string text;
 
     private void OnEnable()
     {
@@ -42,6 +43,19 @@ public class ItemBuy : MonoBehaviour
                         CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();
                     }
+                    else
+                    {
+                        if (GameSetting.Instance.Language == 0)
+                        {
+                            text = "골드가 부족합니다!";
+                        }
+                        else
+                        {
+                            text = "Not enough Gold!";
+                        }
+                        TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                        effect.SetText(text);
+                    }
                 }
                 else
                 {
@@ -59,6 +73,19 @@ public class ItemBuy : MonoBehaviour
                                     artifact.Currentroom = Player.Instance.CurrentRoom;
                                     artifact.ItemChange();
                                 }
+                                else
+                                {
+                                    if (GameSetting.Instance.Language == 0)
+                                    {
+                                        text = "인벤토리 공간이 부족합니다!";
+                                    }
+                                    else
+                                    {
+                                        text = "Inventory if full!";
+                                    }
+                                    TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                                    effect.SetText(text);
+                                }
                             }
                         }
                         else
@@ -74,6 +101,19 @@ public class ItemBuy : MonoBehaviour
                         }
                         CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();
+                    }
+                    else
+                    {
+                        if (GameSetting.Instance.Language == 0)
+                        {
+                            text = "골드가 부족합니다!";
+                        }
+                        else
+                        {
+                            text = "Not enough Gold!";
+                        }
+                        TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                        effect.SetText(text);
                     }
                 }
             }

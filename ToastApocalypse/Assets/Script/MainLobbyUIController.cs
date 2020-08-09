@@ -57,7 +57,7 @@ public class MainLobbyUIController : MonoBehaviour
         //TODO 저장기능
         pause = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     public void BGMPlus()

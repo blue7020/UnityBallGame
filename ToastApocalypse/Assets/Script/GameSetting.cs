@@ -76,7 +76,7 @@ public class GameSetting : MonoBehaviour
         }
         Restart();
 
-        Syrup = 5500;
+        Syrup = 30000;
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈

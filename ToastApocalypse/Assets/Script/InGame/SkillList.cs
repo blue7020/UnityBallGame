@@ -117,36 +117,36 @@ public class SkillList : MonoBehaviour
 
     public void Power_of_Oven()//3
     {
-        Debug.Log("오븐의 힘");
+        Debug.Log("오븐의힘");
         StartCoroutine(Oven());
+        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].Atk, SkillController.Instance.mStatInfoArr[3].Duration));
+        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[3].AtkSpd, SkillController.Instance.mStatInfoArr[3].Duration));
     }
     private IEnumerator Oven()
     {
-        WaitForSeconds dura = new WaitForSeconds(5f);
-        SkillObj[0].transform.SetParent(Player.Instance.transform);
-        SkillObj[0].transform.localPosition = Vector3.zero;
-        SkillObj[0].SetActive(true);
+        WaitForSeconds dura = new WaitForSeconds(SkillController.Instance.mStatInfoArr[3].Duration);
         //버프이펙트 애니메이션
-        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].Atk, SkillController.Instance.mStatInfoArr[3].Cooltime));
-        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].AtkSpd, SkillController.Instance.mStatInfoArr[3].Cooltime));
+        //SkillObj[0].transform.SetParent(Player.Instance.transform);
+        //SkillObj[0].transform.localPosition = Vector3.zero;
+        //SkillObj[0].SetActive(true);
         yield return dura;
-        SkillObj[0].SetActive(false);
+        //SkillObj[0].SetActive(false);
     }
 
     public void Frost_Shield()//4
     {
         Debug.Log("얼음보호막");
         StartCoroutine(Sheld());
+        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[4].Spd, SkillController.Instance.mStatInfoArr[3].Duration));
     }
     private IEnumerator Sheld()
     {
-        WaitForSeconds dura = new WaitForSeconds(4f);
-        SkillObj[1].transform.SetParent(Player.Instance.transform);
-        SkillObj[1].transform.localPosition = Vector3.zero;
-        SkillObj[1].SetActive(true);
+        WaitForSeconds dura = new WaitForSeconds(SkillController.Instance.mStatInfoArr[4].Duration);
         //버프이펙트 애니메이션
-        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[4].Spd, SkillController.Instance.mStatInfoArr[3].Cooltime));
+        //SkillObj[1].transform.SetParent(Player.Instance.transform);
+        //SkillObj[1].transform.localPosition = Vector3.zero;
+        //SkillObj[1].SetActive(true);
         yield return dura;
-        SkillObj[1].SetActive(false);
+        //SkillObj[1].SetActive(false);
     } 
 }

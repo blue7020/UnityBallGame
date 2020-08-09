@@ -89,11 +89,11 @@ public class SkillShop : MonoBehaviour
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {
-                mBuyText.text = "구매함";
+                mBuyText.text = "보유중";
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
-                mBuyText.text = "Purchased";
+                mBuyText.text = "Hold";
             }
             mBuyButton.interactable = false;
         }

@@ -42,14 +42,11 @@ public class Portal : MonoBehaviour
     public void nextroom()
     {
         GameController.Instance.Level++;
-        for (int i = 0; i < Player.Instance.buffIncrease.Length; i++)
-        {
-            Player.Instance.buffIncrease[i] = 0;
-        }
+        Player.Instance.ResetBuff();
         Player.Instance.Nodamage = false;
         if (GameController.Instance.Level == 5)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(4);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
             GameController.Instance.Level=6;
         }
@@ -63,7 +60,7 @@ public class Portal : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
             Player.Instance.transform.position = new Vector2(0, 0);
             UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
         }

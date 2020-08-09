@@ -95,6 +95,14 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void ResetBuff()
+    {
+        for (int i = 0; i < buffIncrease.Length; i++)
+        {
+            buffIncrease[i] = 0;
+        }
+    }
+
     private void Update()
     {
         Moveing();
@@ -218,34 +226,34 @@ public class Player : MonoBehaviour
         UIController.Instance.ShowHP();
     }
 
-    public IEnumerator Atk(float value, float Cool)
+    public IEnumerator Atk(float value, float duration)
     {
         //TODO 버프 중첩을 방지하기 위해 코루틴 리스트를 만들어 분배한다.
-        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[0] += value;
         yield return Dura;
         buffIncrease[0] -= value;
     }
 
-    public IEnumerator Def(float value, float Cool)
+    public IEnumerator Def(float value, float duration)
     {
-        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[1] += value;
         yield return Dura;
         buffIncrease[1] -= value;
     }
 
-    public IEnumerator AtkSpeed(float value, float Cool)
+    public IEnumerator AtkSpeed(float value, float duration)
     {
-        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[2] += value;
         yield return Dura;
         buffIncrease[2] -= value;
     }
 
-    public IEnumerator Speed(float value, float Cool)
+    public IEnumerator Speed(float value, float duration)
     {
-        WaitForSeconds Dura = new WaitForSeconds(Cool);
+        WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[3] += value;
         yield return Dura;
         buffIncrease[3] -= value;

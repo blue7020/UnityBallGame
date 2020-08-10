@@ -115,5 +115,6 @@ public enum eBuffType
 public enum eSkilltype
 {
     Barrier,
-    DamageCollider
+    DamageCollider,
+    None
 }

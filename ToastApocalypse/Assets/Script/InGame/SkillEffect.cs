@@ -13,8 +13,9 @@ public class SkillEffect : MonoBehaviour
     public eSkilltype eType;
     public float mDamage;
 
-    public void SetEffect(Sprite spt,float dura,int type, Color effectcolor,float damage=0)
+    public void SetEffect(Sprite spt, float dura, int type, Color effectcolor, float damage = 0, eSkilltype etype=eSkilltype.None)
     {
+        eType = etype;
         mDamage = damage;
         if (type == 0)//자신 기준 버프
         {
@@ -53,11 +54,12 @@ public class SkillEffect : MonoBehaviour
                 bolt.RemoveBullet();
             }
         }
-        else
+        else if(eType == eSkilltype.DamageCollider)
         {
-            if (other.GetComponent<Enemy>())
+            if (other.gameObject.GetComponent<Enemy>())
             {
-                Enemy Target = other.GetComponent<Enemy>();
+                Debug.Log("충돌");
+                Enemy Target = other.gameObject.GetComponent<Enemy>();
                 Target.Hit(mDamage);
                 //이건 나중에 수정
                 Target.StartCoroutine(Target.Stuned(2f));

@@ -113,7 +113,7 @@ public class SkillList : MonoBehaviour
         int DashSpeed = 20;
         Vector3 dash = Player.Instance.mDirection.transform.up;
         effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[3], SkillController.Instance.mStatInfoArr[2].Duration,0,Color.clear, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk));
+        effect.SetEffect(BuffEffectController.Instance.mSprite[3], SkillController.Instance.mStatInfoArr[2].Duration,0,Color.clear, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk),eSkilltype.DamageCollider);
         BuffEffectController.Instance.EffectList.Add(effect);
         Player.Instance.Dash(dash, 10,DashSpeed);
     }
@@ -130,7 +130,7 @@ public class SkillList : MonoBehaviour
     public void Frost_Shield()//4
     {
         SkillEffect effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[2], SkillController.Instance.mStatInfoArr[3].Duration,1, Color.clear);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[2], SkillController.Instance.mStatInfoArr[3].Duration,1, Color.clear, 0, eSkilltype.Barrier);
         BuffEffectController.Instance.EffectList.Add(effect);
         StartCoroutine(Player.Instance.Speed(SkillController.Instance.mStatInfoArr[4].Spd,14, SkillController.Instance.mStatInfoArr[3].Duration));
     }

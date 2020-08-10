@@ -38,7 +38,7 @@ public class Enemy : InformationLoader
 
     private void Awake()
     {
-        mStats =EnemyController.Instance.mInfoArr[mID];
+        mStats = EnemyController.Instance.mInfoArr[mID];
         Spawned = false;
     }
     private void Start()
@@ -49,7 +49,7 @@ public class Enemy : InformationLoader
         Nodamage = true;
         AttackCheck = true;
         Stun = false;
-        if (IsMimic==false)
+        if (IsMimic == false)
         {
             mState = eMonsterState.Spawning;
             Nodamage = false;
@@ -92,9 +92,9 @@ public class Enemy : InformationLoader
     public IEnumerator StateMachine()
     {
         WaitForSeconds pointOne = new WaitForSeconds(0.1f);
-        while (true)
+        if (Stun == false)
         {
-            if (Stun==false)
+            while (true)
             {
                 switch (mState)
                 {
@@ -156,7 +156,6 @@ public class Enemy : InformationLoader
                 }
                 yield return pointOne;
             }
-            
         }
 
     }
@@ -165,7 +164,7 @@ public class Enemy : InformationLoader
     {
         if (Spawned == true)
         {
-            if (Nodamage==false)
+            if (Nodamage == false)
             {
                 StartCoroutine(HitAnimation());
                 mCurrentHP -= damage;
@@ -182,9 +181,9 @@ public class Enemy : InformationLoader
                         DropGold mGold = GoldPool.Instance.GetFromPool();
                         mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
                         mGold.transform.position = transform.position;
-                        mGold.GoldDrop((int)(mStats.Gold*(1+Player.Instance.mGoldBonus)));
+                        mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
                     }
-                    GameController.Instance.SyrupInStage +=mStats.Syrup;
+                    GameController.Instance.SyrupInStage += mStats.Syrup;
                     mEnemySkill.DieSkill();
                     mHPBar.CloseGauge();
                 }
@@ -195,10 +194,8 @@ public class Enemy : InformationLoader
                     mHPBar.transform.position = mHPBarPos.position;
                 }
             }
-            
-        }
-        
 
+        }
     }
 
     private IEnumerator HitAnimation()
@@ -212,7 +209,7 @@ public class Enemy : InformationLoader
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player")&&Spawned==true)
+        if (other.gameObject.CompareTag("Player") && Spawned == true)
         {
             AttackCheck = true;
 
@@ -229,7 +226,7 @@ public class Enemy : InformationLoader
 
     public void Attack()
     {
-        if (AttackCheck==true)
+        if (AttackCheck == true)
         {
             mTarget.Hit(mStats.Atk);
         }
@@ -254,7 +251,7 @@ public class Enemy : InformationLoader
     {
         if (mState == eMonsterState.Traking && Spawned == true)
         {
-            if (Stun==false)
+            if (Stun == false)
             {
                 WaitForSeconds one = new WaitForSeconds(0.1f);
                 mAnim.SetBool(AnimHash.Enemy_Walk, true);
@@ -268,14 +265,14 @@ public class Enemy : InformationLoader
                 {
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
-                mRB2D.velocity = dir.normalized * (mStats.Spd+ (mStats.Spd* SpeedAmount));
+                mRB2D.velocity = dir.normalized * (mStats.Spd + (mStats.Spd * SpeedAmount));
                 yield return one;
             }
         }
-
     }
 
-    public IEnumerator SpeedBuff(float duration,float value)
+
+    public IEnumerator SpeedBuff(float duration, float value)
     {
         WaitForSeconds dura = new WaitForSeconds(duration);
         SpeedAmount += value;
@@ -287,8 +284,8 @@ public class Enemy : InformationLoader
     {
         WaitForSeconds dura = new WaitForSeconds(duration);
         Stun = true;
+        //TODO 몬스터 머리 위에 스턴 애니메이션 표시하기
         yield return dura;
         Stun = false;
     }
-
 }

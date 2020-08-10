@@ -9,7 +9,7 @@ public class SkillList : MonoBehaviour
 {
     public static SkillList Instance;
 
-    public GameObject[] SkillObj;
+    public SkillEffect effect;
 
     private void Awake()
     {
@@ -72,8 +72,8 @@ public class SkillList : MonoBehaviour
         Vector3 dir = Player.Instance.mDirection.transform.up;
         PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(2);
         bolt.transform.SetParent(Player.Instance.transform);
-        bolt.transform.position = Player.Instance.transform.position;
-        bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk) + GameController.Instance.Level;
+        bolt.transform.position = Player.Instance.mDirection.transform.position;//플레이어는 이동 방향에 따라 오브젝트가 뒤집히므로 mDirection으로 설정
+        bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk);
         bolt.mRB2D.DOMove(dir * bolt.mSpeed, 0.8f).SetEase(Ease.Linear).OnComplete(() => { StartCoroutine(returnPlayer(bolt)); });
     }
 
@@ -99,7 +99,7 @@ public class SkillList : MonoBehaviour
                 }
                 else
                 {
-                    Vector3 Pos = Player.Instance.transform.position;
+                    Vector3 Pos = Player.Instance.mDirection.transform.position;//플레이어는 이동 방향에 따라 오브젝트가 뒤집히므로 mDirection으로 설정
                     bolt.mRB2D.DOMove(Pos, 0.3f);
                     yield return delay;
                 }
@@ -110,44 +110,28 @@ public class SkillList : MonoBehaviour
     public void Dash()//2
     {
         //대쉬 이펙트
-        BuffController.Instance.RemoveNurf();
         int DashSpeed = 20;
         Vector3 dash = Player.Instance.mDirection.transform.up;
+        effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[3], SkillController.Instance.mStatInfoArr[2].Duration,0,Color.clear, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk));
+        BuffEffectController.Instance.EffectList.Add(effect);
         Player.Instance.Dash(dash, 10,DashSpeed);
-        //부딪힌 대상 2초간 기절
     }
 
     public void Power_of_Oven()//3
     {
-        StartCoroutine(Oven());
+        SkillEffect effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[1], SkillController.Instance.mStatInfoArr[3].Duration,0,Color.clear);
+        BuffEffectController.Instance.EffectList.Add(effect);
         StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].Atk,11, SkillController.Instance.mStatInfoArr[3].Duration));
         StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[3].AtkSpd,13, SkillController.Instance.mStatInfoArr[3].Duration));
-    }
-    private IEnumerator Oven()
-    {
-        WaitForSeconds dura = new WaitForSeconds(SkillController.Instance.mStatInfoArr[3].Duration);
-        //버프이펙트 애니메이션
-        //SkillObj[0].transform.SetParent(Player.Instance.transform);
-        //SkillObj[0].transform.localPosition = Vector3.zero;
-        //SkillObj[0].SetActive(true);
-        yield return dura;
-        //SkillObj[0].SetActive(false);
     }
 
     public void Frost_Shield()//4
     {
-        Debug.Log("얼음보호막");
-        StartCoroutine(Sheld());
+        SkillEffect effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[2], SkillController.Instance.mStatInfoArr[3].Duration,1, Color.clear);
+        BuffEffectController.Instance.EffectList.Add(effect);
         StartCoroutine(Player.Instance.Speed(SkillController.Instance.mStatInfoArr[4].Spd,14, SkillController.Instance.mStatInfoArr[3].Duration));
     }
-    private IEnumerator Sheld()
-    {
-        WaitForSeconds dura = new WaitForSeconds(SkillController.Instance.mStatInfoArr[4].Duration);
-        //버프이펙트 애니메이션
-        //SkillObj[1].transform.SetParent(Player.Instance.transform);
-        //SkillObj[1].transform.localPosition = Vector3.zero;
-        //SkillObj[1].SetActive(true);
-        yield return dura;
-        //SkillObj[1].SetActive(false);
-    } 
 }

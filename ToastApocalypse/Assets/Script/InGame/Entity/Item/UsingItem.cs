@@ -14,6 +14,7 @@ public class UsingItem : InformationLoader
 
     public ItemStat mStats;
     private bool DropCool;
+    private SkillEffect effect;
 
 
     public bool IsShopItem;
@@ -34,22 +35,37 @@ public class UsingItem : InformationLoader
             {
                 Player.Instance.mMaxHP += mStats.Heal;
             }
+            effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            effect.SetEffect(BuffEffectController.Instance.mSprite[0], 0.5f,0,Color.green);
+            BuffEffectController.Instance.EffectList.Add(effect);
             Player.Instance.Heal(mStats.Heal);
         }
         if (mStats.Atk > 0)
         {
+            effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.red);
+            BuffEffectController.Instance.EffectList.Add(effect);
             StartCoroutine(Player.Instance.Atk(mStats.Atk,31, mStats.Duration));
         }
         if (mStats.AtkSpd > 0)
         {
+            effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.yellow);
+            BuffEffectController.Instance.EffectList.Add(effect);
             StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd,33, mStats.Duration));
         }
         if (mStats.Spd > 0)
         {
+            effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.cyan);
+            BuffEffectController.Instance.EffectList.Add(effect);
             StartCoroutine(Player.Instance.Speed(mStats.Spd,34, mStats.Duration));
         }
         if (mStats.Def > 0)
         {
+            effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.blue);
+            BuffEffectController.Instance.EffectList.Add(effect);
             StartCoroutine(Player.Instance.Def(mStats.Def,32, mStats.Duration));
         }
         Player.Instance.NowItem = null;

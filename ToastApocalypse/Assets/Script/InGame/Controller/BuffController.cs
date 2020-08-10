@@ -66,12 +66,15 @@ public class BuffController : MonoBehaviour
 
     public void RemoveNurf()
     {
-        for (int i = 0; i < mBuffArr.Length; i++)
+        if (mBuffArr!=null)
         {
-            if (mBuffArr[i].eType == eBuffType.Nurf)
+            for (int i = 0; i < mBuffArr.Length; i++)
             {
-                mBuffArr[i].Delete();
-                buffIndex--;
+                if (mBuffArr[i].eType == eBuffType.Nurf)
+                {
+                    mBuffArr[i].Delete();
+                    buffIndex--;
+                }
             }
         }
     }

@@ -111,3 +111,9 @@ public enum eBuffType
     Buff,
     Nurf
 }
+
+public enum eSkilltype
+{
+    Barrier,
+    DamageCollider
+}

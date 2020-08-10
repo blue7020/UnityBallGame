@@ -14,11 +14,14 @@ public class Portal : MonoBehaviour
 
     public static Portal Instance;
     public ePortalType Type;
+
+    public Animator mAnim;
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            mAnim = GetComponent<Animator>();
         }
         else
         {
@@ -27,8 +30,12 @@ public class Portal : MonoBehaviour
     }
     public void ShowPortal()
     {
-        //TODO 포탈 생성 이펙트 후 setactive true
         gameObject.SetActive(true);
+    }
+
+    public void PortalAnim()
+    {
+        mAnim.SetBool(AnimHash.PortalSpawn,true);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -44,6 +51,10 @@ public class Portal : MonoBehaviour
         GameController.Instance.Level++;
         Player.Instance.ResetBuff();
         Player.Instance.Nodamage = false;
+        for (int i=0; i<BuffEffectController.Instance.EffectList.Count;i++)
+        {
+            BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
+        }
         if (GameController.Instance.Level == GameSetting.LEVEL_COUNT)
         {
             SceneManager.LoadScene(4);

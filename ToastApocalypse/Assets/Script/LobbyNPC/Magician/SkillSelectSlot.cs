@@ -46,7 +46,7 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 lore = mSkillText.ContensFormat;
                 if (mSkill.Damage > 0)
                 {
-                    lore += "피해량: (" + mSkill.Damage + " * 공격력)+ 현재 스테이지\n";
+                    lore += "피해량: (" + mSkill.Damage + " x 공격력)\n";
                 }
                 if (mSkill.Heal > 0)
                 {
@@ -90,7 +90,7 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 lore = mSkillText.EngContensFormat;
                 if (mSkill.Damage > 0)
                 {
-                    lore += "Damage: (" + mSkill.Damage + " * Atk)+ Now Stage\n";
+                    lore += "Damage: (" + mSkill.Damage + " x Atk)\n";
                 }
                 if (mSkill.Heal > 0)
                 {

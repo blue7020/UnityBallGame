@@ -22,6 +22,8 @@ public class Enemy : InformationLoader
     public GaugeBar mHPBar;
 
     public bool Nodamage;
+    public bool Stun;
+    public float SpeedAmount;
 
     public bool AttackOn;
     private bool AttackCheck;
@@ -46,6 +48,7 @@ public class Enemy : InformationLoader
         AttackOn = false;
         Nodamage = true;
         AttackCheck = true;
+        Stun = false;
         if (IsMimic==false)
         {
             mState = eMonsterState.Spawning;
@@ -91,65 +94,69 @@ public class Enemy : InformationLoader
         WaitForSeconds pointOne = new WaitForSeconds(0.1f);
         while (true)
         {
-            switch (mState)
+            if (Stun==false)
             {
-                case eMonsterState.Spawning:
-                    mState = eMonsterState.Idle;
-                    break;
-                case eMonsterState.Idle:
-                    if (mDelayCount >= 20)
-                    {
+                switch (mState)
+                {
+                    case eMonsterState.Spawning:
+                        mState = eMonsterState.Idle;
+                        break;
+                    case eMonsterState.Idle:
+                        if (mDelayCount >= 20)
+                        {
+                            mAnim.SetBool(AnimHash.Enemy_Walk, false);
+                            mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                            mRB2D.velocity = Vector3.zero;
+                            mDelayCount = 0;
+                        }
+                        else
+                        {
+                            mDelayCount++;
+                        }
+                        break;
+                    case eMonsterState.Traking:
+                        if (mDelayCount >= 20)
+                        {
+
+                            mDelayCount = 0;
+                        }
+                        else
+                        {
+                            mAnim.SetBool(AnimHash.Enemy_Walk, true);
+                            mDelayCount++;
+                        }
+                        break;
+                    case eMonsterState.Die:
+                        AttackOn = false;
                         mAnim.SetBool(AnimHash.Enemy_Walk, false);
                         mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                        mRB2D.velocity = Vector3.zero;
-                        mDelayCount = 0;
-                    }
-                    else
-                    {
-                        mDelayCount++;
-                    }
-                    break;
-                case eMonsterState.Traking:
-                    if (mDelayCount >= 20)
-                    {
+                        mAnim.SetBool(AnimHash.Enemy_Death, true);
+                        mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
+                        if (mDelayCount >= 6)
+                        {
+                            if (Player.Instance.CurrentRoom.EnemyCount > 0)
+                            {
+                                Player.Instance.CurrentRoom.EnemyCount--;
+                            }
+                            if (eType == eEnemyType.Boss)
+                            {
+                                PortalTrigger.Instance.BossDeath();
+                            }
+                            gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            mDelayCount++;
+                        }
+                        break;
 
-                        mDelayCount = 0;
-                    }
-                    else
-                    {
-                        mAnim.SetBool(AnimHash.Enemy_Walk, true);
-                        mDelayCount++;
-                    }
-                    break;
-                case eMonsterState.Die:
-                    AttackOn = false;
-                    mAnim.SetBool(AnimHash.Enemy_Walk, false);
-                    mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                    mAnim.SetBool(AnimHash.Enemy_Death, true);
-                    mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
-                    if (mDelayCount >= 6)
-                    {
-                        if (Player.Instance.CurrentRoom.EnemyCount > 0)
-                        {
-                            Player.Instance.CurrentRoom.EnemyCount--;
-                        }
-                        if (eType == eEnemyType.Boss)
-                        {
-                            PortalTrigger.Instance.BossDeath();
-                        }
-                        gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        mDelayCount++;
-                    }
-                    break;
-                    
-                default:
-                    Debug.LogError("Wrong State");
-                    break;
+                    default:
+                        Debug.LogError("Wrong State");
+                        break;
+                }
+                yield return pointOne;
             }
-            yield return pointOne;
+            
         }
 
     }
@@ -247,23 +254,41 @@ public class Enemy : InformationLoader
     {
         if (mState == eMonsterState.Traking && Spawned == true)
         {
-            WaitForSeconds one = new WaitForSeconds(0.1f);
-            mAnim.SetBool(AnimHash.Enemy_Walk, true);
-            Vector3 Pos = mTarget.transform.position;
-            Vector3 dir = Pos - transform.position;
-            if (Player.Instance.transform.position.x-transform.position.x>0)//- 좌
+            if (Stun==false)
             {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
+                WaitForSeconds one = new WaitForSeconds(0.1f);
+                mAnim.SetBool(AnimHash.Enemy_Walk, true);
+                Vector3 Pos = mTarget.transform.position;
+                Vector3 dir = Pos - transform.position;
+                if (Player.Instance.transform.position.x - transform.position.x > 0)//- 좌
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+                else//+ 우
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+                mRB2D.velocity = dir.normalized * (mStats.Spd+ (mStats.Spd* SpeedAmount));
+                yield return one;
             }
-            else//+ 우
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-            mRB2D.velocity = dir.normalized * mStats.Spd;
-            yield return one;
-
         }
 
+    }
+
+    public IEnumerator SpeedBuff(float duration,float value)
+    {
+        WaitForSeconds dura = new WaitForSeconds(duration);
+        SpeedAmount += value;
+        yield return dura;
+        SpeedAmount -= value;
+    }
+
+    public IEnumerator Stuned(float duration)
+    {
+        WaitForSeconds dura = new WaitForSeconds(duration);
+        Stun = true;
+        yield return dura;
+        Stun = false;
     }
 
 }

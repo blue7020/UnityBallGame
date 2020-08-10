@@ -54,6 +54,11 @@ public class Bullet : MonoBehaviour
         yield return one;
     }
 
+    public void RemoveBullet()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (DamageOn == true)
@@ -61,13 +66,13 @@ public class Bullet : MonoBehaviour
             if (other.gameObject.CompareTag("Player"))
             {
                 Player.Instance.Hit(mDamage);
-                gameObject.SetActive(false);
-            }
-            if (other.gameObject.CompareTag("DestroyZone")|| other.gameObject.CompareTag("Walls"))
-            {
-                gameObject.SetActive(false);
+                RemoveBullet();
             }
         }
-        
+        if (other.gameObject.CompareTag("DestroyZone") || other.gameObject.CompareTag("Walls"))
+        {
+            RemoveBullet();
+        }
+
     }
 }

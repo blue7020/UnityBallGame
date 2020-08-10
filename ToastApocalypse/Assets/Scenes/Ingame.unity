@@ -1632,6 +1632,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427573996}
   m_CullTransparentMesh: 0
+--- !u!1 &441663163
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 441663165}
+  - component: {fileID: 441663164}
+  m_Layer: 0
+  m_Name: BuffEffectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &441663164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441663163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e570404cbaee67643af155f1aa687185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mSprite:
+  - {fileID: 21300000, guid: 0e49dc634cd747647bf0fdff771c423a, type: 3}
+  - {fileID: 21300000, guid: d415c0fe57344eb4d8152cd8bb228811, type: 3}
+  - {fileID: 21300000, guid: d415c0fe57344eb4d8152cd8bb228811, type: 3}
+  - {fileID: 21300000, guid: d415c0fe57344eb4d8152cd8bb228811, type: 3}
+  mEffect: {fileID: 6859038073115029124, guid: e279758956f0af849b1cdb2d632f23c5, type: 3}
+  EffectList: []
+--- !u!4 &441663165
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441663163}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 23
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &452973435
 GameObject:
   m_ObjectHideFlags: 0
@@ -5953,7 +6003,7 @@ MonoBehaviour:
   - {fileID: -2591170180120477161, guid: 4f548f1abe89faa449b24d45cd97f3c7, type: 3}
   mBuff: {fileID: 5607448055623666808, guid: f04b4eb2a5836a44bb2461f1821e6087, type: 3}
   mParents: {fileID: 1072830792}
-  mBuffList: []
+  mBuffArr: []
   buffIndex: 0
 --- !u!4 &1496443759
 Transform:

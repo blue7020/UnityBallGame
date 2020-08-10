@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5240879267438138755}
   - component: {fileID: 6619288856003315814}
   - component: {fileID: 5607448055623666808}
+  - component: {fileID: 2248170346867580726}
   m_Layer: 5
   m_Name: CCIcon
   m_TagString: Untagged
@@ -89,5 +90,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mID: 0
+  mBuffCode: 0
   mIcon: {fileID: 6619288856003315814}
   eType: 0
+  mDuration: 0
+  mAnim: {fileID: 2248170346867580726}
+--- !u!95 &2248170346867580726
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4582327843267545643}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e4c76441a2fb8524cb1fa6c7bd16e613, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

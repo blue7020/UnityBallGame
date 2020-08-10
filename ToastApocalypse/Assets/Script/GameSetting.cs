@@ -7,6 +7,8 @@ public class GameSetting : MonoBehaviour
 {
     public static GameSetting Instance;
 
+    public const int LEVEL_COUNT = 6;
+
     public int PlayerID;
     public int PlayerSkillID;
     public bool Ingame;
@@ -70,7 +72,7 @@ public class GameSetting : MonoBehaviour
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈
             PlayerHasSkill[0] = true;//기본 스킬 오픈
-            PlayerSkillID = 0;
+            PlayerSkillID = 3;
             Syrup = 0;
             PartsIndex = 0;
         }

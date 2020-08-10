@@ -9,6 +9,7 @@ public class AnimHash : MonoBehaviour
     public static readonly int Walk = Animator.StringToHash("IsWalk");
     public static readonly int Tumble = Animator.StringToHash("IsTumble");
 
+    public static readonly int Fading = Animator.StringToHash("IsFade");
 
     //All monster has Idle, IsWalk, IsAttack
     public static readonly int Enemy_Spawn = Animator.StringToHash("IsSpawn");

@@ -24,7 +24,8 @@ public class UsingItem : InformationLoader
         mStats = ItemList.Instance.mInfoArr[mID];
         DropCool = false;
     }
-
+    //아이템의 buff코드
+    //30=무적 31=공격력 32=방어력 33=공격속도 34=이동속도
     public void UseItem()
     {
         if (mStats.Heal > 0)
@@ -37,19 +38,19 @@ public class UsingItem : InformationLoader
         }
         if (mStats.Atk > 0)
         {
-            StartCoroutine(Player.Instance.Atk(mStats.Atk, mStats.Duration));
+            StartCoroutine(Player.Instance.Atk(mStats.Atk,31, mStats.Duration));
         }
         if (mStats.AtkSpd > 0)
         {
-            StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd, mStats.Duration));
+            StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd,33, mStats.Duration));
         }
         if (mStats.Spd > 0)
         {
-            StartCoroutine(Player.Instance.Speed(mStats.Spd, mStats.Duration));
+            StartCoroutine(Player.Instance.Speed(mStats.Spd,34, mStats.Duration));
         }
         if (mStats.Def > 0)
         {
-            StartCoroutine(Player.Instance.Def(mStats.Def, mStats.Duration));
+            StartCoroutine(Player.Instance.Def(mStats.Def,32, mStats.Duration));
         }
         Player.Instance.NowItem = null;
         UIController.Instance.ShowItemImage();

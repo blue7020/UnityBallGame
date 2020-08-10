@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-#pragma warning disable 0649
-    [SerializeField]
-    float mTime;
-#pragma warning restore 0649
+    public float mTime;
 
     private void OnEnable()
     {

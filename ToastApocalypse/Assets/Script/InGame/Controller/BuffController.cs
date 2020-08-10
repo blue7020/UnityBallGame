@@ -34,9 +34,8 @@ public class BuffController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetBuff(int id,eBuffType bufftype,float dura)
+    public void SetBuff(int id,int code,eBuffType bufftype,float dura)
     {
-        //버프끝나면 한칸씩 자동으로 당겨오게끔
         if (buffIndex > 6)
         {
             buffIndex = 0;
@@ -50,13 +49,17 @@ public class BuffController : MonoBehaviour
             }
             mBuffArr[buffIndex].Delete();
             mBuffArr[buffIndex] = Instantiate(mBuff, mParents);
-            mBuffArr[buffIndex].SetData(buffIndex, mSprite[id], bufftype, dura);
+            mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura);
             buffIndex++;
         }
         else
         {
+            if (buffIndex < 0)
+            {
+                buffIndex = 0;
+            }
             mBuffArr[buffIndex] = Instantiate(mBuff, mParents);
-            mBuffArr[buffIndex].SetData(buffIndex, mSprite[id], bufftype, dura);
+            mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura);
             buffIndex++;
         }
     }
@@ -68,6 +71,7 @@ public class BuffController : MonoBehaviour
             if (mBuffArr[i].eType == eBuffType.Nurf)
             {
                 mBuffArr[i].Delete();
+                buffIndex--;
             }
         }
     }

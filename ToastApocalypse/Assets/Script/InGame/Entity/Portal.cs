@@ -44,13 +44,13 @@ public class Portal : MonoBehaviour
         GameController.Instance.Level++;
         Player.Instance.ResetBuff();
         Player.Instance.Nodamage = false;
-        if (GameController.Instance.Level == 5)
+        if (GameController.Instance.Level == GameSetting.LEVEL_COUNT)
         {
             SceneManager.LoadScene(4);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
-            GameController.Instance.Level=6;
+            GameController.Instance.Level= GameSetting.LEVEL_COUNT+1;
         }
-        else if (GameController.Instance.Level>5)
+        else if (GameController.Instance.Level> GameSetting.LEVEL_COUNT)
         {
             UIController.Instance.ShowClearText();
             if (GameSetting.Instance.StageOpen[5]==false)

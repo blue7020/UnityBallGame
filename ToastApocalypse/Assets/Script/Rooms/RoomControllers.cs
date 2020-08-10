@@ -252,7 +252,7 @@ public class RoomControllers : MonoBehaviour
         Room CurrentRoom =room;
         //플레이어가 해당 방에 들어왔을 때.
         Player.Instance.CurrentRoom = CurrentRoom;
-        if (GameController.Instance.Level<5)
+        if (GameController.Instance.Level < GameSetting.LEVEL_COUNT)
         {
             if (CurrentRoom.IsFound == false)
             {

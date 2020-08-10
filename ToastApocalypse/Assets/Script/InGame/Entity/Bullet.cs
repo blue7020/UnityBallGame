@@ -63,7 +63,7 @@ public class Bullet : MonoBehaviour
                 Player.Instance.Hit(mDamage);
                 gameObject.SetActive(false);
             }
-            if (other.gameObject.CompareTag("DestroyZone"))
+            if (other.gameObject.CompareTag("DestroyZone")|| other.gameObject.CompareTag("Walls"))
             {
                 gameObject.SetActive(false);
             }

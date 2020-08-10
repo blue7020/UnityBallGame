@@ -71,6 +71,8 @@ public class Statue : MonoBehaviour
         mPriceText.transform.localScale = new Vector3(10, 10, 0);
     }
 
+    //석상의 buff코드
+    //20=무적 21=공격력 22=방어력 23=공격속도 24=이동속도
     private void StatueUse()
     {
         switch (eType)
@@ -90,7 +92,7 @@ public class Statue : MonoBehaviour
                 effect.SetText(bufftext);
                 break;
             case eStatueType.Strength:
-                StartCoroutine(Player.Instance.Atk(mStats.Atk, mStats.Duration));
+                StartCoroutine(Player.Instance.Atk(mStats.Atk,21, mStats.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[3];
                 if (GameSetting.Instance.Language == 0)
                 {
@@ -104,8 +106,8 @@ public class Statue : MonoBehaviour
                 effect.SetText(bufftext);
                 break;
             case eStatueType.Speed:
-                StartCoroutine(Player.Instance.Speed(mStats.Spd, mStats.Duration));
-                StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd, mStats.Duration));
+                StartCoroutine(Player.Instance.Speed(mStats.Spd,24, mStats.Duration));
+                StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd,23, mStats.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[5];
 
                 if (GameSetting.Instance.Language == 0)
@@ -125,7 +127,7 @@ public class Statue : MonoBehaviour
                 effect.SetText(bufftext2);
                 break;
             case eStatueType.Def:
-                StartCoroutine(Player.Instance.Def(mStats.Def, mStats.Duration));
+                StartCoroutine(Player.Instance.Def(mStats.Def,22, mStats.Duration));
                 mRenderer.sprite = StatueController.Instance.mStageSprites[7];
                 if (GameSetting.Instance.Language == 0)
                 {

@@ -55,13 +55,15 @@ public class SkillList : MonoBehaviour
         
     }
 
+    //스킬의 buff코드
+    //10=무적 11=공격력 12=방어력 13=공격속도 14=이동속도
     public void Tumble()//0
     {
         quaternion Backup = Player.Instance.transform.rotation;
         Player.Instance.mAnim.SetBool(AnimHash.Tumble, true);
         int DashSpeed = 15;
         Vector3 tumble = Player.Instance.mDirection.transform.up;
-        Player.Instance.Dash(tumble,DashSpeed);
+        Player.Instance.Dash(tumble,10,DashSpeed);
         Player.Instance.transform.rotation = Backup;
     }
 
@@ -108,19 +110,18 @@ public class SkillList : MonoBehaviour
     public void Dash()//2
     {
         //대쉬 이펙트
-        //BuffController.Instance.RemoveNurf();
+        BuffController.Instance.RemoveNurf();
         int DashSpeed = 20;
         Vector3 dash = Player.Instance.mDirection.transform.up;
-        Player.Instance.Dash(dash, DashSpeed);
+        Player.Instance.Dash(dash, 10,DashSpeed);
         //부딪힌 대상 2초간 기절
     }
 
     public void Power_of_Oven()//3
     {
-        Debug.Log("오븐의힘");
         StartCoroutine(Oven());
-        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].Atk, SkillController.Instance.mStatInfoArr[3].Duration));
-        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[3].AtkSpd, SkillController.Instance.mStatInfoArr[3].Duration));
+        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].Atk,11, SkillController.Instance.mStatInfoArr[3].Duration));
+        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[3].AtkSpd,13, SkillController.Instance.mStatInfoArr[3].Duration));
     }
     private IEnumerator Oven()
     {
@@ -137,7 +138,7 @@ public class SkillList : MonoBehaviour
     {
         Debug.Log("얼음보호막");
         StartCoroutine(Sheld());
-        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[4].Spd, SkillController.Instance.mStatInfoArr[3].Duration));
+        StartCoroutine(Player.Instance.Speed(SkillController.Instance.mStatInfoArr[4].Spd,14, SkillController.Instance.mStatInfoArr[3].Duration));
     }
     private IEnumerator Sheld()
     {

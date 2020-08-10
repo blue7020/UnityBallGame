@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            StageHP = 4;
+            StageHP = 3;
             MapLevel = GameSetting.Instance.NowStage;
             GotoMain = false;
             pause = false;
@@ -104,7 +104,7 @@ public class GameController : MonoBehaviour
             {
                 Player.Instance.mStats.Gold += 200;
                 Player.Instance.mStats.Atk += 5;
-                Level = 4;
+                Level = 5;
                 UIController.Instance.ShowGold();
             }
         }

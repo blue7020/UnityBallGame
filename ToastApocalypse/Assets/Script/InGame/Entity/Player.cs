@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     public Weapon NowPlayerWeapon;
     public PlayerSkill NowPlayerSkill;
     public UsingItem NowItem;
-    public Artifacts NowUsingArtifact;
+    public Artifacts NowActiveArtifact;
     public Artifacts UseItemInventory;
 
     public PlayerStat GetPlayerStats()
@@ -78,7 +78,7 @@ public class Player : MonoBehaviour
         }
         PlayerSkillStand = false;
         NowItem = null;
-        NowUsingArtifact = null;
+        NowActiveArtifact = null;
         mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         Nodamage = false;
@@ -203,9 +203,9 @@ public class Player : MonoBehaviour
     }
     public void ArtifactUse()
     {
-        if (NowUsingArtifact != null)
+        if (NowActiveArtifact != null)
         {
-            NowUsingArtifact.UseArtifact();
+            NowActiveArtifact.UseArtifact();
             UIController.Instance.ShowHP();
         }
     }
@@ -309,7 +309,7 @@ public class Player : MonoBehaviour
 
         if (art.mType == eArtifactType.Use)
         {
-            NowUsingArtifact = art;
+            NowActiveArtifact = art;
             UIController.Instance.ShowArtifactImage();
         }
         UIController.Instance.ShowHP();

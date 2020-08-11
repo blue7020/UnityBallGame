@@ -103,7 +103,8 @@ public enum eRoomType
     Normal,
     StageEnd,
     Shop,
-    Statue
+    Statue,
+    Slot
 }
 
 public enum eBuffType

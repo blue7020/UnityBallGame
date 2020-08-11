@@ -113,7 +113,7 @@ public class SkillList : MonoBehaviour
         int DashSpeed = 20;
         Vector3 dash = Player.Instance.mDirection.transform.up;
         effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[3], SkillController.Instance.mStatInfoArr[2].Duration,0,Color.clear, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk),eSkilltype.DamageCollider);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[3], 1f,0,Color.clear, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk),eSkilltype.DamageCollider);
         BuffEffectController.Instance.EffectList.Add(effect);
         Player.Instance.Dash(dash, 10,DashSpeed);
     }

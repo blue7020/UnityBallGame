@@ -65,39 +65,32 @@ public class ItemBuy : MonoBehaviour
                         {
                             if (InventoryController.Instance.nowIndex <= InventoryController.Instance.mSlotArr.Length)
                             {
-                                if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
-                                {
-                                    artifact.IsShopItem = false;
-                                    Player.Instance.mStats.Gold -= artifact.mStats.Price;
-                                    Sell = true;
-                                    artifact.Currentroom = Player.Instance.CurrentRoom;
-                                    artifact.ItemChange();
-                                }
-                                else
-                                {
-                                    if (GameSetting.Instance.Language == 0)
-                                    {
-                                        text = "인벤토리 공간이 부족합니다!";
-                                    }
-                                    else
-                                    {
-                                        text = "Inventory if full!";
-                                    }
-                                    TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
-                                    effect.SetText(text);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
-                            {
                                 artifact.IsShopItem = false;
                                 Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                 Sell = true;
                                 artifact.Currentroom = Player.Instance.CurrentRoom;
                                 artifact.ItemChange();
                             }
+                            else
+                            {
+                                if (GameSetting.Instance.Language == 0)
+                                {
+                                    text = "인벤토리 공간이 부족합니다!";
+                                }
+                                else
+                                {
+                                    text = "Inventory if full!";
+                                }
+                                TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                                effect.SetText(text);
+                            }
+                        }
+                        else
+                        {
+                            artifact.IsShopItem = false;
+                            Player.Instance.mStats.Gold -= artifact.mStats.Price;
+                            Sell = true;
+                            artifact.Currentroom = Player.Instance.CurrentRoom;
                         }
                         CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();
@@ -115,6 +108,7 @@ public class ItemBuy : MonoBehaviour
                         TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
                         effect.SetText(text);
                     }
+
                 }
             }
         }

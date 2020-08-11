@@ -58,11 +58,14 @@ public class SkillEffect : MonoBehaviour
         {
             if (other.gameObject.GetComponent<Enemy>())
             {
-                Debug.Log("충돌");
                 Enemy Target = other.gameObject.GetComponent<Enemy>();
                 Target.Hit(mDamage);
-                //이건 나중에 수정
-                Target.StartCoroutine(Target.Stuned(2f));
+                float rand = Random.Range(0,1f);
+                if (Target.mStats.Resistance <= rand)
+                {
+                    Target.StartCoroutine(Target.Stuned(2f));
+                    Target = null;
+                }
 
             }
         }

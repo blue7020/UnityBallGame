@@ -9,7 +9,8 @@ public class AnimHash : MonoBehaviour
     public static readonly int Walk = Animator.StringToHash("IsWalk");
     public static readonly int Tumble = Animator.StringToHash("IsTumble");
 
-
+    //SlotMachine
+    public static readonly int Slot = Animator.StringToHash("IsRolling");
     //portal
     public static readonly int PortalSpawn = Animator.StringToHash("IsSpawn");
     //effect

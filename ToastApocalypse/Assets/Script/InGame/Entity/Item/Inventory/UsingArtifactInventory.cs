@@ -10,9 +10,9 @@ public class UsingArtifactInventory : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Player.Instance.NowUsingArtifact != null)
+        if (Player.Instance.NowActiveArtifact != null)
         {
-            art = Player.Instance.NowUsingArtifact;
+            art = Player.Instance.NowActiveArtifact;
             if (GameSetting.Instance.Language == 0)
             {
                 UIController.Instance.tooltip.ShowTooltip(art.TextStats.ContensFormat);

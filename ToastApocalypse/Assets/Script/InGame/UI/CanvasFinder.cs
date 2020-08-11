@@ -10,6 +10,7 @@ public class CanvasFinder : MonoBehaviour
 
     public Text[] mShopPriceText;
     public Text[] mStatuePriceText;
+    public Text mSlotPriceText;
     private void Awake()
     {
         if (Instance==null)
@@ -27,6 +28,10 @@ public class CanvasFinder : MonoBehaviour
     public void DeleteShopPrice(int index)
     {
         mShopPriceText[index].gameObject.SetActive(false);
+    }
+    public void DeleteSlotPrice()
+    {
+        mSlotPriceText.gameObject.SetActive(false);
     }
 
     public void DeletdStatuePrice(int index)

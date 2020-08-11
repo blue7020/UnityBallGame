@@ -219,6 +219,11 @@ public class Room : MonoBehaviour
                 EnemyCount++;
 
             }
+            if (eType == eRoomType.Slot)
+            {
+                CanvasFinder.Instance.mSlotPriceText.gameObject.SetActive(true);
+
+            }
             Special = true;
             RoomControllers.Instance.OnPlaerEnterRoom(this);
         }

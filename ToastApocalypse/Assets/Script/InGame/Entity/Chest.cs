@@ -15,6 +15,8 @@ public class Chest : MonoBehaviour
     private bool ChestOpen;
     private eChestType Type;
     private Weapon mWeapon;
+    private Artifacts artifact;
+    private int index;
 
     private void Awake()
     {
@@ -132,6 +134,52 @@ public class Chest : MonoBehaviour
                 Debug.LogError("Wrong randID");
                 break;
         }  
+    }
+
+    private void Open2()
+    {
+        ChestOpen = true;
+        mItem.SetActive(true);
+        //TODO 확률로 맞는 아이템 나오게 하기
+    }
+
+    private IEnumerator PassiveArtifactSearch()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        index = 0;
+        while (true)
+        {
+            int rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
+            if (InventoryController.Instance.mSlotArr[index] != ArtifactController.Instance.mPassiveArtifact[rand])
+            {
+                rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
+                artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], Currentroom.transform.localPosition, Quaternion.identity);
+                artifact.Currentroom = Currentroom;
+                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
+                break;
+            }
+            index++;
+            yield return delay;
+        }
+    }
+    private IEnumerator ActiveArtifactSearch()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        while (true)
+        {
+            int rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
+            if (Player.Instance.NowActiveArtifact != ArtifactController.Instance.mActiveArtifact[rand])
+            {
+                rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
+                artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], Currentroom.transform.localPosition, Quaternion.identity);
+                artifact.Currentroom = Currentroom;
+                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                ArtifactController.Instance.mActiveArtifact.Remove(artifact);
+                break;
+            }
+            yield return delay;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

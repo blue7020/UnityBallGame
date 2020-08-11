@@ -113,25 +113,25 @@ public class Artifacts : InformationLoader
                 EquipArtifact();
             }
         }
-        if (Player.Instance.NowUsingArtifact == null && mType == eArtifactType.Use)
+        if (Player.Instance.NowActiveArtifact == null && mType == eArtifactType.Use)
         {
             transform.SetParent(Player.Instance.gameObject.transform);
             transform.position = Vector3.zero;
-            Player.Instance.NowUsingArtifact = this;
+            Player.Instance.NowActiveArtifact = this;
             Player.Instance.UseItemInventory = this;
             UIController.Instance.ShowArtifactImage();
             mRenderer.color = Color.clear;
 
         }
 
-        Artifacts drop = Player.Instance.NowUsingArtifact;
+        Artifacts drop = Player.Instance.NowActiveArtifact;
         if (drop != null)
         {
             if (mType == eArtifactType.Use && drop.mType == eArtifactType.Use)
             {
                 drop.UnequipArtifact();
                 drop.Clamp();
-                Player.Instance.NowUsingArtifact = null;
+                Player.Instance.NowActiveArtifact = null;
                 drop.gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
                 drop.mRenderer.color = Color.white;
                 drop.gameObject.transform.position = Player.Instance.gameObject.transform.position;
@@ -139,9 +139,9 @@ public class Artifacts : InformationLoader
                 {
                     StartCoroutine(drop.DropCooltime());
                 }
-                Player.Instance.NowUsingArtifact = this;
+                Player.Instance.NowActiveArtifact = this;
                 Player.Instance.UseItemInventory = this;
-                UIController.Instance.mUsingArtifactImage.sprite = Player.Instance.NowUsingArtifact.mRenderer.sprite;
+                UIController.Instance.mUsingArtifactImage.sprite = Player.Instance.NowActiveArtifact.mRenderer.sprite;
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
                 mRenderer.color = Color.clear;
                 EquipArtifact();

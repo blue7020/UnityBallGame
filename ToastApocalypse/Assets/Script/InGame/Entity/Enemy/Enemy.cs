@@ -20,6 +20,7 @@ public class Enemy : InformationLoader
     public TrackingRange mTrackingRange;
 
     public GaugeBar mHPBar;
+    public GameObject CCState;
 
     public bool Nodamage;
     public bool Stun;
@@ -284,8 +285,11 @@ public class Enemy : InformationLoader
     {
         WaitForSeconds dura = new WaitForSeconds(duration);
         Stun = true;
-        //TODO 몬스터 머리 위에 스턴 애니메이션 표시하기
+        mRB2D.velocity = Vector3.zero;
+        mState = eMonsterState.Idle;
+        CCState.SetActive(true);
         yield return dura;
         Stun = false;
+        CCState.SetActive(false);
     }
 }

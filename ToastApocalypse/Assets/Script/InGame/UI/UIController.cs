@@ -144,13 +144,13 @@ public class UIController : MonoBehaviour
     }
     public void ShowArtifactImage()
     {
-        if (Player.Instance.NowUsingArtifact == null)
+        if (Player.Instance.NowActiveArtifact == null)
         {
             mArtifactImage.sprite = DefaultItemSprite;
         }
         else
         {
-            mArtifactImage.sprite = Player.Instance.NowUsingArtifact.mRenderer.sprite;
+            mArtifactImage.sprite = Player.Instance.NowActiveArtifact.mRenderer.sprite;
         }
     }
 

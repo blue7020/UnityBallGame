@@ -8,7 +8,6 @@ public class SlotMachine : MonoBehaviour
     public Room room;
     public Sprite[] mSpt;
     public SpriteRenderer mRenderer;
-    public Weapon[] WeaponeArr;
     public int Spend,index;
     private string text;
 
@@ -94,6 +93,7 @@ public class SlotMachine : MonoBehaviour
             {
                 Artifacts art = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], room.transform);
                 art.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
                 break;
             }
             index++;
@@ -105,12 +105,11 @@ public class SlotMachine : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            int WeaponIndex = Random.Range(0, WeaponeArr.Length);
-            if (Player.Instance.NowPlayerWeapon != WeaponeArr[WeaponIndex])
+            int WeaponIndex = Random.Range(0, WeaponController.Instance.mWeapons.Length);
+            if (Player.Instance.NowPlayerWeapon != WeaponController.Instance.mWeapons[WeaponIndex])
             {
-                Weapon weapon = Instantiate(WeaponeArr[WeaponIndex], room.transform);
+                Weapon weapon = Instantiate(WeaponController.Instance.mWeapons[WeaponIndex], room.transform);
                 weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
-                Debug.Log(weapon+" / "+weapon.transform.position);
                 break;
             }
             yield return delay;
@@ -131,7 +130,7 @@ public class SlotMachine : MonoBehaviour
         {
             if (enable==false)
             {
-                if (InventoryController.Instance.Full == true)
+                if (InventoryController.Instance.Full == false)
                 {
                     if (Player.Instance.mStats.Gold >= Spend)
                     {

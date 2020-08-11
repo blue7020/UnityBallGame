@@ -33,7 +33,7 @@ public class Artifacts : InformationLoader
 
     public void UseArtifact()
     {
-        if (eType == eArtifactType.Use)
+        if (eType == eArtifactType.Active)
         {
             if (IsArtifactCool == false)
             {
@@ -86,17 +86,7 @@ public class Artifacts : InformationLoader
         if (Equip == false)
         {
             Player.Instance.EquipArtifact(this);
-            if (eType == eArtifactType.Passive)
-            {
-                for (int i = 0; i < ArtifactController.Instance.mPassiveArtifact.Count; i++)
-                {
-                    if (ArtifactController.Instance.mPassiveArtifact[i] == this)
-                    {
-                        ArtifactController.Instance.mPassiveArtifact.RemoveAt(i);
-                    }
-                }
-            }
-            else
+            if (eType == eArtifactType.Active)
             {
                 for (int i = 0; i < ArtifactController.Instance.mActiveArtifact.Count; i++)
                 {
@@ -141,7 +131,7 @@ public class Artifacts : InformationLoader
                 InventoryController.Instance.nowIndex++;
                 EquipArtifact();
             }
-            else if (InventoryController.Instance.Full == true)
+            else
             {
                 if (GameSetting.Instance.Language == 0)
                 {
@@ -155,7 +145,7 @@ public class Artifacts : InformationLoader
                 effect.SetText(text);
             }
         }
-        if (Player.Instance.NowActiveArtifact == null && eType == eArtifactType.Use)
+        if (Player.Instance.NowActiveArtifact == null && eType == eArtifactType.Active)
         {
             transform.SetParent(Player.Instance.gameObject.transform);
             transform.position = Vector3.zero;
@@ -169,7 +159,7 @@ public class Artifacts : InformationLoader
         Artifacts drop = Player.Instance.NowActiveArtifact;
         if (drop != null)
         {
-            if (eType == eArtifactType.Use && drop.eType == eArtifactType.Use)
+            if (eType == eArtifactType.Active && drop.eType == eArtifactType.Active)
             {
                 drop.UnequipArtifact();
                 drop.Clamp();

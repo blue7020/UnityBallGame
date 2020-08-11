@@ -307,7 +307,7 @@ public class Player : MonoBehaviour
             mStats.CooltimeReduce += art.mStats.CooltimeReduce;
         }
 
-        if (art.eType == eArtifactType.Use)
+        if (art.eType == eArtifactType.Active)
         {
             NowActiveArtifact = art;
             UIController.Instance.ShowArtifactImage();

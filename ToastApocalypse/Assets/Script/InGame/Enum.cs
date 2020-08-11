@@ -67,7 +67,7 @@ public enum eChestType
 
 public enum eArtifactType
 {
-    Use,
+    Active,
     Passive
 }
 

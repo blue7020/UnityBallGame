@@ -123,10 +123,10 @@ public class Chest : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            int rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
-            if (Player.Instance.NowActiveArtifact != WeaponController.Instance.mWeapons[rand])
+            int rand = Random.Range(0, WeaponController.Instance.mWeapons.Length);
+            if (Player.Instance.NowPlayerWeapon != WeaponController.Instance.mWeapons[rand])
             {
-                rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
+                rand = Random.Range(0, WeaponController.Instance.mWeapons.Length);
                 weapon = WeaponPool.Instance.GetFromPool(rand);
                 weapon.transform.SetParent(mItem.transform);
                 weapon.Currentroom = Currentroom;

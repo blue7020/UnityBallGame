@@ -34,6 +34,14 @@ public class BuffController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
     public void SetBuff(int id,int code,eBuffType bufftype,float dura)
     {
         if (buffIndex > 6)

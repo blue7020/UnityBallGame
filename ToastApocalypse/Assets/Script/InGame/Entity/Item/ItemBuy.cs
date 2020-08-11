@@ -15,13 +15,9 @@ public class ItemBuy : MonoBehaviour
     public Text mPriceText;
     private string text;
 
-    private void OnEnable()
-    {
-        Sell = false;
-    }
-
     private void Start()
     {
+        Sell = false;
         mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
         mPriceText.transform.localScale = new Vector3(10, 10, 0);
     }
@@ -61,15 +57,15 @@ public class ItemBuy : MonoBehaviour
                 {
                     if (Player.Instance.mStats.Gold >= artifact.mStats.Price)
                     {
-                        if (artifact.mType == eArtifactType.Passive)
+                        if (artifact.eType == eArtifactType.Passive)
                         {
-                            if (InventoryController.Instance.nowIndex <= InventoryController.Instance.mSlotArr.Length)
+                            if (InventoryController.Instance.Full == false)
                             {
                                 artifact.IsShopItem = false;
                                 Player.Instance.mStats.Gold -= artifact.mStats.Price;
                                 Sell = true;
                                 artifact.Currentroom = Player.Instance.CurrentRoom;
-                                artifact.ItemChange();
+                                artifact.ArtifactChange();
                             }
                             else
                             {
@@ -91,6 +87,7 @@ public class ItemBuy : MonoBehaviour
                             Player.Instance.mStats.Gold -= artifact.mStats.Price;
                             Sell = true;
                             artifact.Currentroom = Player.Instance.CurrentRoom;
+                            artifact.ArtifactChange();
                         }
                         CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();

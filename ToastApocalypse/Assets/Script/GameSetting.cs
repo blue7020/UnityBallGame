@@ -13,12 +13,15 @@ public class GameSetting : MonoBehaviour
     public int PlayerSkillID;
     public bool Ingame;
 
+    private const int CharacterCount = 2;
+
     public Sprite[] mParts;
 
+    //로비 상점용
     public Sprite[] mStatueSprites;
     public Artifacts[] mArtifacts;
-
-    private const int CharacterCount = 2;
+    public Weapon[] mWeapons;
+    //
     //저장해야할 것
     public int BGMSetting;
     public int SESetting;
@@ -35,6 +38,7 @@ public class GameSetting : MonoBehaviour
     public bool[] StageOpen;
     public int NowStage;
     public Room[] NowStageRoom;
+    public const int Room_COUNT =6;
     public bool[] StagePartsget;
     public bool[] CharacterOpen;
 

@@ -225,7 +225,7 @@ public class Room : MonoBehaviour
 
             }
             Special = true;
-            RoomControllers.Instance.OnPlaerEnterRoom(this);
+            RoomControllers.Instance.OnPlayerEnterRoom(this);
         }
     }
 }

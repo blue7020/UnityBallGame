@@ -7,7 +7,6 @@ public class SlotMachine : MonoBehaviour
 {
     public Room room;
     public Sprite[] mSpt;
-    public Artifacts[] PassiveArtifactArr;
     public SpriteRenderer mRenderer;
     public Weapon[] WeaponeArr;
     public int Spend,index;
@@ -18,14 +17,14 @@ public class SlotMachine : MonoBehaviour
     public Animator mAnim;
     public bool enable;
 
-    private void Awake()
+    private void Start()
     {
         enable = false;
         mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
         mPriceText.text = Spend.ToString() + "G";
         mPriceText.gameObject.SetActive(false);
         CanvasFinder.Instance.mSlotPriceText = mPriceText;
-        mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+        mPriceText.transform.position = transform.position + new Vector3(0, -1f, 0);
         mPriceText.transform.localScale = new Vector3(10, 10, 0);
     }
 
@@ -33,7 +32,7 @@ public class SlotMachine : MonoBehaviour
     {
         mAnim.SetBool(AnimHash.Slot, false);
         float rand = Random.Range(0, 1f);
-        if (rand<=0.25f)//꽝
+        if (rand<0.25f)//꽝
         {
             mRenderer.sprite = mSpt[1];
             if (GameSetting.Instance.Language == 0)
@@ -45,10 +44,10 @@ public class SlotMachine : MonoBehaviour
                 text = "Fail...";
             }
         }
-        else if (rand >0.25f&&rand<=0.6f)//무기
+        else if (rand >=0.25f&&rand<0.6f)//무기
         {
             mRenderer.sprite = mSpt[2];
-            StartCoroutine(WeaponSerch());
+            StartCoroutine(WeaponSearch());
             if (GameSetting.Instance.Language == 0)
             {
                 text = "무기 획득!";
@@ -58,7 +57,7 @@ public class SlotMachine : MonoBehaviour
                 text = "Get Weapone!";
             }
         }
-        else if (rand>0.6f)//유물
+        else if (rand>=0.6f)//유물
         {
             index = 0;
             mRenderer.sprite = mSpt[3];
@@ -74,9 +73,15 @@ public class SlotMachine : MonoBehaviour
         }
         TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(text);
-        enable = false;
-        mRenderer.sprite = mSpt[0];
+        StartCoroutine(reset());
+    }
 
+    private IEnumerator reset()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        yield return delay;
+        mRenderer.sprite = mSpt[0];
+        enable = false;
     }
 
     private IEnumerator ArtifactSearch()
@@ -84,10 +89,10 @@ public class SlotMachine : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            int rand = Random.Range(0, PassiveArtifactArr.Length);
-            if (InventoryController.Instance.mSlotArr[index]!= PassiveArtifactArr[rand])
+            int rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
+            if (InventoryController.Instance.mSlotArr[index]!= ArtifactController.Instance.mPassiveArtifact[rand])
             {
-                Artifacts art = Instantiate(PassiveArtifactArr[rand], room.transform);
+                Artifacts art = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], room.transform);
                 art.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
                 break;
             }
@@ -95,26 +100,26 @@ public class SlotMachine : MonoBehaviour
             yield return delay;
         }
     }
-    private IEnumerator WeaponSerch()
+    private IEnumerator WeaponSearch()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            int rand = Random.Range(0, WeaponeArr.Length);
-            if (Player.Instance.NowPlayerWeapon != WeaponeArr[rand])
+            int WeaponIndex = Random.Range(0, WeaponeArr.Length);
+            if (Player.Instance.NowPlayerWeapon != WeaponeArr[WeaponIndex])
             {
-                Weapon weapon = Instantiate(WeaponeArr[rand], room.transform);
+                Weapon weapon = Instantiate(WeaponeArr[WeaponIndex], room.transform);
                 weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                Debug.Log(weapon+" / "+weapon.transform.position);
                 break;
             }
             yield return delay;
         }
     }
 
-
     private IEnumerator Roll()
     {
-        WaitForSeconds rolling = new WaitForSeconds(2f);
+        WaitForSeconds rolling = new WaitForSeconds(1f);
         mAnim.SetBool(AnimHash.Slot,true);
         yield return rolling;
         Rolling();
@@ -126,26 +131,55 @@ public class SlotMachine : MonoBehaviour
         {
             if (enable==false)
             {
-                enable = true;
-                if (Player.Instance.mStats.Gold >= Spend)
+                if (InventoryController.Instance.Full == true)
                 {
-                    Player.Instance.mStats.Gold -= Spend;
-                    UIController.Instance.ShowGold();
-                    StartCoroutine(Roll());
+                    if (Player.Instance.mStats.Gold >= Spend)
+                    {
+                        enable = true;
+                        Player.Instance.mStats.Gold -= Spend;
+                        UIController.Instance.ShowGold();
+                        StartCoroutine(Roll());
+                    }
+                    else
+                    {
+                        if (GameSetting.Instance.Language == 0)
+                        {
+                            text = "골드가 부족합니다!";
+                        }
+                        else
+                        {
+                            text = "Not enough Gold!";
+                        }
+                        TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                        effect.SetText(text);
+                    }
                 }
                 else
                 {
                     if (GameSetting.Instance.Language == 0)
                     {
-                        text = "골드가 부족합니다!";
+                        text = "인벤토리에 빈 공간이 없습니다!";
                     }
                     else
                     {
-                        text = "Not enough Gold!";
+                        text = "Inventory is full!";
                     }
                     TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
                     effect.SetText(text);
                 }
+            }
+            else
+            {
+                if (GameSetting.Instance.Language == 0)
+                {
+                    text = "아직 사용중입니다!";
+                }
+                else
+                {
+                    text = "Machine in use!";
+                }
+                TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(text);
             }
 
         }

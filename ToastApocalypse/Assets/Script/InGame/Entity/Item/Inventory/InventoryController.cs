@@ -15,6 +15,7 @@ public class InventoryController : MonoBehaviour
 
     public InventorySlot[] mSlotArr;
     public int nowIndex;
+    public bool Full;
 
     private void Awake()
     {
@@ -27,12 +28,13 @@ public class InventoryController : MonoBehaviour
                 mSlotArr[i] = Instantiate(mSlotPrefab, mSlotParents);
                 mSlotArr[i].Init(i, mVoidImage);
             }
+            nowIndex = 0;
+            Full = false;
         }
         else
         {
             Delete();
         }
-        nowIndex = 0;
     }
 
     public void Delete()
@@ -52,5 +54,9 @@ public class InventoryController : MonoBehaviour
     {
         mSlotArr[nowIndex].artifact = art;
         mSlotArr[nowIndex].mItemImage.sprite = art.mRenderer.sprite;
+        if (nowIndex >= SLOT_COUNT)
+        {
+            Full = true;
+        }
     }
 }

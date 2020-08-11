@@ -13,6 +13,7 @@ public class WeaponController : InformationLoader
     {
         return mInfoArr;
     }
+    public List<Weapon> mWeapons;
 
     private void Awake()
     {
@@ -25,6 +26,10 @@ public class WeaponController : InformationLoader
             Delete();
         }
         LoadJson(out mInfoArr, Path.WEAPON_STAT);
+        for (int i=0; i<GameSetting.Instance.mWeapons.Length;i++)
+        {
+            mWeapons.Add(GameSetting.Instance.mWeapons[i]);
+        }
     }
 
     private void Start()

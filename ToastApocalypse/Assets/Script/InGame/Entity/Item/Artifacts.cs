@@ -5,9 +5,10 @@ using UnityEngine;
 public class Artifacts : InformationLoader
 {
     public int mID;
-    public eArtifactType mType;
+    public eArtifactType eType;
 
     public SpriteRenderer mRenderer;
+    public string text;
 
     public Room Currentroom;
     public Vector3 backupPos;
@@ -32,7 +33,7 @@ public class Artifacts : InformationLoader
 
     public void UseArtifact()
     {
-        if (mType == eArtifactType.Use)
+        if (eType == eArtifactType.Use)
         {
             if (IsArtifactCool == false)
             {
@@ -85,6 +86,27 @@ public class Artifacts : InformationLoader
         if (Equip == false)
         {
             Player.Instance.EquipArtifact(this);
+            if (eType == eArtifactType.Passive)
+            {
+                for (int i = 0; i < ArtifactController.Instance.mPassiveArtifact.Count; i++)
+                {
+                    if (ArtifactController.Instance.mPassiveArtifact[i] == this)
+                    {
+                        ArtifactController.Instance.mPassiveArtifact.RemoveAt(i);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ArtifactController.Instance.mActiveArtifact.Count; i++)
+                {
+                    if (ArtifactController.Instance.mActiveArtifact[i] == this)
+                    {
+                        ArtifactController.Instance.mActiveArtifact.RemoveAt(i);
+                    }
+                }
+            }
+
         }
     }
 
@@ -93,17 +115,24 @@ public class Artifacts : InformationLoader
         if (Equip == true)
         {
             Player.Instance.UnequipArtifact(this);
+            if (eType == eArtifactType.Passive)
+            {
+                ArtifactController.Instance.mPassiveArtifact.Add(this);
+            }
+            else
+            {
+                ArtifactController.Instance.mActiveArtifact.Add(this);
+            }
         }
     }
 
 
 
-    public void ItemChange()
+    public void ArtifactChange()
     {
-        if (mType == eArtifactType.Passive)
+        if (eType == eArtifactType.Passive)
         {
-
-            if (InventoryController.Instance.nowIndex <= InventoryController.Instance.mSlotArr.Length)
+            if (InventoryController.Instance.Full == false)
             {
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
                 transform.position = Vector3.zero;
@@ -112,8 +141,21 @@ public class Artifacts : InformationLoader
                 InventoryController.Instance.nowIndex++;
                 EquipArtifact();
             }
+            else if (InventoryController.Instance.Full == true)
+            {
+                if (GameSetting.Instance.Language == 0)
+                {
+                    text = "인벤토리에 빈 공간이 없습니다!";
+                }
+                else
+                {
+                    text = "Inventory is full!";
+                }
+                TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(text);
+            }
         }
-        if (Player.Instance.NowActiveArtifact == null && mType == eArtifactType.Use)
+        if (Player.Instance.NowActiveArtifact == null && eType == eArtifactType.Use)
         {
             transform.SetParent(Player.Instance.gameObject.transform);
             transform.position = Vector3.zero;
@@ -127,7 +169,7 @@ public class Artifacts : InformationLoader
         Artifacts drop = Player.Instance.NowActiveArtifact;
         if (drop != null)
         {
-            if (mType == eArtifactType.Use && drop.mType == eArtifactType.Use)
+            if (eType == eArtifactType.Use && drop.eType == eArtifactType.Use)
             {
                 drop.UnequipArtifact();
                 drop.Clamp();
@@ -167,7 +209,7 @@ public class Artifacts : InformationLoader
             {
                 if (DropCool==false)
                 {
-                    ItemChange();
+                    ArtifactChange();
                 }
             }
         }

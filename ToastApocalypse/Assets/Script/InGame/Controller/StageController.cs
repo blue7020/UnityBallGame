@@ -23,10 +23,7 @@ public class StageController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            for (int i= 0; i<mStage.Length;i++)
-            {
-                GameSetting.Instance.NowStageRoom[i] = mStage[i];
-            }
+            GameSetting.Instance.NowStageRoom = mStage;
             GameSetting.Instance.Ingame = true;
             GameSetting.Instance.NowStage = mStageNum;
             SceneManager.LoadScene(3);

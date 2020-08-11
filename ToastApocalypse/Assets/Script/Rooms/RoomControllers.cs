@@ -26,41 +26,34 @@ public class RoomControllers : MonoBehaviour
 
     public List<Room> LoadedRooms;
 
-    public Room[] rooms; //6
+    public Room[] rooms;
     public bool RoomSetting;
 
     bool spawnedEndRoom = false;
     bool spawnedShopRoom = false;
-    bool spawnedStatueRoom = false;
+    bool spawnedSpacialRoom = false;
     bool spawnedChestRoom = false;
     public bool AllRoomGen = false;
 
     bool isLoadingRoom = false;
     bool updatedRooms = false;
+    bool firstSetting = false;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            rooms = GameSetting.Instance.NowStageRoom;
             LoadedRooms = new List<Room>();
             LoadRoomQueue = new Queue<RoomInfo>();
-            rooms = new Room[6];
             RoomLength = 0;
+            RoomSetting = true;
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        for (int i = 0; i < rooms.Length; i++)
-        {
-            rooms[i] = GameSetting.Instance.NowStageRoom[i];
-        }
-        RoomSetting = true;
     }
 
     public void LoadRoom(int id, int x, int y)
@@ -98,11 +91,11 @@ public class RoomControllers : MonoBehaviour
         if (LoadRoomQueue.Count == 0)
         {
 
-            if (!spawnedEndRoom)
+            if (firstSetting == false)
             {
                 StartCoroutine(SpawnEndRoom());
             }
-            else if (spawnedShopRoom && spawnedStatueRoom && spawnedChestRoom && spawnedEndRoom && !updatedRooms)
+            else if (spawnedShopRoom==true && spawnedSpacialRoom == true && spawnedChestRoom == true && spawnedEndRoom == true && !updatedRooms == true)
             {
                 foreach (Room room in LoadedRooms)
                 {
@@ -121,17 +114,11 @@ public class RoomControllers : MonoBehaviour
 
     private IEnumerator SpawnEndRoom()
     {
-        WaitForSeconds point = new WaitForSeconds(0.5f);
-        spawnedShopRoom = true;
-        spawnedStatueRoom = true;
-        spawnedChestRoom = true;
-        spawnedEndRoom = true;
-
+        WaitForSeconds point = new WaitForSeconds(0.7f);
+        firstSetting = true;
         yield return point;
         if (LoadRoomQueue.Count == 0)
         {
-
-            //Empty룸을 검출해서 랜덤으로 방을 바꾼다.
             List<int> EnemyRoom = new List<int>();
             for (int i = 0; i < LoadedRooms.Count; i++)
             {
@@ -147,32 +134,52 @@ public class RoomControllers : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        int rand0 = Random.Range(1, EnemyRoom.Count);
+                        //ShopRoom
+                        int rand0 = Random.Range(1, Count);
                         Room ShopRoom = LoadedRooms[rand0];
                         Room tempRoom1 = new Room(ShopRoom.X, ShopRoom.Y);
                         Destroy(ShopRoom.gameObject);
                         var roomToRemove1 = LoadedRooms.Single(r => r.X == tempRoom1.X && r.Y == tempRoom1.Y);
                         LoadedRooms.Remove(roomToRemove1);
                         LoadRoom(1, tempRoom1.X, tempRoom1.Y);
+                        spawnedShopRoom = true;
                         break;
                     case 1:
-                        //StatueRoom
-                        int rand1 = Random.Range(1, EnemyRoom.Count);
-                        Room StatueRoom = LoadedRooms[rand1];
-                        Room tempRoom3 = new Room(StatueRoom.X, StatueRoom.Y);
-                        Destroy(StatueRoom.gameObject);
-                        var roomToRemove3 = LoadedRooms.Single(r => r.X == tempRoom3.X && r.Y == tempRoom3.Y);
-                        LoadedRooms.Remove(roomToRemove3);
-                        LoadRoom(2, tempRoom3.X, tempRoom3.Y);
+                        float rand = Random.Range(0, 1f);
+                        if (rand<0.5f)
+                        {
+                            //StatueRoom
+                            int rand1 = Random.Range(1, Count);
+                            Room StatueRoom = LoadedRooms[rand1];
+                            Room tempRoom3 = new Room(StatueRoom.X, StatueRoom.Y);
+                            Destroy(StatueRoom.gameObject);
+                            var roomToRemove3 = LoadedRooms.Single(r => r.X == tempRoom3.X && r.Y == tempRoom3.Y);
+                            LoadedRooms.Remove(roomToRemove3);
+                            LoadRoom(2, tempRoom3.X, tempRoom3.Y);
+                        }
+                        else if(rand>=0.5f)
+                        {
+                            //SlotRoom
+                            int rand1 = Random.Range(1, Count);
+                            Room SlotRoom = LoadedRooms[rand1];
+                            Room tempRoom3 = new Room(SlotRoom.X, SlotRoom.Y);
+                            Destroy(SlotRoom.gameObject);
+                            var roomToRemove3 = LoadedRooms.Single(r => r.X == tempRoom3.X && r.Y == tempRoom3.Y);
+                            LoadedRooms.Remove(roomToRemove3);
+                            LoadRoom(6, tempRoom3.X, tempRoom3.Y);
+                        }
+                        spawnedSpacialRoom = true;
                         break;
                     case 2:
-                        int rand2 = Random.Range(1, EnemyRoom.Count);
+                        //ChestRoom
+                        int rand2 = Random.Range(1, Count);
                         Room ChestRoom = LoadedRooms[rand2];
                         Room tempRoom4 = new Room(ChestRoom.X, ChestRoom.Y);
                         Destroy(ChestRoom.gameObject);
                         var roomToRemove4 = LoadedRooms.Single(r => r.X == tempRoom4.X && r.Y == tempRoom4.Y);
                         LoadedRooms.Remove(roomToRemove4);
                         LoadRoom(3, tempRoom4.X, tempRoom4.Y);
+                        spawnedChestRoom = true;
                         break;
                     case 3:
                         //Endroom
@@ -182,6 +189,7 @@ public class RoomControllers : MonoBehaviour
                         var roomToRemove2 = LoadedRooms.Single(r => r.X == tempRoom2.X && r.Y == tempRoom2.Y);
                         LoadedRooms.Remove(roomToRemove2);
                         LoadRoom(5, tempRoom2.X, tempRoom2.Y);
+                        spawnedEndRoom = true;
                         break;
 
                     default:
@@ -247,10 +255,9 @@ public class RoomControllers : MonoBehaviour
         return possibleRooms[Random.Range(0, possibleRooms.Length)];
     }
 
-    public void OnPlaerEnterRoom(Room room)
+    public void OnPlayerEnterRoom(Room room)
     {
         Room CurrentRoom =room;
-        //플레이어가 해당 방에 들어왔을 때.
         Player.Instance.CurrentRoom = CurrentRoom;
         if (GameController.Instance.Level < GameSetting.LEVEL_COUNT)
         {

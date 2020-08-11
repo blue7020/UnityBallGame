@@ -110,6 +110,7 @@ public class Weapon : MonoBehaviour
         if (Equip == false)
         {
             Equip = true;
+            WeaponController.Instance.mWeapons.Remove(this);
             if (eType == eWeaponType.Range)
             {
                 Aim.gameObject.SetActive(true);
@@ -139,6 +140,7 @@ public class Weapon : MonoBehaviour
             StartCoroutine(DropCool());
             Player.Instance.UnequipWeapon(this);
             Equip = false;
+            WeaponController.Instance.mWeapons.Add(this);
         }
     }
 

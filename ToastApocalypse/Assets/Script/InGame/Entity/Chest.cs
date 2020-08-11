@@ -14,9 +14,11 @@ public class Chest : MonoBehaviour
 
     private bool ChestOpen;
     private eChestType Type;
-    private Weapon mWeapon;
+    private Weapon weapon;
     private Artifacts artifact;
     private int index;
+
+    private float[] rate=new float[3];//0=무기 확률 1=패시브 유물 확률 2=액티브 유물 확률
 
     private void Awake()
     {
@@ -45,29 +47,12 @@ public class Chest : MonoBehaviour
         ChestOpen = false;
     }
 
-    private void Start()
-    {
-        while (true)
-        {
-            //TODO 상자의 등급에 따라 아이템 배열 다르게 설정
-            int rand = Random.Range(0, 4);
-            if (Player.Instance.NowPlayerWeapon.mID!=rand)
-            {
-                mWeapon = WeaponPool.Instance.GetFromPool(rand);
-                mWeapon.transform.SetParent(mItem.transform);
-                mWeapon.Currentroom = Currentroom;
-                mWeapon.transform.position = Vector3.zero;
-                mRB2D = mItem.GetComponent<Rigidbody2D>();
-                break;
-            }
-        }
-    }
-
     private void Wood()
     {
-        float rand;
-
-        rand = Random.Range(0, 1f);
+        rate[0] = 0.45f;
+        rate[1] = 0.40f;
+        rate[2] = 0.15f;
+        float rand = Random.Range(0, 1f);
         if (rand > 0.4f)//상자
         {
             mRenderer.sprite = mSprites[0];
@@ -81,9 +66,10 @@ public class Chest : MonoBehaviour
 
     private void Silver()
     {
-        float rand;
-
-        rand = Random.Range(0, 1f);
+        rate[0] = 0.15f;
+        rate[1] = 0.5f;
+        rate[2] = 0.35f;
+        float rand = Random.Range(0, 1f);
         if (rand > 0.3f)//상자
         {
             mRenderer.sprite = mSprites[2];
@@ -97,9 +83,10 @@ public class Chest : MonoBehaviour
 
     private void Gold()
     {
-        float rand;
-
-        rand = Random.Range(0, 1f);
+        rate[0] = 0.1f;
+        rate[1] = 0.35f;
+        rate[2] = 0.55f;
+        float rand = Random.Range(0, 1f);
         if (rand > 0.1f)//상자
         {
             mRenderer.sprite = mSprites[4];
@@ -111,38 +98,44 @@ public class Chest : MonoBehaviour
         }
     }
 
+
     private void Open()
     {
         ChestOpen = true;
         mItem.SetActive(true);
-        int rand = Random.Range(0, 4);
-        switch (rand)
+        float rand = Random.Range(0, 1f);
+        if (rand >= rate[0]&& rand < rate[1])//무기
         {
-            case 0:
-                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(-1, 1, 0);
-                break;
-            case 1:
-                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(1, 1, 0);
-                break;
-            case 2:
-                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(1, -1, 0);
-                break;
-            case 3:
-                mWeapon.transform.position = Player.Instance.transform.localPosition + new Vector3(-1, -1, 0);
-                break;
-            default:
-                Debug.LogError("Wrong randID");
-                break;
-        }  
+            StartCoroutine(WeaponSearch());
+        }
+        else if (rand >= rate[1]&& rand <= rate[2])//패시브유물
+        {
+            StartCoroutine(PassiveArtifactSearch());
+        }
+        else if(rand >= rate[2])//액티브 유물
+        {
+            StartCoroutine(ActiveArtifactSearch());
+        }
     }
 
-    private void Open2()
+    private IEnumerator WeaponSearch()
     {
-        ChestOpen = true;
-        mItem.SetActive(true);
-        //TODO 확률로 맞는 아이템 나오게 하기
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        while (true)
+        {
+            int rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
+            if (Player.Instance.NowActiveArtifact != WeaponController.Instance.mWeapons[rand])
+            {
+                rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
+                weapon = WeaponPool.Instance.GetFromPool(rand);
+                weapon.transform.SetParent(mItem.transform);
+                weapon.Currentroom = Currentroom;
+                weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                break;
+            }
+            yield return delay;
+        }
     }
-
     private IEnumerator PassiveArtifactSearch()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
@@ -153,7 +146,7 @@ public class Chest : MonoBehaviour
             if (InventoryController.Instance.mSlotArr[index] != ArtifactController.Instance.mPassiveArtifact[rand])
             {
                 rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
-                artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], Currentroom.transform.localPosition, Quaternion.identity);
+                artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mItem.transform);
                 artifact.Currentroom = Currentroom;
                 artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
                 ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
@@ -172,7 +165,7 @@ public class Chest : MonoBehaviour
             if (Player.Instance.NowActiveArtifact != ArtifactController.Instance.mActiveArtifact[rand])
             {
                 rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
-                artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], Currentroom.transform.localPosition, Quaternion.identity);
+                artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], mItem.transform);
                 artifact.Currentroom = Currentroom;
                 artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
                 ArtifactController.Instance.mActiveArtifact.Remove(artifact);

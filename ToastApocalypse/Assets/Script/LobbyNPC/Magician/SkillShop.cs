@@ -10,7 +10,7 @@ public class SkillShop : MonoBehaviour
 
     public Image mScreen;
     public Button mBuyButton;
-    public Text mTitle, ChangeButtonText, ShopButtonText, mShopTitleText, mBuyText, mLoreText, mSkillTitle, mSkillPrice, mChangeTitleText, mSelectText, mChangeTooltip;
+    public Text mTitle, ChangeButtonText, ShopButtonText, mShopTitleText, mBuyText, mLoreText, mSkillTitle, mSkillPrice, mChangeTitleText, mSelectText, mChangeTooltip,mGuideText;
 
     public SkillStat mSkill;
     public SkillText mSkillText;
@@ -39,7 +39,8 @@ public class SkillShop : MonoBehaviour
             mChangeTitleText.text = "스킬 교체";
             mSkillTitle.text = "스킬 선택";
             mLoreText.text = "스테이지 내에서 사용할 수 있는 스킬을 구입합니다";
-            mChangeTooltip.text = "등록할 스킬을 드래그하여 현재 선택 칸에 넣어주세요";
+            mChangeTooltip.text = "등록할 스킬을 드래그하여 현재 선택 슬롯에 넣어주세요";
+            mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
             mSelectText.text = "현재 선택";
             mBuyText.text = "구매";
         }
@@ -52,7 +53,8 @@ public class SkillShop : MonoBehaviour
             mChangeTitleText.text = "Skill Change";
             mSkillTitle.text = "Skill Select";
             mLoreText.text = "Touch the skill to purchase";
-            mChangeTooltip.text = "Drag the skill to selection slot.";
+            mChangeTooltip.text = "Drag the skill to selection slot";
+            mGuideText.text = "Touch the slot to view tooltips";
             mSelectText.text = "Selection";
             mBuyText.text = "Purchase";
         }

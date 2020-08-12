@@ -25,32 +25,32 @@ public class MainScreenUIController : MonoBehaviour
         {
             mStartText.text = "게임 시작";
             mEndText.text = "게임 종료";
-            mKorButton.gameObject.SetActive(false);
-            mEngButton.gameObject.SetActive(true);
+            mEngButton.interactable = true;
+            mKorButton.interactable = false;
 
         }
         else if(GameSetting.Instance.Language == 1)
         {
+            mEngButton.interactable = false;
+            mKorButton.interactable = true;
             mStartText.text = "Start";
             mEndText.text = "Quit";
-            mEngButton.gameObject.SetActive(false);
-            mKorButton.gameObject.SetActive(true);
         }
     }
 
     //0 = 한국어 / 1 = 영어
     public void LanguagetoKor()
     {
-        mEngButton.gameObject.SetActive(false);
-        mKorButton.gameObject.SetActive(true);
+        mEngButton.interactable = false;
+        mKorButton.interactable = true;
         GameSetting.Instance.Language = 1;
         mStartText.text = "Start";
         mEndText.text = "Quit";
     }
     public void LanguagetoEng()
     {
-        mKorButton.gameObject.SetActive(false);
-        mEngButton.gameObject.SetActive(true);
+        mEngButton.interactable = true;
+        mKorButton.interactable = false;
         GameSetting.Instance.Language = 0;
         mStartText.text = "게임 시작";
         mEndText.text = "게임 종료";

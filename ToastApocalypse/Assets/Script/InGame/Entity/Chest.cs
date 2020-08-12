@@ -104,15 +104,15 @@ public class Chest : MonoBehaviour
         ChestOpen = true;
         mItem.SetActive(true);
         float rand = Random.Range(0, 1f);
-        if (rand >= rate[0]&& rand < rate[1])//무기
+        if (ArtifactController.Instance.mPassiveArtifact.Count >= 0&&rand >= rate[0] && rand < rate[1])//무기
         {
             StartCoroutine(WeaponSearch());
         }
-        else if (rand >= rate[1]&& rand <= rate[2])//패시브유물
+        else if (WeaponController.Instance.mWeapons.Count >= 0&&rand >= rate[1] && rand <= rate[2])//패시브유물
         {
             StartCoroutine(PassiveArtifactSearch());
         }
-        else if(rand >= rate[2])//액티브 유물
+        else if (ArtifactController.Instance.mActiveArtifact.Count>=0&&rand >= rate[2])//액티브 유물
         {
             StartCoroutine(ActiveArtifactSearch());
         }
@@ -123,13 +123,14 @@ public class Chest : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            int rand = Random.Range(0, WeaponController.Instance.mWeapons.Length);
+            int rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
             if (Player.Instance.NowPlayerWeapon != WeaponController.Instance.mWeapons[rand])
             {
-                rand = Random.Range(0, WeaponController.Instance.mWeapons.Length);
+                rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
                 weapon = WeaponPool.Instance.GetFromPool(rand);
                 weapon.transform.SetParent(mItem.transform);
                 weapon.Currentroom = Currentroom;
+                WeaponController.Instance.mWeapons.RemoveAt(rand);
                 weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
                 break;
             }

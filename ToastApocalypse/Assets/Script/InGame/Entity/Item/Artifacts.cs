@@ -151,6 +151,7 @@ public class Artifacts : InformationLoader
             transform.position = Vector3.zero;
             Player.Instance.NowActiveArtifact = this;
             Player.Instance.UseItemInventory = this;
+            ArtifactController.Instance.mPassiveArtifact.Add(this);
             UIController.Instance.ShowArtifactImage();
             mRenderer.color = Color.clear;
 
@@ -167,6 +168,7 @@ public class Artifacts : InformationLoader
                 drop.gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
                 drop.mRenderer.color = Color.white;
                 drop.gameObject.transform.position = Player.Instance.gameObject.transform.position;
+                ArtifactController.Instance.mPassiveArtifact.Remove(drop);
                 if (IsShopItem == false)
                 {
                     StartCoroutine(drop.DropCooltime());

@@ -119,6 +119,7 @@ public class Weapon : MonoBehaviour
             Currentroom = Player.Instance.CurrentRoom;
             transform.SetParent(Player.Instance.gameObject.transform);
             transform.localPosition = Vector3.zero;
+            WeaponController.Instance.mWeapons.Remove(this);
             UIController.Instance.ShowNowBulletText();
             UIController.Instance.ShowWeaponImage();
         }
@@ -137,6 +138,7 @@ public class Weapon : MonoBehaviour
             gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
             gameObject.transform.position = Player.Instance.transform.position;
             StartCoroutine(DropCool());
+            WeaponController.Instance.mWeapons.Add(this);
             Player.Instance.UnequipWeapon(this);
             Equip = false;
         }

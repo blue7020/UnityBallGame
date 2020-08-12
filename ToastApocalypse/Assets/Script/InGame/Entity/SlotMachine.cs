@@ -43,32 +43,16 @@ public class SlotMachine : MonoBehaviour
                 text = "Fail...";
             }
         }
-        else if (rand >=0.25f&&rand<0.6f)//무기
+        else if (WeaponController.Instance.mWeapons.Count >= 0&&rand >=0.25f&&rand<0.6f)//무기
         {
             mRenderer.sprite = mSpt[2];
             StartCoroutine(WeaponSearch());
-            if (GameSetting.Instance.Language == 0)
-            {
-                text = "무기 획득!";
-            }
-            else
-            {
-                text = "Get Weapone!";
-            }
         }
-        else if (rand>=0.6f)//유물
+        else if (ArtifactController.Instance.mActiveArtifact.Count >= 0 && rand >=0.6f)//유물
         {
             index = 0;
             mRenderer.sprite = mSpt[3];
             StartCoroutine(ArtifactSearch());
-            if (GameSetting.Instance.Language == 0)
-            {
-                text = "유물 획득!";
-            }
-            else
-            {
-                text = "Get Artifact!";
-            }
         }
         TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(text);
@@ -79,8 +63,8 @@ public class SlotMachine : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         yield return delay;
-        mRenderer.sprite = mSpt[0];
         enable = false;
+        mRenderer.sprite = mSpt[0];
     }
 
     private IEnumerator ArtifactSearch()
@@ -94,6 +78,14 @@ public class SlotMachine : MonoBehaviour
                 Artifacts art = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], room.transform);
                 art.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
                 ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
+                if (GameSetting.Instance.Language == 0)
+                {
+                    text = "유물 획득!";
+                }
+                else
+                {
+                    text = "Get Artifact!";
+                }
                 break;
             }
             index++;
@@ -105,11 +97,20 @@ public class SlotMachine : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            int WeaponIndex = Random.Range(0, WeaponController.Instance.mWeapons.Length);
+            int WeaponIndex = Random.Range(0, WeaponController.Instance.mWeapons.Count);
             if (Player.Instance.NowPlayerWeapon != WeaponController.Instance.mWeapons[WeaponIndex])
             {
                 Weapon weapon = Instantiate(WeaponController.Instance.mWeapons[WeaponIndex], room.transform);
                 weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                WeaponController.Instance.mWeapons.RemoveAt(WeaponIndex);
+                if (GameSetting.Instance.Language == 0)
+                {
+                    text = "무기 획득!";
+                }
+                else
+                {
+                    text = "Get Weapone!";
+                }
                 break;
             }
             yield return delay;

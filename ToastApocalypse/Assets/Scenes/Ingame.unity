@@ -757,6 +757,7 @@ MonoBehaviour:
   bulletText: {fileID: 1189195520}
   mLevelText: {fileID: 1487873772}
   mPlayerImage: {fileID: 1144957294}
+  mStatPlayerImage: {fileID: 397874391}
   mMinimapPlayerImage: {fileID: 1645303952}
   mWeaponImage: {fileID: 1938839357}
   mSkillImage: {fileID: 526015739}
@@ -767,9 +768,6 @@ MonoBehaviour:
   ArtifactCoolWheel: {fileID: 1634715909}
   mClearImage: {fileID: 259983747}
   mPlayerLookPoint: {fileID: 977849978}
-  mCharacterSprite:
-  - {fileID: 8180320953220700661, guid: 5c6518d0f5f8a964d90785298d8923f5, type: 3}
-  - {fileID: -328029022308039581, guid: 00333c5e02786304f9a0a089e18e03bd, type: 3}
   DefaultItemSprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   mStatButton: {fileID: 1833709821}
   mSKillButton: {fileID: 1246851444}
@@ -1345,7 +1343,7 @@ GameObject:
   - component: {fileID: 397874392}
   - component: {fileID: 397874391}
   m_Layer: 5
-  m_Name: Image
+  m_Name: PlayerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1537,6 +1535,7 @@ MonoBehaviour:
   mPlayer:
   - {fileID: 5854121466662971612, guid: 8f7c82d9a8431fe469b2b475b6db16bc, type: 3}
   - {fileID: 7152121431756567063, guid: fad14df731020034e94fb8d500de721d, type: 3}
+  - {fileID: 5973384077324941117, guid: e68aaec69e35e324aadf6d9a557de00f, type: 3}
   mSkill: {fileID: 645544482}
   stick: {fileID: 671272101}
   mInfoArr: []
@@ -2537,8 +2536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mID: 0
-  mSkillIcon: {fileID: -4236627653146892992, guid: 57f4b24af77eab84cad2a9a77cbf6482,
-    type: 3}
+  mSkillIcon: {fileID: 21300000, guid: 0e49dc634cd747647bf0fdff771c423a, type: 3}
   mStat:
     ID: 0
     Damage: 0
@@ -2750,8 +2748,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStatInfoArr: []
   mTextInfoArr: []
-  mActiveArtifact: []
   mPassiveArtifact: []
+  mActiveArtifact: []
 --- !u!4 &704644594
 Transform:
   m_ObjectHideFlags: 0
@@ -3638,6 +3636,7 @@ MonoBehaviour:
   mVoidImage: {fileID: 21300000, guid: 0e49dc634cd747647bf0fdff771c423a, type: 3}
   mSlotArr: []
   nowIndex: 0
+  Full: 0
 --- !u!4 &1023845023
 Transform:
   m_ObjectHideFlags: 0
@@ -6548,8 +6547,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStatInfoArr: []
   mTextInfoArr: []
-  mActiveArtifact: []
   mPassiveArtifact: []
+  mActiveArtifact: []
 --- !u!4 &1684222601
 Transform:
   m_ObjectHideFlags: 0

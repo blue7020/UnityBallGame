@@ -95,7 +95,7 @@ public class RoomControllers : MonoBehaviour
             {
                 StartCoroutine(SpawnEndRoom());
             }
-            else if (spawnedShopRoom==true && spawnedSpacialRoom == true && spawnedChestRoom == true && spawnedEndRoom == true && !updatedRooms == true)
+            if (spawnedShopRoom==true && spawnedSpacialRoom == true && spawnedChestRoom == true && spawnedEndRoom == true && !updatedRooms == true)
             {
                 foreach (Room room in LoadedRooms)
                 {

@@ -11,7 +11,7 @@ public class Room : MonoBehaviour
     public int X;
     public int Y;
 
-    private bool updatedDoors = false;
+    private bool updatedDoors;
 
     public Room(int x, int y)
     {
@@ -40,6 +40,7 @@ public class Room : MonoBehaviour
     {
         EnemyCount = 0;
         Special = false;
+        updatedDoors = false;
     }
     // Start is called before the first frame update
     void Start()
@@ -95,6 +96,11 @@ public class Room : MonoBehaviour
                 updatedDoors = true;
             }
             if (name.Contains("Chest") && !updatedDoors)
+            {
+                RemoveUnconnectedDoors();
+                updatedDoors = true;
+            }
+            if (name.Contains("Enemy") && !updatedDoors)
             {
                 RemoveUnconnectedDoors();
                 updatedDoors = true;

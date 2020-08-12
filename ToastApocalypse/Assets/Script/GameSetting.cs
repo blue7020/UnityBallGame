@@ -13,9 +13,10 @@ public class GameSetting : MonoBehaviour
     public int PlayerSkillID;
     public bool Ingame;
 
-    private const int CharacterCount = 2;
+    private const int CharacterCount = 3;
 
     public Sprite[] mParts;
+    public Sprite[] mPlayerSpt;
 
     //로비 상점용
     public Sprite[] mStatueSprites;
@@ -76,7 +77,7 @@ public class GameSetting : MonoBehaviour
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈
             PlayerHasSkill[0] = true;//기본 스킬 오픈
-            PlayerSkillID = 2;
+            PlayerSkillID = 0;
             Syrup = 0;
             PartsIndex = 0;
         }
@@ -84,6 +85,7 @@ public class GameSetting : MonoBehaviour
 
         Syrup = 30000;
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
+        CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈
     }

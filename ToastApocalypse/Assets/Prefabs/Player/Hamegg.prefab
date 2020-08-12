@@ -213,12 +213,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joyskick: {fileID: 0}
   mID: 1
-  PlayerImage: {fileID: 7152121430612233987}
+  PlayerImage: {fileID: 7152121430612233985}
   mMaxHP: 0
   mCurrentHP: 0
   CurrentRoom: {fileID: 0}
   EnemySwitch: 0
   mNowStage: 0
+  PlayerSkillStand: 0
+  buffIncrease: []
   mStats:
     Gold: 0
     ID: 0
@@ -229,19 +231,19 @@ MonoBehaviour:
     Def: 0
     AtkSpd: 0
     Spd: 0
-    IsPercent: 0
     Crit: 0
     CritDamage: 0
     CooltimeReduce: 0
     CCReduce: 0
-    Damage: 0
     Skill_Cooltime: 0
     Skill_Duration: 0
+  AttackSpeedStat: 0
+  mGoldBonus: 0
   mDirection: {fileID: 2366450713580053750}
   NowPlayerWeapon: {fileID: 0}
   NowPlayerSkill: {fileID: 0}
   NowItem: {fileID: 0}
-  NowUsingArtifact: {fileID: 0}
+  NowActiveArtifact: {fileID: 0}
   UseItemInventory: {fileID: 0}
   mRenderer: {fileID: 7152121430612233985}
   mRB2D: {fileID: 7152121431756567056}

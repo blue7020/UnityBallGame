@@ -266,7 +266,7 @@ public class Enemy : InformationLoader
                 {
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
-                mRB2D.velocity = dir.normalized * (mStats.Spd + (mStats.Spd * SpeedAmount));
+                mRB2D.velocity = dir.normalized * (mStats.Spd * (1 + SpeedAmount));
                 yield return one;
             }
         }
@@ -279,6 +279,14 @@ public class Enemy : InformationLoader
         SpeedAmount += value;
         yield return dura;
         SpeedAmount -= value;
+    }
+
+    public IEnumerator SpeedNurf(float duration, float value)
+    {
+        WaitForSeconds dura = new WaitForSeconds(duration);
+        SpeedAmount -= value;
+        yield return dura;
+        SpeedAmount += value;
     }
 
     public IEnumerator Stuned(float duration)

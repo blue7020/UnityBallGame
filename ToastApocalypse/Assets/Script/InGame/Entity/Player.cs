@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     public VirtualJoyStick joyskick;
 
     public int mID;
-    public Sprite PlayerImage;
     public float mMaxHP;
     public float mCurrentHP;
 
@@ -211,7 +210,6 @@ public class Player : MonoBehaviour
     }
 
     //buffs
-    //TODO 각 버프 중 플레이어한테 이펙트 표시
     public void Heal(float mHealAmount, float BonusHeal = 0)
     {
         if ((mCurrentHP + mHealAmount) >= mMaxHP)

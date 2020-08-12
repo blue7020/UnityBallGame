@@ -18,13 +18,10 @@ public class PlayerStat
     public float AtkSpd;
     public float Spd;
 
-    public bool IsPercent;
     public float Crit;
     public float CritDamage;
     public float CooltimeReduce;
     public float CCReduce;
-
-    public float Damage;
 
     public float Skill_Cooltime;
     public float Skill_Duration;

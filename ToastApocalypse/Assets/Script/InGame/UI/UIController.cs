@@ -10,10 +10,9 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
 
     public Text mGoldText, mHPText,mStatText, mNameText, bulletText,mLevelText;
-    public Image mPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage, SkillCoolWheel;
+    public Image mPlayerImage,mStatPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage, SkillCoolWheel;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint;
 
-    public Sprite[] mCharacterSprite;
     public Sprite DefaultItemSprite;
 
     public Button mStatButton, mSKillButton,mItemButton, mArtifactButton;
@@ -190,12 +189,19 @@ public class UIController : MonoBehaviour
         switch (GameSetting.Instance.PlayerID)
         {
             case 0:
-                mPlayerImage.sprite = mCharacterSprite[0];
-                mMinimapPlayerImage.sprite = mCharacterSprite[0];
+                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
+                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
+                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
                 break;
             case 1:
-                mPlayerImage.sprite = mCharacterSprite[1];
-                mMinimapPlayerImage.sprite = mCharacterSprite[1];
+                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[1];
+                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[1];
+                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[1];
+                break;
+            case 2:
+                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
+                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
+                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
                 break;
             default:
                 Debug.LogError("Wrong Character Image");

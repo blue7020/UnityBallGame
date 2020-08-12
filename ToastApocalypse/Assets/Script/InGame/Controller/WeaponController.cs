@@ -61,13 +61,14 @@ public class WeaponController : InformationLoader
     }
 
     //WeaponSkillData
-
-    public void Mustard(Enemy Target)
+    private void Mustard(Enemy target)
     {
-        //slow
+        target.StartCoroutine(target.SpeedNurf(1.5f,0.5f));
     }
+
     public void Baguette(Enemy Target)
     {
-        //Target.mRB2D.AddForce((Target.transform.position)/2, ForceMode2D.Impulse);
+        int rand = Random.Range(0, 1);
+        Target.mRB2D.AddForce(new Vector3(rand,rand,0)*2f, ForceMode2D.Impulse);
     }
 }

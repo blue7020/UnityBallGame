@@ -15,6 +15,11 @@ public class EnemySkill : MonoBehaviour
     public Transform[] BulletStarter;
     public GameObject[] SkillObj;
 
+    private void Start()
+    {
+        Skilltrigger = false;
+    }
+
     public void Skill()
     {
         Count = 0;
@@ -48,13 +53,13 @@ public class EnemySkill : MonoBehaviour
             case 10://Hambug
                 break;
             case 11://Flied
-                Flied1();
+                StartCoroutine(Flied1());
                 break;
             case 12://Burger-Pac
                 CabbageBoomerang();
                 break;
             case 13://Portatargo
-                Potatargo();
+                Potatargot();
                 break;
             case 14://Dispenster
                 ColaRay();
@@ -71,7 +76,7 @@ public class EnemySkill : MonoBehaviour
                 StartCoroutine(FireHand());
                 break;
             case 19://chocoshell
-                StartCoroutine(ChocoShellIn());
+                ChocoShellIn();
                 break;
             case 20://mrs. cake
                 break;
@@ -288,27 +293,16 @@ public class EnemySkill : MonoBehaviour
         Count++;
     }
 
-    private void Flied1()//id = 11
+    private IEnumerator Flied1()//id = 11
     {
-        Count = 0;
+        WaitForSeconds delay = new WaitForSeconds(3f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        while (true)
-        {
-            Invoke("MoveFlied",0.1f);
-            if (Count >= 15)
-            {
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                StartCoroutine(MoveDelay(1.5f));
-                break;
-            }
-        }
-    }
-    private void MoveFlied()
-    {
-        Vector3 Pos = mEnemy.mTarget.transform.position;
-        Vector3 dir = Pos - transform.position;
-        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd*3);
-        Count++;
+        mEnemy.SpeedAmount += 0.3f;
+        Count = 0;
+        yield return delay;
+        mEnemy.SpeedAmount -= 0.3f;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        StartCoroutine(MoveDelay(1.5f));
     }
 
     private void Flied2()
@@ -319,28 +313,56 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-    private void Potatargo()//id = 13
+    private void Potatargot()//id = 13
     {
         Count = 0;
-
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP/2)
         {
-            mEnemy.mStats.AtkSpd = mEnemy.mStats.AtkSpd *2f;
-            BackupSpeed = mEnemy.mStats.Spd;
-            mEnemy.mStats.Spd = 0f;
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            if (Skilltrigger==false)
+            {
+                mEnemy.mStats.AtkSpd = mEnemy.mStats.AtkSpd * 2f;
+                Skilltrigger = true;
+            }
             mEnemy.Nodamage = true;
+            Debug.Log("무적");
             StartCoroutine(ShellIn());
         }
+        StartCoroutine(PotatoShoting());
+
+    }
+
+    private IEnumerator PotatoShoting()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            Invoke("PotatoShot", 0.3f);
-            if (Count <= 4)
+            Invoke("PotatoShot", 0.1f);
+            if (Count >= 2)
             {
                 break;
             }
+            yield return delay;
         }
     }
+    private IEnumerator ShellIn()//13
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        StartCoroutine(MoveDelay(4f));
+        Count = 0;
+        while (true)
+        {
+            if (Count > 39)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                mEnemy.Nodamage = false;
+                break;
+            }
+            PotatoShot();
+            yield return delay;
+        }
+    }
+
 
     private void CabbageBoomerang()//id =12
     {
@@ -367,27 +389,6 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-    private IEnumerator ShellIn()//13
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        StartCoroutine(MoveDelay(5.1f));
-        Count = 0;
-        while (true)
-        {
-            if (Count >= 50)
-            {
-                mEnemy.mStats.Spd = BackupSpeed;
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                mEnemy.Nodamage = false;
-                break;
-            }
-            else
-            {
-                Invoke("PotatoShot", 0.8f);
-                yield return delay;
-            }
-        }
-    }
     private void PotatoShot()
     {
         Vector3 Pos = Player.Instance.transform.position;
@@ -566,58 +567,79 @@ public class EnemySkill : MonoBehaviour
     }
 
 
-    private IEnumerator ChocoShellIn()//19
+    private void ChocoShellIn()//19
+    {
+        Count = 0;
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Walk,false);
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            if (Skilltrigger == false)
+            {
+                mEnemy.mStats.AtkSpd *= 2;
+                for (int i = 0; i < 2; i++)
+                {
+                    Enemy enemy = EnemyPool.Instance.GetFromPool(1);//크림슬라임 소환
+                    enemy.transform.position = mEnemy.transform.position;
+                    enemy.mStats.Gold = 0;
+                    enemy.mMaxHP -= 3; enemy.mCurrentHP -= 3;
+                }
+                Skilltrigger = true;
+            }
+            mEnemy.Nodamage = true;
+            Debug.Log("무적");
+            StartCoroutine(Shellin2());
+        }
+            StartCoroutine(ChocoBooming());
+       
+    }
+
+    private IEnumerator ChocoBooming()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
-        Count = 0;
-        StartCoroutine(MoveDelay(2.6f));
         while (true)
         {
-            if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+            Invoke("ChocoBoom", 0.1f);
+            if (Count >= 8)
             {
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-                mEnemy.Nodamage = true;
-                if (Skilltrigger == false)
-                {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Enemy enemy = EnemyPool.Instance.GetFromPool(1);//크림슬라임 소환
-                        enemy.mStats.Gold = 0;
-                        enemy.mMaxHP -= 2; enemy.mCurrentHP -= 2;
-                    }
-                    Skilltrigger = true;
-                }
-                if (Count >= 10)
-                {
-                    mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                    mEnemy.Nodamage = false;
-                    break;
-                }
-                else
-                {
-                    Invoke("CreamShot", 0.1f);
-                    yield return delay;
-                    Invoke("ChocoBoom", 1f);
-                }
-            }
-            else
-            {
-                ChocoBoom();
                 break;
             }
+            yield return delay;
         }
     }
+    private IEnumerator Shellin2()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+
+        StartCoroutine(MoveDelay(3f));
+        Count = 0;
+        while (true)
+        {
+            if (Count >= 30)
+            {
+                Stop2();
+                break;
+            }
+            CreamShot();
+            yield return delay;
+        }
+    }
+    private void Stop2()
+    {
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.Nodamage = false;
+        Debug.Log("무적해제"); //애니메이션만 씹힘
+        StopCoroutine(Shellin2());
+    }
+
     private void ChocoBoom()
     {
-        for (int i = 0; i < 8; i++)
-        {
-            Debug.Log("sdsa");
-            int Xpos = Random.Range(-5, 6);
-            int Ypos = Random.Range(-5, 6);
-            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            Bullet bolt = BulletPool.Instance.GetFromPool(13);
-            bolt.transform.localPosition = Pos;
-        }
+        int Xpos = Random.Range(-6, 7);
+        int Ypos = Random.Range(-6, 7);
+        Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+        Bullet bolt = BulletPool.Instance.GetFromPool(13);
+        bolt.transform.position = mEnemy.transform.position + Pos;
+        Count++;
     }
     private void CreamShot()
     {

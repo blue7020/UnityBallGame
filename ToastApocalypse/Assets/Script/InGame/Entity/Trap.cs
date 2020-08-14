@@ -51,7 +51,8 @@ public class Trap : MonoBehaviour
                     TrapTrigger = false;
                     break;
                 case eTrapType.Slow:
-                    SlowEnd();
+                    mTarget.buffIncrease[3] += mValue;
+                    mTarget = null;
                     break;
                 case eTrapType.Spike:
                     TrapTrigger = false;
@@ -81,13 +82,7 @@ public class Trap : MonoBehaviour
     {
         if (mTarget != null)
         {
-            mBackup = mTarget.mStats.Spd - (mTarget.mStats.Spd * (1 + -mValue));
-            mTarget.mStats.Spd -= mBackup;
+            mTarget.buffIncrease[3] += -mValue;
         }
-    }
-    public void SlowEnd()
-    {
-        mTarget.mStats.Spd += mBackup;
-        mTarget = null;
     }
 }

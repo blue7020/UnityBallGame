@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    private Player mTarget;
-#pragma warning disable 0649
-    [SerializeField]
-    private eTrapType mType;
-    [SerializeField]
-    private float mValue;
-    private float mBackup;
-#pragma warning restore 0649
-    private bool TrapTrigger;//애니메이션 비례 함정 작동
+    public Player mTarget;
+    public eTrapType mType;
+    public float mValue;
+    public float mBackup;
+    public bool TrapTrigger;//애니메이션 비례 함정 작동
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -34,7 +30,6 @@ public class Trap : MonoBehaviour
                     case eTrapType.Spike:
                         mTarget = other.GetComponent<Player>();
                         TrapTrigger = true;
-                        StartCoroutine(Spike());
                         break;
                     default:
                         Debug.LogError("Wrong Trap Type");
@@ -54,11 +49,9 @@ public class Trap : MonoBehaviour
             {
                 case eTrapType.TickSpike:
                     TrapTrigger = false;
-                    //애니메이션에서 처리
                     break;
                 case eTrapType.Slow:
-                    mTarget.mStats.Spd += mBackup;
-                    mTarget = null;
+                    SlowEnd();
                     break;
                 case eTrapType.Spike:
                     TrapTrigger = false;
@@ -92,16 +85,9 @@ public class Trap : MonoBehaviour
             mTarget.mStats.Spd -= mBackup;
         }
     }
-
-    private IEnumerator Spike()
+    public void SlowEnd()
     {
-        WaitForSeconds Delay = new WaitForSeconds(0.5f);
-        while (mTarget!=null&& TrapTrigger==true)
-        {
-            Damage();
-            UIController.Instance.ShowHP();
-            yield return Delay;
-        }
-
+        mTarget.mStats.Spd += mBackup;
+        mTarget = null;
     }
 }

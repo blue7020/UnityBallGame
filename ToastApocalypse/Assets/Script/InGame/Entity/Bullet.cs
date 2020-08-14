@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     public float mDamage;
     public float mSpeed;
     public Rigidbody2D mRB2D;
-    public eEnemyBulletType Type;
+    public eEnemyBulletType eType;
     public Animator mAnim;
     public GameObject[] Spirte;
     public bool DamageOn;
@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        if (Type ==eEnemyBulletType.homing)
+        if (eType ==eEnemyBulletType.homing)
         {
             StartCoroutine(MovetoPlayer());
         }
@@ -69,9 +69,16 @@ public class Bullet : MonoBehaviour
                 RemoveBullet();
             }
         }
-        if (other.gameObject.CompareTag("DestroyZone") || other.gameObject.CompareTag("Walls"))
+        if (other.gameObject.CompareTag("DestroyZone"))
         {
             RemoveBullet();
+        }
+        if (other.gameObject.CompareTag("Walls"))
+        {
+            if (eType != eEnemyBulletType.boom)
+            {
+                RemoveBullet();
+            }
         }
 
     }

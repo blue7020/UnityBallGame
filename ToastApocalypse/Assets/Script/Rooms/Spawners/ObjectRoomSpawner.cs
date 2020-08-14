@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,15 +34,15 @@ public class ObjectRoomSpawner : MonoBehaviour
 
     public void SpawnObjects(RandomSpawner data)
     {
-        int randomIteration = Random.Range(data.spawnerData.minSpawn, data.spawnerData.maxSpawn);
+        int randomIteration = UnityEngine.Random.Range(data.spawnerData.minSpawn, data.spawnerData.maxSpawn);
 
         for (int i = 0; i < randomIteration; i++)
         {
-            //TODO 몬스터 생성 애니메이션
-            int randomPos = Random.Range(1, grid.availabePoints.Count);
+            int randomPos = UnityEngine.Random.Range(1, grid.availabePoints.Count);
+            Convert.ToInt32(randomPos);
             GameObject go = Instantiate(data.spawnerData.itemToSpawn, grid.availabePoints[randomPos], Quaternion.identity, transform) as GameObject;
+            go.transform.position += new Vector3(0.5f, 0, 0);
             grid.availabePoints.RemoveAt(randomPos);
-            room.EnemyCount++;
         }
         room.mEnemyFinder.SpawnAll = true;
     }

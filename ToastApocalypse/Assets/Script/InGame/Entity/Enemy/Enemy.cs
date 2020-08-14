@@ -37,6 +37,11 @@ public class Enemy : InformationLoader
 
     public MonsterStat mStats;
 
+    private void OnEnable()
+    {
+        Player.Instance.CurrentRoom.EnemyCount++;
+    }
+
     private void Awake()
     {
         mStats = EnemyController.Instance.mInfoArr[mID];

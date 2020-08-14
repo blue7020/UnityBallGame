@@ -81,7 +81,8 @@ public enum eEnemyBulletType
 {
     normal,
     homing,
-    boom
+    boom,
+    Ray
 }
 
 public enum ePlayerBulletType

@@ -12,6 +12,7 @@ public class AttackArea : MonoBehaviour
     public int boltID;
 
     private Enemy Target;
+
     public void Melee()
     {
         mAnim.SetBool(AnimHash.Attack, true);
@@ -81,7 +82,10 @@ public class AttackArea : MonoBehaviour
             if (other.gameObject.CompareTag("Bullet"))
             {
                 Bullet Target = other.GetComponent<Bullet>();
-                Target.gameObject.SetActive(false);
+                if (Target!=null||Target.eType!=eEnemyBulletType.boom)
+                {
+                    Target.gameObject.SetActive(false);
+                }
 
             }
         }

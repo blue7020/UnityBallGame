@@ -5,6 +5,7 @@ using UnityEngine;
 public class Trap : MonoBehaviour
 {
     public Player mTarget;
+    public bool DamageOn;
     public eTrapType mType;
     public float mValue;
     public float mBackup;
@@ -70,7 +71,7 @@ public class Trap : MonoBehaviour
     {
         if(mTarget!= null)
         {
-            if(TrapTrigger==true){
+            if(TrapTrigger==true&&DamageOn==true){
                 mTarget.mCurrentHP -= mValue;//고정 피해
             }
             UIController.Instance.ShowHP();

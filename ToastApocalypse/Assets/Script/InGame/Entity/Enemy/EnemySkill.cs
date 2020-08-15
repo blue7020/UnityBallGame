@@ -82,6 +82,7 @@ public class EnemySkill : MonoBehaviour
                 StartCoroutine(Misscake());
                 break;
             case 21://spirit of oven
+                Oven();
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -694,6 +695,54 @@ public class EnemySkill : MonoBehaviour
         Bullet bolt = BulletPool.Instance.GetFromPool(15);
         bolt.mEnemy = mEnemy;
         bolt.transform.position = Player.Instance.transform.position;
+        Count++;
+    }
+
+
+    private void Oven()
+    {
+        Vector3 point = new Vector3(0, 2, 0);
+        for (int i=3; i<4;i++)
+        {
+            Enemy enemy = EnemyPool.Instance.GetFromPool(i);//화염의손 소환
+            enemy.transform.position = mEnemy.transform.position+point;
+            point -= new Vector3(0, 4, 0);
+        }
+        FirePillar();
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            mEnemy.Nodamage = true;
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            StartCoroutine(OvenIn());
+        }
+    }
+    private IEnumerator OvenIn()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        Count = 0;
+        while (true)
+        {
+            if (Count>=40)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                mEnemy.Nodamage = false;
+                break;
+            }
+
+            yield return delay;
+        }
+    }
+    private void FirePillar()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            int Xpos = Random.Range(-6, 7);
+            int Ypos = Random.Range(-6, 7);
+            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+            Bullet bolt = BulletPool.Instance.GetFromPool(16);
+            bolt.transform.position = mEnemy.transform.position + Pos;
+            Count++;
+        }
         Count++;
     }
 }

@@ -79,6 +79,7 @@ public class EnemySkill : MonoBehaviour
                 ChocoShellIn();
                 break;
             case 20://mrs. cake
+                StartCoroutine(Misscake());
                 break;
             case 21://spirit of oven
                 break;
@@ -295,14 +296,25 @@ public class EnemySkill : MonoBehaviour
 
     private IEnumerator Flied1()//id = 11
     {
-        WaitForSeconds delay = new WaitForSeconds(3f);
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        mEnemy.SpeedAmount += 0.3f;
         Count = 0;
-        yield return delay;
-        mEnemy.SpeedAmount -= 0.3f;
-        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        StartCoroutine(MoveDelay(1.5f));
+        mEnemy.SpeedAmount += 0.3f;
+        while (true)
+        {
+            if (mEnemy.AttackCheck == true)
+            {
+                mEnemy.Attack();
+            }
+            if (Count>=3)
+            {
+                mEnemy.SpeedAmount -= 0.3f;
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                StartCoroutine(MoveDelay(1.5f));
+                break;
+            }
+            yield return delay;
+        }
     }
 
     private void Flied2()
@@ -551,6 +563,10 @@ public class EnemySkill : MonoBehaviour
         Count = 0;
         while (true)
         {
+            if (mEnemy.AttackCheck==true)
+            {
+                mEnemy.Attack();
+            }
             if (Count >= 20)
             {
                 mEnemy.mStats.Spd -= 3;
@@ -620,7 +636,7 @@ public class EnemySkill : MonoBehaviour
                 Stop2();
                 break;
             }
-            CreamShot();
+            ChocoShot();
             yield return delay;
         }
     }
@@ -641,12 +657,43 @@ public class EnemySkill : MonoBehaviour
         bolt.transform.position = mEnemy.transform.position + Pos;
         Count++;
     }
-    private void CreamShot()
+    private void ChocoShot()
     {
         for (int i = 1; i < 5; i++)
         {
-            ResetDir(12, i);
+            ResetDir(14, i);
         }
+        Count++;
+    }
+
+
+    private IEnumerator Misscake()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(2f));
+        while (true)
+        {
+            BerryBoom();
+            if (Count >= 7)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+                {
+                    Enemy enemy = EnemyPool.Instance.GetFromPool(2);//케이콘 소환
+                    enemy.transform.position = mEnemy.transform.position;
+                    enemy.mStats.Gold = 0;
+                }
+                break;
+            }
+            yield return delay;
+        }
+    }
+    private void BerryBoom()
+    {
+        Bullet bolt = BulletPool.Instance.GetFromPool(15);
+        bolt.mEnemy = mEnemy;
+        bolt.transform.position = Player.Instance.transform.position;
         Count++;
     }
 }

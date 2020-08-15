@@ -91,6 +91,13 @@ public enum ePlayerBulletType
     boomerang
 }
 
+public enum eBulletEffect
+{
+    none,
+    stun,
+    slow
+}
+
 public enum eShopType
 {
     Item,

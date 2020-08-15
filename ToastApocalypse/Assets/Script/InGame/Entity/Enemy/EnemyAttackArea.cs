@@ -5,12 +5,6 @@ using UnityEngine;
 public class EnemyAttackArea : MonoBehaviour
 {
     public Enemy mEnemy;
-    public Animator mAnim;
-
-    private void Awake()
-    {
-        mAnim = GetComponent<Animator>();
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

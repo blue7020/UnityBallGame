@@ -63,7 +63,7 @@ public class ShopController : MonoBehaviour
                         itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
                         ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
                         itembuy[index].mPriceText.gameObject.SetActive(false);
-                        if (index !=2)
+                        if (index <2)
                         {
                             index++;
                             ShopCount++;
@@ -107,9 +107,12 @@ public class ShopController : MonoBehaviour
                     itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
                     ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
                     itembuy[index].mPriceText.gameObject.SetActive(false);
-                    index++;
-                    ShopCount++;
-                    if (index > 1)
+                    if (index <2)
+                    {
+                        index++;
+                        ShopCount++;
+                    }
+                    else
                     {
                         break;
                     }

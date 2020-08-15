@@ -27,7 +27,7 @@ public class Enemy : InformationLoader
     public float SpeedAmount;
 
     public bool AttackOn;
-    private bool AttackCheck;
+    public bool AttackCheck;
     public Coroutine mCoroutine;
     public bool Spawned;
     public bool IsMimic;
@@ -245,12 +245,10 @@ public class Enemy : InformationLoader
         {
             WaitForSeconds cool = new WaitForSeconds(mStats.AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
-            mRB2D.velocity = Vector3.zero;
             mEnemySkill.Skill();
             yield return cool;
-
+            mCoroutine = null;
         }
-        mCoroutine = null;
     }
 
     public IEnumerator MoveToPlayer()

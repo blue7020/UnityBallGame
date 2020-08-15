@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
     public bool PlayerSkillStand;
 
     public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도
+    public bool Stun;
+    public bool Stunning;
+    public GameObject CCState;
 
     public PlayerStat mStats;
     //공격속도는 플레이어 기본 공격속도(무기) / (1+ 버프 + 증가 스탯 공격속도)
@@ -75,6 +78,8 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        Stun = false;
+        Stunning = false;
         PlayerSkillStand = false;
         NowItem = null;
         NowActiveArtifact = null;
@@ -102,6 +107,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+
         Moveing();
     }
 
@@ -109,31 +115,34 @@ public class Player : MonoBehaviour
     {
         hori = joyskick.Horizontal();
         ver = joyskick.Vectical();
-        Vector2 dir = new Vector2(hori, ver);
-        float value = mStats.Spd * (1 + buffIncrease[3]);
-        dir = dir.normalized * value;
-        if (hori > 0)
+        if (Stun == false)
         {
-            mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            Vector2 dir = new Vector2(hori, ver);
+            float value = mStats.Spd * (1 + buffIncrease[3]);
+            dir = dir.normalized * value;
+            if (hori > 0)
+            {
+                mAnim.SetBool(AnimHash.Walk, true);
+                transform.rotation = Quaternion.Euler(0, 180, 0);
 
-        }
-        else if (hori < 0)
-        {
-            mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.identity;
-        }
-        else if (ver > 0 || ver < 0)
-        {
-            mAnim.SetBool(AnimHash.Walk, true);
-        }
-        else
-        {
-            mAnim.SetBool(AnimHash.Walk, false);
-        }
-        if (PlayerSkillStand == false)
-        {
-            mRB2D.velocity = dir;
+            }
+            else if (hori < 0)
+            {
+                mAnim.SetBool(AnimHash.Walk, true);
+                transform.rotation = Quaternion.identity;
+            }
+            else if (ver > 0 || ver < 0)
+            {
+                mAnim.SetBool(AnimHash.Walk, true);
+            }
+            else
+            {
+                mAnim.SetBool(AnimHash.Walk, false);
+            }
+            if (PlayerSkillStand == false)
+            {
+                mRB2D.velocity = dir;
+            }
         }
 
     }
@@ -260,8 +269,21 @@ public class Player : MonoBehaviour
 
     }
 
-
-
+    public IEnumerator Stuned(float duration)
+    {
+        WaitForSeconds dura = new WaitForSeconds(duration);
+        if (Stunning==false)
+        {
+            Stunning = true;
+            Stun = true;
+            mRB2D.velocity = Vector3.zero;
+            CCState.SetActive(true);
+            yield return dura;
+            Stun = false;
+            CCState.SetActive(false);
+            Stunning = false;
+        }
+    }
 
     //Artifact
     public void EquipArtifact(Artifacts art)

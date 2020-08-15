@@ -8,9 +8,13 @@ public class Bullet : MonoBehaviour
     public float mSpeed;
     public Rigidbody2D mRB2D;
     public eEnemyBulletType eType;
+    public eBulletEffect eEffectType;
+    public float EffectTime;
+
     public Animator mAnim;
     public GameObject[] Spirte;
     public bool DamageOn;
+    public Enemy mEnemy;
 
     private void Awake()
     {
@@ -44,6 +48,16 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void Effecton()
+    {
+        if (eEffectType==eBulletEffect.stun)
+        {
+           if(mEnemy.mTarget != null)
+            {
+                StartCoroutine(mEnemy.mTarget.Stuned(EffectTime));
+            }
+        }
+    }
 
     private IEnumerator MovetoPlayer()
     {
@@ -59,6 +73,8 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (DamageOn == true)
@@ -68,16 +84,16 @@ public class Bullet : MonoBehaviour
                 Player.Instance.Hit(mDamage);
                 RemoveBullet();
             }
-        }
-        if (other.gameObject.CompareTag("DestroyZone"))
-        {
-            RemoveBullet();
-        }
-        if (other.gameObject.CompareTag("Walls"))
-        {
-            if (eType != eEnemyBulletType.boom)
+            if (other.gameObject.CompareTag("DestroyZone"))
             {
                 RemoveBullet();
+            }
+            if (other.gameObject.CompareTag("Walls"))
+            {
+                if (eType != eEnemyBulletType.boom)
+                {
+                    RemoveBullet();
+                }
             }
         }
 

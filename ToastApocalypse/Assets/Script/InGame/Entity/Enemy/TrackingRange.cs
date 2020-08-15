@@ -15,7 +15,6 @@ public class TrackingRange : MonoBehaviour
             {
                 mEnemy.mTarget = other.GetComponent<Player>();
                 mEnemy.mState = eMonsterState.Traking;
-                mEnemy.mDelayCount = 0;
                 Setting = true;
             }
 
@@ -34,8 +33,9 @@ public class TrackingRange : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            mEnemy.mTarget = null;
             mEnemy.mState = eMonsterState.Idle;
-            mEnemy.mRB2D.velocity = Vector2.zero;
+            mEnemy.mRB2D.velocity = Vector3.zero;
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
             StopCoroutine(mEnemy.MoveToPlayer());
             Setting = false;

@@ -67,25 +67,27 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
             if (AttackSwitch == true)
             {
-                if (Player.Instance.NowPlayerWeapon.eType==eWeaponType.Melee)
+                if (Player.Instance.Stun == false)
                 {
-                    Player.Instance.NowPlayerWeapon.MeleeAttack();
-                    StartCoroutine(AttackCooltime());
-                }
-                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
-                {
-                    if (Player.Instance.NowPlayerWeapon.nowBullet >= 1)
+                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
                     {
-                        Player.Instance.NowPlayerWeapon.RangeAttack();
+                        Player.Instance.NowPlayerWeapon.MeleeAttack();
                         StartCoroutine(AttackCooltime());
                     }
-                    else
+                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
                     {
+                        if (Player.Instance.NowPlayerWeapon.nowBullet >= 1)
+                        {
+                            Player.Instance.NowPlayerWeapon.RangeAttack();
+                            StartCoroutine(AttackCooltime());
+                        }
+                        else
+                        {
 
-                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                            Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                        }
                     }
-                }
-                    
+                }      
             }
         }
 

@@ -9,6 +9,7 @@ public class Trap : MonoBehaviour
     public eTrapType mType;
     public float mValue;
     public float mBackup;
+    public float Dura;
     public bool TrapTrigger;//애니메이션 비례 함정 작동
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -77,6 +78,13 @@ public class Trap : MonoBehaviour
             UIController.Instance.ShowHP();
             
         }
+    }
+
+    public IEnumerator Dispose()
+    {
+        WaitForSeconds delay = new WaitForSeconds(Dura);
+        yield return delay;
+        gameObject.SetActive(false);
     }
 
     public void Slow()

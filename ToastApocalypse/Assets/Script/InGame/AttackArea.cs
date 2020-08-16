@@ -82,9 +82,9 @@ public class AttackArea : MonoBehaviour
             if (other.gameObject.CompareTag("Bullet"))
             {
                 Bullet Target = other.GetComponent<Bullet>();
-                if (Target!=null||Target.eType!=eEnemyBulletType.boom)
+                if (Target != null && Target.eType != eEnemyBulletType.boom)
                 {
-                    Target.gameObject.SetActive(false);
+                    Target.RemoveBullet();
                 }
 
             }

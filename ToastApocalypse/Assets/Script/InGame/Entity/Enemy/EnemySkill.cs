@@ -739,8 +739,8 @@ public class EnemySkill : MonoBehaviour
             int Xpos = Random.Range(-6, 7);
             int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            Bullet bolt = BulletPool.Instance.GetFromPool(16);
-            bolt.transform.position = mEnemy.transform.position + Pos;
+            GameObject pillar = Instantiate(SkillObj[0],Player.Instance.CurrentRoom.transform);
+            pillar.transform.position = mEnemy.transform.position + Pos;
             Count++;
         }
         Count++;

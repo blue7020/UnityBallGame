@@ -338,7 +338,6 @@ public class EnemySkill : MonoBehaviour
                 Skilltrigger = true;
             }
             mEnemy.Nodamage = true;
-            Debug.Log("무적");
             StartCoroutine(ShellIn());
         }
         if (!Skilltrigger2)
@@ -567,6 +566,7 @@ public class EnemySkill : MonoBehaviour
         Count = 0;
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             if (Skilltrigger == false)
             {
                 mEnemy.mStats.AtkSpd *= 2;
@@ -579,9 +579,7 @@ public class EnemySkill : MonoBehaviour
                 }
                 Skilltrigger = true;
             }
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             mEnemy.Nodamage = true;
-            Debug.Log("무적");
             StartCoroutine(Shellin2());
         }
             StartCoroutine(ChocoBooming());
@@ -611,8 +609,8 @@ public class EnemySkill : MonoBehaviour
         {
             if (Count > 39)
             {
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 mEnemy.Nodamage = false;
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
             }
             Invoke("ChocoShot", 0.1f);

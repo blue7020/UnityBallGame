@@ -23,7 +23,6 @@ public class Trap : MonoBehaviour
                     case eTrapType.TickSpike:
                         mTarget = other.GetComponent<Player>();
                         TrapTrigger = true;
-                        //애니메이션에서 처리
                         break;
                     case eTrapType.Slow:
                         mTarget = other.GetComponent<Player>();

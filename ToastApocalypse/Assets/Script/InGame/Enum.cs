@@ -47,7 +47,7 @@ public enum eTrapType
 {
     TickSpike,
     Slow,
-    Spike
+    Spike,
 }
 
 public enum eDirection

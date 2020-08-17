@@ -86,8 +86,10 @@ public class GameSetting : MonoBehaviour
         Syrup = 30000;
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
+
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈
+        StageOpen[3] = true;//4스테이지 오픈
     }
 
     public void Restart()

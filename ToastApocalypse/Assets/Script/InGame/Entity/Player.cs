@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     public int mID;
     public float mMaxHP;
     public float mCurrentHP;
+    public const int MAX_AIR = 100;
+    public int mCurrentAir;
+    public bool OnAir;
 
     public Room CurrentRoom;
     public int EnemySwitch;
@@ -71,6 +74,7 @@ public class Player : MonoBehaviour
             buffIncrease[i] = 0;
         }
         NowDebuffArr = new Coroutine[9];
+        mCurrentAir = MAX_AIR;
     }
 
     private void Start()
@@ -79,6 +83,7 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
+        OnAir = false;
         Stun = false;
         PlayerSkillStand = false;
         NowItem = null;
@@ -90,6 +95,10 @@ public class Player : MonoBehaviour
         AttackSpeedStat = 0;
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();
+        if (GameController.Instance.MapLevel==4)
+        {
+            StartCoroutine(Air());
+        }
     }
 
     public void Delete()
@@ -105,10 +114,32 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-
         Moveing();
+    }
+
+    private IEnumerator Air()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        while (true)
+        {
+            if (mCurrentAir < 1)
+            {
+                mCurrentHP -= mMaxHP * 0.1f;
+                UIController.Instance.ShowHP();
+            }
+            if (OnAir == false)
+            {
+                if (mCurrentAir > 9)
+                {
+                    mCurrentAir -= 10;
+                }
+                UIController.Instance.ShowAirGaugeBar();
+            }
+
+            yield return delay;
+        }
     }
 
     private void Moveing()

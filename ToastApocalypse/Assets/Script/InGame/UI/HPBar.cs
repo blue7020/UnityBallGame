@@ -5,32 +5,26 @@ using UnityEngine.UI;
 
 public class HPBar : MonoBehaviour
 {
-
-    public static HPBar Instance;
-
-    private Image mHPBar;
+    public Image mBar;
     private float mNowHP;
     private float mNowMaxHP;
+    private float mNowAir;
 
-    private void Awake()
+    private void Start()
     {
-        if (Instance==null)
+        if (GameController.Instance.MapLevel!=4)
         {
-            Instance = this;
-            mHPBar = GetComponent<Image>();
-
+            mNowHP = Player.Instance.mCurrentHP;
+            mNowMaxHP = Player.Instance.mMaxHP;
+            mBar.fillAmount = mNowHP / mNowMaxHP;
+            ShowHPBar();
         }
         else
         {
-            Destroy(gameObject);
+            mNowAir = Player.Instance.mCurrentAir;
+            mBar.fillAmount = mNowAir / Player.MAX_AIR;
+            ShowAirBar();
         }
-    }
-    private void Start()
-    {
-        mNowHP = Player.Instance.mCurrentHP;
-        mNowMaxHP = Player.Instance.mMaxHP;
-        mHPBar.fillAmount = mNowHP / mNowMaxHP;
-        ShowHPBar();
     }
 
     public void ShowHPBar()
@@ -45,7 +39,17 @@ public class HPBar : MonoBehaviour
         {
             mNowMaxHP = Player.Instance.mMaxHP;
         }
-        mHPBar.fillAmount = mNowHP / mNowMaxHP;
+        mBar.fillAmount = mNowHP / mNowMaxHP;
+    }
+
+    public void ShowAirBar()
+    {
+        mNowAir = Player.Instance.mCurrentAir;
+        if (mNowAir != Player.Instance.mCurrentAir)
+        {
+            mNowHP = Player.Instance.mCurrentHP;
+        }
+        mBar.fillAmount = mNowAir / Player.MAX_AIR;
     }
 
 }

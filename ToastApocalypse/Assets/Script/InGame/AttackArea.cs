@@ -29,7 +29,7 @@ public class AttackArea : MonoBehaviour
     public void Range()
     {
         weapon.nowBullet--;
-        UIController.Instance.bulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+        UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
         bolt = PlayerBulletPool.Instance.GetFromPool(boltID);
         ResetDir();
     }

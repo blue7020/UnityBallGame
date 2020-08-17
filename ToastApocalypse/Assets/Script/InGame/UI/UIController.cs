@@ -9,9 +9,10 @@ public class UIController : InformationLoader
 
     public static UIController Instance;
 
-    public Text mGoldText, mHPText,mStatText, mNameText, bulletText,mLevelText;
-    public Image mPlayerImage,mStatPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage, SkillCoolWheel;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint;
+    public Text mGoldText, mHPText,mStatText, mNameText, mbulletText,mLevelText,mAirText,mAirGaugeText;
+    public Image mPlayerImage,mStatPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage,mSkillCoolWheel;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge;
+    public HPBar mAirBar, mHPBar;
 
     public Sprite DefaultItemSprite;
 
@@ -52,10 +53,16 @@ public class UIController : InformationLoader
         if (GameSetting.Instance.Language == 0)//한국어
         {
             maptext = mInfoArr[GameController.Instance.MapLevel].Title;
+            mAirText.text = "공기";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
             maptext = mInfoArr[GameController.Instance.MapLevel].EngTitle;
+            mAirText.text = "AIR";
+        }
+        if (GameController.Instance.MapLevel==4)
+        {
+            mAirGauge.gameObject.SetActive(true);
         }
         StartCoroutine(ShowLevel());
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
@@ -182,7 +189,6 @@ public class UIController : InformationLoader
     }
 
 
-
     public void ShowWeaponImage()
     {
         if (Player.Instance.NowPlayerWeapon==null)
@@ -198,12 +204,12 @@ public class UIController : InformationLoader
     {
         if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
         {
-            bulletText.gameObject.SetActive(true);
-            bulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            mbulletText.gameObject.SetActive(true);
+            mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
         }
         else if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
         {
-            bulletText.gameObject.SetActive(false);
+            mbulletText.gameObject.SetActive(false);
         }
     }
 
@@ -230,6 +236,12 @@ public class UIController : InformationLoader
                 Debug.LogError("Wrong Character Image");
                 break;
         }
+    }
+
+    public void ShowAirGaugeBar()
+    {
+        mAirGaugeText.text = Player.Instance.mCurrentAir+"/ "+Player.MAX_AIR;
+        mAirBar.ShowAirBar();
     }
 
     public void ShowMiniMap(bool ButtonOn)
@@ -262,7 +274,7 @@ public class UIController : InformationLoader
 
     public void ShowHP()
     {
-        HPBar.Instance.ShowHPBar();
+        mHPBar.ShowHPBar();
         string HP = string.Format("{0} / {1}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"));
         mHPText.text = HP;
     }

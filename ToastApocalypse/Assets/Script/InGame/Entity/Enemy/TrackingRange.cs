@@ -11,19 +11,19 @@ public class TrackingRange : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (Setting == false)
-            {
-                mEnemy.mTarget = other.GetComponent<Player>();
-                mEnemy.mState = eMonsterState.Traking;
-                Setting = true;
-            }
-
-            if (mEnemy.mCoroutine == null)
-            {
-                mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
-            }
             if (mEnemy.mCurrentHP > 0)
             {
+                if (Setting == false)
+                {
+                    mEnemy.mTarget = other.GetComponent<Player>();
+                    mEnemy.mState = eMonsterState.Traking;
+                    Setting = true;
+                }
+
+                if (mEnemy.mCoroutine == null)
+                {
+                    mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
+                }
                 StartCoroutine(mEnemy.MoveToPlayer());
             }
         }
@@ -33,13 +33,14 @@ public class TrackingRange : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            mEnemy.mTarget = null;
-            mEnemy.mState = eMonsterState.Idle;
-            mEnemy.mRB2D.velocity = Vector3.zero;
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-            StopCoroutine(mEnemy.MoveToPlayer());
-            Setting = false;
-
+            if (mEnemy.mCurrentHP > 0)
+            {
+                mEnemy.mTarget = null;
+                mEnemy.mState = eMonsterState.Idle;
+                mEnemy.mRB2D.velocity = Vector3.zero;
+                StopCoroutine(mEnemy.MoveToPlayer());
+                Setting = false;
+            }
 
         }
 

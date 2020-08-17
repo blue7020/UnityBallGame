@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class UIController : InformationLoader
 {
 
     public static UIController Instance;
@@ -20,15 +20,22 @@ public class UIController : MonoBehaviour
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mGuideText;
+    public string maptext;
     public Tooltip tooltip;
 
+    public MapText[] mInfoArr;
 
+    public MapText[] GetInfoArr()
+    {
+        return mInfoArr;
+    }
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            LoadJson(out mInfoArr, Path.MAP_TEXT);
         }
         else
         {
@@ -41,6 +48,14 @@ public class UIController : MonoBehaviour
         if (GameController.Instance.GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);
+        }
+        if (GameSetting.Instance.Language == 0)//한국어
+        {
+            maptext = mInfoArr[GameController.Instance.MapLevel].Title;
+        }
+        else if (GameSetting.Instance.Language == 1)//영어
+        {
+            maptext = mInfoArr[GameController.Instance.MapLevel].EngTitle;
         }
         StartCoroutine(ShowLevel());
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
@@ -106,7 +121,15 @@ public class UIController : MonoBehaviour
     public IEnumerator ShowLevel()
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
-        mLevelText.text = "-B" + GameController.Instance.Level + "F-";
+        if (GameSetting.Instance.Language==0)//한국어
+        {
+
+        }
+        else if(GameSetting.Instance.Language == 1)//영어
+        {
+
+        }
+        mLevelText.text = maptext+"\n-B" + GameController.Instance.Level + "F-";
         mLevelText.gameObject.SetActive(true);
         yield return delay;
         mLevelText.gameObject.SetActive(false);

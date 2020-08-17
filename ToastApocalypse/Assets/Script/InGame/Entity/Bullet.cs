@@ -50,11 +50,11 @@ public class Bullet : MonoBehaviour
 
     public void Effecton()
     {
-        if (eEffectType==eBulletEffect.stun)
+        if (eEffectType == eBulletEffect.stun)
         {
-           if(mEnemy.mTarget != null)
+            if (Player.Instance.Stun == false && Player.Instance.NowDebuffArr[0] == null)
             {
-                StartCoroutine(mEnemy.mTarget.Stuned(EffectTime));
+                Player.Instance.DoStun(EffectTime);
             }
         }
     }
@@ -75,12 +75,13 @@ public class Bullet : MonoBehaviour
 
 
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (DamageOn == true)
         {
             if (other.gameObject.CompareTag("Player"))
             {
+                Effecton();
                 Player.Instance.Hit(mDamage);
                 RemoveBullet();
             }
@@ -96,6 +97,5 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-
     }
 }

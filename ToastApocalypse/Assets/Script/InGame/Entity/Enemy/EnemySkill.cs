@@ -11,13 +11,14 @@ public class EnemySkill : MonoBehaviour
     private float BackupSpeed;
     private int SkillRand;
 
-    public bool Skilltrigger;
+    public bool Skilltrigger, Skilltrigger2;
     public Transform[] BulletStarter;
     public GameObject[] SkillObj;
 
     private void Start()
     {
         Skilltrigger = false;
+        Skilltrigger2 = false;
     }
 
     public void Skill()
@@ -73,7 +74,6 @@ public class EnemySkill : MonoBehaviour
                 StartCoroutine(Creambun());
                 break;
             case 18://fire hand
-                StartCoroutine(FireHand());
                 break;
             case 19://chocoshell
                 ChocoShellIn();
@@ -341,7 +341,10 @@ public class EnemySkill : MonoBehaviour
             Debug.Log("무적");
             StartCoroutine(ShellIn());
         }
-        StartCoroutine(PotatoShoting());
+        if (!Skilltrigger2)
+        {
+            StartCoroutine(PotatoShoting());
+        }
 
     }
 
@@ -361,6 +364,7 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator ShellIn()//13
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
+        Skilltrigger2 = true;
         StartCoroutine(MoveDelay(4f));
         Count = 0;
         while (true)
@@ -369,9 +373,10 @@ public class EnemySkill : MonoBehaviour
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 mEnemy.Nodamage = false;
+                Skilltrigger2 = false;
                 break;
             }
-            PotatoShot();
+            Invoke("PotatoShot",0.1f);
             yield return delay;
         }
     }
@@ -556,41 +561,12 @@ public class EnemySkill : MonoBehaviour
         Count++;
     }
 
-    private IEnumerator FireHand()//18
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        mEnemy.mStats.Spd += 3;
-        Count = 0;
-        while (true)
-        {
-            if (mEnemy.AttackCheck==true)
-            {
-                mEnemy.Attack();
-            }
-            if (Count >= 20)
-            {
-                mEnemy.mStats.Spd -= 3;
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                break;
-            }
-            Invoke("Point", 0.1f);
-            yield return delay;
-        }
-    }
-    private void Point()
-    {
-        Count++;
-    }
-
 
     private void ChocoShellIn()//19
     {
         Count = 0;
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Walk,false);
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             if (Skilltrigger == false)
             {
                 mEnemy.mStats.AtkSpd *= 2;
@@ -603,6 +579,7 @@ public class EnemySkill : MonoBehaviour
                 }
                 Skilltrigger = true;
             }
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             mEnemy.Nodamage = true;
             Debug.Log("무적");
             StartCoroutine(Shellin2());
@@ -627,26 +604,20 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator Shellin2()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
-
-        StartCoroutine(MoveDelay(3f));
+        StartCoroutine(MoveDelay(4f));
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         Count = 0;
         while (true)
         {
-            if (Count >= 30)
+            if (Count > 39)
             {
-                Stop2();
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                mEnemy.Nodamage = false;
                 break;
             }
-            ChocoShot();
+            Invoke("ChocoShot", 0.1f);
             yield return delay;
         }
-    }
-    private void Stop2()
-    {
-        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        mEnemy.Nodamage = false;
-        Debug.Log("무적해제"); //애니메이션만 씹힘
-        StopCoroutine(Shellin2());
     }
 
     private void ChocoBoom()
@@ -675,8 +646,7 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(2f));
         while (true)
         {
-            BerryBoom();
-            if (Count >= 7)
+            if (Count >= 5)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
@@ -687,6 +657,7 @@ public class EnemySkill : MonoBehaviour
                 }
                 break;
             }
+            Invoke("BerryBoom", 0.1f);
             yield return delay;
         }
     }
@@ -701,34 +672,42 @@ public class EnemySkill : MonoBehaviour
 
     private void Oven()
     {
-        Vector3 point = new Vector3(0, 2, 0);
-        for (int i=3; i<4;i++)
-        {
-            Enemy enemy = EnemyPool.Instance.GetFromPool(i);//화염의손 소환
-            enemy.transform.position = mEnemy.transform.position+point;
-            point -= new Vector3(0, 4, 0);
-        }
+        Vector3 point = new Vector3(0, 3, 0);
         FirePillar();
         if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
         {
+            if (Skilltrigger==false)
+            {
+                mEnemy.mStats.AtkSpd += 2f;
+                Skilltrigger = true;
+            }
             mEnemy.Nodamage = true;
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             StartCoroutine(OvenIn());
+        }
+        if (Skilltrigger2==true)
+        {
+            Enemy enemy = EnemyPool.Instance.GetFromPool(3);//화염의손 소환
+            enemy.mMaxHP = 15; enemy.mCurrentHP = 15;
+            enemy.transform.position = mEnemy.transform.position + point;
         }
     }
     private IEnumerator OvenIn()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         Count = 0;
+        Skilltrigger2 = true;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(4.5f));
         while (true)
         {
-            if (Count>=40)
+            if (Count >= 40)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                Skilltrigger2 = false;
                 mEnemy.Nodamage = false;
                 break;
             }
-
+            Invoke("FireRay", 0.1f);
             yield return delay;
         }
     }
@@ -743,6 +722,16 @@ public class EnemySkill : MonoBehaviour
             pillar.transform.position = mEnemy.transform.position + Pos;
             Count++;
         }
+        Count++;
+    }
+
+    private void FireRay()
+    {
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        Bullet bolt = BulletPool.Instance.GetFromPool(16);
+        bolt.transform.localPosition = mEnemy.transform.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
     }
 }

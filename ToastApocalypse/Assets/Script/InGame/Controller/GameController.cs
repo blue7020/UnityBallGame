@@ -104,8 +104,11 @@ public class GameController : MonoBehaviour
             {
                 Player.Instance.mStats.Gold += 200;
                 Player.Instance.mStats.Atk += 5;
-                Level = 5;
                 UIController.Instance.ShowGold();
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                Level = GameSetting.LEVEL_COUNT-1;
             }
         }
     }

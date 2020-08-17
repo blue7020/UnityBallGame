@@ -12,6 +12,7 @@ public class BuffController : MonoBehaviour
     public Buff mBuff;
     public Transform mParents;
     public Buff[] mBuffArr;
+    public int[] mBuffIDArr;
 
     public int buffIndex;
 
@@ -22,6 +23,11 @@ public class BuffController : MonoBehaviour
             Instance = this;
             buffIndex = 0;
             mBuffArr = new Buff[BUFF_COUNT];
+            mBuffIDArr = new int[9];
+            for (int i=0; i<mBuffIDArr.Length;i++)
+            {
+                mBuffIDArr[i] = i;
+            }
         }
         else
         {
@@ -66,9 +72,10 @@ public class BuffController : MonoBehaviour
             {
                 buffIndex = 0;
             }
-            mBuffArr[buffIndex] = Instantiate(mBuff, mParents);
-            mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura);
-            buffIndex++;
+                mBuffArr[buffIndex] = Instantiate(mBuff, mParents);
+                mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura);
+                buffIndex++;
+
         }
     }
 
@@ -78,7 +85,7 @@ public class BuffController : MonoBehaviour
         {
             for (int i = 0; i < mBuffArr.Length; i++)
             {
-                if (mBuffArr[i].eType == eBuffType.Nurf)
+                if (mBuffArr[i].eType == eBuffType.Debuff)
                 {
                     mBuffArr[i].Delete();
                     buffIndex--;

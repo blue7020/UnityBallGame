@@ -170,6 +170,17 @@ public class SkillText
 }
 
 [Serializable]
+public class MapText
+{
+    public int ID;
+
+    public string Title;
+    public string EngTitle;
+    public string ContensFormat;
+    public string EngContensFormat;
+}
+
+[Serializable]
 public class SaveData
 {
     public double Greed;

@@ -16,4 +16,5 @@ public class Path
     public const string WEAPON_STAT = JSON_FILE_LOCATION + "WeaponStat";
     public const string SKILL_STAT = JSON_FILE_LOCATION + "SkillStat";
     public const string SKILL_TEXT_STAT = JSON_FILE_LOCATION + "SkillText";
+    public const string MAP_TEXT = JSON_FILE_LOCATION + "MapText";
 }

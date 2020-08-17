@@ -118,7 +118,7 @@ public enum eRoomType
 public enum eBuffType
 {
     Buff,
-    Nurf
+    Debuff
 }
 
 public enum eSkilltype

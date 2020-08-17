@@ -73,15 +73,6 @@ public class Enemy : InformationLoader
 
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (mCurrentHP < 1)
-        {
-            mState = eMonsterState.Die;
-        }
-    }
-
     public void EnemySpawned()
     {
         mAnim.SetBool(AnimHash.Enemy_Spawn, true);
@@ -123,22 +114,16 @@ public class Enemy : InformationLoader
                     case eMonsterState.Traking:
                         if (mDelayCount >= 20)
                         {
-
+                            mAnim.SetBool(AnimHash.Enemy_Walk, true);
                             mDelayCount = 0;
                         }
                         else
                         {
-                            mAnim.SetBool(AnimHash.Enemy_Walk, true);
                             mDelayCount++;
                         }
                         break;
                     case eMonsterState.Die:
-                        AttackOn = false;
-                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
-                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                        mAnim.SetBool(AnimHash.Enemy_Death, true);
-                        mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
-                        if (mDelayCount >= 6)
+                        if (mDelayCount >= 20)
                         {
                             if (Player.Instance.CurrentRoom.EnemyCount > 0)
                             {
@@ -152,6 +137,8 @@ public class Enemy : InformationLoader
                         }
                         else
                         {
+                            mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
+                            AttackOn = false;
                             mDelayCount++;
                         }
                         break;
@@ -180,7 +167,13 @@ public class Enemy : InformationLoader
                     mHPBar = GaugeBarPool.Instance.GetFromPool();
                     mHPBar.mEnemy = this;
                 }
-                if (mCurrentHP <= 0)
+                if (mCurrentHP > 0)
+                {
+                    mHPBar.gameObject.SetActive(true);
+                    mHPBar.SetGauge(mCurrentHP, mMaxHP);
+                    mHPBar.transform.position = mHPBarPos.position;
+                }
+                else
                 {
                     if (mStats.Gold > 0)
                     {
@@ -190,14 +183,14 @@ public class Enemy : InformationLoader
                         mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
                     }
                     GameController.Instance.SyrupInStage += mStats.Syrup;
-                    mEnemySkill.DieSkill();
                     mHPBar.CloseGauge();
-                }
-                else
-                {
-                    mHPBar.gameObject.SetActive(true);
-                    mHPBar.SetGauge(mCurrentHP, mMaxHP);
-                    mHPBar.transform.position = mHPBarPos.position;
+                    mAnim.SetBool(AnimHash.Enemy_Walk, false);
+                    mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                    mAnim.SetBool(AnimHash.Enemy_Death, true);
+                    mRB2D.velocity = Vector3.zero;
+                    mEnemySkill.DieSkill();
+                    mState = eMonsterState.Die;
+                    gameObject.layer = 8;
                 }
             }
 

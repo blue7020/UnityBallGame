@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도
     public bool Stun;
-    public bool Stunning;
+    public Coroutine[] NowDebuffArr;
     public GameObject CCState;
 
     public PlayerStat mStats;
@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
         {
             buffIncrease[i] = 0;
         }
+        NowDebuffArr = new Coroutine[9];
     }
 
     private void Start()
@@ -79,7 +80,6 @@ public class Player : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         Stun = false;
-        Stunning = false;
         PlayerSkillStand = false;
         NowItem = null;
         NowActiveArtifact = null;
@@ -269,20 +269,22 @@ public class Player : MonoBehaviour
 
     }
 
-    public IEnumerator Stuned(float duration)
+    //debuff
+    public void DoStun(float EffectTime)
     {
-        WaitForSeconds dura = new WaitForSeconds(duration);
-        if (Stunning==false)
-        {
-            Stunning = true;
-            Stun = true;
-            mRB2D.velocity = Vector3.zero;
-            CCState.SetActive(true);
-            yield return dura;
-            Stun = false;
-            CCState.SetActive(false);
-            Stunning = false;
-        }
+        NowDebuffArr[0] = StartCoroutine(Stuned(5, EffectTime));
+    }
+    public IEnumerator Stuned(int code,float duration)
+    {
+        WaitForSeconds Dura = new WaitForSeconds(duration);
+        Stun = true;
+        BuffController.Instance.SetBuff(5, code, eBuffType.Debuff, duration);
+        mRB2D.velocity = Vector3.zero;
+        CCState.SetActive(true);
+        yield return Dura;
+        Stun = false;
+        CCState.SetActive(false);
+        NowDebuffArr[0] = null;
     }
 
     //Artifact

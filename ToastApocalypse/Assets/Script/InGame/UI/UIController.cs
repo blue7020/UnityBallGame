@@ -281,7 +281,15 @@ public class UIController : InformationLoader
 
     public void ShowStat()
     {
-
+        float CCreduce;
+        if (Player.Instance.mStats.CCReduce *(1+Player.Instance.buffIncrease[6])>= 1)
+        {
+            CCreduce = 100;
+        }
+        else
+        {
+            CCreduce = Player.Instance.mStats.CCReduce * (1 + Player.Instance.buffIncrease[6]);
+        }
         if (GameSetting.Instance.Language == 0)
         {//한국어
             mStatTitle.text = "캐릭터정보";
@@ -301,7 +309,7 @@ public class UIController : InformationLoader
                                       (Player.Instance.mStats.Def * (1 + Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
-                                      Player.Instance.mStats.CooltimeReduce.ToString("P0"), Player.Instance.mStats.CCReduce.ToString("P0"));
+                                      Player.Instance.mStats.CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;
         }
@@ -324,7 +332,7 @@ public class UIController : InformationLoader
                                       (Player.Instance.mStats.Def *(1+Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
-                                      Player.Instance.mStats.CooltimeReduce.ToString("P0"), Player.Instance.mStats.CCReduce.ToString("P0"));
+                                      Player.Instance.mStats.CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;
         }

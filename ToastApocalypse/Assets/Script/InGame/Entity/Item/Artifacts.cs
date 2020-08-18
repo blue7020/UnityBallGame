@@ -48,9 +48,8 @@ public class Artifacts : InformationLoader
     {
         WaitForSeconds Cool = new WaitForSeconds(mStats.Skill_Cooltime);
         IsArtifactCool = true;
-        //TODO 델리게이트로 해당하는 ID의 스킬 가져오기
+        ActiveArtifacts.Instance.ArtifactsFuntion(mID);
         StartCoroutine(CooltimeRoutine());
-        Debug.Log("유믈 사용");
         yield return Cool;
     }
     public void ShowCooltime(float maxTime, float currentTime)

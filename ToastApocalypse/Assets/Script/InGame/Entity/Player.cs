@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     public int mNowStage;
     public bool PlayerSkillStand;
 
-    public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도
+    public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도, 4=치명타, 5=치명타 데미지, 6=상태이상 저항
     public bool Stun;
     public Coroutine[] NowDebuffArr;
     public GameObject CCState;
@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
         {
             Delete();
         }
-        buffIncrease = new float[4];
+        buffIncrease = new float[7];
         for (int i = 0; i < buffIncrease.Length; i++)
         {
             buffIncrease[i] = 0;
@@ -297,6 +297,15 @@ public class Player : MonoBehaviour
         BuffController.Instance.SetBuff(3,code,eBuffType.Buff, duration);
         yield return Dura;
         buffIncrease[3] -= value;
+
+    }
+
+    public IEnumerator CCreduce(float value, float duration)
+    {
+        WaitForSeconds Dura = new WaitForSeconds(duration);
+        buffIncrease[6] += value;
+        yield return Dura;
+        buffIncrease[6] -= value;
 
     }
 

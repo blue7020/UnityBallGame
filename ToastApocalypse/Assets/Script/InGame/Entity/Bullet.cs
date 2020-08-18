@@ -54,7 +54,11 @@ public class Bullet : MonoBehaviour
         {
             if (Player.Instance.Stun == false && Player.Instance.NowDebuffArr[0] == null)
             {
-                Player.Instance.DoStun(EffectTime);
+                float rand = Random.Range(0,1f);
+                if (rand > Player.Instance.mStats.CCReduce* (1+ Player.Instance.buffIncrease[6]))
+                {
+                    Player.Instance.DoStun(EffectTime);
+                }
             }
         }
     }

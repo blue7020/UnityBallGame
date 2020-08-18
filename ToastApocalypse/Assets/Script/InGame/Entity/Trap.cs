@@ -5,11 +5,13 @@ using UnityEngine;
 public class Trap : MonoBehaviour
 {
     public Player mTarget;
+    public List<Enemy> mTargetMob;
     public bool DamageOn;
     public eTrapType mType;
     public float mValue;
     public float mBackup;
     public float Dura;
+    public bool EnemyDamage;
     public bool TrapTrigger;//애니메이션 비례 함정 작동
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -22,6 +24,7 @@ public class Trap : MonoBehaviour
                 {
                     case eTrapType.TickSpike:
                         mTarget = other.GetComponent<Player>();
+                        DamageOn = true;
                         TrapTrigger = true;
                         break;
                     case eTrapType.Slow:
@@ -30,6 +33,11 @@ public class Trap : MonoBehaviour
                         break;
                     case eTrapType.Spike:
                         mTarget = other.GetComponent<Player>();
+                        DamageOn = true;
+                        TrapTrigger = true;
+                        break;
+                    case eTrapType.Heal:
+                        mTarget = other.GetComponent<Player>();
                         TrapTrigger = true;
                         break;
                     default:
@@ -37,6 +45,13 @@ public class Trap : MonoBehaviour
                         break;
                 }
                 
+            }
+            if (other.gameObject.CompareTag("Enemy"))
+            {
+                if (EnemyDamage==true)
+                {
+                    mTargetMob.Add(other.GetComponent<Enemy>());
+                }
             }
         }
         
@@ -50,12 +65,19 @@ public class Trap : MonoBehaviour
             {
                 case eTrapType.TickSpike:
                     TrapTrigger = false;
+                    DamageOn = false;
+                    mTarget = null;
                     break;
                 case eTrapType.Slow:
                     mTarget.buffIncrease[3] += mValue;
                     mTarget = null;
                     break;
                 case eTrapType.Spike:
+                    TrapTrigger = false;
+                    DamageOn = false;
+                    mTarget = null;
+                    break;
+                case eTrapType.Heal:
                     TrapTrigger = false;
                     mTarget = null;
                     break;
@@ -64,7 +86,11 @@ public class Trap : MonoBehaviour
                     break;
             }
         }
-            
+        if (EnemyDamage==true&& other.gameObject.CompareTag("Enemy"))
+        {
+            mTargetMob.Remove(other.GetComponent<Enemy>());
+        }
+
     }
 
     public void Damage()
@@ -91,6 +117,21 @@ public class Trap : MonoBehaviour
         if (mTarget != null)
         {
             mTarget.buffIncrease[3] += -mValue;
+        }
+    }
+
+    public void Heal()
+    {
+        if (TrapTrigger==true)
+        {
+            Player.Instance.Heal(mValue);
+        }
+    }
+    public void EnemyHit()
+    {
+        for (int i = 0; i < mTargetMob.Count; i++)
+        {
+            mTargetMob[i].Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[1])) / 2);
         }
     }
 }

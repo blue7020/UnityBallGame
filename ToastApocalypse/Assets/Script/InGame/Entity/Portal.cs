@@ -55,7 +55,7 @@ public class Portal : MonoBehaviour
         {
             BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
         }
-        if (GameController.Instance.Level == GameSetting.LEVEL_COUNT)
+        if (GameController.Instance.Level == GameSetting.LEVEL_COUNT-1)
         {
             SceneManager.LoadScene(4);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
@@ -69,7 +69,7 @@ public class Portal : MonoBehaviour
                 GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
             }
         }
-        else
+        else if (GameController.Instance.Level < GameSetting.LEVEL_COUNT)
         {
             SceneManager.LoadScene(3);
             Player.Instance.transform.position = new Vector2(0, 0);

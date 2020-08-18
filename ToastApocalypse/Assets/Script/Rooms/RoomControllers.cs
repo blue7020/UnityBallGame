@@ -70,6 +70,7 @@ public class RoomControllers : MonoBehaviour
         newRoomData.EnemyCount = 0;
 
         RoomLength++;
+        Debug.Log(RoomLength);
         LoadRoomQueue.Enqueue(newRoomData);
     }
 

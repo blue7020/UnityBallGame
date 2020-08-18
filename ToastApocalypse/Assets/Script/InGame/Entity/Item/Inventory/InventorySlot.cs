@@ -34,7 +34,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                     }
                     else
                     {
-                        lore = "[" + artifact.TextStats.Title + "]\n\n";
+                        lore = "[" + artifact.TextStats.Title + "]\n";
                     }
                 }
                 lore += artifact.TextStats.ContensFormat + "\n";
@@ -74,7 +74,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 {
                     lore += "지속 시간: " + artifact.mStats.Skill_Duration + "초\n";
                 }
-                lore += "\n\n\"" + artifact.TextStats.PlayableText + "\"";
+                lore += "\n\n-" + artifact.TextStats.PlayableText + "-";
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
@@ -124,7 +124,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 {
                     lore += "Druation: " + artifact.mStats.Skill_Duration + "Sec\n";
                 }
-                lore += "\n\n\"" + artifact.TextStats.EngPlayableText + "\"";
+                lore += "\n\n-" + artifact.TextStats.EngPlayableText + "-";
 
             }
             UIController.Instance.tooltip.ShowTooltip(lore);

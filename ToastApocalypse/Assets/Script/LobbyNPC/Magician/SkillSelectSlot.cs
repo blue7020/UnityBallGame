@@ -43,7 +43,7 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {
-                lore = mSkillText.ContensFormat;
+                lore = mSkillText.ContensFormat+"\n";
                 if (mSkill.Damage > 0)
                 {
                     lore += "피해량: (" + mSkill.Damage + " x 공격력)\n";
@@ -87,7 +87,7 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
-                lore = mSkillText.EngContensFormat;
+                lore = mSkillText.EngContensFormat + "\n";
                 if (mSkill.Damage > 0)
                 {
                     lore += "Damage: (" + mSkill.Damage + " x Atk)\n";

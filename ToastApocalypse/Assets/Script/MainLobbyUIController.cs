@@ -57,7 +57,7 @@ public class MainLobbyUIController : MonoBehaviour
         //TODO 저장기능
         pause = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 
     public void BGMPlus()
@@ -114,6 +114,29 @@ public class MainLobbyUIController : MonoBehaviour
         mCashText.text = GameSetting.Instance.Syrup.ToString();
     }
 
+    int ClickCount = 0;
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ClickCount++;
+            if (!IsInvoking("DoubleClick"))
+                Invoke("DoubleClick", 1.0f);
+
+        }
+        else if (ClickCount == 2)
+        {
+            MainStart();
+        }
+
+    }
+    void DoubleClick()
+    {
+        ClickCount = 0;
+    }
+
+
+    //TODO 나중에 제대로 캐릭터 선택 구현하면 고치거나 삭제 바람
     public void Toast()
     {
         GameSetting.Instance.PlayerID = 0;

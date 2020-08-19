@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         GotoMain = false;
         GameSetting.Instance.Restart();
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void DestroyController()

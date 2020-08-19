@@ -26,7 +26,7 @@ public class StageController : MonoBehaviour
             GameSetting.Instance.NowStageRoom = mStage;
             GameSetting.Instance.Ingame = true;
             GameSetting.Instance.NowStage = mStageNum;
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
         }
     }
 }

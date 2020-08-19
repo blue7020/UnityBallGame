@@ -107,7 +107,7 @@ public class MainScreenUIController : MonoBehaviour
 
     public void GameStart()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
 
     public void GameQuit()

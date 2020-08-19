@@ -84,6 +84,14 @@ public class EnemySkill : MonoBehaviour
             case 21://spirit of oven
                 Oven();
                 break;
+            case 22://Wasabi
+                break;
+            case 23://Sushinobi
+                Sushinobi();
+                break;
+            case 24://Rolling Sushi
+                StartCoroutine(RollingSushi());
+                break;
             default:
                 Debug.LogError("wrong Enemy ID");
                 break;
@@ -142,6 +150,13 @@ public class EnemySkill : MonoBehaviour
             case 20://mrs. cake
                 break;
             case 21://spirit of oven
+                break;
+            case 22://Wasabi
+                Wasabi();
+                break;
+            case 23://Sushinobi
+                break;
+            case 24://Rolling Sushi
                 break;
             default:
                 Debug.LogError("wrong Enemy ID");
@@ -685,7 +700,7 @@ public class EnemySkill : MonoBehaviour
         if (Skilltrigger2==true)
         {
             Enemy enemy = EnemyPool.Instance.GetFromPool(3);//화염의손 소환
-            enemy.mMaxHP = 15; enemy.mCurrentHP = 15;
+            enemy.mMaxHP = 6; enemy.mCurrentHP = 6;
             enemy.transform.position = mEnemy.transform.position + point;
         }
     }
@@ -722,7 +737,6 @@ public class EnemySkill : MonoBehaviour
         }
         Count++;
     }
-
     private void FireRay()
     {
         Vector3 Pos = Player.Instance.transform.position;
@@ -731,5 +745,35 @@ public class EnemySkill : MonoBehaviour
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
+    }
+
+
+    private void Wasabi()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            ResetDir(17, i);
+        }
+    }
+
+    private void Sushinobi()
+    {
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        Bullet bolt = BulletPool.Instance.GetFromPool(18);
+        bolt.transform.localPosition = mEnemy.transform.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+    }
+
+    private IEnumerator RollingSushi()
+    {
+        WaitForSeconds delay = new WaitForSeconds(3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        mEnemy.mRB2D.velocity = dir * 3;
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        StartCoroutine(MoveDelay(1.5f));
     }
 }

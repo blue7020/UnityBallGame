@@ -42,11 +42,11 @@ public class Portal : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            nextroom();
+            Nextroom();
         }
     }
 
-    public void nextroom()
+    public void Nextroom()
     {
         GameController.Instance.Level++;
         Player.Instance.ResetBuff();
@@ -57,7 +57,7 @@ public class Portal : MonoBehaviour
         }
         if (GameController.Instance.Level == GameSetting.LEVEL_COUNT-1)
         {
-            SceneManager.LoadScene(4);
+            SceneManager.LoadScene(3);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
             GameController.Instance.Level= GameSetting.LEVEL_COUNT+1;
         }
@@ -71,7 +71,7 @@ public class Portal : MonoBehaviour
         }
         else if (GameController.Instance.Level < GameSetting.LEVEL_COUNT)
         {
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);
             UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
         }

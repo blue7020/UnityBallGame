@@ -105,7 +105,7 @@ public class ShopController : MonoBehaviour
                     artifact.IsShopItem = true;
                     itembuy[index].artifact = artifact;
                     itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
-                    ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
+                    ArtifactController.Instance.mActiveArtifact.Remove(artifact);
                     itembuy[index].mPriceText.gameObject.SetActive(false);
                     if (index <2)
                     {

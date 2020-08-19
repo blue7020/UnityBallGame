@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class UsingArtifactInventory : MonoBehaviour, IPointerDownHandler
 {
     public Artifacts art;
-    public string tooltipText;
+    public string lore;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -16,13 +16,13 @@ public class UsingArtifactInventory : MonoBehaviour, IPointerDownHandler
             art = Player.Instance.NowActiveArtifact;
             if (GameSetting.Instance.Language == 0)
             {
-                tooltipText = "["+art.TextStats.Title+ "]\n"+art.TextStats.ContensFormat+"\n-"+art.TextStats.PlayableText + "-";
-                UIController.Instance.tooltip.ShowTooltip(tooltipText);
+                lore = "[" + art.TextStats.Title + "]\n" + art.TextStats.ContensFormat + "\n\n\"" + art.TextStats.PlayableText + "\"";
+                UIController.Instance.tooltip.ShowTooltip(lore);
             }
             else if (GameSetting.Instance.Language == 1)
             {
-                tooltipText = "[" + art.TextStats.EngTitle + "]\n" + art.TextStats.EngContensFormat + "\n-" + art.TextStats.EngPlayableText+"-";
-                UIController.Instance.tooltip.ShowTooltip(art.TextStats.EngContensFormat);
+                lore = "[" + art.TextStats.EngTitle + "]\n" + art.TextStats.EngContensFormat + "\n\n\"" + art.TextStats.EngPlayableText+"\"";
+                UIController.Instance.tooltip.ShowTooltip(lore);
             }
         }
 

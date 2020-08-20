@@ -82,6 +82,7 @@ public class GameController : MonoBehaviour
     {
         GotoMain = true;
         CameraMovment.Instance.Delete();
+        TextEffectPool.Instance.Delete();
         UIController.Instance.Delete();
         InventoryController.Instance.Delete();
         DontDestroyScreen.Instance.Delete();

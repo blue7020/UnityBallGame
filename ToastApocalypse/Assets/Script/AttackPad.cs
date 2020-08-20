@@ -52,7 +52,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 {
                     CoolMaxtime = Player.Instance.mStats.AtkSpd;
                 }
-                else if(Player.Instance.NowPlayerWeapon.nowBullet<= 0)
+                else if(Player.Instance.NowPlayerWeapon.nowBullet <=1)
                 {
                     CoolMaxtime = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
                 }
@@ -63,12 +63,10 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             //무기 방향 돌리기
             float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
             Player.Instance.NowPlayerWeapon.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
-            
 
-            if (AttackSwitch == true)
+
+            if (AttackSwitch == true&& Player.Instance.Stun == false)
             {
-                if (Player.Instance.Stun == false)
-                {
                     if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
                     {
                         Player.Instance.NowPlayerWeapon.MeleeAttack();
@@ -76,18 +74,16 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                     }
                     if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
                     {
-                        if (Player.Instance.NowPlayerWeapon.nowBullet >= 1)
+                        if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
                         {
                             Player.Instance.NowPlayerWeapon.RangeAttack();
                             StartCoroutine(AttackCooltime());
                         }
                         else
                         {
-
                             Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
                         }
-                    }
-                }      
+                    }  
             }
         }
 

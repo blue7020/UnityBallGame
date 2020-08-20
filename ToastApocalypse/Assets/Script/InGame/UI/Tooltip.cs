@@ -8,6 +8,10 @@ public class Tooltip : MonoBehaviour
     public Text tooltipContents;
     public RectTransform BG;
 
+    private void Awake()
+    {
+        tooltipContents.transform.position += new Vector3(0, 0.5f, 0);
+    }
     public void ShowTooltip(string contents)
     {
         gameObject.SetActive(true);

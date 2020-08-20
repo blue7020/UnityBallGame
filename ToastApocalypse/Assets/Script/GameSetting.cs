@@ -39,7 +39,7 @@ public class GameSetting : MonoBehaviour
     public bool[] StageOpen;
     public int NowStage;
     public Room[] NowStageRoom;
-    public const int Room_COUNT =6;
+    public const int Room_COUNT =7;//최소
     public bool[] StagePartsget;
     public bool[] CharacterOpen;
 

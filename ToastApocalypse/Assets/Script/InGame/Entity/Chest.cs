@@ -131,7 +131,7 @@ public class Chest : MonoBehaviour
                 weapon.transform.SetParent(mItem.transform);
                 weapon.Currentroom = Currentroom;
                 WeaponController.Instance.mWeapons.RemoveAt(rand);
-                weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
                 break;
             }
             yield return delay;
@@ -149,7 +149,7 @@ public class Chest : MonoBehaviour
                 rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
                 artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mItem.transform);
                 artifact.Currentroom = Currentroom;
-                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
                 ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
                 break;
             }
@@ -168,7 +168,7 @@ public class Chest : MonoBehaviour
                 rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
                 artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], mItem.transform);
                 artifact.Currentroom = Currentroom;
-                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -1, 0);
+                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
                 ArtifactController.Instance.mActiveArtifact.Remove(artifact);
                 break;
             }

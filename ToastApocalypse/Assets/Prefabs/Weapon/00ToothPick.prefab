@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398615027988716327}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: -0.70710677}
-  m_LocalPosition: {x: -0.673, y: 0.591, z: 0}
+  m_LocalPosition: {x: -0.68, y: 0.75, z: 0}
   m_LocalScale: {x: 1.5, y: 2.475, z: 1}
   m_Children:
   - {fileID: 2001337129658870157}
@@ -46,10 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 4452090356739625532}
-  mAnim: {fileID: 3703425291764145814}
+  mAnim: {fileID: 2180525138676519774}
   BulletStarter: {fileID: 0}
   mRenderer: {fileID: 6571454973060618736}
-  boltID: 0
 --- !u!61 &2390584636962389751
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -86,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2001337129658870157}
   - component: {fileID: 6571454973060618736}
-  - component: {fileID: 3703425291764145814}
+  - component: {fileID: 2180525138676519774}
   m_Layer: 0
   m_Name: AttackEffect
   m_TagString: Untagged
@@ -102,7 +101,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3237192186107978423}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.07, y: 0.162, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1385377153231231862}
@@ -158,7 +157,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &3703425291764145814
+--- !u!95 &2180525138676519774
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -304,7 +303,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4452090356739625521}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -341,6 +340,7 @@ MonoBehaviour:
     Bullet: 0
     Crit: 0
     CritDamage: 0
+  PlusBulletCount: 0
   nowBullet: 0
   MaxBullet: 0
   mRenderer: {fileID: 4452090356513064914}
@@ -350,6 +350,8 @@ MonoBehaviour:
   mAttackCooltime: 0
   Attackon: 0
   GetCooltime: 0
+  Animation: 0
+  BoltID: 0
 --- !u!61 &-4947934788970713947
 BoxCollider2D:
   m_ObjectHideFlags: 0

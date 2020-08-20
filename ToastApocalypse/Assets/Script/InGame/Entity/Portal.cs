@@ -74,6 +74,11 @@ public class Portal : MonoBehaviour
             SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);
             UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
+            WeaponController.Instance.mWeapons = new List<Weapon>();
+            for (int i=0;i<GameSetting.Instance.mWeapons.Length; i++)
+            {
+                WeaponController.Instance.mWeapons.Add(GameSetting.Instance.mWeapons[i]);
+            }
         }
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();

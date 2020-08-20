@@ -56,12 +56,12 @@ public class ShopController : MonoBehaviour
                     if (InventoryController.Instance.mSlotArr[i].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
                     {
                         artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mPos[index]);
+                        ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
                         artifact.transform.SetParent(mPos[index]);
                         artifact.Currentroom = Shop;
                         artifact.IsShopItem = true;
                         itembuy[index].artifact = artifact;
                         itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
-                        ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
                         itembuy[index].mPriceText.gameObject.SetActive(false);
                         if (index <2)
                         {
@@ -100,12 +100,12 @@ public class ShopController : MonoBehaviour
                 if (Player.Instance.NowActiveArtifact != ArtifactController.Instance.mActiveArtifact[rand])
                 {
                     artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], mPos[index]);
+                    ArtifactController.Instance.mActiveArtifact.RemoveAt(rand);
                     artifact.transform.SetParent(mPos[index]);
                     artifact.Currentroom = Shop;
                     artifact.IsShopItem = true;
                     itembuy[index].artifact = artifact;
                     itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
-                    ArtifactController.Instance.mActiveArtifact.Remove(artifact);
                     itembuy[index].mPriceText.gameObject.SetActive(false);
                     if (index <2)
                     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class AttackArea : MonoBehaviour
@@ -9,7 +10,6 @@ public class AttackArea : MonoBehaviour
     public Transform BulletStarter;
     public SpriteRenderer mRenderer;
     private PlayerBullet bolt;
-    public int boltID;
 
     private Enemy Target;
 
@@ -30,8 +30,31 @@ public class AttackArea : MonoBehaviour
     {
         weapon.nowBullet--;
         UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
-        bolt = PlayerBulletPool.Instance.GetFromPool(boltID);
+        bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
         ResetDir();
+        if (weapon.PlusBulletCount >1)
+        {
+            StartCoroutine(PlusBullet());
+        }
+    }
+    
+    private IEnumerator PlusBullet()
+    {
+        int count = 1;
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        while (true)
+        {
+            if (count==weapon.PlusBulletCount)
+            {
+                break;
+            }
+            weapon.nowBullet--;
+            UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
+            ResetDir();
+            count++;
+            yield return delay;
+        }
     }
 
     private void ResetDir()

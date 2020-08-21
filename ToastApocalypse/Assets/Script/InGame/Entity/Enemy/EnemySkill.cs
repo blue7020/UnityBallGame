@@ -100,6 +100,7 @@ public class EnemySkill : MonoBehaviour
 
     public void DieSkill()
     {
+        Count = 0;
         switch (mEnemy.mID)
         {
             case 0://Mimic_Wood
@@ -774,6 +775,6 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mRB2D.velocity = dir * 3;
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        StartCoroutine(MoveDelay(1.5f));
+        StartCoroutine(MoveDelay(1f));
     }
 }

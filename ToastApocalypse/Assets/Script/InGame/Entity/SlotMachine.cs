@@ -54,14 +54,14 @@ public class SlotMachine : MonoBehaviour
             mRenderer.sprite = mSpt[3];
             StartCoroutine(ArtifactSearch());
         }
-        TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.SetText(text);
         StartCoroutine(ResetSlot());
     }
 
     private IEnumerator ResetSlot()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
+        TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.SetText(text);
         yield return delay;
         enable = false;
         mRenderer.sprite = mSpt[0];

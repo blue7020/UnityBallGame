@@ -110,7 +110,7 @@ public class ActiveArtifacts : MonoBehaviour
                 Player.Instance.Heal((Player.Instance.mMaxHP*0.3f));
                 break;
             case 2:
-                Player.Instance.CCreduce(1,7);
+                Player.Instance.CCreduce(1,103,7);
                 break;
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float mDamage;
+    public float mValue;
     public float mSpeed;
     public Rigidbody2D mRB2D;
     public eEnemyBulletType eType;
@@ -57,9 +58,13 @@ public class Bullet : MonoBehaviour
                 float rand = Random.Range(0,1f);
                 if (rand > Player.Instance.mStats.CCReduce* (1+ Player.Instance.buffIncrease[6]))
                 {
-                    Player.Instance.DoStun(EffectTime);
+                    Player.Instance.DoEffect(5,45,EffectTime);
                 }
             }
+        }
+        if (eEffectType == eBulletEffect.slow)
+        {
+            Player.Instance.DoEffect(4, 431, 3f, mValue);//몬스터나 함정에 의한 디버프는 40부터 시작
         }
     }
 
@@ -76,7 +81,6 @@ public class Bullet : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
 
 
     private void OnTriggerStay2D(Collider2D other)

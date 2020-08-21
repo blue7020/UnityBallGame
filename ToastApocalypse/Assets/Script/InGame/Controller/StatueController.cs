@@ -39,8 +39,8 @@ public class StatueController : InformationLoader
                 {
                     StatueIDList.Add(i);
                 }
-                mStatueArr = new Statue[STATUE_COUNT];
             }
+            mStatueArr = new Statue[STATUE_COUNT];
         }
         else
         {
@@ -56,9 +56,9 @@ public class StatueController : InformationLoader
             mStatueArr[i] = Instantiate(mStatue, mStatuePos[i]);
             int rand = Random.Range(0, StatueIDList.Count);
             mStatueArr[i].mStatueID = StatueIDList[rand];
+            StatueIDList.RemoveAt(rand);
             mStatueArr[i].mID = i;
             mStatueArr[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
-            CanvasFinder.Instance.mStatuePriceText[i] = mStatueArr[i].mPriceText;
             if (i == 1)
             {
                 mStatueArr[i].ePayType = eStatuePay.Free;
@@ -70,10 +70,10 @@ public class StatueController : InformationLoader
                 mStatueArr[i].ePayType = eStatuePay.Pay;
                 mStatueArr[i].SpendGold = 35;
             }
+            CanvasFinder.Instance.mStatuePriceText[i] = mStatueArr[i].mPriceText;
+            CanvasFinder.Instance.mStatuePriceText[i].text = mStatueArr[i].SpendGold.ToString() + "G";
             CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(false);
-            CanvasFinder.Instance.mStatuePriceText[i].text = mStatueArr[i].SpendGold.ToString()+"G";
             mStatueArr[i].StatSetting(rand);
-            StatueIDList.RemoveAt(rand);
         }
     }
 

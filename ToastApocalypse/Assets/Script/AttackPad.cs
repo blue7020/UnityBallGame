@@ -63,6 +63,18 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             //무기 방향 돌리기
             float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
             Player.Instance.NowPlayerWeapon.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
+            Quaternion q1 = Player.Instance.NowPlayerWeapon.transform.rotation;
+            Quaternion q2 = Quaternion.Euler(0, -180, Player.Instance.NowPlayerWeapon.transform.rotation.z);
+            float dot = Quaternion.Dot(q1, q2);
+            //Debug.Log(dot);
+            if (dot > 0 && dot < 4.5e-7)
+            {
+                Player.Instance.NowPlayerWeapon.mRenderer.flipY =true;
+            }
+            else
+            {
+                Player.Instance.NowPlayerWeapon.mRenderer.flipY = false;
+            }
 
 
             if (AttackSwitch == true&& Player.Instance.Stun == false)

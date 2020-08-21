@@ -109,7 +109,6 @@ public class SkillList : MonoBehaviour
 
     public void Dash()//2
     {
-        //대쉬 이펙트
         int DashSpeed = 20;
         Vector3 dash = Player.Instance.mDirection.transform.up;
         effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);

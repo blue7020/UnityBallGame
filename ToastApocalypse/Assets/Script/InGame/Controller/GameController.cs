@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            StageHP = 3;
+            StageHP = 2;
             MapLevel = GameSetting.Instance.NowStage;
             GotoMain = false;
             pause = false;

@@ -131,9 +131,9 @@ public class Player : MonoBehaviour
             }
             if (OnAir == false)
             {
-                if (mCurrentAir > 9)
+                if (mCurrentAir > 0)
                 {
-                    mCurrentAir -= 10;
+                    mCurrentAir -= 7;
                 }
                 UIController.Instance.ShowAirGaugeBar();
             }
@@ -249,6 +249,59 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    public void DoEffect(int Effectcode, int code, float duration, float value=0)//사라지는 오브젝트들은 코루틴이 중단되니 여기서 해결
+    {
+        switch (Effectcode)
+        {
+            case 1:
+                if (value<0)
+                {
+                    NowDebuffArr[0] = StartCoroutine(Atk(value, code, duration));
+                }
+                else
+                {
+                    StartCoroutine(Atk(value, code, duration));
+                }
+                break;
+            case 2:
+                if (value < 0)
+                {
+                    NowDebuffArr[0] = StartCoroutine(Def(value, code, duration));
+                }
+                else
+                {
+                    StartCoroutine(Def(value, code, duration));
+                }
+                break;
+            case 3:
+                if (value < 0)
+                {
+                    NowDebuffArr[0] = StartCoroutine(AtkSpeed(value, code, duration));
+                }
+                else
+                {
+                    StartCoroutine(AtkSpeed(value, code, duration));
+                }
+                break;
+            case 4:
+                if (value < 0)
+                {
+                    NowDebuffArr[0] = StartCoroutine(Speed(value, code, duration));
+                }
+                else
+                {
+                    StartCoroutine(Speed(value, code, duration));
+                }
+                break;
+            case 5:
+                StartCoroutine(CCreduce(value, code, duration));
+                break;
+            case 6://stun
+                NowDebuffArr[0] = StartCoroutine(Stuned(code, duration));
+                break;
+        }
+    }
     //buffs
     public void Heal(float mHealAmount, float BonusHeal = 0)
     {
@@ -267,7 +320,14 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[0] += value;
-        BuffController.Instance.SetBuff(0,code, eBuffType.Buff,duration);
+        if (value > 0)
+        {
+            BuffController.Instance.SetBuff(0, code, eBuffType.Buff, duration);
+        }
+        else
+        {
+            BuffController.Instance.SetBuff(9, code, eBuffType.Debuff, duration);
+        }
         yield return Dura;
         buffIncrease[0] -= value;
     }
@@ -276,7 +336,14 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[1] += value;
-        BuffController.Instance.SetBuff(1,code, eBuffType.Buff, duration);
+        if (value > 0)
+        {
+            BuffController.Instance.SetBuff(1, code, eBuffType.Buff, duration);
+        }
+        else
+        {
+            BuffController.Instance.SetBuff(10, code, eBuffType.Debuff, duration);
+        }
         yield return Dura;
         buffIncrease[1] -= value;
     }
@@ -285,35 +352,45 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[2] += value;
-        BuffController.Instance.SetBuff(2, code, eBuffType.Buff, duration);
+        if (value > 0)
+        {
+            BuffController.Instance.SetBuff(2, code, eBuffType.Buff, duration);
+        }
+        else
+        {
+            BuffController.Instance.SetBuff(11, code, eBuffType.Debuff, duration);
+        }
         yield return Dura;
         buffIncrease[2] -= value;
     }
-
     public IEnumerator Speed(float value, int code,float duration)
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[3] += value;
-        BuffController.Instance.SetBuff(3,code,eBuffType.Buff, duration);
+        if (value>0)
+        {
+            BuffController.Instance.SetBuff(3, code, eBuffType.Buff, duration);
+        }
+        else
+        {
+            BuffController.Instance.SetBuff(12, code, eBuffType.Debuff, duration);
+        }
         yield return Dura;
         buffIncrease[3] -= value;
 
     }
 
-    public IEnumerator CCreduce(float value, float duration)
+    public IEnumerator CCreduce(float value, int code, float duration)
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[6] += value;
+        BuffController.Instance.SetBuff(13, code, eBuffType.Buff, duration);
         yield return Dura;
         buffIncrease[6] -= value;
 
     }
 
     //debuff
-    public void DoStun(float EffectTime)
-    {
-        NowDebuffArr[0] = StartCoroutine(Stuned(5, EffectTime));
-    }
     public IEnumerator Stuned(int code,float duration)
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);

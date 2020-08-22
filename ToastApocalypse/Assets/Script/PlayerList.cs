@@ -72,6 +72,28 @@ public class PlayerList : InformationLoader
                 p2.NowPlayerWeapon.EquipWeapon();
                 p2.NowPlayerSkill = mSkill;
                 break;
+            case 3:
+                Player p3 = Instantiate(mPlayer[3], Vector3.zero, Quaternion.identity);
+                Player.Instance.mStats = mInfoArr[3];
+                p3.joyskick = stick;
+                UIController.Instance.CharacterImage();
+                CameraMovment.Instance.PlayerSetting(p3.gameObject);
+                Weapon mWeapon3 = WeaponPool.Instance.GetFromPool(7);
+                p3.NowPlayerWeapon = mWeapon3;
+                p3.NowPlayerWeapon.EquipWeapon();
+                p3.NowPlayerSkill = mSkill;
+                break;
+            case 4:
+                Player p4 = Instantiate(mPlayer[4], Vector3.zero, Quaternion.identity);
+                Player.Instance.mStats = mInfoArr[4];
+                p4.joyskick = stick;
+                UIController.Instance.CharacterImage();
+                CameraMovment.Instance.PlayerSetting(p4.gameObject);
+                Weapon mWeapon4 = WeaponPool.Instance.GetFromPool(10);
+                p4.NowPlayerWeapon = mWeapon4;
+                p4.NowPlayerWeapon.EquipWeapon();
+                p4.NowPlayerSkill = mSkill;
+                break;
             default:
                 Debug.LogError("Wrong Player ID");
                 break;

@@ -13,7 +13,7 @@ public class GameSetting : MonoBehaviour
     public int PlayerSkillID;
     public bool Ingame;
 
-    private const int CharacterCount = 3;
+    private const int CHARACTER_COUNT = 6;
 
     public Sprite[] mParts;
     public Sprite[] mPlayerSpt;
@@ -67,7 +67,7 @@ public class GameSetting : MonoBehaviour
             SESetting = 3;
             StageOpen = new bool[6];
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
-            CharacterOpen = new bool[CharacterCount];
+            CharacterOpen = new bool[CHARACTER_COUNT];
             PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
             StatueOpen = new bool[8];//석상을 추가할 때마다 수정
             for (int i=0; i<4;i++)
@@ -86,6 +86,8 @@ public class GameSetting : MonoBehaviour
         Syrup = 30000;
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
+        CharacterOpen[3] = true;//허니브레드캐릭터 오픈
+        CharacterOpen[4] = true;//스시닌자캐릭터 오픈
 
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈

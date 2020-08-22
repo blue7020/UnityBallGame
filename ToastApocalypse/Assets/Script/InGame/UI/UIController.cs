@@ -232,6 +232,16 @@ public class UIController : InformationLoader
                 mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
                 mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
                 break;
+            case 3:
+                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[3];
+                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[3];
+                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[3];
+                break;
+            case 4:
+                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[4];
+                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[4];
+                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[4];
+                break;
             default:
                 Debug.LogError("Wrong Character Image");
                 break;

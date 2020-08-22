@@ -66,8 +66,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             Quaternion q1 = Player.Instance.NowPlayerWeapon.transform.rotation;
             Quaternion q2 = Quaternion.Euler(0, -180, Player.Instance.NowPlayerWeapon.transform.rotation.z);
             float dot = Quaternion.Dot(q1, q2);
-            //Debug.Log(dot);
-            if (dot > 0 && dot < 4.5e-7)
+            Debug.Log(dot);
+            if (dot > 0 && dot < 4.1e-8)
             {
                 Player.Instance.NowPlayerWeapon.mRenderer.flipY =true;
             }

@@ -76,6 +76,8 @@ public class GameController : MonoBehaviour
         GotoMain = false;
         GameSetting.Instance.Restart();
         SceneManager.LoadScene(1);
+        SoundController.Instance.mBGM.Stop();
+        SoundController.Instance.BGMChange(0);
     }
 
     public void DestroyController()

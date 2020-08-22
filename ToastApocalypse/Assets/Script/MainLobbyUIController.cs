@@ -14,6 +14,7 @@ public class MainLobbyUIController : MonoBehaviour
     private bool pause;
 
     public Text mCashText,mBGMText, mSEText;
+    public Button mBGMplus, mBGMminus, mSEplus, mSEminus;
     //public Tooltip tooltip;
 
 
@@ -34,7 +35,13 @@ public class MainLobbyUIController : MonoBehaviour
 
     private void Start()
     {
+        mBGMplus.onClick.AddListener(() => { BGMPlus(); });
+        mBGMminus.onClick.AddListener(() => { BGMMinus(); });
+        mSEplus.onClick.AddListener(() => { SEPlus(); });
+        mSEminus.onClick.AddListener(() => { SEMinus(); });
         GameSetting.Instance.ShowParts();
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
 
     public void GamePause()
@@ -58,55 +65,30 @@ public class MainLobbyUIController : MonoBehaviour
         pause = false;
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
+        SoundController.Instance.mBGM.Stop();
+        SoundController.Instance.BGMChange(0);
     }
 
     public void BGMPlus()
     {
-        if (GameSetting.Instance.BGMSetting < 10)
-        {
-            GameSetting.Instance.BGMSetting++;
-        }
-        else
-        {
-            GameSetting.Instance.BGMSetting = 10;
-        }
-        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
+        SoundController.Instance.PlusBGM();
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
     }
     public void BGMMinus()
     {
-        if (GameSetting.Instance.BGMSetting > 0)
-        {
-            GameSetting.Instance.BGMSetting--;
-        }
-        else
-        {
-            GameSetting.Instance.BGMSetting = 0;
-        }
-        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
+        SoundController.Instance.MinusBGM();
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
     }
+
     public void SEPlus()
     {
-        if (GameSetting.Instance.SESetting < 10)
-        {
-            GameSetting.Instance.SESetting++;
-        }
-        else
-        {
-            GameSetting.Instance.SESetting = 10;
-        }
-        mSEText.text = GameSetting.Instance.SESetting.ToString();
+        SoundController.Instance.PlusSE();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
     public void SEMinus()
     {
-        if (GameSetting.Instance.SESetting > 0)
-        {
-            GameSetting.Instance.SESetting--;
-        }
-        else
-        {
-            GameSetting.Instance.SESetting = 0;
-        }
-        mSEText.text = GameSetting.Instance.SESetting.ToString();
+        SoundController.Instance.MinusSE();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
 
     public void ShowSyrupText()

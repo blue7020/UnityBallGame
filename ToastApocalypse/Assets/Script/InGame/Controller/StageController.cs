@@ -27,6 +27,7 @@ public class StageController : MonoBehaviour
             GameSetting.Instance.Ingame = true;
             GameSetting.Instance.NowStage = mStageNum;
             SceneManager.LoadScene(2);
+            SoundController.Instance.BGMChange(1);
         }
     }
 }

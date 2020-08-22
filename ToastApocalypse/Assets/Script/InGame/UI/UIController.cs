@@ -16,7 +16,7 @@ public class UIController : InformationLoader
 
     public Sprite DefaultItemSprite;
 
-    public Button mStatButton, mSKillButton,mItemButton, mArtifactButton;
+    public Button mStatButton, mSKillButton,mItemButton, mArtifactButton,mBGMplus, mBGMminus, mSEplus, mSEminus;
 
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
@@ -65,6 +65,12 @@ public class UIController : InformationLoader
             mAirGauge.gameObject.SetActive(true);
         }
         StartCoroutine(ShowLevel());
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
+        mBGMplus.onClick.AddListener(() => { BGMPlus(); });
+        mBGMminus.onClick.AddListener(() => { BGMMinus(); });
+        mSEplus.onClick.AddListener(() => { SEPlus(); });
+        mSEminus.onClick.AddListener(() => { SEMinus(); });
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
         mSKillButton.onClick.AddListener(() => { Player.Instance.NowPlayerSkill.SkillUse(); });
@@ -78,51 +84,24 @@ public class UIController : InformationLoader
 
     public void BGMPlus()
     {
-        if (GameSetting.Instance.BGMSetting < 10)
-        {
-            GameSetting.Instance.BGMSetting++;
-        }
-        else
-        {
-            GameSetting.Instance.BGMSetting = 10;
-        }
-        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
+        SoundController.Instance.PlusBGM();
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
     }
     public void BGMMinus()
     {
-        if (GameSetting.Instance.BGMSetting > 0)
-        {
-            GameSetting.Instance.BGMSetting--;
-        }
-        else
-        {
-            GameSetting.Instance.BGMSetting = 0;
-        }
-        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
+        SoundController.Instance.MinusBGM();
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
     }
+
     public void SEPlus()
     {
-        if (GameSetting.Instance.SESetting < 10)
-        {
-            GameSetting.Instance.SESetting++;
-        }
-        else
-        {
-            GameSetting.Instance.SESetting = 10;
-        }
-        mSEText.text = GameSetting.Instance.SESetting.ToString();
+        SoundController.Instance.PlusSE();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
     public void SEMinus()
     {
-        if (GameSetting.Instance.SESetting > 0)
-        {
-            GameSetting.Instance.SESetting--;
-        }
-        else
-        {
-            GameSetting.Instance.SESetting = 0;
-        }
-        mSEText.text = GameSetting.Instance.SESetting.ToString();
+        SoundController.Instance.MinusSE();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
 
     public IEnumerator ShowLevel()

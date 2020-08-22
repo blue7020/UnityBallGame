@@ -12,6 +12,8 @@ public class Chest : MonoBehaviour
     public MimicSpawner mMimicPos;
     public Room Currentroom;
 
+    public UsingItem DefaultItem;
+
     private bool ChestOpen;
     private eChestType Type;
     private Weapon weapon;
@@ -102,13 +104,12 @@ public class Chest : MonoBehaviour
     private void Open()
     {
         ChestOpen = true;
-        mItem.SetActive(true);
         float rand = Random.Range(0, 1f);
-        if (ArtifactController.Instance.mPassiveArtifact.Count >= 0&&rand >= rate[0] && rand < rate[1])//무기
+        if (WeaponController.Instance.mWeapons.Count>= 0&&rand >= rate[0] && rand < rate[1])//무기
         {
             StartCoroutine(WeaponSearch());
         }
-        else if (WeaponController.Instance.mWeapons.Count >= 0&&rand >= rate[1] && rand <= rate[2])//패시브유물
+        else if (ArtifactController.Instance.mPassiveArtifact.Count >= 0&&rand >= rate[1] && rand <= rate[2])//패시브유물
         {
             StartCoroutine(PassiveArtifactSearch());
         }
@@ -116,6 +117,11 @@ public class Chest : MonoBehaviour
         {
             StartCoroutine(ActiveArtifactSearch());
         }
+        else
+        {
+            Instantiate(DefaultItem, mItem.transform);
+        }
+        mItem.SetActive(true);
     }
 
     private IEnumerator WeaponSearch()

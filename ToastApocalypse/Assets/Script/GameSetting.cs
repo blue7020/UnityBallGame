@@ -24,8 +24,6 @@ public class GameSetting : MonoBehaviour
     public Weapon[] mWeapons;
     //
     //저장해야할 것
-    public int BGMSetting;
-    public int SESetting;
     public int Language; //0 = 한국어 / 1 = 영어
     public int Syrup;
 
@@ -63,8 +61,6 @@ public class GameSetting : MonoBehaviour
     {
         if (FirstSetting != true)
         {
-            BGMSetting = 3;
-            SESetting = 3;
             StageOpen = new bool[6];
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
             CharacterOpen = new bool[CHARACTER_COUNT];

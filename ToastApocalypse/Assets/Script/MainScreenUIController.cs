@@ -37,6 +37,11 @@ public class MainScreenUIController : MonoBehaviour
             mEndText.text = "Quit";
         }
     }
+    private void Start()
+    {
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
+    }
 
     //0 = 한국어 / 1 = 영어
     public void LanguagetoKor()
@@ -58,56 +63,31 @@ public class MainScreenUIController : MonoBehaviour
 
     public void BGMPlus()
     {
-        if (GameSetting.Instance.BGMSetting<10)
-        {
-            GameSetting.Instance.BGMSetting++;
-        }
-        else
-        {
-            GameSetting.Instance.BGMSetting=10;
-        }
-        mBGMText.text =GameSetting.Instance.BGMSetting.ToString();
+        SoundController.Instance.PlusBGM();
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
     }
     public void BGMMinus()
     {
-        if (GameSetting.Instance.BGMSetting > 0)
-        {
-            GameSetting.Instance.BGMSetting--;
-        }
-        else
-        {
-            GameSetting.Instance.BGMSetting = 0;
-        }
-        mBGMText.text = GameSetting.Instance.BGMSetting.ToString();
+        SoundController.Instance.MinusBGM();
+        mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
     }
+
     public void SEPlus()
     {
-        if (GameSetting.Instance.SESetting < 10)
-        {
-            GameSetting.Instance.SESetting++;
-        }
-        else
-        {
-            GameSetting.Instance.SESetting = 10;
-        }
-        mSEText.text = GameSetting.Instance.SESetting.ToString();
+        SoundController.Instance.PlusSE();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
     public void SEMinus()
     {
-        if (GameSetting.Instance.SESetting > 0)
-        {
-            GameSetting.Instance.SESetting--;
-        }
-        else
-        {
-            GameSetting.Instance.SESetting = 0;
-        }
-        mSEText.text = GameSetting.Instance.SESetting.ToString();
+        SoundController.Instance.MinusSE();
+        mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
 
     public void GameStart()
     {
         SceneManager.LoadScene(1);
+        SoundController.Instance.mBGM.Stop();
+        SoundController.Instance.BGMChange(0);
     }
 
     public void GameQuit()

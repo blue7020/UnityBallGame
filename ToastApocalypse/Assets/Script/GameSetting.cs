@@ -7,7 +7,7 @@ public class GameSetting : MonoBehaviour
 {
     public static GameSetting Instance;
 
-    public const int LEVEL_COUNT = 6;
+    public const int LEVEL_COUNT = 5;
 
     public int PlayerID;
     public int PlayerSkillID;

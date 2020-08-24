@@ -944,7 +944,7 @@ public class EnemySkill : MonoBehaviour
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
             }
-            Invoke("MeatStock", 0.1f);
+            MeatStock();
             yield return delay;
         }
     }
@@ -959,14 +959,13 @@ public class EnemySkill : MonoBehaviour
     }
     private void Tentacle()
     {
-        for (int i = 1; i < 8; i++)
+        for (int i = 1; i < 10; i++)
         {
-            int Xpos = Random.Range(-5, 8);
-            int Ypos = Random.Range(-5, 8);
+            int Xpos = Random.Range(-3, 9);
+            int Ypos = Random.Range(-3, 9);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             GameObject tentacle = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
             tentacle.transform.position = mEnemy.transform.position + Pos;
-            Count++;
         }
     }
 }

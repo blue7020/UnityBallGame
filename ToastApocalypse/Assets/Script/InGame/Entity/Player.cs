@@ -131,9 +131,9 @@ public class Player : MonoBehaviour
             }
             if (OnAir == false)
             {
-                if (mCurrentAir > 0)
+                if (mCurrentAir >= 5)
                 {
-                    mCurrentAir -= 7;
+                    mCurrentAir -= 5;
                 }
                 UIController.Instance.ShowAirGaugeBar();
             }

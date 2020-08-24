@@ -51,6 +51,7 @@ public class Bullet : MonoBehaviour
 
     public void Effecton()
     {
+        Player.Instance.Hit(mDamage);
         if (eEffectType == eBulletEffect.stun)
         {
             if (Player.Instance.Stun == false && Player.Instance.NowDebuffArr[0] == null)
@@ -66,6 +67,7 @@ public class Bullet : MonoBehaviour
         {
             Player.Instance.DoEffect(4, 431, 3f, mValue);//몬스터나 함정에 의한 디버프는 40부터 시작
         }
+        RemoveBullet();
     }
 
     private IEnumerator MovetoPlayer()
@@ -90,8 +92,6 @@ public class Bullet : MonoBehaviour
             if (other.gameObject.CompareTag("Player"))
             {
                 Effecton();
-                Player.Instance.Hit(mDamage);
-                RemoveBullet();
             }
             if (other.gameObject.CompareTag("DestroyZone"))
             {

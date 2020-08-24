@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySkill : MonoBehaviour
@@ -24,160 +23,200 @@ public class EnemySkill : MonoBehaviour
     public void Skill()
     {
         Count = 0;
-        switch (mEnemy.mID)
+        if (mEnemy.mID < 22)
         {
-            case 0://Mimic_Wood
-                break;
-            case 1://Slime_Butter
-                break;
-            case 2://Moldling
-                MoldlingAttack();
-                break;
-            case 3://Mold_King
-                StartCoroutine(MoldKingAttack());
-                break;
-            case 4://CursedPowder
-                StartCoroutine(CursedPowder());
-                break;
-            case 5://PotatoGolem
-                StartCoroutine(PotatoGolem());
-                break;
-            case 6://AngerTomato
-                StartCoroutine(AngerTomato());
-                break;
-            case 7://Mimic_Silver
-                break;
-            case 8://Mimic_Gold
-                break;
-            case 9://Ketchup_Slime
-                break;
-            case 10://Hambug
-                break;
-            case 11://Flied
-                StartCoroutine(Flied1());
-                break;
-            case 12://Burger-Pac
-                CabbageBoomerang();
-                break;
-            case 13://Portatargo
-                Potatargot();
-                break;
-            case 14://Dispenster
-                ColaRay();
-                break;
-            case 15://creamSlime
-                break;
-            case 16://Cakon
-                StartCoroutine(Cakon());
-                break;
-            case 17://creambun
-                StartCoroutine(Creambun());
-                break;
-            case 18://fire hand
-                break;
-            case 19://chocoshell
-                ChocoShellIn();
-                break;
-            case 20://mrs. cake
-                StartCoroutine(Misscake());
-                break;
-            case 21://spirit of oven
-                Oven();
-                break;
-            case 22://Wasabi
-                break;
-            case 23://Sushinobi
-                Sushinobi();
-                break;
-            case 24://Rolling Sushi
-                StartCoroutine(RollingSushi());
-                break;
-            default:
-                Debug.LogError("wrong Enemy ID");
-                break;
+            switch (mEnemy.mID)
+            {
+                case 0://Mimic_Wood
+                    break;
+                case 1://Slime_Butter
+                    break;
+                case 2://Moldling
+                    MoldlingAttack();
+                    break;
+                case 3://Mold_King
+                    StartCoroutine(MoldKingAttack());
+                    break;
+                case 4://CursedPowder
+                    StartCoroutine(CursedPowder());
+                    break;
+                case 5://PotatoGolem
+                    StartCoroutine(PotatoGolem());
+                    break;
+                case 6://AngerTomato
+                    StartCoroutine(AngerTomato());
+                    break;
+                case 7://Mimic_Silver
+                    break;
+                case 8://Mimic_Gold
+                    break;
+                case 9://Ketchup_Slime
+                    break;
+                case 10://Hambug
+                    break;
+                case 11://Flied
+                    StartCoroutine(Flied1());
+                    break;
+                case 12://Burger-Pac
+                    CabbageBoomerang();
+                    break;
+                case 13://Portatargo
+                    Potatargot();
+                    break;
+                case 14://Dispenster
+                    ColaRay();
+                    break;
+                case 15://creamSlime
+                    break;
+                case 16://Cakon
+                    StartCoroutine(Cakon());
+                    break;
+                case 17://creambun
+                    StartCoroutine(Creambun());
+                    break;
+                case 18://fire hand
+                    break;
+                case 19://chocoshell
+                    ChocoShellIn();
+                    break;
+                case 20://mrs. cake
+                    StartCoroutine(Misscake());
+                    break;
+                case 21://spirit of oven
+                    Oven();
+                    break;
+                default:
+                    Debug.LogError("wrong Enemy ID");
+                    break;
+            }
+        }
+        else if (mEnemy.mID >= 22)
+        {
+            switch (mEnemy.mID)
+            {
+                case 22://Wasabi
+                    break;
+                case 23://Sushinobi
+                    Sushinobi();
+                    break;
+                case 24://Rolling Sushi
+                    StartCoroutine(RollingSushi());
+                    break;
+                case 25://TakoYaki
+                    break;
+                case 26://YakiStove
+                    YakiStove();
+                    break;
+                case 27://Ebimaid
+                    Ebimaid();
+                    break;
+                case 28://Kramen
+                    Kramen();
+                    break;
+                default:
+                    Debug.LogError("wrong Enemy ID");
+                    break;
+            }
         }
     }
 
     public void DieSkill()
     {
         Count = 0;
-        switch (mEnemy.mID)
+        if (mEnemy.mID < 22)
         {
-            case 0://Mimic_Wood
-                break;
-            case 1://Slime
-                break;
-            case 2://Mold_King
-                break;
-            case 3://Moldling
-                break;
-            case 4://KingSlime
-                break;
-            case 5://PotatoGolem
-                break;
-            case 6://AngerTomato
-                AngerTomato2();
-                break;
-            case 7://Mimic_Silver
-                break;
-            case 8://Mimic_Gold
-                break;
-            case 9://Ketchup_Slime
-                AngerTomato2();
-                break;
-            case 10://Hambug
-                break;
-            case 11://Flied
-                Flied2();
-                break;
-            case 12://Burger-Pac
-                CabbageBoomerang();
-                break;
-            case 13://Portatargo
-                break;
-            case 14://Dispenster
-                break;
-            case 15://creamSlime
-                CreamSlime();
-                break;
-            case 16://Cakon
-                break;
-            case 17://creambun
-                break;
-            case 18://fire hand
-                break;
-            case 19://chocoshell
-                break;
-            case 20://mrs. cake
-                break;
-            case 21://spirit of oven
-                break;
-            case 22://Wasabi
-                Wasabi();
-                break;
-            case 23://Sushinobi
-                break;
-            case 24://Rolling Sushi
-                break;
-            default:
-                Debug.LogError("wrong Enemy ID");
-                break;
+            switch (mEnemy.mID)
+            {
+                case 0://Mimic_Wood
+                    break;
+                case 1://Slime
+                    break;
+                case 2://Mold_King
+                    break;
+                case 3://Moldling
+                    break;
+                case 4://KingSlime
+                    break;
+                case 5://PotatoGolem
+                    break;
+                case 6://AngerTomato
+                    AngerTomato2();
+                    break;
+                case 7://Mimic_Silver
+                    break;
+                case 8://Mimic_Gold
+                    break;
+                case 9://Ketchup_Slime
+                    AngerTomato2();
+                    break;
+                case 10://Hambug
+                    break;
+                case 11://Flied
+                    Flied2();
+                    break;
+                case 12://Burger-Pac
+                    CabbageBoomerang();
+                    break;
+                case 13://Portatargo
+                    break;
+                case 14://Dispenster
+                    break;
+                case 15://creamSlime
+                    CreamSlime();
+                    break;
+                case 16://Cakon
+                    break;
+                case 17://creambun
+                    break;
+                case 18://fire hand
+                    break;
+                case 19://chocoshell
+                    break;
+                case 20://mrs. cake
+                    break;
+                case 21://spirit of oven
+                    break;
+                default:
+                    Debug.LogError("wrong Enemy ID");
+                    break;
+            }
+        }
+        else if (mEnemy.mID >= 22)
+        {
+            switch (mEnemy.mID)
+            {
+                case 22://Wasabi
+                    Wasabi();
+                    break;
+                case 23://Sushinobi
+                    break;
+                case 24://Rolling Sushi
+                    break;
+                case 25://TakoYaki
+                    break;
+                case 26://YakiStove
+                    break;
+                case 27://Ebimaid
+                    break;
+                case 28://Kramen
+                    break;
+                default:
+                    Debug.LogError("wrong Enemy ID");
+                    break;
+            }
         }
     }
 
-    public void ResetDir(int ID, int bulletDir=0)
+    public void ResetDir(int ID, int bulletDir = 0)
     {
         Bullet bolt = BulletPool.Instance.GetFromPool(ID);
         bolt.transform.position = mEnemy.transform.position;
         switch (bulletDir)
         {
             case 0:
-                if (bolt.eType == eEnemyBulletType.normal)
-                {
-                    Vector3 Pos = Player.Instance.transform.position;
-                    Vector3 dir = Pos - transform.position;
-                    bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
-                }
+                Vector3 Pos = Player.Instance.transform.position;
+                Vector3 dir = Pos - transform.position;
+                bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
                 break;
             case 1:
                 Vector3 dir1 = new Vector3(-1, 1, 0);
@@ -216,7 +255,6 @@ public class EnemySkill : MonoBehaviour
                 break;
         }
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-
     }
 
     private IEnumerator MoveDelay(float time)
@@ -235,7 +273,7 @@ public class EnemySkill : MonoBehaviour
         BackupSpeed = mEnemy.mStats.Spd;
         mEnemy.mStats.Spd = 0f;
         mEnemy.mRB2D.velocity = Vector3.zero;
-        while (Count<3)
+        while (Count < 3)
         {
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             ResetDir(1);
@@ -323,7 +361,7 @@ public class EnemySkill : MonoBehaviour
             {
                 mEnemy.Attack();
             }
-            if (Count>=3)
+            if (Count >= 3)
             {
                 mEnemy.SpeedAmount -= 0.3f;
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
@@ -345,10 +383,10 @@ public class EnemySkill : MonoBehaviour
     private void Potatargot()//id = 13
     {
         Count = 0;
-        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP/2)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-            if (Skilltrigger==false)
+            if (Skilltrigger == false)
             {
                 mEnemy.mStats.AtkSpd = mEnemy.mStats.AtkSpd * 2f;
                 Skilltrigger = true;
@@ -391,7 +429,7 @@ public class EnemySkill : MonoBehaviour
                 Skilltrigger2 = false;
                 break;
             }
-            Invoke("PotatoShot",0.1f);
+            Invoke("PotatoShot", 0.1f);
             yield return delay;
         }
     }
@@ -457,7 +495,7 @@ public class EnemySkill : MonoBehaviour
             mEnemy.mStats.Spd = 0f;
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         }
-            StartCoroutine(DrinkRay());
+        StartCoroutine(DrinkRay());
     }
 
     private IEnumerator DrinkRay()
@@ -482,8 +520,7 @@ public class EnemySkill : MonoBehaviour
     {
         int bulletIndex = 0;
         Vector3 Pos = Player.Instance.transform.position;
-        Vector3 dirR = Pos - transform.position;
-        Vector3 dirL = Pos - transform.position*-1;
+        Vector3 dirR = Pos - transform.position; Vector3 dirL = Pos - transform.position * -1;
         switch (SkillRand)
         {
             case 0://cola
@@ -496,9 +533,9 @@ public class EnemySkill : MonoBehaviour
                 bulletIndex = 10;
                 break;
         }
-        Bullet bolt1 = BulletPool.Instance.GetFromPool(bulletIndex);  Bullet bolt2 = BulletPool.Instance.GetFromPool(bulletIndex);
-        bolt1.transform.localPosition = BulletStarter[0].transform.position;  bolt2.transform.localPosition = BulletStarter[1].transform.position;
-        bolt1.mRB2D.velocity = dirR.normalized * bolt1.mSpeed;  bolt2.mRB2D.velocity = -dirL.normalized * bolt2.mSpeed;
+        Bullet bolt1 = BulletPool.Instance.GetFromPool(bulletIndex); Bullet bolt2 = BulletPool.Instance.GetFromPool(bulletIndex);
+        bolt1.transform.localPosition = BulletStarter[0].transform.position; bolt2.transform.localPosition = BulletStarter[1].transform.position;
+        bolt1.mRB2D.velocity = dirR.normalized * bolt1.mSpeed; bolt2.mRB2D.velocity = -dirL.normalized * bolt2.mSpeed;
         Count++;
     }
 
@@ -528,7 +565,7 @@ public class EnemySkill : MonoBehaviour
 
     private void CreamSlime()//15
     {
-        GameObject Cream= Instantiate(SkillObj[0],Player.Instance.CurrentRoom.transform);
+        GameObject Cream = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
         Cream.transform.position = mEnemy.transform.position;
     }
 
@@ -538,10 +575,10 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        if (mEnemy.mTarget!=null)
+        if (mEnemy.mTarget != null)
         {
             mEnemy.mStats.Gold = 0;
-            Bullet bolt= BulletPool.Instance.GetFromPool(11);
+            Bullet bolt = BulletPool.Instance.GetFromPool(11);
             bolt.transform.position = mEnemy.transform.position;
             mEnemy.Hit(mEnemy.mMaxHP);
         }
@@ -598,8 +635,8 @@ public class EnemySkill : MonoBehaviour
             mEnemy.Nodamage = true;
             StartCoroutine(Shellin2());
         }
-            StartCoroutine(ChocoBooming());
-       
+        StartCoroutine(ChocoBooming());
+
     }
 
     private IEnumerator ChocoBooming()
@@ -652,7 +689,6 @@ public class EnemySkill : MonoBehaviour
         Count++;
     }
 
-
     private IEnumerator Misscake()
     {
         WaitForSeconds delay = new WaitForSeconds(0.3f);
@@ -683,14 +719,13 @@ public class EnemySkill : MonoBehaviour
         Count++;
     }
 
-
     private void Oven()
     {
         Vector3 point = new Vector3(0, 3, 0);
         FirePillar();
-        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            if (Skilltrigger==false)
+            if (Skilltrigger == false)
             {
                 mEnemy.mStats.AtkSpd += 2f;
                 Skilltrigger = true;
@@ -698,7 +733,7 @@ public class EnemySkill : MonoBehaviour
             mEnemy.Nodamage = true;
             StartCoroutine(OvenIn());
         }
-        if (Skilltrigger2==true)
+        if (Skilltrigger2 == true)
         {
             Enemy enemy = EnemyPool.Instance.GetFromPool(3);//화염의손 소환
             enemy.mMaxHP = 6; enemy.mCurrentHP = 6;
@@ -732,7 +767,7 @@ public class EnemySkill : MonoBehaviour
             int Xpos = Random.Range(-6, 7);
             int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            GameObject pillar = Instantiate(SkillObj[0],Player.Instance.CurrentRoom.transform);
+            GameObject pillar = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
             pillar.transform.position = mEnemy.transform.position + Pos;
             Count++;
         }
@@ -748,7 +783,7 @@ public class EnemySkill : MonoBehaviour
         Count++;
     }
 
-
+    //===================================ID >=22
     private void Wasabi()
     {
         for (int i = 1; i < 5; i++)
@@ -776,5 +811,162 @@ public class EnemySkill : MonoBehaviour
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         StartCoroutine(MoveDelay(1f));
+    }
+
+    private void YakiStove()
+    {
+        Count = 0;
+        StartCoroutine(BallShot());
+        if (Skilltrigger == false && mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            Skilltrigger = true;
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Phase, true);
+            StartCoroutine(MoveDelay(1f));
+            Vector3 Pos = Vector3.zero;
+            for (int i = 0; i < 4; i++)
+            {
+                Enemy enemy = EnemyPool.Instance.GetFromPool(4);//타코야키 소환
+                switch (i)
+                {
+                    case 0:
+                        Pos = new Vector3(1, 0, 0);
+                        break;
+                    case 1:
+                        Pos = new Vector3(0, 1, 0);
+                        break;
+                    case 2:
+                        Pos = new Vector3(-1, 0, 0);
+                        break;
+                    case 3:
+                        Pos = new Vector3(0, -1, 0);
+                        break;
+                }
+                enemy.transform.position = mEnemy.transform.position + Pos;
+            }
+            mEnemy.mCurrentHP += 10;
+        }
+    }
+    private IEnumerator BallShot()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.5f);
+        while (true)
+        {
+            if (Count>3)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                break;
+            }
+            StartCoroutine(TakoyakiBall());
+        }
+        yield return delay;
+    }
+    private IEnumerator TakoyakiBall()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        for (int i=0; i<3;i++)
+        {
+            Vector3 Pos = Player.Instance.transform.position;
+            Vector3 dir = Pos - transform.position;
+            Bullet bolt = BulletPool.Instance.GetFromPool(19);
+            bolt.transform.localPosition = mEnemy.transform.position;
+            bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+            Count++;
+            yield return delay;
+        }
+    }
+
+    private void Ebimaid()
+    {
+        StartCoroutine(ShrimpShot());
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            WaterPillar();
+        }
+    }
+    private IEnumerator ShrimpShot()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.5f);
+        Count = 0;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(2f));
+        while (true)
+        {
+            if (Count >= 3)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                break;
+            }
+            Shrimp();
+            yield return delay;
+        }
+    }
+    private void Shrimp()
+    {
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        Bullet bolt = BulletPool.Instance.GetFromPool(20);
+        bolt.transform.localPosition = mEnemy.transform.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        Count++;
+    }
+    private void WaterPillar()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            int Xpos = Random.Range(-6, 7);
+            int Ypos = Random.Range(-6, 7);
+            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+            GameObject pillar = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
+            pillar.transform.position = mEnemy.transform.position + Pos;
+            Count++;
+        }
+    }
+
+    private void Kramen()
+    {
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            StartCoroutine(MeatStockRay());
+        }
+        Tentacle();
+    }
+
+    private IEnumerator MeatStockRay()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        Count = 0;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(4.3f));
+        while (true)
+        {
+            if (Count >= 40)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                break;
+            }
+            Invoke("MeatStock", 0.1f);
+            yield return delay;
+        }
+    }
+    private void MeatStock()
+    {
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        Bullet bolt = BulletPool.Instance.GetFromPool(21);
+        bolt.transform.localPosition = mEnemy.transform.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        Count++;
+    }
+    private void Tentacle()
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            int Xpos = Random.Range(-5, 8);
+            int Ypos = Random.Range(-5, 8);
+            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+            GameObject tentacle = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
+            tentacle.transform.position = mEnemy.transform.position + Pos;
+            Count++;
+        }
     }
 }

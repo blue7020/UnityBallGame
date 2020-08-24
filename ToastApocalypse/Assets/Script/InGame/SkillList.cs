@@ -10,6 +10,7 @@ public class SkillList : MonoBehaviour
     public static SkillList Instance;
 
     public SkillEffect effect;
+    public PlayerBullet[] Skillbullet;
 
     private void Awake()
     {
@@ -69,41 +70,31 @@ public class SkillList : MonoBehaviour
 
     public void Cabbage_Boomerang()//1
     {
-        Vector3 dir = Player.Instance.mDirection.transform.up;
-        PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(2);
-        bolt.transform.SetParent(Player.Instance.transform);
-        bolt.transform.position = Player.Instance.mDirection.transform.position;//플레이어는 이동 방향에 따라 오브젝트가 뒤집히므로 mDirection으로 설정
+        PlayerBullet bolt = Instantiate(Skillbullet[0],Player.Instance.CurrentRoom.transform);
+        bolt.transform.SetParent(Player.Instance.CurrentRoom.transform);
+        bolt.transform.position = Player.Instance.transform.position;
         bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk);
-        bolt.mRB2D.DOMove(dir * bolt.mSpeed, 0.8f).SetEase(Ease.Linear).OnComplete(() => { StartCoroutine(returnPlayer(bolt)); });
+        Vector3 dir = Player.Instance.mDirection.transform.up*bolt.mSpeed;
+        bolt.mRB2D.AddForce(dir);
+        StartCoroutine(ShotBoomerang(bolt));
     }
 
-    private IEnumerator returnPlayer(PlayerBullet bolt)
+    private IEnumerator ShotBoomerang(PlayerBullet bolt)
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        yield return delay;
+        bolt.mRB2D.velocity = Vector3.zero;
+        yield return delay;
+        StartCoroutine(ReturnBoomerang(bolt));
+    }
+    private IEnumerator ReturnBoomerang(PlayerBullet bolt)
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         bolt.returnPlayer = true;
         while (true)
         {
-            if (GameController.Instance.Level>5)
-            {
-                Destroy(bolt.gameObject);
-                break;
-            }
-            else
-            {
-                if (bolt.returnCheck == true)
-                {
-                    bolt.returnCheck = false;
-                    bolt.returnPlayer = false;
-                    StopCoroutine(returnPlayer(bolt));
-                    break;
-                }
-                else
-                {
-                    Vector3 Pos = Player.Instance.mDirection.transform.position;//플레이어는 이동 방향에 따라 오브젝트가 뒤집히므로 mDirection으로 설정
-                    bolt.mRB2D.DOMove(Pos, 0.3f);
-                    yield return delay;
-                }
-            }
+            bolt.mRB2D.DOMove(Player.Instance.transform.position, 0.3f);
+            yield return delay;
         }
     }
 

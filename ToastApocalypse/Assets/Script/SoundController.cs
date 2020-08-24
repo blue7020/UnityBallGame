@@ -47,63 +47,39 @@ public class SoundController : MonoBehaviour
 
     public void PlusBGM()
     {
-        if (BGMVolume < 1f)
+        if (UIBGMVol < 10)
         {
             UIBGMVol += 1;
             BGMVolume += 0.1f;
             mBGM.volume = BGMVolume;
         }
-        else
-        {
-            UIBGMVol += 10;
-            BGMVolume = 1f;
-            mBGM.volume = 1f;
-        }
     }
     public void MinusBGM()
     {
-        if (BGMVolume > 0)
+        if (UIBGMVol > 0)
         {
             UIBGMVol -= 1;
             BGMVolume -= 0.1f;
             mBGM.volume = BGMVolume;
         }
-        else
-        {
-            UIBGMVol = 0;
-            BGMVolume = 0f;
-            mBGM.volume = 0f;
-        }
     }
 
     public void PlusSE()
     {
-        if (SEVolume < 1f)
+        if (UISEVol < 10)
         {
             UISEVol += 1;
             SEVolume += 0.1f;
             mSE.volume = SEVolume;
         }
-        else
-        {
-            UISEVol = 10;
-            SEVolume = 1f;
-            mSE.volume = 1f;
-        }
     }
     public void MinusSE()
     {
-        if (SEVolume > 0)
+        if (UISEVol > 0)
         {
             UISEVol -= 1;
             SEVolume -= 0.1f;
             mSE.volume = SEVolume;
-        }
-        else
-        {
-            UISEVol = 0;
-            SEVolume += 0f;
-            mSE.volume = 0f;
         }
     }
 }

@@ -19,11 +19,11 @@ public class EnemyController : InformationLoader
         if (Instance==null)
         {
             Instance = this;
+            LoadJson(out mInfoArr, Path.MONSTER_STAT);
         }
         else
         {
             Destroy(gameObject);
         }
-        LoadJson(out mInfoArr, Path.MONSTER_STAT);
     }
 }

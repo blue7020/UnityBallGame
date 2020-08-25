@@ -20,16 +20,16 @@ public class WeaponController : InformationLoader
         if (Instance == null)
         {
             Instance = this;
+            mWeapons = new List<Weapon>();
+            LoadJson(out mInfoArr, Path.WEAPON_STAT);
+            for (int i = 0; i < GameSetting.Instance.mWeapons.Length; i++)
+            {
+                mWeapons.Add(GameSetting.Instance.mWeapons[i]);
+            }
         }
         else
         {
             Delete();
-        }
-        mWeapons = new List<Weapon>();
-        LoadJson(out mInfoArr, Path.WEAPON_STAT);
-        for (int i=0; i< GameSetting.Instance.mWeapons.Length;i++)
-        {
-            mWeapons.Add(GameSetting.Instance.mWeapons[i]);
         }
     }
 

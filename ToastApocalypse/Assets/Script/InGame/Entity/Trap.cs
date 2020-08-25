@@ -8,6 +8,7 @@ public class Trap : MonoBehaviour
     public List<Enemy> mTargetMob;
     public bool DamageOn;
     public eTrapType mType;
+    public eTrapObjectType mObjType;
     public float mValue;
     public float mBackup;
     public float Dura;
@@ -95,13 +96,24 @@ public class Trap : MonoBehaviour
 
     public void Damage()
     {
-        if(mTarget!= null)
+        if (TrapTrigger == true && mTarget != null)
         {
-            if(TrapTrigger==true&&DamageOn==true){
-                mTarget.mCurrentHP -= mValue;//고정 피해
+            if (mObjType == eTrapObjectType.normal)
+            {
+                if (DamageOn == true && Player.Instance.TrapResistance == false)
+                {
+                    mTarget.mCurrentHP -= mValue;//고정 피해
+                }
+                UIController.Instance.ShowHP();
             }
-            UIController.Instance.ShowHP();
-            
+            else
+            {
+                if (DamageOn == true)
+                {
+                    mTarget.mCurrentHP -= mValue;//고정 피해
+                }
+                UIController.Instance.ShowHP();
+            }
         }
     }
 
@@ -114,7 +126,7 @@ public class Trap : MonoBehaviour
 
     public void Slow()
     {
-        if (mTarget != null)
+        if (mTarget != null&& Player.Instance.TrapResistance==false)
         {
             mTarget.buffIncrease[3] += -mValue;
         }

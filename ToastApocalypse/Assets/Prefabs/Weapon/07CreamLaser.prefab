@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7616e3f463e204a43830e79a9252515c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSpin: 1
   mWeaponImage: {fileID: -7910522835582897167, guid: d77753863bbab6d438712410ca0e8a1c,
     type: 3}
   Aim: {fileID: 746651381746420170}
@@ -174,7 +175,7 @@ MonoBehaviour:
     Bullet: 0
     Crit: 0
     CritDamage: 0
-  PlusBulletCount: 1
+  PlusBulletCount: 0
   nowBullet: 0
   MaxBullet: 0
   mRenderer: {fileID: 6571358841425701747}
@@ -342,7 +343,7 @@ MonoBehaviour:
   weapon: {fileID: 6571358841388118705}
   mAnim: {fileID: 0}
   BulletStarter: {fileID: 2616857711245631253}
-  mRenderer: {fileID: 0}
+  mRenderer: {fileID: 6571358841425701747}
 --- !u!61 &6571358842255291030
 BoxCollider2D:
   m_ObjectHideFlags: 0

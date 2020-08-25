@@ -18,13 +18,13 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         if (Instance==null)
         {
             Instance = this;
+            AttackSwitch = false;
+            AttackCurrentTime = 0;
         }
         else
         {
             Destroy(gameObject);
         }
-        AttackSwitch = false;
-        AttackCurrentTime = 0;
     }
 
     public virtual void OnDrag(PointerEventData ped)
@@ -54,7 +54,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 }
                 else if(Player.Instance.NowPlayerWeapon.nowBullet <=1)
                 {
-                    CoolMaxtime = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                    float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                    CoolMaxtime = reloadCool * (1-PassiveArtifacts.Instance.ReloadCooltimeReduce);
                 }
                 StartCoroutine(CooltimeRoutine(CoolMaxtime));
                 AttackSwitch = true;
@@ -63,17 +64,19 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             //무기 방향 돌리기
             float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
             Player.Instance.NowPlayerWeapon.transform.rotation = Quaternion.AngleAxis(angle + 180, Vector3.forward);
-            Quaternion q1 = Player.Instance.NowPlayerWeapon.transform.rotation;
-            Quaternion q2 = Quaternion.Euler(0, -180, Player.Instance.NowPlayerWeapon.transform.rotation.z);
-            float dot = Quaternion.Dot(q1, q2);
-            //Debug.Log(dot);
-            if (dot > 0 && dot < 4.1e-8)
+            if (Player.Instance.NowPlayerWeapon.IsSpin == true)
             {
-                Player.Instance.NowPlayerWeapon.mRenderer.flipY =true;
-            }
-            else
-            {
-                Player.Instance.NowPlayerWeapon.mRenderer.flipY = false;
+                Quaternion q1 = Player.Instance.NowPlayerWeapon.transform.rotation;
+                Quaternion q2 = Quaternion.Euler(0, -180, Player.Instance.NowPlayerWeapon.transform.rotation.z);
+                float dot = Quaternion.Dot(q1, q2);
+                if (dot > 0 && dot < 4.1e-8)
+                {
+                    Player.Instance.NowPlayerWeapon.mRenderer.flipY = true;
+                }
+                else
+                {
+                    Player.Instance.NowPlayerWeapon.mRenderer.flipY = false;
+                }
             }
 
 

@@ -11,12 +11,12 @@ public class WeaponPool : ObjectPool<Weapon>
         if (Instance == null)
         {
             Instance = this;
+            PoolSetup();
         }
         else
         {
             Destroy(gameObject);
         }
-        PoolSetup();
     }
     protected override Weapon CreateNewObj(int id)
     {

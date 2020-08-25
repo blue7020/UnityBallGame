@@ -11,12 +11,12 @@ public class BulletPool : ObjectPool<Bullet>
         if (Instance==null)
         {
             Instance = this;
+            PoolSetup();
         }
         else
         {
             Destroy(gameObject);
         }
-        PoolSetup();
     }
 
     protected override Bullet CreateNewObj(int id)

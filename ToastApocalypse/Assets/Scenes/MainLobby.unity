@@ -7038,12 +7038,12 @@ MonoBehaviour:
   mStageNum: 5
   mPortal: {fileID: 811535465}
   mStage:
-  - {fileID: 6611272795595246150, guid: 96dc213522fdb534c90e2acbde3bdfd9, type: 3}
+  - {fileID: 6611272795595246150, guid: 38433d701217bd44287ac5e14a1f9660, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
-  - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
-  - {fileID: 795297678161060445, guid: 9cbac977d8db0e74d8781c9b575c3f02, type: 3}
-  - {fileID: 307319481970007067, guid: 2fb5d8ede6d15364b9b2ee0056f9138d, type: 3}
-  - {fileID: 5625888380593018315, guid: 2f9f2c9f157f85747bedced853d69d22, type: 3}
+  - {fileID: 4163667178256337643, guid: 24748fc9d09265b4388a14a85e8a88cf, type: 3}
+  - {fileID: 795297678161060445, guid: 030e5a1fbb00b8946b1d0ff214e7deb5, type: 3}
+  - {fileID: 307319481970007067, guid: 4396e4f346c319b42af555396d2d813f, type: 3}
+  - {fileID: 5625888380593018315, guid: c52fa7b145edc2c49ba43f28c70c8e18, type: 3}
   - {fileID: 9130045325531302067, guid: c72e79d61751d8b40a7c2b15df82fa75, type: 3}
 --- !u!58 &811535470
 CircleCollider2D:
@@ -13874,7 +13874,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1770597514}
   - component: {fileID: 1770597511}
-  - component: {fileID: 1770597513}
   - component: {fileID: 1770597512}
   m_Layer: 0
   m_Name: Main Camera
@@ -13940,14 +13939,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mPlayerObj: {fileID: 2046934046940516431}
   mCamera: {fileID: 1770597510}
---- !u!81 &1770597513
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1770597510}
-  m_Enabled: 1
 --- !u!4 &1770597514
 Transform:
   m_ObjectHideFlags: 0
@@ -14671,7 +14662,7 @@ MonoBehaviour:
   mStage:
   - {fileID: 6611272795595246150, guid: c39df8c43617d6147b615e01c8ef6715, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
-  - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
+  - {fileID: 0}
   - {fileID: 307319481970007067, guid: 8fef114a8c49fe145976055d17a56e15, type: 3}
   - {fileID: 795297678161060445, guid: 7d75cea1358b25a40b9c7d114bdf77d7, type: 3}
   - {fileID: 5625888380593018315, guid: 44453b3830641fe49958959da611be65, type: 3}
@@ -16977,8 +16968,8 @@ MonoBehaviour:
   Look: 0
   mSpeed: 7
   mRenderer: {fileID: 2046934047263052077}
-  mRB2D: {fileID: 0}
-  mAnim: {fileID: 0}
+  mRB2D: {fileID: 2046934046940516434}
+  mAnim: {fileID: 2046934046940516428}
   hori: 0
   ver: 0
 --- !u!50 &2046934046940516434

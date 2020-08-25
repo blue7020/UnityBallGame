@@ -12,9 +12,10 @@ public class PlayerBullet : MonoBehaviour
     public float mSpeed;
     public Rigidbody2D mRB2D;
     private Enemy Target;
+    public Vector3 mboltscale;
     private void Awake()
     {
-        mRB2D = GetComponent<Rigidbody2D>();
+        mboltscale = transform.localScale;
         returnPlayer = false;
         returnCheck = false;
     }

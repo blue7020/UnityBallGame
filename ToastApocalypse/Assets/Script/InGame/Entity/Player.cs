@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     public int mCurrentAir;
     public bool OnAir;
 
+    public bool TrapResistance;
+    public bool MapSeeker;
+
     public Room CurrentRoom;
     public int EnemySwitch;
 
@@ -63,6 +66,17 @@ public class Player : MonoBehaviour
         if (Instance ==null)
         {
             Instance = this;
+            TrapResistance = false;
+            MapSeeker = false;
+            OnAir = false;
+            mCurrentAir = MAX_AIR;
+            Stun = false;
+            PlayerSkillStand = false;
+            NowItem = null;
+            NowActiveArtifact = null;
+            Nodamage = false;
+            mGoldBonus = 0;
+            AttackSpeedStat = 0;
         }
         else
         {
@@ -74,7 +88,6 @@ public class Player : MonoBehaviour
             buffIncrease[i] = 0;
         }
         NowDebuffArr = new Coroutine[9];
-        mCurrentAir = MAX_AIR;
     }
 
     private void Start()
@@ -83,16 +96,8 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        OnAir = false;
-        Stun = false;
-        PlayerSkillStand = false;
-        NowItem = null;
-        NowActiveArtifact = null;
         mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
-        Nodamage = false;
-        mGoldBonus = 0;
-        AttackSpeedStat = 0;
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();
         if (GameController.Instance.MapLevel==4)

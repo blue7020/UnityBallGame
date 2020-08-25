@@ -10,11 +10,11 @@ public class GoldPool : ObjectPool<DropGold>
         if (Instance==null)
         {
             Instance = this;
+            PoolSetup();
         }
         else
         {
             Destroy(gameObject);
         }
-        PoolSetup();
     }
 }

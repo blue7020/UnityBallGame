@@ -4,8 +4,25 @@ using UnityEngine;
 
 public class StatuePool : ObjectPool<Statue>
 {
+    public static StatuePool Instance;
     private void Awake()
     {
-        PoolSetup();
+        if (Instance == null)
+        {
+            Instance = this;
+            PoolSetup();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    protected override Statue CreateNewObj(int id)
+    {
+        Statue newObj = Instantiate(mOriginArr[id]);
+        newObj.transform.rotation = Quaternion.identity;
+        mPools[id].Add(newObj);
+        return newObj;
     }
 }

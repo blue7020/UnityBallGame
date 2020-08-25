@@ -20,15 +20,15 @@ public class PortalTrigger : MonoBehaviour
         {
             Instance = this;
             Spawned = false;
+            if (GameController.Instance.Level >= 5)
+            {
+                NowBoss = StageBossArr[0];
+                Instantiate(NowBoss, transform.position, Quaternion.identity);
+            }
         }
         else
         {
             Destroy(gameObject);
-        }
-        if (GameController.Instance.Level >= 5)
-        {
-            NowBoss = StageBossArr[0];
-            Instantiate(NowBoss, transform.position, Quaternion.identity);
         }
     }
 

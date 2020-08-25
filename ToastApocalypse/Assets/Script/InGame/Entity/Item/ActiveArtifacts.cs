@@ -5,12 +5,7 @@ using UnityEngine;
 public class ActiveArtifacts : MonoBehaviour
 {
     //액티브 유물의 기능을 여기서 담당
-
     public static ActiveArtifacts Instance;
-    public int AdditionalBullet;
-    public int AdditionalBulletSize;
-    public float AdditionalCooltimeReduce;
-    public float ReloadCooltimeReduce;
     public GameObject[] mSkillobj;
 
     private void Awake()
@@ -52,7 +47,7 @@ public class ActiveArtifacts : MonoBehaviour
                 PetCookie();
                 break;
             case 15:
-                FreshMilk();
+                StartCoroutine(FreshMilk());
                 break;
             case 19:
                 UnbrandedCan();

@@ -50,6 +50,12 @@ public enum eTrapType
     Spike,
     Heal
 }
+public enum eTrapObjectType
+{
+    normal,
+    SkillObj
+}
+
 
 public enum eDirection
 {

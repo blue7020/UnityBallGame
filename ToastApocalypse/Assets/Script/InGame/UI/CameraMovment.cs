@@ -7,8 +7,7 @@ public class CameraMovment : MonoBehaviour
 
     public static CameraMovment Instance;
     public GameObject mPlayerObj;
-    [SerializeField]
-    private Camera mCamera;
+    public Camera mCamera;
     private Vector3 mOffset;
 
     private void Awake()

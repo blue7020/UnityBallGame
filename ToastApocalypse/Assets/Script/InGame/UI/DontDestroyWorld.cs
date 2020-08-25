@@ -10,11 +10,11 @@ public class DontDestroyWorld : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 }

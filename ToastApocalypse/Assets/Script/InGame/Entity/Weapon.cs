@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-
+    public bool IsSpin;//무기 회전 시 xflip할지 안할지
     public Sprite mWeaponImage;
     public GameObject Aim;
     public bool Equip;

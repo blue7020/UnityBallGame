@@ -9,7 +9,6 @@ public class AttackArea : MonoBehaviour
     public Animator mAnim;
     public Transform BulletStarter;
     public SpriteRenderer mRenderer;
-    private PlayerBullet bolt;
 
     private Enemy Target;
 
@@ -28,13 +27,15 @@ public class AttackArea : MonoBehaviour
 
     public void Range()
     {
-        weapon.nowBullet--;
-        UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
-        bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
-        ResetDir();
-        if (weapon.PlusBulletCount >1)
+        if (weapon.nowBullet>0)
         {
-            StartCoroutine(PlusBullet());
+            weapon.nowBullet--;
+            UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            ResetDir();
+            if (weapon.PlusBulletCount > 1&& weapon.nowBullet > weapon.PlusBulletCount)
+            {
+                StartCoroutine(PlusBullet());
+            }
         }
     }
     
@@ -50,7 +51,6 @@ public class AttackArea : MonoBehaviour
             }
             weapon.nowBullet--;
             UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
-            bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
             ResetDir();
             count++;
             yield return delay;
@@ -59,6 +59,7 @@ public class AttackArea : MonoBehaviour
 
     private void ResetDir()
     {
+        PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
         bolt.mWeaponID = weapon.mID;
         float rand = UnityEngine.Random.Range(0, 1f);
         if (rand <= Player.Instance.mStats.Crit / 100)
@@ -71,6 +72,7 @@ public class AttackArea : MonoBehaviour
             bolt.mDamage = Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]);
         }
         bolt.transform.position = BulletStarter.position;
+        bolt.transform.localScale = bolt.mboltscale * (1 + PassiveArtifacts.Instance.AdditionalBulletSize);
         bolt.mRB2D.AddForce(BulletStarter.up*bolt.mSpeed,ForceMode2D.Impulse);
     }
 

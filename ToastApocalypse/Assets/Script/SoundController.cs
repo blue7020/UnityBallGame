@@ -24,19 +24,19 @@ public class SoundController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            BGMChange(0);
+            UIBGMVol = 3;
+            UISEVol = 3;
+            BGMVolume = 0.3f;
+            SEVolume = 0.3f;
+            mBGM.volume = BGMVolume;
+            mSE.volume = SEVolume;
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        BGMChange(0);
-        UIBGMVol = 3;
-        UISEVol = 3;
-        BGMVolume = 0.3f;
-        SEVolume = 0.3f;
-        mBGM.volume = BGMVolume;
-        mSE.volume = SEVolume;
     }
 
     public void BGMChange(int id)

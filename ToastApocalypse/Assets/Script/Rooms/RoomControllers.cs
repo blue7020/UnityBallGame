@@ -44,15 +44,26 @@ public class RoomControllers : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            rooms = GameSetting.Instance.NowStageRoom;
-            LoadedRooms = new List<Room>();
-            LoadRoomQueue = new Queue<RoomInfo>();
-            RoomLength = 0;
-            RoomSetting = true;
         }
         else
         {
             Destroy(gameObject);
+        }
+        rooms = GameSetting.Instance.NowStageRoom;
+        LoadedRooms = new List<Room>();
+        LoadRoomQueue = new Queue<RoomInfo>();
+        RoomLength = 0;
+        RoomSetting = true;
+    }
+
+    public void Seeker()
+    {
+        if (Player.Instance.MapSeeker==true)
+        {
+            for (int i = 1; i < LoadedRooms.Count; i++)
+            {
+                LoadedRooms[i].MapIcon.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -101,6 +112,7 @@ public class RoomControllers : MonoBehaviour
                 {
                     room.RemoveUnconnectedDoors();
                 }
+                Seeker();
                 updatedRooms = true;
             }
             return;

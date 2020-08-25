@@ -17,12 +17,12 @@ public class PlayerList : InformationLoader
         if (Instance==null)
         {
             Instance = this;
+            LoadJson(out mInfoArr, Path.PLAYER_STAT);
         }
         else
         {
             Delete();
         }
-        LoadJson(out mInfoArr, Path.PLAYER_STAT);
     }
 
     public void Delete()

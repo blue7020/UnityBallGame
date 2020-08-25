@@ -17,13 +17,13 @@ public class SkillController : InformationLoader
         if (Instance==null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+            LoadJson(out mStatInfoArr, Path.SKILL_STAT);
+            LoadJson(out mTextInfoArr, Path.SKILL_TEXT_STAT);
         }
         else
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
-        LoadJson(out mStatInfoArr, Path.SKILL_STAT);
-        LoadJson(out mTextInfoArr, Path.SKILL_TEXT_STAT);
     }
 }

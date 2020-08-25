@@ -95,7 +95,10 @@ public class Artifacts : InformationLoader
                     }
                 }
             }
-
+            else
+            {
+                PassiveArtifacts.Instance.ArtifactsFuntion(mID);
+            }
         }
     }
 

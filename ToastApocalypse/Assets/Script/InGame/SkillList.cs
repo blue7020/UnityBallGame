@@ -17,12 +17,12 @@ public class SkillList : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     public void SkillSetting(int id)//스킬 5개 단위로 끊어서 작성

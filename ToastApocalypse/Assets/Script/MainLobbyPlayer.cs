@@ -26,14 +26,12 @@ public class MainLobbyPlayer : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            mID = GameSetting.Instance.PlayerID;
         }
         else
         {
             Delete();
         }
-        mRB2D = GetComponent<Rigidbody2D>();
-        mAnim = GetComponent<Animator>();
-        mID= GameSetting.Instance.PlayerID;
     }
 
     public void Delete()

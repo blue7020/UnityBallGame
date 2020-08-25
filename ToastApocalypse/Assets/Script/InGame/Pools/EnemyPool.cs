@@ -12,12 +12,12 @@ public class EnemyPool : ObjectPool<Enemy>
         if (Instance == null)
         {
             Instance = this;
+            PoolSetup();
         }
         else
         {
             Destroy(gameObject);
         }
-        PoolSetup();
     }
 
     protected override Enemy CreateNewObj(int id)

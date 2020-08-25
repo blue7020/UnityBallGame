@@ -14,12 +14,12 @@ public class MiniMap : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            MinimapOn = false;
         }
         else
         {
             Destroy(gameObject);
         }
-        MinimapOn = false;
     }
 
     private void Update()

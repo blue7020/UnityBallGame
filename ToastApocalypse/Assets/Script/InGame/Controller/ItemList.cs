@@ -6,17 +6,12 @@ public class ItemList : InformationLoader
 {
     public static ItemList Instance;
 
-    [SerializeField]
     public ItemStat[] mInfoArr;
 
 #pragma warning disable 0649
-    [SerializeField]
-    private List<GameObject> ItemCommon;
-    [SerializeField]
-    private List<GameObject> ItemRare;
-    [SerializeField]
-    private List<GameObject> ItemEpic;
-#pragma warning restore 0649
+    public List<GameObject> ItemCommon;
+    public List<GameObject> ItemRare;
+    public List<GameObject> ItemEpic;
 
     public ItemStat[] GetInfoArr()
     {
@@ -29,16 +24,20 @@ public class ItemList : InformationLoader
         if (Instance==null)
         {
             Instance = this;
+            LoadJson(out mInfoArr, Path.ITEM_STAT);
         }
         else
         {
             Delete();
         }
+    }
+
+    private void Start()
+    {
         if (GameController.Instance.GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);
         }
-        LoadJson(out mInfoArr, Path.ITEM_STAT);
     }
 
     public void Delete()

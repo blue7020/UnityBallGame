@@ -73,7 +73,6 @@ public class GameController : MonoBehaviour
         DestroyController();
         pause = false;
         Time.timeScale = 1;
-        GotoMain = false;
         GameSetting.Instance.Restart();
         SceneManager.LoadScene(1);
         SoundController.Instance.mBGM.Stop();
@@ -97,6 +96,7 @@ public class GameController : MonoBehaviour
         ArtifactController.Instance.Delete();
         WeaponController.Instance.Delete();
         ActiveArtifacts.Instance.Delete();
+        PassiveArtifacts.Instance.Delete();
         Delete();
     }
 

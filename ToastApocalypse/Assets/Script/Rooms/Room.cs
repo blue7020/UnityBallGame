@@ -33,11 +33,12 @@ public class Room : MonoBehaviour
     public bool IsFound;
     public bool Special;
     public int EnemyCount;
-    public GameObject blackOut;
+    public GameObject blackOut,MapIcon;
 
 
     private void Awake()
     {
+        MapIcon.gameObject.SetActive(false);
         EnemyCount = 0;
         Special = false;
         updatedDoors = false;

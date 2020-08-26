@@ -13,11 +13,18 @@ public class EnemySkill : MonoBehaviour
     public bool Skilltrigger, Skilltrigger2;
     public Transform[] BulletStarter;
     public GameObject[] SkillObj;
+    public GameObject mBarrier;
 
     private void Start()
     {
         Skilltrigger = false;
         Skilltrigger2 = false;
+    }
+
+    public void IceBarrier()
+    {
+        mBarrier = Instantiate(SkillObj[0],mEnemy.transform);
+        mEnemy.HasBarrier = true;
     }
 
     public void Skill()
@@ -113,6 +120,26 @@ public class EnemySkill : MonoBehaviour
                 case 28://Kramen
                     Kramen();
                     break;
+                case 29://Ice
+                    break;
+                case 30://CoolTomato
+                    StartCoroutine(CoolTomato());
+                    break;
+                case 31://IceWing
+                    IceWing();
+                    break;
+                case 32://Pizzring
+                    StartCoroutine(PizzShot());
+                    break;
+                case 33://PhantomPizz
+                    PhantomPizz();
+                    break;
+                case 34://
+
+                    break;
+                case 35://Tunight
+
+                    break;
                 default:
                     Debug.LogError("wrong Enemy ID");
                     break;
@@ -199,6 +226,22 @@ public class EnemySkill : MonoBehaviour
                 case 27://Ebimaid
                     break;
                 case 28://Kramen
+                    break;
+                case 29://Ice
+                    Ice();
+                    break;
+                case 30://CoolTomato
+                    CoolTomato2();
+                    break;
+                case 31://IceWing
+                    break;
+                case 32://Pizzring
+                    break;
+                case 33://PhantomPizz
+                    break;
+                case 34://
+                    break;
+                case 35://Tunight
                     break;
                 default:
                     Debug.LogError("wrong Enemy ID");
@@ -967,5 +1010,146 @@ public class EnemySkill : MonoBehaviour
             GameObject tentacle = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
             tentacle.transform.position = mEnemy.transform.position + Pos;
         }
+    }
+
+
+    private void Ice()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            ResetDir(22, i);
+        }
+    }
+
+    private IEnumerator CoolTomato()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1.5f);
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2 && Skilltrigger == true)
+        {
+            Skilltrigger = false;
+            for (int i = 0; i < 4; i++)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+                ResetDir(22, i + 1);
+            }
+        }
+        yield return delay;
+        Skilltrigger = true;
+    }
+    private void CoolTomato2()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            ResetDir(22, i);
+        }
+    }
+
+
+    private void IceWing()
+    {
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            StartCoroutine(MoveDelay(0.5f));
+            IceWing2();
+        }
+        else
+        {
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            StartCoroutine(IceWing1());
+        }
+    }
+    private IEnumerator IceWing1()
+    {
+        Count = 0;
+        mEnemy.SpeedAmount += 1.5f;
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        while (true)
+        {
+            if (Count>=10)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                mEnemy.SpeedAmount -= 1.5f;
+                break;
+            }
+            else
+            {
+                Count++;
+            }
+            yield return delay;
+        }
+    }
+    private void IceWing2()
+    {
+        for (int i = 1; i < 9; i++)
+        {
+            ResetDir(22, i);
+        }
+    }
+
+    private void PhantomPizz()
+    {
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            IceWing2();
+            if (Skilltrigger==false)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Phase, true);
+                Skilltrigger = true;
+                StartCoroutine(MoveDelay(1f));
+                Vector3 Pos = Vector3.zero;
+                for (int i = 0; i < 5; i++)
+                {
+                    Enemy enemy = EnemyPool.Instance.GetFromPool(5);//피즈링 소환
+                    switch (i)
+                    {
+                        case 0:
+                            Pos = new Vector3(1, 0, 0);
+                            break;
+                        case 1:
+                            Pos = new Vector3(1, 1, 0);
+                            break;
+                        case 2:
+                            Pos = new Vector3(-1, 1, 0);
+                            break;
+                        case 3:
+                            Pos = new Vector3(0, -1, 0);
+                            break;
+                        case 4:
+                            Pos = new Vector3(0, -1, 0);
+                            break;
+                    }
+                    enemy.transform.position = mEnemy.transform.position + Pos;
+                }
+            }
+        }
+        StartCoroutine(PizzShot());
+    }
+    private IEnumerator PizzShot()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.2f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(0.8f));
+        while (true)
+        {
+            if (Count>=3)
+            {
+                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                break;
+            }
+            else
+            {
+                Pizz();
+                yield return delay;
+            }
+        }
+    }
+    private void Pizz()
+    {
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        Bullet bolt = BulletPool.Instance.GetFromPool(23);
+        bolt.transform.localPosition = mEnemy.transform.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        Count++;
     }
 }

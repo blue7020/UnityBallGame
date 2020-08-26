@@ -14,6 +14,7 @@ public class Enemy : InformationLoader
     public Rigidbody2D mRB2D;
     public Player mTarget;
     public bool Runaway;
+    public bool HasBarrier;
 
     public Transform mHPBarPos;
     public EnemySkill mEnemySkill;
@@ -47,6 +48,7 @@ public class Enemy : InformationLoader
     {
         mStats = EnemyController.Instance.mInfoArr[mID];
         Spawned = false;
+        HasBarrier = false;
     }
     private void Start()
     {
@@ -80,6 +82,10 @@ public class Enemy : InformationLoader
         mSprite[0].gameObject.SetActive(false);
         mSprite[1].gameObject.SetActive(true);
         Spawned = true;
+        if (GameController.Instance.MapLevel == 5)
+        {
+            mEnemySkill.IceBarrier();
+        }
         AttackCheck = false;
         mState = eMonsterState.Idle;
         Nodamage = false;
@@ -161,40 +167,48 @@ public class Enemy : InformationLoader
     {
         if (Spawned == true)
         {
-            if (Nodamage == false)
+            if (HasBarrier==true)
             {
-                StartCoroutine(HitAnimation());
-                mCurrentHP -= damage;
+                HasBarrier = false;
+                mEnemySkill.mBarrier.SetActive(false);
+                mEnemySkill.mBarrier = null;            }
+            else
+            {
+                if (Nodamage == false)
+                {
+                    StartCoroutine(HitAnimation());
+                    mCurrentHP -= damage;
 
-                if (mHPBar == null)
-                {
-                    mHPBar = GaugeBarPool.Instance.GetFromPool();
-                    mHPBar.mEnemy = this;
-                }
-                if (mCurrentHP > 0)
-                {
-                    mHPBar.gameObject.SetActive(true);
-                    mHPBar.SetGauge(mCurrentHP, mMaxHP);
-                    mHPBar.transform.position = mHPBarPos.position;
-                }
-                else
-                {
-                    mAnim.SetBool(AnimHash.Enemy_Walk, false);
-                    mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                    mAnim.SetBool(AnimHash.Enemy_Death, true);
-                    mRB2D.velocity = Vector3.zero;
-                    mEnemySkill.DieSkill();
-                    if (mStats.Gold > 0)
+                    if (mHPBar == null)
                     {
-                        DropGold mGold = GoldPool.Instance.GetFromPool();
-                        mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
-                        mGold.transform.position = transform.position;
-                        mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
+                        mHPBar = GaugeBarPool.Instance.GetFromPool();
+                        mHPBar.mEnemy = this;
                     }
-                    GameController.Instance.SyrupInStage += mStats.Syrup;
-                    mHPBar.CloseGauge();
-                    gameObject.layer = 8;
-                    mState = eMonsterState.Die;
+                    if (mCurrentHP > 0)
+                    {
+                        mHPBar.gameObject.SetActive(true);
+                        mHPBar.SetGauge(mCurrentHP, mMaxHP);
+                        mHPBar.transform.position = mHPBarPos.position;
+                    }
+                    else
+                    {
+                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
+                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                        mAnim.SetBool(AnimHash.Enemy_Death, true);
+                        mRB2D.velocity = Vector3.zero;
+                        mEnemySkill.DieSkill();
+                        if (mStats.Gold > 0)
+                        {
+                            DropGold mGold = GoldPool.Instance.GetFromPool();
+                            mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
+                            mGold.transform.position = transform.position;
+                            mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
+                        }
+                        GameController.Instance.SyrupInStage += mStats.Syrup;
+                        mHPBar.CloseGauge();
+                        gameObject.layer = 8;
+                        mState = eMonsterState.Die;
+                    }
                 }
             }
 

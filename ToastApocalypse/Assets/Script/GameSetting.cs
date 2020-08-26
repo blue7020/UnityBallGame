@@ -88,6 +88,7 @@ public class GameSetting : MonoBehaviour
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈
         StageOpen[3] = true;//4스테이지 오픈
+        StageOpen[4] = true;//5스테이지 오픈
     }
 
     public void Restart()

@@ -59,13 +59,13 @@ public class Bullet : MonoBehaviour
                 float rand = Random.Range(0,1f);
                 if (rand > Player.Instance.mStats.CCReduce* (1+ Player.Instance.buffIncrease[6]))
                 {
-                    Player.Instance.DoEffect(5,45,EffectTime);
+                    StartCoroutine(Player.Instance.Stuned(45, EffectTime));
                 }
             }
         }
         if (eEffectType == eBulletEffect.slow)
         {
-            Player.Instance.DoEffect(4, 431, 3f, mValue);//몬스터나 함정에 의한 디버프는 40부터 시작
+            StartCoroutine(Player.Instance.Speed(mValue,43, EffectTime));
         }
         RemoveBullet();
     }

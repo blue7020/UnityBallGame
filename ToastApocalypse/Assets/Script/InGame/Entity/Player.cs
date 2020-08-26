@@ -255,7 +255,7 @@ public class Player : MonoBehaviour
     }
 
 
-    public void DoEffect(int Effectcode, int code, float duration, float value=0)//사라지는 오브젝트들은 코루틴이 중단되니 여기서 해결
+    public void DoEffect(int Effectcode,float duration, int code=0, float value =0)//사라지는 오브젝트들은 코루틴이 중단되니 여기서 해결
     {
         switch (Effectcode)
         {
@@ -303,7 +303,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(CCreduce(value, code, duration));
                 break;
             case 6://stun
-                NowDebuffArr[0] = StartCoroutine(Stuned(code, duration));
+                NowDebuffArr[0] = StartCoroutine(Stuned(code,duration));
                 break;
         }
     }
@@ -399,14 +399,17 @@ public class Player : MonoBehaviour
     public IEnumerator Stuned(int code,float duration)
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
-        Stun = true;
-        BuffController.Instance.SetBuff(5, code, eBuffType.Debuff, duration);
-        mRB2D.velocity = Vector3.zero;
-        CCState.SetActive(true);
-        yield return Dura;
-        Stun = false;
-        CCState.SetActive(false);
-        NowDebuffArr[0] = null;
+        if (Stun==false)
+        {
+            Stun = true;
+            BuffController.Instance.SetBuff(5, code, eBuffType.Debuff, duration);
+            mRB2D.velocity = Vector3.zero;
+            CCState.SetActive(true);
+            yield return Dura;
+            Stun = false;
+            CCState.SetActive(false);
+            NowDebuffArr[0] = null;
+        }
     }
 
     //Artifact

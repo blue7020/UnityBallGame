@@ -23,7 +23,7 @@ public class EnemySkill : MonoBehaviour
 
     public void IceBarrier()
     {
-        mBarrier = Instantiate(SkillObj[0],mEnemy.transform);
+        mBarrier = Instantiate(SkillObj[0], mEnemy.transform);
         mEnemy.HasBarrier = true;
     }
 
@@ -134,8 +134,8 @@ public class EnemySkill : MonoBehaviour
                 case 33://PhantomPizz
                     PhantomPizz();
                     break;
-                case 34://
-
+                case 34://Nuggetoth
+                    StartCoroutine(Nuggetoth());
                     break;
                 case 35://Tunight
 
@@ -239,7 +239,7 @@ public class EnemySkill : MonoBehaviour
                     break;
                 case 33://PhantomPizz
                     break;
-                case 34://
+                case 34://Nuggetoth
                     break;
                 case 35://Tunight
                     break;
@@ -303,10 +303,9 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator MoveDelay(float time)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
-        float backup = mEnemy.mStats.Spd;
-        mEnemy.mStats.Spd = 0;
+        mEnemy.IsTraking = false;
         yield return delay;
-        mEnemy.mStats.Spd = backup;
+        mEnemy.IsTraking = true;
     }
 
     public IEnumerator MoldKingAttack()//id = 2
@@ -394,25 +393,17 @@ public class EnemySkill : MonoBehaviour
 
     private IEnumerator Flied1()//id = 11
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        Count = 0;
-        mEnemy.SpeedAmount += 0.3f;
-        while (true)
-        {
-            if (mEnemy.AttackCheck == true)
-            {
-                mEnemy.Attack();
-            }
-            if (Count >= 3)
-            {
-                mEnemy.SpeedAmount -= 0.3f;
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                StartCoroutine(MoveDelay(1.5f));
-                break;
-            }
-            yield return delay;
-        }
+        mEnemy.IsTraking = false;
+        mEnemy.SpeedAmount += 0.5f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.SpeedAmount -= 0.5f;
+        mEnemy.IsTraking = true;
     }
 
     private void Flied2()
@@ -431,7 +422,7 @@ public class EnemySkill : MonoBehaviour
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             if (Skilltrigger == false)
             {
-                mEnemy.mStats.AtkSpd = mEnemy.mStats.AtkSpd * 2f;
+                mEnemy.mStats.AtkSpd *= 2f;
                 Skilltrigger = true;
             }
             mEnemy.Nodamage = true;
@@ -846,14 +837,18 @@ public class EnemySkill : MonoBehaviour
 
     private IEnumerator RollingSushi()
     {
-        WaitForSeconds delay = new WaitForSeconds(3f);
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        Vector3 Pos = Player.Instance.transform.position;
-        Vector3 dir = Pos - transform.position;
-        mEnemy.mRB2D.velocity = dir * 3;
+        mEnemy.IsTraking = false;
+        mEnemy.SpeedAmount += 2f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        StartCoroutine(MoveDelay(1f));
+        mEnemy.SpeedAmount -= 2f;
+        mEnemy.IsTraking = true;
+        StartCoroutine(MoveDelay(0.5f));
     }
 
     private void YakiStove()
@@ -894,7 +889,7 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.5f);
         while (true)
         {
-            if (Count>3)
+            if (Count > 3)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
@@ -906,7 +901,7 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator TakoyakiBall()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
-        for (int i=0; i<3;i++)
+        for (int i = 0; i < 3; i++)
         {
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
@@ -1047,7 +1042,7 @@ public class EnemySkill : MonoBehaviour
 
     private void IceWing()
     {
-        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             StartCoroutine(MoveDelay(0.5f));
             IceWing2();
@@ -1060,23 +1055,16 @@ public class EnemySkill : MonoBehaviour
     }
     private IEnumerator IceWing1()
     {
-        Count = 0;
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        yield return delay;
+        mEnemy.IsTraking = false;
         mEnemy.SpeedAmount += 1.5f;
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        while (true)
-        {
-            if (Count>=10)
-            {
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                mEnemy.SpeedAmount -= 1.5f;
-                break;
-            }
-            else
-            {
-                Count++;
-            }
-            yield return delay;
-        }
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.SpeedAmount -= 1.5f;
+        mEnemy.IsTraking = true;
     }
     private void IceWing2()
     {
@@ -1088,10 +1076,10 @@ public class EnemySkill : MonoBehaviour
 
     private void PhantomPizz()
     {
-        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             IceWing2();
-            if (Skilltrigger==false)
+            if (Skilltrigger == false)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Phase, true);
                 Skilltrigger = true;
@@ -1131,7 +1119,7 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(0.8f));
         while (true)
         {
-            if (Count>=3)
+            if (Count >= 3)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
@@ -1151,5 +1139,37 @@ public class EnemySkill : MonoBehaviour
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
+    }
+
+    private IEnumerator Nuggetoth()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        mEnemy.IsTraking = false;
+        IceBoom();
+        yield return delay;
+        mEnemy.SpeedAmount += 3f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.SpeedAmount -= 3f;
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            IceBoom();
+        }
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.IsTraking = true;
+    }
+
+    private void IceBoom()
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            int Xpos = Random.Range(-5, 8);
+            int Ypos = Random.Range(-5, 8);
+            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+            Bullet bolt = BulletPool.Instance.GetFromPool(24);
+            bolt.transform.localPosition = mEnemy.transform.position + Pos;
+        }
     }
 }

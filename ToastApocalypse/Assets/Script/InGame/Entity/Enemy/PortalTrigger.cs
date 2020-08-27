@@ -36,12 +36,18 @@ public class PortalTrigger : MonoBehaviour
     {
         if (GameController.Instance.Level < 5 || Spawned == false)
         {
+            if (GameController.Instance.Level % 2 == 1)//홀수 층 = 소환형 보스
+            {
+                NowBoss = BossArr[0];
+            }
+            else
+            {
+                NowBoss = BossArr[1];
+            }
             Spawned = true;
-            rand = Random.Range(0, BossArr.Length);
-            NowBoss = BossArr[rand];
             Instantiate(NowBoss, transform.position, Quaternion.identity);
             room.mEnemyFinder.SpawnAll = true;
-        } 
+        }
     }
 
     public void BossDeath()

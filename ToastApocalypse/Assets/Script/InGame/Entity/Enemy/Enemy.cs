@@ -26,6 +26,7 @@ public class Enemy : InformationLoader
 
     public bool Nodamage;
     public bool Stun;
+    public bool IsTraking;
     public float SpeedAmount;
 
     public bool AttackOn;
@@ -49,6 +50,7 @@ public class Enemy : InformationLoader
         mStats = EnemyController.Instance.mInfoArr[mID];
         Spawned = false;
         HasBarrier = false;
+        IsTraking = true;
     }
     private void Start()
     {
@@ -266,7 +268,7 @@ public class Enemy : InformationLoader
     {
         if (mState == eMonsterState.Traking && Spawned == true)
         {
-            if (Stun == false)
+            if (Stun == false&& IsTraking==true)
             {
                 WaitForSeconds one = new WaitForSeconds(0.1f);
                 mAnim.SetBool(AnimHash.Enemy_Walk, true);

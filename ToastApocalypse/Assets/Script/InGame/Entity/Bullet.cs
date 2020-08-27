@@ -59,13 +59,13 @@ public class Bullet : MonoBehaviour
                 float rand = Random.Range(0,1f);
                 if (rand > Player.Instance.mStats.CCReduce* (1+ Player.Instance.buffIncrease[6]))
                 {
-                    StartCoroutine(Player.Instance.Stuned(45, EffectTime));
+                    Player.Instance.DoEffect(6,EffectTime);
                 }
             }
         }
         if (eEffectType == eBulletEffect.slow)
         {
-            StartCoroutine(Player.Instance.Speed(mValue,43, EffectTime));
+            Player.Instance.DoEffect(4,EffectTime,3 ,mValue);
         }
         RemoveBullet();
     }

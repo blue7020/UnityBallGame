@@ -43,6 +43,7 @@ public class Enemy : InformationLoader
     private void OnEnable()
     {
         Player.Instance.CurrentRoom.EnemyCount++;
+        gameObject.layer = 8;
     }
 
     private void Awake()
@@ -68,6 +69,7 @@ public class Enemy : InformationLoader
         else
         {
             mState = eMonsterState.Idle;
+            gameObject.layer = 0;
             Spawned = true;
             AttackCheck = false;
             Nodamage = false;
@@ -83,6 +85,7 @@ public class Enemy : InformationLoader
         mAnim.SetBool(AnimHash.Enemy_Spawn, true);
         mSprite[0].gameObject.SetActive(false);
         mSprite[1].gameObject.SetActive(true);
+        gameObject.layer = 0;
         Spawned = true;
         if (GameController.Instance.MapLevel == 5)
         {
@@ -150,6 +153,7 @@ public class Enemy : InformationLoader
                     }
                     else
                     {
+                        mRB2D.velocity = Vector3.zero;
                         mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
                         AttackOn = false;
                         mDelayCount++;
@@ -248,6 +252,14 @@ public class Enemy : InformationLoader
         if (AttackCheck == true)
         {
             mTarget.Hit(mStats.Atk);
+        }
+    }
+    public void SkillObjAttack()
+    {
+        if (mEnemySkill.mEnemyObj.TargetSetting == true)
+        {
+            Player.Instance.Hit(mStats.Atk);
+            Player.Instance.DoEffect(6, 0.75f);
         }
     }
 

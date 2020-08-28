@@ -14,6 +14,7 @@ public class EnemySkill : MonoBehaviour
     public Transform[] BulletStarter;
     public GameObject[] SkillObj;
     public GameObject mBarrier;
+    public EnemyObjAttackArea mEnemyObj;//에너미의 무기 등의 판정
 
     private void Start()
     {
@@ -138,7 +139,10 @@ public class EnemySkill : MonoBehaviour
                     StartCoroutine(Nuggetoth());
                     break;
                 case 35://Tunight
-
+                    Tunight();
+                    break;
+                case 43://Scarecrow
+                    ScareCrow();
                     break;
                 default:
                     Debug.LogError("wrong Enemy ID");
@@ -243,6 +247,8 @@ public class EnemySkill : MonoBehaviour
                     break;
                 case 35://Tunight
                     break;
+                case 43://Scarecrow
+                    break;
                 default:
                     Debug.LogError("wrong Enemy ID");
                     break;
@@ -303,6 +309,7 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator MoveDelay(float time)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
+        mEnemy.mRB2D.velocity = Vector3.zero;
         mEnemy.IsTraking = false;
         yield return delay;
         mEnemy.IsTraking = true;
@@ -1170,6 +1177,62 @@ public class EnemySkill : MonoBehaviour
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet bolt = BulletPool.Instance.GetFromPool(24);
             bolt.transform.localPosition = mEnemy.transform.position + Pos;
+        }
+    }
+
+    private void Tunight()
+    {
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            if (Skilltrigger==false)
+            {
+                StopCoroutine(Tunight0());
+                mEnemy.mStats.AtkSpd += 0.5f;
+                IceBarrier();
+                Skilltrigger = true;
+            }
+            StartCoroutine(Tunight1());
+        }
+        else
+        {
+            StartCoroutine(Tunight0());
+        }
+    }
+    private IEnumerator Tunight0()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1.7f);
+        StartCoroutine(MoveDelay(2f));
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        yield return delay;
+        IceBoom();
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+    }
+    private IEnumerator Tunight1()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1.7f);
+        StartCoroutine(MoveDelay(2f));
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        yield return delay;
+        mEnemy.SpeedAmount += 1f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        IceBoom();
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.SpeedAmount -= 1f;
+    }
+
+
+
+
+    private void ScareCrow()
+    {
+        if (mEnemy.mCurrentHP >= mEnemy.mMaxHP)
+        {
+            mEnemy.mCurrentHP = mEnemy.mMaxHP;
+        }
+        else
+        {
+            mEnemy.mCurrentHP += 100;
         }
     }
 }

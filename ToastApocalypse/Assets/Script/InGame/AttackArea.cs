@@ -11,6 +11,12 @@ public class AttackArea : MonoBehaviour
     public SpriteRenderer mRenderer;
 
     private Enemy Target;
+    public bool IsCrit;
+
+    private void Awake()
+    {
+        IsCrit = false;
+    }
 
     public void Melee()
     {
@@ -89,17 +95,18 @@ public class AttackArea : MonoBehaviour
                 Target = other.GetComponent<Enemy>();
                 if (Target.mCurrentHP > 0 && Target != null)
                 {
-                    WeaponController.Instance.WeaponSkill(weapon.mID, Target);
-                    float rand = UnityEngine.Random.Range(0, 1f);
+                    float rand = Random.Range(0, 1f);
                     if (rand <= Player.Instance.mStats.Crit / 100)
                     {
                         Target.Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage));
-
+                        IsCrit = true;
                     }
                     else
                     {
                         Target.Hit(Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]));
                     }
+                    WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
+                    IsCrit = false;
 
 
                 }

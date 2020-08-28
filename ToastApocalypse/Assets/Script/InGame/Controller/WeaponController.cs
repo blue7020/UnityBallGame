@@ -46,7 +46,7 @@ public class WeaponController : InformationLoader
         Destroy(gameObject);
     }
 
-    public void WeaponSkill(int WeaponID,Enemy Target)
+    public void WeaponSkill(int WeaponID, Enemy Target, bool Checker)
     {
         switch (WeaponID)
         {
@@ -60,19 +60,52 @@ public class WeaponController : InformationLoader
             case 3://바게트
                 Baguette(Target);
                 break;
+            case 4://포크
+                break;
+            case 5://뒤집개
+                Fliper(Target, Checker);
+                break;
+            case 6://아이스크림 스쿱
+                break;
+            case 7://생크림 레이저
+                break;
+            case 8://피자 커터
+                break;
+            case 9://시리얼 디스펜서
+                break;
+            case 10://나루토마키
+                break;
+            case 11://냉동 고등어
+                FrozenMackerel(Target);
+                break;
 
         }
     }
 
     //WeaponSkillData
-    private void Mustard(Enemy target)
+    private void Mustard(Enemy Target)
     {
-        target.StartCoroutine(target.SpeedNurf(1.5f,0.5f));
+        Target.StartCoroutine(Target.SpeedNurf(1.5f,0.5f));
     }
 
     public void Baguette(Enemy Target)
     {
-        int rand = Random.Range(0, 1);
-        Target.mRB2D.AddForce(new Vector3(rand,rand,0)*2f, ForceMode2D.Impulse);
+        Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
+        Target.mRB2D.velocity = Vector3.zero;
+        Target.mRB2D.AddForce(-Pos * 20,ForceMode2D.Impulse);
+    }
+
+    public void Fliper(Enemy Target,bool isCrit)
+    {
+        if (isCrit==true)
+        {
+            StartCoroutine(Target.Stuned(1f));
+        }
+    }
+    public void FrozenMackerel(Enemy Target)
+    {
+        Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
+        Target.mRB2D.velocity = Vector3.zero;
+        Target.mRB2D.AddForce(-Pos * 30, ForceMode2D.Impulse);
     }
 }

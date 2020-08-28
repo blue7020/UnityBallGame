@@ -112,7 +112,15 @@ public class GameController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                Level = GameSetting.LEVEL_COUNT-1;
+                Level = GameSetting.LEVEL_COUNT;
+                Player.Instance.ResetBuff();
+                Player.Instance.Nodamage = false;
+                for (int i = 0; i < BuffEffectController.Instance.EffectList.Count; i++)
+                {
+                    BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
+                }
+                SceneManager.LoadScene(3);
+                Player.Instance.transform.position = new Vector2(0, -10.5f);
             }
         }
     }

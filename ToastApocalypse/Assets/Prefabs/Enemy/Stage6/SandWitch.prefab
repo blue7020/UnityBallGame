@@ -137,12 +137,14 @@ MonoBehaviour:
   mState: 0
   eType: 1
   mDelayCount: 0
-  mID: 0
+  mID: 42
   mSprite:
   - {fileID: 4996462674440053247}
   - {fileID: 753029477981487050}
   mRB2D: {fileID: 2768969394395748777}
   mTarget: {fileID: 0}
+  Runaway: 0
+  HasBarrier: 0
   mHPBarPos: {fileID: 20670013581033517}
   mEnemySkill: {fileID: 8523674375084126148}
   mAttackArea: {fileID: 4388738260387111865}
@@ -151,8 +153,10 @@ MonoBehaviour:
   CCState: {fileID: 1947227949793785222}
   Nodamage: 0
   Stun: 0
+  IsTraking: 0
   SpeedAmount: 0
   AttackOn: 0
+  AttackCheck: 0
   Spawned: 0
   IsMimic: 0
   mAnim: {fileID: 20670014377021069}
@@ -168,8 +172,7 @@ MonoBehaviour:
     Atk: 0
     AtkSpd: 0
     Spd: 0
-    Skill_Cooltime: 0
-    Skill_Duration: 0
+    Resistance: 0
 --- !u!50 &2768969394395748777
 Rigidbody2D:
   serializedVersion: 4
@@ -261,7 +264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 753029477981487050}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 20670014377021061}
@@ -305,7 +308,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 9
+  m_SortingOrder: 8
   m_Sprite: {fileID: -2357757589744580148, guid: 02f09b7df25a12b44b226062698d2d58,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -538,7 +541,11 @@ MonoBehaviour:
   mDamage: 1
   mAttackArea: {fileID: 4388738260387111865}
   Skilltrigger: 0
+  Skilltrigger2: 0
   BulletStarter: []
+  SkillObj: []
+  mBarrier: {fileID: 0}
+  mEnemyObj: {fileID: 0}
 --- !u!1 &4388738260387111869
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 4494893595312357596}
-  mAnim: {fileID: 4388738260387111866}
 --- !u!95 &4388738260387111866
 Animator:
   serializedVersion: 3

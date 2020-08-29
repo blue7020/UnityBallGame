@@ -11,6 +11,7 @@ public class SkillList : MonoBehaviour
 
     public SkillEffect effect;
     public PlayerBullet[] Skillbullet;
+    public int DestroyCheckLevel;
 
     private void Awake()
     {
@@ -70,6 +71,7 @@ public class SkillList : MonoBehaviour
 
     public void Cabbage_Boomerang()//1
     {
+        DestroyCheckLevel = GameController.Instance.Level;
         PlayerBullet bolt = Instantiate(Skillbullet[0],Player.Instance.CurrentRoom.transform);
         bolt.transform.SetParent(Player.Instance.CurrentRoom.transform);
         bolt.transform.position = Player.Instance.transform.position;
@@ -83,17 +85,31 @@ public class SkillList : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         yield return delay;
-        bolt.mRB2D.velocity = Vector3.zero;
-        yield return delay;
-        StartCoroutine(ReturnBoomerang(bolt));
+        if (GameController.Instance.Level != DestroyCheckLevel)
+        {
+            Destroy(bolt);
+        }
+        else
+        {
+            bolt.mRB2D.velocity = Vector3.zero;
+            yield return delay;
+            bolt.returnPlayer = true;
+            StartCoroutine(ReturnBoomerang(bolt));
+        }
     }
     private IEnumerator ReturnBoomerang(PlayerBullet bolt)
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
-        bolt.returnPlayer = true;
         while (true)
         {
-            bolt.mRB2D.DOMove(Player.Instance.transform.position, 0.3f);
+            if (GameController.Instance.Level != DestroyCheckLevel)
+            {
+                Destroy(bolt);
+            }
+            if (bolt!=null)
+            {
+                bolt.mRB2D.DOMove(Player.Instance.transform.position, 0.3f);
+            }
             yield return delay;
         }
     }

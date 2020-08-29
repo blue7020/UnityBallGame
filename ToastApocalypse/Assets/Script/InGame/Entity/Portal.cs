@@ -63,10 +63,6 @@ public class Portal : MonoBehaviour
         else if (GameController.Instance.Level> GameSetting.LEVEL_COUNT)
         {
             UIController.Instance.ShowClearText();
-            if (GameSetting.Instance.StageOpen[5]==false)
-            {
-                GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
-            }
         }
         else if (GameController.Instance.Level < GameSetting.LEVEL_COUNT)
         {

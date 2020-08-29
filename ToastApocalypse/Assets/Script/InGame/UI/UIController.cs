@@ -11,8 +11,9 @@ public class UIController : InformationLoader
 
     public Text mGoldText, mHPText,mStatText, mNameText, mbulletText,mLevelText,mAirText,mAirGaugeText;
     public Image mPlayerImage,mStatPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage,mSkillCoolWheel;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage;
     public HPBar mAirBar, mHPBar;
+    public Image[] ItemSlot;
 
     public Sprite DefaultItemSprite;
 
@@ -20,7 +21,7 @@ public class UIController : InformationLoader
 
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
-    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mGuideText;
+    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText;
     public string maptext;
     public Tooltip tooltip;
 
@@ -124,19 +125,30 @@ public class UIController : InformationLoader
     public void ShowClearText()
     {
         GameController.Instance.pause = true;
-        Time.timeScale = 0;
+        Player.Instance.mRB2D.velocity = Vector3.zero;
+        Player.Instance.Stun = true;
         if (GameSetting.Instance.Language == 0)
         {//한국어
-            mClearText.text = GameSetting.Instance.NowStage + "스테이지 클리어!\n\n획득한 시럽: +"+GameController.Instance.SyrupInStage;
+            mClearText.text = GameSetting.Instance.NowStage + "스테이지 클리어!";
+            mSyrupText.text= "획득한 시럽: +" + GameController.Instance.SyrupInStage;
+            mItemText.text = "획득한 재료";
             mGuideText.text = "터치 시 로비로 이동합니다.";
         }
         else if (GameSetting.Instance.Language == 1)
         {//영어
-            mClearText.text = GameSetting.Instance.NowStage+ "Stage Clear!\n\nSyrup: +" + GameController.Instance.SyrupInStage;
+            mClearText.text = GameSetting.Instance.NowStage+ "Stage Clear!";
+            mSyrupText.text = "Syrup: +" + GameController.Instance.SyrupInStage;
+            mItemText.text = "Material";
             mGuideText.text = "Touch to move to the lobby.";
         }
-        mClearImage.gameObject.SetActive(true);
         GameSetting.Instance.Syrup += GameController.Instance.SyrupInStage;
+        for (int i = 0; i < 5; i++)
+        {
+            //TODO 아이템 슬롯에 아이템 채우기
+        }
+        mPieceImage.sprite = GameSetting.Instance.mParts[GameSetting.Instance.NowStage];
+        mClearImage.gameObject.SetActive(true);
+        GameClearUI.Instance.StageClear();
     }
 
     public void ShowItemImage()

@@ -141,6 +141,20 @@ public class EnemySkill : MonoBehaviour
                 case 35://Tunight
                     Tunight();
                     break;
+                case 36://Pickle Toast
+                    break;
+                case 37://Zombie Toast
+                    break;
+                case 38://Bread Crust
+                    break;
+                case 39://Sandwich Fanatic
+                    break;
+                case 40://Tomster
+                    break;
+                case 41://Pantaurus
+                    break;
+                case 42://SandWitch
+                    break;
                 case 43://Scarecrow
                     ScareCrow();
                     break;
@@ -246,6 +260,20 @@ public class EnemySkill : MonoBehaviour
                 case 34://Nuggetoth
                     break;
                 case 35://Tunight
+                    break;
+                case 36://Pickle Toast
+                    break;
+                case 37://Zombie Toast
+                    break;
+                case 38://Bread Crust
+                    break;
+                case 39://Sandwich Fanatic
+                    break;
+                case 40://Tomster
+                    break;
+                case 41://Pantaurus
+                    break;
+                case 42://SandWitch
                     break;
                 case 43://Scarecrow
                     break;
@@ -379,7 +407,6 @@ public class EnemySkill : MonoBehaviour
         {
             if (Count > 10)
             {
-                mEnemy.mStats.Spd = BackupSpeed;
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
             }
@@ -429,7 +456,7 @@ public class EnemySkill : MonoBehaviour
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
             if (Skilltrigger == false)
             {
-                mEnemy.mStats.AtkSpd *= 2f;
+                mEnemy.mStats.AtkSpd *= 3f;
                 Skilltrigger = true;
             }
             mEnemy.Nodamage = true;

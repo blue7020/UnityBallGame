@@ -206,37 +206,9 @@ public class UIController : InformationLoader
 
     public void CharacterImage()
     {
-        switch (GameSetting.Instance.PlayerID)
-        {
-            case 0:
-                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
-                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
-                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
-                break;
-            case 1:
-                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[1];
-                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[1];
-                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[1];
-                break;
-            case 2:
-                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
-                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
-                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[2];
-                break;
-            case 3:
-                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[3];
-                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[3];
-                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[3];
-                break;
-            case 4:
-                mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[4];
-                mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[4];
-                mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[4];
-                break;
-            default:
-                Debug.LogError("Wrong Character Image");
-                break;
-        }
+        mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[GameSetting.Instance.PlayerID];
+        mMinimapPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[GameSetting.Instance.PlayerID];
+        mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[GameSetting.Instance.PlayerID];
     }
 
     public void ShowAirGaugeBar()

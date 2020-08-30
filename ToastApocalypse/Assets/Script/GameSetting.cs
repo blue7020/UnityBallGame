@@ -73,17 +73,19 @@ public class GameSetting : MonoBehaviour
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈
             PlayerHasSkill[0] = true;//기본 스킬 오픈
-            PlayerSkillID = 1;
+            PlayerSkillID = 0;
             Syrup = 0;
             PartsIndex = 0;
         }
         Restart();
 
         Syrup = 30000;
+
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
         CharacterOpen[3] = true;//허니브레드캐릭터 오픈
         CharacterOpen[4] = true;//스시닌자캐릭터 오픈
+        CharacterOpen[5] = true;//프로스트캐릭터 오픈
 
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈

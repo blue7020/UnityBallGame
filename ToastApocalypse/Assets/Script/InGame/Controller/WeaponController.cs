@@ -92,7 +92,7 @@ public class WeaponController : InformationLoader
     {
         Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
         Target.mRB2D.velocity = Vector3.zero;
-        Target.mRB2D.AddForce(-Pos * 20,ForceMode2D.Impulse);
+        Target.mRB2D.AddForce(-Pos * 15,ForceMode2D.Impulse);
     }
 
     public void Fliper(Enemy Target,bool isCrit)
@@ -106,6 +106,6 @@ public class WeaponController : InformationLoader
     {
         Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
         Target.mRB2D.velocity = Vector3.zero;
-        Target.mRB2D.AddForce(-Pos * 20, ForceMode2D.Impulse);
+        Target.mRB2D.AddForce(-Pos * 15, ForceMode2D.Impulse);
     }
 }

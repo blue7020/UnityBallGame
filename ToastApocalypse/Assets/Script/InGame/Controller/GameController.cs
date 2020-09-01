@@ -97,6 +97,7 @@ public class GameController : MonoBehaviour
         WeaponController.Instance.Delete();
         ActiveArtifacts.Instance.Delete();
         PassiveArtifacts.Instance.Delete();
+        PlayerBulletPool.Instance.Delete();
         Delete();
     }
 

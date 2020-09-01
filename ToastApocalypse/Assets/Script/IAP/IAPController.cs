@@ -259,12 +259,13 @@ public class IAPController : MonoBehaviour, IStoreListener
 #if UNITY_EDITOR
         //Product product = m_StoreController.products.WithID(productId);
         //return product.hasReceipt;
-#elif UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+# elif UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
         // Prepare the validator with the secrets we prepared in the Editor
         // obfuscation window.
-        var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
-        Product product = m_StoreController.products.WithID(productId);
-            AppleTangle.Data(), Application.identifier);
+
+        //var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
+        //Product product = m_StoreController.products.WithID(productId);
+        //AppleTangle.Data(), Application.identifier);
 
         try
         {
@@ -283,7 +284,7 @@ public class IAPController : MonoBehaviour, IStoreListener
         catch (IAPSecurityException)
         {
             Debug.Log("Invalid receipt, not unlocking content");
-            validPurchase = false;
+            //validPurchase = false;
         }
 #endif
         //// A consumable product has been purchased by this user.

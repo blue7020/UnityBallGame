@@ -40,6 +40,7 @@ public class GameSetting : MonoBehaviour
     public const int Room_COUNT =7;//최소
     public bool[] StagePartsget;
     public bool[] CharacterOpen;
+    public bool[] NPCOpen;
 
     public bool FirstSetting = false;
     //
@@ -62,6 +63,7 @@ public class GameSetting : MonoBehaviour
         if (FirstSetting != true)
         {
             StageOpen = new bool[6];
+            NPCOpen = new bool[4];//현재 4명
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
             CharacterOpen = new bool[CHARACTER_COUNT];
             PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
@@ -69,6 +71,7 @@ public class GameSetting : MonoBehaviour
             for (int i=0; i<4;i++)
             {
                 StatueOpen[i] = true; //기본 석상 4개 오픈
+                NPCOpen[i] = true; //NPC 오픈(원래는 0번만 오픈)
             }
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈

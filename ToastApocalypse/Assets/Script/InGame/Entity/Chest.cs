@@ -119,7 +119,8 @@ public class Chest : MonoBehaviour
         }
         else
         {
-            Instantiate(DefaultItem, mItem.transform);
+            UsingItem item = Instantiate(DefaultItem, mItem.transform);
+            weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
         }
         mItem.SetActive(true);
     }

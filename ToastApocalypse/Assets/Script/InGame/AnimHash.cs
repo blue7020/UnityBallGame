@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AnimHash : MonoBehaviour
 {
+    //LobbyObj
+    public static readonly int Furniture = Animator.StringToHash("NPCon");
+
     //GetParts
     public static readonly int Parts = Animator.StringToHash("IsGet");
 

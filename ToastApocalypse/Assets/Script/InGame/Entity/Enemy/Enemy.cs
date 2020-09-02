@@ -224,8 +224,10 @@ public class Enemy : InformationLoader
     private IEnumerator HitAnimation()
     {
         WaitForSeconds Time = new WaitForSeconds(0.3f);
+        Nodamage = true;
         mSprite[1].GetComponent<SpriteRenderer>().color = Color.red;
         yield return Time;
+        Nodamage = false;
         mSprite[1].GetComponent<SpriteRenderer>().color = Color.white;
         StopCoroutine(HitAnimation());
     }

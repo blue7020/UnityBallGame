@@ -63,9 +63,13 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        if (eEffectType == eBulletEffect.slow)
+        else if (eEffectType == eBulletEffect.slow)
         {
-            Player.Instance.DoEffect(4,EffectTime,3 ,mValue);
+            Player.Instance.DoEffect(4,EffectTime,4 ,mValue);
+        }
+        else if (eEffectType == eBulletEffect.attackslow)
+        {
+            Player.Instance.DoEffect(3, EffectTime, 3, mValue);
         }
         RemoveBullet();
     }

@@ -102,7 +102,8 @@ public enum eBulletEffect
 {
     none,
     stun,
-    slow
+    slow,
+    attackslow
 }
 
 public enum eShopType

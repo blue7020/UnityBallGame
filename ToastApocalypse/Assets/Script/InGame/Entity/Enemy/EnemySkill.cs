@@ -141,13 +141,15 @@ public class EnemySkill : MonoBehaviour
                 case 35://Tunight
                     Tunight();
                     break;
-                case 36://Pickle Toast
+                case 36://Bagoyle
+                    Bagoyle();
                     break;
                 case 37://Zombie Toast
                     break;
                 case 38://Bread Crust
                     break;
                 case 39://Sandwich Fanatic
+                    StartCoroutine(SandwichFanatic());
                     break;
                 case 40://Tomster
                     break;
@@ -261,9 +263,10 @@ public class EnemySkill : MonoBehaviour
                     break;
                 case 35://Tunight
                     break;
-                case 36://Pickle Toast
+                case 36://Bagoyle
                     break;
                 case 37://Zombie Toast
+                    ZombieToast();
                     break;
                 case 38://Bread Crust
                     break;
@@ -1248,8 +1251,86 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount -= 1f;
     }
 
+    
+    private void Bagoyle()
+    {
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            Bagoyle1();
+        }
+        else
+        {
+            StartCoroutine(Bagoyle0());
+        }
+    }
+    private IEnumerator Bagoyle0()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        yield return delay;
+        mEnemy.IsTraking = false;
+        mEnemy.SpeedAmount += 1.5f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.SpeedAmount -= 1.5f;
+        mEnemy.IsTraking = true;
+    }
+    private void Bagoyle1()
+    {
+        for (int i = 1; i < 9; i++)
+        {
+            ResetDir(25, i);
+        }
+    }
 
+    private void ZombieToast()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            ResetDir(26, i);
+        }
+    }
 
+    private IEnumerator SandwichFanatic()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(0.7f));
+        if (Skilltrigger == false && mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            Skilltrigger = true;
+            Vector3 Pos = Vector3.zero;
+            for (int i = 0; i < 2; i++)
+            {
+                Enemy enemy = EnemyPool.Instance.GetFromPool(6);//빵모서리 소환
+                switch (i)
+                {
+                    case 0:
+                        Pos = new Vector3(1.5f, 0, 0);
+                        break;
+                    case 1:
+                        Pos = new Vector3(-1.5f, 0, 0);
+                        break;
+                }
+                enemy.transform.position = mEnemy.transform.position + Pos;
+            }
+        }
+        SandwichFanatic1();
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+    }
+
+    private void SandwichFanatic1()
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            int Xpos = Random.Range(-3, 9);
+            int Ypos = Random.Range(-3, 9);
+            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+            Bullet toast = BulletPool.Instance.GetFromPool(27);
+            toast.transform.position = mEnemy.transform.position + Pos;
+        }
+    }
 
     private void ScareCrow()
     {

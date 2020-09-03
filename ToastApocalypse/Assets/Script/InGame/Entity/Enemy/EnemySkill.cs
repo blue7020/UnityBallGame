@@ -6,8 +6,8 @@ public class EnemySkill : MonoBehaviour
     public Enemy mEnemy;
     public float mDamage;
     public EnemyAttackArea mAttackArea;
-    private int Count;
-    private float BackupSpeed;
+    public int Count;
+    public int SkillCount;
     private int SkillRand;
 
     public bool Skilltrigger, Skilltrigger2;
@@ -20,6 +20,7 @@ public class EnemySkill : MonoBehaviour
     {
         Skilltrigger = false;
         Skilltrigger2 = false;
+        SkillCount = 0;
     }
 
     public void IceBarrier()
@@ -152,10 +153,13 @@ public class EnemySkill : MonoBehaviour
                     StartCoroutine(SandwichFanatic());
                     break;
                 case 40://Tomster
+                    Tomster();
                     break;
                 case 41://Pantaurus
+                    PanTaurus();
                     break;
                 case 42://SandWitch
+                    SandWitch();
                     break;
                 case 43://Scarecrow
                     ScareCrow();
@@ -350,8 +354,7 @@ public class EnemySkill : MonoBehaviour
     {
         WaitForSeconds cool = new WaitForSeconds(0.3f);
         Count = 0;
-        BackupSpeed = mEnemy.mStats.Spd;
-        mEnemy.mStats.Spd = 0f;
+        StartCoroutine(MoveDelay(0.5f));
         mEnemy.mRB2D.velocity = Vector3.zero;
         while (Count < 3)
         {
@@ -360,7 +363,6 @@ public class EnemySkill : MonoBehaviour
             Count++;
             yield return cool;
         }
-        mEnemy.mStats.Spd = BackupSpeed;
     }
 
     private void MoldlingAttack()//id = 3
@@ -551,8 +553,7 @@ public class EnemySkill : MonoBehaviour
             if (Skilltrigger == false)
             {
                 Count = 0;
-                StartCoroutine(MoveDelay(0.2f));
-                StartCoroutine(ColaBoom());
+                StartCoroutine(MoveDelay(0.4f));
                 for (int i = 0; i < 2; i++)
                 {
                     Enemy enemy = EnemyPool.Instance.GetFromPool(0);//햄버그 소환
@@ -562,7 +563,6 @@ public class EnemySkill : MonoBehaviour
                 StartCoroutine(ColaBoom());
                 Skilltrigger = true;
             }
-            BackupSpeed = mEnemy.mStats.Spd;
             mEnemy.mStats.Spd = 0f;
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         }
@@ -579,7 +579,6 @@ public class EnemySkill : MonoBehaviour
             Invoke("DrinkShot", 0.1f);
             if (Count >= 40)
             {
-                mEnemy.mStats.Spd = BackupSpeed;
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
             }
@@ -617,7 +616,6 @@ public class EnemySkill : MonoBehaviour
         {
             if (Count > 10)
             {
-                mEnemy.mStats.Spd = BackupSpeed;
                 break;
             }
             else
@@ -1036,8 +1034,8 @@ public class EnemySkill : MonoBehaviour
     {
         for (int i = 1; i < 10; i++)
         {
-            int Xpos = Random.Range(-3, 9);
-            int Ypos = Random.Range(-3, 9);
+            int Xpos = Random.Range(-7, 8);
+            int Ypos = Random.Range(-7, 8);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             GameObject tentacle = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
             tentacle.transform.position = mEnemy.transform.position + Pos;
@@ -1156,7 +1154,7 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(0.8f));
         while (true)
         {
-            if (Count >= 3)
+            if (Count >= 2)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
@@ -1190,7 +1188,7 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
         yield return delay;
         mEnemy.SpeedAmount -= 3f;
-        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             IceBoom();
         }
@@ -1202,8 +1200,8 @@ public class EnemySkill : MonoBehaviour
     {
         for (int i = 1; i < 8; i++)
         {
-            int Xpos = Random.Range(-5, 8);
-            int Ypos = Random.Range(-5, 8);
+            int Xpos = Random.Range(-6, 7);
+            int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet bolt = BulletPool.Instance.GetFromPool(24);
             bolt.transform.localPosition = mEnemy.transform.position + Pos;
@@ -1212,9 +1210,9 @@ public class EnemySkill : MonoBehaviour
 
     private void Tunight()
     {
-        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            if (Skilltrigger==false)
+            if (Skilltrigger == false)
             {
                 StopCoroutine(Tunight0());
                 mEnemy.mStats.AtkSpd += 0.5f;
@@ -1251,7 +1249,7 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount -= 1f;
     }
 
-    
+
     private void Bagoyle()
     {
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
@@ -1315,22 +1313,140 @@ public class EnemySkill : MonoBehaviour
                 enemy.transform.position = mEnemy.transform.position + Pos;
             }
         }
-        SandwichFanatic1();
+        ToastBoom(8);
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
-    private void SandwichFanatic1()
+    private void ToastBoom(int count)
     {
-        for (int i = 1; i < 8; i++)
+        for (int i = 1; i < count; i++)
         {
-            int Xpos = Random.Range(-3, 9);
-            int Ypos = Random.Range(-3, 9);
+            int Xpos = Random.Range(-6, 7);
+            int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet toast = BulletPool.Instance.GetFromPool(27);
             toast.transform.position = mEnemy.transform.position + Pos;
         }
     }
+
+    private void Tomster()
+    {
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            if (Skilltrigger == false)
+            {
+                Skilltrigger = true;
+                Vector3 Pos = Vector3.zero;
+                for (int i = 0; i < 2; i++)
+                {
+                    Enemy enemy = EnemyPool.Instance.GetFromPool(7);//좀비소트스 소환
+                    switch (i)
+                    {
+                        case 0:
+                            Pos = new Vector3(1.5f, 0, 0);
+                            break;
+                        case 1:
+                            Pos = new Vector3(-1.5f, 0, 0);
+                            break;
+                    }
+                    enemy.mStats.Gold = 0;
+                    enemy.mCurrentHP -= 6;
+                    enemy.transform.position = mEnemy.transform.position + Pos;
+                }
+            }
+        }
+        StartCoroutine(Tomster1());
+    }
+    private IEnumerator Tomster1()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1.7f);
+        StartCoroutine(MoveDelay(2f));
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        yield return delay;
+        mEnemy.SpeedAmount += 2f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        ToastShot();
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.SpeedAmount -= 2f;
+    }
+    private void ToastShot()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            ResetDir(28, i);
+        }
+    }
+
+
+    private void PanTaurus()
+    {
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            if (Skilltrigger == false)
+            {
+                mEnemy.mStats.AtkSpd += 0.5f;
+                Skilltrigger = true;
+            }
+            ToastBoom(10);
+        }
+        else
+        {
+            StartCoroutine(PanTaurus1());
+        }
+    }
+    private IEnumerator PanTaurus1()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1.7f);
+        StartCoroutine(MoveDelay(2f));
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        yield return delay;
+        mEnemy.SpeedAmount += 1f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.SpeedAmount -= 1f;
+    }
+
+    private void SandWitch()
+    {
+        if (SkillCount >= 3)
+        {
+            StartCoroutine(Sandwitch1());
+        }
+        else
+        {
+            ToothPickFall();
+            SkillCount++;
+        }
+    }
+    private void ToothPickFall()
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            int Xpos = Random.Range(-6, 7);
+            int Ypos = Random.Range(-6, 7);
+            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+            Bullet toast = BulletPool.Instance.GetFromPool(29);
+            toast.transform.position = mEnemy.transform.position + Pos;
+        }
+    }
+    private IEnumerator Sandwitch1()
+    {
+        Debug.Log("발동");
+        WaitForSeconds delay = new WaitForSeconds(2.5f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        for (int i=0; i<2;i++)
+        {
+         GameObject bread = Instantiate(SkillObj[i], Player.Instance.CurrentRoom.transform);
+        }
+        StartCoroutine(MoveDelay(2.4f));
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        SkillCount = 0;
+    }
+
 
     private void ScareCrow()
     {

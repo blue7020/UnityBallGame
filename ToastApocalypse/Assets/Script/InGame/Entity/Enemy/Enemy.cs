@@ -42,7 +42,10 @@ public class Enemy : InformationLoader
 
     private void OnEnable()
     {
-        Player.Instance.CurrentRoom.EnemyCount++;
+        if (GameController.Instance.Level!=5)
+        {
+            Player.Instance.CurrentRoom.EnemyCount++;
+        }
         gameObject.layer = 8;
     }
 
@@ -52,15 +55,15 @@ public class Enemy : InformationLoader
         Spawned = false;
         HasBarrier = false;
         IsTraking = true;
-    }
-    private void Start()
-    {
-        mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameController.Instance.MapLevel) * GameController.Instance.Level);
-        mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         AttackOn = false;
         Nodamage = true;
         AttackCheck = true;
         Stun = false;
+                mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameController.Instance.MapLevel) * GameController.Instance.Level);
+        mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+    }
+    private void Start()
+    {
         if (IsMimic == false)
         {
             mState = eMonsterState.Spawning;
@@ -154,6 +157,7 @@ public class Enemy : InformationLoader
                     else
                     {
                         mRB2D.velocity = Vector3.zero;
+                        gameObject.layer = 8;
                         mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
                         AttackOn = false;
                         mDelayCount++;
@@ -196,13 +200,13 @@ public class Enemy : InformationLoader
                         mHPBar.SetGauge(mCurrentHP, mMaxHP);
                         mHPBar.transform.position = mHPBarPos.position;
                     }
-                    else
+                    else if (mCurrentHP <= 0)
                     {
+                        mEnemySkill.DieSkill();
                         mAnim.SetBool(AnimHash.Enemy_Walk, false);
                         mAnim.SetBool(AnimHash.Enemy_Attack, false);
                         mAnim.SetBool(AnimHash.Enemy_Death, true);
                         mRB2D.velocity = Vector3.zero;
-                        mEnemySkill.DieSkill();
                         if (mStats.Gold > 0)
                         {
                             DropGold mGold = GoldPool.Instance.GetFromPool();
@@ -212,7 +216,6 @@ public class Enemy : InformationLoader
                         }
                         GameController.Instance.SyrupInStage += mStats.Syrup;
                         mHPBar.CloseGauge();
-                        gameObject.layer = 8;
                         mState = eMonsterState.Die;
                     }
                 }

@@ -10,6 +10,7 @@ public class Enemy : InformationLoader
     public int mDelayCount;
 
     public int mID;
+    public Sprite UISprite;
     public GameObject[] mSprite;
     public Rigidbody2D mRB2D;
     public Player mTarget;
@@ -106,68 +107,71 @@ public class Enemy : InformationLoader
         WaitForSeconds pointOne = new WaitForSeconds(0.1f);
         while (true)
         {
-            switch (mState)
+            if (GameController.Instance.pause == false)
             {
-                case eMonsterState.Spawning:
-                    mState = eMonsterState.Idle;
-                    break;
-                case eMonsterState.Idle:
-                    if (mDelayCount >= 20)
-                    {
-                        if (Stun == false)
+                switch (mState)
+                {
+                    case eMonsterState.Spawning:
+                        mState = eMonsterState.Idle;
+                        break;
+                    case eMonsterState.Idle:
+                        if (mDelayCount >= 20)
                         {
-                            mAnim.SetBool(AnimHash.Enemy_Walk, false);
-                            mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                            if (Stun == false)
+                            {
+                                mAnim.SetBool(AnimHash.Enemy_Walk, false);
+                                mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                                mRB2D.velocity = Vector3.zero;
+                            }
+                            mDelayCount = 0;
+                        }
+                        else
+                        {
+                            mDelayCount++;
+                        }
+                        break;
+                    case eMonsterState.Traking:
+                        if (mDelayCount >= 20)
+                        {
+                            if (Stun == false)
+                            {
+                                mAnim.SetBool(AnimHash.Enemy_Walk, true);
+                            }
+                            mDelayCount = 0;
+                        }
+                        else
+                        {
+                            mDelayCount++;
+                        }
+                        break;
+                    case eMonsterState.Die:
+                        if (mDelayCount >= 20)
+                        {
+                            if (Player.Instance.CurrentRoom.EnemyCount > 0)
+                            {
+                                Player.Instance.CurrentRoom.EnemyCount--;
+                            }
+                            if (eType == eEnemyType.Boss)
+                            {
+                                PortalTrigger.Instance.BossDeath();
+                            }
+                            gameObject.SetActive(false);
+                        }
+                        else
+                        {
                             mRB2D.velocity = Vector3.zero;
+                            gameObject.layer = 8;
+                            mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
+                            AttackOn = false;
+                            mDelayCount++;
                         }
-                        mDelayCount = 0;
-                    }
-                    else
-                    {
-                        mDelayCount++;
-                    }
-                    break;
-                case eMonsterState.Traking:
-                    if (mDelayCount >= 20)
-                    {
-                        if (Stun == false)
-                        {
-                            mAnim.SetBool(AnimHash.Enemy_Walk, true);
-                        }
-                        mDelayCount = 0;
-                    }
-                    else
-                    {
-                        mDelayCount++;
-                    }
-                    break;
-                case eMonsterState.Die:
-                    if (mDelayCount >= 20)
-                    {
-                        if (Player.Instance.CurrentRoom.EnemyCount > 0)
-                        {
-                            Player.Instance.CurrentRoom.EnemyCount--;
-                        }
-                        if (eType == eEnemyType.Boss)
-                        {
-                            PortalTrigger.Instance.BossDeath();
-                        }
-                        gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        mRB2D.velocity = Vector3.zero;
-                        gameObject.layer = 8;
-                        mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
-                        AttackOn = false;
-                        mDelayCount++;
-                    }
-                    break;
+                        break;
 
-                default:
-                    Debug.LogError("Wrong State");
-                    break;
-            }
+                    default:
+                        Debug.LogError("Wrong State");
+                        break;
+                }
+            }     
             yield return pointOne;
         }
 
@@ -257,6 +261,7 @@ public class Enemy : InformationLoader
         if (AttackCheck == true)
         {
             mTarget.Hit(mStats.Atk);
+            Player.Instance.LastHitEnemy = this;
         }
     }
     public void SkillObjAttack()
@@ -264,6 +269,7 @@ public class Enemy : InformationLoader
         if (mEnemySkill.mEnemyObj.TargetSetting == true)
         {
             Player.Instance.Hit(mStats.Atk);
+            Player.Instance.LastHitEnemy = this;
             Player.Instance.DoEffect(6, 0.75f);
         }
     }
@@ -271,7 +277,7 @@ public class Enemy : InformationLoader
 
     public IEnumerator SkillCast()
     {
-        if (mState == eMonsterState.Traking)
+        if (mState == eMonsterState.Traking&& GameController.Instance.pause == false)
         {
             WaitForSeconds cool = new WaitForSeconds(mStats.AtkSpd);
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
@@ -283,31 +289,34 @@ public class Enemy : InformationLoader
 
     public IEnumerator MoveToPlayer()
     {
-        if (mState == eMonsterState.Traking && Spawned == true)
+        if (GameController.Instance.pause == false)
         {
-            if (Stun == false&& IsTraking==true)
+            if (mState == eMonsterState.Traking && Spawned == true)
             {
-                WaitForSeconds one = new WaitForSeconds(0.1f);
-                mAnim.SetBool(AnimHash.Enemy_Walk, true);
-                if (Player.Instance.transform.position.x - transform.position.x > 0)//- 좌
+                if (Stun == false && IsTraking == true)
                 {
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    WaitForSeconds one = new WaitForSeconds(0.1f);
+                    mAnim.SetBool(AnimHash.Enemy_Walk, true);
+                    if (Player.Instance.transform.position.x - transform.position.x > 0)//- 좌
+                    {
+                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                    }
+                    else//+ 우
+                    {
+                        transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    if (!Runaway)
+                    {
+                        Vector3 dir = mTarget.transform.position - transform.position;
+                        mRB2D.velocity = dir.normalized * (mStats.Spd * (1 + SpeedAmount));
+                    }
+                    else
+                    {
+                        Vector3 dir = mTarget.transform.position - transform.position;
+                        mRB2D.velocity = -dir.normalized * (mStats.Spd * (1 + SpeedAmount));
+                    }
+                    yield return one;
                 }
-                else//+ 우
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                }
-                if (!Runaway)
-                {
-                    Vector3 dir = mTarget.transform.position - transform.position;
-                    mRB2D.velocity = dir.normalized * (mStats.Spd * (1 + SpeedAmount));
-                }
-                else
-                {
-                    Vector3 dir = mTarget.transform.position - transform.position;
-                    mRB2D.velocity = -dir.normalized * (mStats.Spd * (1 + SpeedAmount));
-                }
-                yield return one;
             }
         }
     }

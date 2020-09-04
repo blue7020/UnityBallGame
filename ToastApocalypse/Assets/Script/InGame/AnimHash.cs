@@ -11,7 +11,7 @@ public class AnimHash : MonoBehaviour
     public static readonly int Parts = Animator.StringToHash("IsGet");
 
     public static readonly int Attack = Animator.StringToHash("IsAttack");
-    //public static readonly int Dead = Animator.StringToHash("IsDie");
+    public static readonly int Death = Animator.StringToHash("IsDeath");
     public static readonly int Walk = Animator.StringToHash("IsWalk");
     public static readonly int Tumble = Animator.StringToHash("IsTumble");
 

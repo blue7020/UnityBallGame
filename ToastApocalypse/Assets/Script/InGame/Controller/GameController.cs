@@ -63,11 +63,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void GameOver()
-    {
-
-    }
-
     public void MainMenu()
     {
         DestroyController();

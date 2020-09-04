@@ -14,6 +14,7 @@ public class Trap : MonoBehaviour
     public float Dura;
     public bool EnemyDamage;
     public bool TrapTrigger;//애니메이션 비례 함정 작동
+    public Enemy mEnemy;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -111,6 +112,7 @@ public class Trap : MonoBehaviour
                 if (DamageOn == true)
                 {
                     mTarget.mCurrentHP -= mValue;//고정 피해
+                    Player.Instance.LastHitEnemy = mEnemy;
                 }
                 UIController.Instance.ShowHP();
             }

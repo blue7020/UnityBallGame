@@ -294,6 +294,7 @@ public class EnemySkill : MonoBehaviour
     public void ResetDir(int ID, int bulletDir = 0)
     {
         Bullet bolt = BulletPool.Instance.GetFromPool(ID);
+        bolt.mEnemy = mEnemy;
         bolt.transform.position = mEnemy.transform.position;
         switch (bulletDir)
         {
@@ -426,6 +427,7 @@ public class EnemySkill : MonoBehaviour
         int Ypos = Random.Range(-5, 6);
         Vector3 Pos = new Vector3(Xpos, Ypos, 0);
         Bullet bolt = BulletPool.Instance.GetFromPool(3);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = Pos;
         Count++;
     }
@@ -515,6 +517,7 @@ public class EnemySkill : MonoBehaviour
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
             Bullet bolt = BulletPool.Instance.GetFromPool(6);
+            bolt.mEnemy = mEnemy;
             bolt.transform.localPosition = mEnemy.transform.position;
             bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         }
@@ -538,6 +541,7 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(5);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -604,6 +608,7 @@ public class EnemySkill : MonoBehaviour
                 break;
         }
         Bullet bolt1 = BulletPool.Instance.GetFromPool(bulletIndex); Bullet bolt2 = BulletPool.Instance.GetFromPool(bulletIndex);
+        bolt1.mEnemy = mEnemy; bolt2.mEnemy = mEnemy;
         bolt1.transform.localPosition = BulletStarter[0].transform.position; bolt2.transform.localPosition = BulletStarter[1].transform.position;
         bolt1.mRB2D.velocity = dirR.normalized * bolt1.mSpeed; bolt2.mRB2D.velocity = -dirL.normalized * bolt2.mSpeed;
         Count++;
@@ -624,6 +629,7 @@ public class EnemySkill : MonoBehaviour
                 int Ypos = Random.Range(-5, 6);
                 Vector3 Pos = new Vector3(Xpos, Ypos, 0);
                 Bullet bolt = BulletPool.Instance.GetFromPool(7);
+                bolt.mEnemy = mEnemy;
                 bolt.transform.localPosition = Pos;
                 Count++;
                 yield return delay;
@@ -648,6 +654,7 @@ public class EnemySkill : MonoBehaviour
         {
             mEnemy.mStats.Gold = 0;
             Bullet bolt = BulletPool.Instance.GetFromPool(11);
+            bolt.mEnemy = mEnemy;
             bolt.transform.position = mEnemy.transform.position;
             mEnemy.Hit(mEnemy.mMaxHP);
         }
@@ -677,6 +684,7 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(12);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -746,6 +754,7 @@ public class EnemySkill : MonoBehaviour
         int Ypos = Random.Range(-6, 7);
         Vector3 Pos = new Vector3(Xpos, Ypos, 0);
         Bullet bolt = BulletPool.Instance.GetFromPool(13);
+        bolt.mEnemy = mEnemy;
         bolt.transform.position = mEnemy.transform.position + Pos;
         Count++;
     }
@@ -847,6 +856,7 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(16);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -866,6 +876,7 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(18);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
     }
@@ -941,6 +952,7 @@ public class EnemySkill : MonoBehaviour
             Vector3 Pos = Player.Instance.transform.position;
             Vector3 dir = Pos - transform.position;
             Bullet bolt = BulletPool.Instance.GetFromPool(19);
+            bolt.mEnemy = mEnemy;
             bolt.transform.localPosition = mEnemy.transform.position;
             bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
             Count++;
@@ -978,6 +990,7 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(20);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -1026,6 +1039,7 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(21);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -1171,6 +1185,7 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(23);
+        bolt.mEnemy = mEnemy;
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -1204,6 +1219,7 @@ public class EnemySkill : MonoBehaviour
             int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet bolt = BulletPool.Instance.GetFromPool(24);
+            bolt.mEnemy = mEnemy;
             bolt.transform.localPosition = mEnemy.transform.position + Pos;
         }
     }
@@ -1326,6 +1342,7 @@ public class EnemySkill : MonoBehaviour
             int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet toast = BulletPool.Instance.GetFromPool(27);
+            toast.mEnemy = mEnemy;
             toast.transform.position = mEnemy.transform.position + Pos;
         }
     }
@@ -1363,6 +1380,10 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(1.7f);
         StartCoroutine(MoveDelay(2f));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            ToastShot();
+        }
         yield return delay;
         mEnemy.SpeedAmount += 2f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
@@ -1401,10 +1422,10 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(1.7f);
         StartCoroutine(MoveDelay(2f));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        yield return delay;
         mEnemy.SpeedAmount += 1f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
         mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.SpeedAmount -= 1f;
     }
@@ -1429,6 +1450,7 @@ public class EnemySkill : MonoBehaviour
             int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet toast = BulletPool.Instance.GetFromPool(29);
+            toast.mEnemy = mEnemy;
             toast.transform.position = mEnemy.transform.position + Pos;
         }
     }
@@ -1437,9 +1459,9 @@ public class EnemySkill : MonoBehaviour
         Debug.Log("발동");
         WaitForSeconds delay = new WaitForSeconds(2.5f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        for (int i=0; i<2;i++)
+        for (int i = 0; i < 2; i++)
         {
-         GameObject bread = Instantiate(SkillObj[i], Player.Instance.CurrentRoom.transform);
+            GameObject bread = Instantiate(SkillObj[i], Player.Instance.CurrentRoom.transform);
         }
         StartCoroutine(MoveDelay(2.4f));
         yield return delay;

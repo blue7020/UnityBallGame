@@ -48,15 +48,12 @@ public class MonsterStat
     public int ID;
     public string Name;
     public string EngName;
-
     public int Gold;
     public int Syrup;
-
     public float Hp;
     public float Atk;
     public float AtkSpd;
     public float Spd;
-
     public float Resistance;
 }
 

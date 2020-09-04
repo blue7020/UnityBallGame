@@ -42,6 +42,8 @@ public class Player : MonoBehaviour
     public Artifacts NowActiveArtifact;
     public Artifacts UseItemInventory;
 
+    public Enemy LastHitEnemy;
+
     public PlayerStat GetPlayerStats()
     {
         return mStats;
@@ -201,7 +203,7 @@ public class Player : MonoBehaviour
         }
         if (mCurrentHP <= 0)
         {
-            GameController.Instance.GameOver();
+            GameOver();
         }
     }
 
@@ -215,6 +217,26 @@ public class Player : MonoBehaviour
         Nodamage = false;
         StopCoroutine(HitAnimation());
     }
+
+    public void GameOver()
+    {
+        GameController.Instance.pause = true;
+        SoundController.Instance.mBGM.Stop();
+        mRB2D.velocity = Vector3.zero;
+        Stun = true;
+        mRenderer.sortingLayerName = "UI";
+        mRenderer.sortingOrder = 4;
+        UIController.Instance.mDeathUI.gameObject.SetActive(true);
+        //음악도 중지
+        mAnim.SetBool(AnimHash.Death, true);
+    }
+    public void DeathWindow()
+    {
+        mRenderer.sortingLayerName = "Entity";
+        mRenderer.sortingOrder = 1;
+        UIController.Instance.ShowDeathWindow();
+    }
+
 
     public void Dash(Vector3 dir, int code,int speed)
     {

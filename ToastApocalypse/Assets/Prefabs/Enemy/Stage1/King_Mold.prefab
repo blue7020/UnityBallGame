@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mEnemy: {fileID: 767499559989549158}
-  mAnim: {fileID: 585550490146552576}
 --- !u!95 &585550490146552576
 Animator:
   serializedVersion: 3
@@ -111,8 +110,14 @@ MonoBehaviour:
   mEnemy: {fileID: 767499559989549158}
   mDamage: 1
   mAttackArea: {fileID: 585550490146552579}
+  Count: 0
+  SkillCount: 0
   Skilltrigger: 0
+  Skilltrigger2: 0
   BulletStarter: []
+  SkillObj: []
+  mBarrier: {fileID: 0}
+  mEnemyObj: {fileID: 0}
 --- !u!1 &1803073132450870687
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,11 +343,15 @@ MonoBehaviour:
   eType: 1
   mDelayCount: 0
   mID: 3
+  UISprite: {fileID: 5160214216148862509, guid: d652e9594a9eb5e45b8d4edfdd9534ca,
+    type: 3}
   mSprite:
   - {fileID: 7062774235030453932}
   - {fileID: 4518493003904214896}
   mRB2D: {fileID: -7878203268523589357}
   mTarget: {fileID: 0}
+  Runaway: 0
+  HasBarrier: 0
   mHPBarPos: {fileID: 3787186871482161303}
   mEnemySkill: {fileID: 4795640427477383038}
   mAttackArea: {fileID: 585550490146552579}
@@ -351,8 +360,10 @@ MonoBehaviour:
   CCState: {fileID: 5791059958673892472}
   Nodamage: 0
   Stun: 0
+  IsTraking: 0
   SpeedAmount: 0
   AttackOn: 0
+  AttackCheck: 0
   Spawned: 0
   IsMimic: 0
   mAnim: {fileID: 3787186870694598204}
@@ -368,8 +379,7 @@ MonoBehaviour:
     Atk: 0
     AtkSpd: 0
     Spd: 0
-    Skill_Cooltime: 0
-    Skill_Duration: 0
+    Resistance: 0
 --- !u!50 &-7878203268523589357
 Rigidbody2D:
   serializedVersion: 4

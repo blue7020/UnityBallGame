@@ -52,6 +52,7 @@ public class Bullet : MonoBehaviour
     public void Effecton()
     {
         Player.Instance.Hit(mDamage);
+        Player.Instance.LastHitEnemy = mEnemy;
         if (eEffectType == eBulletEffect.stun)
         {
             if (Player.Instance.Stun == false && Player.Instance.NowDebuffArr[0] == null)

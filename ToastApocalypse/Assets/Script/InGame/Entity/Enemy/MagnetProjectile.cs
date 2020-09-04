@@ -11,6 +11,7 @@ public class MagnetProjectile : MonoBehaviour
     public float mDamage;
     public Vector3 Pos;
     public Rigidbody2D mRB2D;
+    public Enemy mEnemy;
 
     private void Awake()
     {
@@ -59,6 +60,7 @@ public class MagnetProjectile : MonoBehaviour
         if (PlayerDamage==true&&other.gameObject.CompareTag("Player"))
         {
             Player.Instance.Hit(mDamage);
+            Player.Instance.LastHitEnemy = mEnemy;
             Player.Instance.DoEffect(6,1f,5);
             gameObject.SetActive(false);
         }

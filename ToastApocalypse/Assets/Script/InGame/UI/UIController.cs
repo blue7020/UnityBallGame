@@ -11,7 +11,7 @@ public class UIController : InformationLoader
 
     public Text mGoldText, mHPText,mStatText, mNameText, mbulletText,mLevelText,mAirText,mAirGaugeText;
     public Image mPlayerImage,mStatPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage,mSkillCoolWheel;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage,mMonsterImage,mDeathWindow,mDeathUI;
     public HPBar mAirBar, mHPBar;
     public Image[] ItemSlot;
 
@@ -21,6 +21,7 @@ public class UIController : InformationLoader
 
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
+    public Text mTitleText, mMonsterNameText, mTouchGuideText;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText;
     public string maptext;
     public Tooltip tooltip;
@@ -108,18 +109,28 @@ public class UIController : InformationLoader
     public IEnumerator ShowLevel()
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
-        if (GameSetting.Instance.Language==0)//한국어
-        {
-
-        }
-        else if(GameSetting.Instance.Language == 1)//영어
-        {
-
-        }
         mLevelText.text = maptext+"\n-B" + GameController.Instance.Level + "F-";
         mLevelText.gameObject.SetActive(true);
         yield return delay;
         mLevelText.gameObject.SetActive(false);
+    }
+
+    public void ShowDeathWindow()
+    {
+        if (GameSetting.Instance.Language == 0)
+        {//한국어
+            mTitleText.text = "사망 원인";
+            mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.Name.ToString();
+            mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {//영어
+            mTitleText.text = "Cause of death";
+            mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.EngName;
+            mTouchGuideText.text = "Touch to move to the lobby.";
+        }
+        mMonsterImage.sprite = Player.Instance.LastHitEnemy.UISprite;
+        mDeathWindow.gameObject.SetActive(true);
     }
 
     public void ShowClearText()

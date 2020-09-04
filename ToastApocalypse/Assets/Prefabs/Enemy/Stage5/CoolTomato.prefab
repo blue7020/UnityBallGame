@@ -138,12 +138,15 @@ MonoBehaviour:
   mEnemy: {fileID: 3970224912833544737}
   mDamage: 1
   mAttackArea: {fileID: 2886219926439521406}
+  Count: 0
+  SkillCount: 0
   Skilltrigger: 0
   Skilltrigger2: 0
   BulletStarter: []
   SkillObj:
   - {fileID: 2883647471353185666, guid: 9aeea7ac58f1d5f4eb6e9aea3f3cff19, type: 3}
   mBarrier: {fileID: 0}
+  mEnemyObj: {fileID: 0}
 --- !u!1 &3859690499907934173
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +512,8 @@ MonoBehaviour:
   eType: 0
   mDelayCount: 0
   mID: 30
+  UISprite: {fileID: 4065286062719716069, guid: 75dfd33b23c4ed34784970e9c7a4aaea,
+    type: 3}
   mSprite:
   - {fileID: 5836393663787825386}
   - {fileID: 8913163192514432630}
@@ -524,6 +529,7 @@ MonoBehaviour:
   CCState: {fileID: 3859690499907934173}
   Nodamage: 0
   Stun: 0
+  IsTraking: 0
   SpeedAmount: 0
   AttackOn: 0
   AttackCheck: 0

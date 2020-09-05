@@ -171,7 +171,11 @@ public class Statue : MonoBehaviour
                 effect.SetText(bufftext);
                 break;
             case eStatueType.War:
-                Player.Instance.mStats.Crit += Player.Instance.mStats.Crit*(1 + 0.3f);
+                Player.Instance.mStats.Crit += Player.Instance.mStats.Crit*0.3f;
+                if (Player.Instance.mStats.Crit >= 1f)
+                {
+                    Player.Instance.mStats.Crit = 1f;
+                }
                 mRenderer.sprite = StatueController.Instance.mStatueSprites[11];
                 if (GameSetting.Instance.Language == 0)
                 {

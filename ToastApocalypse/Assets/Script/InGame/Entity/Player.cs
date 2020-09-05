@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
     public bool TrapResistance;
     public bool MapSeeker;
+    public bool NoCC;
 
     public Room CurrentRoom;
     public int EnemySwitch;
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour
             OnAir = false;
             mCurrentAir = MAX_AIR;
             Stun = false;
+            NoCC = false;
             PlayerSkillStand = false;
             NowItem = null;
             NowActiveArtifact = null;
@@ -98,7 +100,16 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        mMaxHP = mStats.Hp;
+        if (GameController.Instance.MapLevel==6)
+        {
+            mMaxHP = mStats.Hp - (mStats.Hp * 0.15f);
+            mStats.AtkSpd += mStats.AtkSpd * 0.15f;
+            mStats.Spd -=mStats.Spd * 0.15f;
+        }
+        else
+        {
+            mMaxHP = mStats.Hp;
+        }
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();
@@ -220,6 +231,8 @@ public class Player : MonoBehaviour
 
     public void GameOver()
     {
+        Nodamage = true;
+        StopCoroutine(HitAnimation());
         GameController.Instance.pause = true;
         SoundController.Instance.mBGM.Stop();
         mRB2D.velocity = Vector3.zero;
@@ -353,7 +366,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            BuffController.Instance.SetBuff(9, code, eBuffType.Debuff, duration);
+            float rand = UnityEngine.Random.Range(0, 1f);
+            if (rand > mStats.CCReduce)
+            {
+                BuffController.Instance.SetBuff(9, code, eBuffType.Debuff, duration);
+            }
         }
         yield return Dura;
         buffIncrease[0] -= value;
@@ -369,7 +386,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            BuffController.Instance.SetBuff(10, code, eBuffType.Debuff, duration);
+            float rand = UnityEngine.Random.Range(0, 1f);
+            if (rand > mStats.CCReduce)
+            {
+                BuffController.Instance.SetBuff(10, code, eBuffType.Debuff, duration);
+            }
         }
         yield return Dura;
         buffIncrease[1] -= value;
@@ -385,7 +406,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            BuffController.Instance.SetBuff(11, code, eBuffType.Debuff, duration);
+            float rand = UnityEngine.Random.Range(0, 1f);
+            if (rand > mStats.CCReduce)
+            {
+                BuffController.Instance.SetBuff(11, code, eBuffType.Debuff, duration);
+            }
         }
         yield return Dura;
         buffIncrease[2] -= value;
@@ -400,7 +425,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            BuffController.Instance.SetBuff(12, code, eBuffType.Debuff, duration);
+            float rand = UnityEngine.Random.Range(0, 1f);
+            if (rand > mStats.CCReduce)
+            {
+                BuffController.Instance.SetBuff(12, code, eBuffType.Debuff, duration);
+            }
         }
         yield return Dura;
         buffIncrease[3] -= value;
@@ -411,7 +440,7 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         buffIncrease[6] += value;
-        BuffController.Instance.SetBuff(13, code, eBuffType.Buff, duration);
+        BuffController.Instance.SetBuff(8, code, eBuffType.Buff, duration);
         yield return Dura;
         buffIncrease[6] -= value;
 
@@ -420,17 +449,21 @@ public class Player : MonoBehaviour
     //debuff
     public IEnumerator Stuned(int code,float duration)
     {
-        WaitForSeconds Dura = new WaitForSeconds(duration);
-        if (Stun==false)
+        float rand = UnityEngine.Random.Range(0, 1f);
+        if (rand>mStats.CCReduce)
         {
-            Stun = true;
-            BuffController.Instance.SetBuff(5, code, eBuffType.Debuff, duration);
-            mRB2D.velocity = Vector3.zero;
-            CCState.SetActive(true);
-            yield return Dura;
-            Stun = false;
-            CCState.SetActive(false);
-            NowDebuffArr[0] = null;
+            WaitForSeconds Dura = new WaitForSeconds(duration);
+            if (Stun == false)
+            {
+                Stun = true;
+                BuffController.Instance.SetBuff(5, code, eBuffType.Debuff, duration);
+                mRB2D.velocity = Vector3.zero;
+                CCState.SetActive(true);
+                yield return Dura;
+                Stun = false;
+                CCState.SetActive(false);
+                NowDebuffArr[0] = null;
+            }
         }
     }
 

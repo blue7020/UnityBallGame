@@ -95,18 +95,31 @@ public class ActiveArtifacts : MonoBehaviour
 
     public void UnbrandedCan()
     {
-        int rand = Random.Range(0, 3);
-        switch (rand)
+        float rand = Random.Range(0, 3f);
+        if (rand<=1f)
         {
-            case 0:
-                Player.Instance.Speed(0.4f,3,7);
-                break;
-            case 1:
-                Player.Instance.Heal((Player.Instance.mMaxHP*0.3f));
-                break;
-            case 2:
-                Player.Instance.CCreduce(1,8,7);
-                break;
+            Player.Instance.DoEffect(3, 07f, 3, 0.4f);
+            Debug.Log("스피드업");
         }
+        else if (rand>1f&&rand<=2f)
+        {
+            float amount = Player.Instance.mMaxHP * 0.3f;
+            Player.Instance.Heal(amount);
+            Debug.Log("힐");
+        }
+        else
+        {
+            StartCoroutine(CCReduce());
+            Debug.Log("CC기저항");
+        }
+    }
+
+    private IEnumerator CCReduce()
+    {
+        WaitForSeconds delay = new WaitForSeconds(7f);
+        BuffController.Instance.SetBuff(8, 8, eBuffType.Buff, 7);
+        Player.Instance.NoCC = true;
+        yield return delay;
+        Player.Instance.NoCC = false;
     }
 }

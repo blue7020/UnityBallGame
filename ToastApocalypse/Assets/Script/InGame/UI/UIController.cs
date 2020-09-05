@@ -113,6 +113,25 @@ public class UIController : InformationLoader
         mLevelText.gameObject.SetActive(true);
         yield return delay;
         mLevelText.gameObject.SetActive(false);
+        if (GameController.Instance.MapLevel==6&& GameController.Instance.Level==1)
+        {
+            StartCoroutine(ShowLevelMessage());
+        }
+    }
+    public IEnumerator ShowLevelMessage()
+    {
+        WaitForSeconds delay = new WaitForSeconds(3.3f);
+        if (GameSetting.Instance.Language == 0)//한국어
+        {
+            mLevelText.text = "<size=100>\'눅눅함의 저주\'로 인해 능력치가 감소했습니다:\n</size><size=80><color=#2EFE2E>최대 체력, 공격 속도, 이동 속도</color></size>";
+        }
+        else if (GameSetting.Instance.Language == 1)//영어
+        {
+            mLevelText.text = "<size=85>Due to a \'curse of sogginess\', the following stats have been decreased:\n</size><size=80><color=#2EFE2E>Max HP, Attack Spd, Movement Spd</color></size>";
+        }
+        mLevelText.gameObject.SetActive(true);
+        yield return delay;
+        mLevelText.gameObject.SetActive(false);
     }
 
     public void ShowDeathWindow()
@@ -265,14 +284,30 @@ public class UIController : InformationLoader
 
     public void ShowStat()
     {
-        float CCreduce;
-        if (Player.Instance.mStats.CCReduce *(1+Player.Instance.buffIncrease[6])>= 1)
+        float CCreduce = 0;
+        if (Player.Instance.NoCC==true)
         {
-            CCreduce = 100;
+            CCreduce = 1f;
         }
         else
         {
-            CCreduce = Player.Instance.mStats.CCReduce * (1 + Player.Instance.buffIncrease[6]);
+            if (Player.Instance.mStats.CCReduce * (1 + Player.Instance.buffIncrease[6]) >= 0.5f)
+            {
+                CCreduce = 0.5f;
+            }
+            else
+            {
+                CCreduce = Player.Instance.mStats.CCReduce * (1 + Player.Instance.buffIncrease[6]);
+            }
+        }
+        float CooltimeReduce = 0;
+        if (Player.Instance.mStats.CooltimeReduce >= 0.5f)
+        {
+            CooltimeReduce = 0.5f;
+        }
+        else
+        {
+            CooltimeReduce = Player.Instance.mStats.CooltimeReduce;
         }
         if (GameSetting.Instance.Language == 0)
         {//한국어
@@ -293,7 +328,7 @@ public class UIController : InformationLoader
                                       (Player.Instance.mStats.Def * (1 + Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
-                                      Player.Instance.mStats.CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
+                                      CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;
         }
@@ -316,7 +351,7 @@ public class UIController : InformationLoader
                                       (Player.Instance.mStats.Def *(1+Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
-                                      Player.Instance.mStats.CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
+                                      CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;
         }

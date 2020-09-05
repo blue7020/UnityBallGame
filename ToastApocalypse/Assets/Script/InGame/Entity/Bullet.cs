@@ -51,26 +51,24 @@ public class Bullet : MonoBehaviour
 
     public void Effecton()
     {
-        Player.Instance.Hit(mDamage);
-        Player.Instance.LastHitEnemy = mEnemy;
-        if (eEffectType == eBulletEffect.stun)
+        float rand = Random.Range(0, 1f);
+        if (rand > Player.Instance.mStats.CCReduce * (1 + Player.Instance.buffIncrease[6]) || Player.Instance.NoCC == false)
         {
-            if (Player.Instance.Stun == false && Player.Instance.NowDebuffArr[0] == null)
+            if (eEffectType == eBulletEffect.stun)
             {
-                float rand = Random.Range(0,1f);
-                if (rand > Player.Instance.mStats.CCReduce* (1+ Player.Instance.buffIncrease[6]))
+                if (Player.Instance.Stun == false && Player.Instance.NowDebuffArr[0] == null)
                 {
-                    Player.Instance.DoEffect(6,EffectTime);
+                    Player.Instance.DoEffect(6, EffectTime);
                 }
             }
-        }
-        else if (eEffectType == eBulletEffect.slow)
-        {
-            Player.Instance.DoEffect(4,EffectTime,4 ,mValue);
-        }
-        else if (eEffectType == eBulletEffect.attackslow)
-        {
-            Player.Instance.DoEffect(3, EffectTime, 3, mValue);
+            else if (eEffectType == eBulletEffect.slow)
+            {
+                Player.Instance.DoEffect(4, EffectTime, 4, mValue);
+            }
+            else if (eEffectType == eBulletEffect.attackslow)
+            {
+                Player.Instance.DoEffect(3, EffectTime, 3, mValue);
+            }
         }
         RemoveBullet();
     }
@@ -96,6 +94,8 @@ public class Bullet : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Player"))
             {
+                Player.Instance.Hit(mDamage);
+                Player.Instance.LastHitEnemy = mEnemy;
                 Effecton();
             }
             if (other.gameObject.CompareTag("DestroyZone"))

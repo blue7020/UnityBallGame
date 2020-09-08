@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7616e3f463e204a43830e79a9252515c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSpin: 0
   mWeaponImage: {fileID: 4292809995094347320, guid: d77753863bbab6d438712410ca0e8a1c,
     type: 3}
   Aim: {fileID: 8105375996358740982}
@@ -64,6 +65,8 @@ MonoBehaviour:
     Crit: 0
     CritDamage: 0
   PlusBulletCount: 0
+  PlusWideBulletCount: 1
+  mBoltXGap: 0.2
   nowBullet: 0
   MaxBullet: 0
   mRenderer: {fileID: 2383143019918469455}
@@ -232,6 +235,7 @@ MonoBehaviour:
   mAnim: {fileID: 0}
   BulletStarter: {fileID: 6805015757009034537}
   mRenderer: {fileID: 2383143019918469455}
+  IsCrit: 0
 --- !u!61 &2383143020632715434
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -363,7 +367,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8448923488267358027}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.687, y: 0.102, z: 0}
+  m_LocalPosition: {x: -0.661, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2383143019889275019}

@@ -21,6 +21,7 @@ public class AttackArea : MonoBehaviour
     public void Melee()
     {
         mAnim.SetBool(AnimHash.Attack, true);
+        WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
         if (Player.Instance.ver > 0) //상
         {
             mRenderer.sortingOrder = 0;
@@ -37,6 +38,7 @@ public class AttackArea : MonoBehaviour
         {
             weapon.nowBullet--;
             UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
             ResetDir();
             if (weapon.PlusBulletCount > 1&& weapon.nowBullet > weapon.PlusBulletCount)
             {
@@ -65,21 +67,27 @@ public class AttackArea : MonoBehaviour
 
     private void ResetDir()
     {
-        PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
-        bolt.mWeaponID = weapon.mID;
-        float rand = UnityEngine.Random.Range(0, 1f);
-        if (rand <= Player.Instance.mStats.Crit / 100)
+        float currentXStart = weapon.mBoltXGap * ((weapon.PlusWideBulletCount - 1) / 2);
+        Vector3 Xpos = new Vector3(currentXStart, 0, 0);
+        for (int i = 0; i < weapon.PlusWideBulletCount; i++)
         {
-            bolt.mDamage = (Player.Instance.mStats.Atk *(1+ Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage);
+            PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
+            bolt.mWeaponID = weapon.mID;
+            float rand = UnityEngine.Random.Range(0, 1f);
+            if (rand <= Player.Instance.mStats.Crit / 100)
+            {
+                bolt.mDamage = (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage);
 
+            }
+            else
+            {
+                bolt.mDamage = Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]);
+            }
+            bolt.transform.position = BulletStarter.position+ Xpos;
+            bolt.transform.localScale = bolt.mboltscale * (1 + PassiveArtifacts.Instance.AdditionalBulletSize);
+            bolt.mRB2D.AddForce(BulletStarter.up * bolt.mSpeed, ForceMode2D.Impulse);
+            Xpos.x += weapon.mBoltXGap;
         }
-        else
-        {
-            bolt.mDamage = Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]);
-        }
-        bolt.transform.position = BulletStarter.position;
-        bolt.transform.localScale = bolt.mboltscale * (1 + PassiveArtifacts.Instance.AdditionalBulletSize);
-        bolt.mRB2D.AddForce(BulletStarter.up*bolt.mSpeed,ForceMode2D.Impulse);
     }
 
 
@@ -105,7 +113,6 @@ public class AttackArea : MonoBehaviour
                     {
                         Target.Hit(Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]));
                     }
-                    WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
                     IsCrit = false;
 
 

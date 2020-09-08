@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8104397109368211324}
   m_Layer: 0
   m_Name: Narutomaki_Bolt
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,6 +124,8 @@ MonoBehaviour:
   returnCheck: 0
   mSpeed: 20
   mRB2D: {fileID: 1028250595452019465}
+  mboltscale: {x: 0, y: 0, z: 0}
+  mAnim: {fileID: 0}
 --- !u!61 &8104397109368211324
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -141,7 +143,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.5625, y: 1.5625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -14,6 +14,8 @@ public class Weapon : MonoBehaviour
 
     public WeaponStat mStats;
     public int PlusBulletCount;
+    public int PlusWideBulletCount;
+    public float mBoltXGap;
     public int nowBullet;
     public int MaxBullet;
 

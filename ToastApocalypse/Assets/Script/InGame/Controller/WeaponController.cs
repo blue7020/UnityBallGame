@@ -58,7 +58,7 @@ public class WeaponController : InformationLoader
                 Mustard(Target);
                 break;
             case 3://바게트
-                Baguette(Target);
+                KnockBack(Target);
                 break;
             case 4://포크
                 break;
@@ -76,7 +76,20 @@ public class WeaponController : InformationLoader
             case 10://나루토마키
                 break;
             case 11://냉동 고등어
-                FrozenMackerel(Target);
+                KnockBack(Target);
+                break;
+            case 12://이쑤시개 나이프
+                break;
+            case 13://팝콘 런처
+                break;
+            case 14://크럼브샷
+                break;
+            case 15://머핀 해머
+                break;
+            case 16://화염방사기
+                break;
+            case 17://잼블레이드
+                JamBlade(Target);
                 break;
 
         }
@@ -85,27 +98,40 @@ public class WeaponController : InformationLoader
     //WeaponSkillData
     private void Mustard(Enemy Target)
     {
-        Target.StartCoroutine(Target.SpeedNurf(1.5f,0.5f));
+        if (Target != null)
+        {
+            Target.StartCoroutine(Target.SpeedNurf(1.5f, 0.5f));
+        }
     }
 
-    public void Baguette(Enemy Target)
+    public void KnockBack(Enemy Target)
     {
-        Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
-        Target.mRB2D.velocity = Vector3.zero;
-        Target.mRB2D.AddForce(-Pos * 15,ForceMode2D.Impulse);
+        if (Target != null)
+        {
+            Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
+            Target.mRB2D.velocity = Vector3.zero;
+            Target.mRB2D.AddForce(-Pos * 15, ForceMode2D.Impulse);
+        }
     }
 
-    public void Fliper(Enemy Target,bool isCrit)
+    public void Fliper(Enemy Target, bool isCrit)
     {
-        if (isCrit==true)
+        if (isCrit == true&&Target!=null)
         {
             StartCoroutine(Target.Stuned(1f));
         }
     }
-    public void FrozenMackerel(Enemy Target)
+
+    public void JamBlade(Enemy Target)
     {
-        Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
-        Target.mRB2D.velocity = Vector3.zero;
-        Target.mRB2D.AddForce(-Pos * 15, ForceMode2D.Impulse);
+        KnockBack(Target);
+        PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(10);
+        bolt.mWeaponID = 17;
+        bolt.transform.localPosition = Player.Instance.NowPlayerWeapon.transform.position;
+        bolt.transform.localScale = bolt.mboltscale * (1 + PassiveArtifacts.Instance.AdditionalBulletSize);
+        Vector3 targetForward = Player.Instance.NowPlayerWeapon.transform.rotation * Vector3.forward;
+        Vector3 targetSet = targetForward + new Vector3(0, 45, 0);
+        bolt.transform.rotation = Quaternion.Euler(targetSet);
+        bolt.mRB2D.AddForce(targetForward * bolt.mSpeed, ForceMode2D.Impulse);
     }
 }

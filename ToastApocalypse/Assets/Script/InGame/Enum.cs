@@ -95,7 +95,10 @@ public enum eEnemyBulletType
 public enum ePlayerBulletType
 {
     normal,
-    boomerang
+    boomerang,
+    shotgun,
+    boom,
+    fire
 }
 
 public enum eBulletEffect

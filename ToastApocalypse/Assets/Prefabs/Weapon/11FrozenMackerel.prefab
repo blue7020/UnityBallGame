@@ -49,6 +49,7 @@ MonoBehaviour:
   mAnim: {fileID: 7510130484145801518}
   BulletStarter: {fileID: 0}
   mRenderer: {fileID: 2472792373640111746}
+  IsCrit: 0
 --- !u!61 &1428733927267022106
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -324,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7616e3f463e204a43830e79a9252515c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSpin: 0
   mWeaponImage: {fileID: 4698681188867507813, guid: d77753863bbab6d438712410ca0e8a1c,
     type: 3}
   Aim: {fileID: 0}
@@ -341,6 +343,8 @@ MonoBehaviour:
     Crit: 0
     CritDamage: 0
   PlusBulletCount: 0
+  PlusWideBulletCount: 0
+  mBoltXGap: 0.2
   nowBullet: 0
   MaxBullet: 0
   mRenderer: {fileID: 6732075589649880447}
@@ -365,7 +369,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.30553344, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -376,5 +380,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 1.1110666, y: 0.5}
   m_EdgeRadius: 0

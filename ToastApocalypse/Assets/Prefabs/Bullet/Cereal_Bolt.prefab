@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2256983324594438223}
   m_Layer: 0
   m_Name: Cereal_Bolt
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,6 +125,8 @@ MonoBehaviour:
   returnCheck: 0
   mSpeed: 15
   mRB2D: {fileID: 7021081224726094906}
+  mboltscale: {x: 0, y: 0, z: 0}
+  mAnim: {fileID: 0}
 --- !u!61 &2256983324594438223
 BoxCollider2D:
   m_ObjectHideFlags: 0

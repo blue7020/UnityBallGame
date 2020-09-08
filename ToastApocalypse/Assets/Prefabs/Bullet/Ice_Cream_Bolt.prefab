@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3140174958084605198}
   m_Layer: 0
   m_Name: Ice_Cream_Bolt
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,6 +125,8 @@ MonoBehaviour:
   returnCheck: 0
   mSpeed: 10
   mRB2D: {fileID: 2763405513867512783}
+  mboltscale: {x: 0, y: 0, z: 0}
+  mAnim: {fileID: 0}
 --- !u!61 &3140174958084605198
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -141,7 +143,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.46909142, y: 0.47424287}
+    pivot: {x: 0.4749374, y: 0.47076005}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5

@@ -223,7 +223,7 @@ public class UIController : InformationLoader
     }
     public void ShowNowBulletText()
     {
-        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range || Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
         {
             mbulletText.gameObject.SetActive(true);
             mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();

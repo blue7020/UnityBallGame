@@ -15,11 +15,14 @@ public class WeaponController : InformationLoader
     }
     public List<Weapon> mWeapons;
 
+    public int mWeaponSkillCount;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            mWeaponSkillCount = 0;
             mWeapons = new List<Weapon>();
             LoadJson(out mInfoArr, Path.WEAPON_STAT);
             for (int i = 0; i < GameSetting.Instance.mWeapons.Length; i++)
@@ -125,13 +128,30 @@ public class WeaponController : InformationLoader
     public void JamBlade(Enemy Target)
     {
         KnockBack(Target);
-        PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(10);
-        bolt.mWeaponID = 17;
-        bolt.transform.localPosition = Player.Instance.NowPlayerWeapon.transform.position;
-        bolt.transform.localScale = bolt.mboltscale * (1 + PassiveArtifacts.Instance.AdditionalBulletSize);
-        Vector3 targetForward = Player.Instance.NowPlayerWeapon.transform.rotation * Vector3.forward;
-        Vector3 targetSet = targetForward + new Vector3(0, 45, 0);
-        bolt.transform.rotation = Quaternion.Euler(targetSet);
-        bolt.mRB2D.AddForce(targetForward * bolt.mSpeed, ForceMode2D.Impulse);
+        if (mWeaponSkillCount==2)
+        {
+            PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(10);
+            bolt.mWeaponID = 17;
+            float rand = UnityEngine.Random.Range(0, 1f);
+            if (rand <= Player.Instance.mStats.Crit / 100)
+            {
+                bolt.mDamage = (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage);
+
+            }
+            else
+            {
+                bolt.mDamage = Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]);
+            }
+            bolt.transform.localPosition = Player.Instance.NowPlayerWeapon.transform.position;
+            bolt.transform.localScale = bolt.mboltscale * (1 + PassiveArtifacts.Instance.AdditionalBulletSize);
+            float angle = Mathf.Atan2(AttackPad.Instance.inputVector.y, AttackPad.Instance.inputVector.x) * Mathf.Rad2Deg;
+            bolt.transform.rotation = Quaternion.AngleAxis(angle + 270, Vector3.forward);
+            bolt.mRB2D.AddForce(Player.Instance.NowPlayerWeapon.mAttackArea.BulletStarter.up * bolt.mSpeed, ForceMode2D.Impulse);
+            mWeaponSkillCount = 0;
+        }
+        else
+        {
+            mWeaponSkillCount++;
+        }
     }
 }

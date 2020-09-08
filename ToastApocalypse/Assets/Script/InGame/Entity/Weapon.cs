@@ -110,17 +110,25 @@ public class Weapon : MonoBehaviour
         mAttackCooltime = false;
     }
 
+    public void FireAttack()
+    {
+        if (mAttackCooltime == false)
+        {
+            mAttackArea.Fire();
+        }
+    }
+
     public void EquipWeapon()
     {
         if (Equip == false)
         {
             Equip = true;
-            if (eType == eWeaponType.Range)
+            if (eType == eWeaponType.Range|| eType == eWeaponType.Fire)
             {
                 Aim.gameObject.SetActive(true);
-                BoltSetting();
                 mAttackArea.gameObject.SetActive(true);
             }
+            WeaponController.Instance.mWeaponSkillCount = 0;
             Player.Instance.EquipWeapon(this);
             Currentroom = Player.Instance.CurrentRoom;
             transform.SetParent(Player.Instance.gameObject.transform);
@@ -135,7 +143,7 @@ public class Weapon : MonoBehaviour
         if (Equip == true)
         {
             mRenderer.sortingOrder = 8;
-            if (eType == eWeaponType.Range)
+            if (eType == eWeaponType.Range || eType == eWeaponType.Fire)
             {
                 Aim.gameObject.SetActive(false);
                 mAttackArea.gameObject.SetActive(false);
@@ -182,31 +190,6 @@ public class Weapon : MonoBehaviour
             }
         }
 
-    }
-
-    public void BoltSetting()
-    {
-            switch (mID)
-            {
-                case 1:
-                    BoltID = 0;
-                    break;
-                case 2:
-                    BoltID = 1;
-                    break;
-                case 6:
-                    BoltID = 3;
-                    break;
-                case 7:
-                    BoltID = 4;
-                    break;
-                case 9:
-                    BoltID = 5;
-                    break;
-                case 10:
-                    BoltID = 6;
-                    break;
-            }
-    }   
+    } 
     
 }

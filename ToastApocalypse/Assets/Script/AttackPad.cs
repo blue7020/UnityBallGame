@@ -52,13 +52,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                 {
                     CoolMaxtime = Player.Instance.mStats.AtkSpd;
                 }
-                else if(Player.Instance.NowPlayerWeapon.nowBullet <=1)
-                {
-                    float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
-                    CoolMaxtime = reloadCool * (1-PassiveArtifacts.Instance.ReloadCooltimeReduce);
-                }
-                StartCoroutine(CooltimeRoutine(CoolMaxtime));
                 AttackSwitch = true;
+                StartCoroutine(CooltimeRoutine(CoolMaxtime));
             }
 
             //무기 방향 돌리기
@@ -80,25 +75,45 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             }
 
 
-            if (AttackSwitch == true&& Player.Instance.Stun == false)
+            if (AttackSwitch == true && Player.Instance.Stun == false)
             {
-                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
+                {
+                    Player.Instance.NowPlayerWeapon.MeleeAttack();
+                    StartCoroutine(AttackCooltime());
+                }
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+                {
+                    if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
                     {
-                        Player.Instance.NowPlayerWeapon.MeleeAttack();
+                        Player.Instance.NowPlayerWeapon.RangeAttack();
                         StartCoroutine(AttackCooltime());
                     }
-                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+                    else
                     {
-                        if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
-                        {
-                            Player.Instance.NowPlayerWeapon.RangeAttack();
-                            StartCoroutine(AttackCooltime());
-                        }
-                        else
-                        {
-                            Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
-                        }
-                    }  
+                        AttackSwitch = false;
+                        float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                        CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
+                        StartCoroutine(CooltimeRoutine(CoolMaxtime));
+                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                    }
+                }
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+                {
+                    if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
+                    {
+                        Player.Instance.NowPlayerWeapon.FireAttack();
+                    }
+                    else
+                    {
+                        Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
+                        AttackSwitch = false;
+                        float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                        CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
+                        StartCoroutine(CooltimeRoutine(CoolMaxtime));
+                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                    }
+                }
             }
         }
 
@@ -121,6 +136,10 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     public virtual void OnPointerUp(PointerEventData ped)
     {
         Stick.rectTransform.anchoredPosition = Vector3.zero;
+        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+        {
+            Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
+        }
     }
 
     private IEnumerator AttackCooltime()

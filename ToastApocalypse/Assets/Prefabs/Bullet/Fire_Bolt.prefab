@@ -73,16 +73,15 @@ SpriteRenderer:
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
   m_SortingOrder: 8
-  m_Sprite: {fileID: 6289216545442810367, guid: b28f36e55148eeb45911603f90d70337,
-    type: 3}
-  m_Color: {r: 1, g: 0.7058824, b: 0, a: 1}
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &8489098181123604837
@@ -123,10 +122,14 @@ MonoBehaviour:
   eType: 4
   returnPlayer: 0
   returnCheck: 0
-  mSpeed: 5
+  mSpeed: 2
   mRB2D: {fileID: 8489098181123604837}
+  Target: {fileID: 0}
   mboltscale: {x: 0, y: 0, z: 0}
   mAnim: {fileID: 0}
+  mBoomEffect: {fileID: 0}
+  mBC2D: {fileID: 0}
+  IsBoom: 0
 --- !u!61 &8647728227463303076
 BoxCollider2D:
   m_ObjectHideFlags: 0

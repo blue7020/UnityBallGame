@@ -81,7 +81,8 @@ public enum eArtifactType
 public enum eWeaponType
 {
     Melee,
-    Range
+    Range,
+    Fire
 }
 
 public enum eEnemyBulletType

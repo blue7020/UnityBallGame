@@ -8,6 +8,7 @@ public class AttackArea : MonoBehaviour
     public Weapon weapon;
     public Animator mAnim;
     public Transform BulletStarter;
+    public ParticleSystem FireStarter;
     public SpriteRenderer mRenderer;
 
     private Enemy Target;
@@ -44,6 +45,22 @@ public class AttackArea : MonoBehaviour
             {
                 StartCoroutine(PlusBullet());
             }
+        }
+    }
+
+    public void Fire()
+    {
+        FireStarter.gameObject.SetActive(true);
+        if (weapon.nowBullet > 0)
+        {
+            weapon.nowBullet--;
+            UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
+            FireStarter.Play();
+        }
+        else
+        {
+            FireStarter.Stop();
         }
     }
     

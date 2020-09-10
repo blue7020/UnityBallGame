@@ -7,6 +7,7 @@ public class ActiveArtifacts : MonoBehaviour
     //액티브 유물의 기능을 여기서 담당
     public static ActiveArtifacts Instance;
     public GameObject[] mSkillobj;
+    public SkillEffect buffEffect;
 
     private void Awake()
     {
@@ -63,13 +64,15 @@ public class ActiveArtifacts : MonoBehaviour
         WaitForSeconds dura = new WaitForSeconds(5f);
         BuffController.Instance.SetBuff(7, 7, eBuffType.Buff, 5f);
         Player.Instance.Nodamage = true;
+        buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.white);
         yield return dura;
         Player.Instance.Nodamage = false;
     }
 
     public IEnumerator HonnyPot()
     {
-        WaitForSeconds dura = new WaitForSeconds(4f);
+        WaitForSeconds dura = new WaitForSeconds(4.5f);
         GameObject honny = Instantiate(mSkillobj[0],Player.Instance.CurrentRoom.transform);
         honny.transform.position = Player.Instance.transform.position;
         yield return dura;
@@ -84,10 +87,15 @@ public class ActiveArtifacts : MonoBehaviour
     public IEnumerator FreshMilk()
     {
         WaitForSeconds dura = new WaitForSeconds(5f);
+        BuffController.Instance.RemoveNurf();
         BuffController.Instance.SetBuff(2, 2, eBuffType.Buff, 5f);
         BuffController.Instance.SetBuff(3, 3, eBuffType.Buff, 5f);
         Player.Instance.buffIncrease[2] += 0.4f;
         Player.Instance.buffIncrease[3] += 0.4f;
+        buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.yellow);
+        buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.cyan);
         yield return dura;
         Player.Instance.buffIncrease[2] -= 0.4f;
         Player.Instance.buffIncrease[3] -= 0.4f;
@@ -99,6 +107,8 @@ public class ActiveArtifacts : MonoBehaviour
         if (rand<=1f)
         {
             Player.Instance.DoEffect(3, 07f, 3, 0.4f);
+            buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.yellow);
             Debug.Log("스피드업");
         }
         else if (rand>1f&&rand<=2f)
@@ -118,6 +128,8 @@ public class ActiveArtifacts : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(7f);
         BuffController.Instance.SetBuff(8, 8, eBuffType.Buff, 7);
+        buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 7, 0, Color.magenta);
         Player.Instance.NoCC = true;
         yield return delay;
         Player.Instance.NoCC = false;

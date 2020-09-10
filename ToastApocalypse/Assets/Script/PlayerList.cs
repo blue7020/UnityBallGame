@@ -111,7 +111,7 @@ public class PlayerList : InformationLoader
                 p6.joyskick = stick;
                 UIController.Instance.CharacterImage();
                 CameraMovment.Instance.PlayerSetting(p6.gameObject);
-                Weapon mWeapon6 = WeaponPool.Instance.GetFromPool(5);
+                Weapon mWeapon6 = WeaponPool.Instance.GetFromPool(12);
                 p6.NowPlayerWeapon = mWeapon6;
                 p6.NowPlayerWeapon.EquipWeapon();
                 p6.NowPlayerSkill = mSkill;

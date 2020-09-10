@@ -109,7 +109,8 @@ public class WeaponController : InformationLoader
 
     public void KnockBack(Enemy Target)
     {
-        if (Target != null)
+        float rand = Random.Range(0, 1f);
+        if (Target != null&&Target.mStats.Resistance< rand)
         {
             Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
             Target.mRB2D.velocity = Vector3.zero;

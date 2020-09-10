@@ -104,7 +104,7 @@ public class Enemy : InformationLoader
 
     public IEnumerator StateMachine()
     {
-        WaitForSeconds pointOne = new WaitForSeconds(0.1f);
+        WaitForSeconds pointOne = new WaitForSeconds(0.11f);
         while (true)
         {
             if (GameController.Instance.pause == false)
@@ -145,36 +145,47 @@ public class Enemy : InformationLoader
                         }
                         break;
                     case eMonsterState.Die:
-                        if (mDelayCount >= 20)
+                        Death();
+                        if (Player.Instance.CurrentRoom.EnemyCount > 0)
                         {
-                            if (Player.Instance.CurrentRoom.EnemyCount > 0)
-                            {
-                                Player.Instance.CurrentRoom.EnemyCount--;
-                            }
-                            if (eType == eEnemyType.Boss)
-                            {
-                                PortalTrigger.Instance.BossDeath();
-                            }
-                            gameObject.SetActive(false);
+                            Player.Instance.CurrentRoom.EnemyCount--;
                         }
-                        else
+                        if (eType == eEnemyType.Boss)
                         {
-                            mRB2D.velocity = Vector3.zero;
-                            gameObject.layer = 8;
-                            mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
-                            AttackOn = false;
-                            mDelayCount++;
+                            PortalTrigger.Instance.BossDeath();
                         }
+                        gameObject.SetActive(false);
                         break;
 
                     default:
                         Debug.LogError("Wrong State");
                         break;
                 }
-            }     
+            }
             yield return pointOne;
         }
 
+    }
+
+    private void Death()
+    {
+        Stun = true;
+        mRB2D.velocity = Vector3.zero;
+        AttackOn = false;
+        gameObject.layer = 8;
+        mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
+        mAnim.SetBool(AnimHash.Enemy_Walk, false);
+        mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mAnim.SetBool(AnimHash.Enemy_Death, true);
+        mEnemySkill.DieSkill();
+        if (mStats.Gold > 0)
+        {
+            DropGold mGold = GoldPool.Instance.GetFromPool();
+            mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
+            mGold.transform.position = transform.position;
+            mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
+        }
+        GameController.Instance.SyrupInStage += mStats.Syrup;
     }
 
     public void Hit(float damage)
@@ -206,19 +217,6 @@ public class Enemy : InformationLoader
                     }
                     else if (mCurrentHP <= 0)
                     {
-                        mEnemySkill.DieSkill();
-                        mAnim.SetBool(AnimHash.Enemy_Walk, false);
-                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                        mAnim.SetBool(AnimHash.Enemy_Death, true);
-                        mRB2D.velocity = Vector3.zero;
-                        if (mStats.Gold > 0)
-                        {
-                            DropGold mGold = GoldPool.Instance.GetFromPool();
-                            mGold.transform.SetParent(Player.Instance.CurrentRoom.transform);
-                            mGold.transform.position = transform.position;
-                            mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
-                        }
-                        GameController.Instance.SyrupInStage += mStats.Syrup;
                         mHPBar.CloseGauge();
                         mState = eMonsterState.Die;
                     }

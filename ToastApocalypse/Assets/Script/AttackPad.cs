@@ -112,6 +112,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                         CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
                         StartCoroutine(CooltimeRoutine(CoolMaxtime));
                         Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                        UIController.Instance.ShowNowBulletText();
                     }
                 }
             }

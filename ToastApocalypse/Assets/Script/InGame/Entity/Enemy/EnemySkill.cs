@@ -161,8 +161,11 @@ public class EnemySkill : MonoBehaviour
                 case 42://SandWitch
                     SandWitch();
                     break;
-                case 43://Scarecrow
+                case 43://Scarecrow_Melee
                     ScareCrow();
+                    break;
+                case 44://Scarecrow_Range
+                    ScareCrow2();
                     break;
                 default:
                     Debug.LogError("wrong Enemy ID");
@@ -282,7 +285,9 @@ public class EnemySkill : MonoBehaviour
                     break;
                 case 42://SandWitch
                     break;
-                case 43://Scarecrow
+                case 43://Scarecrow_Melee
+                    break;
+                case 44://Scarecrow_Range
                     break;
                 default:
                     Debug.LogError("wrong Enemy ID");
@@ -1456,7 +1461,6 @@ public class EnemySkill : MonoBehaviour
     }
     private IEnumerator Sandwitch1()
     {
-        Debug.Log("발동");
         WaitForSeconds delay = new WaitForSeconds(2.5f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         for (int i = 0; i < 2; i++)
@@ -1480,5 +1484,9 @@ public class EnemySkill : MonoBehaviour
         {
             mEnemy.mCurrentHP += 100;
         }
+    }
+    private void ScareCrow2()
+    {
+        ResetDir(8);
     }
 }

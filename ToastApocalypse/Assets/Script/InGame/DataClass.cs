@@ -33,7 +33,10 @@ public class WeaponStat
     public int ID;
     public string Name;
     public string EngName;
+    public string ContensFormat;
+    public string EngContensFormat;
 
+    public int Type; //0 = 근접 1 =원거리 2= 중거리
     public float Atk;
     public float AtkSpd;
     public float ReloadCool;
@@ -41,6 +44,7 @@ public class WeaponStat
     public float Crit;
     public float CritDamage;
 }
+
 
 [Serializable]
 public class MonsterStat

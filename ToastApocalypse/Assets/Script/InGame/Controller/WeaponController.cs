@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponController : InformationLoader
+public class WeaponController : MonoBehaviour
 {
 
     public static WeaponController Instance;
 
-    public WeaponStat[] mInfoArr;
-
-    public WeaponStat[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
     public List<Weapon> mWeapons;
 
     public int mWeaponSkillCount;
@@ -24,7 +18,6 @@ public class WeaponController : InformationLoader
             Instance = this;
             mWeaponSkillCount = 0;
             mWeapons = new List<Weapon>();
-            LoadJson(out mInfoArr, Path.WEAPON_STAT);
             for (int i = 0; i < GameSetting.Instance.mWeapons.Length; i++)
             {
                 mWeapons.Add(GameSetting.Instance.mWeapons[i]);

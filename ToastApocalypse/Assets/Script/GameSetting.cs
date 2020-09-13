@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameSetting : MonoBehaviour
+public class GameSetting : InformationLoader
 {
     public static GameSetting Instance;
 
@@ -11,6 +11,7 @@ public class GameSetting : MonoBehaviour
 
     public int PlayerID;
     public int PlayerSkillID;
+    public int PlayerWeaponID;
     public bool Ingame;
 
     private const int CHARACTER_COUNT = 6;
@@ -21,6 +22,11 @@ public class GameSetting : MonoBehaviour
     //로비 상점용
     public Sprite[] mStatueSprites;
     public Artifacts[] mArtifacts;
+    public WeaponStat[] mInfoArr;
+    public WeaponStat[] GetInfoArr()
+    {
+        return mInfoArr;
+    }
     public Weapon[] mWeapons;
     //
     //저장해야할 것
@@ -31,6 +37,8 @@ public class GameSetting : MonoBehaviour
 
     public bool[] PlayerHasSkill;
     public int PlayerSkillIndex;
+    public bool[] PlayerHasWeapon;
+    public int PlayerWeaponIndex;
 
     public bool[] StatueOpen;
 
@@ -51,6 +59,7 @@ public class GameSetting : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadJson(out GameSetting.Instance.mInfoArr, Path.WEAPON_STAT);
         }
         else
         {
@@ -67,6 +76,7 @@ public class GameSetting : MonoBehaviour
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
             CharacterOpen = new bool[CHARACTER_COUNT];
             PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
+            PlayerHasWeapon = new bool[mWeapons.Length];
             StatueOpen = new bool[8];//석상을 추가할 때마다 수정
             for (int i=0; i<4;i++)
             {
@@ -77,6 +87,9 @@ public class GameSetting : MonoBehaviour
             CharacterOpen[0] = true;//기본캐릭터 오픈
             PlayerHasSkill[0] = true;//기본 스킬 오픈
             PlayerSkillID = 0;
+            PlayerHasWeapon[0] = true; //기본 근접 무기 오픈
+            PlayerHasWeapon[1] = true; //기본 원거리 무기 오픈
+            PlayerWeaponID = 0;
             Syrup = 0;
             PartsIndex = 0;
         }

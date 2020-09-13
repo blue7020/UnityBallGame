@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        mStats = WeaponController.Instance.mInfoArr[mID];
+        mStats = GameSetting.Instance.mInfoArr[mID];
         mAttackCooltime = false;
         Attackon = false;
         Equip = false;

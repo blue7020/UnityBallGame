@@ -182,6 +182,16 @@ public class MapText
 }
 
 [Serializable]
+public class MaterialStat
+{
+    public int ID;
+    public string Title;
+    public string EngTitle;
+    public string ContensFormat;
+    public string EngContensFormat;
+}
+
+[Serializable]
 public class SaveData
 {
     public double Greed;

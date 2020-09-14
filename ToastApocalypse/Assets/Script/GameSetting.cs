@@ -16,10 +16,10 @@ public class GameSetting : InformationLoader
 
     private const int CHARACTER_COUNT = 6;
 
+    //로비용
     public Sprite[] mParts;
     public Sprite[] mPlayerSpt;
-
-    //로비 상점용
+    public Sprite[] mMaterialSpt;
     public Sprite[] mStatueSprites;
     public Artifacts[] mArtifacts;
     public WeaponStat[] mInfoArr;
@@ -35,6 +35,7 @@ public class GameSetting : InformationLoader
 
     public int PartsIndex;
 
+    public int[] HasMaterial;
     public bool[] PlayerHasSkill;
     public int PlayerSkillIndex;
     public bool[] PlayerHasWeapon;
@@ -59,7 +60,7 @@ public class GameSetting : InformationLoader
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            LoadJson(out GameSetting.Instance.mInfoArr, Path.WEAPON_STAT);
+            LoadJson(out mInfoArr, Path.WEAPON_STAT);
         }
         else
         {
@@ -71,6 +72,7 @@ public class GameSetting : InformationLoader
     {
         if (FirstSetting != true)
         {
+            HasMaterial = new int[mMaterialSpt.Length];
             StageOpen = new bool[6];
             NPCOpen = new bool[4];//현재 4명
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음

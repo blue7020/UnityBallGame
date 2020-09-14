@@ -48,6 +48,7 @@ MonoBehaviour:
   weapon: {fileID: 4452090356739625532}
   mAnim: {fileID: 2180525138676519774}
   BulletStarter: {fileID: 0}
+  FireStarter: {fileID: 0}
   mRenderer: {fileID: 6571454973060618736}
   IsCrit: 0
 --- !u!61 &2390584636962389751
@@ -304,7 +305,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4452090356739625521}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7984935, w: -0.6020034}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -329,13 +330,16 @@ MonoBehaviour:
   mWeaponImage: {fileID: 1518363075290452430, guid: d77753863bbab6d438712410ca0e8a1c,
     type: 3}
   Aim: {fileID: 0}
-  Equip: 0
+  Equip: 1
   Currentroom: {fileID: 0}
   eType: 0
   mStats:
     ID: 0
     Name: 
     EngName: 
+    ContensFormat: 
+    EngContensFormat: 
+    Type: 0
     Atk: 0
     AtkSpd: 0
     ReloadCool: 0

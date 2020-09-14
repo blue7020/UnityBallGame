@@ -8,16 +8,16 @@ public class JsonGenerator : MonoBehaviour
 {
     public void GenerateStatInfo()
     {
-        MapText[] infoArr = new MapText[1];
+        MaterialStat[] infoArr = new MaterialStat[1];
 
-        infoArr[0] = new MapText();
+        infoArr[0] = new MaterialStat();
         infoArr[0].ID = 0;
-        infoArr[0].Title = "무너진 대피소";
-        infoArr[0].EngTitle= "Collapsed Shelter";
-        infoArr[0].ContensFormat = "";
-        infoArr[0].EngContensFormat = "";
+        infoArr[0].Title = "재료";
+        infoArr[0].EngTitle= "Material";
+        infoArr[0].ContensFormat = "1";
+        infoArr[0].EngContensFormat = "2";
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
-        WriteFile(data, "MapText.json");
+        WriteFile(data, "Material.json");
     }
 
     private void WriteFile(string data, string fileName)

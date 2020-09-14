@@ -10,6 +10,8 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public Animator mAnim;
     public Image NotouchArea;
 
+    public MaterialSlot[] mSlot;
+
     private void Awake()
     {
         if (Instance==null)
@@ -22,12 +24,35 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         }
     }
 
+    public void GetItem(int StageId)
+    {
+        StageMaterialController.Instance.GetMaterialArr(GameSetting.Instance.NowStage);
+        for (int i=0; i<mSlot.Length;i++)
+        {
+            int Sequence = Random.Range(0, mSlot.Length);
+            for (int j=0; j< mSlot.Length;j++)
+            {
+                float rate = Random.Range(0,1f);
+                if (rate< StageMaterialController.Instance.mStageMaterialArr[Sequence].mRate)
+                {
+                    mSlot[i].SetData(StageMaterialController.Instance.mStageMaterialArr[Sequence].mID);
+                    GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID]++;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
+    }
+
     public void StageClear()
     {
+        GetItem(GameSetting.Instance.NowStage);
         if (GameSetting.Instance.StageOpen[5] == false)
         {
             GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
-            if (GameSetting.Instance.StagePartsget[GameController.Instance.MapLevel] == false)
+            if (GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage] == false)
             {
                 StartCoroutine(PartsAnim());
             }

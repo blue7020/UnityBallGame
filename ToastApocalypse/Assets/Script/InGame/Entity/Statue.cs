@@ -211,6 +211,7 @@ public class Statue : MonoBehaviour
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "재료 획득률 상승!";
+                    GameController.Instance.MaterialDropRate += 0.3f;
                 }
                 else
                 {

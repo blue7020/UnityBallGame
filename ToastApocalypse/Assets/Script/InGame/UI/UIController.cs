@@ -54,15 +54,15 @@ public class UIController : InformationLoader
         }
         if (GameSetting.Instance.Language == 0)//한국어
         {
-            maptext = mInfoArr[GameController.Instance.MapLevel].Title;
+            maptext = mInfoArr[GameSetting.Instance.NowStage].Title;
             mAirText.text = "공기";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
-            maptext = mInfoArr[GameController.Instance.MapLevel].EngTitle;
+            maptext = mInfoArr[GameSetting.Instance.NowStage].EngTitle;
             mAirText.text = "AIR";
         }
-        if (GameController.Instance.MapLevel==4)
+        if (GameSetting.Instance.NowStage == 4)
         {
             mAirGauge.gameObject.SetActive(true);
         }
@@ -113,7 +113,7 @@ public class UIController : InformationLoader
         mLevelText.gameObject.SetActive(true);
         yield return delay;
         mLevelText.gameObject.SetActive(false);
-        if (GameController.Instance.MapLevel==6&& GameController.Instance.Level==1)
+        if (GameSetting.Instance.NowStage == 6&& GameController.Instance.Level==1)
         {
             StartCoroutine(ShowLevelMessage());
         }

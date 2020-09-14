@@ -11,8 +11,9 @@ public class GameController : MonoBehaviour
     public bool GotoMain;
 
     public int Level;//현재 층
-    public int MapLevel;//현재 스테이지
     public int StageHP;
+
+    public float MaterialDropRate;
 
     public int SyrupInStage;
 
@@ -21,8 +22,8 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            MaterialDropRate = 0.3f;
             StageHP = 2;
-            MapLevel = GameSetting.Instance.NowStage;
             GotoMain = false;
             pause = false;
             Level = 1;
@@ -93,6 +94,7 @@ public class GameController : MonoBehaviour
         ActiveArtifacts.Instance.Delete();
         PassiveArtifacts.Instance.Delete();
         PlayerBulletPool.Instance.Delete();
+        StageMaterialController.Instance.Delete();
         Delete();
     }
 

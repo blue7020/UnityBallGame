@@ -12,7 +12,7 @@ public class HPBar : MonoBehaviour
 
     private void Start()
     {
-        if (GameController.Instance.MapLevel!=4)
+        if (GameSetting.Instance.NowStage != 4)
         {
             mNowHP = Player.Instance.mCurrentHP;
             mNowMaxHP = Player.Instance.mMaxHP;

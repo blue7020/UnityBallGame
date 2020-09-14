@@ -60,7 +60,7 @@ public class Enemy : InformationLoader
         Nodamage = true;
         AttackCheck = true;
         Stun = false;
-                mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameController.Instance.MapLevel) * GameController.Instance.Level);
+                mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.Level);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
     private void Start()
@@ -91,7 +91,7 @@ public class Enemy : InformationLoader
         mSprite[1].gameObject.SetActive(true);
         gameObject.layer = 0;
         Spawned = true;
-        if (GameController.Instance.MapLevel == 5)
+        if (GameSetting.Instance.NowStage == 5)
         {
             mEnemySkill.IceBarrier();
         }
@@ -178,6 +178,7 @@ public class Enemy : InformationLoader
         mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mAnim.SetBool(AnimHash.Enemy_Death, true);
         mEnemySkill.DieSkill();
+        Player.Instance.mTotalKillCount++;
         if (mStats.Gold > 0)
         {
             DropGold mGold = GoldPool.Instance.GetFromPool();

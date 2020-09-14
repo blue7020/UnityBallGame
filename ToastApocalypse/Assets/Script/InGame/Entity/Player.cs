@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public VirtualJoyStick joyskick;
 
     public int mID;
+    public int mTotalKillCount;
     public float mMaxHP;
     public float mCurrentHP;
     public const int MAX_AIR = 100;
@@ -69,6 +70,7 @@ public class Player : MonoBehaviour
         if (Instance ==null)
         {
             Instance = this;
+            mTotalKillCount = 0;
             TrapResistance = false;
             MapSeeker = false;
             OnAir = false;
@@ -100,7 +102,7 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        if (GameController.Instance.MapLevel==6)
+        if (GameSetting.Instance.NowStage == 6)
         {
             mMaxHP = mStats.Hp - (mStats.Hp * 0.15f);
             mStats.AtkSpd += mStats.AtkSpd * 0.15f;
@@ -113,7 +115,7 @@ public class Player : MonoBehaviour
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         UIController.Instance.ShowGold();
         UIController.Instance.ShowHP();
-        if (GameController.Instance.MapLevel==4)
+        if (GameSetting.Instance.NowStage == 4)
         {
             StartCoroutine(Air());
         }

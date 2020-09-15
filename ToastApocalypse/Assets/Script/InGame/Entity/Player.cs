@@ -247,8 +247,7 @@ public class Player : MonoBehaviour
     }
     public void DeathWindow()
     {
-        mRenderer.sortingLayerName = "Entity";
-        mRenderer.sortingOrder = 1;
+        mRenderer.sortingOrder = 0;
         UIController.Instance.ShowDeathWindow();
     }
 

@@ -53,12 +53,12 @@ public class WeaponSelectController : MonoBehaviour
             }
         }
 
-        SlotArr = new WeaponChangeSlot[WeaponCount];
-        for (int i = 0; i < WeaponCount; i++)
+        SlotArr = new WeaponChangeSlot[GameSetting.Instance.PlayerHasWeapon.Length];
+        for (int i = 0; i < SlotArr.Length; i++)
         {
-            SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
             if (GameSetting.Instance.PlayerHasWeapon[i] == true)
             {
+                SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
                 SlotArr[i].SetData(i);
             }
 

@@ -21,6 +21,8 @@ public class Weapon : MonoBehaviour
 
     public SpriteRenderer mRenderer;
     public Animator mAnim;
+    public MaterialObj[] Recipe;
+    public int[] RecipeAmount;
 
     public AttackArea mAttackArea;
     public int mID;

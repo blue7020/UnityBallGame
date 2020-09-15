@@ -12,6 +12,7 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
     public MaterialStat mMaterial;
     public string title, lore;
     public Text mCount;
+    public int mAmount;//상점용
 
     public void SetData(int id)
     {
@@ -21,12 +22,11 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
         }
         mMaterialID = id;
         mIcon.sprite = GameSetting.Instance.mMaterialSpt[mMaterialID];
-        mCount.text = GameSetting.Instance.HasMaterial[mMaterialID].ToString();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (mMaterial != null&&GameSetting.Instance.Ingame==false)
+        if (mMaterial != null&&GameSetting.Instance.Ingame==false&& BlackSmith.Instance.IsShop==false)
         {
             MaterialController.Instance.ShowDescription(mMaterialID);
         }

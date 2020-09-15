@@ -110,6 +110,11 @@ public class GameSetting : InformationLoader
         StageOpen[3] = true;//4스테이지 오픈
         StageOpen[4] = true;//5스테이지 오픈
         StageOpen[5] = true;//6스테이지 오픈
+
+        for (int i=0; i<HasMaterial.Length;i++)
+        {
+            HasMaterial[i] = 50;
+        }
     }
 
     public void Restart()

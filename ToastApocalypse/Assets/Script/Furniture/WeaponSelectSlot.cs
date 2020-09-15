@@ -128,8 +128,16 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }
 
             }
-            mTooltip.ShowTooltip(title, lore, mIcon.sprite);
-            mTooltip.gameObject.SetActive(true);
+            if (BlackSmith.Instance.IsShop==false)
+            {
+                mTooltip.ShowTooltip(title, lore, mIcon.sprite);
+                mTooltip.gameObject.SetActive(true);
+            }
+            else
+            {
+                BlackSmithShopController.Instance.mTooltip.ShowTooltip(title, lore, mIcon.sprite);
+                BlackSmithShopController.Instance.mTooltip.gameObject.SetActive(true);
+            }
         }
 
     }

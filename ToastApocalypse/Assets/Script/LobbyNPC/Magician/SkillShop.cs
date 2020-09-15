@@ -95,7 +95,7 @@ public class SkillShop : MonoBehaviour
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
-                mBuyText.text = "Hold";
+                mBuyText.text = "Get";
             }
             mBuyButton.interactable = false;
         }

@@ -56,8 +56,12 @@ MonoBehaviour:
   eType: 1
   mStats:
     ID: 0
+    Price: 0
     Name: 
     EngName: 
+    ContensFormat: 
+    EngContensFormat: 
+    Type: 0
     Atk: 0
     AtkSpd: 0
     ReloadCool: 0
@@ -78,6 +82,12 @@ MonoBehaviour:
   GetCooltime: 0
   Animation: 0
   BoltID: 0
+  Recipe:
+  - {fileID: 5446130429058229367, guid: 9f9c33c3c99f15f40aff665bbdadd5fc, type: 3}
+  - {fileID: 7506681665700417583, guid: 036ff86a7825a344b837cb7f1fab5d40, type: 3}
+  - {fileID: 4543470964381197010, guid: 9c356de4988121949b8720034faf5092, type: 3}
+  - {fileID: 5886515850015459799, guid: 8f231fabaa4149346a9ac81bb5044f68, type: 3}
+  RecipeAmount: 0a000000030000000300000002000000
 --- !u!61 &3432978402657452285
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -234,6 +244,7 @@ MonoBehaviour:
   weapon: {fileID: 2383143019889275021}
   mAnim: {fileID: 0}
   BulletStarter: {fileID: 6805015757009034537}
+  FireStarter: {fileID: 0}
   mRenderer: {fileID: 2383143019918469455}
   IsCrit: 0
 --- !u!61 &2383143020632715434

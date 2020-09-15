@@ -31,6 +31,8 @@ public class PlayerStat
 public class WeaponStat
 {
     public int ID;
+    public int Price;
+
     public string Name;
     public string EngName;
     public string ContensFormat;

@@ -158,6 +158,7 @@ MonoBehaviour:
   weapon: {fileID: 8372202790261960094}
   mAnim: {fileID: 0}
   BulletStarter: {fileID: 815943325061152826}
+  FireStarter: {fileID: 0}
   mRenderer: {fileID: 8372202790299874396}
   IsCrit: 0
 --- !u!61 &8372202788862111161
@@ -234,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsSpin: 1
-  mWeaponImage: {fileID: 634660655487653927, guid: d77753863bbab6d438712410ca0e8a1c,
+  mWeaponImage: {fileID: 1294095582829622120, guid: d77753863bbab6d438712410ca0e8a1c,
     type: 3}
   Aim: {fileID: 2692731880852838117}
   Equip: 0
@@ -242,8 +243,12 @@ MonoBehaviour:
   eType: 1
   mStats:
     ID: 0
+    Price: 0
     Name: 
     EngName: 
+    ContensFormat: 
+    EngContensFormat: 
+    Type: 0
     Atk: 0
     AtkSpd: 0
     ReloadCool: 0
@@ -257,6 +262,12 @@ MonoBehaviour:
   MaxBullet: 0
   mRenderer: {fileID: 8372202790299874396}
   mAnim: {fileID: 0}
+  Recipe:
+  - {fileID: 5344191058236522939, guid: a15d8fc0f127b194e948e2c183347e53, type: 3}
+  - {fileID: 5446130429058229367, guid: 9f9c33c3c99f15f40aff665bbdadd5fc, type: 3}
+  - {fileID: 4712102637178450014, guid: b00200649b5df854d922e998de17c34e, type: 3}
+  - {fileID: 0}
+  RecipeAmount: 050000000a0000000500000000000000
   mAttackArea: {fileID: 8372202788862111166}
   mID: 14
   mAttackCooltime: 0

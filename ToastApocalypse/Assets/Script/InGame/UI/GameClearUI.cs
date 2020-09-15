@@ -36,7 +36,16 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 if (rate< StageMaterialController.Instance.mStageMaterialArr[Sequence].mRate)
                 {
                     mSlot[i].SetData(StageMaterialController.Instance.mStageMaterialArr[Sequence].mID);
-                    GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID]++;
+                    if (GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID]+1>99)
+                    {
+                        GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] =99;
+                    }
+                    else
+                    {
+                        GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] += 1;
+                    }
+                    
+                    break;
                 }
                 else
                 {

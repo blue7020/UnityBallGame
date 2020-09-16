@@ -130,7 +130,7 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 }
 
             }
-            mTooltip.ShowTooltip(title, lore, mIcon.sprite);
+            mTooltip.SetData(title, lore, mIcon.sprite);
             mTooltip.gameObject.SetActive(true);
         }
 

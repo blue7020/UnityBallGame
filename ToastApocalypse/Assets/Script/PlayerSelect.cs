@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class PlayerSelect : MonoBehaviour
 {
-    public int mID;
+    public static PlayerSelect Instance;
+
+    private void Awake()
+    {
+        if (Instance==null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
-            PlayerSelectController.Instance.CharaChange(mID);
+            PlayerSelectController.Instance.NowPlayerID = GameSetting.Instance.PlayerID;
+            MainLobbyCamera.Instance.PlayerSpawn = false;
+            PlayerSelectController.Instance.mWindow.gameObject.SetActive(true);
         }
     }
 }

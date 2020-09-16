@@ -70,6 +70,7 @@ public class GameController : MonoBehaviour
         pause = false;
         Time.timeScale = 1;
         GameSetting.Instance.Restart();
+        GameSetting.Instance.NowScene = 1;
         SceneManager.LoadScene(1);
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);

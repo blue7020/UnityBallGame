@@ -13,17 +13,17 @@ public class Buff : MonoBehaviour
     public float mDuration;
     public Animator mAnim;
 
-    public void SetData(int id, int code, Sprite spt,eBuffType bufftype,float dura)
+    public void SetData(int id, int code, Sprite spt,eBuffType bufftype,float dura,int Index)
     {
         mID = id;
         mBuffCode = code;
         mIcon.sprite = spt;
         eType = bufftype;
         mDuration = dura;
-        StartCoroutine(Dura());
+        StartCoroutine(Dura(Index));
     }
 
-    private IEnumerator Dura()
+    private IEnumerator Dura(int index)
     {
         int count=0;
         WaitForSeconds dura = new WaitForSeconds(1f);
@@ -41,6 +41,7 @@ public class Buff : MonoBehaviour
             count++;
         }
         BuffController.Instance.buffIndex--;
+        BuffController.Instance.mBuffArr[index] = null;
         Delete();
     }
 

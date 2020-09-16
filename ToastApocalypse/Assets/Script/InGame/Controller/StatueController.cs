@@ -38,7 +38,6 @@ public class StatueController : InformationLoader
                 if (GameSetting.Instance.StatueOpen[i]==true)
                 {
                     StatueIDList.Add(i);
-                    Debug.Log(StatueIDList[i]);
                 }
             }
             mStatueArr = new Statue[STATUE_COUNT];

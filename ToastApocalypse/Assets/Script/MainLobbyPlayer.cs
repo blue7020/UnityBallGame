@@ -26,7 +26,7 @@ public class MainLobbyPlayer : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            mID = GameSetting.Instance.PlayerID;
+            joyskick = PlayerSelectController.Instance.mStick;
         }
         else
         {

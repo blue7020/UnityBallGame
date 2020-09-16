@@ -63,7 +63,7 @@ public class BuffController : MonoBehaviour
             }
             mBuffArr[buffIndex].Delete();
             mBuffArr[buffIndex] = Instantiate(mBuff, mParents);
-            mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura);
+            mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura, buffIndex);
             buffIndex++;
         }
         else
@@ -73,7 +73,7 @@ public class BuffController : MonoBehaviour
                 buffIndex = 0;
             }
                 mBuffArr[buffIndex] = Instantiate(mBuff, mParents);
-                mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura);
+                mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura, buffIndex);
                 buffIndex++;
 
         }
@@ -81,15 +81,12 @@ public class BuffController : MonoBehaviour
 
     public void RemoveNurf()
     {
-        if (mBuffArr!=null)
+        for (int i = 0; i < mBuffArr.Length; i++)
         {
-            for (int i = 0; i < mBuffArr.Length; i++)
+            if (mBuffArr[i]!=null&& mBuffArr[i].eType == eBuffType.Debuff)
             {
-                if (mBuffArr[i].eType == eBuffType.Debuff)
-                {
-                    mBuffArr[i].Delete();
-                    buffIndex--;
-                }
+                mBuffArr[i].Delete();
+                buffIndex--;
             }
         }
     }

@@ -13,6 +13,8 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public WeaponStat mWeapon;
     public SkillTooltip mTooltip;
     public string title, lore;
+    public bool IsBlacksmithShop;
+    public bool IsShop;
 
     private void Awake()
     {
@@ -21,22 +23,9 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void SetData(int id)
     {
-        mWeapon = GameSetting.Instance.mInfoArr[mWeaponID];
         mWeaponID = id;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        mDraggingID = mWeaponID;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        mDraggingID = -1;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
+        mWeapon = GameSetting.Instance.mInfoArr[mWeaponID];
+        mIcon.sprite = GameSetting.Instance.mWeapons[mWeaponID].mWeaponImage;
         if (mWeapon != null)
         {
             if (GameSetting.Instance.Language == 0)//한국어
@@ -128,17 +117,42 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }
 
             }
-            if (BlackSmith.Instance.IsShop==false)
+            if (IsBlacksmithShop == false)
             {
-                mTooltip.ShowTooltip(title, lore, mIcon.sprite);
-                mTooltip.gameObject.SetActive(true);
+                mTooltip.SetData(title, lore, mIcon.sprite);
             }
             else
             {
-                BlackSmithShopController.Instance.mTooltip.ShowTooltip(title, lore, mIcon.sprite);
-                BlackSmithShopController.Instance.mTooltip.gameObject.SetActive(true);
+                BlackSmithShopController.Instance.mTooltip.SetData(title, lore, mIcon.sprite);
             }
         }
+    }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (IsShop==false)
+        {
+            mDraggingID = mWeaponID;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (IsShop == false)
+        {
+            mDraggingID = -1;
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (IsBlacksmithShop == false)
+        {
+            mTooltip.gameObject.SetActive(true);
+        }
+        else
+        {
+            BlackSmithShopController.Instance.mTooltip.gameObject.SetActive(true);
+        }
     }
 }

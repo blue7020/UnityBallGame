@@ -8,14 +8,11 @@ public class MainLobbyUIController : MonoBehaviour
 {
 
     public static MainLobbyUIController Instance;
-
-    public MainLobbyPlayer[] mPlayerList;
     public Image[] mPartsLock;
     private bool pause;
 
     public Text mCashText,mBGMText, mSEText;
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus;
-    //public Tooltip tooltip;
 
 
 
@@ -24,13 +21,13 @@ public class MainLobbyUIController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            pause = false;
+            ShowSyrupText();
         }
         else
         {
             Destroy(gameObject);
         }
-        pause = false;
-        ShowSyrupText();
     }
 
     private void Start()
@@ -65,6 +62,7 @@ public class MainLobbyUIController : MonoBehaviour
         pause = false;
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
+        GameSetting.Instance.NowScene = 0;
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);
     }
@@ -115,16 +113,5 @@ public class MainLobbyUIController : MonoBehaviour
     void DoubleClick()
     {
         ClickCount = 0;
-    }
-
-
-    //TODO 나중에 제대로 캐릭터 선택 구현하면 고치거나 삭제 바람
-    public void Toast()
-    {
-        GameSetting.Instance.PlayerID = 0;
-    }
-    public void Hamegg()
-    {
-        GameSetting.Instance.PlayerID = 1;
     }
 }

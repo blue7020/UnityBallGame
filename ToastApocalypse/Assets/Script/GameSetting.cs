@@ -14,6 +14,8 @@ public class GameSetting : InformationLoader
     public int PlayerWeaponID;
     public bool Ingame;
 
+    public int NowScene;
+
     private const int CHARACTER_COUNT = 6;
 
     //로비용
@@ -61,6 +63,7 @@ public class GameSetting : InformationLoader
             Instance = this;
             DontDestroyOnLoad(gameObject);
             LoadJson(out mInfoArr, Path.WEAPON_STAT);
+            NowScene = 0;
         }
         else
         {
@@ -122,7 +125,6 @@ public class GameSetting : InformationLoader
         NowStageRoom = new Room[6];
         Ingame = false;
         NowStage = 0;
-        PlayerID = 0;
     }
 
     public void GetParts(int Stage)

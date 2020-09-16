@@ -10,7 +10,6 @@ public class MainLobbyPlayer : MonoBehaviour
 
     public int mID;
     public Sprite PlayerImage;
-    public eDirection Look;
 
     public int mSpeed;
 
@@ -53,14 +52,12 @@ public class MainLobbyPlayer : MonoBehaviour
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            Look = eDirection.Right;
             transform.rotation = Quaternion.Euler(0, 180, 0);
 
         }
         else if (hori < 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            Look = eDirection.Left;
             transform.rotation = Quaternion.identity;
         }
         else if (ver > 0 || ver < 0)

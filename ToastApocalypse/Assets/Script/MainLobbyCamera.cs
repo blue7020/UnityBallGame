@@ -27,6 +27,8 @@ public class MainLobbyCamera : MonoBehaviour
     {
         PlayerSpawn = true;
         mPlayerObj =mPlayer;// .find 사용 금지 / FindGameObjectsWithTag는 어레이를 찾으니까 헷갈리면 안된다.
+        mOffset = new Vector3(0,0,-10);
+        transform.position = mPlayerObj.transform.position + mOffset;
         mOffset = transform.position - mPlayerObj.transform.position; //카메라의 위치 설정
     }
 

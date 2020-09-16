@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerSelect : MonoBehaviour
 {
@@ -17,12 +18,15 @@ public class PlayerSelect : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            //SceneManager.LoadScene(1);
             PlayerSelectController.Instance.NowPlayerID = GameSetting.Instance.PlayerID;
             MainLobbyCamera.Instance.PlayerSpawn = false;
+            MainLobbyCamera.Instance.mPlayerObj=null;
+            Destroy(MainLobbyPlayer.Instance.gameObject);
             PlayerSelectController.Instance.mWindow.gameObject.SetActive(true);
         }
     }

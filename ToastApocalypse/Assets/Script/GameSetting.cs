@@ -44,6 +44,7 @@ public class GameSetting : InformationLoader
     public int PlayerWeaponIndex;
 
     public bool[] StatueOpen;
+    public bool TutorialEnd;
 
     public bool[] StageOpen;
     public int NowStage;
@@ -125,6 +126,7 @@ public class GameSetting : InformationLoader
         NowStageRoom = new Room[6];
         Ingame = false;
         NowStage = 0;
+        NowScene = 1;
     }
 
     public void GetParts(int Stage)

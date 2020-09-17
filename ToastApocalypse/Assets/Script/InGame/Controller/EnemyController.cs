@@ -6,7 +6,6 @@ public class EnemyController : InformationLoader
 {
     public static EnemyController Instance;
 
-    [SerializeField]
     public MonsterStat[] mInfoArr;
 
     public MonsterStat[] GetInfoArr()

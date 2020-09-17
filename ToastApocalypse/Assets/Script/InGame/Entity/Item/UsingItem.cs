@@ -69,7 +69,14 @@ public class UsingItem : InformationLoader
             StartCoroutine(Player.Instance.Def(mStats.Def,32, mStats.Duration));
         }
         Player.Instance.NowItem = null;
-        UIController.Instance.ShowItemImage();
+        if (GameController.Instance.IsTutorial == false)
+        {
+            UIController.Instance.ShowItemImage();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowItemImage();
+        }
     }
 
     public void ItemChange()
@@ -98,7 +105,14 @@ public class UsingItem : InformationLoader
             gameObject.transform.SetParent(Player.Instance.gameObject.transform);
             mRenderer.color = Color.clear;
         }
-        UIController.Instance.ShowItemImage();
+        if (GameController.Instance.IsTutorial == false)
+        {
+            UIController.Instance.ShowItemImage();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowItemImage();
+        }
 
     }
 

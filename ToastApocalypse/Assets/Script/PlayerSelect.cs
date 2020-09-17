@@ -22,7 +22,6 @@ public class PlayerSelect : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //SceneManager.LoadScene(1);
             PlayerSelectController.Instance.NowPlayerID = GameSetting.Instance.PlayerID;
             MainLobbyCamera.Instance.PlayerSpawn = false;
             MainLobbyCamera.Instance.mPlayerObj=null;

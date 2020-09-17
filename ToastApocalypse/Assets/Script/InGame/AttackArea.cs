@@ -38,7 +38,14 @@ public class AttackArea : MonoBehaviour
         if (weapon.nowBullet>0)
         {
             weapon.nowBullet--;
-            UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            }
+            else
+            {
+                TutorialUIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            }
             WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
             ResetDir();
             if (weapon.PlusBulletCount > 1&& weapon.nowBullet > weapon.PlusBulletCount)
@@ -54,7 +61,14 @@ public class AttackArea : MonoBehaviour
         if (weapon.nowBullet > 0)
         {
             weapon.nowBullet--;
-            UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            }
+            else
+            {
+                TutorialUIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            }
             WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
             FireStarter.Play();
         }
@@ -75,8 +89,14 @@ public class AttackArea : MonoBehaviour
                 break;
             }
             weapon.nowBullet--;
-            UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
-            ResetDir();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            }
+            else
+            {
+                TutorialUIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
+            }
             count++;
             yield return delay;
         }

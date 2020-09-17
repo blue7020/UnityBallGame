@@ -39,12 +39,19 @@ public class VirtualJoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, I
                 = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2)/2,
                               inputVector.y * (BG.rectTransform.sizeDelta.y / 2)/2);
 
-            if (GameSetting.Instance.Ingame==true&&Player.Instance!=null)
+            if (Player.Instance!=null)
             {
                 //플레이어 방향 벡터
                 float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
                 Player.Instance.mDirection.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-                UIController.Instance.mPlayerLookPoint.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+                if (GameController.Instance.IsTutorial==false)
+                {
+                    UIController.Instance.mPlayerLookPoint.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+                }
+                else
+                {
+                    TutorialUIController.Instance.mPlayerLookPoint.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+                }
             }
         }
     }

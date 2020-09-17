@@ -9,17 +9,19 @@ public class TutorialUIController : InformationLoader
 
     public static TutorialUIController Instance;
 
-    public Text mHPText, mStatText, mNameText, mbulletText, mLevelText;
+    public Text mHPText, mNameText, mbulletText, mStatText;
     public Image mPlayerImage, mStatPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint, mPieceImage;
     public HPBar mHPBar;
 
     public Sprite DefaultItemSprite;
 
     public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus;
-    public Text mTitleText, mTouchGuideText;
-    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText, mGuideText;
+    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
     public Tooltip tooltip;
+
+    public Enemy[] mEnemy;
+    public Transform[] mSpawnPos;
 
     public MapText[] mInfoArr;
 
@@ -27,13 +29,13 @@ public class TutorialUIController : InformationLoader
     {
         return mInfoArr;
     }
-
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.MAP_TEXT);
+            Time.timeScale = 1;
         }
         else
         {
@@ -52,6 +54,11 @@ public class TutorialUIController : InformationLoader
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
         mSKillButton.onClick.AddListener(() => { Player.Instance.NowPlayerSkill.SkillUse(); });
+        CharacterImage();
+        for (int i=0; i<mEnemy.Length;i++)
+        {
+            Instantiate(mEnemy[i], mSpawnPos[i]);
+        }
     }
 
 
@@ -80,30 +87,6 @@ public class TutorialUIController : InformationLoader
     {
         SoundController.Instance.MinusSE();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
-    }
-
-    public void ShowDeathWindow()
-    {
-        //현재 방 번호 기억한 다음 사망한 방 번호의 시작위치에서 다시 시작
-    }
-
-    public void ShowClearText()
-    {
-        GameController.Instance.pause = true;
-        Player.Instance.mRB2D.velocity = Vector3.zero;
-        Player.Instance.Stun = true;
-        if (GameSetting.Instance.Language == 0)
-        {//한국어
-            mClearText.text = "튜토리얼 클리어!";
-            mGuideText.text = "터치 시 로비로 이동합니다.";
-        }
-        else if (GameSetting.Instance.Language == 1)
-        {//영어
-            mClearText.text = "Tutorial Clear!";
-            mGuideText.text = "Touch to move to the lobby.";
-        }
-        mClearImage.gameObject.SetActive(true);
-        GameClearUI.Instance.StageClear();
     }
 
     public void ShowItemImage()
@@ -161,8 +144,8 @@ public class TutorialUIController : InformationLoader
 
     public void CharacterImage()
     {
-        mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[GameSetting.Instance.PlayerID];
-        mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[GameSetting.Instance.PlayerID];
+        mPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
+        mStatPlayerImage.sprite = GameSetting.Instance.mPlayerSpt[0];
     }
 
     public float StatSetting

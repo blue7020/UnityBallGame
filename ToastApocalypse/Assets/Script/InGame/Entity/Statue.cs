@@ -26,6 +26,14 @@ public class Statue : MonoBehaviour
         IsUse = false;
     }
 
+    private void Start()
+    {
+        if (GameController.Instance.IsTutorial==true)
+        {
+            mStats = StatueController.Instance.mStatInfoArr[mStatueID];
+        }
+    }
+
     public void StatSetting(int id)
     {
         mStatueID = id;

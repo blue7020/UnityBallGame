@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 1922673720780029304}
   - component: {fileID: 1129088769761197034}
   m_Layer: 0
-  m_Name: Donut
+  m_Name: 02Donut
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,10 +152,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joyskick: {fileID: 0}
   mID: 2
+  mTotalKillCount: 0
   mMaxHP: 0
   mCurrentHP: 0
   mCurrentAir: 0
   OnAir: 0
+  TrapResistance: 0
+  MapSeeker: 0
+  NoCC: 0
   CurrentRoom: {fileID: 0}
   EnemySwitch: 0
   mNowStage: 0
@@ -187,6 +191,7 @@ MonoBehaviour:
   NowItem: {fileID: 0}
   NowActiveArtifact: {fileID: 0}
   UseItemInventory: {fileID: 0}
+  LastHitEnemy: {fileID: 0}
   mRenderer: {fileID: 544821067567541839}
   mRB2D: {fileID: 1922673720780029304}
   mAnim: {fileID: 4060192462482535674}
@@ -205,7 +210,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 3442ba33e76c42a42ae41bd5281b1b2a, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 

@@ -30,7 +30,7 @@ public class PlayerSelectController : InformationLoader
 
     private void Start()
     {
-        if (GameSetting.Instance.NowScene == 0)
+        if (GameSetting.Instance.NowScene == 1)
         {
             NowPlayerID = 0;
             LeftButton.gameObject.SetActive(false);

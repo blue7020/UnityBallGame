@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 4902682270144749445}
   - component: {fileID: 4902682270144749444}
   m_Layer: 0
-  m_Name: SushiNinja
+  m_Name: 04SushiNinja
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,12 +214,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joyskick: {fileID: 0}
   mID: 4
+  mTotalKillCount: 0
   mMaxHP: 0
   mCurrentHP: 0
   mCurrentAir: 0
   OnAir: 0
   TrapResistance: 0
   MapSeeker: 0
+  NoCC: 0
   CurrentRoom: {fileID: 0}
   EnemySwitch: 0
   mNowStage: 0
@@ -251,6 +253,7 @@ MonoBehaviour:
   NowItem: {fileID: 0}
   NowActiveArtifact: {fileID: 0}
   UseItemInventory: {fileID: 0}
+  LastHitEnemy: {fileID: 0}
   mRenderer: {fileID: 4902682269797048037}
   mRB2D: {fileID: 4902682270144749466}
   mAnim: {fileID: 4902682270144749444}
@@ -316,7 +319,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 011ef91f7b0c687469d9384a464f412e, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 

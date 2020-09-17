@@ -12,14 +12,11 @@ public class HPBar : MonoBehaviour
 
     private void Start()
     {
-        if (GameSetting.Instance.NowStage != 4)
-        {
-            mNowHP = Player.Instance.mCurrentHP;
-            mNowMaxHP = Player.Instance.mMaxHP;
-            mBar.fillAmount = mNowHP / mNowMaxHP;
-            ShowHPBar();
-        }
-        else
+        mNowHP = Player.Instance.mCurrentHP;
+        mNowMaxHP = Player.Instance.mMaxHP;
+        mBar.fillAmount = mNowHP / mNowMaxHP;
+        ShowHPBar();
+        if (GameSetting.Instance.NowStage == 4)
         {
             mNowAir = Player.Instance.mCurrentAir;
             mBar.fillAmount = mNowAir / Player.MAX_AIR;

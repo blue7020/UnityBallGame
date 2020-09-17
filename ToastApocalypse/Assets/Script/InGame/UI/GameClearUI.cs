@@ -26,7 +26,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void GetItem(int StageId)
     {
-        StageMaterialController.Instance.GetMaterialArr(GameSetting.Instance.NowStage);
+        StageMaterialController.Instance.GetMaterialArr(StageId);
         for (int i=0; i<mSlot.Length;i++)
         {
             int Sequence = Random.Range(0, mSlot.Length);

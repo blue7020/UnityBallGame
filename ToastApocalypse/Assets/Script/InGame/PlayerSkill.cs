@@ -36,16 +36,24 @@ public class PlayerSkill : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        mID = GameSetting.Instance.PlayerSkillID;
-        mStat = SkillController.Instance.mStatInfoArr[mID];
-        mSkillIcon = SkillController.Instance.SkillIcon[mID];
+        if (GameController.Instance.IsTutorial == false)
+        {
+            mID = GameSetting.Instance.PlayerSkillID;
+            mStat = SkillController.Instance.mStatInfoArr[mID];
+            mSkillIcon = SkillController.Instance.SkillIcon[mID];
+            UIController.Instance.ShowSkillImage();
+        }
+        else
+        {
+            mID = -1;
+            TutorialUIController.Instance.ShowSkillImage();
+        }
         IsSkillCool = false;
-        UIController.Instance.ShowSkillImage();
 
     }
     public void SkillUse()
     {
-        if (IsSkillCool==false)
+        if (Player.Instance.NowPlayerSkill.mID>-1&&IsSkillCool==false)
         {
             StartCoroutine(SkillCool());
         }
@@ -61,15 +69,31 @@ public class PlayerSkill : MonoBehaviour
     }
     public void ShowCooltime(float maxTime, float currentTime)
     {
-        if (currentTime > 0)
+        if (GameController.Instance.IsTutorial == false)
         {
-            UIController.Instance.mSkillCoolWheel.gameObject.SetActive(true);
-            UIController.Instance.mSkillCoolWheel.fillAmount = currentTime / maxTime;
+            if (currentTime > 0)
+            {
+                UIController.Instance.mSkillCoolWheel.gameObject.SetActive(true);
+                UIController.Instance.mSkillCoolWheel.fillAmount = currentTime / maxTime;
+            }
+            else
+            {
+                IsSkillCool = false;
+                UIController.Instance.mSkillCoolWheel.gameObject.SetActive(false);
+            }
         }
         else
         {
-            IsSkillCool = false;
-            UIController.Instance.mSkillCoolWheel.gameObject.SetActive(false);
+            if (currentTime > 0)
+            {
+                TutorialUIController.Instance.mSkillCoolWheel.gameObject.SetActive(true);
+                TutorialUIController.Instance.mSkillCoolWheel.fillAmount = currentTime / maxTime;
+            }
+            else
+            {
+                IsSkillCool = false;
+                TutorialUIController.Instance.mSkillCoolWheel.gameObject.SetActive(false);
+            }
         }
     }
 

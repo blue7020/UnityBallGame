@@ -18,7 +18,7 @@ public class Trap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (GameController.Instance.pause==false)
+        if (GameController.Instance.pause == false)
         {
             if (other.gameObject.CompareTag("Player"))
             {
@@ -46,17 +46,17 @@ public class Trap : MonoBehaviour
                         Debug.LogError("Wrong Trap Type");
                         break;
                 }
-                
+
             }
             if (other.gameObject.CompareTag("Enemy"))
             {
-                if (EnemyDamage==true)
+                if (EnemyDamage == true)
                 {
                     mTargetMob.Add(other.GetComponent<Enemy>());
                 }
             }
         }
-        
+
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -88,7 +88,7 @@ public class Trap : MonoBehaviour
                     break;
             }
         }
-        if (EnemyDamage==true&& other.gameObject.CompareTag("Enemy"))
+        if (EnemyDamage == true && other.gameObject.CompareTag("Enemy"))
         {
             mTargetMob.Remove(other.GetComponent<Enemy>());
         }
@@ -103,20 +103,28 @@ public class Trap : MonoBehaviour
             {
                 if (DamageOn == true && Player.Instance.TrapResistance == false)
                 {
-                    mTarget.mCurrentHP -= mValue;//고정 피해
+                    Debug.Log("123");
+                    mTarget.Hit(mValue + mTarget.mStats.Def);//고정피해
                 }
-                UIController.Instance.ShowHP();
             }
             else
             {
                 if (DamageOn == true)
                 {
-                    mTarget.mCurrentHP -= mValue;//고정 피해
+                    mTarget.Hit(mValue + mTarget.mStats.Def);//고정피해
                     Player.Instance.LastHitEnemy = mEnemy;
                 }
-                UIController.Instance.ShowHP();
+                if (GameController.Instance.IsTutorial == false)
+                {
+                    UIController.Instance.ShowHP();
+                }
+                else
+                {
+                    TutorialUIController.Instance.ShowHP();
+                }
             }
         }
+        TutorialUIController.Instance.ShowHP();
     }
 
     public IEnumerator Dispose()
@@ -128,7 +136,7 @@ public class Trap : MonoBehaviour
 
     public void Slow()
     {
-        if (mTarget != null&& Player.Instance.TrapResistance==false)
+        if (mTarget != null && Player.Instance.TrapResistance == false)
         {
             mTarget.buffIncrease[3] += -mValue;
         }
@@ -136,7 +144,7 @@ public class Trap : MonoBehaviour
 
     public void Heal()
     {
-        if (TrapTrigger==true)
+        if (TrapTrigger == true)
         {
             Player.Instance.Heal(mValue);
         }

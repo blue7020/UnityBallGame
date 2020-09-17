@@ -33,14 +33,17 @@ public class StatueController : InformationLoader
             LoadJson(out mStatInfoArr, Path.STATUE_STAT);
             StatueIDList = new List<int>();
             mStatueSprites = GameSetting.Instance.mStatueSprites;
-            for (int i=0; i< GameSetting.Instance.StatueOpen.Length; i++)
+            if (GameSetting.Instance.NowStage!=0)
             {
-                if (GameSetting.Instance.StatueOpen[i]==true)
+                for (int i = 0; i < GameSetting.Instance.StatueOpen.Length; i++)
                 {
-                    StatueIDList.Add(i);
+                    if (GameSetting.Instance.StatueOpen[i] == true)
+                    {
+                        StatueIDList.Add(i);
+                    }
                 }
+                mStatueArr = new Statue[STATUE_COUNT];
             }
-            mStatueArr = new Statue[STATUE_COUNT];
         }
         else
         {
@@ -51,30 +54,34 @@ public class StatueController : InformationLoader
 
     private void Start()
     {
-        for (int i = 0; i < STATUE_COUNT; i++)
+        if (GameSetting.Instance.NowStage != 0)
         {
-            mStatueArr[i] = Instantiate(mStatue, mStatuePos[i]);
-            int rand = Random.Range(0, StatueIDList.Count);
-            mStatueArr[i].mStatueID = StatueIDList[rand];
-            StatueIDList.RemoveAt(rand);
-            mStatueArr[i].mID = i;
-            mStatueArr[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
-            if (i == 1)
+            for (int i = 0; i < STATUE_COUNT; i++)
             {
-                mStatueArr[i].ePayType = eStatuePay.Free;
-                mStatueArr[i].SpendGold = 0;
+                mStatueArr[i] = Instantiate(mStatue, mStatuePos[i]);
+                int rand = Random.Range(0, StatueIDList.Count);
+                mStatueArr[i].mStatueID = StatueIDList[rand];
+                StatueIDList.RemoveAt(rand);
+                mStatueArr[i].mID = i;
+                mStatueArr[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
+                if (i == 1)
+                {
+                    mStatueArr[i].ePayType = eStatuePay.Free;
+                    mStatueArr[i].SpendGold = 0;
 
+                }
+                else
+                {
+                    mStatueArr[i].ePayType = eStatuePay.Pay;
+                    mStatueArr[i].SpendGold = 35;
+                }
+                CanvasFinder.Instance.mStatuePriceText[i] = mStatueArr[i].mPriceText;
+                CanvasFinder.Instance.mStatuePriceText[i].text = mStatueArr[i].SpendGold.ToString() + "G";
+                CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(false);
+                mStatueArr[i].StatSetting(rand);
             }
-            else
-            {
-                mStatueArr[i].ePayType = eStatuePay.Pay;
-                mStatueArr[i].SpendGold = 35;
-            }
-            CanvasFinder.Instance.mStatuePriceText[i] = mStatueArr[i].mPriceText;
-            CanvasFinder.Instance.mStatuePriceText[i].text = mStatueArr[i].SpendGold.ToString() + "G";
-            CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(false);
-            mStatueArr[i].StatSetting(rand);
         }
+
     }
 
 }

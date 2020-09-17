@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 1292241908008036604}
   - component: {fileID: 1292241908008036605}
   m_Layer: 0
-  m_Name: HoneyBread
+  m_Name: 03HoneyBread
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,12 +133,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joyskick: {fileID: 0}
   mID: 3
+  mTotalKillCount: 0
   mMaxHP: 0
   mCurrentHP: 0
   mCurrentAir: 0
   OnAir: 0
   TrapResistance: 0
   MapSeeker: 0
+  NoCC: 0
   CurrentRoom: {fileID: 0}
   EnemySwitch: 0
   mNowStage: 0
@@ -170,6 +172,7 @@ MonoBehaviour:
   NowItem: {fileID: 0}
   NowActiveArtifact: {fileID: 0}
   UseItemInventory: {fileID: 0}
+  LastHitEnemy: {fileID: 0}
   mRenderer: {fileID: 1292241907795077532}
   mRB2D: {fileID: 1292241908008036579}
   mAnim: {fileID: 1292241908008036605}
@@ -235,7 +238,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b339474bddd7b7845b2208ad6e403d09, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 

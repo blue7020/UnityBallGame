@@ -17,12 +17,18 @@ public class UsingArtifactInventory : MonoBehaviour, IPointerDownHandler
             if (GameSetting.Instance.Language == 0)
             {
                 lore = "[" + art.TextStats.Title + "]\n" + art.TextStats.ContensFormat + "\n\n\"" + art.TextStats.PlayableText + "\"";
-                UIController.Instance.tooltip.ShowTooltip(lore);
             }
             else if (GameSetting.Instance.Language == 1)
             {
                 lore = "[" + art.TextStats.EngTitle + "]\n" + art.TextStats.EngContensFormat + "\n\n\"" + art.TextStats.EngPlayableText+"\"";
+            }
+            if (GameController.Instance.IsTutorial == false)
+            {
                 UIController.Instance.tooltip.ShowTooltip(lore);
+            }
+            else
+            {
+                TutorialUIController.Instance.tooltip.ShowTooltip(lore);
             }
         }
 

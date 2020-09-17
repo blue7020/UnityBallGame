@@ -16,25 +16,25 @@ public class MainScreenUIController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            if (GameSetting.Instance.Language == 0)
+            {
+                mStartText.text = "게임 시작";
+                mEndText.text = "게임 종료";
+                mEngButton.interactable = true;
+                mKorButton.interactable = false;
+
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {
+                mStartText.text = "Start";
+                mEndText.text = "Quit";
+                mEngButton.interactable = false;
+                mKorButton.interactable = true;
+            }
         }
         else
         {
             Destroy(gameObject);
-        }
-        if (GameSetting.Instance.Language==0)
-        {
-            mStartText.text = "게임 시작";
-            mEndText.text = "게임 종료";
-            mEngButton.interactable = true;
-            mKorButton.interactable = false;
-
-        }
-        else if(GameSetting.Instance.Language == 1)
-        {
-            mEngButton.interactable = false;
-            mKorButton.interactable = true;
-            mStartText.text = "Start";
-            mEndText.text = "Quit";
         }
     }
     private void Start()
@@ -85,6 +85,7 @@ public class MainScreenUIController : MonoBehaviour
 
     public void GameStart()
     {
+        GameSetting.Instance.NowScene = 1;
         SceneManager.LoadScene(1);
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);

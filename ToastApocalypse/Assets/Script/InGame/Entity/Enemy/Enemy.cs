@@ -43,7 +43,7 @@ public class Enemy : InformationLoader
 
     private void OnEnable()
     {
-        if (GameController.Instance.Level!=5)
+        if (GameController.Instance.IsTutorial == false&&GameController.Instance.Level!=5)
         {
             Player.Instance.CurrentRoom.EnemyCount++;
         }
@@ -60,7 +60,7 @@ public class Enemy : InformationLoader
         Nodamage = true;
         AttackCheck = true;
         Stun = false;
-                mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.Level);
+        mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.Level);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
     private void Start()

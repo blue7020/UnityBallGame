@@ -127,7 +127,14 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 lore += "\n\n\"" + artifact.TextStats.EngPlayableText + "\"";
 
             }
-            UIController.Instance.tooltip.ShowTooltip(lore);
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.tooltip.ShowTooltip(lore);
+            }
+            else
+            {
+                TutorialUIController.Instance.tooltip.ShowTooltip(lore);
+            }
         }
     }
 }

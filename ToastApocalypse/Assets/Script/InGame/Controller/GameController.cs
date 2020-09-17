@@ -16,19 +16,22 @@ public class GameController : MonoBehaviour
     public float MaterialDropRate;
 
     public int SyrupInStage;
+    public bool IsTutorial;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            MaterialDropRate = 0.3f;
-            StageHP = 2;
             GotoMain = false;
             pause = false;
             Level = 1;
             SyrupInStage = 0;
-            UIController.Instance.CharacterImage();
+            if (IsTutorial==false)
+            {
+                MaterialDropRate = 0.3f;
+                StageHP = 2;
+            }
         }
         else
         {
@@ -70,38 +73,70 @@ public class GameController : MonoBehaviour
         pause = false;
         Time.timeScale = 1;
         GameSetting.Instance.Restart();
-        GameSetting.Instance.NowScene = 1;
+        //게임 저장
         SceneManager.LoadScene(1);
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);
     }
 
+    public void MainLobby()//Tutorial
+    {
+        DestroyController();
+        pause = false;
+        Time.timeScale = 1;
+        GameSetting.Instance.Restart();
+        //게임 저장
+        SceneManager.LoadScene(1);
+        SoundController.Instance.mBGM.Stop();
+        SoundController.Instance.BGMChange(0);
+    }
     public void DestroyController()
     {
         GotoMain = true;
-        CameraMovment.Instance.Delete();
-        TextEffectPool.Instance.Delete();
-        UIController.Instance.Delete();
-        InventoryController.Instance.Delete();
-        DontDestroyScreen.Instance.Delete();
-        PlayerSkill.Insatnce.Delete();
-        Player.Instance.Delete();
-        PlayerList.Instance.Delete();
-        ItemList.Instance.Delete();
-        BuffController.Instance.Delete();
-        WeaponController.Instance.Delete();
-        ArtifactController.Instance.Delete();
-        WeaponController.Instance.Delete();
-        ActiveArtifacts.Instance.Delete();
-        PassiveArtifacts.Instance.Delete();
-        PlayerBulletPool.Instance.Delete();
-        StageMaterialController.Instance.Delete();
+
+        if (IsTutorial==false)
+        {
+            CameraMovment.Instance.Delete();
+            TextEffectPool.Instance.Delete();
+            UIController.Instance.Delete();
+            InventoryController.Instance.Delete();
+            DontDestroyScreen.Instance.Delete();
+            PlayerSkill.Insatnce.Delete();
+            Player.Instance.Delete();
+            PlayerList.Instance.Delete();
+            ItemList.Instance.Delete();
+            BuffController.Instance.Delete();
+            ArtifactController.Instance.Delete();
+            WeaponController.Instance.Delete();
+            ActiveArtifacts.Instance.Delete();
+            PassiveArtifacts.Instance.Delete();
+            PlayerBulletPool.Instance.Delete();
+            StageMaterialController.Instance.Delete();
+        }
+        else
+        {
+            CameraMovment.Instance.Delete();
+            TextEffectPool.Instance.Delete();
+            InventoryController.Instance.Delete();
+            PlayerSkill.Insatnce.Delete();
+            Player.Instance.Delete();
+            PlayerList.Instance.Delete();
+            ItemList.Instance.Delete();
+            BuffController.Instance.Delete();
+            WeaponController.Instance.Delete();
+            ArtifactController.Instance.Delete();
+            ActiveArtifacts.Instance.Delete();
+            PassiveArtifacts.Instance.Delete();
+            PlayerBulletPool.Instance.Delete();
+        }
         Delete();
+        //첫 튜토리얼일때만 캐릭터 선택창으로 넘어가기
+
     }
 
     private void Update()
     {
-        if (GotoMain == false)
+        if (GotoMain == false&&IsTutorial==false)
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {

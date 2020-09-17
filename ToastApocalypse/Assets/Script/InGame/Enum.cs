@@ -139,3 +139,15 @@ public enum eSkilltype
     DamageCollider,
     None
 }
+
+
+public enum eTutorialStage
+{
+    Artifact,
+    Item,
+    Statue,
+    Combat1,
+    Combat2,
+    Skill,
+    End
+}

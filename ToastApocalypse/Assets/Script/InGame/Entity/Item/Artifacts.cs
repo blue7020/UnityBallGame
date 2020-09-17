@@ -54,15 +54,31 @@ public class Artifacts : InformationLoader
     }
     public void ShowCooltime(float maxTime, float currentTime)
     {
-        if (currentTime > 0)
+        if (GameController.Instance.IsTutorial==false)
         {
-            UIController.Instance.ArtifactCoolWheel.gameObject.SetActive(true);
-            UIController.Instance.ArtifactCoolWheel.fillAmount = currentTime / maxTime;
+            if (currentTime > 0)
+            {
+                UIController.Instance.ArtifactCoolWheel.gameObject.SetActive(true);
+                UIController.Instance.ArtifactCoolWheel.fillAmount = currentTime / maxTime;
+            }
+            else
+            {
+                IsArtifactCool = false;
+                UIController.Instance.ArtifactCoolWheel.gameObject.SetActive(false);
+            }
         }
         else
         {
-            IsArtifactCool = false;
-            UIController.Instance.ArtifactCoolWheel.gameObject.SetActive(false);
+            if (currentTime > 0)
+            {
+                TutorialUIController.Instance.ArtifactCoolWheel.gameObject.SetActive(true);
+                TutorialUIController.Instance.ArtifactCoolWheel.fillAmount = currentTime / maxTime;
+            }
+            else
+            {
+                IsArtifactCool = false;
+                TutorialUIController.Instance.ArtifactCoolWheel.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -154,7 +170,15 @@ public class Artifacts : InformationLoader
             Player.Instance.NowActiveArtifact = this;
             Player.Instance.UseItemInventory = this;
             ArtifactController.Instance.mPassiveArtifact.Add(this);
-            UIController.Instance.ShowArtifactImage();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.ShowArtifactImage();
+            }
+            else
+            {
+                TutorialUIController.Instance.ShowArtifactImage();
+            }
+
             mRenderer.color = Color.clear;
 
         }
@@ -177,13 +201,28 @@ public class Artifacts : InformationLoader
                 }
                 Player.Instance.NowActiveArtifact = this;
                 Player.Instance.UseItemInventory = this;
-                UIController.Instance.mUsingArtifactImage.sprite = Player.Instance.NowActiveArtifact.mRenderer.sprite;
+                if (GameController.Instance.IsTutorial == false)
+                {
+                    UIController.Instance.mUsingArtifactImage.sprite = Player.Instance.NowActiveArtifact.mRenderer.sprite;
+                }
+                else
+                {
+                    TutorialUIController.Instance.mUsingArtifactImage.sprite = Player.Instance.NowActiveArtifact.mRenderer.sprite;
+                }
+              
                 gameObject.transform.SetParent(Player.Instance.gameObject.transform);
                 mRenderer.color = Color.clear;
                 EquipArtifact();
             }
         }
-        UIController.Instance.ShowArtifactImage();
+        if (GameController.Instance.IsTutorial==false)
+        {
+            UIController.Instance.ShowArtifactImage();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowArtifactImage();
+        }
 
     }
 

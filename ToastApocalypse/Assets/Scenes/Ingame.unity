@@ -2114,6 +2114,7 @@ MonoBehaviour:
   StageHP: 0
   MaterialDropRate: 0
   SyrupInStage: 0
+  IsTutorial: 0
 --- !u!4 &400048389
 Transform:
   m_ObjectHideFlags: 0
@@ -3132,6 +3133,7 @@ MonoBehaviour:
   title: 
   lore: 
   mCount: {fileID: 997322789}
+  mAmount: 0
 --- !u!114 &596954657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3528,6 +3530,7 @@ MonoBehaviour:
   title: 
   lore: 
   mCount: {fileID: 361254367}
+  mAmount: 0
 --- !u!114 &637545032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5641,6 +5644,7 @@ MonoBehaviour:
   title: 
   lore: 
   mCount: {fileID: 1735616881}
+  mAmount: 0
 --- !u!114 &1027707641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7100,6 +7104,8 @@ GameObject:
   - component: {fileID: 1189195519}
   - component: {fileID: 1189195521}
   - component: {fileID: 1189195520}
+  - component: {fileID: 1189195522}
+  - component: {fileID: 1189195523}
   m_Layer: 5
   m_Name: BulletText
   m_TagString: Untagged
@@ -7167,6 +7173,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189195518}
   m_CullTransparentMesh: 0
+--- !u!114 &1189195522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189195518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 2, y: -2}
+  m_UseGraphicAlpha: 1
+--- !u!114 &1189195523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1189195518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1204574911
 GameObject:
   m_ObjectHideFlags: 0
@@ -8788,6 +8824,7 @@ MonoBehaviour:
   title: 
   lore: 
   mCount: {fileID: 1162045244}
+  mAmount: 0
 --- !u!114 &1547541533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11573,6 +11610,7 @@ MonoBehaviour:
   title: 
   lore: 
   mCount: {fileID: 6641898327925992426}
+  mAmount: 0
 --- !u!224 &936997802411979952
 RectTransform:
   m_ObjectHideFlags: 0

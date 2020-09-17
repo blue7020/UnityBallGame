@@ -20,8 +20,16 @@ public class PlayerList : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.PLAYER_STAT);
-            player = Instantiate(mPlayer[GameSetting.Instance.PlayerID], Vector3.zero, Quaternion.identity);
-            player.mStats = mInfoArr[GameSetting.Instance.PlayerID];
+            if (GameSetting.Instance.NowStage!=0)
+            {
+                player = Instantiate(mPlayer[GameSetting.Instance.PlayerID], Vector3.zero, Quaternion.identity);
+                player.mStats = mInfoArr[GameSetting.Instance.PlayerID];
+            }
+            else
+            {
+                player = Instantiate(mPlayer[0], Vector3.zero, Quaternion.identity);
+                player.mStats = mInfoArr[0];
+            }
             player.NowPlayerSkill = mSkill;
             mSkill.transform.SetParent(player.gameObject.transform);
         }
@@ -42,15 +50,22 @@ public class PlayerList : InformationLoader
         {
             DontDestroyOnLoad(gameObject);
         }
-        player.joyskick = stick;
+        if (GameController.Instance.IsTutorial == false)
+        {
+            mSkill.mID = GameSetting.Instance.PlayerSkillID;
+            mWeapon = Instantiate(GameSetting.Instance.mWeapons[GameSetting.Instance.PlayerWeaponID], player.transform);
+            player.NowPlayerWeapon = mWeapon;
+            player.NowPlayerWeapon.EquipWeapon();
+            UIController.Instance.CharacterImage();
+            UIController.Instance.ShowSkillImage();
+            UIController.Instance.ShowItemImage();
+            UIController.Instance.ShowWeaponImage();
+        }
+        else
+        {
+            TutorialUIController.Instance.CharacterImage();
+        }
         CameraMovment.Instance.PlayerSetting(Player.Instance.gameObject);
-        mSkill.mID = GameSetting.Instance.PlayerSkillID;
-        mWeapon = Instantiate(GameSetting.Instance.mWeapons[GameSetting.Instance.PlayerWeaponID],player.transform);
-        UIController.Instance.CharacterImage();
-        player.NowPlayerWeapon = mWeapon;
-        player.NowPlayerWeapon.EquipWeapon();
-        UIController.Instance.ShowSkillImage();
-        UIController.Instance.ShowItemImage();
-        UIController.Instance.ShowWeaponImage();
+        player.joyskick = stick;
     }
 }

@@ -135,8 +135,17 @@ public class Weapon : MonoBehaviour
             Currentroom = Player.Instance.CurrentRoom;
             transform.SetParent(Player.Instance.gameObject.transform);
             transform.localPosition = Vector3.zero;
-            UIController.Instance.ShowNowBulletText();
-            UIController.Instance.ShowWeaponImage();
+            if (GameController.Instance.IsTutorial==false)
+            {
+                UIController.Instance.ShowNowBulletText();
+                UIController.Instance.ShowWeaponImage();
+            }
+            else
+            {
+                TutorialUIController.Instance.ShowNowBulletText();
+                TutorialUIController.Instance.ShowWeaponImage();
+            }
+
         }
     }
 

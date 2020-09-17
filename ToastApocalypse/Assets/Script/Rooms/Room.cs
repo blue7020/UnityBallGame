@@ -24,6 +24,8 @@ public class Room : MonoBehaviour
     public Door topDoor;
     public Door bottomDoor;
 
+    public Transform mStartPos;
+
     public eRoomType eType;
     public GridController mGrid;
     public EnemyFinder mEnemyFinder;
@@ -38,7 +40,10 @@ public class Room : MonoBehaviour
 
     private void Awake()
     {
-        MapIcon.gameObject.SetActive(false);
+        if (MapIcon!=null)
+        {
+            MapIcon.gameObject.SetActive(false);
+        }
         EnemyCount = 0;
         Special = false;
         updatedDoors = false;
@@ -46,7 +51,7 @@ public class Room : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameController.Instance.Level < 5)
+        if (GameController.Instance.Level < 5&&GameController.Instance.IsTutorial==false)
         {
             Door[] ds = GetComponentsInChildren<Door>();
             foreach (Door d in ds)
@@ -79,7 +84,7 @@ public class Room : MonoBehaviour
 
     private void Update()
     {
-        if (RoomControllers.Instance.AllRoomGen == true)
+        if (GameController.Instance.IsTutorial == false&&RoomControllers.Instance.AllRoomGen == true)
         {
             if (name.Contains("End") && !updatedDoors)
             {
@@ -199,40 +204,50 @@ public class Room : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player")&& Special==false)
+        if (GameController.Instance.IsTutorial == false)
         {
-            if (eType==eRoomType.Shop)
+            if (other.gameObject.CompareTag("Player") && Special == false)
             {
-                for (int i=0; i < CanvasFinder.Instance.mShopPriceText.Length;i++)
+                if (eType == eRoomType.Shop)
                 {
-                    CanvasFinder.Instance.mShopPriceText[i].gameObject.SetActive(true);
-                }
-                
-            }
-            if (eType == eRoomType.Statue)
-            {
-                for (int i = 0; i < CanvasFinder.Instance.mStatuePriceText.Length; i++)
-                {
-                    if (i!=1)
+                    for (int i = 0; i < CanvasFinder.Instance.mShopPriceText.Length; i++)
                     {
-                        CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(true);
+                        CanvasFinder.Instance.mShopPriceText[i].gameObject.SetActive(true);
                     }
+
                 }
+                if (eType == eRoomType.Statue)
+                {
+                    for (int i = 0; i < CanvasFinder.Instance.mStatuePriceText.Length; i++)
+                    {
+                        if (i != 1)
+                        {
+                            CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(true);
+                        }
+                    }
 
+                }
+                if (eType == eRoomType.Boss)
+                {
+                    PortalTrigger.Instance.BossSpawn();
+                    EnemyCount++;
+
+                }
+                if (eType == eRoomType.Slot)
+                {
+                    CanvasFinder.Instance.mSlotPriceText.gameObject.SetActive(true);
+
+                }
+                Special = true;
+                RoomControllers.Instance.OnPlayerEnterRoom(this);
             }
-            if (eType == eRoomType.Boss)
+        }
+        else
+        {
+            if (other.gameObject.CompareTag("Player"))
             {
-                PortalTrigger.Instance.BossSpawn();
-                EnemyCount++;
-
+                Player.Instance.CurrentRoom = this;
             }
-            if (eType == eRoomType.Slot)
-            {
-                CanvasFinder.Instance.mSlotPriceText.gameObject.SetActive(true);
-
-            }
-            Special = true;
-            RoomControllers.Instance.OnPlayerEnterRoom(this);
         }
     }
 }

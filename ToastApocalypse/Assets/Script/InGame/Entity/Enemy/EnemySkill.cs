@@ -1487,6 +1487,12 @@ public class EnemySkill : MonoBehaviour
     }
     private void ScareCrow2()
     {
-        ResetDir(8);
+        Bullet bolt = BulletPool.Instance.GetFromPool(8);
+        bolt.mEnemy = mEnemy;
+        bolt.mDamage = mEnemy.mStats.Atk;
+        bolt.transform.position = mEnemy.transform.position;
+        Vector3 Pos = Player.Instance.transform.position;
+        Vector3 dir = Pos - transform.position;
+        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
     }
 }

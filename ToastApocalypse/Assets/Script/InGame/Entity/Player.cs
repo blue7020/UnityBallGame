@@ -98,26 +98,33 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        if (GameController.Instance.GotoMain == false)
+        if (GameController.Instance.GotoMain == false&&GameController.Instance.IsTutorial==false)
         {
             DontDestroyOnLoad(gameObject);
-        }
-        if (GameSetting.Instance.NowStage == 6)
-        {
-            mMaxHP = mStats.Hp - (mStats.Hp * 0.15f);
-            mStats.AtkSpd += mStats.AtkSpd * 0.15f;
-            mStats.Spd -=mStats.Spd * 0.15f;
         }
         else
         {
             mMaxHP = mStats.Hp;
         }
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
-        UIController.Instance.ShowGold();
-        UIController.Instance.ShowHP();
-        if (GameSetting.Instance.NowStage == 4)
+        if (GameController.Instance.IsTutorial == false)
         {
-            StartCoroutine(Air());
+            if (GameSetting.Instance.NowStage == 4)
+            {
+                StartCoroutine(Air());
+            }
+            else if (GameSetting.Instance.NowStage == 6)
+            {
+                mMaxHP = mStats.Hp - (mStats.Hp * 0.15f);
+                mStats.AtkSpd += mStats.AtkSpd * 0.15f;
+                mStats.Spd -= mStats.Spd * 0.15f;
+            }
+            UIController.Instance.ShowGold();
+            UIController.Instance.ShowHP();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowHP();
         }
     }
 
@@ -212,7 +219,14 @@ public class Player : MonoBehaviour
             {
                 mCurrentHP -= damage - (mStats.Def * (1 + buffIncrease[1]));
             }
-            UIController.Instance.ShowHP();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.ShowHP();
+            }
+            else
+            {
+                TutorialUIController.Instance.ShowHP();
+            }
         }
         if (mCurrentHP <= 0)
         {
@@ -233,17 +247,26 @@ public class Player : MonoBehaviour
 
     public void GameOver()
     {
-        Nodamage = true;
-        StopCoroutine(HitAnimation());
-        GameController.Instance.pause = true;
-        SoundController.Instance.mBGM.Stop();
-        mRB2D.velocity = Vector3.zero;
-        Stun = true;
-        mRenderer.sortingLayerName = "UI";
-        mRenderer.sortingOrder = 4;
-        UIController.Instance.mDeathUI.gameObject.SetActive(true);
-        //음악도 중지
-        mAnim.SetBool(AnimHash.Death, true);
+        if (GameController.Instance.IsTutorial == false)
+        {
+            Nodamage = true;
+            StopCoroutine(HitAnimation());
+            GameController.Instance.pause = true;
+            SoundController.Instance.mBGM.Stop();
+            mRB2D.velocity = Vector3.zero;
+            Stun = true;
+            mRenderer.sortingLayerName = "UI";
+            mRenderer.sortingOrder = 4;
+            UIController.Instance.mDeathUI.gameObject.SetActive(true);
+            //음악도 중지
+            mAnim.SetBool(AnimHash.Death, true);
+        }
+        else
+        {
+            transform.position =CurrentRoom.mStartPos.position;
+            mCurrentHP = mMaxHP;
+            TutorialUIController.Instance.ShowHP();
+        }
     }
     public void DeathWindow()
     {
@@ -277,7 +300,14 @@ public class Player : MonoBehaviour
         if (NowItem!=null)
         {
             NowItem.UseItem();
-            UIController.Instance.ShowHP();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.ShowHP();
+            }
+            else
+            {
+                TutorialUIController.Instance.ShowHP();
+            }
         }
         
     }
@@ -286,7 +316,14 @@ public class Player : MonoBehaviour
         if (NowActiveArtifact != null)
         {
             NowActiveArtifact.UseArtifact();
-            UIController.Instance.ShowHP();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.ShowHP();
+            }
+            else
+            {
+                TutorialUIController.Instance.ShowHP();
+            }
         }
     }
 
@@ -354,7 +391,14 @@ public class Player : MonoBehaviour
         {
             mCurrentHP += mHealAmount + BonusHeal;//추가 회복값
         }
-        UIController.Instance.ShowHP();
+        if (GameController.Instance.IsTutorial == false)
+        {
+            UIController.Instance.ShowHP();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowHP();
+        }
     }
 
     public IEnumerator Atk(float value, int code, float duration)
@@ -513,9 +557,23 @@ public class Player : MonoBehaviour
         if (art.eType == eArtifactType.Active)
         {
             NowActiveArtifact = art;
-            UIController.Instance.ShowArtifactImage();
+            if (GameController.Instance.IsTutorial == false)
+            {
+                UIController.Instance.ShowArtifactImage();
+            }
+            else
+            {
+                TutorialUIController.Instance.ShowArtifactImage();
+            }
         }
-        UIController.Instance.ShowHP();
+        if (GameController.Instance.IsTutorial == false)
+        {
+            UIController.Instance.ShowHP();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowHP();
+        }
     }
     public void UnequipArtifact(Artifacts art)
     {
@@ -528,7 +586,14 @@ public class Player : MonoBehaviour
         mStats.CritDamage -= art.mStats.CritDamage;
         mStats.CCReduce -= art.mStats.CCReduce;
         mStats.CooltimeReduce -= art.mStats.CooltimeReduce;
-        UIController.Instance.ShowHP();
+        if (GameController.Instance.IsTutorial == false)
+        {
+            UIController.Instance.ShowHP();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowHP();
+        }
         art.Equip = false;
     }
 
@@ -540,7 +605,14 @@ public class Player : MonoBehaviour
         mStats.Crit += weapon.mStats.Crit / 100;
         mStats.CritDamage += weapon.mStats.CritDamage;
         NowPlayerWeapon = weapon;
-        UIController.Instance.ShowWeaponImage();
+        if (GameController.Instance.IsTutorial == false)
+        {
+            UIController.Instance.ShowWeaponImage();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowWeaponImage();
+        }
     }
 
     public void UnequipWeapon(Weapon weapon)
@@ -550,7 +622,14 @@ public class Player : MonoBehaviour
         mStats.Crit -= weapon.mStats.Crit / 100;
         mStats.CritDamage -= weapon.mStats.CritDamage;
         NowPlayerWeapon = null;
-        UIController.Instance.ShowWeaponImage();
+        if (GameController.Instance.IsTutorial == false)
+        {
+            UIController.Instance.ShowWeaponImage();
+        }
+        else
+        {
+            TutorialUIController.Instance.ShowWeaponImage();
+        }
         weapon.Equip = false;
     }
 }

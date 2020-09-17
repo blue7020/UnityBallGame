@@ -171,10 +171,13 @@ public class UIController : InformationLoader
             mItemText.text = "Material";
             mGuideText.text = "Touch to move to the lobby.";
         }
-        GameSetting.Instance.Syrup += GameController.Instance.SyrupInStage;
-        for (int i = 0; i < 5; i++)
+        if (GameSetting.Instance.Syrup + GameController.Instance.SyrupInStage >= 99999)
         {
-            //TODO 아이템 슬롯에 아이템 채우기
+            GameSetting.Instance.Syrup = 99999;
+        }
+        else
+        {
+            GameSetting.Instance.Syrup += GameController.Instance.SyrupInStage;
         }
         mPieceImage.sprite = GameSetting.Instance.mParts[GameSetting.Instance.NowStage];
         mClearImage.gameObject.SetActive(true);

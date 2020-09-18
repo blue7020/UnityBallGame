@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActiveArtifacts : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class ActiveArtifacts : MonoBehaviour
     public static ActiveArtifacts Instance;
     public GameObject[] mSkillobj;
     public SkillEffect buffEffect;
+    private string bufftext, bufftext2;
+    private TextEffect effect;
 
     private void Awake()
     {
@@ -66,6 +69,16 @@ public class ActiveArtifacts : MonoBehaviour
         Player.Instance.Nodamage = true;
         buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
         buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.white);
+        if (GameSetting.Instance.Language == 0)
+        {
+            bufftext = "피해 면역!";
+        }
+        else
+        {
+            bufftext = "Damage Resistance!";
+        }
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.SetText(bufftext);
         yield return dura;
         Player.Instance.Nodamage = false;
     }
@@ -96,6 +109,24 @@ public class ActiveArtifacts : MonoBehaviour
         buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.yellow);
         buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
         buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.cyan);
+        BuffEffectController.Instance.EffectList.Add(buffEffect);
+        if (GameSetting.Instance.Language == 0)
+        {
+            bufftext = "이동 속도 증가!";
+            bufftext2 = "공격 속도 증가!";
+        }
+        else
+        {
+            bufftext = "Movement speed increase!";
+            bufftext2 = "Attack speed increase!";
+        }
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.transform.position += new Vector3(0, -0.6f, 0);
+        effect.SetText(bufftext);
+        BuffEffectController.Instance.EffectList.Add(buffEffect);
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.transform.position += new Vector3(0, -0.6f, 0);
+        effect.SetText(bufftext2);
         yield return dura;
         Player.Instance.buffIncrease[2] -= 0.4f;
         Player.Instance.buffIncrease[3] -= 0.4f;
@@ -106,21 +137,38 @@ public class ActiveArtifacts : MonoBehaviour
         float rand = Random.Range(0, 3f);
         if (rand<=1f)
         {
-            Player.Instance.DoEffect(3, 07f, 3, 0.4f);
+            if (GameSetting.Instance.Language == 0)
+            {
+                bufftext = "공격력 증가!";
+                bufftext2 = "공격 속도 증가!";
+            }
+            else
+            {
+                bufftext = "Attack increase!";
+                bufftext2 = "Attack speed increase!";
+            }
+            Player.Instance.DoEffect(1, 7f, 1, 0.3f);
+            buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.red);
+            BuffEffectController.Instance.EffectList.Add(buffEffect);
+            effect = TextEffectPool.Instance.GetFromPool(0);
+            effect.SetText(bufftext);
+            Player.Instance.DoEffect(3, 7f, 3, 0.3f);
             buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
             buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.yellow);
-            Debug.Log("스피드업");
+            BuffEffectController.Instance.EffectList.Add(buffEffect);
+            effect = TextEffectPool.Instance.GetFromPool(0);
+            effect.transform.position += new Vector3(0, -0.6f, 0);
+            effect.SetText(bufftext2);
         }
         else if (rand>1f&&rand<=2f)
         {
             float amount = Player.Instance.mMaxHP * 0.3f;
             Player.Instance.Heal(amount);
-            Debug.Log("힐");
         }
         else
         {
             StartCoroutine(CCReduce());
-            Debug.Log("CC기저항");
         }
     }
 
@@ -130,6 +178,17 @@ public class ActiveArtifacts : MonoBehaviour
         BuffController.Instance.SetBuff(8, 8, eBuffType.Buff, 7);
         buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
         buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 7, 0, Color.magenta);
+        BuffEffectController.Instance.EffectList.Add(buffEffect);
+        if (GameSetting.Instance.Language == 0)
+        {
+            bufftext = "상태 이상 면역!";
+        }
+        else
+        {
+            bufftext = "Debuff Resistance!";
+        }
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.SetText(bufftext);
         Player.Instance.NoCC = true;
         yield return delay;
         Player.Instance.NoCC = false;

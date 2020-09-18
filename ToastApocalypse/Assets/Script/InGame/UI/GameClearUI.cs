@@ -58,9 +58,8 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public void StageClear()
     {
         GetItem(GameSetting.Instance.NowStage);
-        if (GameSetting.Instance.StageOpen[5] == false)
+        if (GameSetting.Instance.NowStage < 6)
         {
-            GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
             if (GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage] == false)
             {
                 StartCoroutine(PartsAnim());
@@ -87,7 +86,8 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         yield return delay;
         NotouchArea.gameObject.SetActive(false);
         mAnim.SetBool(AnimHash.Parts, false);
-        GameSetting.Instance.GetParts(GameSetting.Instance.NowStage);
+        GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
+        GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage]=true;
     }
 
     public void OnPointerClick(PointerEventData eventData)

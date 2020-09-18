@@ -16,6 +16,7 @@ public class MainLobbyCamera : MonoBehaviour
         {
             Instance = this;
             PlayerSpawn = false;
+            mPlayerObj = null;
         }
         else
         {

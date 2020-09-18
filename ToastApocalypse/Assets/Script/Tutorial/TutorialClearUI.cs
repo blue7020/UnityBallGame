@@ -35,11 +35,11 @@ public class TutorialClearUI : MonoBehaviour,IPointerClickHandler
         yield return delay;
         NotouchArea.gameObject.SetActive(false);
         mAnim.SetBool(AnimHash.Parts, false);
-        GameSetting.Instance.GetParts(GameSetting.Instance.NowStage);
+        GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage] = true;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameController.Instance.MainLobby();
+        GameController.Instance.MainMenu();
     }
 }

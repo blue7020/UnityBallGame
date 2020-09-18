@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
             pause = false;
             Level = 1;
             SyrupInStage = 0;
-            if (IsTutorial==false)
+            if (!IsTutorial)
             {
                 MaterialDropRate = 0.3f;
                 StageHP = 2;
@@ -72,6 +72,7 @@ public class GameController : MonoBehaviour
         DestroyController();
         pause = false;
         Time.timeScale = 1;
+        GameSetting.Instance.NowScene = 1;
         GameSetting.Instance.Restart();
         //게임 저장
         SceneManager.LoadScene(1);
@@ -79,22 +80,11 @@ public class GameController : MonoBehaviour
         SoundController.Instance.BGMChange(0);
     }
 
-    public void MainLobby()//Tutorial
-    {
-        DestroyController();
-        pause = false;
-        Time.timeScale = 1;
-        GameSetting.Instance.Restart();
-        //게임 저장
-        SceneManager.LoadScene(1);
-        SoundController.Instance.mBGM.Stop();
-        SoundController.Instance.BGMChange(0);
-    }
     public void DestroyController()
     {
         GotoMain = true;
 
-        if (IsTutorial==false)
+        if (!IsTutorial)
         {
             CameraMovment.Instance.Delete();
             TextEffectPool.Instance.Delete();

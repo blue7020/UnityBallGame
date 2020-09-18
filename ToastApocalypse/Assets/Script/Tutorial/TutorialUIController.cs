@@ -13,7 +13,7 @@ public class TutorialUIController : InformationLoader
     public Image mPlayerImage, mStatPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint, mPieceImage;
     public HPBar mHPBar;
-
+    public TutorialDialog Dialog;
     public Sprite DefaultItemSprite;
 
     public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus;
@@ -22,6 +22,8 @@ public class TutorialUIController : InformationLoader
 
     public Enemy[] mEnemy;
     public Transform[] mSpawnPos;
+
+    public int TutorialStatueCheck;
 
     public MapText[] mInfoArr;
 
@@ -59,6 +61,8 @@ public class TutorialUIController : InformationLoader
         {
             Instantiate(mEnemy[i], mSpawnPos[i]);
         }
+        Dialog.gameObject.SetActive(true);
+        Dialog.ShowDialog(0);
     }
 
 

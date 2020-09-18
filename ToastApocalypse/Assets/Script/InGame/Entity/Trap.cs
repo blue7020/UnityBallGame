@@ -103,8 +103,15 @@ public class Trap : MonoBehaviour
             {
                 if (DamageOn == true && Player.Instance.TrapResistance == false)
                 {
-                    Debug.Log("123");
                     mTarget.Hit(mValue + mTarget.mStats.Def);//고정피해
+                    if (GameController.Instance.IsTutorial == false)
+                    {
+                        UIController.Instance.ShowHP();
+                    }
+                    else
+                    {
+                        TutorialUIController.Instance.ShowHP();
+                    }
                 }
             }
             else
@@ -124,7 +131,6 @@ public class Trap : MonoBehaviour
                 }
             }
         }
-        TutorialUIController.Instance.ShowHP();
     }
 
     public IEnumerator Dispose()

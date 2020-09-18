@@ -46,6 +46,8 @@ public class PassiveArtifacts : MonoBehaviour
     {
         switch (id)
         {
+            case 0:
+                break;
             case 1:
                 break;
             case 2://금단의 레시피
@@ -90,7 +92,7 @@ public class PassiveArtifacts : MonoBehaviour
             case 19:
                 break;
             default:
-                Debug.LogError("Wrong Active Artifacts Id");
+                Debug.LogError("Wrong Active Artifacts Id" + id);
                 break;
         }
     }

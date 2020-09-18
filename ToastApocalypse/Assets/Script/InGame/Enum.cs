@@ -149,5 +149,6 @@ public enum eTutorialStage
     Combat1,
     Combat2,
     Skill,
-    End
+    End,
+    Start
 }

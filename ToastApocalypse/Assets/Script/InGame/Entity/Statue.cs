@@ -26,14 +26,6 @@ public class Statue : MonoBehaviour
         IsUse = false;
     }
 
-    private void Start()
-    {
-        if (GameController.Instance.IsTutorial==true)
-        {
-            mStats = StatueController.Instance.mStatInfoArr[mStatueID];
-        }
-    }
-
     public void StatSetting(int id)
     {
         mStatueID = id;
@@ -76,8 +68,11 @@ public class Statue : MonoBehaviour
                 break;
         }
         mStats = StatueController.Instance.mStatInfoArr[mStatueID];
-        mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
-        mPriceText.transform.localScale = new Vector3(10, 10, 0);
+        if (GameController.Instance.IsTutorial==false)
+        {
+            mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+            mPriceText.transform.localScale = new Vector3(10, 10, 0);
+        }
     }
 
     //석상의 buff코드
@@ -144,7 +139,7 @@ public class Statue : MonoBehaviour
                 buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.yellow);
                 BuffEffectController.Instance.EffectList.Add(buffEffect);
                 effect = TextEffectPool.Instance.GetFromPool(0);
-                effect.transform.position -= new Vector3(0, 3, 0);
+                effect.transform.position += new Vector3(0, -0.6f, 0);
                 effect.SetText(bufftext2);
                 break;
             case eStatueType.Def:
@@ -267,6 +262,10 @@ public class Statue : MonoBehaviour
                 else
                 {
                     StatueUse();
+                    if (GameController.Instance.IsTutorial==true)
+                    {
+                        TutorialUIController.Instance.TutorialStatueCheck++;
+                    }
                 }
                 
 

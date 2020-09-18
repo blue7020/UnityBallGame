@@ -28,6 +28,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         mIcon.sprite = GameSetting.Instance.mWeapons[mWeaponID].mWeaponImage;
         if (mWeapon != null)
         {
+            Debug.Log(mWeaponID);
             if (GameSetting.Instance.Language == 0)//한국어
             {
                 lore = mWeapon.ContensFormat + "\n";
@@ -117,14 +118,6 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }
 
             }
-            if (IsBlacksmithShop == false)
-            {
-                mTooltip.SetData(title, lore, mIcon.sprite);
-            }
-            else
-            {
-                BlackSmithShopController.Instance.mTooltip.SetData(title, lore, mIcon.sprite);
-            }
         }
     }
 
@@ -133,6 +126,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (IsShop==false)
         {
             mDraggingID = mWeaponID;
+            Debug.Log("포인트 엔터" + mWeaponID);
         }
     }
 
@@ -140,6 +134,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if (IsShop == false)
         {
+            Debug.Log("포인트 익스트");
             mDraggingID = -1;
         }
     }
@@ -148,10 +143,12 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if (IsBlacksmithShop == false)
         {
+            mTooltip.SetData(title, lore, mIcon.sprite);
             mTooltip.gameObject.SetActive(true);
         }
         else
         {
+            BlackSmithShopController.Instance.mTooltip.SetData(title, lore, mIcon.sprite);
             BlackSmithShopController.Instance.mTooltip.gameObject.SetActive(true);
         }
     }

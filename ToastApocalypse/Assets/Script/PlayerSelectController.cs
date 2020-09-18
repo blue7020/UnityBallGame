@@ -12,7 +12,7 @@ public class PlayerSelectController : InformationLoader
     public VirtualJoyStick mStick;
     public Button LeftButton, RightButton, SelectButton;
     public int NowPlayerID;
-    public Text mNameText, mStatText, mSelectText;
+    public Text mNameText, mStatText, mSelectText,mTitleText;
     public PlayerStat[] mInfoArr;
 
     private void Awake()
@@ -21,6 +21,11 @@ public class PlayerSelectController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.PLAYER_STAT);
+            if (GameSetting.Instance.NowScene == 1)
+            {
+                mWindow.gameObject.SetActive(false);
+                GameSetting.Instance.NowScene = 1;
+            }
         }
         else
         {
@@ -30,22 +35,24 @@ public class PlayerSelectController : InformationLoader
 
     private void Start()
     {
-        if (GameSetting.Instance.NowScene == 1)
+        if (GameSetting.Instance.NowScene == 0)
         {
             NowPlayerID = 0;
             LeftButton.gameObject.SetActive(false);
             ShowStat();
         }
-        else
+        else if(GameSetting.Instance.NowScene == 1)
         {
+            NowPlayerID = GameSetting.Instance.PlayerID;
             ReturnLobby();
         }
         mBlackScreen.gameObject.SetActive(false);
+
     }
 
     public void LeftCharacterSelect()
     {
-        NowPlayerID--;
+        NowPlayerID-=1;
         ShowStat();
         if (NowPlayerID-1<0)
         {
@@ -55,7 +62,7 @@ public class PlayerSelectController : InformationLoader
     }
     public void RightCharacterSelect()
     {
-        NowPlayerID++;
+        NowPlayerID+=1;
         ShowStat();
         if (NowPlayerID + 1 >= mPlayer.Length)
         {
@@ -111,6 +118,7 @@ public class PlayerSelectController : InformationLoader
             mStatText.text = Stat;
             mNameText.text = mInfoArr[NowPlayerID].Name;
             mSelectText.text = "선택";
+            mTitleText.text = "캐릭터 선택";
         }
         else if (GameSetting.Instance.Language == 1)
         {//영어
@@ -131,6 +139,7 @@ public class PlayerSelectController : InformationLoader
             mStatText.text = Stat;
             mNameText.text = mInfoArr[NowPlayerID].EngName;
             mSelectText.text = "Select";
+            mTitleText.text = "Character Select";
         }
     }
 }

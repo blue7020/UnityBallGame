@@ -33,17 +33,14 @@ public class StatueController : InformationLoader
             LoadJson(out mStatInfoArr, Path.STATUE_STAT);
             StatueIDList = new List<int>();
             mStatueSprites = GameSetting.Instance.mStatueSprites;
-            if (GameSetting.Instance.NowStage!=0)
+            for (int i = 0; i < GameSetting.Instance.StatueOpen.Length; i++)
             {
-                for (int i = 0; i < GameSetting.Instance.StatueOpen.Length; i++)
+                if (GameSetting.Instance.StatueOpen[i] == true)
                 {
-                    if (GameSetting.Instance.StatueOpen[i] == true)
-                    {
-                        StatueIDList.Add(i);
-                    }
+                    StatueIDList.Add(i);
                 }
-                mStatueArr = new Statue[STATUE_COUNT];
             }
+            mStatueArr = new Statue[STATUE_COUNT];
         }
         else
         {
@@ -62,7 +59,7 @@ public class StatueController : InformationLoader
                 int rand = Random.Range(0, StatueIDList.Count);
                 mStatueArr[i].mStatueID = StatueIDList[rand];
                 StatueIDList.RemoveAt(rand);
-                mStatueArr[i].mID = i;
+                mStatueArr[i].mID = rand;
                 mStatueArr[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
                 if (i == 1)
                 {
@@ -79,6 +76,21 @@ public class StatueController : InformationLoader
                 CanvasFinder.Instance.mStatuePriceText[i].text = mStatueArr[i].SpendGold.ToString() + "G";
                 CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(false);
                 mStatueArr[i].StatSetting(rand);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < STATUE_COUNT; i++)
+            {
+                mStatueArr[i] = Instantiate(mStatue, mStatuePos[i]);
+                mStatueArr[i].mID = i+1;
+                mStatueArr[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
+                mStatueArr[i].ePayType = eStatuePay.Free;
+                mStatueArr[i].SpendGold = 0;
+                CanvasFinder.Instance.mStatuePriceText[i] = mStatueArr[i].mPriceText;
+                CanvasFinder.Instance.mStatuePriceText[i].text = mStatueArr[i].SpendGold.ToString() + "G";
+                CanvasFinder.Instance.mStatuePriceText[i].gameObject.SetActive(false);
+                mStatueArr[i].StatSetting(i+1);
             }
         }
 

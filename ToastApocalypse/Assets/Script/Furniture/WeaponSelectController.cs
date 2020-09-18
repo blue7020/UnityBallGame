@@ -32,7 +32,7 @@ public class WeaponSelectController : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < SkillController.Instance.mStatInfoArr.Length; i++)
+        for (int i = 0; i < GameSetting.Instance.mInfoArr.Length; i++)
         {
             WeaponCount++;
         }

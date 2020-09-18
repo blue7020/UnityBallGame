@@ -68,6 +68,7 @@ public class WeaponController : MonoBehaviour
             case 8://피자 커터
                 break;
             case 9://시리얼 디스펜서
+                StartCoroutine(Cereal());
                 break;
             case 10://나루토마키
                 break;
@@ -117,6 +118,15 @@ public class WeaponController : MonoBehaviour
         {
             StartCoroutine(Target.Stuned(1f));
         }
+    }
+
+    public IEnumerator Cereal()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        yield return delay;
+        Player.Instance.NowPlayerWeapon.mAttackArea.ResetDir();
+        yield return delay;
+        Player.Instance.NowPlayerWeapon.mAttackArea.ResetDir();
     }
 
     public void JamBlade(Enemy Target)

@@ -126,8 +126,7 @@ public class BlackSmithShopController : MonoBehaviour
         {
             if (mWeapon.Recipe[i] == null)
             {
-                mMaterialSlot[i].mCount.text = "0";
-                mMaterialSlot[i].mAmount = 0;
+                mMaterialSlot[i].RemoveData();
             }
             else
             {

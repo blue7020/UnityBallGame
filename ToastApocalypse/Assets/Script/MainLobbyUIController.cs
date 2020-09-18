@@ -22,6 +22,13 @@ public class MainLobbyUIController : MonoBehaviour
         {
             Instance = this;
             pause = false;
+            for (int i=0; i<mPartsLock.Length;i++)
+            {
+                if (GameSetting.Instance.StagePartsget[i]==true)
+                {
+                    mPartsLock[i].gameObject.SetActive(false);
+                }
+            }
             ShowSyrupText();
         }
         else
@@ -36,7 +43,6 @@ public class MainLobbyUIController : MonoBehaviour
         mBGMminus.onClick.AddListener(() => { BGMMinus(); });
         mSEplus.onClick.AddListener(() => { SEPlus(); });
         mSEminus.onClick.AddListener(() => { SEMinus(); });
-        GameSetting.Instance.ShowParts();
         mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
     }

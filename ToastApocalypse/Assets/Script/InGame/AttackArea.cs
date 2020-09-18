@@ -48,10 +48,6 @@ public class AttackArea : MonoBehaviour
             }
             WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
             ResetDir();
-            if (weapon.PlusBulletCount > 1&& weapon.nowBullet > weapon.PlusBulletCount)
-            {
-                StartCoroutine(PlusBullet());
-            }
         }
     }
 
@@ -77,32 +73,8 @@ public class AttackArea : MonoBehaviour
             FireStarter.Stop();
         }
     }
-    
-    private IEnumerator PlusBullet()
-    {
-        int count = 1;
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        while (true)
-        {
-            if (count==weapon.PlusBulletCount)
-            {
-                break;
-            }
-            weapon.nowBullet--;
-            if (GameController.Instance.IsTutorial == false)
-            {
-                UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
-            }
-            else
-            {
-                TutorialUIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
-            }
-            count++;
-            yield return delay;
-        }
-    }
 
-    private void ResetDir()
+    public void ResetDir()
     {
         float currentXStart = weapon.mBoltXGap * ((weapon.PlusWideBulletCount - 1) / 2);
         Vector3 Xpos = new Vector3(currentXStart, 0, 0);

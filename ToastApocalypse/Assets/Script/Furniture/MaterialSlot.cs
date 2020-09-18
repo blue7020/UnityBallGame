@@ -16,12 +16,21 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
 
     public void SetData(int id)
     {
+        mIcon.color = Color.white;
         if (mMaterial != null && GameSetting.Instance.Ingame == false)
         {
             mMaterial = MaterialController.Instance.mInfoArr[mMaterialID];
         }
         mMaterialID = id;
         mIcon.sprite = GameSetting.Instance.mMaterialSpt[mMaterialID];
+    }
+
+    public void RemoveData()
+    {
+        mMaterialID = 0;
+        mAmount = -1;
+        mCount.text = "";
+        mIcon.color = Color.clear;
     }
 
     public void OnPointerClick(PointerEventData eventData)

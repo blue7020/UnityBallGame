@@ -52,13 +52,15 @@ public class MainLobbyPlayer : MonoBehaviour
         if (hori > 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.Euler(0, 180, 0);
+            //transform.rotation = Quaternion.Euler(0, 180, 0);
+            mRenderer.flipX = true;
 
         }
         else if (hori < 0)
         {
             mAnim.SetBool(AnimHash.Walk, true);
-            transform.rotation = Quaternion.identity;
+            //transform.rotation = Quaternion.identity;
+            mRenderer.flipX = false;
         }
         else if (ver > 0 || ver < 0)
         {

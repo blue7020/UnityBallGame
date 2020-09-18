@@ -13,7 +13,6 @@ public class GameSetting : InformationLoader
     public int PlayerSkillID;
     public int PlayerWeaponID;
     public bool Ingame;
-
     public int NowScene;
 
     private const int CHARACTER_COUNT = 6;
@@ -35,8 +34,6 @@ public class GameSetting : InformationLoader
     public int Language; //0 = 한국어 / 1 = 영어
     public int Syrup;
 
-    public int PartsIndex;
-
     public int[] HasMaterial;
     public bool[] PlayerHasSkill;
     public int PlayerSkillIndex;
@@ -54,7 +51,7 @@ public class GameSetting : InformationLoader
     public bool[] CharacterOpen;
     public bool[] NPCOpen;
 
-    public bool FirstSetting = false;
+    public bool FirstSetting;
     //
 
     private void Awake()
@@ -87,7 +84,7 @@ public class GameSetting : InformationLoader
             for (int i=0; i<4;i++)
             {
                 StatueOpen[i] = true; //기본 석상 4개 오픈
-                NPCOpen[i] = true; //NPC 오픈(원래는 0번만 오픈)
+                NPCOpen[i] = true; //기본 NPC 4명 오픈(원래는 0,5번만 오픈)
             }
             StageOpen[0] = true;//1스테이지 오픈
             CharacterOpen[0] = true;//기본캐릭터 오픈
@@ -97,7 +94,7 @@ public class GameSetting : InformationLoader
             PlayerHasWeapon[1] = true; //기본 원거리 무기 오픈
             PlayerWeaponID = 0;
             Syrup = 0;
-            PartsIndex = 0;
+            FirstSetting = true;
         }
         Restart();
 
@@ -126,27 +123,6 @@ public class GameSetting : InformationLoader
         NowStageRoom = new Room[6];
         Ingame = false;
         NowStage = 0;
-        NowScene = 1;
-    }
-
-    public void GetParts(int Stage)
-    {
-        if (StagePartsget[Stage] == false && Instance.PartsIndex < 6)
-        {
-            Instance.StagePartsget[Stage] = true;
-            Instance.PartsIndex++;
-        }
-    }
-
-    public void ShowParts()
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            if (StagePartsget[i] == true)
-            {
-                MainLobbyUIController.Instance.mPartsLock[i].sprite = mParts[i];
-            }
-        }
     }
 
 }

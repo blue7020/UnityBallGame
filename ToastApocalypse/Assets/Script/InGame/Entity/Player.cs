@@ -83,29 +83,26 @@ public class Player : MonoBehaviour
             Nodamage = false;
             mGoldBonus = 0;
             AttackSpeedStat = 0;
+            buffIncrease = new float[7];
+            for (int i = 0; i < buffIncrease.Length; i++)
+            {
+                buffIncrease[i] = 0;
+            }
+            NowDebuffArr = new Coroutine[9];
         }
         else
         {
             Delete();
         }
-        buffIncrease = new float[7];
-        for (int i = 0; i < buffIncrease.Length; i++)
-        {
-            buffIncrease[i] = 0;
-        }
-        NowDebuffArr = new Coroutine[9];
     }
 
     private void Start()
     {
-        if (GameController.Instance.GotoMain == false&&GameController.Instance.IsTutorial==false)
+        if (GameController.Instance.GotoMain == false && GameController.Instance.IsTutorial == false)
         {
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            mMaxHP = mStats.Hp;
-        }
+        mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         if (GameController.Instance.IsTutorial == false)
         {
@@ -181,13 +178,15 @@ public class Player : MonoBehaviour
             if (hori > 0)
             {
                 mAnim.SetBool(AnimHash.Walk, true);
-                gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+                //transform.rotation = Quaternion.Euler(0, 180, 0);
+                mRenderer.flipX = true;
 
             }
             else if (hori < 0)
             {
                 mAnim.SetBool(AnimHash.Walk, true);
-                gameObject.transform.rotation = Quaternion.identity;
+                //transform.rotation = Quaternion.identity;
+                mRenderer.flipX = false;
             }
             else if (ver > 0 || ver < 0)
             {
@@ -237,12 +236,15 @@ public class Player : MonoBehaviour
     private IEnumerator HitAnimation()
     {
         WaitForSeconds Time = new WaitForSeconds(0.3f);
-        mRenderer.color = Color.red;
-        Nodamage = true;
-        yield return Time;
-        mRenderer.color = Color.white;
-        Nodamage = false;
-        StopCoroutine(HitAnimation());
+        if (Nodamage==false)
+        {
+            mRenderer.color = Color.red;
+            Nodamage = true;
+            yield return Time;
+            mRenderer.color = Color.white;
+            Nodamage = false;
+            StopCoroutine(HitAnimation());
+        }
     }
 
     public void GameOver()

@@ -85,7 +85,6 @@ public class MainScreenUIController : MonoBehaviour
 
     public void GameStart()
     {
-        GameSetting.Instance.NowScene = 1;
         SceneManager.LoadScene(1);
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);

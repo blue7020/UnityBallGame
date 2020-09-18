@@ -12,7 +12,6 @@ public class BlackSmithShopController : MonoBehaviour
     public Text mBuyText, mBuyImageText;
     public WeaponSelectSlot mSelectSlot;
     public MaterialSlot[] mMaterialSlot;
-    public SkillTooltip mTooltip;
     public Image mBuyImage;
 
     public Weapon mWeapon;
@@ -121,7 +120,7 @@ public class BlackSmithShopController : MonoBehaviour
     {
         mWeapon = weapon;
         mWeaponStat = GameSetting.Instance.mInfoArr[weapon.mID];
-        mSelectSlot.SetData(mWeapon.mID);
+        mSelectSlot.SetData(mWeapon.mID,mWeapon.mWeaponImage, mWeaponStat);
         for (int i = 0; i < mMaterialSlot.Length; i++)
         {
             if (mWeapon.Recipe[i] == null)

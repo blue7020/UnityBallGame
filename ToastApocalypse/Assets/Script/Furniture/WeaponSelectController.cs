@@ -36,10 +36,8 @@ public class WeaponSelectController : MonoBehaviour
         {
             WeaponCount++;
         }
-        mSelectSlot.mIcon.sprite = GameSetting.Instance.mWeapons[GameSetting.Instance.PlayerWeaponID].mWeaponImage;
-        Instance.mSelectSlot.mIcon.color = Color.white;
-        Instance.mSelectSlot.mWeapon = GameSetting.Instance.mInfoArr[GameSetting.Instance.PlayerWeaponID];
-        Instance.mSelectSlot.mWeaponID = GameSetting.Instance.PlayerSkillID;
+        mSelectSlot.mIcon.color = Color.white;
+        mSelectSlot.SetData(GameSetting.Instance.PlayerWeaponID, GameSetting.Instance.mWeapons[GameSetting.Instance.PlayerWeaponID].mWeaponImage, GameSetting.Instance.mInfoArr[GameSetting.Instance.PlayerWeaponID]);
         RefreshInventory();
     }
 

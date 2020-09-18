@@ -13,7 +13,6 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public WeaponStat mWeapon;
     public SkillTooltip mTooltip;
     public string title, lore;
-    public bool IsBlacksmithShop;
     public bool IsShop;
 
     private void Awake()
@@ -21,14 +20,14 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         mDraggingID = -1;
     }
 
-    public void SetData(int id)
+    public void SetData(int id,Sprite sprite, WeaponStat weapon)
     {
         mWeaponID = id;
-        mWeapon = GameSetting.Instance.mInfoArr[mWeaponID];
+        WeaponSelectController.Instance.mSelectSlot.mIcon.color = Color.white;
         mIcon.sprite = GameSetting.Instance.mWeapons[mWeaponID].mWeaponImage;
+        mWeapon = weapon;
         if (mWeapon != null)
         {
-            Debug.Log(mWeaponID);
             if (GameSetting.Instance.Language == 0)//한국어
             {
                 lore = mWeapon.ContensFormat + "\n";
@@ -109,7 +108,6 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                         case 2:
                             title = mWeapon.Name + " (Weapon Type: <color=#FE642E>Medium Range</color><color=#ffffff>)\n</color>";
                             break;
-
                     }
                 }
                 else
@@ -126,7 +124,6 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (IsShop==false)
         {
             mDraggingID = mWeaponID;
-            Debug.Log("포인트 엔터" + mWeaponID);
         }
     }
 
@@ -134,22 +131,13 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if (IsShop == false)
         {
-            Debug.Log("포인트 익스트");
             mDraggingID = -1;
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (IsBlacksmithShop == false)
-        {
-            mTooltip.SetData(title, lore, mIcon.sprite);
-            mTooltip.gameObject.SetActive(true);
-        }
-        else
-        {
-            BlackSmithShopController.Instance.mTooltip.SetData(title, lore, mIcon.sprite);
-            BlackSmithShopController.Instance.mTooltip.gameObject.SetActive(true);
-        }
+        mTooltip.SetData(title, lore, mIcon.sprite);
+        mTooltip.gameObject.SetActive(true);
     }
 }

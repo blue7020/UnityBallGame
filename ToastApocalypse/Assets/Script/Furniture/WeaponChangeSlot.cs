@@ -56,10 +56,7 @@ public class WeaponChangeSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         {
             if (WeaponSelectController.Instance.mSelectSlot.mDraggingID > -1)
             {
-                WeaponSelectController.Instance.mSelectSlot.mIcon.sprite = mIcon.sprite;
-                WeaponSelectController.Instance.mSelectSlot.mIcon.color = Color.white;
-                WeaponSelectController.Instance.mSelectSlot.mWeapon = mWeapon;
-                WeaponSelectController.Instance.mSelectSlot.mWeaponID = mWeapon.ID;
+                WeaponSelectController.Instance.mSelectSlot.SetData(mWeapon.ID, mIcon.sprite, mWeapon);
                 GameSetting.Instance.PlayerWeaponID = mWeapon.ID;
             }
             mIcon.transform.SetParent(transform);

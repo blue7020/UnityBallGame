@@ -43,6 +43,11 @@ public class MainScreenUIController : MonoBehaviour
         mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
 
+    public void ButtonPush()
+    {
+        SoundController.Instance.SESound(6);
+    }
+
     //0 = 한국어 / 1 = 영어
     public void LanguagetoKor()
     {

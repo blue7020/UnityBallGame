@@ -79,6 +79,11 @@ public class UIController : InformationLoader
     }
 
 
+    public void ButtonPush()
+    {
+        SoundController.Instance.SESound(6);
+    }
+
     public void Delete()
     {
         Destroy(gameObject);

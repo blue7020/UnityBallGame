@@ -9,9 +9,10 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     public static AttackPad Instance;
     public Image BG, Stick, CoolWheel;
     public Vector2 inputVector;
-    private bool AttackSwitch;
+    private bool AttackSwitch,IsReload;
     float AttackCurrentTime;
     float CoolMaxtime;
+
 
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             Instance = this;
             AttackSwitch = false;
             AttackCurrentTime = 0;
+            IsReload = false;
         }
         else
         {
@@ -96,6 +98,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                             AttackSwitch = false;
                             float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
                             CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
+                            IsReload = true;
                             StartCoroutine(CooltimeRoutine(CoolMaxtime));
                             Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
                         }
@@ -111,6 +114,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                             Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
                             AttackSwitch = false;
                             float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                            IsReload = true;
                             CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
                             StartCoroutine(CooltimeRoutine(CoolMaxtime));
                             Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
@@ -180,6 +184,11 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             yield return frame;
             AttackCurrentTime -= Time.fixedDeltaTime;
             ShowCooltime(CoolTime, AttackCurrentTime);
+        }
+        if (IsReload == true)
+        {
+            SoundController.Instance.SESound(7);
+            IsReload = false;
         }
     }
 

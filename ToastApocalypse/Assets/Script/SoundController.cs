@@ -45,6 +45,11 @@ public class SoundController : MonoBehaviour
         mBGM.Play();
     }
 
+    public void SESound(int id)
+    {
+        mSE.PlayOneShot(mSEArr[id]);
+    }
+
     public void PlusBGM()
     {
         if (UIBGMVol < 10)

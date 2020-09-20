@@ -88,7 +88,8 @@ public class PlayerBullet : MonoBehaviour
             Target = other.GetComponent<Enemy>();
             if (Target.mCurrentHP > 0 && Target != null)
             {
-                Target.Hit(mDamage);
+                SoundController.Instance.SESound(4);
+                Target.Hit(mDamage,1);
             }
             if (eType == ePlayerBulletType.normal || eType == ePlayerBulletType.shotgun)
             {

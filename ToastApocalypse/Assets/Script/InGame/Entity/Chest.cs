@@ -109,18 +109,13 @@ public class Chest : MonoBehaviour
         {
             StartCoroutine(WeaponSearch());
         }
-        else if (ArtifactController.Instance.mPassiveArtifact.Count >= 0&&rand >= rate[1] && rand <= rate[2])//패시브유물
+        else if (ArtifactController.Instance.mPassiveArtifact.Count >= 0&&rand >= rate[1] && rand < rate[2])//패시브유물
         {
             StartCoroutine(PassiveArtifactSearch());
         }
         else if (ArtifactController.Instance.mActiveArtifact.Count>=0&&rand >= rate[2])//액티브 유물
         {
             StartCoroutine(ActiveArtifactSearch());
-        }
-        else
-        {
-            UsingItem item = Instantiate(DefaultItem, mItem.transform);
-            weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
         }
         mItem.SetActive(true);
     }

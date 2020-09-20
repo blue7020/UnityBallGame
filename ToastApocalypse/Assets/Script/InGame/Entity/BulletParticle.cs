@@ -12,7 +12,7 @@ public class BulletParticle : MonoBehaviour
         {
             if (other.gameObject.GetComponent<Enemy>().mCurrentHP >0)
             {
-                other.gameObject.GetComponent<Enemy>().Hit(mDamage);
+                other.gameObject.GetComponent<Enemy>().Hit(mDamage, 2);
             }
         }
     }

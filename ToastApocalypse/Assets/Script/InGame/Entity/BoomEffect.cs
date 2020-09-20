@@ -19,6 +19,7 @@ public class BoomEffect : MonoBehaviour
     private IEnumerator Boom()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
+        SoundController.Instance.SESound(13);
         while (true)
         {
             if (PlayerIn == true&& NoDoubleDamage== false)
@@ -28,7 +29,7 @@ public class BoomEffect : MonoBehaviour
             }
             if (Target != null && NoDoubleDamage == false)
             {
-                Target.Hit(mBullet.mDamage);
+                Target.Hit(mBullet.mDamage,1);
                 NoDoubleDamage = true;
             }
             yield return delay;
@@ -51,7 +52,7 @@ public class BoomEffect : MonoBehaviour
             Target = other.GetComponent<Enemy>();
             if (Target.mCurrentHP > 0 && Target != null)
             {
-                Target.Hit(mBullet.mDamage);
+                Target.Hit(mBullet.mDamage,1);
             }
         }
     }

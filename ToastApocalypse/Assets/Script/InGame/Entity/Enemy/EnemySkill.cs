@@ -661,7 +661,7 @@ public class EnemySkill : MonoBehaviour
             Bullet bolt = BulletPool.Instance.GetFromPool(11);
             bolt.mEnemy = mEnemy;
             bolt.transform.position = mEnemy.transform.position;
-            mEnemy.Hit(mEnemy.mMaxHP);
+            mEnemy.Hit(mEnemy.mMaxHP,1);
         }
 
     }

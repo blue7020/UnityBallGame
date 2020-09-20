@@ -218,6 +218,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &27503310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +340,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -626,6 +648,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &336151868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,7 +751,27 @@ MonoBehaviour:
   mBGMArr:
   - {fileID: 8300000, guid: 36de1ccaf6bc3dd47b1eae7fb9896abf, type: 3}
   - {fileID: 8300000, guid: 36de1ccaf6bc3dd47b1eae7fb9896abf, type: 3}
-  mSEArr: []
+  mSEArr:
+  - {fileID: 8300000, guid: 1a30ed18c0c1105458ea8534219f987f, type: 3}
+  - {fileID: 8300000, guid: 1111afdd236f5804a95ea9e7b1b12e4f, type: 3}
+  - {fileID: 8300000, guid: 0dcc9c20b0d50f14e830c7ad1abf129b, type: 3}
+  - {fileID: 8300000, guid: 75fe0a4adb9455d4a9915f0149b2b579, type: 3}
+  - {fileID: 8300000, guid: 29f368c8e131ee9488c20763c02d226e, type: 3}
+  - {fileID: 8300000, guid: 2d635b2da246a4744b7596df4500ad35, type: 3}
+  - {fileID: 8300000, guid: 45e1da2b9da5f9647a25c406ce2325d9, type: 3}
+  - {fileID: 8300000, guid: 5a7d02d827df8894983334d6adb0abc4, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mMixer: {fileID: 24100000, guid: 8ac9dbaa772654949bc13504664739bb, type: 2}
   BGMVolume: 0
   SEVolume: 0
@@ -1297,6 +1350,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &510468274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1502,6 +1566,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1841,6 +1916,7 @@ MonoBehaviour:
   PlayerSkillID: 0
   PlayerWeaponID: 0
   Ingame: 0
+  NowScene: 0
   mParts:
   - {fileID: 5879747802349046465, guid: 2f6632a17a3478444874c85788513304, type: 3}
   - {fileID: 7611453439370998539, guid: 2f6632a17a3478444874c85788513304, type: 3}
@@ -1934,13 +2010,13 @@ MonoBehaviour:
   - {fileID: 6656129123899342569, guid: 377476a27d375cd428549f25b5389d2b, type: 3}
   Language: 0
   Syrup: 0
-  PartsIndex: 0
   HasMaterial: 
   PlayerHasSkill: 
   PlayerSkillIndex: 0
   PlayerHasWeapon: 
   PlayerWeaponIndex: 0
   StatueOpen: 
+  TutorialEnd: 0
   StageOpen: 
   NowStage: 0
   NowStageRoom: []
@@ -2155,6 +2231,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2417,6 +2504,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1278370442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2547,6 +2645,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -2883,6 +2992,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3313,6 +3433,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1263031173}
+        m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

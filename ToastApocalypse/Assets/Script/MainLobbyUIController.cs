@@ -15,7 +15,6 @@ public class MainLobbyUIController : MonoBehaviour
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus;
 
 
-
     private void Awake()
     {
         if (Instance == null)
@@ -45,6 +44,11 @@ public class MainLobbyUIController : MonoBehaviour
         mSEminus.onClick.AddListener(() => { SEMinus(); });
         mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
+    }
+
+    public void ButtonPush()
+    {
+        SoundController.Instance.SESound(6);
     }
 
     public void GamePause()

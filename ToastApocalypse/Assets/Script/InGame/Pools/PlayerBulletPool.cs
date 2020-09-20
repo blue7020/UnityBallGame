@@ -11,6 +11,7 @@ public class PlayerBulletPool : ObjectPool<PlayerBullet>
         if (Instance == null)
         {
             Instance = this;
+            PoolSetup();
         }
         else
         {
@@ -25,7 +26,6 @@ public class PlayerBulletPool : ObjectPool<PlayerBullet>
 
     private void Start()
     {
-        PoolSetup();
         if (GameController.Instance.GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);

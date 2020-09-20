@@ -30,6 +30,7 @@ public class Weapon : MonoBehaviour
     public bool GetCooltime;
     public bool Animation;
     public int BoltID;
+    public int SoundId;
 
     private void Awake()
     {

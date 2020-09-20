@@ -52,7 +52,7 @@ public class PlayerSelectController : InformationLoader
 
     public void LeftCharacterSelect()
     {
-        NowPlayerID-=1;
+        NowPlayerID -=1;
         ShowStat();
         if (NowPlayerID-1<0)
         {
@@ -62,7 +62,7 @@ public class PlayerSelectController : InformationLoader
     }
     public void RightCharacterSelect()
     {
-        NowPlayerID+=1;
+        NowPlayerID +=1;
         ShowStat();
         if (NowPlayerID + 1 >= mPlayer.Length)
         {

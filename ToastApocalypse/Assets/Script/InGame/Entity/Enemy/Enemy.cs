@@ -171,6 +171,7 @@ public class Enemy : InformationLoader
     {
         Stun = true;
         mRB2D.velocity = Vector3.zero;
+        SoundController.Instance.SESound(5);
         AttackOn = false;
         gameObject.layer = 8;
         mSprite[1].GetComponent<SpriteRenderer>().color = Color.grey;
@@ -189,7 +190,7 @@ public class Enemy : InformationLoader
         GameController.Instance.SyrupInStage += mStats.Syrup;
     }
 
-    public void Hit(float damage)
+    public void Hit(float damage,int weapontype)
     {
         if (Spawned == true)
         {
@@ -203,6 +204,18 @@ public class Enemy : InformationLoader
                 if (Nodamage == false)
                 {
                     StartCoroutine(HitAnimation());
+                    switch (weapontype)
+                    {
+                        case 0://근접
+                            SoundController.Instance.SESound(3);
+                            break;
+                        case 1://원거리
+                            SoundController.Instance.SESound(4);
+                            break;
+                        case 2://지속
+                            SoundController.Instance.SESound(4);
+                            break;
+                    }
                     mCurrentHP -= damage;
 
                     if (mHPBar == null)

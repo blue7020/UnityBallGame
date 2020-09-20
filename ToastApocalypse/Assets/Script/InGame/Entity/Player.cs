@@ -209,6 +209,8 @@ public class Player : MonoBehaviour
         if (Nodamage ==false)
         {
             StartCoroutine(HitAnimation());
+            int rand = UnityEngine.Random.Range(0, 2);
+            SoundController.Instance.SESound(rand);
             if (damage - (mStats.Def*(1+buffIncrease[1])) < 1)
             {
                 damage = 0.5f;

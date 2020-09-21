@@ -37,7 +37,6 @@ public class TutorialUIController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.MAP_TEXT);
-            Time.timeScale = 1;
         }
         else
         {
@@ -62,7 +61,8 @@ public class TutorialUIController : InformationLoader
             Instantiate(mEnemy[i], mSpawnPos[i]);
         }
         Dialog.gameObject.SetActive(true);
-        Dialog.ShowDialog(0);
+        Time.timeScale = 0;
+        Dialog.ShowDialog();
     }
 
 

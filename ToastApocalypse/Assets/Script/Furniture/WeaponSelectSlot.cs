@@ -23,8 +23,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void SetData(int id,Sprite sprite, WeaponStat weapon)
     {
         mWeaponID = id;
-        WeaponSelectController.Instance.mSelectSlot.mIcon.color = Color.white;
-        mIcon.sprite = GameSetting.Instance.mWeapons[mWeaponID].mWeaponImage;
+        mIcon.sprite = sprite;
         mWeapon = weapon;
         if (mWeapon != null)
         {

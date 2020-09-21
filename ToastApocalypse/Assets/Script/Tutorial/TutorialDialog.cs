@@ -4,21 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class TutorialDialog : MonoBehaviour,IPointerClickHandler
+public class TutorialDialog : InformationLoader,IPointerClickHandler
 {
     public static TutorialDialog Instance;
 
     public int NowDialogID;
-    public bool MessageDelay,IsClose;
+    public bool MessageDelay;
     public Image mWindow, mNPCImage;
-    public Text mText;
+    public Text mText, mGuideText, GoalText;
     public Sprite[] mNPCFace;
+
+    public DialogText[] mInfoArr;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
+            LoadJson(out mInfoArr, Path.DIALOG_TEXT);
             NowDialogID = 0;
             MessageDelay = false;
         }
@@ -27,67 +30,80 @@ public class TutorialDialog : MonoBehaviour,IPointerClickHandler
             Destroy(gameObject);
         }
     }
-    public void ShowDialog(int id)
+    public void ShowDialog()
     {
         mWindow.gameObject.SetActive(true);
-        switch (id)
+        mNPCImage.sprite = mNPCFace[0];
+        if (GameSetting.Instance.Language == 0)//한국어
         {
-            case 0:
-                mNPCImage.sprite = mNPCFace[0];
-                if (GameSetting.Instance.Language==0)//한국어
-                {
-                    mText.text = "힘세고 강한 아침";
-                }
-                else if(GameSetting.Instance.Language == 1)//영어
-                {
-                    mText.text = "힘세고 강한 아침";
-                }
-                break;
-            case 1:
-                mNPCImage.sprite = mNPCFace[1];
-                if (GameSetting.Instance.Language == 0)//한국어
-                {
-                    mText.text = "만일 내 이름을 묻는다면 나는 왈도";
-                }
-                else if (GameSetting.Instance.Language == 1)//영어
-                {
-                    mText.text = "만일 내 이름을 묻는다면 나는 왈도2";
-                }
-                IsClose = true;
-                break;
-            default:
-                if (GameSetting.Instance.Language == 0)//한국어
-                {
-                    mText.text = "대사를 다 썼어";
-                }
-                else if (GameSetting.Instance.Language == 1)//영어
-                {
-                    mText.text = "대사를 다 썼어";
-                }
-                break;
+            mText.text = mInfoArr[NowDialogID].ContensFormat;
+        }
+        else if (GameSetting.Instance.Language == 1)//영어
+        {
+            mText.text = mInfoArr[NowDialogID].EngContensFormat;
         }
     }
+
+    public void GuideText()
+    {
+        if (GameSetting.Instance.Language==0)
+        {
+            mGuideText.text = "터치로 계속";
+        }
+        else if (GameSetting.Instance.Language==1)
+        {
+            mGuideText.text = "Touch to continue";
+        }
+        mGuideText.gameObject.SetActive(true);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (MessageDelay==false)
+        if (MessageDelay == false)
         {
-            if (!IsClose)
+            Time.timeScale = 0;
+            GoalText.gameObject.SetActive(false);
+            StartCoroutine(Delay());
+            ShowDialog();
+            if (mInfoArr[NowDialogID].IsClose == true)
             {
-                StartCoroutine(Delay());
-                ShowDialog(NowDialogID);
-                NowDialogID++;
-            }
-            else
-            {
+                switch (NowDialogID)
+                {
+                    case 2://id는 수정해야함
+                        if (GameSetting.Instance.Language == 0)//한국어
+                        {
+                            GoalText.text = "녹색 타일로 이동하세요";
+                        }
+                        else if (GameSetting.Instance.Language == 1)//영어
+                        {
+                            GoalText.text = "Move to green tile";
+                        }
+                        break;
+                    case 4://id는 수정해야함
+                        if (GameSetting.Instance.Language == 0)//한국어
+                        {
+                            GoalText.text = "ㅇㅇㅇ1 타일로 이동하세요";
+                        }
+                        else if (GameSetting.Instance.Language == 1)//영어
+                        {
+                            GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                        }
+                        break;
+                }
+                GoalText.gameObject.SetActive(true);
+                mGuideText.gameObject.SetActive(false);
                 mWindow.gameObject.SetActive(false);
+                Time.timeScale = 1;
             }
+            NowDialogID++;
         }
     }
     public IEnumerator Delay()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.7f);
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.1f);
         MessageDelay = true;
         yield return delay;
+        GuideText();
         MessageDelay = false;
     }
 }

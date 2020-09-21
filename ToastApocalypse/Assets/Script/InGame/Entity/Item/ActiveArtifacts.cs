@@ -7,6 +7,7 @@ public class ActiveArtifacts : MonoBehaviour
 {
     //액티브 유물의 기능을 여기서 담당
     public static ActiveArtifacts Instance;
+
     public GameObject[] mSkillobj;
     public SkillEffect buffEffect;
     private string bufftext, bufftext2;
@@ -121,7 +122,6 @@ public class ActiveArtifacts : MonoBehaviour
             bufftext2 = "Attack speed increase!";
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position += new Vector3(0, -0.6f, 0);
         effect.SetText(bufftext);
         BuffEffectController.Instance.EffectList.Add(buffEffect);
         effect = TextEffectPool.Instance.GetFromPool(0);

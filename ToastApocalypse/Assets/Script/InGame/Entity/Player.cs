@@ -274,7 +274,7 @@ public class Player : MonoBehaviour
     }
     public void DeathWindow()
     {
-        mRenderer.sortingOrder = 0;
+        gameObject.SetActive(false);
         UIController.Instance.ShowDeathWindow();
     }
 

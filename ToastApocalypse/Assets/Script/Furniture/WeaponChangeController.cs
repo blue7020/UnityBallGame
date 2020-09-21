@@ -9,6 +9,7 @@ public class WeaponChangeController : MonoBehaviour
 
     public Text mTitleText, mTooltipText, mSelectText, mGuideText;
     public Image mWeaponChangeWindow;
+    public WeaponSelectController mWeaponSelectController;
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class WeaponChangeController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            mWeaponSelectController.RefreshInventory();
             mWeaponChangeWindow.gameObject.SetActive(true);
         }
     }

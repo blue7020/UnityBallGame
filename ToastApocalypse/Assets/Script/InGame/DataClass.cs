@@ -194,6 +194,15 @@ public class MaterialStat
 }
 
 [Serializable]
+public class DialogText
+{
+    public int ID;
+    public string ContensFormat;
+    public string EngContensFormat;
+    public bool IsClose;
+}
+
+[Serializable]
 public class SaveData
 {
     public double Greed;

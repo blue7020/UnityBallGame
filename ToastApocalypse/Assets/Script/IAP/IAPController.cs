@@ -251,21 +251,17 @@ public class IAPController : MonoBehaviour, IStoreListener
         Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
     }
 
-
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        //bool validPurchase = true; // Presume valid for platforms with no R.V.
-        // Unity IAP's validation logic is only included on these platforms.
 #if UNITY_EDITOR
-        //Product product = m_StoreController.products.WithID(productId);
-        //return product.hasReceipt;
-# elif UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+        bool validPurchase = true;
+#elif UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
         // Prepare the validator with the secrets we prepared in the Editor
         // obfuscation window.
 
-        //var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
-        //Product product = m_StoreController.products.WithID(productId);
-        //AppleTangle.Data(), Application.identifier);
+        Product product = m_StoreController.products.WithID(productId);
+        var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
+        AppleTangle.Data(), Application.identifier);
 
         try
         {
@@ -284,7 +280,7 @@ public class IAPController : MonoBehaviour, IStoreListener
         catch (IAPSecurityException)
         {
             Debug.Log("Invalid receipt, not unlocking content");
-            //validPurchase = false;
+            validPurchase = false;
         }
 #endif
         //// A consumable product has been purchased by this user.
@@ -306,27 +302,29 @@ public class IAPController : MonoBehaviour, IStoreListener
         //    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
         //    // TODO: The subscription item has been successfully purchased, grant this to the player.
         //}
-        if (String.Equals(args.purchasedProduct.definition.id, Consumable_Ruby100, StringComparison.Ordinal))
+        if (validPurchase)//영수증 처리 기본
         {
-            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            //해당 아이템 지급
+            if (String.Equals(args.purchasedProduct.definition.id, Consumable_Ruby100, StringComparison.Ordinal))
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                //해당 아이템 지급
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_StarterPack, StringComparison.Ordinal))
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                //해당 아이템 지급
+            }
+            // Or ... an unknown product has been purchased by this user. Fill in additional products here....
+            else//결제 실패
+            {
+                Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+            }
+            // Return a flag indicating whether this product has completely been received, or if the application needs 
+            // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
+            // saving purchased products to the cloud, and when that save is delayed. 
         }
-        else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_StarterPack, StringComparison.Ordinal))
-        {
-            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            //해당 아이템 지급
-        }
-        // Or ... an unknown product has been purchased by this user. Fill in additional products here....
-        else//결제 실패
-        {
-            Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
-        }
-
-        // Return a flag indicating whether this product has completely been received, or if the application needs 
-        // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
-        // saving purchased products to the cloud, and when that save is delayed. 
         return PurchaseProcessingResult.Complete;
     }
 

@@ -18,4 +18,5 @@ public class Path
     public const string SKILL_TEXT_STAT = JSON_FILE_LOCATION + "SkillText";
     public const string MAP_TEXT = JSON_FILE_LOCATION + "MapText";
     public const string MATERIAL_STAT = JSON_FILE_LOCATION + "MaterialStat";
+    public const string DIALOG_TEXT = JSON_FILE_LOCATION + "DialogText";
 }

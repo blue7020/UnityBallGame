@@ -29,7 +29,8 @@ public class TutorialCheker : MonoBehaviour
                     {
                         mEventSwitch = false;
                         Wall.SetActive(false);
-                        //메시지 출력
+                        TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     break;
                 case eTutorialStage.Artifact:
@@ -37,16 +38,17 @@ public class TutorialCheker : MonoBehaviour
                     {
                         mEventSwitch = false;
                         mEventCount++;
-                        //메시지 출력
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     else if(mEventCount == 1&&mEventSwitch==false)
                     {
-                        for (int i=0; i<GameSetting.Instance.mArtifacts.Length;i++)
+                        if (InventoryController.Instance.mSlotArr[0].artifact.mID == 5)
                         {
-                            if (InventoryController.Instance.mSlotArr[i].artifact.mID==5&&Player.Instance.NowActiveArtifact.mID==15)
+                            if (Player.Instance.NowActiveArtifact.mID == 15)
                             {
                                 mEventSwitch = true;
                                 Wall.SetActive(false);
+                                TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                                 break;
                             }
                         }
@@ -57,12 +59,13 @@ public class TutorialCheker : MonoBehaviour
                     {
                         mEventSwitch = false;
                         mEventCount++;
-                        //메시지 출력
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     else if (mEventCount == 1 && Player.Instance.mCurrentHP==Player.Instance.mMaxHP && mEventSwitch == false)
                     {
                         mEventSwitch = true;
                         Wall.SetActive(false);
+                        TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                     }
                     break;
                 case eTutorialStage.Statue:
@@ -70,12 +73,13 @@ public class TutorialCheker : MonoBehaviour
                     {
                         mEventSwitch = false;
                         mEventCount++;
-                        //메시지 출력
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     else if (mEventCount == 1 && mEventSwitch == false&&TutorialUIController.Instance.TutorialStatueCheck>=3)
                     {
                         mEventSwitch = true;
                         Wall.SetActive(false);
+                        TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                     }
                     break;
                 case eTutorialStage.Combat1:
@@ -83,7 +87,7 @@ public class TutorialCheker : MonoBehaviour
                     {
                         mEventSwitch = false;
                         mEventCount++;
-                        //메시지 출력
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     else if (mEventCount == 1 && mEventSwitch == false)
                     {
@@ -91,6 +95,7 @@ public class TutorialCheker : MonoBehaviour
                         {
                             mEventSwitch = true;
                             Wall.SetActive(false);
+                            TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                         }
                     }
                     break;
@@ -99,12 +104,13 @@ public class TutorialCheker : MonoBehaviour
                     {
                         mEventSwitch = false;
                         mEventCount++;
-                        //메시지 출력
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     else if (mEventCount == 1 && Player.Instance.mTotalKillCount>=2 && mEventSwitch == false)
                     {
                         mEventSwitch = true;
                         Wall.SetActive(false);
+                        TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                     }
                     break;
                 case eTutorialStage.Skill:
@@ -116,12 +122,13 @@ public class TutorialCheker : MonoBehaviour
                         Player.Instance.NowPlayerSkill.mID = 0;
                         Player.Instance.NowPlayerSkill.mSkillIcon = SkillController.Instance.SkillIcon[0];
                         TutorialUIController.Instance.ShowSkillImage();
-                        //메시지 출력
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     else if (mEventCount == 1 && EndPoint==true && mEventSwitch == false)
                     {
                         mEventSwitch = true;
                         Wall.SetActive(false);
+                        TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                     }
                     break;
                 case eTutorialStage.End:
@@ -129,12 +136,12 @@ public class TutorialCheker : MonoBehaviour
                     {
                         mEventSwitch = false;
                         mEventCount++;
-                        //메시지 출력
+                        TutorialDialog.Instance.ShowDialog();
                     }
                     else if (mEventCount == 0 && mEventSwitch == false && EndPoint == true)//npc 구출 시 대사나오고 파츠 등장하게
                     {
                         mEventSwitch = true;
-                        //메시지 출력
+                        TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                         mParts.gameObject.SetActive(true);
                     }
                     break;

@@ -12,6 +12,11 @@ public class WeaponChangeSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     public Image mDragTarget;
     public Image mIcon;
 
+    private void Awake()
+    {
+        mID = -1;
+    }
+
     public void Init(int id)
     {
         mID = id;

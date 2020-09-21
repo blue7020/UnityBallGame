@@ -15,8 +15,6 @@ public class GoogleAdmobHandler : MonoBehaviour
     //보상형 광고
     private RewardBasedVideoAd rewardBasedVideo;
 
-    private bool IsCallbackSetup;
-
     private void Awake()
     {
         if (Instance == null)
@@ -25,7 +23,6 @@ public class GoogleAdmobHandler : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             // Initialize the Google Mobile Ads SDK.
             MobileAds.Initialize(InitializationStatus => { });//첫번째 파라미터
-            IsCallbackSetup = false;
         }
         else
         {
@@ -36,9 +33,24 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void Start()
     {
         //여기서 광고 제거 구매 여부를 체크
-        RequestBanner();//배너
-        RequestInterstitial();//전면
-        RequestRewardBasedVideo();//보상형
+        rewardBasedVideo = RewardBasedVideoAd.Instance;
+        // Called when an ad request has successfully loaded.
+        rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+        // Called when an ad request failed to load.
+        rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+        // Called when an ad is shown.
+        rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
+        // Called when the ad starts to play.
+        rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+        // Called when the user should be rewarded for watching a video.
+        rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+        // Called when the ad is closed.
+        rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+        // Called when the ad click caused the user to leave the application.
+        rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
+        PlayAD();
+        //RequestBanner();//배너
+        //RequestInterstitial();//전면
     }
 
 
@@ -47,9 +59,9 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void RequestBanner()//광고를 로드해서 뿌려주는 기능
     {
 #if UNITY_ANDROID
-        string adUnitId = "ca-app-pub-3940256099942544/6300978111";
+        string adUnitId = "ca-app-pub-4617216056571941~5027589140";
 #elif UNITY_IPHONE
-            string adUnitId = "ca-app-pub-3940256099942544/2934735716";
+            string adUnitId = "ca-app-pub-4617216056571941/4531946884";
 #else
             string adUnitId = "unexpected_platform";
 #endif
@@ -68,9 +80,9 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void RequestInterstitial()
     {
 #if UNITY_ANDROID
-        string adUnitId = "ca-app-pub-3940256099942544/1033173712";
+        string adUnitId = "ca-app-pub-4617216056571941~5027589140";
 #elif UNITY_IPHONE
-        string adUnitId = "ca-app-pub-3940256099942544/4411468910";
+        string adUnitId = "ca-app-pub-4617216056571941/4531946884";
 #else
         string adUnitId = "unexpected_platform";
 #endif
@@ -96,9 +108,9 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void RequestRewardBasedVideo()
     {
 #if UNITY_ANDROID
-        string adUnitId = "ca-app-pub-3940256099942544/5224354917";
+        string adUnitId = "ca-app-pub-4617216056571941~5027589140";
 #elif UNITY_IPHONE
-            string adUnitId = "ca-app-pub-3940256099942544/1712485313";
+            string adUnitId = "ca-app-pub-4617216056571941/4531946884";
 #else
             string adUnitId = "unexpected_platform";
 #endif
@@ -108,36 +120,16 @@ public class GoogleAdmobHandler : MonoBehaviour
         AdRequest request = new AdRequest.Builder().Build();
         // Load the rewarded video ad with the request.
         rewardBasedVideo.LoadAd(request, adUnitId);//광고 준비
-
-        if (!IsCallbackSetup)
-        {
-            // Called when an ad request has successfully loaded.
-            rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
-            // Called when an ad request failed to load.
-            rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
-            // Called when an ad is shown.
-            rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
-            // Called when the ad starts to play.
-            rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
-            // Called when the user should be rewarded for watching a video.
-            rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
-            // Called when the ad is closed.
-            rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
-            // Called when the ad click caused the user to leave the application.
-            rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
-
-            IsCallbackSetup = true;
-        }
     }
     //rewardBasedVideo.Show();//광고 출력
 
-    public void ShowRewardAD()
+    public void PlayAD()
     {
         if (rewardBasedVideo.IsLoaded())
         {
             rewardBasedVideo.Show();
         }
-        RequestRewardBasedVideo();
+        RequestRewardBasedVideo();//보상형
     }
 
     private void HandleRewardBasedVideoLeftApplication(object sender, EventArgs e)

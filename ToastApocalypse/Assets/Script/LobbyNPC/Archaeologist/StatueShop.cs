@@ -86,18 +86,19 @@ public class StatueShop : MonoBehaviour
         }
         else
         {
-            mBuyText.text = mStatueText.Price.ToString();
             mBuyButton.interactable = true;
         }
         if (GameSetting.Instance.Language == 0)//한국어
         {
+            mBuyText.text = "연구하기";
             mStatueName.text = mStatueText.Name;
-            mStatueLore.text = mStatueText.ContensFormat;
+            mStatueLore.text = mStatueText.ContensFormat + "\n가격:" + mStatueText.Price.ToString()+" 시럽";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
+            mBuyText.text = "Research";
             mStatueName.text = mStatueText.EngName;
-            mStatueLore.text = mStatueText.EngContensFormat;
+            mStatueLore.text = mStatueText.EngContensFormat + "\nPrice: " + mStatueText.Price.ToString() + " Syrup";
         }
     }
 

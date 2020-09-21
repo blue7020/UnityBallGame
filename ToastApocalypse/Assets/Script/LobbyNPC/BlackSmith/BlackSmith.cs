@@ -34,13 +34,13 @@ public class BlackSmith : MonoBehaviour
         {
             mTitleText.text = "오븐";
             mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
-            mMaterialText.text = "조합 재료";
+            mMaterialText.text = "비용 / 제작 재료";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
             mTitleText.text = "Oven";
             mGuideText.text = "Touch the slot to view tooltips";
-            mMaterialText.text = "Recipe";
+            mMaterialText.text = "Price / Recipe";
         }
     }
 

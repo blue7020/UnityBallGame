@@ -73,7 +73,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
-                lore = mWeapon.ContensFormat + "\n";
+                lore = mWeapon.EngContensFormat + "\n";
                 if (mWeapon.Atk > 0)
                 {
                     lore += "Atk: +" + mWeapon.Atk + "\n";
@@ -99,13 +99,13 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                     switch (mWeapon.Type)
                     {
                         case 0:
-                            title = mWeapon.Name + " (Weapon Type: <color=#FE2E2E>Short Range</color><color=#ffffff>)\n</color>";
+                            title = mWeapon.EngName + " (Weapon Type: <color=#FE2E2E>Short Range</color><color=#ffffff>)\n</color>";
                             break;
                         case 1:
-                            title = mWeapon.Name + " (Weapon Type: <color=#FFBF00>Long Range</color><color=#ffffff>)\n</color>";
+                            title = mWeapon.EngName + " (Weapon Type: <color=#FFBF00>Long Range</color><color=#ffffff>)\n</color>";
                             break;
                         case 2:
-                            title = mWeapon.Name + " (Weapon Type: <color=#FE642E>Medium Range</color><color=#ffffff>)\n</color>";
+                            title = mWeapon.EngName + " (Weapon Type: <color=#FE642E>Medium Range</color><color=#ffffff>)\n</color>";
                             break;
                     }
                 }

@@ -34,6 +34,7 @@ public class WeaponShopSlot : MonoBehaviour, IPointerClickHandler
                     break;
 
             }
+            Type.text += "가격: "+mWeaponStat.Price;
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
@@ -51,6 +52,7 @@ public class WeaponShopSlot : MonoBehaviour, IPointerClickHandler
                     break;
 
             }
+            Type.text += "Price: " + mWeaponStat.Price;
         }
     }
 

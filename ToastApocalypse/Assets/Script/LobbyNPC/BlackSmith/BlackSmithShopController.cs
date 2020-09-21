@@ -29,11 +29,11 @@ public class BlackSmithShopController : MonoBehaviour
             Instance = this;
             RecipeCheker = new bool[4]; if (GameSetting.Instance.Language == 0)//한국어
             {
-                mBuyText.text = "조합 비용";
+                mBuyText.text = "제작";
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
-                mBuyText.text = "Craft Cost";
+                mBuyText.text = "Craft";
             }
         }
         else
@@ -139,10 +139,12 @@ public class BlackSmithShopController : MonoBehaviour
             mBuyButton.interactable = false;
             if (GameSetting.Instance.Language == 0)//한국어
             {
+                BlackSmith.Instance.mMaterialText.text = "비용: "+ mWeaponStat.Price + " 시럽 / 제작 재료";
                 mBuyText.text = "보유중";
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
+                BlackSmith.Instance.mMaterialText.text = "Price: " + mWeaponStat.Price + " Syrup / Recipe";
                 mBuyText.text = "Get";
             }
         }
@@ -151,11 +153,13 @@ public class BlackSmithShopController : MonoBehaviour
             mBuyButton.interactable = true;
             if (GameSetting.Instance.Language == 0)//한국어
             {
-                mBuyText.text = mWeaponStat.Price + " 시럽";
+                BlackSmith.Instance.mMaterialText.text = "비용: " + mWeaponStat.Price + " 시럽 / 제작 재료";
+                mBuyText.text = "제작";
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
-                mBuyText.text = mWeaponStat.Price + " Syrup";
+                BlackSmith.Instance.mMaterialText.text = "Price: " + mWeaponStat.Price + " Syrup / Recipe";
+                mBuyText.text = "Craft";
             }
         }
     }

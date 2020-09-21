@@ -56,7 +56,7 @@ public class SkillShop : MonoBehaviour
             mChangeTooltip.text = "Drag the skill to selection slot";
             mGuideText.text = "Touch the slot to view tooltips";
             mSelectText.text = "Selection";
-            mBuyText.text = "Purchase";
+            mBuyText.text = "Buy";
         }
     }
 
@@ -87,7 +87,29 @@ public class SkillShop : MonoBehaviour
         mSkill = stat;
         mSkillText = lore;
         mBuyButton.interactable = true;
-        if (GameSetting.Instance.PlayerHasSkill[mSkill.ID] == true)
+        if (GameSetting.Instance.Language == 0)//한국어
+        {
+            mSkillTitle.text = mSkillText.Title;
+            mLoreText.text = mSkillText.ContensFormat + "\n가격: " + mSkillText.Price;
+        }
+        else if (GameSetting.Instance.Language == 1)//영어
+        {
+            mSkillTitle.text = mSkillText.EngTitle;
+            mLoreText.text = mSkillText.EngContensFormat + "\nPrice: " + mSkillText.Price;
+        }
+        if (GameSetting.Instance.PlayerHasSkill[mSkill.ID] == false)
+        {
+            if (GameSetting.Instance.Language == 0)//한국어
+            {
+                mBuyText.text = "구매";
+            }
+            else if (GameSetting.Instance.Language == 1)//영어
+            {
+                mBuyText.text = "Buy";
+            }
+            mBuyButton.interactable = true;
+        }
+        else
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {
@@ -98,21 +120,6 @@ public class SkillShop : MonoBehaviour
                 mBuyText.text = "Get";
             }
             mBuyButton.interactable = false;
-        }
-        else
-        {
-            mBuyText.text = mSkillText.Price.ToString();
-            mBuyButton.interactable = true;
-        }
-        if (GameSetting.Instance.Language == 0)//한국어
-        {
-            mSkillTitle.text = mSkillText.Title;
-            mLoreText.text = mSkillText.ContensFormat;
-        }
-        else if (GameSetting.Instance.Language == 1)//영어
-        {
-            mSkillTitle.text = mSkillText.EngTitle;
-            mLoreText.text = mSkillText.EngContensFormat;
         }
     }
 

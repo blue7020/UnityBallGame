@@ -92,7 +92,15 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        gameObject.SetActive(false);
-        GameController.Instance.MainMenu();
+        bool test = false;
+        if (test==true)
+        {
+            //npc 구출 혹은 스테이지 첫 클리어라면 보상 지급
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            GameController.Instance.MainMenu();
+        }
     }
 }

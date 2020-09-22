@@ -15,7 +15,7 @@ public class GameSetting : InformationLoader
     public bool Ingame;
     public int NowScene;
 
-    private const int CHARACTER_COUNT = 6;
+    private const int CHARACTER_COUNT = 7;
 
     //로비용
     public Sprite[] mParts;
@@ -102,9 +102,6 @@ public class GameSetting : InformationLoader
 
         CharacterOpen[1] = true;//햄에그캐릭터 오픈
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
-        CharacterOpen[3] = true;//허니브레드캐릭터 오픈
-        CharacterOpen[4] = true;//스시닌자캐릭터 오픈
-        CharacterOpen[5] = true;//프로스트캐릭터 오픈
 
         StageOpen[1] = true;//2스테이지 오픈
         StageOpen[2] = true;//3스테이지 오픈

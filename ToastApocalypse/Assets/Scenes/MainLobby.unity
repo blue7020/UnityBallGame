@@ -15336,6 +15336,7 @@ MonoBehaviour:
   mBlackScreen: {fileID: 1010564739}
   mPlayerImage: {fileID: 2085660556}
   mWindow: {fileID: 1546486462}
+  mLockPlayer: {fileID: 21300000, guid: 69af63dd07812ed4dae41dd2554a1ad0, type: 3}
   mStick: {fileID: 1056804244}
   LeftButton: {fileID: 716842874}
   RightButton: {fileID: 1565710312}
@@ -15461,9 +15462,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 473817903}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 473817907}
+        m_MethodName: RefreshInventory
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -19740,6 +19741,17 @@ MonoBehaviour:
       - m_Target: {fileID: 1006555336}
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 473817907}
+        m_MethodName: DestroyInventory
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

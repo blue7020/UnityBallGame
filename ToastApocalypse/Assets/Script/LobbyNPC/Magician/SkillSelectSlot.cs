@@ -20,11 +20,12 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
         mDraggingID = -1;
     }
 
-    public void SetData(int id)
+    public void SetData(int id,Sprite spt)
     {
+        mSkillID = id;
         mSkill = SkillController.Instance.mStatInfoArr[mSkillID];
         mSkillText = SkillController.Instance.mTextInfoArr[mSkillID];
-        mSkillID = id;
+        mIcon.sprite = spt;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

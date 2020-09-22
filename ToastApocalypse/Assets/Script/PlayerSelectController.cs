@@ -9,6 +9,7 @@ public class PlayerSelectController : InformationLoader
 
     public MainLobbyPlayer[] mPlayer;
     public Image mBlackScreen, mPlayerImage,mWindow;
+    public Sprite mLockPlayer;
     public VirtualJoyStick mStick;
     public Button LeftButton, RightButton, SelectButton;
     public int NowPlayerID;
@@ -98,48 +99,90 @@ public class PlayerSelectController : InformationLoader
 
     public void ShowStat()
     {
-        mPlayerImage.sprite = mPlayer[NowPlayerID].mRenderer.sprite;
-        if (GameSetting.Instance.Language == 0)
-        {//한국어
-            string Stat = string.Format("최대 체력: {0}\n" +
-                                      "공격력: {1}\n" +
-                                      "방어력: {2}\n" +
-                                      "이동속도: {3}\n" +
-                                      "치명타 확률: {4}\n" +
-                                      "치명타 피해: {5}\n" +
-                                      "\n" +
-                                      "쿨타임 감소: {6}\n" +
-                                      "상태이상 저항: {7}", mInfoArr[NowPlayerID].Hp.ToString("N1"),
-                                      mInfoArr[NowPlayerID].Atk.ToString("N1"),
-                                      mInfoArr[NowPlayerID].Def.ToString("N1"),
-                                      mInfoArr[NowPlayerID].Spd.ToString("N1"), mInfoArr[NowPlayerID].Crit.ToString("P1"),
-                                      mInfoArr[NowPlayerID].CritDamage.ToString("P1"),
-                                      mInfoArr[NowPlayerID].CooltimeReduce.ToString("P0"), mInfoArr[NowPlayerID].CCReduce.ToString("P0"));
-            mStatText.text = Stat;
-            mNameText.text = mInfoArr[NowPlayerID].Name;
-            mSelectText.text = "선택";
-            mTitleText.text = "캐릭터 선택";
+        Debug.Log(NowPlayerID);
+        if (GameSetting.Instance.CharacterOpen[NowPlayerID] == false)
+        {
+            mPlayerImage.sprite = mLockPlayer;
+            if (GameSetting.Instance.Language == 0)
+            {//한국어
+                string Stat = string.Format("최대 체력: ?\n" +
+                                          "공격력: ?\n" +
+                                          "방어력: ?\n" +
+                                          "이동속도: ?\n" +
+                                          "치명타 확률: ?\n" +
+                                          "치명타 피해: ?\n" +
+                                          "\n" +
+                                          "쿨타임 감소: ?\n" +
+                                          "상태이상 저항: ?");
+                mStatText.text = Stat;
+                mNameText.text = "잠김";
+                mSelectText.text = "선택";
+                mTitleText.text = "캐릭터 선택";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {//영어
+                string Stat = string.Format("Max HP: ?\n" +
+                                          "Atk: ?\n" +
+                                          "Def: ?\n" +
+                                          "Movement Spd: ?\n" +
+                                          "Crit: ?\n" +
+                                          "Crit Damage: ?\n" +
+                                          "\n" +
+                                          "Cooldown reduce: ?\n" +
+                                          "Resistance: ?");
+                mStatText.text = Stat;
+                mNameText.text = "Unlock";
+                mSelectText.text = "Select";
+                mTitleText.text = "Character Select";
+            }
+            SelectButton.interactable = false;
         }
-        else if (GameSetting.Instance.Language == 1)
-        {//영어
-            string Stat = string.Format("Max HP: {0}\n" +
-                                      "Atk: {1}\n" +
-                                      "Def: {2}\n" +
-                                      "Movement Spd: {3}\n" +
-                                      "Crit: {4}\n" +
-                                      "Crit Damage: {5}\n" +
-                                      "\n" +
-                                      "Cooldown reduce: {6}\n" +
-                                      "Resistance: {7}", mInfoArr[NowPlayerID].Hp.ToString("N1"),
-                                      mInfoArr[NowPlayerID].Atk.ToString("N1"),
-                                      mInfoArr[NowPlayerID].Def.ToString("N1"),
-                                      mInfoArr[NowPlayerID].Spd.ToString("N1"), mInfoArr[NowPlayerID].Crit.ToString("P1"),
-                                      mInfoArr[NowPlayerID].CritDamage.ToString("P1"),
-                                      mInfoArr[NowPlayerID].CooltimeReduce.ToString("P0"), mInfoArr[NowPlayerID].CCReduce.ToString("P0"));
-            mStatText.text = Stat;
-            mNameText.text = mInfoArr[NowPlayerID].EngName;
-            mSelectText.text = "Select";
-            mTitleText.text = "Character Select";
+        else
+        {
+            mPlayerImage.sprite = mPlayer[NowPlayerID].mRenderer.sprite;
+            if (GameSetting.Instance.Language == 0)
+            {//한국어
+                string Stat = string.Format("최대 체력: {0}\n" +
+                                          "공격력: {1}\n" +
+                                          "방어력: {2}\n" +
+                                          "이동속도: {3}\n" +
+                                          "치명타 확률: {4}\n" +
+                                          "치명타 피해: {5}\n" +
+                                          "\n" +
+                                          "쿨타임 감소: {6}\n" +
+                                          "상태이상 저항: {7}", mInfoArr[NowPlayerID].Hp.ToString("N1"),
+                                          mInfoArr[NowPlayerID].Atk.ToString("N1"),
+                                          mInfoArr[NowPlayerID].Def.ToString("N1"),
+                                          mInfoArr[NowPlayerID].Spd.ToString("N1"), mInfoArr[NowPlayerID].Crit.ToString("P1"),
+                                          mInfoArr[NowPlayerID].CritDamage.ToString("P1"),
+                                          mInfoArr[NowPlayerID].CooltimeReduce.ToString("P0"), mInfoArr[NowPlayerID].CCReduce.ToString("P0"));
+                mStatText.text = Stat;
+                mNameText.text = mInfoArr[NowPlayerID].Name;
+                mSelectText.text = "선택";
+                mTitleText.text = "캐릭터 선택";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {//영어
+                string Stat = string.Format("Max HP: {0}\n" +
+                                          "Atk: {1}\n" +
+                                          "Def: {2}\n" +
+                                          "Movement Spd: {3}\n" +
+                                          "Crit: {4}\n" +
+                                          "Crit Damage: {5}\n" +
+                                          "\n" +
+                                          "Cooldown reduce: {6}\n" +
+                                          "Resistance: {7}", mInfoArr[NowPlayerID].Hp.ToString("N1"),
+                                          mInfoArr[NowPlayerID].Atk.ToString("N1"),
+                                          mInfoArr[NowPlayerID].Def.ToString("N1"),
+                                          mInfoArr[NowPlayerID].Spd.ToString("N1"), mInfoArr[NowPlayerID].Crit.ToString("P1"),
+                                          mInfoArr[NowPlayerID].CritDamage.ToString("P1"),
+                                          mInfoArr[NowPlayerID].CooltimeReduce.ToString("P0"), mInfoArr[NowPlayerID].CCReduce.ToString("P0"));
+                mStatText.text = Stat;
+                mNameText.text = mInfoArr[NowPlayerID].EngName;
+                mSelectText.text = "Select";
+                mTitleText.text = "Character Select";
+            }
+            SelectButton.interactable = true;
         }
     }
 }

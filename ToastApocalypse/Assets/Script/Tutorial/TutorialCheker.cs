@@ -66,6 +66,7 @@ public class TutorialCheker : MonoBehaviour
                         mEventSwitch = true;
                         Wall.SetActive(false);
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
+                        mEventCount++;
                     }
                     break;
                 case eTutorialStage.Statue:
@@ -80,6 +81,7 @@ public class TutorialCheker : MonoBehaviour
                         mEventSwitch = true;
                         Wall.SetActive(false);
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
+                        mEventCount++;
                     }
                     break;
                 case eTutorialStage.Combat1:
@@ -96,6 +98,7 @@ public class TutorialCheker : MonoBehaviour
                             mEventSwitch = true;
                             Wall.SetActive(false);
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
+                            mEventCount++;
                         }
                     }
                     break;
@@ -111,6 +114,7 @@ public class TutorialCheker : MonoBehaviour
                         mEventSwitch = true;
                         Wall.SetActive(false);
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
+                        mEventCount++;
                     }
                     break;
                 case eTutorialStage.Skill:
@@ -129,6 +133,7 @@ public class TutorialCheker : MonoBehaviour
                         mEventSwitch = true;
                         Wall.SetActive(false);
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
+                        mEventCount++;
                     }
                     break;
                 case eTutorialStage.End:
@@ -143,6 +148,7 @@ public class TutorialCheker : MonoBehaviour
                         mEventSwitch = true;
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                         mParts.gameObject.SetActive(true);
+                        mEventCount++;
                     }
                     break;
             }

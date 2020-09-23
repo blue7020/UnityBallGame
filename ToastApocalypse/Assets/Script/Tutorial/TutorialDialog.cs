@@ -22,6 +22,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.DIALOG_TEXT);
+            Time.timeScale = 1;
             NowDialogID = 0;
             NextMessage = false;
             MessageDelay = false;
@@ -60,9 +61,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
         {
             if (NextMessage==false)
             {
-                Time.timeScale = 0;
                 StartCoroutine(Delay());
-                GoalText.gameObject.SetActive(false);
                 ShowDialog();
                 if (mInfoArr[NowDialogID + 1].IsClose == true)
                 {
@@ -169,7 +168,6 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             break;
                     }
-                    GoalText.gameObject.SetActive(true);
                     NextMessage = true;
                 }
                 NowDialogID++;
@@ -177,7 +175,6 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
             else
             {
                 mGuideText.gameObject.SetActive(true);
-                Time.timeScale = 1;
                 mWindow.gameObject.SetActive(false);
                 NextMessage = false;
             }

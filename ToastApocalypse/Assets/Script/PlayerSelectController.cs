@@ -99,7 +99,6 @@ public class PlayerSelectController : InformationLoader
 
     public void ShowStat()
     {
-        Debug.Log(NowPlayerID);
         if (GameSetting.Instance.CharacterOpen[NowPlayerID] == false)
         {
             mPlayerImage.sprite = mLockPlayer;

@@ -150,5 +150,6 @@ public enum eTutorialStage
     Combat2,
     Skill,
     End,
-    Start
+    Start,
+    Boss
 }

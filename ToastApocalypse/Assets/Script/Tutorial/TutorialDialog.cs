@@ -68,7 +68,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                 {
                     switch (NowDialogID)
                     {
-                        case 2:
+                        case 1:
                             if (GameSetting.Instance.Language == 0)//한국어
                             {
                                 GoalText.text = "녹색 타일로 이동하세요";
@@ -91,7 +91,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                         case 17:
                             if (GameSetting.Instance.Language == 0)//한국어
                             {
-                                GoalText.text = "줄어든 체력을 아이템으로 회복하세요";
+                                GoalText.text = "줄어든 체력을 사용 아이템으로 회복하세요";
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
@@ -172,7 +172,6 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                     GoalText.gameObject.SetActive(true);
                     NextMessage = true;
                 }
-                Debug.Log(NowDialogID + " / " + mInfoArr[NowDialogID].ContensFormat);
                 NowDialogID++;
             }
             else

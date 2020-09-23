@@ -107,6 +107,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &609677921406365526
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -506,7 +507,7 @@ Transform:
   m_GameObject: {fileID: 795297677131989137}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 6.9, y: 5, z: 1}
+  m_LocalScale: {x: 22, y: 16, z: 1}
   m_Children:
   - {fileID: 6769155022505804865}
   m_Father: {fileID: 795297677138635069}
@@ -551,13 +552,13 @@ SpriteRenderer:
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
   m_SortingOrder: 998
-  m_Sprite: {fileID: 2201318452132627584, guid: 3ae2f98b882129e419c181fa37752e1b,
+  m_Sprite: {fileID: -3384883758774382784, guid: 5452b34c3b998e242905dc9bd83a7b1a,
     type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.2, y: 3.2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1838,6 +1839,7 @@ MonoBehaviour:
   rightDoor: {fileID: 795297678782389945}
   topDoor: {fileID: 795297678493787483}
   bottomDoor: {fileID: 795297677281708113}
+  mStartPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -2899,7 +2901,7 @@ SpriteRenderer:
   m_Size: {x: 3.2, y: 3.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &795297678719151529
@@ -3537,6 +3539,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &8938975810808546524
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3833,6 +3836,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &8746672849745817448
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4104,6 +4108,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &1764423786543400155
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4204,6 +4209,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &3681010872556192305
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4285,6 +4291,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &436501851484654969
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4499,6 +4506,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &7855377953870139741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4599,6 +4607,7 @@ MonoBehaviour:
   Dura: 0
   EnemyDamage: 0
   TrapTrigger: 0
+  mEnemy: {fileID: 0}
 --- !u!61 &2979324643135029116
 BoxCollider2D:
   m_ObjectHideFlags: 0

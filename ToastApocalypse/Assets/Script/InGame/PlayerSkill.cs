@@ -38,10 +38,7 @@ public class PlayerSkill : MonoBehaviour
         }
         if (GameController.Instance.IsTutorial == false)
         {
-            mID = GameSetting.Instance.PlayerSkillID;
-            mStat = SkillController.Instance.mStatInfoArr[mID];
-            mSkillIcon = SkillController.Instance.SkillIcon[mID];
-            UIController.Instance.ShowSkillImage();
+            SkillSetting();
         }
         else
         {
@@ -51,6 +48,28 @@ public class PlayerSkill : MonoBehaviour
         IsSkillCool = false;
 
     }
+
+    public void SkillSetting()
+    {
+        mID = GameSetting.Instance.PlayerSkillID;
+        mStat = SkillController.Instance.mStatInfoArr[mID];
+        mSkillIcon = SkillController.Instance.SkillIcon[mID];
+        Player.Instance.NowPlayerSkill.mID = mID;
+        UIController.Instance.ShowSkillImage();
+    }
+
+    public void SkillSettingTutorial()
+    {
+        GameSetting.Instance.PlayerSkillID = 0;
+        mID = GameSetting.Instance.PlayerSkillID;
+        mStat = SkillController.Instance.mStatInfoArr[mID];
+        mSkillIcon = SkillController.Instance.SkillIcon[mID];
+        Player.Instance.NowPlayerSkill.mID = 0;
+        TutorialUIController.Instance.ShowSkillImage();
+        Debug.Log(mStat.ID+"/"+mID);
+    }
+
+
     public void SkillUse()
     {
         if (Player.Instance.NowPlayerSkill.mID>-1&&IsSkillCool==false)

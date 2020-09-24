@@ -19,18 +19,16 @@ public class TutorialUIController : InformationLoader
     public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
     public Tooltip tooltip;
-
+    public PlayerSkill mPlayerSkill;
     public Enemy[] mEnemy;
     public Transform[] mSpawnPos;
-
     public int TutorialStatueCheck;
-
     public MapText[] mInfoArr;
-
     public MapText[] GetInfoArr()
     {
         return mInfoArr;
     }
+
     private void Awake()
     {
         if (Instance == null)
@@ -56,7 +54,7 @@ public class TutorialUIController : InformationLoader
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
         mSKillButton.onClick.AddListener(() => { Player.Instance.NowPlayerSkill.SkillUse(); });
         CharacterImage();
-        for (int i=0; i<mEnemy.Length;i++)
+        for (int i=0; i<3;i++)
         {
             Instantiate(mEnemy[i], mSpawnPos[i]);
         }

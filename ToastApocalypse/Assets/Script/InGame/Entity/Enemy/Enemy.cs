@@ -196,6 +196,7 @@ public class Enemy : InformationLoader
         {
             if (HasBarrier==true)
             {
+                //깨지는 사운드
                 HasBarrier = false;
                 mEnemySkill.mBarrier.SetActive(false);
                 mEnemySkill.mBarrier = null;            }
@@ -203,7 +204,6 @@ public class Enemy : InformationLoader
             {
                 if (Nodamage == false)
                 {
-                    StartCoroutine(HitAnimation());
                     switch (weapontype)
                     {
                         case 0://근접
@@ -216,6 +216,7 @@ public class Enemy : InformationLoader
                             SoundController.Instance.SESound(4);
                             break;
                     }
+                    StartCoroutine(HitAnimation());
                     mCurrentHP -= damage;
 
                     if (mHPBar == null)

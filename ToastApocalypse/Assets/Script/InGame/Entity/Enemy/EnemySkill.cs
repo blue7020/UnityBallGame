@@ -46,8 +46,8 @@ public class EnemySkill : MonoBehaviour
                 case 3://Mold_King
                     StartCoroutine(MoldKingAttack());
                     break;
-                case 4://CursedPowder
-                    StartCoroutine(CursedPowder());
+                case 4://Tomocto
+                    StartCoroutine(Tomocto());
                     break;
                 case 5://PotatoGolem
                     StartCoroutine(PotatoGolem());
@@ -167,6 +167,9 @@ public class EnemySkill : MonoBehaviour
                 case 44://Scarecrow_Range
                     ScareCrow2();
                     break;
+                case 45://CursedPowder
+                    StartCoroutine(CursedPowder());
+                    break;
                 default:
                     Debug.LogError("wrong Enemy ID");
                     break;
@@ -189,7 +192,7 @@ public class EnemySkill : MonoBehaviour
                     break;
                 case 3://Moldling
                     break;
-                case 4://KingSlime
+                case 4://Tomocto
                     break;
                 case 5://PotatoGolem
                     break;
@@ -288,6 +291,8 @@ public class EnemySkill : MonoBehaviour
                 case 43://Scarecrow_Melee
                     break;
                 case 44://Scarecrow_Range
+                    break;
+                case 45://CursedPowder
                     break;
                 default:
                     Debug.LogError("wrong Enemy ID");
@@ -408,33 +413,22 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-    private IEnumerator CursedPowder()//id=4
+    private IEnumerator CursedPowder()//id=45
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        Count = 0;
+        WaitForSeconds delay = new WaitForSeconds(0.5f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        StartCoroutine(MoveDelay(0.11f));
-        while (true)
+        StartCoroutine(MoveDelay(0.45f));
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP)
         {
-            if (Count > 10)
+            for (int i = 1; i < 5; i++)
             {
-                mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                break;
+                ResetDir(3, i);
             }
-            Invoke("PowderBoom", 0.1f);
-            yield return delay;
-
         }
-    }
-    private void PowderBoom()
-    {
-        int Xpos = Random.Range(-5, 6);
-        int Ypos = Random.Range(-5, 6);
-        Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-        Bullet bolt = BulletPool.Instance.GetFromPool(3);
-        bolt.mEnemy = mEnemy;
-        bolt.transform.localPosition = Pos;
-        Count++;
+        ResetDir(3, 0);
+        ResetDir(3, 0);
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
     private IEnumerator Flied1()//id = 11
@@ -933,6 +927,7 @@ public class EnemySkill : MonoBehaviour
                 enemy.transform.position = mEnemy.transform.position + Pos;
             }
             mEnemy.mCurrentHP += 10;
+            mEnemy.mHPBar.SetGauge(mEnemy.mCurrentHP, mEnemy.mMaxHP);
         }
     }
     private IEnumerator BallShot()
@@ -1494,5 +1489,31 @@ public class EnemySkill : MonoBehaviour
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+    }
+
+    private IEnumerator Tomocto()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(0.25f));
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP)
+        {
+            AngerTomato2();
+        }
+        TomatoFall();
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+    }
+    private void TomatoFall()
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            int Xpos = Random.Range(-6, 7);
+            int Ypos = Random.Range(-6, 7);
+            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+            Bullet tomato = BulletPool.Instance.GetFromPool(30);
+            tomato.mEnemy = mEnemy;
+            tomato.transform.position = mEnemy.transform.position + Pos;
+        }
     }
 }

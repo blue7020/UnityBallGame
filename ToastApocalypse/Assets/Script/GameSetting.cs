@@ -61,6 +61,7 @@ public class GameSetting : InformationLoader
             Instance = this;
             DontDestroyOnLoad(gameObject);
             LoadJson(out mInfoArr, Path.WEAPON_STAT);
+            //세이브불러오기
             NowScene = 0;
         }
         else
@@ -81,34 +82,30 @@ public class GameSetting : InformationLoader
             PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
             PlayerHasWeapon = new bool[mWeapons.Length];
             StatueOpen = new bool[8];//석상을 추가할 때마다 수정
+            for (int i=0; i<CharacterOpen.Length;i++)
+            {
+                CharacterOpen[i] = false;
+            }
+            CharacterOpen[0] = true;//기본캐릭터 오픈
             for (int i=0; i<4;i++)
             {
                 StatueOpen[i] = true; //기본 석상 4개 오픈
                 NPCOpen[i] = true; //기본 NPC 4명 오픈(원래는 0,5번만 오픈)
             }
             StageOpen[0] = true;//1스테이지 오픈
-            CharacterOpen[0] = true;//기본캐릭터 오픈
             PlayerHasSkill[0] = true;//기본 스킬 오픈
             PlayerSkillID = 0;
             PlayerHasWeapon[0] = true; //기본 근접 무기 오픈
             PlayerHasWeapon[1] = true; //기본 원거리 무기 오픈
             PlayerWeaponID = 0;
             Syrup = 0;
+            TutorialEnd = false;
             FirstSetting = true;
         }
         Restart();
 
         Syrup = 30000;
-
-        CharacterOpen[1] = true;//햄에그캐릭터 오픈
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
-
-        StageOpen[1] = true;//2스테이지 오픈
-        StageOpen[2] = true;//3스테이지 오픈
-        StageOpen[3] = true;//4스테이지 오픈
-        StageOpen[4] = true;//5스테이지 오픈
-        StageOpen[5] = true;//6스테이지 오픈
-
         for (int i=0; i<HasMaterial.Length;i++)
         {
             HasMaterial[i] = 50;

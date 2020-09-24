@@ -12,13 +12,17 @@ public class SkillList : MonoBehaviour
     public SkillEffect effect;
     public PlayerBullet[] Skillbullet;
     public int DestroyCheckLevel;
+    public bool isTutorial;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (isTutorial!=true)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
         else
         {

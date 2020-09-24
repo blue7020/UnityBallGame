@@ -270,6 +270,11 @@ public class Player : MonoBehaviour
             transform.position =CurrentRoom.mStartPos.position;
             mCurrentHP = mMaxHP;
             TutorialUIController.Instance.ShowHP();
+            if (CurrentRoom.eType==eRoomType.Boss)
+            {
+                LastHitEnemy.mCurrentHP = LastHitEnemy.mMaxHP;
+                LastHitEnemy.mHPBar.SetGauge(LastHitEnemy.mCurrentHP, LastHitEnemy.mMaxHP);
+            }
         }
     }
     public void DeathWindow()

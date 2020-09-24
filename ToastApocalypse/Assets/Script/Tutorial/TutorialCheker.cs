@@ -11,6 +11,7 @@ public class TutorialCheker : MonoBehaviour
     public Text mDialog;
     public TutorialEnd mParts;
     public GameObject Wall;
+    public SpriteRenderer mRenderer;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class TutorialCheker : MonoBehaviour
         {
             if (!EndPoint && NextText == false)
             {
+                Time.timeScale = 0;
                 switch (mStage)
                 {
                     case eTutorialStage.Start:
@@ -37,20 +39,18 @@ public class TutorialCheker : MonoBehaviour
                         break;
                     case eTutorialStage.Combat1:
                         TutorialDialog.Instance.ShowDialog();
-
                         break;
                     case eTutorialStage.Combat2:
                         TutorialDialog.Instance.ShowDialog();
                         break;
                     case eTutorialStage.Skill:
+                        TutorialUIController.Instance.mPlayerSkill.SkillSettingTutorial();
                         TutorialDialog.Instance.ShowDialog();
-                        Player.Instance.Heal(Player.Instance.mMaxHP);
-                        Player.Instance.NowPlayerSkill.mID = 0;
-                        Player.Instance.NowPlayerSkill.mSkillIcon = SkillController.Instance.SkillIcon[0];
-                        TutorialUIController.Instance.ShowSkillImage();
                         break;
                     case eTutorialStage.Boss:
                         TutorialDialog.Instance.ShowDialog();
+                        Wall.gameObject.SetActive(true);
+                        Instantiate(TutorialUIController.Instance.mEnemy[3],TutorialUIController.Instance.mSpawnPos[3]);
                         break;
                     case eTutorialStage.End:
                         TutorialDialog.Instance.ShowDialog();
@@ -61,6 +61,7 @@ public class TutorialCheker : MonoBehaviour
             }
             else if (EndPoint && NextText == false)
             {
+                Time.timeScale = 1;
                 switch (mStage)
                 {
                     case eTutorialStage.Start:
@@ -68,6 +69,7 @@ public class TutorialCheker : MonoBehaviour
                         TutorialDialog.Instance.ShowDialog();
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                         NextText = true;
+                        mRenderer.color = Color.clear;
                         break;
                     case eTutorialStage.Artifact:
                         if (Player.Instance.mCurrentHP<Player.Instance.mMaxHP)
@@ -78,6 +80,7 @@ public class TutorialCheker : MonoBehaviour
                                 TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                                 Wall.gameObject.SetActive(false);
                                 NextText = true;
+                                mRenderer.color = Color.clear;
                             }
                             else
                             {
@@ -92,6 +95,7 @@ public class TutorialCheker : MonoBehaviour
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
+                            mRenderer.color = Color.clear;
                         }
                         break;
                     case eTutorialStage.Statue:
@@ -101,6 +105,7 @@ public class TutorialCheker : MonoBehaviour
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
+                            mRenderer.color = Color.clear;
                         }
                         break;
                     case eTutorialStage.Combat1:
@@ -110,6 +115,7 @@ public class TutorialCheker : MonoBehaviour
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
+                            mRenderer.color = Color.clear;
                         }
                         else
                         {
@@ -123,6 +129,8 @@ public class TutorialCheker : MonoBehaviour
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
+                            mRenderer.color = Color.clear;
+                            Player.Instance.Heal(Player.Instance.mMaxHP);
                         }
                         break;
                     case eTutorialStage.Skill:
@@ -130,6 +138,7 @@ public class TutorialCheker : MonoBehaviour
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                         Wall.gameObject.SetActive(false);
                         NextText = true;
+                        mRenderer.color = Color.clear;
                         break;
                     case eTutorialStage.Boss:
                         if (Player.Instance.mTotalKillCount >= 3)
@@ -138,13 +147,11 @@ public class TutorialCheker : MonoBehaviour
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
+                            mRenderer.color = Color.clear;
+                            Player.Instance.Heal(Player.Instance.mMaxHP);
                         }
                         break;
                     case eTutorialStage.End:
-                        TutorialDialog.Instance.ShowDialog();
-                        TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
-                        mParts.gameObject.SetActive(true);//npc 구출 시 대사나오고 파츠 등장하게
-                        NextText = true;
                         break;
                 }
             }

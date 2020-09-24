@@ -127,9 +127,11 @@ public class ActiveArtifacts : MonoBehaviour
         effect = TextEffectPool.Instance.GetFromPool(0);
         effect.transform.position += new Vector3(0, -0.6f, 0);
         effect.SetText(bufftext2);
+        BuffEffectController.Instance.EffectList.Add(buffEffect);
         yield return dura;
         Player.Instance.buffIncrease[2] -= 0.4f;
         Player.Instance.buffIncrease[3] -= 0.4f;
+  
     }
 
     public void UnbrandedCan()

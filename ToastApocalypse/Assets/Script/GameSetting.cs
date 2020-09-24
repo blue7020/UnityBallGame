@@ -104,11 +104,12 @@ public class GameSetting : InformationLoader
         }
         Restart();
 
-        Syrup = 30000;
+        Syrup = 10000;
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
+        PlayerHasSkill[2] = true;//돌진 스킬 오픈
         for (int i=0; i<HasMaterial.Length;i++)
         {
-            HasMaterial[i] = 50;
+            HasMaterial[i] = 10;
         }
     }
 

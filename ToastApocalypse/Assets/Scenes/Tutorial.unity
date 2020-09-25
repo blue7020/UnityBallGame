@@ -690,6 +690,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 1540829587}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -1510,6 +1511,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 173527793}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -4073,7 +4075,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mAnim: {fileID: 292720980}
   NotouchArea: {fileID: 955134057}
-  mSlot: []
+  mNPCWindow: {fileID: 0}
+  TitleText: {fileID: 0}
+  ShowNPC: 0
+  mNPCSlot: {fileID: 0}
+  mParents: {fileID: 0}
+  mMaterialSlot: []
 --- !u!114 &317100400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4570,6 +4577,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 1315588401}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -4891,6 +4899,7 @@ MonoBehaviour:
   mBGMminus: {fileID: 672082791}
   mSEplus: {fileID: 2085585693}
   mSEminus: {fileID: 100131865}
+  MainMenuButton: {fileID: 1792113390}
   mBGMText: {fileID: 5008421}
   mSEText: {fileID: 418048988}
   mStatTitle: {fileID: 590724303}
@@ -5848,6 +5857,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 662808850}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -16713,11 +16723,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pause: 0
   GotoMain: 0
-  Level: 0
+  StageLevel: 0
   StageHP: 0
   MaterialDropRate: 0
   SyrupInStage: 0
   IsTutorial: 1
+  RescueNPCList: 
 --- !u!4 &1205227169
 Transform:
   m_ObjectHideFlags: 0
@@ -23173,6 +23184,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 1775013326}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -24814,6 +24826,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 960570378}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -26600,6 +26613,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 1799252679}
+  mNPCSpawnPos: {fileID: 0}
   eType: 1
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -27112,6 +27126,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 2041580876}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -32933,6 +32948,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 839684399}
+  mNPCSpawnPos: {fileID: 0}
   eType: 2
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}

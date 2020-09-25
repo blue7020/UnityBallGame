@@ -271,7 +271,7 @@ public class RoomControllers : MonoBehaviour
     {
         Room CurrentRoom =room;
         Player.Instance.CurrentRoom = CurrentRoom;
-        if (GameController.Instance.Level < GameSetting.LEVEL_COUNT)
+        if (GameController.Instance.StageLevel < GameSetting.LEVEL_COUNT)
         {
             if (CurrentRoom.IsFound == false)
             {

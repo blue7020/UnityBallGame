@@ -16,7 +16,7 @@ public class TutorialUIController : InformationLoader
     public TutorialDialog Dialog;
     public Sprite DefaultItemSprite;
 
-    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus;
+    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
     public Tooltip tooltip;
     public PlayerSkill mPlayerSkill;
@@ -35,6 +35,10 @@ public class TutorialUIController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.MAP_TEXT);
+            if (GameSetting.Instance.TutorialEnd==false)
+            {
+                MainMenuButton.gameObject.SetActive(false);
+            }
         }
         else
         {

@@ -10,13 +10,15 @@ public class GameController : MonoBehaviour
     public bool pause;
     public bool GotoMain;
 
-    public int Level;//현재 층
+    public int StageLevel;//현재 층
     public int StageHP;
 
     public float MaterialDropRate;
 
     public int SyrupInStage;
     public bool IsTutorial;
+
+    public List<int> RescueNPCList;
 
     private void Awake()
     {
@@ -25,12 +27,13 @@ public class GameController : MonoBehaviour
             Instance = this;
             GotoMain = false;
             pause = false;
-            Level = 1;
+            StageLevel = 1;
             SyrupInStage = 0;
             if (!IsTutorial)
             {
                 MaterialDropRate = 0.3f;
                 StageHP = 2;
+                RescueNPCList = new List<int>();
             }
         }
         else
@@ -136,7 +139,7 @@ public class GameController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                Level = GameSetting.LEVEL_COUNT;
+                StageLevel = GameSetting.LEVEL_COUNT;
                 Player.Instance.ResetBuff();
                 Player.Instance.Nodamage = false;
                 for (int i = 0; i < BuffEffectController.Instance.EffectList.Count; i++)
@@ -144,6 +147,7 @@ public class GameController : MonoBehaviour
                     BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
                 }
                 SceneManager.LoadScene(3);
+                MapNPCController.Instance.NPCSpawn();
                 Player.Instance.transform.position = new Vector2(0, -10.5f);
             }
         }

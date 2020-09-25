@@ -24,7 +24,7 @@ public class Room : MonoBehaviour
     public Door topDoor;
     public Door bottomDoor;
 
-    public Transform mStartPos;
+    public Transform mStartPos,mNPCSpawnPos;
 
     public eRoomType eType;
     public GridController mGrid;
@@ -51,7 +51,7 @@ public class Room : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameController.Instance.Level < 5&&GameController.Instance.IsTutorial==false)
+        if (GameController.Instance.StageLevel < 5&&GameController.Instance.IsTutorial==false)
         {
             Door[] ds = GetComponentsInChildren<Door>();
             foreach (Door d in ds)
@@ -247,6 +247,10 @@ public class Room : MonoBehaviour
             if (other.gameObject.CompareTag("Player"))
             {
                 Player.Instance.CurrentRoom = this;
+                if (GameController.Instance.StageLevel==5)
+                {
+                    MapNPCController.Instance.MainNPCSpawn();
+                }
             }
         }
     }

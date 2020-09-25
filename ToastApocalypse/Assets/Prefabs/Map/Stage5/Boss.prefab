@@ -3102,6 +3102,7 @@ Transform:
   - {fileID: 582915945778277161}
   - {fileID: 582915946300997947}
   - {fileID: 582915945393448719}
+  - {fileID: 2590886220214805050}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3126,6 +3127,7 @@ MonoBehaviour:
   topDoor: {fileID: 0}
   bottomDoor: {fileID: 0}
   mStartPos: {fileID: 0}
+  mNPCSpawnPos: {fileID: 2590886220214805050}
   eType: 3
   mGrid: {fileID: 0}
   mEnemyFinder: {fileID: 0}
@@ -4696,6 +4698,36 @@ MonoBehaviour:
   mRenderer: {fileID: 1600843011060889713}
   mRenderer_Top: {fileID: 2504022307658615012}
   color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &5115236189851682332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2590886220214805050}
+  m_Layer: 0
+  m_Name: NPCSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2590886220214805050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5115236189851682332}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 7.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 582915945856700387}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5875620563999173339
 GameObject:
   m_ObjectHideFlags: 0

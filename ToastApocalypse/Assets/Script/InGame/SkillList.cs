@@ -75,7 +75,7 @@ public class SkillList : MonoBehaviour
 
     public void Cabbage_Boomerang()//1
     {
-        DestroyCheckLevel = GameController.Instance.Level;
+        DestroyCheckLevel = GameController.Instance.StageLevel;
         PlayerBullet bolt = Instantiate(Skillbullet[0],Player.Instance.CurrentRoom.transform);
         bolt.transform.SetParent(Player.Instance.CurrentRoom.transform);
         bolt.transform.position = Player.Instance.transform.position;
@@ -89,7 +89,7 @@ public class SkillList : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         yield return delay;
-        if (GameController.Instance.Level != DestroyCheckLevel)
+        if (GameController.Instance.StageLevel != DestroyCheckLevel)
         {
             Destroy(bolt);
         }
@@ -106,7 +106,7 @@ public class SkillList : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         while (true)
         {
-            if (GameController.Instance.Level != DestroyCheckLevel)
+            if (GameController.Instance.StageLevel != DestroyCheckLevel)
             {
                 Destroy(bolt);
             }

@@ -8,9 +8,8 @@ public class MainScreenUIController : MonoBehaviour
 {
     public static MainScreenUIController Instance;
 
-    public Text mStartText,mEndText, mBGMText, mSEText, mYesText,mNoText,mGuideText;
+    public Text mStartText, mEndText, mBGMText, mSEText;
     public Button mEngButton, mKorButton;
-    public Image mTutorial;
 
     private void Awake()
     {
@@ -21,9 +20,6 @@ public class MainScreenUIController : MonoBehaviour
             {
                 mStartText.text = "게임 시작";
                 mEndText.text = "게임 종료";
-                mYesText.text = "예";
-                mNoText.text = "아니오";
-                mGuideText.text = "튜토리얼을 진행하시겠습니까?";
                 mEngButton.interactable = true;
                 mKorButton.interactable = false;
 
@@ -32,9 +28,6 @@ public class MainScreenUIController : MonoBehaviour
             {
                 mStartText.text = "Start";
                 mEndText.text = "Quit";
-                mYesText.text = "Yes";
-                mNoText.text = "No";
-                mGuideText.text = "Do you need a tutorial?";
                 mEngButton.interactable = false;
                 mKorButton.interactable = true;
             }
@@ -99,7 +92,7 @@ public class MainScreenUIController : MonoBehaviour
     {
         if (GameSetting.Instance.TutorialEnd==false)
         {
-            mTutorial.gameObject.SetActive(true);
+            GoTutorial();
         }
         else
         {

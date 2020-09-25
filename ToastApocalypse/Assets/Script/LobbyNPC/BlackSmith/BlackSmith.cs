@@ -17,6 +17,10 @@ public class BlackSmith : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            if (GameSetting.Instance.NPCOpen[2] == false)
+            {
+                gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -29,18 +33,18 @@ public class BlackSmith : MonoBehaviour
         if (GameSetting.Instance.NPCOpen[2]==true)
         {
             mAnim.SetBool(AnimHash.Furniture, true);
-        }
-        if (GameSetting.Instance.Language==0)//한국어
-        {
-            mTitleText.text = "오븐";
-            mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
-            mMaterialText.text = "비용 / 제작 재료";
-        }
-        else if (GameSetting.Instance.Language == 1)//영어
-        {
-            mTitleText.text = "Oven";
-            mGuideText.text = "Touch the slot to view tooltips";
-            mMaterialText.text = "Price / Recipe";
+            if (GameSetting.Instance.Language == 0)//한국어
+            {
+                mTitleText.text = "오븐";
+                mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
+                mMaterialText.text = "비용 / 제작 재료";
+            }
+            else if (GameSetting.Instance.Language == 1)//영어
+            {
+                mTitleText.text = "Oven";
+                mGuideText.text = "Touch the slot to view tooltips";
+                mMaterialText.text = "Price / Recipe";
+            }
         }
     }
 

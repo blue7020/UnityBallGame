@@ -50,7 +50,6 @@ public class Weapon : MonoBehaviour
             if (Player.Instance.hori > 0) //우
             {
                 mRenderer.sortingOrder = 10;
-
             }
             else if (Player.Instance.hori < 0)//좌
             {

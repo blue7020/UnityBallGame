@@ -14,8 +14,6 @@ public class Enemy : InformationLoader
     public GameObject[] mSprite;
     public Rigidbody2D mRB2D;
     public Player mTarget;
-    public bool Runaway;
-    public bool HasBarrier;
 
     public Transform mHPBarPos;
     public EnemySkill mEnemySkill;
@@ -25,25 +23,17 @@ public class Enemy : InformationLoader
     public GaugeBar mHPBar;
     public GameObject CCState;
 
-    public bool Nodamage;
-    public bool Stun;
-    public bool IsTraking;
-    public float SpeedAmount;
-
-    public bool AttackOn;
-    public bool AttackCheck;
+    public bool Nodamage, Stun, isFire,IsTraking;
+    public bool AttackOn, AttackCheck, Spawned, IsMimic, Runaway, HasBarrier;
     public Coroutine mCoroutine;
-    public bool Spawned;
-    public bool IsMimic;
     public Animator mAnim;
-    public float mCurrentHP;
-    public float mMaxHP;
+    public float mCurrentHP, mMaxHP, SpeedAmount;
 
     public MonsterStat mStats;
 
     private void OnEnable()
     {
-        if (GameController.Instance.IsTutorial == false&&GameController.Instance.Level!=5)
+        if (GameController.Instance.IsTutorial == false&&GameController.Instance.StageLevel!=5)
         {
             Player.Instance.CurrentRoom.EnemyCount++;
         }
@@ -60,7 +50,8 @@ public class Enemy : InformationLoader
         Nodamage = true;
         AttackCheck = true;
         Stun = false;
-        mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.Level);
+        isFire = false;
+        mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
     }
     private void Start()
@@ -334,6 +325,17 @@ public class Enemy : InformationLoader
         }
     }
 
+    public IEnumerator FireDamage(float damage)
+    {
+        WaitForSeconds dura = new WaitForSeconds(0.33f);
+        isFire = true;
+        Hit(damage / 3, 2);
+        yield return dura;
+        Hit(damage / 3, 2);
+        yield return dura;
+        Hit(damage / 3, 2);
+        isFire = false;
+    }
 
     public IEnumerator SpeedBuff(float duration, float value)
     {

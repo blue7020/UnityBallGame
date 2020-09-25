@@ -10,9 +10,13 @@ public class BulletParticle : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            if (other.gameObject.GetComponent<Enemy>().mCurrentHP >0)
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            if (enemy.mCurrentHP >0)
             {
-                other.gameObject.GetComponent<Enemy>().Hit(mDamage, 2);
+                if (enemy.isFire==false)
+                {
+                    enemy.StartCoroutine(enemy.FireDamage(mDamage));
+                }
             }
         }
     }

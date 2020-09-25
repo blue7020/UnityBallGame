@@ -15,17 +15,24 @@ public class Librarian : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            if (GameSetting.Instance.Language==0)//한국어
+            if (GameSetting.Instance.NPCOpen[0] == false)
             {
-                mTitle.text = "사서: 무엇이 궁금한가?";
-                mTutorialText.text = "게임 방법";
-                mLobbyGuideText.text = "로비 기능";
+                gameObject.SetActive(false);
             }
-            else if(GameSetting.Instance.Language==1)//영어
+            else
             {
-                mTitle.text = "Librarian: What do you want to know?";
-                mTutorialText.text = "How to play";
-                mLobbyGuideText.text = "Lobby function";
+                if (GameSetting.Instance.Language == 0)//한국어
+                {
+                    mTitle.text = "사서: 무엇이 궁금한가?";
+                    mTutorialText.text = "게임 방법";
+                    mLobbyGuideText.text = "로비 기능";
+                }
+                else if (GameSetting.Instance.Language == 1)//영어
+                {
+                    mTitle.text = "Librarian: What do you want to know?";
+                    mTutorialText.text = "How to play";
+                    mLobbyGuideText.text = "Lobby function";
+                }
             }
         }
         else

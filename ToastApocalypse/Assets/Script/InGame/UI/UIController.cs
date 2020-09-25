@@ -114,11 +114,11 @@ public class UIController : InformationLoader
     public IEnumerator ShowLevel()
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
-        mLevelText.text = maptext+"\n-B" + GameController.Instance.Level + "F-";
+        mLevelText.text = maptext+"\n-B" + GameController.Instance.StageLevel + "F-";
         mLevelText.gameObject.SetActive(true);
         yield return delay;
         mLevelText.gameObject.SetActive(false);
-        if (GameSetting.Instance.NowStage == 6&& GameController.Instance.Level==1)
+        if (GameSetting.Instance.NowStage == 6&& GameController.Instance.StageLevel==1)
         {
             StartCoroutine(ShowLevelMessage());
         }

@@ -24,24 +24,31 @@ public class StatueShop : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            if (GameSetting.Instance.NPCOpen[3] == false)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                if (GameSetting.Instance.Language == 0)//한국어
+                {
+                    mTitle.text = "석상 연구소";
+                    mStatueName.text = "석상 연구";
+                    mStatueLore.text = "석상을 연구하여 스테이지에서 출현하는 석상의 종류를 늘립니다";
+                    mBuyText.text = "연구하기";
+                }
+                else if (GameSetting.Instance.Language == 1)//영어
+                {
+                    mTitle.text = "Statue Lab";
+                    mStatueName.text = "Statue research";
+                    mStatueLore.text = "Researching statue increases the type of statues that are appearing in the stage";
+                    mBuyText.text = "Research";
+                }
+            }
         }
         else
         {
             Destroy(gameObject);
-        }
-        if (GameSetting.Instance.Language==0)//한국어
-        {
-            mTitle.text = "석상 연구소";
-            mStatueName.text = "석상 연구";
-            mStatueLore.text = "석상을 연구하여 스테이지에서 출현하는 석상의 종류를 늘립니다";
-            mBuyText.text = "연구하기";
-        }
-        else if (GameSetting.Instance.Language==1)//영어
-        {
-            mTitle.text = "Statue Lab";
-            mStatueName.text = "Statue research";
-            mStatueLore.text = "Researching statue increases the type of statues that are appearing in the stage";
-            mBuyText.text = "Research";
         }
     }
 

@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
+public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler,IBeginDragHandler,IEndDragHandler
 {
     public static AttackPad Instance;
     public Image BG, Stick, CoolWheel;
     public Vector2 inputVector;
-    private bool AttackSwitch,IsReload;
+    private bool AttackSwitch,IsReload,AttackEnd;
     float AttackCurrentTime;
     float CoolMaxtime;
 
@@ -22,6 +22,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             AttackSwitch = false;
             AttackCurrentTime = 0;
             IsReload = false;
+            AttackEnd = false;
         }
         else
         {
@@ -50,15 +51,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                     = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2 / 2),
                                   inputVector.y * (BG.rectTransform.sizeDelta.y / 2) / 2);
 
-                if (AttackCurrentTime <= 0)
-                {
-                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee || Player.Instance.NowPlayerWeapon.nowBullet >= 1)
-                    {
-                        CoolMaxtime = Player.Instance.mStats.AtkSpd;
-                    }
-                    AttackSwitch = true;
-                    StartCoroutine(CooltimeRoutine(CoolMaxtime));
-                }
+                
 
                 //무기 방향 돌리기
                 float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
@@ -77,51 +70,9 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                         Player.Instance.NowPlayerWeapon.mRenderer.flipY = false;
                     }
                 }
+                //
 
-
-                if (AttackSwitch == true && Player.Instance.Stun == false)
-                {
-                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
-                    {
-                        Player.Instance.NowPlayerWeapon.MeleeAttack();
-                        StartCoroutine(AttackCooltime());
-                    }
-                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
-                    {
-                        if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
-                        {
-                            Player.Instance.NowPlayerWeapon.RangeAttack();
-                            StartCoroutine(AttackCooltime());
-                        }
-                        else
-                        {
-                            AttackSwitch = false;
-                            float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
-                            CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
-                            IsReload = true;
-                            StartCoroutine(CooltimeRoutine(CoolMaxtime));
-                            Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
-                        }
-                    }
-                    if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
-                    {
-                        if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
-                        {
-                            Player.Instance.NowPlayerWeapon.FireAttack();
-                        }
-                        else
-                        {
-                            Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
-                            AttackSwitch = false;
-                            float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
-                            IsReload = true;
-                            CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
-                            StartCoroutine(CooltimeRoutine(CoolMaxtime));
-                            Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
-                            UIController.Instance.ShowNowBulletText();
-                        }
-                    }
-                }
+                //
             }
 
         }
@@ -141,8 +92,98 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         
     }
 
+    public IEnumerator AttackCycle()
+    {
+        WaitForSeconds time = new WaitForSeconds(0.1f);
+        float currentTime = 0;
+        Attack();
+        while (true)
+        {
+            float Maxtime = Player.Instance.mStats.AtkSpd;
+            if (AttackEnd==false)
+            {
+                if (currentTime >= Maxtime)
+                {
+                    currentTime = 0;
+                    Attack();
+
+                }
+            }
+            else
+            {
+                break;
+            }
+            currentTime += 0.1f;
+            yield return time;
+        }
+    }
+
+    private void Attack()
+    {
+        if (AttackCurrentTime <= 0)
+        {
+            if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee || Player.Instance.NowPlayerWeapon.nowBullet >= 1)
+            {
+                CoolMaxtime = Player.Instance.mStats.AtkSpd;
+            }
+            AttackSwitch = true;
+            StartCoroutine(CooltimeRoutine(CoolMaxtime));
+
+            if (AttackSwitch == true && Player.Instance.Stun == false)
+            {
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
+                {
+                    Player.Instance.NowPlayerWeapon.MeleeAttack();
+                    StartCoroutine(AttackCooltime());
+                }
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+                {
+                    if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
+                    {
+                        Player.Instance.NowPlayerWeapon.RangeAttack();
+                        StartCoroutine(AttackCooltime());
+                    }
+                    else
+                    {
+                        AttackSwitch = false;
+                        float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                        CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
+                        IsReload = true;
+                        StartCoroutine(CooltimeRoutine(CoolMaxtime));
+                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                    }
+                }
+                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+                {
+                    if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
+                    {
+                        Player.Instance.NowPlayerWeapon.FireAttack();
+                    }
+                    else
+                    {
+                        Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
+                        AttackSwitch = false;
+                        float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
+                        IsReload = true;
+                        CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
+                        StartCoroutine(CooltimeRoutine(CoolMaxtime));
+                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+                        UIController.Instance.ShowNowBulletText();
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        AttackEnd = false;
+        StartCoroutine(AttackCycle());
+    }
+
     public virtual void OnPointerUp(PointerEventData ped)
     {
+        StopCoroutine(AttackCycle());
         if (Player.Instance.NowPlayerWeapon != null)
         {
             Stick.rectTransform.anchoredPosition = Vector3.zero;
@@ -192,5 +233,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         }
     }
 
-
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        AttackEnd = true;
+    }
 }

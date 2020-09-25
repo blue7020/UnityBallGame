@@ -48,23 +48,23 @@ public class Portal : MonoBehaviour
 
     public void Nextroom()
     {
-        GameController.Instance.Level++;
+        GameController.Instance.StageLevel++;
         Player.Instance.ResetBuff();
         Player.Instance.Nodamage = false;
         for (int i=0; i<BuffEffectController.Instance.EffectList.Count;i++)
         {
             BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
         }
-        if (GameController.Instance.Level == GameSetting.LEVEL_COUNT)
+        if (GameController.Instance.StageLevel == GameSetting.LEVEL_COUNT)
         {
             SceneManager.LoadScene(3);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
         }
-        else if (GameController.Instance.Level> GameSetting.LEVEL_COUNT)
+        else if (GameController.Instance.StageLevel> GameSetting.LEVEL_COUNT)
         {
             UIController.Instance.ShowClearText();
         }
-        else if (GameController.Instance.Level < GameSetting.LEVEL_COUNT)
+        else if (GameController.Instance.StageLevel < GameSetting.LEVEL_COUNT)
         {
             SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);
@@ -74,6 +74,7 @@ public class Portal : MonoBehaviour
             {
                 WeaponController.Instance.mWeapons.Add(GameSetting.Instance.mWeapons[i]);
             }
+            MapNPCController.Instance.NPCSpawn();
         }
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();

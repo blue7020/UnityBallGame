@@ -44,7 +44,7 @@ public class ShopController : MonoBehaviour
         itembuy[0].mPriceText.text = item.mStats.Price.ToString() + "G";
         mItemList.RemoveAt(rand);
         itembuy[0].mPriceText.gameObject.SetActive(false);
-        if (GameController.Instance.Level % 2 == 1)
+        if (GameController.Instance.StageLevel % 2 == 1)
         {
             int index = 1;
             int ShopCount = 0;

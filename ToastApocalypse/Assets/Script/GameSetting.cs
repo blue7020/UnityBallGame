@@ -15,6 +15,8 @@ public class GameSetting : InformationLoader
     public bool Ingame;
     public int NowScene;
 
+    private const int STATUE_COUNT = 8;
+    private const int NPC_COUNT = 5;
     private const int CHARACTER_COUNT = 7;
 
     //로비용
@@ -76,28 +78,36 @@ public class GameSetting : InformationLoader
         {
             HasMaterial = new int[mMaterialSpt.Length];
             StageOpen = new bool[6];
-            NPCOpen = new bool[4];//현재 4명
+            StageOpen[0] = true;//1스테이지 오픈
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
             CharacterOpen = new bool[CHARACTER_COUNT];
-            PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
-            PlayerHasWeapon = new bool[mWeapons.Length];
-            StatueOpen = new bool[8];//석상을 추가할 때마다 수정
-            for (int i=0; i<CharacterOpen.Length;i++)
+            for (int i = 0; i < CharacterOpen.Length; i++)
             {
                 CharacterOpen[i] = false;
             }
             CharacterOpen[0] = true;//기본캐릭터 오픈
-            for (int i=0; i<4;i++)
-            {
-                StatueOpen[i] = true; //기본 석상 4개 오픈
-                NPCOpen[i] = true; //기본 NPC 4명 오픈(원래는 0,5번만 오픈)
-            }
-            StageOpen[0] = true;//1스테이지 오픈
+            PlayerHasSkill = new bool[SkillController.Instance.mStatInfoArr.Length];
             PlayerHasSkill[0] = true;//기본 스킬 오픈
             PlayerSkillID = 0;
+            PlayerHasWeapon = new bool[mWeapons.Length];
             PlayerHasWeapon[0] = true; //기본 근접 무기 오픈
             PlayerHasWeapon[1] = true; //기본 원거리 무기 오픈
             PlayerWeaponID = 0;
+            StatueOpen = new bool[STATUE_COUNT];
+            for (int i=0; i<4;i++)
+            {
+                StatueOpen[i] = true; //기본 석상 4개 오픈
+            }
+            NPCOpen = new bool[NPC_COUNT];
+            for (int i = 0; i < NPC_COUNT; i++)
+            {
+                NPCOpen[i] = false; //기본 석상 4개 오픈
+            }
+            NPCOpen[0] = true; //사서 npc 오픈
+            NPCOpen[4] = true; //유료상인 npc 오픈
+
+
+
             Syrup = 0;
             TutorialEnd = false;
             FirstSetting = true;

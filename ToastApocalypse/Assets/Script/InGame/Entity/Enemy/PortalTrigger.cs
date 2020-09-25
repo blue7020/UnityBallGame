@@ -20,7 +20,7 @@ public class PortalTrigger : MonoBehaviour
         {
             Instance = this;
             Spawned = false;
-            if (GameController.Instance.Level >= 5)
+            if (GameController.Instance.StageLevel >= 5)
             {
                 NowBoss = StageBossArr[0];
                 Instantiate(NowBoss, transform.position, Quaternion.identity);
@@ -34,9 +34,9 @@ public class PortalTrigger : MonoBehaviour
 
     public void BossSpawn()
     {
-        if (GameController.Instance.Level < 5 || Spawned == false)
+        if (GameController.Instance.StageLevel < 5 || Spawned == false)
         {
-            if (GameController.Instance.Level % 2 == 1)//홀수 층 = 소환형 보스
+            if (GameController.Instance.StageLevel % 2 == 1)//홀수 층 = 소환형 보스
             {
                 NowBoss = BossArr[0];
             }

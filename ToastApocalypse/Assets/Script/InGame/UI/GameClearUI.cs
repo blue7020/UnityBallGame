@@ -10,7 +10,6 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public Animator mAnim;
     public Image NotouchArea,mNPCWindow;
     public Text TitleText;
-    public bool ShowNPC;
     public MapNPCSlot mNPCSlot;
     public Transform mParents;
 
@@ -21,7 +20,6 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         if (Instance==null)
         {
             Instance = this;
-            ShowNPC = false;
             if (GameSetting.Instance.Language==0)
             {
                 TitleText.text = "구출한 시민";
@@ -79,16 +77,16 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             }
             else
             {
-                ShowNPCWindow();
                 UIController.Instance.mPieceImage.gameObject.transform.localScale = new Vector3(1, 1, 1);
                 UIController.Instance.mPieceImage.gameObject.SetActive(true);
+                ShowNPCWindow();
             }
         }
         else
         {
-            ShowNPCWindow();
             UIController.Instance.mPieceImage.gameObject.transform.localScale = new Vector3(1, 1, 1);
             UIController.Instance.mPieceImage.gameObject.SetActive(true);
+            ShowNPCWindow();
         }
     }
 
@@ -103,6 +101,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         mAnim.SetBool(AnimHash.Parts, false);
         GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
         GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage]=true;
+        ShowNPCWindow();
 
     }
 
@@ -121,17 +120,13 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     {
         if (GameController.Instance.RescueNPCList.Count > 0)
         {
-            if (ShowNPC == false)
+            for (int i = 0; i < GameController.Instance.RescueNPCList.Count; i++)
             {
-                ShowNPC = true;
-                for (int i = 0; i < GameController.Instance.RescueNPCList.Count; i++)
-                {
-                    GameSetting.Instance.NPCOpen[GameController.Instance.RescueNPCList[i]] = true;
-                    MapNPCSlot slot = Instantiate(mNPCSlot,mParents);
-                    slot.SetData(GameController.Instance.RescueNPCList[i]);
-                }
-                mNPCWindow.gameObject.SetActive(true);
+                GameSetting.Instance.NPCOpen[GameController.Instance.RescueNPCList[i]] = true;
+                MapNPCSlot slot = Instantiate(mNPCSlot, mParents);
+                slot.SetData(GameController.Instance.RescueNPCList[i]);
             }
+            mNPCWindow.gameObject.SetActive(true);
         }
     }
 }

@@ -115,6 +115,7 @@ public class GameSetting : InformationLoader
         Restart();
 
         Syrup = 10000;
+        StageOpen[1] = true;//2스테이지 오픈
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
         PlayerHasSkill[2] = true;//돌진 스킬 오픈
         for (int i=0; i<HasMaterial.Length;i++)

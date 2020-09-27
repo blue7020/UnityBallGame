@@ -238,6 +238,11 @@ public class Room : MonoBehaviour
                     CanvasFinder.Instance.mSlotPriceText.gameObject.SetActive(true);
 
                 }
+                if (eType==eRoomType.StageEnd)
+                {
+                    Player.Instance.CurrentRoom = this;
+                    MapNPCController.Instance.MainNPCSpawn();
+                }
                 Special = true;
                 RoomControllers.Instance.OnPlayerEnterRoom(this);
             }
@@ -247,10 +252,6 @@ public class Room : MonoBehaviour
             if (other.gameObject.CompareTag("Player"))
             {
                 Player.Instance.CurrentRoom = this;
-                if (GameController.Instance.StageLevel==5)
-                {
-                    MapNPCController.Instance.MainNPCSpawn();
-                }
             }
         }
     }

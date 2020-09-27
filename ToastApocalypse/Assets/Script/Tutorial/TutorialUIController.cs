@@ -11,13 +11,13 @@ public class TutorialUIController : InformationLoader
 
     public Text mHPText, mNameText, mbulletText, mStatText;
     public Image mPlayerImage, mStatPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint, mPieceImage;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint, mPieceImage,mWarningWindow;
     public HPBar mHPBar;
     public TutorialDialog Dialog;
     public Sprite DefaultItemSprite;
 
-    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton;
-    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle;
+    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton,StartMenuButton,YesButton;
+    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle,YesText,NoText, WarningText;
     public Tooltip tooltip;
     public PlayerSkill mPlayerSkill;
     public Enemy[] mEnemy;
@@ -37,7 +37,37 @@ public class TutorialUIController : InformationLoader
             LoadJson(out mInfoArr, Path.MAP_TEXT);
             if (GameSetting.Instance.TutorialEnd==false)
             {
+                StartMenuButton.gameObject.SetActive(true);
                 MainMenuButton.gameObject.SetActive(false);
+                if (GameSetting.Instance.Language == 0)
+                {
+                    YesText.text = "<color=#FE2E2E>예</color>";
+                    NoText.text = "아니오";
+                    WarningText.text = "시작 화면으로 돌아가시겠습니까?\n<color=#FE2E2E><size=80>(현재 스테이지가 저장되지 않습니다!)</size></color>";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {
+                    YesText.text = "<color=#FE2E2E>YES</color>";
+                    NoText.text = "NO";
+                    WarningText.text = "Do you want to return to the start screen?\n<color=#FE2E2E><size=80>(This stage is not save!)</size></color>";
+                }
+                YesButton.onClick.AddListener(() => { GameController.Instance.MainStart(); });
+            }
+            else
+            {
+                if (GameSetting.Instance.Language == 0)
+                {
+                    YesText.text = "<color=#FE2E2E>예</color>";
+                    NoText.text = "아니오";
+                    WarningText.text = "메인 로비로 돌아가시겠습니까?\n<color=#FE2E2E><size=80>(현재 스테이지가 저장되지 않습니다!)</size></color>";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {
+                    YesText.text = "<color=#FE2E2E>YES</color>";
+                    NoText.text = "NO";
+                    WarningText.text = "Do you want to return to the main lobby?\n<color=#FE2E2E><size=80>(This stage is not save!)</size></color>";
+                }
+                YesButton.onClick.AddListener(() => { GameController.Instance.MainMenu(); });
             }
         }
         else

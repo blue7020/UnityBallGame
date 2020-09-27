@@ -22,7 +22,7 @@ public class UIController : InformationLoader
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
     public Text mTitleText, mMonsterNameText, mTouchGuideText;
-    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText;
+    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText, YesText,NoText, WarningText;
     public string maptext;
     public Tooltip tooltip;
 
@@ -39,6 +39,18 @@ public class UIController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.MAP_TEXT);
+            if (GameSetting.Instance.Language == 0)
+            {
+                YesText.text = "<color=#FE2E2E>예</color>";
+                NoText.text = "아니오";
+                WarningText.text = "메인 로비로 돌아가시겠습니까?\n<color=#FE2E2E><size=80>(현재 스테이지가 저장되지 않습니다!)</size></color>";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {
+                YesText.text = "<color=#FE2E2E>YES</color>";
+                NoText.text = "NO";
+                WarningText.text = "Do you want to return to the main lobby?\n<color=#FE2E2E><size=80>(This stage is not save!)</size></color>";
+            }
         }
         else
         {

@@ -61,6 +61,7 @@ public class TutorialEnd : MonoBehaviour
         {
             GameSetting.Instance.Syrup += ShyrupAmount;
         }
+        GameSetting.Instance.StagePartsget[0] = true;
         mClearUI.gameObject.SetActive(true);
     }
 

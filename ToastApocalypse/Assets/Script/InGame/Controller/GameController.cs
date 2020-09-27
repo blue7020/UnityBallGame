@@ -83,6 +83,19 @@ public class GameController : MonoBehaviour
         SoundController.Instance.BGMChange(0);
     }
 
+    public void MainStart()
+    {
+        DestroyController();
+        pause = false;
+        Time.timeScale = 1;
+        GameSetting.Instance.NowScene = 0;
+        GameSetting.Instance.Restart();
+        //TODO 저장기능
+        SceneManager.LoadScene(0);
+        SoundController.Instance.mBGM.Stop();
+        SoundController.Instance.BGMChange(0);
+    }
+
     public void DestroyController()
     {
         GotoMain = true;

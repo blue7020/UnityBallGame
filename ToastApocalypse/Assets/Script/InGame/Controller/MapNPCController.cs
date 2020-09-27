@@ -72,7 +72,6 @@ public class MapNPCController : MonoBehaviour
                     break;
                 case 2:
                     Instantiate(mNPCArr[2], Player.Instance.CurrentRoom.mNPCSpawnPos);
-                    Debug.Log("소환");
                     break;
                 case 3:
                     Instantiate(mNPCArr[3], Player.Instance.CurrentRoom.mNPCSpawnPos);

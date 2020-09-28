@@ -90,7 +90,10 @@ public class ActiveArtifacts : MonoBehaviour
         GameObject honny = Instantiate(mSkillobj[0],Player.Instance.CurrentRoom.transform);
         honny.transform.position = Player.Instance.transform.position;
         yield return dura;
-        honny.SetActive(false);
+        if (honny!=null)
+        {
+            honny.SetActive(false);
+        }
     }
 
     public void PetCookie()

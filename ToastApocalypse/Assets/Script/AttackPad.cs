@@ -190,6 +190,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
             {
                 Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
+                SoundController.Instance.mBGSE.Stop();
             }
         }
     }

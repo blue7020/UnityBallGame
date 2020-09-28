@@ -153,10 +153,17 @@ public class Weapon : MonoBehaviour
         if (Equip == true)
         {
             mRenderer.sortingOrder = 8;
-            if (eType == eWeaponType.Range || eType == eWeaponType.Fire)
+            if (eType == eWeaponType.Range)
             {
                 Aim.gameObject.SetActive(false);
                 mAttackArea.gameObject.SetActive(false);
+            }
+            else if (eType == eWeaponType.Fire)
+            {
+                Aim.gameObject.SetActive(false);
+                mAttackArea.gameObject.SetActive(false);
+                SoundController.Instance.mBGSE.Stop();
+                mAttackArea.FireStarter.Stop();
             }
             gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
             gameObject.transform.position = Player.Instance.transform.position;

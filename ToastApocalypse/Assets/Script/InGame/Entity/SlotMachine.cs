@@ -47,12 +47,14 @@ public class SlotMachine : MonoBehaviour
         {
             mRenderer.sprite = mSpt[2];
             StartCoroutine(WeaponSearch());
+            SoundController.Instance.SESoundUI(3);
         }
         else if (ArtifactController.Instance.mActiveArtifact.Count >= 0 && rand >=0.6f)//유물
         {
             index = 0;
             mRenderer.sprite = mSpt[3];
             StartCoroutine(ArtifactSearch());
+            SoundController.Instance.SESoundUI(3);
         }
         StartCoroutine(ResetSlot());
     }
@@ -153,6 +155,7 @@ public class SlotMachine : MonoBehaviour
                             enable = true;
                             Player.Instance.mStats.Gold -= Spend;
                             UIController.Instance.ShowGold();
+                            SoundController.Instance.SESound(19);
                             StartCoroutine(Roll());
                         }
                         else

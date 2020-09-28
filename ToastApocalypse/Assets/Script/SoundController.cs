@@ -53,7 +53,7 @@ public class SoundController : MonoBehaviour
     public void SESoundLong(int id)
     {
         mBGSE.clip = mSEArr[id];
-        mSE.Play();
+        mBGSE.Play();
     }
 
     public void SESoundUI(int id)

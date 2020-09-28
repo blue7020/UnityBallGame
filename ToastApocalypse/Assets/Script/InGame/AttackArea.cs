@@ -100,11 +100,6 @@ public class AttackArea : MonoBehaviour
             WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
             FireStarter.Play();
         }
-        else
-        {
-            SoundController.Instance.mBGSE.Stop();
-            FireStarter.Stop();
-        }
     }
 
     public void ResetDir()

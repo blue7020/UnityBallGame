@@ -22,7 +22,7 @@ public class AttackArea : MonoBehaviour
     public void Melee()
     {
         mAnim.SetBool(AnimHash.Attack, true);
-        SoundController.Instance.SESound(17);
+        SoundController.Instance.SESound(8);
         WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
         if (Player.Instance.ver > 0) //상
         {
@@ -41,31 +41,31 @@ public class AttackArea : MonoBehaviour
             switch (weapon.SoundId)
             {
                 case 0://일반
-                    SoundController.Instance.SESound(8);
-                    break;
-                case 1://트리플샷
-                    SoundController.Instance.SESound(11);
-                    break;
-                case 2://샷건
-                    SoundController.Instance.SESound(10);
-                    break;
-                case 3://소드오프
                     SoundController.Instance.SESound(9);
                     break;
-                case 4://유탄발사기
+                case 1://소스류
+                    SoundController.Instance.SESound(10);
+                    break;
+                case 2://트리플샷
+                    SoundController.Instance.SESound(11);
+                    break;
+                case 3://샷건
+                    SoundController.Instance.SESound(13);
+                    break;
+                case 4://소드오프
                     SoundController.Instance.SESound(12);
                     break;
-                case 5://투석
+                case 5://유탄발사기
                     SoundController.Instance.SESound(14);
                     break;
-                case 6://레이저
-                    SoundController.Instance.SESound(15);
+                case 6://투석
+                    SoundController.Instance.SESound(8);
                     break;
                 case 7://방사기
                     SoundController.Instance.SESound(16);
                     break;
                 case 8://표창
-                    SoundController.Instance.SESound(17);
+                    SoundController.Instance.SESound(8);
                     break;
             }
             weapon.nowBullet--;
@@ -87,6 +87,7 @@ public class AttackArea : MonoBehaviour
         FireStarter.gameObject.SetActive(true);
         if (weapon.nowBullet > 0)
         {
+            SoundController.Instance.SESoundLong(16);
             weapon.nowBullet--;
             if (GameController.Instance.IsTutorial == false)
             {
@@ -101,6 +102,7 @@ public class AttackArea : MonoBehaviour
         }
         else
         {
+            SoundController.Instance.mBGSE.Stop();
             FireStarter.Stop();
         }
     }
@@ -144,14 +146,14 @@ public class AttackArea : MonoBehaviour
                 if (Target.mCurrentHP > 0 && Target != null)
                 {
                     float rand = Random.Range(0, 1f);
-                    if (rand <= Player.Instance.mStats.Crit / 100)
+                    if (rand <= Player.Instance.mStats.Crit)
                     {
-                        Target.Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage),0);
+                        Target.Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage),0,true);
                         IsCrit = true;
                     }
                     else
                     {
-                        Target.Hit(Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]),0);
+                        Target.Hit(Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]),0,false);
                     }
                     IsCrit = false;
 

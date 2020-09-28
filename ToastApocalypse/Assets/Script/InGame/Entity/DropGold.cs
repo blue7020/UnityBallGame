@@ -32,6 +32,7 @@ public class DropGold : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Player>())
         {
+            SoundController.Instance.SESoundUI(2);
             Player.Instance.mStats.Gold += mGold;
             UIController.Instance.ShowGold();
             gameObject.SetActive(false);

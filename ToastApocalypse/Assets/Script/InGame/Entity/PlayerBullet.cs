@@ -88,8 +88,15 @@ public class PlayerBullet : MonoBehaviour
             Target = other.GetComponent<Enemy>();
             if (Target.mCurrentHP > 0 && Target != null)
             {
-                SoundController.Instance.SESound(4);
-                Target.Hit(mDamage,1);
+                float rand = Random.Range(0,1f);
+                if (rand<=Player.Instance.mStats.Crit)
+                {
+                    Target.Hit(mDamage, 1, true);
+                }
+                else
+                {
+                    Target.Hit(mDamage, 1, false);
+                }
             }
             if (eType == ePlayerBulletType.normal || eType == ePlayerBulletType.shotgun)
             {

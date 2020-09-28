@@ -59,7 +59,7 @@ public class SkillEffect : MonoBehaviour
             if (other.gameObject.GetComponent<Enemy>())
             {
                 Enemy Target = other.gameObject.GetComponent<Enemy>();
-                Target.Hit(mDamage,1);
+                Target.Hit(mDamage,1,false);
                 float rand = Random.Range(0,1f);
                 if (Target.mStats.Resistance <= rand)
                 {

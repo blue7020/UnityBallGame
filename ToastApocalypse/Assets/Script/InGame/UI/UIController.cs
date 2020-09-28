@@ -93,7 +93,7 @@ public class UIController : InformationLoader
 
     public void ButtonPush()
     {
-        SoundController.Instance.SESound(6);
+        SoundController.Instance.SESoundUI(0);
     }
 
     public void Delete()
@@ -153,19 +153,37 @@ public class UIController : InformationLoader
 
     public void ShowDeathWindow()
     {
-        if (GameSetting.Instance.Language == 0)
-        {//한국어
-            mTitleText.text = "사망 원인";
-            mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.Name.ToString();
-            mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+        if (Player.Instance.LastHitEnemy!=null)
+        {
+            if (GameSetting.Instance.Language == 0)
+            {//한국어
+                mTitleText.text = "사망 원인";
+                mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.Name;
+                mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {//영어
+                mTitleText.text = "Cause of death";
+                mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.EngName;
+                mTouchGuideText.text = "Touch to move to the lobby.";
+            }
+            mMonsterImage.sprite = Player.Instance.LastHitEnemy.UISprite;
         }
-        else if (GameSetting.Instance.Language == 1)
-        {//영어
-            mTitleText.text = "Cause of death";
-            mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.EngName;
-            mTouchGuideText.text = "Touch to move to the lobby.";
+        else
+        {
+            if (GameSetting.Instance.Language == 0)
+            {//한국어
+                mTitleText.text = "사망 원인";
+                mMonsterNameText.text = "부주의한 무기 사용";
+                mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {//영어
+                mTitleText.text = "Cause of death";
+                mMonsterNameText.text = "Careless use of weapons";
+                mTouchGuideText.text = "Touch to move to the lobby.";
+            }
         }
-        mMonsterImage.sprite = Player.Instance.LastHitEnemy.UISprite;
         mDeathWindow.gameObject.SetActive(true);
     }
 

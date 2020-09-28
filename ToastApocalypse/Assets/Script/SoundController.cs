@@ -10,8 +10,8 @@ public class SoundController : MonoBehaviour
     private const string MIXER_MASTER = "Master";
     private const string MIXER_BG = "BGM";
     private const string MIXER_FX = "SE";
-    public AudioSource mBGM, mSE;
-    public AudioClip[] mBGMArr, mSEArr;
+    public AudioSource mBGM, mSE,mBGSE;
+    public AudioClip[] mBGMArr, mSEArr, mUISEArr;
     public AudioMixer mMixer;
 
     public float BGMVolume;
@@ -31,6 +31,7 @@ public class SoundController : MonoBehaviour
             SEVolume = 0.3f;
             mBGM.volume = BGMVolume;
             mSE.volume = SEVolume;
+            mBGSE.volume = SEVolume;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -48,6 +49,16 @@ public class SoundController : MonoBehaviour
     public void SESound(int id)
     {
         mSE.PlayOneShot(mSEArr[id]);
+    }
+    public void SESoundLong(int id)
+    {
+        mBGSE.clip = mSEArr[id];
+        mSE.Play();
+    }
+
+    public void SESoundUI(int id)
+    {
+        mSE.PlayOneShot(mUISEArr[id]);
     }
 
     public void PlusBGM()
@@ -76,6 +87,7 @@ public class SoundController : MonoBehaviour
             UISEVol += 1;
             SEVolume += 0.1f;
             mSE.volume = SEVolume;
+            mBGSE.volume = SEVolume;
         }
     }
     public void MinusSE()
@@ -85,6 +97,7 @@ public class SoundController : MonoBehaviour
             UISEVol -= 1;
             SEVolume -= 0.1f;
             mSE.volume = SEVolume;
+            mBGSE.volume = SEVolume;
         }
     }
 }

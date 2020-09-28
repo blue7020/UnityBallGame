@@ -125,6 +125,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void IsEnemyDeathPassiveSkill()
+    {
+        if (NowPlayerWeapon.mID==22)
+        {
+            WeaponController.Instance.SandwichSword();
+        }
+    }
+
     public void Delete()
     {
         Destroy(gameObject);

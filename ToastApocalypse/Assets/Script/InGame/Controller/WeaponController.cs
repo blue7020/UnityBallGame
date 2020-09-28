@@ -88,6 +88,17 @@ public class WeaponController : MonoBehaviour
             case 17://잼블레이드
                 JamBlade(Target);
                 break;
+            case 18://페퍼로니 건
+                StartCoroutine(Pepperoni());
+                break;
+            case 19://피쉬본
+                break;
+            case 20://본블레이드
+                break;
+            case 21://스노우플레이크
+                break;
+            case 22://샌드위치 소드
+                break;
 
         }
     }
@@ -156,6 +167,21 @@ public class WeaponController : MonoBehaviour
         else
         {
             mWeaponSkillCount++;
+        }
+    }
+
+    public IEnumerator Pepperoni()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        yield return delay;
+        Player.Instance.NowPlayerWeapon.mAttackArea.ResetDir();
+    }
+
+    public void SandwichSword()
+    {
+        if (Player.Instance.mTotalKillCount%3==0)
+        {
+            Player.Instance.Heal(1);
         }
     }
 }

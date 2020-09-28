@@ -104,6 +104,7 @@ public class Chest : MonoBehaviour
     private void Open()
     {
         ChestOpen = true;
+        SoundController.Instance.SESound(18);
         float rand = Random.Range(0, 1f);
         if (WeaponController.Instance.mWeapons.Count>= 0&&rand >= rate[0] && rand < rate[1])//무기
         {

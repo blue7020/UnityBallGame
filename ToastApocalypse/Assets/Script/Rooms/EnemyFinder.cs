@@ -21,6 +21,7 @@ public class EnemyFinder : MonoBehaviour
         if (other.gameObject.CompareTag("Player")&&WallOn==false)
         {
             WallOn = true;
+            SoundController.Instance.SESound(17);
             mDoor.gameObject.SetActive(true);
         }
     }

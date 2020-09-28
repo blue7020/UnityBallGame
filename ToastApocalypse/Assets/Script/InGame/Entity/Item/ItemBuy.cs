@@ -36,6 +36,7 @@ public class ItemBuy : MonoBehaviour
                         Sell = true;
                         item.ItemChange();
                         item.IsShopItem = false;
+                        SoundController.Instance.SESoundUI(3);
                         CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();
                     }
@@ -89,6 +90,7 @@ public class ItemBuy : MonoBehaviour
                             artifact.Currentroom = Player.Instance.CurrentRoom;
                             artifact.ArtifactChange();
                         }
+                        SoundController.Instance.SESoundUI(3);
                         CanvasFinder.Instance.DeleteShopPrice(mID);
                         UIController.Instance.ShowGold();
                     }

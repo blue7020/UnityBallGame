@@ -71,7 +71,10 @@ public class Trap : MonoBehaviour
                     mTarget = null;
                     break;
                 case eTrapType.Slow:
-                    mTarget.buffIncrease[3] += mValue;
+                    if (Player.Instance.TrapResistance == false)
+                    {
+                        mTarget.buffIncrease[3] += mValue;
+                    }
                     mTarget = null;
                     break;
                 case eTrapType.Spike:
@@ -159,7 +162,7 @@ public class Trap : MonoBehaviour
     {
         for (int i = 0; i < mTargetMob.Count; i++)
         {
-            mTargetMob[i].Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[1])) / 2,0);
+            mTargetMob[i].Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[1])) / 2,0,false);
         }
     }
 }

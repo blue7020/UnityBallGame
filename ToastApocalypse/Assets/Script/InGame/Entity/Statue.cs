@@ -243,6 +243,7 @@ public class Statue : MonoBehaviour
                         Player.Instance.mStats.Gold-=SpendGold;
                         StatueUse();
                         UIController.Instance.ShowGold();
+                        SoundController.Instance.SESoundUI(3);
                         CanvasFinder.Instance.DeletdStatuePrice(mID);
                     }
                     else

@@ -48,7 +48,7 @@ public class MainLobbyUIController : MonoBehaviour
 
     public void ButtonPush()
     {
-        SoundController.Instance.SESound(6);
+        SoundController.Instance.SESoundUI(0);
     }
 
     public void GamePause()

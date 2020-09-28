@@ -74,6 +74,7 @@ public class BlackSmithShopController : MonoBehaviour
             if (RecipeCheker[0] == true && RecipeCheker[1] == true && RecipeCheker[2] == true && RecipeCheker[3] == true)
             {
                 mBuyImage.gameObject.SetActive(true);
+                SoundController.Instance.SESoundUI(3);
                 GameSetting.Instance.Syrup -= mWeapon.mStats.Price;
                 GameSetting.Instance.PlayerHasWeapon[mWeapon.mID] = true;
                 MainLobbyUIController.Instance.ShowSyrupText();

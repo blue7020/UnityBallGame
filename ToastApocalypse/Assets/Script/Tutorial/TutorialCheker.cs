@@ -49,6 +49,7 @@ public class TutorialCheker : MonoBehaviour
                         break;
                     case eTutorialStage.Boss:
                         TutorialDialog.Instance.ShowDialog();
+                        SoundController.Instance.SESound(17);
                         Wall.gameObject.SetActive(true);
                         Instantiate(TutorialUIController.Instance.mEnemy[3],TutorialUIController.Instance.mSpawnPos[3]);
                         break;

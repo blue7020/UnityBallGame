@@ -178,10 +178,11 @@ public class Enemy : InformationLoader
             mGold.transform.position = transform.position;
             mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
         }
+        Player.Instance.IsEnemyDeathPassiveSkill();
         GameController.Instance.SyrupInStage += mStats.Syrup;
     }
 
-    public void Hit(float damage,int weapontype)
+    public void Hit(float damage,int weapontype,bool iscrit)
     {
         if (Spawned == true)
         {
@@ -198,13 +199,34 @@ public class Enemy : InformationLoader
                     switch (weapontype)
                     {
                         case 0://근접
-                            SoundController.Instance.SESound(3);
+                            if (iscrit==true)
+                            {
+                                SoundController.Instance.SESound(3);
+                            }
+                            else
+                            {
+                                SoundController.Instance.SESound(2);
+                            }
                             break;
                         case 1://원거리
-                            SoundController.Instance.SESound(4);
+                            if (iscrit == true)
+                            {
+                                SoundController.Instance.SESound(5);
+                            }
+                            else
+                            {
+                                SoundController.Instance.SESound(4);
+                            }
                             break;
                         case 2://지속
-                            SoundController.Instance.SESound(4);
+                            if (iscrit == true)
+                            {
+                                SoundController.Instance.SESound(5);
+                            }
+                            else
+                            {
+                                SoundController.Instance.SESound(4);
+                            }
                             break;
                     }
                     StartCoroutine(HitAnimation());
@@ -329,11 +351,11 @@ public class Enemy : InformationLoader
     {
         WaitForSeconds dura = new WaitForSeconds(0.33f);
         isFire = true;
-        Hit(damage / 3, 2);
+        Hit(damage / 3, 2,false);
         yield return dura;
-        Hit(damage / 3, 2);
+        Hit(damage / 3, 2,false);
         yield return dura;
-        Hit(damage / 3, 2);
+        Hit(damage / 3, 2,false);
         isFire = false;
     }
 

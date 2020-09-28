@@ -45,6 +45,8 @@ public class IAPController : MonoBehaviour, IStoreListener
     private string ios_Ruby100 = "01100"; //만약 숫자만 될 때 사용하는 방법 01은 아이템 ID 100은 개수
     private string ios_StarterPack = "s00";//한 문자만 사용하는 방법 s은 아이템 이니셜
 
+    private bool validPurchase;
+
     private void Awake()
     {
         if (Instance == null)
@@ -253,55 +255,6 @@ public class IAPController : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-#if UNITY_EDITOR
-        bool validPurchase = true;
-#elif UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
-        // Prepare the validator with the secrets we prepared in the Editor
-        // obfuscation window.
-
-        Product product = m_StoreController.products.WithID(productId);
-        var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
-        AppleTangle.Data(), Application.identifier);
-
-        try
-        {
-            // On Google Play, result has a single product ID.
-            // On Apple stores, receipts contain multiple products.
-            var result = validator.Validate(args.purchasedProduct.receipt);
-            // For informational purposes, we list the receipt(s)
-            Debug.Log("Receipt is valid. Contents:");
-            foreach (IPurchaseReceipt productReceipt in result)
-            {
-                Debug.Log(productReceipt.productID);
-                Debug.Log(productReceipt.purchaseDate);
-                Debug.Log(productReceipt.transactionID);
-            }
-        }
-        catch (IAPSecurityException)
-        {
-            Debug.Log("Invalid receipt, not unlocking content");
-            validPurchase = false;
-        }
-#endif
-        //// A consumable product has been purchased by this user.
-        //if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumable, StringComparison.Ordinal))
-        //{
-        //    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-        //    // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-        //    //결제 성공 시 보상주는 곳
-        //}
-        //// Or ... a non-consumable product has been purchased by this user.
-        //else if (String.Equals(args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal))
-        //{
-        //    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-        //    // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
-        //}
-        //// Or ... a subscription product has been purchased by this user.
-        //else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))
-        //{
-        //    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-        //    // TODO: The subscription item has been successfully purchased, grant this to the player.
-        //}
         if (validPurchase)//영수증 처리 기본
         {
             if (String.Equals(args.purchasedProduct.definition.id, Consumable_Ruby100, StringComparison.Ordinal))

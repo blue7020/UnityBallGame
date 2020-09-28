@@ -97,6 +97,10 @@ public class TutorialUIController : InformationLoader
         Dialog.ShowDialog();
     }
 
+    public void ButtonPush()
+    {
+        SoundController.Instance.SESoundUI(0);
+    }
 
     public void Delete()
     {

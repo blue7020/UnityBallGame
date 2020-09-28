@@ -67,6 +67,7 @@ public class StatueShop : MonoBehaviour
     {
         if (GameSetting.Instance.Syrup >= mStatueText.Price)
         {
+            SoundController.Instance.SESoundUI(3);
             GameSetting.Instance.Syrup -= mStatueText.Price;
             GameSetting.Instance.StatueOpen[mStatue.ID] = true;
             MainLobbyUIController.Instance.ShowSyrupText();

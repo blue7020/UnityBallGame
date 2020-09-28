@@ -82,6 +82,7 @@ public class SkillShop : MonoBehaviour
     {
         if (GameSetting.Instance.Syrup >=mSkillText.Price)
         {
+            SoundController.Instance.SESoundUI(3);
             GameSetting.Instance.Syrup -= mSkillText.Price;
             GameSetting.Instance.PlayerHasSkill[mSkill.ID] = true;
             MainLobbyUIController.Instance.ShowSyrupText();

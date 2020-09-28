@@ -45,7 +45,7 @@ public class MainScreenUIController : MonoBehaviour
 
     public void ButtonPush()
     {
-        SoundController.Instance.SESound(6);
+        SoundController.Instance.SESoundUI(0);
     }
 
     //0 = 한국어 / 1 = 영어

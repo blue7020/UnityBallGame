@@ -51,20 +51,21 @@ public class Portal : MonoBehaviour
         GameController.Instance.StageLevel++;
         Player.Instance.ResetBuff();
         Player.Instance.Nodamage = false;
+        SoundController.Instance.SESound(21);
         for (int i=0; i<BuffEffectController.Instance.EffectList.Count;i++)
         {
             BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
         }
-        if (GameController.Instance.StageLevel == GameSetting.LEVEL_COUNT)
+        if (GameController.Instance.StageLevel == GameSetting.STAGELEVEL_COUNT)
         {
             SceneManager.LoadScene(3);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
         }
-        else if (GameController.Instance.StageLevel> GameSetting.LEVEL_COUNT)
+        else if (GameController.Instance.StageLevel> GameSetting.STAGELEVEL_COUNT)
         {
             UIController.Instance.ShowClearText();
         }
-        else if (GameController.Instance.StageLevel < GameSetting.LEVEL_COUNT)
+        else if (GameController.Instance.StageLevel < GameSetting.STAGELEVEL_COUNT)
         {
             SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);

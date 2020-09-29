@@ -7,14 +7,13 @@ public class GameSetting : InformationLoader
 {
     public static GameSetting Instance;
 
-    public const int LEVEL_COUNT = 5;
-
     public int PlayerID;
     public int PlayerSkillID;
     public int PlayerWeaponID;
     public bool Ingame;
     public int NowScene;
 
+    public const int STAGELEVEL_COUNT = 5;
     private const int STATUE_COUNT = 8;
     private const int NPC_COUNT = 5;
     private const int CHARACTER_COUNT = 7;
@@ -52,6 +51,7 @@ public class GameSetting : InformationLoader
     public bool[] StagePartsget;
     public bool[] CharacterOpen;
     public bool[] NPCOpen;
+    public int DonateCount;
 
     public bool FirstSetting;
     //

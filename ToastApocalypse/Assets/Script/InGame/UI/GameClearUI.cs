@@ -97,10 +97,13 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         mAnim.SetBool(AnimHash.Parts, true);
         WaitForSeconds delay = new WaitForSeconds(1.5f);
         yield return delay;
-        NotouchArea.gameObject.SetActive(false);
+        delay = new WaitForSeconds(1f);
         mAnim.SetBool(AnimHash.Parts, false);
         GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
         GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage]=true;
+        SoundController.Instance.SESoundUI(6);
+        yield return delay;
+        NotouchArea.gameObject.SetActive(false);
         ShowNPCWindow();
 
     }

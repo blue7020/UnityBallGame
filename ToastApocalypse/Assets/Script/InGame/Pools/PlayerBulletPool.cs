@@ -24,14 +24,6 @@ public class PlayerBulletPool : ObjectPool<PlayerBullet>
         Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        if (GameController.Instance.GotoMain == false)
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
     protected override PlayerBullet CreateNewObj(int id)
     {
         PlayerBullet newObj = Instantiate(mOriginArr[id]);

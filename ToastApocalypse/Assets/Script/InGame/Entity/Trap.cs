@@ -162,7 +162,7 @@ public class Trap : MonoBehaviour
     {
         for (int i = 0; i < mTargetMob.Count; i++)
         {
-            mTargetMob[i].Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[1])) / 2,0,false);
+            mTargetMob[i].Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[1])) / 4,0,false);
         }
     }
 }

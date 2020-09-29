@@ -144,6 +144,7 @@ public class Weapon : MonoBehaviour
                 TutorialUIController.Instance.ShowNowBulletText();
                 TutorialUIController.Instance.ShowWeaponImage();
             }
+            SoundController.Instance.SESound(7);
 
         }
     }

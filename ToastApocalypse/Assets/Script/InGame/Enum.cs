@@ -98,8 +98,9 @@ public enum ePlayerBulletType
     normal,
     boomerang,
     shotgun,
-    boom,
-    fire
+    granade,
+    fire,
+    boom
 }
 
 public enum eBulletEffect

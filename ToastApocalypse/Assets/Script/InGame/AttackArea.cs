@@ -68,7 +68,10 @@ public class AttackArea : MonoBehaviour
                     SoundController.Instance.SESound(8);
                     break;
             }
-            weapon.nowBullet--;
+            if (Player.Instance.InfiniteAmmo==false)
+            {
+                weapon.nowBullet--;
+            }
             if (GameController.Instance.IsTutorial == false)
             {
                 UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
@@ -88,7 +91,10 @@ public class AttackArea : MonoBehaviour
         if (weapon.nowBullet > 0)
         {
             SoundController.Instance.SESoundLong(16);
-            weapon.nowBullet--;
+            if (Player.Instance.InfiniteAmmo == false)
+            {
+                weapon.nowBullet--;
+            }
             if (GameController.Instance.IsTutorial == false)
             {
                 UIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();

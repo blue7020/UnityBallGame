@@ -121,6 +121,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &761427516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 761427518}
+  - component: {fileID: 761427517}
+  m_Layer: 0
+  m_Name: PlayerBulletPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &761427517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761427516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0dbbc361077a64ea8b73ca3372a700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mOriginArr:
+  - {fileID: 2614369200283936818, guid: 17de3aed61b7cbb4aa58b8ededb30915, type: 3}
+  - {fileID: 6500413446876167699, guid: 7c3410ca4debf204ea94fea2acf97d42, type: 3}
+  - {fileID: 2603403721001298718, guid: ee9f88c70b059a44189768a27e52ab85, type: 3}
+  - {fileID: 8188177347168850468, guid: 334de0333850f334fad8cc951e18d601, type: 3}
+  - {fileID: 5700968650776457378, guid: f8b4a4451e9da2441a6f4508cadbc5ae, type: 3}
+  - {fileID: 4258840160750630438, guid: 4b7d7cc50b8cbcc469aebafc0aa942ed, type: 3}
+  - {fileID: 6066490348509835541, guid: 89a0f6205c219d247b09939e568e96dc, type: 3}
+  - {fileID: 1016824087280603067, guid: e22208865f2d3764fb723e185a0a2c65, type: 3}
+  - {fileID: 7017807687369773696, guid: c070d3f2c180f224d8ad56e5fc0408bb, type: 3}
+  - {fileID: 220408796678228988, guid: 96ddaf0e66e80cd4c81d86b9858eb717, type: 3}
+  - {fileID: 3151482426196062400, guid: 8879519267063a14683c510a38e4273b, type: 3}
+  - {fileID: 5511240123692723367, guid: de29084a42442d6449bf6e0ddee291ab, type: 3}
+  - {fileID: 5844151446502474927, guid: a3eca5ea2bccb894abf225736a44a4fc, type: 3}
+--- !u!4 &761427518
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761427516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971118247
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,7 +26,19 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
+        }
+    }
+    public void Delete()
+    {
+        Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        if (GameController.Instance.GotoMain == false)
+        {
+            DontDestroyOnLoad(gameObject);
         }
     }
 

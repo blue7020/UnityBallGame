@@ -81,6 +81,7 @@ public class PlayerSkill : MonoBehaviour
     private IEnumerator SkillCool()
     {
         WaitForSeconds Cool = new WaitForSeconds(mStat.Cooltime);
+        SoundController.Instance.SESoundUI(5);
         IsSkillCool = true;
         SkillList.Instance.SkillSetting(mID);
         StartCoroutine(CooltimeRoutine());

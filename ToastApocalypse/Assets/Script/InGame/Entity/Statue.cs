@@ -79,6 +79,7 @@ public class Statue : MonoBehaviour
     //20=무적 21=공격력 22=방어력 23=공격속도 24=이동속도
     private void StatueUse()
     {
+        SoundController.Instance.SESound(20);
         switch (eType)
         {
             case eStatueType.Heal:

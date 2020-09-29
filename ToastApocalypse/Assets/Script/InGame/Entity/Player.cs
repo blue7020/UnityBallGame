@@ -17,9 +17,7 @@ public class Player : MonoBehaviour
     public int mCurrentAir;
     public bool OnAir;
 
-    public bool TrapResistance;
-    public bool MapSeeker;
-    public bool NoCC;
+    public bool TrapResistance,MapSeeker,NoCC,InfiniteAmmo;
 
     public Room CurrentRoom;
     public int EnemySwitch;
@@ -74,6 +72,7 @@ public class Player : MonoBehaviour
             TrapResistance = false;
             MapSeeker = false;
             OnAir = false;
+            InfiniteAmmo = false;
             mCurrentAir = MAX_AIR;
             Stun = false;
             NoCC = false;
@@ -239,6 +238,7 @@ public class Player : MonoBehaviour
         }
         if (mCurrentHP <= 0)
         {
+            Nodamage = true;
             GameOver();
         }
     }
@@ -246,13 +246,17 @@ public class Player : MonoBehaviour
     private IEnumerator HitAnimation()
     {
         WaitForSeconds Time = new WaitForSeconds(0.3f);
-        if (Nodamage==false)
+        if (Nodamage==false&&mCurrentHP>0)
         {
             mRenderer.color = Color.red;
             Nodamage = true;
             yield return Time;
             mRenderer.color = Color.white;
             Nodamage = false;
+            StopCoroutine(HitAnimation());
+        }
+        else
+        {
             StopCoroutine(HitAnimation());
         }
     }
@@ -316,6 +320,7 @@ public class Player : MonoBehaviour
     {
         if (NowItem!=null)
         {
+            SoundController.Instance.SESoundUI(4);
             NowItem.UseItem();
             if (GameController.Instance.IsTutorial == false)
             {
@@ -332,6 +337,7 @@ public class Player : MonoBehaviour
     {
         if (NowActiveArtifact != null)
         {
+            SoundController.Instance.SESoundUI(5);
             NowActiveArtifact.UseArtifact();
             if (GameController.Instance.IsTutorial == false)
             {

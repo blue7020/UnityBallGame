@@ -20,7 +20,7 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnEnable()
     {
-        if (eType == ePlayerBulletType.boom)
+        if (eType == ePlayerBulletType.granade)
         {
             mBoomEffect.gameObject.SetActive(false);
             mBC2D.isTrigger = false;
@@ -43,6 +43,12 @@ public class PlayerBullet : MonoBehaviour
             StartCoroutine(Fire());
         }
     }
+
+    public void Boom()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void DoStop()
     {
         if (IsBoom==false)
@@ -88,8 +94,8 @@ public class PlayerBullet : MonoBehaviour
             Target = other.GetComponent<Enemy>();
             if (Target.mCurrentHP > 0 && Target != null)
             {
-                float rand = Random.Range(0,1f);
-                if (rand<=Player.Instance.mStats.Crit)
+                float rand = Random.Range(0, 1f);
+                if (rand <= Player.Instance.mStats.Crit)
                 {
                     Target.Hit(mDamage, 1, true);
                 }
@@ -126,7 +132,7 @@ public class PlayerBullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            if (eType == ePlayerBulletType.boom)
+            if (eType == ePlayerBulletType.granade)
             {
                 IsBoom = true;
                 StartCoroutine(Stop());

@@ -44,7 +44,7 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {
-                lore = mSkillText.ContensFormat+"\n";
+                lore = mSkillText.ContensFormat + "\n";
                 if (mSkill.Damage > 0)
                 {
                     lore += "피해량: (" + mSkill.Damage + " x 공격력)\n";
@@ -55,29 +55,29 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 }
                 if (mSkill.Atk > 0)
                 {
-                    lore += "공격력: +" + mSkill.Atk + "%\n";
+                    lore += "공격력: +" + mSkill.Atk * 100 + "%\n";
                 }
                 if (mSkill.Def > 0)
                 {
-                    lore += "방어력: +" + mSkill.Def + "%\n";
+                    lore += "방어력: +" + mSkill.Def * 100 + "%\n";
                 }
                 if (mSkill.AtkSpd > 0)
                 {
-                    lore += "공격 속도: +" + mSkill.AtkSpd + "%\n";
+                    lore += "공격 속도: +" + mSkill.AtkSpd * 100 + "%\n";
                 }
                 if (mSkill.Crit > 0)
                 {
-                    lore += " 치명타 확률: +" + mSkill.Crit + "%\n";
+                    lore += " 치명타 확률: +" + mSkill.Crit * 100 + "%\n";
                 }
                 if (mSkill.Spd > 0)
                 {
-                    lore +=  "이동 속도: +" + mSkill.Spd + "%\n";
+                    lore += "이동 속도: +" + mSkill.Spd * 100 + "%\n";
                 }
                 if (mSkill.Duration > 0)
                 {
                     lore += "지속 시간: " + mSkill.Duration + "초\n";
                 }
-                if (mSkill!=null)
+                if (mSkill != null)
                 {
                     title = mSkillText.Title + " (재사용 대기시간: " + mSkill.Cooltime.ToString() + "초)\n";
                 }
@@ -95,27 +95,27 @@ public class SkillSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 }
                 if (mSkill.Heal > 0)
                 {
-                    lore += "Heal amount: " + mSkill.Heal+ "\n";
+                    lore += "Heal amount: " + mSkill.Heal + "\n";
                 }
                 if (mSkill.Atk > 0)
                 {
-                    lore += "Atk: +" + mSkill.Atk + "%\n";
+                    lore += "Atk: +" + mSkill.Atk * 100 + "%\n";
                 }
                 if (mSkill.Def > 0)
                 {
-                    lore += "Def: +" + mSkill.Def + "%\n";
+                    lore += "Def: +" + mSkill.Def * 100 + "%\n";
                 }
                 if (mSkill.AtkSpd > 0)
                 {
-                    lore += "Atk Speed: +" + mSkill.AtkSpd + "%\n";
+                    lore += "Atk Speed: +" + mSkill.AtkSpd * 100 + "%\n";
                 }
                 if (mSkill.Crit > 0)
                 {
-                    lore += "Critical chance: +" + mSkill.Crit + "%\n";
+                    lore += "Critical chance: +" + mSkill.Crit * 100 + "%\n";
                 }
                 if (mSkill.Spd > 0)
                 {
-                    lore += "Speed: +" + mSkill.Spd + "%\n";
+                    lore += "Speed: +" + mSkill.Spd * 100 + "%\n";
                 }
                 if (mSkill.Duration > 0)
                 {

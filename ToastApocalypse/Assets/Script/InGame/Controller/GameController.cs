@@ -32,7 +32,7 @@ public class GameController : MonoBehaviour
             if (!IsTutorial)
             {
                 MaterialDropRate = 0.3f;
-                StageHP = 2;
+                StageHP = 3;
                 RescueNPCList = new List<int>();
             }
         }
@@ -107,6 +107,7 @@ public class GameController : MonoBehaviour
             UIController.Instance.Delete();
             InventoryController.Instance.Delete();
             DontDestroyScreen.Instance.Delete();
+            AttackPad.Instance.Delete();
             PlayerSkill.Insatnce.Delete();
             Player.Instance.Delete();
             PlayerList.Instance.Delete();
@@ -116,7 +117,6 @@ public class GameController : MonoBehaviour
             WeaponController.Instance.Delete();
             ActiveArtifacts.Instance.Delete();
             PassiveArtifacts.Instance.Delete();
-            PlayerBulletPool.Instance.Delete();
             StageMaterialController.Instance.Delete();
         }
         else
@@ -127,13 +127,13 @@ public class GameController : MonoBehaviour
             PlayerSkill.Insatnce.Delete();
             Player.Instance.Delete();
             PlayerList.Instance.Delete();
+            AttackPad.Instance.Delete();
             ItemList.Instance.Delete();
             BuffController.Instance.Delete();
             WeaponController.Instance.Delete();
             ArtifactController.Instance.Delete();
             ActiveArtifacts.Instance.Delete();
             PassiveArtifacts.Instance.Delete();
-            PlayerBulletPool.Instance.Delete();
         }
         Delete();
         //첫 튜토리얼일때만 캐릭터 선택창으로 넘어가기
@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                StageLevel = GameSetting.LEVEL_COUNT;
+                StageLevel = GameSetting.STAGELEVEL_COUNT;
                 Player.Instance.ResetBuff();
                 Player.Instance.Nodamage = false;
                 for (int i = 0; i < BuffEffectController.Instance.EffectList.Count; i++)

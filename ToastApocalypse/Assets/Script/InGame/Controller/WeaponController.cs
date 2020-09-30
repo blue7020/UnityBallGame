@@ -145,7 +145,7 @@ public class WeaponController : MonoBehaviour
         KnockBack(Target);
         if (mWeaponSkillCount==2)
         {
-            PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(10);
+            PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(9);
             bolt.mWeaponID = 17;
             float rand = UnityEngine.Random.Range(0, 1f);
             if (rand <= Player.Instance.mStats.Crit / 100)

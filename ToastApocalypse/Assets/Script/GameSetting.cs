@@ -7,6 +7,8 @@ public class GameSetting : InformationLoader
 {
     public static GameSetting Instance;
 
+    public int MinRoomLength, MaxRoomLength;
+
     public int PlayerID;
     public int PlayerSkillID;
     public int PlayerWeaponID;
@@ -114,14 +116,16 @@ public class GameSetting : InformationLoader
         }
         Restart();
 
-        Syrup = 10000;
-        StageOpen[1] = true;//2스테이지 오픈
+        //테스트용도
         CharacterOpen[2] = true;//핑크도넛캐릭터 오픈
         PlayerHasSkill[2] = true;//돌진 스킬 오픈
+        Syrup = 10000;
+        StageOpen[1] = true;//2스테이지 오픈
         for (int i=0; i<HasMaterial.Length;i++)
         {
             HasMaterial[i] = 10;
         }
+        TutorialEnd = true;
     }
 
     public void Restart()

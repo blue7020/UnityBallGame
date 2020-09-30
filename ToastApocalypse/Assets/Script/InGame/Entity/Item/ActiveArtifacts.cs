@@ -98,6 +98,16 @@ public class ActiveArtifacts : MonoBehaviour
 
     public void PetCookie()
     {
+        if (GameSetting.Instance.Language == 0)
+        {
+            bufftext = "체력 회복!";
+        }
+        else
+        {
+            bufftext = "Restore HP!";
+        }
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.SetText(bufftext);
         Player.Instance.Heal(1);
     }
 
@@ -170,6 +180,16 @@ public class ActiveArtifacts : MonoBehaviour
         {
             float amount = Player.Instance.mMaxHP * 0.3f;
             Player.Instance.Heal(amount);
+            if (GameSetting.Instance.Language == 0)
+            {
+                bufftext = "체력 회복!";
+            }
+            else
+            {
+                bufftext = "Restore HP!";
+            }
+            effect = TextEffectPool.Instance.GetFromPool(0);
+            effect.SetText(bufftext);
         }
         else
         {

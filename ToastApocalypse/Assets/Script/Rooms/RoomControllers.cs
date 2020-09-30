@@ -39,21 +39,31 @@ public class RoomControllers : MonoBehaviour
     bool updatedRooms = false;
     bool firstSetting = false;
 
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            rooms = GameSetting.Instance.NowStageRoom;
+            LoadedRooms = new List<Room>();
+            LoadRoomQueue = new Queue<RoomInfo>();
+            RoomLength = 0;
+            RoomSetting = true;
         }
         else
         {
             Destroy(gameObject);
         }
-        rooms = GameSetting.Instance.NowStageRoom;
-        LoadedRooms = new List<Room>();
-        LoadRoomQueue = new Queue<RoomInfo>();
-        RoomLength = 0;
-        RoomSetting = true;
+    }
+
+    private void Update()
+    {
+        if (RoomSetting == true)
+        {
+            UpdateRoomQueue();
+        }
+
     }
 
     public void Seeker()
@@ -84,15 +94,6 @@ public class RoomControllers : MonoBehaviour
         LoadRoomQueue.Enqueue(newRoomData);
     }
 
-    private void Update()
-    {
-        if (RoomSetting==true)
-        {
-            UpdateRoomQueue();
-        }
-
-    }
-
     private void UpdateRoomQueue()
     {
         if (isLoadingRoom)
@@ -101,13 +102,13 @@ public class RoomControllers : MonoBehaviour
         }
         if (LoadRoomQueue.Count == 0)
         {
-
             if (firstSetting == false)
             {
                 StartCoroutine(SpawnEndRoom());
             }
-            if (spawnedShopRoom==true && spawnedSpacialRoom == true && spawnedChestRoom == true && spawnedEndRoom == true && !updatedRooms == true)
+            if (updatedRooms == false&&AllRoomGen==true)
             {
+                RoomSetting = false;
                 foreach (Room room in LoadedRooms)
                 {
                     room.RemoveUnconnectedDoors();
@@ -117,7 +118,6 @@ public class RoomControllers : MonoBehaviour
             }
             return;
         }
-
         CurrentLoadRoomData = LoadRoomQueue.Dequeue();
         isLoadingRoom = true;
 
@@ -132,17 +132,14 @@ public class RoomControllers : MonoBehaviour
         if (LoadRoomQueue.Count == 0)
         {
             List<int> EnemyRoom = new List<int>();
-            for (int i = 0; i < LoadedRooms.Count; i++)
+            for (int i = 0; i < LoadedRooms.Count-1; i++)
             {
-                if (LoadedRooms[i].name.Contains("4"))
-                {
-                    EnemyRoom.Add(i);
-                }
+                EnemyRoom.Add(i);
 
             }
             for (int i = 0; i < 4; i++)
             {
-                int Count = EnemyRoom.Count;
+                int Count = Random.Range(0,EnemyRoom.Count);
                 switch (i)
                 {
                     case 0:
@@ -155,6 +152,7 @@ public class RoomControllers : MonoBehaviour
                         LoadedRooms.Remove(roomToRemove1);
                         LoadRoom(1, tempRoom1.X, tempRoom1.Y);
                         spawnedShopRoom = true;
+                        RoomLength--;
                         break;
                     case 1:
                         float rand = Random.Range(0, 1f);
@@ -181,6 +179,7 @@ public class RoomControllers : MonoBehaviour
                             LoadRoom(6, tempRoom3.X, tempRoom3.Y);
                         }
                         spawnedSpacialRoom = true;
+                        RoomLength--;
                         break;
                     case 2:
                         //ChestRoom
@@ -192,6 +191,7 @@ public class RoomControllers : MonoBehaviour
                         LoadedRooms.Remove(roomToRemove4);
                         LoadRoom(3, tempRoom4.X, tempRoom4.Y);
                         spawnedChestRoom = true;
+                        RoomLength--;
                         break;
                     case 3:
                         //Endroom
@@ -202,6 +202,7 @@ public class RoomControllers : MonoBehaviour
                         LoadedRooms.Remove(roomToRemove2);
                         LoadRoom(5, tempRoom2.X, tempRoom2.Y);
                         spawnedEndRoom = true;
+                        RoomLength--;
                         break;
 
                     default:
@@ -209,7 +210,6 @@ public class RoomControllers : MonoBehaviour
                         break;
                 }
                 EnemyRoom.Remove(Count);
-                RoomLength--;
                 Count--;
             }
             AllRoomGen = true;

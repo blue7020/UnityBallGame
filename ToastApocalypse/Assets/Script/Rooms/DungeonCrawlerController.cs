@@ -13,7 +13,9 @@ public enum Direction
 
 public class DungeonCrawlerController : MonoBehaviour
 {
-    public static List<Vector2Int> positionsVisited = new List<Vector2Int>();
+    public static DungeonCrawlerController Instance;
+
+    public List<Vector2Int> positionsVisited;
 
     private static readonly Dictionary<Direction, Vector2Int> directionMovementMap = new Dictionary<Direction, Vector2Int>()
     {
@@ -23,17 +25,27 @@ public class DungeonCrawlerController : MonoBehaviour
         { Direction.right,Vector2Int.right}
     };
 
-    public static List<Vector2Int> GenerateDungeon(DungeonGenerationData dungeonData)
+    private int RoomPlus;
+    private void Awake()
     {
-        List<DungeonCrawler> dungeonCrwalers = new List<DungeonCrawler>();
-
-        for(int i=0;i< dungeonData.numberOfCrawlers; i++)
+        if (Instance==null)
         {
-            dungeonCrwalers.Add(new DungeonCrawler(Vector2Int.zero));
+            Instance = this;
+            RoomPlus = GameController.Instance.StageLevel - 1;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
-        int iterations = Random.Range(dungeonData.iterationMin, dungeonData.iterationMax);
-
+    public List<Vector2Int> GenerateDungeon()
+    {
+        RoomControllers.Instance.RoomLength = 0;
+        positionsVisited = new List<Vector2Int>();
+        List<DungeonCrawler> dungeonCrwalers = new List<DungeonCrawler>();
+        dungeonCrwalers.Add(new DungeonCrawler(Vector2Int.zero));
+        int iterations = Random.Range(GameSetting.Instance.MinRoomLength+ RoomPlus, GameSetting.Instance.MaxRoomLength);
         for (int i=0; i<iterations; i++)
         {
             foreach(DungeonCrawler dungeonCrawler in dungeonCrwalers)
@@ -42,6 +54,7 @@ public class DungeonCrawlerController : MonoBehaviour
                 positionsVisited.Add(newPos);
             }
         }
+        Debug.Log(positionsVisited.Count);
         return positionsVisited;
     }
 }

@@ -42,6 +42,7 @@ public class SlotMachine : MonoBehaviour
             {
                 text = "Fail...";
             }
+            SoundController.Instance.SESoundUI(9);
         }
         else if (WeaponController.Instance.mWeapons.Count >= 0&&rand >=0.25f&&rand<0.6f)//무기
         {
@@ -56,12 +57,14 @@ public class SlotMachine : MonoBehaviour
             StartCoroutine(ArtifactSearch());
             SoundController.Instance.SESoundUI(3);
         }
+        Time.timeScale = 1;
+        UIController.Instance.NoTouchArea.gameObject.SetActive(false);
         StartCoroutine(ResetSlot());
     }
 
     private IEnumerator ResetSlot()
     {
-        WaitForSeconds delay = new WaitForSeconds(1f);
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(1f);
         TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(text);
         yield return delay;
@@ -71,14 +74,21 @@ public class SlotMachine : MonoBehaviour
 
     private IEnumerator ArtifactSearch()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.1f);
         while (true)
         {
             int rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
             if (InventoryController.Instance.mSlotArr[index].mID!= ArtifactController.Instance.mPassiveArtifact[rand].mID)
             {
                 Artifacts art = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], room.transform);
-                art.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
+                if (UIController.Instance.mPlayerLookPoint.transform.rotation.z<=60&& UIController.Instance.mPlayerLookPoint.transform.rotation.z >=-60)
+                {
+                    art.transform.position = Player.Instance.transform.position + new Vector3(0, -2, 0);
+                }
+                else
+                {
+                    art.transform.position = Player.Instance.transform.position + new Vector3(0, 2, 0);
+                }
                 ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
                 if (GameSetting.Instance.Language == 0)
                 {
@@ -96,14 +106,21 @@ public class SlotMachine : MonoBehaviour
     }
     private IEnumerator WeaponSearch()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.1f);
         while (true)
         {
             int WeaponIndex = Random.Range(0, WeaponController.Instance.mWeapons.Count);
             if (Player.Instance.NowPlayerWeapon.mID != WeaponController.Instance.mWeapons[WeaponIndex].mID)
             {
                 Weapon weapon = Instantiate(WeaponController.Instance.mWeapons[WeaponIndex], room.transform);
-                weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
+                if (UIController.Instance.mPlayerLookPoint.transform.rotation.z <= 60 && UIController.Instance.mPlayerLookPoint.transform.rotation.z >= -60)
+                {
+                    weapon.transform.position = Player.Instance.transform.position + new Vector3(0, -2, 0);
+                }
+                else
+                {
+                    weapon.transform.position = Player.Instance.transform.position + new Vector3(0, 2, 0);
+                }
                 WeaponController.Instance.mWeapons.RemoveAt(WeaponIndex);
                 if (GameSetting.Instance.Language == 0)
                 {
@@ -121,7 +138,9 @@ public class SlotMachine : MonoBehaviour
 
     private IEnumerator Roll()
     {
-        WaitForSeconds rolling = new WaitForSeconds(1f);
+        WaitForSecondsRealtime rolling = new WaitForSecondsRealtime(1f);
+        UIController.Instance.NoTouchArea.gameObject.SetActive(true);
+        Time.timeScale = 0;
         mAnim.SetBool(AnimHash.Slot,true);
         yield return rolling;
         Rolling();

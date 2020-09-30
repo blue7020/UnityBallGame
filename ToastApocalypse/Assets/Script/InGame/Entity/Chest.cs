@@ -114,7 +114,7 @@ public class Chest : MonoBehaviour
         {
             StartCoroutine(PassiveArtifactSearch());
         }
-        else if (ArtifactController.Instance.mActiveArtifact.Count>=0&&rand >= rate[2])//액티브 유물
+        else
         {
             StartCoroutine(ActiveArtifactSearch());
         }

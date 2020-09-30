@@ -59,7 +59,7 @@ public class StatueController : InformationLoader
                 int rand = Random.Range(0, StatueIDList.Count);
                 mStatueArr[i].mStatueID = StatueIDList[rand];
                 StatueIDList.RemoveAt(rand);
-                mStatueArr[i].mID = rand;
+                mStatueArr[i].mID = i;
                 mStatueArr[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
                 if (i == 1)
                 {
@@ -83,7 +83,7 @@ public class StatueController : InformationLoader
             for (int i = 0; i < STATUE_COUNT; i++)
             {
                 mStatueArr[i] = Instantiate(mStatue, mStatuePos[i]);
-                mStatueArr[i].mID = i+1;
+                mStatueArr[i].mID = i;
                 mStatueArr[i].mPriceText = Instantiate(mPriceText, CanvasFinder.Instance.transform);
                 mStatueArr[i].ePayType = eStatuePay.Free;
                 mStatueArr[i].SpendGold = 0;

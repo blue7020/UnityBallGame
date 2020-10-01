@@ -11,17 +11,17 @@ public class UIController : InformationLoader
 
     public Text mGoldText, mHPText,mStatText, mNameText, mbulletText,mLevelText,mAirText,mAirGaugeText;
     public Image mPlayerImage,mStatPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage,mSkillCoolWheel, NoTouchArea;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage,mMonsterImage,mDeathWindow,mDeathUI;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage,mMonsterImage,mDeathWindow,mDeathUI,mReviveWindow;
     public HPBar mAirBar, mHPBar;
 
     public Sprite DefaultItemSprite;
 
-    public Button mStatButton, mSKillButton,mItemButton, mArtifactButton,mBGMplus, mBGMminus, mSEplus, mSEminus;
+    public Button mStatButton, mSKillButton,mItemButton, mArtifactButton,mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton,mReviveAdButton,mReviveSyrupButton;
 
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
     public Text mTitleText, mMonsterNameText, mTouchGuideText;
-    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText, YesText,NoText, WarningText;
+    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText, YesText,NoText, WarningText,mReviveTitle, mReviveSyrup,mSyrupButtonText;
     public string maptext;
     public Tooltip tooltip;
 
@@ -43,12 +43,18 @@ public class UIController : InformationLoader
                 YesText.text = "<color=#FE2E2E>예</color>";
                 NoText.text = "아니오";
                 WarningText.text = "메인 로비로 돌아가시겠습니까?\n<color=#FE2E2E><size=80>(현재 스테이지가 저장되지 않습니다!)</size></color>";
+                mReviveTitle.text = "부활하기";
+                mReviveSyrup.text = "현재 시럽: "+GameSetting.Instance.Syrup.ToString();
+                mSyrupButtonText.text = GameSetting.Instance.ReviveSyrup+"\n시럽";
             }
             else if (GameSetting.Instance.Language == 1)
             {
                 YesText.text = "<color=#FE2E2E>YES</color>";
                 NoText.text = "NO";
                 WarningText.text = "Do you want to return to the main lobby?\n<color=#FE2E2E><size=80>(This stage is not save!)</size></color>";
+                mReviveTitle.text = "Revive";
+                mReviveSyrup.text = "Now Syrup: " + GameSetting.Instance.Syrup.ToString();
+                mSyrupButtonText.text = GameSetting.Instance.ReviveSyrup + "\nSyrup";
             }
         }
         else
@@ -87,12 +93,52 @@ public class UIController : InformationLoader
         mItemButton.onClick.AddListener(() => { Player.Instance.ItemUse(); });
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
         mSKillButton.onClick.AddListener(() => { Player.Instance.NowPlayerSkill.SkillUse(); });
+        ReviveUI();
     }
 
 
     public void ButtonPush()
     {
         SoundController.Instance.SESoundUI(0);
+    }
+
+    public void ReviveUI()
+    {
+        if (GameController.Instance.IsRevive == true)
+        {
+            mReviveAdButton.interactable = false;
+            mReviveSyrupButton.interactable = false;
+        }
+    }
+
+    public void ReviveWindow(int id)
+    {
+        if (GameController.Instance.IsRevive == false)
+        {
+            switch (id)
+            {
+                case 0:
+                    //광고 출력
+                    GameController.Instance.GamePause();
+                    StartCoroutine(Player.Instance.Revive());
+                    break;
+                case 1:
+                    if (GameSetting.Instance.Syrup >= 200)
+                    {
+                        GameSetting.Instance.Syrup -= 200;
+                        GameController.Instance.GamePause();
+                        StartCoroutine(Player.Instance.Revive());
+                    }
+                    break;
+            }
+        }
+        GameController.Instance.IsRevive = true;
+        ReviveUI();
+    }
+
+    public void GameOver()
+    {
+        Player.Instance.GameOver();
     }
 
     public void Delete()

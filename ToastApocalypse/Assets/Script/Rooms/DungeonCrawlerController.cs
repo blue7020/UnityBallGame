@@ -54,7 +54,6 @@ public class DungeonCrawlerController : MonoBehaviour
                 positionsVisited.Add(newPos);
             }
         }
-        Debug.Log(positionsVisited.Count);
         return positionsVisited;
     }
 }

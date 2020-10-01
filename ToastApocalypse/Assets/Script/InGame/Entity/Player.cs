@@ -239,7 +239,15 @@ public class Player : MonoBehaviour
         if (mCurrentHP <= 0)
         {
             Nodamage = true;
-            GameOver();
+            if (GameController.Instance.IsRevive==false)
+            {
+                UIController.Instance.mReviveWindow.gameObject.SetActive(true);
+                GameController.Instance.GamePause();
+            }
+            else
+            {
+                GameOver();
+            }
         }
     }
 
@@ -261,8 +269,28 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    public IEnumerator Revive()
+    {
+        WaitForSeconds delay = new WaitForSeconds(2f);
+        SoundController.Instance.SESoundUI(10);
+        UIController.Instance.mReviveWindow.gameObject.SetActive(false);
+        BuffController.Instance.SetBuff(7, 7, eBuffType.Buff, 2f);
+        Nodamage = true;
+        mCurrentHP = mMaxHP;
+        UIController.Instance.ShowHP();
+        if (GameSetting.Instance.NowStage == 4)
+        {
+            mCurrentAir = MAX_AIR;
+            UIController.Instance.ShowAirGaugeBar();
+        }
+        yield return delay;
+        Nodamage = false;
+    }
+
     public void GameOver()
     {
+        UIController.Instance.mReviveWindow.gameObject.SetActive(false);
         if (GameController.Instance.IsTutorial == false)
         {
             Nodamage = true;
@@ -274,7 +302,6 @@ public class Player : MonoBehaviour
             mRenderer.sortingLayerName = "UI";
             mRenderer.sortingOrder = 4;
             UIController.Instance.mDeathUI.gameObject.SetActive(true);
-            //음악도 중지
             mAnim.SetBool(AnimHash.Death, true);
         }
         else

@@ -22,6 +22,7 @@ public class Portal : MonoBehaviour
         {
             Instance = this;
             mAnim = GetComponent<Animator>();
+            UIController.Instance.mPortalButton.onClick.AddListener(() => { Nextroom(); });
         }
         else
         {
@@ -42,16 +43,24 @@ public class Portal : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Nextroom();
+            UIController.Instance.mPortalButton.gameObject.SetActive(true);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            UIController.Instance.mPortalButton.gameObject.SetActive(false);
         }
     }
 
     public void Nextroom()
     {
+        SoundController.Instance.SESound(21);
         GameController.Instance.StageLevel++;
         Player.Instance.ResetBuff();
         Player.Instance.Nodamage = false;
-        SoundController.Instance.SESound(21);
+        UIController.Instance.mPortalButton.gameObject.SetActive(false);
         for (int i=0; i<BuffEffectController.Instance.EffectList.Count;i++)
         {
             BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);

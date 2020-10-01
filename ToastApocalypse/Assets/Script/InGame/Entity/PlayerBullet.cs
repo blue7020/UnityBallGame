@@ -78,12 +78,16 @@ public class PlayerBullet : MonoBehaviour
 
     private IEnumerator ShotGunDamage()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        WaitForSeconds delay = new WaitForSeconds(0.05f);
         while (true)
         {
             yield return delay;
             float damage = mDamage;
             mDamage = damage / 2;
+            if (mDamage<1)
+            {
+                break;
+            }
         }
     }
 

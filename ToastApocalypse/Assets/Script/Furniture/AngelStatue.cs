@@ -17,6 +17,16 @@ public class AngelStatue : MonoBehaviour
         {
             Instance = this;
             ShowMedal();
+            if (GameSetting.Instance.Language==0)
+            {
+                TitleText.text = "과거에 전쟁의 승리를 기원하던 제단...\n기부하면 좋은 일이 일어날 지도 모른다.";
+                DonateText.text = "기부한다";
+            }
+            else if (GameSetting.Instance.Language==1)
+            {
+                TitleText.text = "An altar that wished for victory in war in the past...\nGood things may happen if you donate.";
+                DonateText.text = "Donate";
+            }
         }
         else
         {

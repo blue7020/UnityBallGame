@@ -12,7 +12,7 @@ public class MainLobbyUIController : MonoBehaviour
     private bool pause;
 
     public Text mCashText,mBGMText, mSEText;
-    public Button mBGMplus, mBGMminus, mSEplus, mSEminus;
+    public Button mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton;
 
 
     private void Awake()

@@ -19,6 +19,7 @@ public class GameSetting : InformationLoader
     private const int STATUE_COUNT = 8;
     private const int NPC_COUNT = 5;
     private const int CHARACTER_COUNT = 7;
+    public int ReviveSyrup;
 
     //로비용
     public Sprite[] mParts;
@@ -54,6 +55,7 @@ public class GameSetting : InformationLoader
     public bool[] CharacterOpen;
     public bool[] NPCOpen;
     public int DonateCount;
+    public bool TodayWatchFirstAD;
 
     public bool FirstSetting;
     //
@@ -78,6 +80,7 @@ public class GameSetting : InformationLoader
     {
         if (FirstSetting != true)
         {
+            TodayWatchFirstAD = false;
             HasMaterial = new int[mMaterialSpt.Length];
             StageOpen = new bool[6];
             StageOpen[0] = true;//1스테이지 오픈
@@ -133,6 +136,15 @@ public class GameSetting : InformationLoader
         NowStageRoom = new Room[6];
         Ingame = false;
         NowStage = 0;
+    }
+
+    public void ShowAds()
+    {
+        if (TodayWatchFirstAD == false)
+        {
+            //광고 감상 후 300시럽 주기
+            TodayWatchFirstAD = true;
+        }
     }
 
 }

@@ -19,15 +19,29 @@ public class StageController : MonoBehaviour
         }
     }
 
+
+    public void Portal()
+    {
+        GameSetting.Instance.NowStageRoom = mStage;
+        GameSetting.Instance.Ingame = true;
+        GameSetting.Instance.NowStage = mStageNum;
+        SceneManager.LoadScene(2);
+        SoundController.Instance.BGMChange(1);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            GameSetting.Instance.NowStageRoom = mStage;
-            GameSetting.Instance.Ingame = true;
-            GameSetting.Instance.NowStage = mStageNum;
-            SceneManager.LoadScene(2);
-            SoundController.Instance.BGMChange(1);
+            MainLobbyUIController.Instance.mPortalButton.onClick.AddListener(() => { Portal(); });
+            MainLobbyUIController.Instance.mPortalButton.gameObject.SetActive(true);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            MainLobbyUIController.Instance.mPortalButton.gameObject.SetActive(false);
         }
     }
 }

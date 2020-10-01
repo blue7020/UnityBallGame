@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public int StageHP;
 
     public float MaterialDropRate;
+    public bool IsRevive;
 
     public int SyrupInStage;
     public bool IsTutorial;
@@ -27,6 +28,7 @@ public class GameController : MonoBehaviour
             Instance = this;
             GotoMain = false;
             pause = false;
+            IsRevive = false;
             StageLevel = 1;
             SyrupInStage = 0;
             if (!IsTutorial)

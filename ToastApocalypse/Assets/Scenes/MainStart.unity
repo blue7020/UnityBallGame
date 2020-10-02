@@ -2354,7 +2354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MinRoomLength: 8
-  MaxRoomLength: 12
+  MaxRoomLength: 13
   PlayerID: 0
   PlayerSkillID: 0
   PlayerWeaponID: 0
@@ -2432,7 +2432,9 @@ MonoBehaviour:
   - {fileID: 1753561511078278426, guid: 78fd6b3ba542d2544a7d05df5c3b6c6d, type: 3}
   - {fileID: 3444315772358131135, guid: 49024028a0171184980187f63f8fdd73, type: 3}
   - {fileID: 2796989074826776797, guid: d687b12d341797f468f98bdc8bf525bd, type: 3}
-  mInfoArr: []
+  mPlayerInfoArr: []
+  mSkillInfoArr: []
+  mWeaponInfoArr: []
   mWeapons:
   - {fileID: 4452090356739625532, guid: 1e6b7f283ed859f48bfbd03b0b662f62, type: 3}
   - {fileID: 1668089395024223790, guid: fb1339aa3a40ac84b81f84a9fb4b4db5, type: 3}
@@ -2457,20 +2459,17 @@ MonoBehaviour:
   - {fileID: 8464246993823058629, guid: 18de78bed99762c42a6dbe66e15b8297, type: 3}
   - {fileID: 8568792023500950870, guid: 8ea4a4641ecb9044a8edc1d87dd104f8, type: 3}
   - {fileID: 8647152021095718309, guid: 39689047beaf9bc43a9fe988513d1a24, type: 3}
+  NowStageRoom: []
+  NowStage: 0
+  PlayerSkillIndex: 0
+  PlayerWeaponIndex: 0
   Language: 0
   Syrup: 0
   HasMaterial: 
-  PlayerHasSkill: 
-  PlayerSkillIndex: 0
-  PlayerHasWeapon: 
-  PlayerWeaponIndex: 0
   StatueOpen: 
   TutorialEnd: 1
   StageOpen: 
-  NowStage: 0
-  NowStageRoom: []
   StagePartsget: 
-  CharacterOpen: 
   NPCOpen: 
   DonateCount: 0
   TodayWatchFirstAD: 0

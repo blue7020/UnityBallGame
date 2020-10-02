@@ -580,7 +580,7 @@ public class EnemySkill : MonoBehaviour
         while (true)
         {
             Invoke("DrinkShot", 0.1f);
-            if (Count >= 40)
+            if (Count >= 39)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                 break;
@@ -1493,27 +1493,38 @@ public class EnemySkill : MonoBehaviour
 
     private IEnumerator Tomocto()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        WaitForSeconds delay = new WaitForSeconds(1f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        StartCoroutine(MoveDelay(0.25f));
+        StartCoroutine(MoveDelay(0.8f));
         if (mEnemy.mCurrentHP<=mEnemy.mMaxHP)
         {
             AngerTomato2();
         }
-        TomatoFall();
+        StartCoroutine(TomatoFall());
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
-    private void TomatoFall()
+    private IEnumerator TomatoFall()
     {
-        for (int i = 1; i < 8; i++)
+        WaitForSeconds delay = new WaitForSeconds(0.05f);
+        int count = 0;
+        while (true)
         {
-            int Xpos = Random.Range(-6, 7);
-            int Ypos = Random.Range(-6, 7);
-            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            Bullet tomato = BulletPool.Instance.GetFromPool(30);
-            tomato.mEnemy = mEnemy;
-            tomato.transform.position = mEnemy.transform.position + Pos;
+            if (count>=12)
+            {
+                break;
+            }
+            else
+            {
+                int Xpos = Random.Range(-6, 7);
+                int Ypos = Random.Range(-6, 7);
+                Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+                Bullet tomato = BulletPool.Instance.GetFromPool(30);
+                tomato.mEnemy = mEnemy;
+                tomato.transform.position = mEnemy.transform.position + Pos;
+                count++;
+            }
+            yield return delay;
         }
     }
 }

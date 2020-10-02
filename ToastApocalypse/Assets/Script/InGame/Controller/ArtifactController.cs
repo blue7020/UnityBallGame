@@ -26,17 +26,6 @@ public class ArtifactController : InformationLoader
             LoadJson(out mTextInfoArr, Path.ARTIFACT_TEXT_STAT);
             mPassiveArtifact = new List<Artifacts>();
             mActiveArtifact = new List<Artifacts>();
-            for (int i = 0; i < GameSetting.Instance.mArtifacts.Length; i++)
-            {
-                if (GameSetting.Instance.mArtifacts[i].eType == eArtifactType.Passive)
-                {
-                    mPassiveArtifact.Add(GameSetting.Instance.mArtifacts[i]);
-                }
-                else
-                {
-                    mActiveArtifact.Add(GameSetting.Instance.mArtifacts[i]);
-                }
-            }
         }
         else
         {
@@ -50,6 +39,17 @@ public class ArtifactController : InformationLoader
         if (GameController.Instance.GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);
+        }
+        for (int i = 0; i < GameSetting.Instance.mArtifacts.Length; i++)
+        {
+            if (GameSetting.Instance.mArtifacts[i].eType == eArtifactType.Passive)
+            {
+                mPassiveArtifact.Add(GameSetting.Instance.mArtifacts[i]);
+            }
+            else
+            {
+                mActiveArtifact.Add(GameSetting.Instance.mArtifacts[i]);
+            }
         }
     }
 

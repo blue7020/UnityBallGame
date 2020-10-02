@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    int i;
     private List<Vector2Int> dungeonRooms;
     private void Start()
     {

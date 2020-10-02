@@ -23,7 +23,6 @@ public class AttackArea : MonoBehaviour
     {
         mAnim.SetBool(AnimHash.Attack, true);
         SoundController.Instance.SESound(8);
-        WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
         if (Player.Instance.ver > 0) //상
         {
             mRenderer.sortingOrder = 0;
@@ -144,6 +143,7 @@ public class AttackArea : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 Target = other.GetComponent<Enemy>();
+                WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
                 if (Target.mCurrentHP > 0 && Target != null)
                 {
                     float rand = Random.Range(0, 1f);

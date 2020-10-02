@@ -83,7 +83,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "Move to green tile";
+                                GoalText.text = "Move to the green tile";
                             }
                             break;
                         case 12:
@@ -93,7 +93,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Get artifacts and check your changed status";
                             }
                             break;
                         case 18:
@@ -103,7 +103,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Use items to recover your reduced HP";
                             }
                             break;
                         case 23:
@@ -113,17 +113,17 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Get the effect of the statue and check the changed status";
                             }
                             break;
                         case 29:
                             if (GameSetting.Instance.Language == 0)//한국어
                             {
-                                GoalText.text = "무기를 장착한 후 체험해보세요";
+                                GoalText.text = "무기를 장착한 후 허수아비를 공격해보세요";
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Put your weapon on it and attack the Scarecrow";
                             }
                             break;
                         case 33:
@@ -133,7 +133,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Kill the Scarecrow without dying";
                             }
                             break;
                         case 37:
@@ -143,7 +143,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Use your skills to pass the trap safely";
                             }
                             break;
                         case 40:
@@ -153,7 +153,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Kill the boss!";
                             }
                             break;
                         case 42:
@@ -163,7 +163,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Rescue the magic-bound citizen";
                             }
                             break;
                         case 49:
@@ -173,7 +173,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "ㅁㄴㅇㅁㄴㅇ to green tile";
+                                GoalText.text = "Get the parts";
                             }
                             ClearItem.gameObject.SetActive(true);
                             break;

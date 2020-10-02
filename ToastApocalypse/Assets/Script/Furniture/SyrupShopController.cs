@@ -76,7 +76,6 @@ public class SyrupShopController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            MainLobbyUIController.Instance.GamePause();
             mWindow.gameObject.SetActive(true);
         }
     }

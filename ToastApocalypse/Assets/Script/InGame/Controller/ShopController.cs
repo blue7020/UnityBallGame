@@ -53,26 +53,26 @@ public class ShopController : MonoBehaviour
                 rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
                 if (itembuy[(index - ShopCount)].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
                 {
-                    if (InventoryController.Instance.mSlotArr[i].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
-                    {
-                        artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mPos[index]);
-                        ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
-                        artifact.transform.SetParent(mPos[index]);
-                        artifact.Currentroom = Shop;
-                        artifact.IsShopItem = true;
-                        itembuy[index].artifact = artifact;
-                        itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
-                        itembuy[index].mPriceText.gameObject.SetActive(false);
-                        if (index <2)
+                        if (InventoryController.Instance.mSlotArr[i].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
                         {
-                            index++;
-                            ShopCount++;
+                            artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mPos[index]);
+                            ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
+                            artifact.transform.SetParent(mPos[index]);
+                            artifact.Currentroom = Shop;
+                            artifact.IsShopItem = true;
+                            itembuy[index].artifact = artifact;
+                            itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
+                            itembuy[index].mPriceText.gameObject.SetActive(false);
+                            if (index < 2)
+                            {
+                                index++;
+                                ShopCount++;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
-                        else
-                        {
-                            break;
-                        }
-                    }
                 }
                 else
                 {
@@ -82,23 +82,20 @@ public class ShopController : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ActiveArtifactSearch());
+            ActiveArtifactSearch();
         }
         
     }
         
-    private IEnumerator ActiveArtifactSearch()
+    private void ActiveArtifactSearch()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
         int index = 1;
         int ShopCount = 0;
-        while (true)
+        for (int i=0; i< ArtifactController.Instance.mActiveArtifact.Count;i++)
         {
             int rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
             if (itembuy[index - ShopCount].artifact != ArtifactController.Instance.mActiveArtifact[rand])
             {
-                if (Player.Instance.NowActiveArtifact != ArtifactController.Instance.mActiveArtifact[rand])
-                {
                     artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], mPos[index]);
                     ArtifactController.Instance.mActiveArtifact.RemoveAt(rand);
                     artifact.transform.SetParent(mPos[index]);
@@ -107,7 +104,7 @@ public class ShopController : MonoBehaviour
                     itembuy[index].artifact = artifact;
                     itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
                     itembuy[index].mPriceText.gameObject.SetActive(false);
-                    if (index <2)
+                    if (index < 2)
                     {
                         index++;
                         ShopCount++;
@@ -116,9 +113,11 @@ public class ShopController : MonoBehaviour
                     {
                         break;
                     }
-                }
             }
-            yield return delay;
+            else
+            {
+                continue;
+            }
         }
     }
 

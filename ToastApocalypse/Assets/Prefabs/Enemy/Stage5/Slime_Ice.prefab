@@ -312,8 +312,6 @@ MonoBehaviour:
   - {fileID: 1347930076702415633}
   mRB2D: {fileID: 6689281638481774766}
   mTarget: {fileID: 0}
-  Runaway: 0
-  HasBarrier: 0
   mHPBarPos: {fileID: 3596648506600133235}
   mEnemySkill: {fileID: 7893098662431091570}
   mAttackArea: {fileID: 4686220036687640857}
@@ -322,15 +320,18 @@ MonoBehaviour:
   CCState: {fileID: 3713803888663570243}
   Nodamage: 0
   Stun: 0
+  isFire: 0
   IsTraking: 0
-  SpeedAmount: 0
   AttackOn: 0
   AttackCheck: 0
   Spawned: 0
   IsMimic: 0
+  Runaway: 0
+  HasBarrier: 0
   mAnim: {fileID: 3596648505774890200}
   mCurrentHP: 0
   mMaxHP: 0
+  SpeedAmount: 0
   mStats:
     ID: 0
     Name: 
@@ -354,7 +355,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0

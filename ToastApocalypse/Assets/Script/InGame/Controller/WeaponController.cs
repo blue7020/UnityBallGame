@@ -82,6 +82,7 @@ public class WeaponController : MonoBehaviour
             case 14://크럼브샷
                 break;
             case 15://머핀 해머
+                KnockBack(Target);
                 break;
             case 16://화염방사기
                 break;
@@ -101,6 +102,7 @@ public class WeaponController : MonoBehaviour
                 break;
 
         }
+        Target = null;
     }
 
     //WeaponSkillData
@@ -114,12 +116,11 @@ public class WeaponController : MonoBehaviour
 
     public void KnockBack(Enemy Target)
     {
-        float rand = Random.Range(0, 1f);
-        if (Target != null&&Target.mStats.Resistance< rand)
+        if (Target != null&&Target.mStats.Resistance<0.5f)
         {
             Vector3 Pos = Player.Instance.transform.position - Target.transform.position;
             Target.mRB2D.velocity = Vector3.zero;
-            Target.mRB2D.AddForce(-Pos * 15, ForceMode2D.Impulse);
+            Target.mRB2D.AddForce(-Pos * 20, ForceMode2D.Impulse);
         }
     }
 

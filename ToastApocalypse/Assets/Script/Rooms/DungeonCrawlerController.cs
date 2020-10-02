@@ -31,7 +31,6 @@ public class DungeonCrawlerController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            RoomPlus = GameController.Instance.StageLevel - 1;
         }
         else
         {
@@ -41,6 +40,7 @@ public class DungeonCrawlerController : MonoBehaviour
 
     public List<Vector2Int> GenerateDungeon()
     {
+        RoomPlus = GameController.Instance.StageLevel - 1;
         RoomControllers.Instance.RoomLength = 0;
         positionsVisited = new List<Vector2Int>();
         List<DungeonCrawler> dungeonCrwalers = new List<DungeonCrawler>();
@@ -54,6 +54,7 @@ public class DungeonCrawlerController : MonoBehaviour
                 positionsVisited.Add(newPos);
             }
         }
+        Debug.Log(positionsVisited.Count);
         return positionsVisited;
     }
 }

@@ -69,11 +69,14 @@ public class SkillShop : MonoBehaviour
 
     private void Start()
     {
-        SKILL_SLOT = SkillController.Instance.mStatInfoArr.Length;
+        SKILL_SLOT = GameSetting.Instance.mSkillInfoArr.Length;
         for (int i = 0; i < SKILL_SLOT; i++)
         {
-            SkillSlot mSlot= Instantiate(ShopSlot, mShopParents);
-            mSlot.SetData(i);
+            if (GameSetting.Instance.mSkillInfoArr[i].ShopSell==true&& GameSetting.Instance.mSkillInfoArr[i].Open==true)
+            {
+                SkillSlot mSlot = Instantiate(ShopSlot, mShopParents);
+                mSlot.SetData(i);
+            }
             
         }    
     }
@@ -84,7 +87,7 @@ public class SkillShop : MonoBehaviour
         {
             SoundController.Instance.SESoundUI(3);
             GameSetting.Instance.Syrup -= mSkillText.Price;
-            GameSetting.Instance.PlayerHasSkill[mSkill.ID] = true;
+            GameSetting.Instance.mSkillInfoArr[mSkill.ID].PlayerHas = true;
             MainLobbyUIController.Instance.ShowSyrupText();
             mBuyButton.interactable = false;
         }
@@ -105,7 +108,7 @@ public class SkillShop : MonoBehaviour
             mSkillTitle.text = mSkillText.EngTitle;
             mLoreText.text = mSkillText.EngContensFormat + "\nPrice: " + mSkillText.Price;
         }
-        if (GameSetting.Instance.PlayerHasSkill[mSkill.ID] == false)
+        if (GameSetting.Instance.mSkillInfoArr[mSkill.ID].PlayerHas == false)
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {

@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         GameSetting.Instance.NowScene = 1;
         GameSetting.Instance.Restart();
-        //게임 저장
+        //TODO 저장기능
         SceneManager.LoadScene(1);
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);

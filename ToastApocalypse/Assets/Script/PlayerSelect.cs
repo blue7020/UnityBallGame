@@ -27,6 +27,7 @@ public class PlayerSelect : MonoBehaviour
             MainLobbyCamera.Instance.mPlayerObj=null;
             Destroy(MainLobbyPlayer.Instance.gameObject);
             PlayerSelectController.Instance.ShowStat();
+            MainLobbyUIController.Instance.IsSelect = true;
             PlayerSelectController.Instance.mWindow.gameObject.SetActive(true);
         }
     }

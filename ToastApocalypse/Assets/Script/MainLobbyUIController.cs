@@ -10,6 +10,7 @@ public class MainLobbyUIController : MonoBehaviour
     public static MainLobbyUIController Instance;
     public Image[] mPartsLock;
     private bool pause;
+    public bool IsSelect;
 
     public Text mCashText,mBGMText, mSEText;
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton;
@@ -21,6 +22,7 @@ public class MainLobbyUIController : MonoBehaviour
         {
             Instance = this;
             pause = false;
+            IsSelect = true;
             for (int i=0; i<mPartsLock.Length;i++)
             {
                 if (GameSetting.Instance.StagePartsget[i]==true)
@@ -107,14 +109,14 @@ public class MainLobbyUIController : MonoBehaviour
     int ClickCount = 0;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)&& IsSelect==true)
         {
             ClickCount++;
             if (!IsInvoking("DoubleClick"))
                 Invoke("DoubleClick", 1.0f);
 
         }
-        else if (ClickCount == 2)
+        else if (ClickCount == 2 && IsSelect == true)
         {
             MainStart();
         }

@@ -8,8 +8,8 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 {
     public static GameClearUI Instance;
     public Animator mAnim;
-    public Image NotouchArea,mNPCWindow;
-    public Text TitleText;
+    public Image NotouchArea,mNPCWindow,mOpenItemWindow;
+    public Text NPCTitleText,OpenItemTitleText,MessageText;
     public MapNPCSlot mNPCSlot;
     public Transform mParents;
 
@@ -20,14 +20,17 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         if (Instance==null)
         {
             Instance = this;
-            if (GameSetting.Instance.Language==0)
+            if (GameSetting.Instance.Language == 0)
             {
-                TitleText.text = "구출한 시민";
+                NPCTitleText.text = "구출한 시민";
+                OpenItemTitleText.text = "클리어 보상";
             }
             else if (GameSetting.Instance.Language == 1)
             {
-                TitleText.text = "Rescued citizen";
+                NPCTitleText.text = "Rescued citizen";
+                OpenItemTitleText.text = "Clear reward";
             }
+            MessageText.text = "";
         }
         else
         {
@@ -80,6 +83,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 UIController.Instance.mPieceImage.gameObject.transform.localScale = new Vector3(1, 1, 1);
                 UIController.Instance.mPieceImage.gameObject.SetActive(true);
                 ShowNPCWindow();
+                StageClearGift();
             }
         }
         else
@@ -87,6 +91,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             UIController.Instance.mPieceImage.gameObject.transform.localScale = new Vector3(1, 1, 1);
             UIController.Instance.mPieceImage.gameObject.SetActive(true);
             ShowNPCWindow();
+            StageClearGift();
         }
     }
 
@@ -105,6 +110,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         yield return delay;
         NotouchArea.gameObject.SetActive(false);
         ShowNPCWindow();
+        StageClearGift();
 
     }
 
@@ -130,6 +136,122 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 slot.SetData(GameController.Instance.RescueNPCList[i]);
             }
             mNPCWindow.gameObject.SetActive(true);
+        }
+    }
+
+    public void StageClearGift()
+    {
+        mOpenItemWindow.gameObject.SetActive(true);
+        bool weapon = false; bool skill = false; bool character = false;
+        switch (GameSetting.Instance.NowStage)
+        {
+            case 1:
+                if (GameSetting.Instance.mWeaponInfoArr[5].Open==false && GameSetting.Instance.mWeaponInfoArr[9].Open==false)
+                {
+                    GameSetting.Instance.mWeaponInfoArr[5].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[9].Open = true;
+                    weapon = true;
+                }
+                break;
+            case 2:
+                if (GameSetting.Instance.mPlayerInfoArr[1].Open==false&& GameSetting.Instance.mSkillInfoArr[1].Open==false&& GameSetting.Instance.mWeaponInfoArr[2].Open==false)
+                {
+                    GameSetting.Instance.mPlayerInfoArr[1].Open = true;
+                    GameSetting.Instance.mSkillInfoArr[1].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[2].Open = true;
+                    character = true;
+                    skill = true;
+                    weapon = true;
+                }
+                break;
+            case 3:
+                if (GameSetting.Instance.mPlayerInfoArr[3].Open == false&& GameSetting.Instance.mSkillInfoArr[3].Open ==false&& GameSetting.Instance.mWeaponInfoArr[7].Open==false&& GameSetting.Instance.mWeaponInfoArr[16].Open==false)
+                {
+                    GameSetting.Instance.mPlayerInfoArr[3].Open = true;
+                    GameSetting.Instance.mSkillInfoArr[3].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[7].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[16].Open = true;
+                    character = true;
+                    skill = true;
+                    weapon = true;
+                }
+                break;
+            case 4:
+                if (GameSetting.Instance.mPlayerInfoArr[4].Open == false && GameSetting.Instance.mSkillInfoArr[4].Open == false && GameSetting.Instance.mWeaponInfoArr[10].Open == false && GameSetting.Instance.mWeaponInfoArr[19].Open == false && GameSetting.Instance.mWeaponInfoArr[20].Open == false)
+                {
+                    GameSetting.Instance.mPlayerInfoArr[4].Open = true;
+                    GameSetting.Instance.mSkillInfoArr[4].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[10].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[19].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[20].Open = true;
+                    character = true;
+                    skill = true;
+                    weapon = true;
+                }
+                break;
+            case 5:
+                if (GameSetting.Instance.mPlayerInfoArr[5].Open == false && GameSetting.Instance.mSkillInfoArr[5].Open == false && GameSetting.Instance.mWeaponInfoArr[11].Open == false && GameSetting.Instance.mWeaponInfoArr[18].Open == false && GameSetting.Instance.mWeaponInfoArr[21].Open == false)
+                {
+                    GameSetting.Instance.mPlayerInfoArr[5].Open = true;
+                    GameSetting.Instance.mSkillInfoArr[5].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[11].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[18].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[21].Open = true;
+                    character = true;
+                    skill = true;
+                    weapon = true;
+                }
+                break;
+            case 6:
+                if (GameSetting.Instance.mPlayerInfoArr[6].Open == false && GameSetting.Instance.mSkillInfoArr[6].Open == false && GameSetting.Instance.mWeaponInfoArr[17].Open == false && GameSetting.Instance.mWeaponInfoArr[22].Open == false)
+                {
+                    GameSetting.Instance.mPlayerInfoArr[6].Open = true;
+                    GameSetting.Instance.mSkillInfoArr[6].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[17].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[22].Open = true;
+                    character = true;
+                    skill = true;
+                    weapon = true;
+                }
+                break;
+        }
+        if (GameSetting.Instance.Language == 0)
+        {
+            if (character == true)
+            {
+                MessageText.text += "-선택 가능한 캐릭터 종류 증가!\n";
+            }
+            if (skill == true)
+            {
+                MessageText.text += "-스킬 상점의 품목 증가!\n";
+            }
+            if (weapon == true)
+            {
+                MessageText.text += "-제작 가능한 무기 종류 증가!";
+            }
+            if (character == false && skill == false && weapon == false)
+            {
+                MessageText.text = "획득 가능한 보상이 없습니다";
+            }
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {
+            if (character == true)
+            {
+                MessageText.text += "-The number of playable character increased!\n";
+            }
+            if (skill == true)
+            {
+                MessageText.text += "-Skill shop has increased in skills!\n";
+            }
+            if (weapon == true)
+            {
+                MessageText.text += "-Smithy has increased in weapons!\n";
+            }
+            if (character == false && skill == false && weapon == false)
+            {
+                MessageText.text = "No reward";
+            }
         }
     }
 }

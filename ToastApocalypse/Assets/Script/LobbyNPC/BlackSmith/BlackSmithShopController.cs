@@ -44,10 +44,13 @@ public class BlackSmithShopController : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < GameSetting.Instance.mWeapons.Length; i++)
+        for (int i = 0; i < GameSetting.Instance.mWeaponInfoArr.Length; i++)
         {
-            WeaponShopSlot mSlot = Instantiate(ShopSlot, mShopParents);
-            mSlot.SetData(i);
+            if (GameSetting.Instance.mWeaponInfoArr[i].ShopSell == true && GameSetting.Instance.mWeaponInfoArr[i].Open == true)
+            {
+                WeaponShopSlot mSlot = Instantiate(ShopSlot, mShopParents);
+                mSlot.SetData(i);
+            }
 
         }
     }
@@ -75,7 +78,7 @@ public class BlackSmithShopController : MonoBehaviour
             {
                 mBuyImage.gameObject.SetActive(true);
                 GameSetting.Instance.Syrup -= mWeapon.mStats.Price;
-                GameSetting.Instance.PlayerHasWeapon[mWeapon.mID] = true;
+                GameSetting.Instance.mWeaponInfoArr[mWeapon.mID].PlayerHas = true;
                 MainLobbyUIController.Instance.ShowSyrupText();
                 mBuyButton.interactable = false;
                 SoundController.Instance.SESoundUI(8);
@@ -120,7 +123,7 @@ public class BlackSmithShopController : MonoBehaviour
     public void ShowWeaponInfo(Weapon weapon)
     {
         mWeapon = weapon;
-        mWeaponStat = GameSetting.Instance.mInfoArr[weapon.mID];
+        mWeaponStat = GameSetting.Instance.mWeaponInfoArr[weapon.mID];
         mSelectSlot.SetData(mWeapon.mID,mWeapon.mWeaponImage, mWeaponStat);
         for (int i = 0; i < mMaterialSlot.Length; i++)
         {
@@ -135,7 +138,7 @@ public class BlackSmithShopController : MonoBehaviour
                 mMaterialSlot[i].mAmount = mWeapon.RecipeAmount[i];
             }
         }
-        if (GameSetting.Instance.PlayerHasWeapon[mWeapon.mID] == true)
+        if (GameSetting.Instance.mWeaponInfoArr[mWeapon.mID].PlayerHas == true)
         {
             mBuyButton.interactable = false;
             if (GameSetting.Instance.Language == 0)//한국어

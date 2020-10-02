@@ -6,7 +6,6 @@ public class SkillController : InformationLoader
 {
     public static SkillController Instance;
 
-
     public SkillStat[] mStatInfoArr;
     public SkillText[] mTextInfoArr;
 
@@ -18,7 +17,7 @@ public class SkillController : InformationLoader
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            LoadJson(out mStatInfoArr, Path.SKILL_STAT);
+            mStatInfoArr = GameSetting.Instance.mSkillInfoArr;
             LoadJson(out mTextInfoArr, Path.SKILL_TEXT_STAT);
         }
         else

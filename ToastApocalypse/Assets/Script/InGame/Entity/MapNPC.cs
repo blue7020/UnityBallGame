@@ -20,6 +20,7 @@ public class MapNPC : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(1.5f);
         mRescue = true;
         mJail.SetActive(false);
+        SoundController.Instance.SESoundUI(6);
         if (GameSetting.Instance.Language==0)
         {
             mtext = "시민을 구출하였습니다!";

@@ -35,13 +35,13 @@ public class BlackSmith : MonoBehaviour
             mAnim.SetBool(AnimHash.Furniture, true);
             if (GameSetting.Instance.Language == 0)//한국어
             {
-                mTitleText.text = "오븐";
+                mTitleText.text = "대장간";
                 mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
                 mMaterialText.text = "비용 / 제작 재료";
             }
             else if (GameSetting.Instance.Language == 1)//영어
             {
-                mTitleText.text = "Oven";
+                mTitleText.text = "Smithy";
                 mGuideText.text = "Touch the slot to view tooltips";
                 mMaterialText.text = "Price / Recipe";
             }

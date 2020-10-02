@@ -40,10 +40,10 @@ public class SkillChangeController : MonoBehaviour
         Instance.mSelectSlot.mIcon.color = Color.white;
         mSelectSlot.SetData(GameSetting.Instance.PlayerSkillID, SkillController.Instance.SkillIcon[GameSetting.Instance.PlayerSkillID]);
 
-        SlotArr = new SkillChangeSlot[GameSetting.Instance.PlayerHasSkill.Length];
+        SlotArr = new SkillChangeSlot[GameSetting.Instance.mSkillInfoArr.Length];
         for (int i = 0; i < SlotArr.Length; i++)
         {
-            if (GameSetting.Instance.PlayerHasSkill[i] == true)
+            if (GameSetting.Instance.mSkillInfoArr[i].PlayerHas == true)
             {
                 SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
                 SlotArr[i].SetData(i);
@@ -57,7 +57,7 @@ public class SkillChangeController : MonoBehaviour
     {
         for (int i = 0; i < SlotArr.Length; i++)
         {
-            if (GameSetting.Instance.PlayerHasSkill[i] == true)
+            if (GameSetting.Instance.mSkillInfoArr[i].PlayerHas == true)
             {
                 Destroy(SlotArr[i].gameObject);
             }

@@ -9,6 +9,8 @@ public class PlayerStat
     public float Gold;
 
     public int ID;
+    public int PurchaseID; //0은 시럽 구매, 1은 유료 구매
+    public int Price;
     public string Name;
     public string EngName;
 
@@ -25,6 +27,9 @@ public class PlayerStat
 
     public float Skill_Cooltime;
     public float Skill_Duration;
+
+    public bool PlayerHas;
+    public bool Open;
 }
 
 [Serializable]
@@ -45,6 +50,11 @@ public class WeaponStat
     public int Bullet;
     public float Crit;
     public float CritDamage;
+
+    public bool PlayerHas;
+    public bool Open;
+    public bool ShopSell;
+
 }
 
 
@@ -158,6 +168,10 @@ public class SkillStat
 
     public float Cooltime;
     public float Duration;
+
+    public bool PlayerHas;
+    public bool Open;
+    public bool ShopSell;
 }
 
 [Serializable]
@@ -205,12 +219,16 @@ public class DialogText
 [Serializable]
 public class SaveData
 {
-    public double Greed;
+    public int Language;
+    public int Syrup;
 
-    public bool[] StageProgress;
-    public bool[] LobbyObject;
-
-    //일일 보상 대기시간
-    //일일 던전 대기시간
-    //쿠폰 사용 여부
+    public int[] HasMaterial;
+    public bool[] StatueOpen;
+    public bool TutorialEnd;
+    public bool[] StageOpen;
+    public bool[] StagePartsget;
+    public bool[] NPCOpen;
+    public int DonateCount;
+    public bool TodayWatchFirstAD;
+    public bool FirstSetting;
 }

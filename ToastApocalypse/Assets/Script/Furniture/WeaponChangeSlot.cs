@@ -26,7 +26,7 @@ public class WeaponChangeSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     public void SetData(int id)
     {
         mIcon.sprite = GameSetting.Instance.mWeapons[id].mWeaponImage;
-        mWeapon = GameSetting.Instance.mInfoArr[id];
+        mWeapon = GameSetting.Instance.mWeaponInfoArr[id];
     }
 
     public void OnBeginDrag(PointerEventData eventData)

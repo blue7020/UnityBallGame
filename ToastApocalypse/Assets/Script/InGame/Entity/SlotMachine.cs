@@ -31,7 +31,7 @@ public class SlotMachine : MonoBehaviour
     {
         mAnim.SetBool(AnimHash.Slot, false);
         float rand = Random.Range(0, 1f);
-        if (rand<0.25f)//꽝
+        if (rand<0.15f)//꽝
         {
             mRenderer.sprite = mSpt[1];
             if (GameSetting.Instance.Language == 0)
@@ -44,18 +44,22 @@ public class SlotMachine : MonoBehaviour
             }
             SoundController.Instance.SESoundUI(9);
         }
-        else if (WeaponController.Instance.mWeapons.Count >= 0&&rand >=0.25f&&rand<0.6f)//무기
+        else if (WeaponController.Instance.mWeapons.Count > 0&&rand >=0.15f&&rand<0.6f)//무기
         {
             mRenderer.sprite = mSpt[2];
             StartCoroutine(WeaponSearch());
             SoundController.Instance.SESoundUI(3);
+            Spend += 5;
+            mPriceText.text = Spend.ToString() + "G";
         }
-        else if (ArtifactController.Instance.mActiveArtifact.Count >= 0 && rand >=0.6f)//유물
+        else if (ArtifactController.Instance.mActiveArtifact.Count > 0 && rand >=0.6f)//유물
         {
             index = 0;
             mRenderer.sprite = mSpt[3];
             StartCoroutine(ArtifactSearch());
             SoundController.Instance.SESoundUI(3);
+            Spend += 5;
+            mPriceText.text = Spend.ToString() + "G";
         }
         Time.timeScale = 1;
         UIController.Instance.NoTouchArea.gameObject.SetActive(false);

@@ -104,12 +104,10 @@ public class GameSetting : InformationLoader
         mPlayerInfoArr[2].PlayerHas = true;//핑크도넛캐릭터 오픈
         mSkillInfoArr[2].PlayerHas = true;//돌진 스킬 오픈
         Syrup = 10000;
-        StageOpen[1] = true;//2스테이지 오픈
         for (int i=0; i<HasMaterial.Length;i++)
         {
             HasMaterial[i] = 10;
         }
-        TutorialEnd = true;
         //
     }
 

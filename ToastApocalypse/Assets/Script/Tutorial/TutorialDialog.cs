@@ -166,7 +166,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                                 GoalText.text = "Rescue the magic-bound citizen";
                             }
                             break;
-                        case 49:
+                        case 48:
                             if (GameSetting.Instance.Language == 0)//한국어
                             {
                                 GoalText.text = "조각을 획득하세요";

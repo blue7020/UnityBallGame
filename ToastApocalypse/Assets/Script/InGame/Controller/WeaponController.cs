@@ -143,8 +143,7 @@ public class WeaponController : MonoBehaviour
 
     public void JamBlade(Enemy Target)
     {
-        KnockBack(Target);
-        if (mWeaponSkillCount==2)
+        if (mWeaponSkillCount>=2)
         {
             PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(9);
             bolt.mWeaponID = 17;
@@ -169,6 +168,7 @@ public class WeaponController : MonoBehaviour
         {
             mWeaponSkillCount++;
         }
+        KnockBack(Target);
     }
 
     public IEnumerator Pepperoni()

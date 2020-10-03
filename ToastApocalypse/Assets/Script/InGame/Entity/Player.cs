@@ -238,15 +238,22 @@ public class Player : MonoBehaviour
         }
         if (mCurrentHP <= 0)
         {
-            Nodamage = true;
-            if (GameController.Instance.IsRevive==false)
+            if (GameController.Instance.IsTutorial==true)
             {
-                UIController.Instance.mReviveWindow.gameObject.SetActive(true);
-                GameController.Instance.GamePause();
+                GameOver();
             }
             else
             {
-                GameOver();
+                Nodamage = true;
+                if (GameController.Instance.IsRevive == false)
+                {
+                    UIController.Instance.mReviveWindow.gameObject.SetActive(true);
+                    GameController.Instance.GamePause();
+                }
+                else
+                {
+                    GameOver();
+                }
             }
         }
     }
@@ -290,9 +297,9 @@ public class Player : MonoBehaviour
 
     public void GameOver()
     {
-        UIController.Instance.mReviveWindow.gameObject.SetActive(false);
         if (GameController.Instance.IsTutorial == false)
         {
+            UIController.Instance.mReviveWindow.gameObject.SetActive(false);
             Nodamage = true;
             StopCoroutine(HitAnimation());
             GameController.Instance.pause = true;
@@ -327,7 +334,7 @@ public class Player : MonoBehaviour
     {
         PlayerSkillStand = true;
         Nodamage = true;
-        BuffController.Instance.SetBuff(7, code, eBuffType.Buff,0.5f);
+        BuffController.Instance.SetBuff(7, code, eBuffType.Buff,0.6f);
         mRB2D.velocity = Vector3.zero;
         mRB2D.velocity = dir.normalized * speed;
         StartCoroutine(StandingCool());

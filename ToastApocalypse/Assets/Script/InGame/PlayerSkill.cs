@@ -66,7 +66,6 @@ public class PlayerSkill : MonoBehaviour
         mSkillIcon = SkillController.Instance.SkillIcon[mID];
         Player.Instance.NowPlayerSkill.mID = 0;
         TutorialUIController.Instance.ShowSkillImage();
-        Debug.Log(mStat.ID+"/"+mID);
     }
 
 

@@ -101,6 +101,7 @@ public class Artifacts : InformationLoader
         if (Equip == false)
         {
             Player.Instance.EquipArtifact(this);
+            SoundController.Instance.SESoundUI(7);
             if (eType == eArtifactType.Active)
             {
                 for (int i = 0; i < ArtifactController.Instance.mActiveArtifact.Count; i++)

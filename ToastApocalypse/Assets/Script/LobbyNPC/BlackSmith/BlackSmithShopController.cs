@@ -80,6 +80,7 @@ public class BlackSmithShopController : MonoBehaviour
                 GameSetting.Instance.Syrup -= mWeapon.mStats.Price;
                 GameSetting.Instance.mWeaponInfoArr[mWeapon.mID].PlayerHas = true;
                 MainLobbyUIController.Instance.ShowSyrupText();
+                GameSetting.Instance.PlayerWeaponID = mWeapon.mID;
                 mBuyButton.interactable = false;
                 SoundController.Instance.SESoundUI(8);
                 if (GameSetting.Instance.Language == 0)//한국어

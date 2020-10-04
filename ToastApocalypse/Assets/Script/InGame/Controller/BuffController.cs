@@ -6,13 +6,12 @@ public class BuffController : MonoBehaviour
 {
     public static BuffController Instance;
 
-    public const int BUFF_COUNT = 7;
+    public const int BUFF_COUNT = 14;
 
     public Sprite[] mSprite;
     public Buff mBuff;
     public Transform mParents;
     public Buff[] mBuffArr;
-    public int[] mBuffIDArr;
 
     public int buffIndex;
 
@@ -23,11 +22,6 @@ public class BuffController : MonoBehaviour
             Instance = this;
             buffIndex = 0;
             mBuffArr = new Buff[BUFF_COUNT];
-            mBuffIDArr = new int[9];
-            for (int i=0; i<mBuffIDArr.Length;i++)
-            {
-                mBuffIDArr[i] = i;
-            }
         }
         else
         {
@@ -85,6 +79,26 @@ public class BuffController : MonoBehaviour
         {
             if (mBuffArr[i]!=null&& mBuffArr[i].eType == eBuffType.Debuff)
             {
+                mBuffArr[i].Delete();
+                buffIndex--;
+            }
+        }
+    }
+
+    public void RemoveAll()
+    {
+        for (int i = 0; i < mBuffArr.Length; i++)
+        {
+            if (mBuffArr[i] != null)
+            {
+                if (mBuffArr[i].mBuffCode==14)
+                {
+                    Player.Instance.InfiniteAmmo = false;
+                }
+                if (mBuffArr[i].mBuffCode == 15)
+                {
+                    Player.Instance.PlusBoltCount = 0;
+                }
                 mBuffArr[i].Delete();
                 buffIndex--;
             }

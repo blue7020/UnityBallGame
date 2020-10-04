@@ -367,6 +367,15 @@ public class UIController : InformationLoader
 
     public void ShowStat()
     {
+        float Crit = 0;
+        if (Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5]>=1)
+        {
+            Crit = 1;
+        }
+        else
+        {
+            Crit = Player.Instance.mStats.Crit + Player.Instance.buffIncrease[5];
+        }
         float CCreduce = 0;
         if (Player.Instance.NoCC==true)
         {
@@ -409,7 +418,7 @@ public class UIController : InformationLoader
                                       "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
                                       (Player.Instance.mStats.Def * (1 + Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
-                                      (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
+                                      (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
                                       CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;
@@ -432,7 +441,7 @@ public class UIController : InformationLoader
                                       "Resistance: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
                                       (Player.Instance.mStats.Def *(1+Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
-                                      (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Player.Instance.mStats.Crit.ToString("P1"),
+                                      (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),
                                       Player.Instance.mStats.CritDamage.ToString("P1"),
                                       CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;

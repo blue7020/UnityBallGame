@@ -11,8 +11,10 @@ public class SkillList : MonoBehaviour
 
     public SkillEffect effect;
     public PlayerBullet[] Skillbullet;
+    public Turret[] SkillTurret;
     public int DestroyCheckLevel;
     public bool isTutorial;
+    public GameObject DestroyObjZone;
 
     private void Awake()
     {
@@ -30,41 +32,49 @@ public class SkillList : MonoBehaviour
         }
     }
 
-    public void SkillSetting(int id)//스킬 10개 단위로 끊어서 작성
+    public void SkillSetting(int id)
     {
-        if (id<10)
+        switch (id)
         {
-            switch (id)
-            {
-                case 0://구르기
-                    Roll();
-                    break;
-                case 1://양상추부메랑
-                    Cabbage_Boomerang();
-                    break;
-                case 2://돌진
-                    Dash();
-                    break;
-                case 3://오븐의 힘
-                    Power_of_Oven();
-                    break;
-                case 4://얼음 보호막
-                    Frost_Shield(); 
-                    break;
-                case 5://오일 폭발
-                    StartCoroutine(Oil_Explision());
-                    break;
-                case 6://로스팅
-                    StartCoroutine(Roasting());
-                    break;
-                case 7://공중 제비
-                    Tumble();
-                    break;
-            }
-        }
-        else if (id>=10||id<20)
-        {
-
+            case 0://구르기
+                Roll();
+                break;
+            case 1://양상추부메랑
+                Cabbage_Boomerang();
+                break;
+            case 2://돌진
+                Dash();
+                break;
+            case 3://오븐의 힘
+                Power_of_Oven();
+                break;
+            case 4://얼음 보호막
+                Frost_Shield();
+                break;
+            case 5://오일 폭발
+                StartCoroutine(Oil_Explision());
+                break;
+            case 6://로스팅
+                Roasting();
+                break;
+            case 7://공중 제비
+                Tumble();
+                break;
+            case 8://토핑 추가
+                Topping_Plus();
+                break;
+            case 9://샴페인 폭발
+                StartCoroutine(Champagne_Explosion());
+                break;
+            case 10://재포장
+                StartCoroutine(Repackaging());
+                break;
+            case 11://소시지 터렛
+                Sausage_Turret();
+                break;
+            case 12://바삭한 식감
+                Crispy_Texture();
+                break;
         }
         
     }
@@ -131,16 +141,13 @@ public class SkillList : MonoBehaviour
         int DashSpeed = 20;
         Vector3 dash = Player.Instance.mDirection.transform.up;
         effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[0], 1f,0,Color.clear, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk),eSkilltype.DamageCollider);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[0], 1f,0,Color.magenta, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk),eSkilltype.DamageCollider);
         BuffEffectController.Instance.EffectList.Add(effect);
         Player.Instance.Dash(dash, 10,DashSpeed);
     }
 
     public void Power_of_Oven()//3
     {
-        SkillEffect effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[3], SkillController.Instance.mStatInfoArr[3].Duration,0,Color.clear);
-        BuffEffectController.Instance.EffectList.Add(effect);
         StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[3].Atk,11, SkillController.Instance.mStatInfoArr[3].Duration));
         StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[3].AtkSpd,13, SkillController.Instance.mStatInfoArr[3].Duration));
     }
@@ -156,6 +163,7 @@ public class SkillList : MonoBehaviour
     public IEnumerator Oil_Explision()
     {
         WaitForSeconds delay = new WaitForSeconds(0.05f);
+        GameObject destroyzone = Instantiate(DestroyObjZone, Player.Instance.transform);
         int count=0;
         int XPos = 2; int YPos = 2;
         while (true)
@@ -176,6 +184,7 @@ public class SkillList : MonoBehaviour
                 Vector3 Pos = new Vector3(Xpos, Ypos, 0);
                 Vector3 StartPos = Player.Instance.transform.position;
                 PlayerBullet oil = PlayerBulletPool.Instance.GetFromPool(12);
+                oil.transform.SetParent(destroyzone.transform);
                 oil.mDamage = SkillController.Instance.mStatInfoArr[5].Damage * Player.Instance.mStats.Atk;
                 oil.transform.position = StartPos + Pos;
                 count++;
@@ -184,16 +193,10 @@ public class SkillList : MonoBehaviour
         }
     }
 
-    public IEnumerator Roasting()
+    public void Roasting()
     {
-        WaitForSeconds delay = new WaitForSeconds(SkillController.Instance.mStatInfoArr[6].Duration);
-        Player.Instance.InfiniteAmmo = true;
-        SkillEffect effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[2], SkillController.Instance.mStatInfoArr[6].Duration, 0, Color.clear);
-        BuffEffectController.Instance.EffectList.Add(effect);
-        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[3].AtkSpd, 13, SkillController.Instance.mStatInfoArr[3].Duration));
-        yield return delay;
-        Player.Instance.InfiniteAmmo = false;
+        StartCoroutine(Player.Instance.NoUseAmmo(16, SkillController.Instance.mStatInfoArr[6].Duration));
+        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[6].AtkSpd, 13, SkillController.Instance.mStatInfoArr[6].Duration));
     }
 
     public void Tumble()//7
@@ -201,9 +204,74 @@ public class SkillList : MonoBehaviour
         quaternion Backup = Player.Instance.transform.rotation;
         Player.Instance.mAnim.SetBool(AnimHash.Tumble, true);
         int DashSpeed = 15;
-        //특수한 이펙트 생성
         Vector3 tumble = Player.Instance.mDirection.transform.up;
+        effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[0], 1f, 0, Color.cyan);
+        BuffEffectController.Instance.EffectList.Add(effect);
         Player.Instance.Dash(tumble, 10, DashSpeed);
         Player.Instance.transform.rotation = Backup;
+    }
+
+    public void Topping_Plus()
+    {
+        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[8].AtkSpd, 13, SkillController.Instance.mStatInfoArr[8].Duration));
+        StartCoroutine(Player.Instance.PlusBolt(1,16, SkillController.Instance.mStatInfoArr[8].Duration));
+    }
+
+    public IEnumerator Champagne_Explosion()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        int count = 0;
+        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[9].AtkSpd, 13, SkillController.Instance.mStatInfoArr[9].Duration));
+        StartCoroutine(Player.Instance.Def(SkillController.Instance.mStatInfoArr[9].Def, 12, SkillController.Instance.mStatInfoArr[9].Duration));
+        GameObject destroyzone = Instantiate(DestroyObjZone,Player.Instance.transform);
+        while (true)
+        {
+            if (count>=49)
+            {
+                break;
+            }
+            else
+            {
+                PlayerBullet bolt = Instantiate(Skillbullet[1], destroyzone.transform);
+                bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk);
+                Vector3 dir = Player.Instance.mDirection.transform.up * bolt.mSpeed;
+                bolt.mRB2D.AddForce(dir);
+                count++;
+            }
+            yield return delay;
+        }
+        Destroy(destroyzone);
+    }
+
+
+    public IEnumerator Repackaging()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        BuffController.Instance.RemoveNurf();
+        int count = 0;
+        float amount = Player.Instance.mMaxHP * 0.3f;
+        while (true)
+        {
+            if (count >= 5)
+            {
+                break;
+            }
+            Player.Instance.Heal(amount / 6);
+            count++;
+            yield return delay;
+        }
+    }
+
+    public void Sausage_Turret()
+    {
+        Turret turret = Instantiate(SkillTurret[0],Player.Instance.CurrentRoom.transform);
+        turret.transform.position = Player.Instance.transform.position;
+    }
+
+    public void Crispy_Texture()
+    {
+        StartCoroutine(Player.Instance.Critical(SkillController.Instance.mStatInfoArr[12].Crit, 15, SkillController.Instance.mStatInfoArr[12].Duration));
+        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[12].AtkSpd, 13, SkillController.Instance.mStatInfoArr[12].Duration));
     }
 }

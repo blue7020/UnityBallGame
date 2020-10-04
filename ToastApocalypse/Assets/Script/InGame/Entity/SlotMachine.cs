@@ -24,7 +24,7 @@ public class SlotMachine : MonoBehaviour
         mPriceText.gameObject.SetActive(false);
         CanvasFinder.Instance.mSlotPriceText = mPriceText;
         mPriceText.transform.position = transform.position + new Vector3(0, -1f, 0);
-        mPriceText.transform.localScale = new Vector3(10, 10, 0);
+        mPriceText.transform.localScale = new Vector3(1, 1, 0);
     }
 
     private void Rolling()

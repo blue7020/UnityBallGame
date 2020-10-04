@@ -347,13 +347,21 @@ MonoBehaviour:
     Bullet: 0
     Crit: 0
     CritDamage: 0
-  PlusBulletCount: 0
+    PlayerHas: 0
+    Open: 0
+    ShopSell: 0
   PlusWideBulletCount: 0
-  mBoltXGap: 0.2
+  mBoltXGap: 0.4
   nowBullet: 0
   MaxBullet: 0
   mRenderer: {fileID: 6732075589649880447}
   mAnim: {fileID: 8042108055403980323}
+  Recipe:
+  - {fileID: 5541324061072920668, guid: dcdb4c7b674b34b4b9a68baa4ed07824, type: 3}
+  - {fileID: 4543470964381197010, guid: 9c356de4988121949b8720034faf5092, type: 3}
+  - {fileID: 956707152770061244, guid: cd961b94b5555f341891cac15572a8a1, type: 3}
+  - {fileID: 1428567128869738965, guid: b2e5db28f0b8a5b41b277d986245c958, type: 3}
+  RecipeAmount: 0a000000050000000200000005000000
   mAttackArea: {fileID: 7821943869130813526}
   mID: 11
   mAttackCooltime: 0
@@ -361,12 +369,7 @@ MonoBehaviour:
   GetCooltime: 0
   Animation: 0
   BoltID: 0
-  Recipe:
-  - {fileID: 5541324061072920668, guid: dcdb4c7b674b34b4b9a68baa4ed07824, type: 3}
-  - {fileID: 4543470964381197010, guid: 9c356de4988121949b8720034faf5092, type: 3}
-  - {fileID: 956707152770061244, guid: cd961b94b5555f341891cac15572a8a1, type: 3}
-  - {fileID: 1428567128869738965, guid: b2e5db28f0b8a5b41b277d986245c958, type: 3}
-  RecipeAmount: 0a000000050000000200000005000000
+  SoundId: 0
 --- !u!61 &8708162102328455505
 BoxCollider2D:
   m_ObjectHideFlags: 0

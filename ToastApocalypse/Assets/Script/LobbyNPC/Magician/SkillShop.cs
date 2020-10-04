@@ -89,6 +89,7 @@ public class SkillShop : MonoBehaviour
             GameSetting.Instance.Syrup -= mSkillText.Price;
             GameSetting.Instance.mSkillInfoArr[mSkill.ID].PlayerHas = true;
             MainLobbyUIController.Instance.ShowSyrupText();
+            GameSetting.Instance.PlayerSkillID = mSkill.ID;
             mBuyButton.interactable = false;
         }
     }

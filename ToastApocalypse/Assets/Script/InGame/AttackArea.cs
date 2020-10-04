@@ -111,12 +111,12 @@ public class AttackArea : MonoBehaviour
     {
         float currentXStart = weapon.mBoltXGap * ((weapon.PlusWideBulletCount - 1) / 2);
         Vector3 Xpos = new Vector3(currentXStart, 0, 0);
-        for (int i = 0; i < weapon.PlusWideBulletCount; i++)
+        for (int i = 0; i < weapon.PlusWideBulletCount + Player.Instance.PlusBoltCount; i++)
         {
             PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(weapon.BoltID);
             bolt.mWeaponID = weapon.mID;
             float rand = UnityEngine.Random.Range(0, 1f);
-            if (rand <= Player.Instance.mStats.Crit / 100)
+            if (rand <= Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5])
             {
                 bolt.mDamage = (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage);
 
@@ -147,7 +147,7 @@ public class AttackArea : MonoBehaviour
                 if (Target.mCurrentHP > 0 && Target != null)
                 {
                     float rand = Random.Range(0, 1f);
-                    if (rand <= Player.Instance.mStats.Crit)
+                    if (rand <= Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5])
                     {
                         Target.Hit((Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage),0,true);
                         IsCrit = true;

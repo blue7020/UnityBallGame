@@ -169,13 +169,21 @@ MonoBehaviour:
     Bullet: 0
     Crit: 0
     CritDamage: 0
-  PlusBulletCount: 0
+    PlayerHas: 0
+    Open: 0
+    ShopSell: 0
   PlusWideBulletCount: 0
-  mBoltXGap: 0.2
+  mBoltXGap: 0.4
   nowBullet: 0
   MaxBullet: 0
   mRenderer: {fileID: 2492824911462156270}
   mAnim: {fileID: 1183926301538645170}
+  Recipe:
+  - {fileID: 5446130429058229367, guid: 9f9c33c3c99f15f40aff665bbdadd5fc, type: 3}
+  - {fileID: 6854337126817036451, guid: d938f0c4fd0e69c4cb3c60887d5cd870, type: 3}
+  - {fileID: 2428071724903744465, guid: 8e0cfdec1dd2152428516341278f9f82, type: 3}
+  - {fileID: 0}
+  RecipeAmount: 0a000000010000000a00000000000000
   mAttackArea: {fileID: 1402951108582482631}
   mID: 5
   mAttackCooltime: 0
@@ -183,12 +191,7 @@ MonoBehaviour:
   GetCooltime: 0
   Animation: 0
   BoltID: 0
-  Recipe:
-  - {fileID: 5446130429058229367, guid: 9f9c33c3c99f15f40aff665bbdadd5fc, type: 3}
-  - {fileID: 6854337126817036451, guid: d938f0c4fd0e69c4cb3c60887d5cd870, type: 3}
-  - {fileID: 2428071724903744465, guid: 8e0cfdec1dd2152428516341278f9f82, type: 3}
-  - {fileID: 0}
-  RecipeAmount: 0a000000010000000a00000000000000
+  SoundId: 0
 --- !u!61 &517055596643804096
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class BulletParticle : MonoBehaviour
                     if (CritOn==true)
                     {
                         float rand = UnityEngine.Random.Range(0, 1f);
-                        if (rand <= Player.Instance.mStats.Crit / 100)
+                        if (rand <= Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5])
                         {
                             mDamage = (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage);
 

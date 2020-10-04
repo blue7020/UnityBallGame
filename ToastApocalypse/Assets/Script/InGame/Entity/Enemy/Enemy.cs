@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : InformationLoader
 {
@@ -188,7 +189,7 @@ public class Enemy : InformationLoader
         {
             if (HasBarrier==true)
             {
-                //깨지는 사운드
+                SoundController.Instance.SESound(22);
                 HasBarrier = false;
                 mEnemySkill.mBarrier.SetActive(false);
                 mEnemySkill.mBarrier = null;            }
@@ -196,39 +197,6 @@ public class Enemy : InformationLoader
             {
                 if (Nodamage == false)
                 {
-                    switch (weapontype)
-                    {
-                        case 0://근접
-                            if (iscrit==true)
-                            {
-                                SoundController.Instance.SESound(3);
-                            }
-                            else
-                            {
-                                SoundController.Instance.SESound(2);
-                            }
-                            break;
-                        case 1://원거리
-                            if (iscrit == true)
-                            {
-                                SoundController.Instance.SESound(5);
-                            }
-                            else
-                            {
-                                SoundController.Instance.SESound(4);
-                            }
-                            break;
-                        case 2://지속
-                            if (iscrit == true)
-                            {
-                                SoundController.Instance.SESound(5);
-                            }
-                            else
-                            {
-                                SoundController.Instance.SESound(4);
-                            }
-                            break;
-                    }
                     StartCoroutine(HitAnimation());
                     mCurrentHP -= damage;
 
@@ -247,6 +215,41 @@ public class Enemy : InformationLoader
                     {
                         mHPBar.CloseGauge();
                         mState = eMonsterState.Die;
+                    }
+                    switch (weapontype)
+                    {
+                        case 0://근접
+                            if (iscrit == true)
+                            {
+                                SoundController.Instance.SESound(3);
+                            }
+                            else
+                            {
+                                SoundController.Instance.SESound(2);
+                            }
+                            break;
+                        case 1://원거리
+                            if (iscrit == true)
+                            {
+                                CanvasFinder.Instance.ShowCriticalText(this);
+                                SoundController.Instance.SESound(5);
+                            }
+                            else
+                            {
+                                SoundController.Instance.SESound(4);
+                            }
+                            break;
+                        case 2://지속
+                            if (iscrit == true)
+                            {
+                                CanvasFinder.Instance.ShowCriticalText(this);
+                                SoundController.Instance.SESound(5);
+                            }
+                            else
+                            {
+                                SoundController.Instance.SESound(4);
+                            }
+                            break;
                     }
                 }
             }

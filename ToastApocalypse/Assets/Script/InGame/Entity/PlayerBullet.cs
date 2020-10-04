@@ -91,6 +91,15 @@ public class PlayerBullet : MonoBehaviour
         }
     }
 
+    public IEnumerator MovetoEnemyTargetBolt(Enemy TurretTarget)
+    {
+        WaitForSeconds one = new WaitForSeconds(0.1f);
+        Vector3 Pos = TurretTarget.transform.position;
+        Vector3 dir = Pos - transform.position;
+        mRB2D.velocity = dir.normalized * mSpeed;
+        yield return one;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))
@@ -99,7 +108,7 @@ public class PlayerBullet : MonoBehaviour
             if (Target.mCurrentHP > 0 && Target != null)
             {
                 float rand = Random.Range(0, 1f);
-                if (rand <= Player.Instance.mStats.Crit)
+                if (rand <= Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5])
                 {
                     Target.Hit(mDamage, 1, true);
                 }
@@ -108,7 +117,7 @@ public class PlayerBullet : MonoBehaviour
                     Target.Hit(mDamage, 1, false);
                 }
             }
-            if (eType == ePlayerBulletType.normal || eType == ePlayerBulletType.shotgun)
+            if (eType == ePlayerBulletType.normal || eType == ePlayerBulletType.shotgun|| eType == ePlayerBulletType.homing)
             {
                 gameObject.SetActive(false);
             }
@@ -116,6 +125,13 @@ public class PlayerBullet : MonoBehaviour
         if (other.gameObject.CompareTag("Walls"))
         {
             if (eType == ePlayerBulletType.normal|| eType == ePlayerBulletType.fire|| eType == ePlayerBulletType.shotgun)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        if (other.gameObject.CompareTag("DestroyZone"))
+        {
+            if (eType == ePlayerBulletType.homing)
             {
                 gameObject.SetActive(false);
             }

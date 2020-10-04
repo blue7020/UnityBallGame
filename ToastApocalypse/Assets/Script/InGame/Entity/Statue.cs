@@ -71,7 +71,7 @@ public class Statue : MonoBehaviour
         if (GameController.Instance.IsTutorial==false)
         {
             mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
-            mPriceText.transform.localScale = new Vector3(10, 10, 0);
+            mPriceText.transform.localScale = new Vector3(1, 1, 0);
         }
     }
 

@@ -100,7 +100,8 @@ public enum ePlayerBulletType
     shotgun,
     granade,
     fire,
-    boom
+    boom,
+    homing
 }
 
 public enum eBulletEffect

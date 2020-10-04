@@ -148,7 +148,7 @@ public class WeaponController : MonoBehaviour
             PlayerBullet bolt = PlayerBulletPool.Instance.GetFromPool(9);
             bolt.mWeaponID = 17;
             float rand = UnityEngine.Random.Range(0, 1f);
-            if (rand <= Player.Instance.mStats.Crit / 100)
+            if (rand <= Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5] / 100)
             {
                 bolt.mDamage = (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])) * (1 + Player.Instance.mStats.CritDamage);
 

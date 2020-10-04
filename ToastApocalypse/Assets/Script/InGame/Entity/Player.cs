@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도, 4=치명타, 5=치명타 데미지, 6=상태이상 저항
     public bool Stun;
+    public int PlusBoltCount;
     public Coroutine[] NowDebuffArr;
     public GameObject CCState;
 
@@ -143,6 +144,7 @@ public class Player : MonoBehaviour
         {
             buffIncrease[i] = 0;
         }
+        BuffController.Instance.RemoveAll();
     }
 
     private void FixedUpdate()
@@ -185,14 +187,12 @@ public class Player : MonoBehaviour
             if (hori > 0)
             {
                 mAnim.SetBool(AnimHash.Walk, true);
-                //transform.rotation = Quaternion.Euler(0, 180, 0);
                 mRenderer.flipX = true;
 
             }
             else if (hori < 0)
             {
                 mAnim.SetBool(AnimHash.Walk, true);
-                //transform.rotation = Quaternion.identity;
                 mRenderer.flipX = false;
             }
             else if (ver > 0 || ver < 0)
@@ -535,6 +535,47 @@ public class Player : MonoBehaviour
         }
         yield return Dura;
         buffIncrease[3] -= value;
+
+    }
+
+    public IEnumerator Critical(float value, int code, float duration)
+    {
+        WaitForSeconds Dura = new WaitForSeconds(duration);
+        buffIncrease[5] += value;
+        if (value > 0)
+        {
+            BuffController.Instance.SetBuff(4, code, eBuffType.Buff, duration);
+        }
+        else
+        {
+            float rand = UnityEngine.Random.Range(0, 1f);
+            if (rand > mStats.CCReduce)
+            {
+                BuffController.Instance.SetBuff(13, code, eBuffType.Debuff, duration);
+            }
+        }
+        yield return Dura;
+        buffIncrease[5] -= value;
+
+    }
+
+    public IEnumerator NoUseAmmo(int code, float duration)
+    {
+        WaitForSeconds Dura = new WaitForSeconds(duration);
+        InfiniteAmmo = true;
+        BuffController.Instance.SetBuff(14, code, eBuffType.Buff, duration);
+        yield return Dura;
+        InfiniteAmmo = false;
+
+    }
+
+    public IEnumerator PlusBolt(int value,int code, float duration)
+    {
+        WaitForSeconds Dura = new WaitForSeconds(duration);
+        PlusBoltCount += value;
+        BuffController.Instance.SetBuff(14, code, eBuffType.Buff, duration);
+        yield return Dura;
+        PlusBoltCount -= value;
 
     }
 

@@ -56,6 +56,7 @@ public class Portal : MonoBehaviour
 
     public void Nextroom()
     {
+        CanvasFinder.Instance.DestroyZoneDelete();
         SoundController.Instance.SESound(21);
         GameController.Instance.StageLevel++;
         Player.Instance.ResetBuff();
@@ -86,6 +87,7 @@ public class Portal : MonoBehaviour
             }
             MapNPCController.Instance.NPCSpawn();
         }
+        CanvasFinder.Instance.DestroyZoneGenerate();
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();
 

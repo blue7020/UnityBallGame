@@ -17,7 +17,7 @@ public class GameSetting : InformationLoader
 
     public const int STAGELEVEL_COUNT = 5;
     private const int STATUE_COUNT = 8;
-    private const int NPC_COUNT = 5;
+    private const int NPC_COUNT = 9;
     public int ReviveSyrup;
 
     //로비용

@@ -235,7 +235,7 @@ public class SkillList : MonoBehaviour
             {
                 PlayerBullet bolt = Instantiate(Skillbullet[1], destroyzone.transform);
                 bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk);
-                Vector3 dir = Player.Instance.mDirection.transform.up * bolt.mSpeed;
+                Vector3 dir = Player.Instance.mDirection.transform.up * bolt.mSpeed*10;
                 bolt.mRB2D.AddForce(dir);
                 count++;
             }

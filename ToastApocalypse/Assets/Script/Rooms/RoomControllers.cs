@@ -106,7 +106,7 @@ public class RoomControllers : MonoBehaviour
             {
                 StartCoroutine(SpawnEndRoom());
             }
-            if (updatedRooms == false&&AllRoomGen==true)
+            if (firstSetting == true&&AllRoomGen==true)
             {
                 RoomSetting = false;
                 foreach (Room room in LoadedRooms)
@@ -114,7 +114,6 @@ public class RoomControllers : MonoBehaviour
                     room.RemoveUnconnectedDoors();
                 }
                 Seeker();
-                updatedRooms = true;
             }
             return;
         }
@@ -126,7 +125,7 @@ public class RoomControllers : MonoBehaviour
 
     private IEnumerator SpawnEndRoom()
     {
-        WaitForSeconds point = new WaitForSeconds(0.7f);
+        WaitForSeconds point = new WaitForSeconds(1f);
         firstSetting = true;
         yield return point;
         if (LoadRoomQueue.Count == 0)

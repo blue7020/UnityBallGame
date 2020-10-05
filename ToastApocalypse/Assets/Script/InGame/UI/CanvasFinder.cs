@@ -11,7 +11,7 @@ public class CanvasFinder : MonoBehaviour
     public Text[] mShopPriceText;
     public Text[] mStatuePriceText;
     public Text mSlotPriceText, mCriticalText;
-    public GameObject DestroyTextZone, destroy;
+    public Transform mCanvas;
 
     private void Awake()
     {
@@ -20,29 +20,22 @@ public class CanvasFinder : MonoBehaviour
             Instance = this;
             mShopPriceText = new Text[3];
             mStatuePriceText = new Text[3];
-            DestroyZoneGenerate();
-            if (GameSetting.Instance.Language==0)
+            if (GameController.Instance.IsTutorial == false)
             {
-                mCriticalText.text = "치명타!";
-            }
-            else if (GameSetting.Instance.Language==1)
-            {
-                mCriticalText.text = "Critical!";
+                if (GameSetting.Instance.Language == 0)
+                {
+                    mCriticalText.text = "치명타!";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {
+                    mCriticalText.text = "Critical!";
+                }
             }
         }
         else
         {
             Destroy(gameObject);
         }
-    }
-
-    public void DestroyZoneGenerate()
-    {
-        destroy = Instantiate(DestroyTextZone, transform);
-    }
-    public void DestroyZoneDelete()
-    {
-        Destroy(destroy);
     }
 
     public void DeleteShopPrice(int index)
@@ -61,8 +54,8 @@ public class CanvasFinder : MonoBehaviour
 
     public void ShowCriticalText(Enemy enemy)
     {
-        Text text = Instantiate(mCriticalText, transform);
-        text.transform.position = enemy.transform.localPosition + new Vector3(0, 2, 0);
-        text.transform.localScale = new Vector3(1, 1, 0);
+        Text effect = Instantiate(mCriticalText, mCanvas);
+        effect.transform.position = enemy.transform.localPosition + new Vector3(0, 2, 0);
+        effect.transform.localScale = new Vector3(0.1f, 0.1f, 0);
     }
 }

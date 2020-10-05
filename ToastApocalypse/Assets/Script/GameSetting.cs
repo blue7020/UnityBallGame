@@ -7,7 +7,7 @@ public class GameSetting : InformationLoader
 {
     public static GameSetting Instance;
 
-    public int MinRoomLength, MaxRoomLength;
+    public int CrawlerCount,MinRoomLength, MaxRoomLength;
 
     public int PlayerID;
     public int PlayerSkillID;

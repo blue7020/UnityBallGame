@@ -187,12 +187,13 @@ public class Enemy : InformationLoader
     {
         if (Spawned == true)
         {
-            if (HasBarrier==true)
+            if (HasBarrier == true)
             {
                 SoundController.Instance.SESound(22);
                 HasBarrier = false;
                 mEnemySkill.mBarrier.SetActive(false);
-                mEnemySkill.mBarrier = null;            }
+                mEnemySkill.mBarrier = null;
+            }
             else
             {
                 if (Nodamage == false)
@@ -221,6 +222,7 @@ public class Enemy : InformationLoader
                         case 0://근접
                             if (iscrit == true)
                             {
+                                CanvasFinder.Instance.ShowCriticalText(this);
                                 SoundController.Instance.SESound(3);
                             }
                             else

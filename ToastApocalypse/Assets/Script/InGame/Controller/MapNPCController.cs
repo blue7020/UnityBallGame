@@ -16,47 +16,31 @@ public class MapNPCController : MonoBehaviour
         {
             Instance = this;
             mNotOpenNPCList = new List<MapNPC>();
-            if (mNPCArr.Length>5)
+            for (int i = 5; i < mNPCArr.Length; i++)
             {
-                for (int i = 4; i < mNPCArr.Length; i++)
+                if (GameSetting.Instance.NPCOpen[i] == false)
                 {
-                    if (GameSetting.Instance.NPCOpen[i] == false)
-                    {
-                        mNotOpenNPCList.Add(mNPCArr[i]);
-                    }
+                    mNotOpenNPCList.Add(mNPCArr[i]);
                 }
             }
         }
         else
         {
-            Delete();
-        }
-    }
-
-    public void Delete()
-    {
-        Destroy(gameObject);
-    }
-
-    private void Start()
-    {
-        if (GameController.Instance.GotoMain == false)
-        {
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
     }
 
     public void NPCSpawn()
     {
-        if (GameController.Instance.StageLevel==3)
+        if (GameController.Instance.StageLevel==2)
         {
             float Spawnrate = Random.Range(0, 1f);
-            if (NPCSpawnrate>Spawnrate)
+            if (NPCSpawnrate>=Spawnrate)
             {
                 if (mNotOpenNPCList.Count > 0)
                 {
-                    int rand = Random.Range(4, mNotOpenNPCList.Count);
-                    Instantiate(mNPCArr[rand], Player.Instance.CurrentRoom.mNPCSpawnPos);
+                    int rand = Random.Range(0, mNotOpenNPCList.Count);
+                    Instantiate(mNotOpenNPCList[rand], Player.Instance.CurrentRoom.mNPCSpawnPos);
                 }
             }
         }

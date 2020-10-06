@@ -138,7 +138,6 @@ public class GameController : MonoBehaviour
             PassiveArtifacts.Instance.Delete();
         }
         Delete();
-        //첫 튜토리얼일때만 캐릭터 선택창으로 넘어가기
 
     }
 

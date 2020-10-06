@@ -84,7 +84,6 @@ public class Portal : MonoBehaviour
             {
                 WeaponController.Instance.mWeapons.Add(GameSetting.Instance.mWeapons[i]);
             }
-            MapNPCController.Instance.NPCSpawn();
         }
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();

@@ -33,7 +33,7 @@ public class Room : MonoBehaviour
     public List<Door> doors = new List<Door>();
 
     public bool IsFound;
-    public bool Special;
+    public bool Special, IsStart;
     public int EnemyCount;
     public GameObject blackOut,MapIcon;
 
@@ -252,6 +252,19 @@ public class Room : MonoBehaviour
             if (other.gameObject.CompareTag("Player"))
             {
                 Player.Instance.CurrentRoom = this;
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (IsStart != true && other.gameObject.CompareTag("Player"))
+        {
+            if (eType == eRoomType.Start)
+            {
+                IsStart = true;
+                Player.Instance.CurrentRoom = this;
+                MapNPCController.Instance.NPCSpawn();
             }
         }
     }

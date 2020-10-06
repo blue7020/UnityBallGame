@@ -16,7 +16,7 @@ public class PlayerBullet : MonoBehaviour
     public Animator mAnim;
     public BoomEffect mBoomEffect;
     public BoxCollider2D mBC2D;
-    public bool IsBoom;
+    public bool IsBoom,DeleteBullet;
 
     private void OnEnable()
     {
@@ -142,6 +142,15 @@ public class PlayerBullet : MonoBehaviour
             {
                 returnCheck = true;
                 gameObject.SetActive(false);
+            }
+
+        }
+        if (other.gameObject.CompareTag("Bullet")&& DeleteBullet==true)
+        {
+            Bullet Target = other.GetComponent<Bullet>();
+            if (Target != null && Target.eType != eEnemyBulletType.boom)
+            {
+                Target.RemoveBullet();
             }
 
         }

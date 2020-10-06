@@ -126,7 +126,8 @@ public enum eRoomType
     StageEnd,
     Shop,
     Statue,
-    Slot
+    Slot,
+    Start
 }
 
 public enum eBuffType

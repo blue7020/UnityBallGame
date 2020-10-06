@@ -9,6 +9,7 @@ public class Merchant : MonoBehaviour
     public static Merchant Instance;
 
     public Image mWindow;
+    public Text mTitle, mItemTitle, mItemText;
 
     private void Awake()
     {
@@ -19,6 +20,20 @@ public class Merchant : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        if (GameSetting.Instance.Language==0)
+        {
+            mTitle.text = "상점";
+            mItemTitle.text = "상품명";
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {
+            mTitle.text = "Shop";
+            mItemTitle.text = "ItemName";
         }
     }
 

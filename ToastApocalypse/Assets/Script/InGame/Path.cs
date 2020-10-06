@@ -19,4 +19,5 @@ public class Path
     public const string MAP_TEXT = JSON_FILE_LOCATION + "MapText";
     public const string MATERIAL_STAT = JSON_FILE_LOCATION + "MaterialStat";
     public const string DIALOG_TEXT = JSON_FILE_LOCATION + "DialogText";
+    public const string ART_STAT = JSON_FILE_LOCATION + "ArtText";
 }

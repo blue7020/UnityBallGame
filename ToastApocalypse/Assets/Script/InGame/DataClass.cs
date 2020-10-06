@@ -217,6 +217,16 @@ public class DialogText
 }
 
 [Serializable]
+public class ArtText
+{
+    public int ID;
+    public int ArtCode;
+    public string ContensFormat;
+    public string EngContensFormat;
+    public bool Open;
+}
+
+[Serializable]
 public class SaveData
 {
     public int Language;

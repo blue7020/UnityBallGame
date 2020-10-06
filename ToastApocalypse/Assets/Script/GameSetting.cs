@@ -25,6 +25,7 @@ public class GameSetting : InformationLoader
     public Sprite[] mPlayerSpt;
     public Sprite[] mMaterialSpt;
     public Sprite[] mStatueSprites;
+    public ArtText[] mArtInfoArr;
     public Artifacts[] mArtifacts;
     public PlayerStat[] mPlayerInfoArr;
     public SkillStat[] mSkillInfoArr;
@@ -60,6 +61,7 @@ public class GameSetting : InformationLoader
             LoadJson(out mWeaponInfoArr, Path.WEAPON_STAT);
             LoadJson(out mPlayerInfoArr, Path.PLAYER_STAT);
             LoadJson(out mSkillInfoArr, Path.SKILL_STAT);
+            LoadJson(out mArtInfoArr, Path.ART_STAT);
             //TODO 세이브불러오기
             NowScene = 0;
         }

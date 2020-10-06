@@ -17,10 +17,6 @@ public class BlackSmith : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            if (GameSetting.Instance.NPCOpen[2] == false)
-            {
-                gameObject.SetActive(false);
-            }
         }
         else
         {

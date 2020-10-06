@@ -25,41 +25,6 @@ public class SkillShop : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            if (GameSetting.Instance.NPCOpen[1] == false)
-            {
-                gameObject.SetActive(false);
-            }
-            else
-            {
-                if (GameSetting.Instance.Language == 0)//한국어
-                {
-                    mTitle.text = "마법사: 무엇을 하고 싶은가?";
-                    ChangeButtonText.text = "스킬 교체";
-                    ShopButtonText.text = "스킬 구매";
-                    mShopTitleText.text = "스킬 구매";
-                    mChangeTitleText.text = "스킬 교체";
-                    mSkillTitle.text = "스킬 선택";
-                    mLoreText.text = "스테이지 내에서 사용할 수 있는 스킬을 구입합니다";
-                    mChangeTooltip.text = "등록할 스킬을 드래그하여 현재 선택 슬롯에 넣어주세요";
-                    mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
-                    mSelectText.text = "현재 선택";
-                    mBuyText.text = "구매";
-                }
-                else if (GameSetting.Instance.Language == 1)//영어
-                {
-                    mTitle.text = "Magician: What do you want?";
-                    ChangeButtonText.text = "Skill Change";
-                    ShopButtonText.text = "Skill Shop";
-                    mShopTitleText.text = "Skill Shop";
-                    mChangeTitleText.text = "Skill Change";
-                    mSkillTitle.text = "Skill Select";
-                    mLoreText.text = "Touch the skill to purchase";
-                    mChangeTooltip.text = "Drag the skill to selection slot";
-                    mGuideText.text = "Touch the slot to view tooltips";
-                    mSelectText.text = "Selection";
-                    mBuyText.text = "Buy";
-                }
-            }
         }
         else
         {
@@ -69,6 +34,34 @@ public class SkillShop : MonoBehaviour
 
     private void Start()
     {
+        if (GameSetting.Instance.Language == 0)//한국어
+        {
+            mTitle.text = "마법사: 무엇을 하고 싶은가?";
+            ChangeButtonText.text = "스킬 교체";
+            ShopButtonText.text = "스킬 구매";
+            mShopTitleText.text = "스킬 구매";
+            mChangeTitleText.text = "스킬 교체";
+            mSkillTitle.text = "스킬 선택";
+            mLoreText.text = "스테이지 내에서 사용할 수 있는 스킬을 구입합니다";
+            mChangeTooltip.text = "등록할 스킬을 드래그하여 현재 선택 슬롯에 넣어주세요";
+            mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
+            mSelectText.text = "현재 선택";
+            mBuyText.text = "구매";
+        }
+        else if (GameSetting.Instance.Language == 1)//영어
+        {
+            mTitle.text = "Magician: What do you want?";
+            ChangeButtonText.text = "Skill Change";
+            ShopButtonText.text = "Skill Shop";
+            mShopTitleText.text = "Skill Shop";
+            mChangeTitleText.text = "Skill Change";
+            mSkillTitle.text = "Skill Select";
+            mLoreText.text = "Touch the skill to purchase";
+            mChangeTooltip.text = "Drag the skill to selection slot";
+            mGuideText.text = "Touch the slot to view tooltips";
+            mSelectText.text = "Selection";
+            mBuyText.text = "Buy";
+        }
         SKILL_SLOT = GameSetting.Instance.mSkillInfoArr.Length;
         for (int i = 0; i < SKILL_SLOT; i++)
         {

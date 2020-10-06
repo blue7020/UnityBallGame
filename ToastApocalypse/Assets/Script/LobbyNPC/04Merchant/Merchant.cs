@@ -15,10 +15,6 @@ public class Merchant : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            if (GameSetting.Instance.NPCOpen[4] == false)
-            {
-                gameObject.SetActive(false);
-            }
         }
         else
         {

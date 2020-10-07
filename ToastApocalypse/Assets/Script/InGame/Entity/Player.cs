@@ -586,7 +586,6 @@ public class Player : MonoBehaviour
         BuffController.Instance.SetBuff(8, code, eBuffType.Buff, duration);
         yield return Dura;
         buffIncrease[6] -= value;
-
     }
 
     //debuff

@@ -30,7 +30,10 @@ public class GameSetting : InformationLoader
     public PlayerStat[] mPlayerInfoArr;
     public SkillStat[] mSkillInfoArr;
     public WeaponStat[] mWeaponInfoArr;
-    public Weapon[] mWeapons;
+    public ItemStat[] mItemInfoArr;
+
+    public Weapon[] mWeaponArr;
+    public UsingItem[] mItemArr;
     public Room[] NowStageRoom;
     public int NowStage;
 
@@ -62,6 +65,7 @@ public class GameSetting : InformationLoader
             LoadJson(out mPlayerInfoArr, Path.PLAYER_STAT);
             LoadJson(out mSkillInfoArr, Path.SKILL_STAT);
             LoadJson(out mArtInfoArr, Path.ART_STAT);
+            LoadJson(out mItemInfoArr, Path.ITEM_STAT);
             //TODO 세이브불러오기
             NowScene = 0;
         }

@@ -60,7 +60,7 @@ public class SkillShop : MonoBehaviour
             mChangeTooltip.text = "Drag the skill to selection slot";
             mGuideText.text = "Touch the slot to view tooltips";
             mSelectText.text = "Selection";
-            mBuyText.text = "Buy";
+            mBuyText.text = "Purchase";
         }
         SKILL_SLOT = GameSetting.Instance.mSkillInfoArr.Length;
         for (int i = 0; i < SKILL_SLOT; i++)

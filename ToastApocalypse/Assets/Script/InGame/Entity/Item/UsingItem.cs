@@ -16,25 +16,37 @@ public class UsingItem : InformationLoader
     private bool DropCool;
     private SkillEffect effect;
 
-
     public bool IsShopItem;
 
 
     private void Awake()
     {
-        mStats = ItemList.Instance.mInfoArr[mID];
+        mStats = GameSetting.Instance.mItemInfoArr[mID];
         DropCool = false;
     }
     //아이템의 buff코드
     //30=무적 31=공격력 32=방어력 33=공격속도 34=이동속도
     public void UseItem()
     {
+        switch (mID)
+        {
+            case 0:
+                Player.Instance.mMaxHP += mStats.Heal;
+                break;
+            case 1:
+                Player.Instance.mMaxHP += mStats.Heal;
+                break;
+            case 4:
+                BuffController.Instance.RemoveNurf();
+                break;
+            case 8:
+                Player.Instance.CCreduce(1f,38,mStats.Duration);
+                break;
+            default:
+                break;
+        }
         if (mStats.Heal > 0)
         {
-            if (mID==0|| mID == 1)
-            {
-                Player.Instance.mMaxHP += mStats.Heal;
-            }
             effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
             effect.SetEffect(BuffEffectController.Instance.mSprite[0], 0.5f,0,Color.green);
             BuffEffectController.Instance.EffectList.Add(effect);
@@ -46,6 +58,13 @@ public class UsingItem : InformationLoader
             effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.red);
             BuffEffectController.Instance.EffectList.Add(effect);
             StartCoroutine(Player.Instance.Atk(mStats.Atk,31, mStats.Duration));
+        }
+        if (mStats.Def > 0)
+        {
+            effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+            effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration, 0, Color.blue);
+            BuffEffectController.Instance.EffectList.Add(effect);
+            StartCoroutine(Player.Instance.Def(mStats.Def, 32, mStats.Duration));
         }
         if (mStats.AtkSpd > 0)
         {
@@ -61,12 +80,12 @@ public class UsingItem : InformationLoader
             BuffEffectController.Instance.EffectList.Add(effect);
             StartCoroutine(Player.Instance.Speed(mStats.Spd,34, mStats.Duration));
         }
-        if (mStats.Def > 0)
+        if (mStats.Crit > 0)
         {
             effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-            effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.blue);
+            effect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration, 0, new Color(255 / 255f, 102 / 255f, 0 / 255f));
             BuffEffectController.Instance.EffectList.Add(effect);
-            StartCoroutine(Player.Instance.Def(mStats.Def,32, mStats.Duration));
+            StartCoroutine(Player.Instance.Critical(mStats.Crit, 35, mStats.Duration));
         }
         Player.Instance.NowItem = null;
         if (GameController.Instance.IsTutorial == false)

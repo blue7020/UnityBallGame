@@ -8,9 +8,7 @@ public class ShopController : MonoBehaviour
     public Transform[] mPos;
     public ItemBuy[] itembuy;
 
-    public UsingItem[] mItemArr;
     private List<UsingItem> mItemList;
-
 
     public Text mPriceText;
     public Room Shop;
@@ -21,9 +19,12 @@ public class ShopController : MonoBehaviour
     private void Awake()
     {
         mItemList = new List<UsingItem>();
-        for (int i=0; i< mItemArr.Length; i++)
+        for (int i=0; i< GameSetting.Instance.mItemInfoArr.Length; i++)
         {
-            mItemList.Add(mItemArr[i]);
+            if (GameSetting.Instance.mItemInfoArr[i].PlayerHas==true)
+            {
+                mItemList.Add(GameSetting.Instance.mItemArr[i]);
+            }
         }
         for (int i = 0; i < itembuy.Length; i++)
         {

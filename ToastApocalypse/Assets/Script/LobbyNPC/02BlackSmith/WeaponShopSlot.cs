@@ -15,9 +15,9 @@ public class WeaponShopSlot : MonoBehaviour, IPointerClickHandler
     public void SetData(int id)
     {
         mWeaponID = id;
-        mWeapon = GameSetting.Instance.mWeapons[mWeaponID];
+        mWeapon = GameSetting.Instance.mWeaponArr[mWeaponID];
         mWeaponStat = GameSetting.Instance.mWeaponInfoArr[mWeaponID];
-        Icon.sprite = GameSetting.Instance.mWeapons[mWeaponID].mWeaponImage;
+        Icon.sprite = GameSetting.Instance.mWeaponArr[mWeaponID].mWeaponImage;
         if (GameSetting.Instance.Language == 0)//한국어
         {
             Title.text = mWeaponStat.Name;

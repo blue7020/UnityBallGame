@@ -113,7 +113,6 @@ public class GameController : MonoBehaviour
             PlayerSkill.Insatnce.Delete();
             Player.Instance.Delete();
             PlayerList.Instance.Delete();
-            ItemList.Instance.Delete();
             BuffController.Instance.Delete();
             ArtifactController.Instance.Delete();
             WeaponController.Instance.Delete();
@@ -130,7 +129,6 @@ public class GameController : MonoBehaviour
             Player.Instance.Delete();
             PlayerList.Instance.Delete();
             AttackPad.Instance.Delete();
-            ItemList.Instance.Delete();
             BuffController.Instance.Delete();
             WeaponController.Instance.Delete();
             ArtifactController.Instance.Delete();

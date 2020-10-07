@@ -18,9 +18,9 @@ public class WeaponController : MonoBehaviour
             Instance = this;
             mWeaponSkillCount = 0;
             mWeapons = new List<Weapon>();
-            for (int i = 0; i < GameSetting.Instance.mWeapons.Length; i++)
+            for (int i = 0; i < GameSetting.Instance.mWeaponArr.Length; i++)
             {
-                mWeapons.Add(GameSetting.Instance.mWeapons[i]);
+                mWeapons.Add(GameSetting.Instance.mWeaponArr[i]);
             }
         }
         else

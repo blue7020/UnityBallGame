@@ -37,7 +37,7 @@ public class WeaponSelectController : MonoBehaviour
     public void RefreshInventory()
     {
         mSelectSlot.mIcon.color = Color.white;
-        mSelectSlot.SetData(GameSetting.Instance.PlayerWeaponID, GameSetting.Instance.mWeapons[GameSetting.Instance.PlayerWeaponID].mWeaponImage, GameSetting.Instance.mWeaponInfoArr[GameSetting.Instance.PlayerWeaponID]);
+        mSelectSlot.SetData(GameSetting.Instance.PlayerWeaponID, GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID].mWeaponImage, GameSetting.Instance.mWeaponInfoArr[GameSetting.Instance.PlayerWeaponID]);
 
         SlotArr = new WeaponChangeSlot[GameSetting.Instance.mWeaponInfoArr.Length];
         for (int i = 0; i < SlotArr.Length; i++)

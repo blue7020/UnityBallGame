@@ -53,7 +53,7 @@ public class PlayerList : InformationLoader
         if (GameController.Instance.IsTutorial == false)
         {
             mSkill.mID = GameSetting.Instance.PlayerSkillID;
-            mWeapon = Instantiate(GameSetting.Instance.mWeapons[GameSetting.Instance.PlayerWeaponID], player.transform);
+            mWeapon = Instantiate(GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID], player.transform);
             player.NowPlayerWeapon = mWeapon;
             player.NowPlayerWeapon.EquipWeapon();
             UIController.Instance.CharacterImage();

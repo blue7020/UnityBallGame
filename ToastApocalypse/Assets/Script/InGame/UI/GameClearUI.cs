@@ -154,22 +154,24 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 }
                 break;
             case 2:
-                if (GameSetting.Instance.mPlayerInfoArr[1].Open==false&& GameSetting.Instance.mSkillInfoArr[1].Open==false&& GameSetting.Instance.mWeaponInfoArr[2].Open==false)
+                if (GameSetting.Instance.mPlayerInfoArr[1].Open==false&& GameSetting.Instance.mSkillInfoArr[1].Open==false&& GameSetting.Instance.mWeaponInfoArr[2].Open==false && GameSetting.Instance.mWeaponInfoArr[24].Open == false)
                 {
                     GameSetting.Instance.mPlayerInfoArr[1].Open = true;
                     GameSetting.Instance.mSkillInfoArr[1].Open = true;
                     GameSetting.Instance.mWeaponInfoArr[2].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[24].Open = true;
                     character = true;
                     skill = true;
                     weapon = true;
                 }
                 break;
             case 3:
-                if (GameSetting.Instance.mPlayerInfoArr[3].Open == false&& GameSetting.Instance.mSkillInfoArr[3].Open ==false&& GameSetting.Instance.mWeaponInfoArr[7].Open==false&& GameSetting.Instance.mWeaponInfoArr[16].Open==false)
+                if (GameSetting.Instance.mPlayerInfoArr[3].Open == false&& GameSetting.Instance.mSkillInfoArr[3].Open ==false&& GameSetting.Instance.mWeaponInfoArr[7].Open==false && GameSetting.Instance.mWeaponInfoArr[15].Open == false && GameSetting.Instance.mWeaponInfoArr[16].Open==false)
                 {
                     GameSetting.Instance.mPlayerInfoArr[3].Open = true;
                     GameSetting.Instance.mSkillInfoArr[3].Open = true;
                     GameSetting.Instance.mWeaponInfoArr[7].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[15].Open = true;
                     GameSetting.Instance.mWeaponInfoArr[16].Open = true;
                     character = true;
                     skill = true;
@@ -177,13 +179,14 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 }
                 break;
             case 4:
-                if (GameSetting.Instance.mPlayerInfoArr[4].Open == false && GameSetting.Instance.mSkillInfoArr[4].Open == false && GameSetting.Instance.mWeaponInfoArr[10].Open == false && GameSetting.Instance.mWeaponInfoArr[19].Open == false && GameSetting.Instance.mWeaponInfoArr[20].Open == false)
+                if (GameSetting.Instance.mPlayerInfoArr[4].Open == false && GameSetting.Instance.mSkillInfoArr[4].Open == false && GameSetting.Instance.mWeaponInfoArr[10].Open == false && GameSetting.Instance.mWeaponInfoArr[19].Open == false && GameSetting.Instance.mWeaponInfoArr[20].Open == false && GameSetting.Instance.mWeaponInfoArr[23].Open == false)
                 {
                     GameSetting.Instance.mPlayerInfoArr[4].Open = true;
                     GameSetting.Instance.mSkillInfoArr[4].Open = true;
                     GameSetting.Instance.mWeaponInfoArr[10].Open = true;
                     GameSetting.Instance.mWeaponInfoArr[19].Open = true;
                     GameSetting.Instance.mWeaponInfoArr[20].Open = true;
+                    GameSetting.Instance.mWeaponInfoArr[23].Open = true;
                     character = true;
                     skill = true;
                     weapon = true;

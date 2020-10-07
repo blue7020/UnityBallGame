@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class StatueSlot : MonoBehaviour, IPointerClickHandler
 {
-    public int StatueID;
+    public int mID;
     public StatueStat mStatue;
     public StatueText mStatueText;
     public Image Icon;
@@ -14,10 +14,10 @@ public class StatueSlot : MonoBehaviour, IPointerClickHandler
 
     public void SetData(int id)
     {
-        StatueID = id;
-        mStatue = LobbyStatueController.Instance.mStatInfoArr[StatueID];
-        mStatueText = LobbyStatueController.Instance.mTextInfoArr[StatueID];
-        Icon.sprite = LobbyStatueController.Instance.mSprites[StatueID];
+        mID = id;
+        mStatue = LobbyStatueController.Instance.mStatInfoArr[mID];
+        mStatueText = LobbyStatueController.Instance.mTextInfoArr[mID];
+        Icon.sprite = LobbyStatueController.Instance.mSprites[mID];
         if (GameSetting.Instance.Language == 0)//한국어
         {
             Price.text = "가격: " + mStatueText.Price.ToString();

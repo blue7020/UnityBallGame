@@ -78,16 +78,22 @@ public class ItemStat
 {
     public int ID;
     public int Price;
+    public int OpenPrice;//로비 상점에서 개방 시 가격
+    public string Name;
+    public string EngName;
+    public string ContensFormat;
+    public string EngContensFormat;
 
     public float Heal;
     public float Atk;
     public float Def;
     public float AtkSpd;
     public float Spd;
+    public float Crit;
 
-    public float Damage;
     public float Duration;
-
+    public bool PlayerHas;//false라면 인게임 상점엔 등장하지 않음
+    public bool Open;//false라면 로비 및 인게임 상점엔 등장하지 않음
 }
 
 [Serializable]

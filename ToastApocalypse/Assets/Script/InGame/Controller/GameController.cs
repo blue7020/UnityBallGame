@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     public int StageHP;
 
     public float MaterialDropRate;
-    public bool IsRevive;
+    public int ReviveCode;//0== 부활안함 1==광고 2==일반 부활
 
     public int SyrupInStage;
     public bool IsTutorial;
@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
             Instance = this;
             GotoMain = false;
             pause = false;
-            IsRevive = false;
+            ReviveCode = 0;
             StageLevel = 1;
             SyrupInStage = 0;
             if (!IsTutorial)
@@ -49,6 +49,10 @@ public class GameController : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void PlusReviveCode()
+    {
+        ReviveCode = 2;
+    }
     private void Start()
     {
         if (GotoMain == false)

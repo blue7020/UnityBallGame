@@ -16,7 +16,6 @@ public class GameSetting : InformationLoader
     public int NowScene;
 
     public const int STAGELEVEL_COUNT = 5;
-    private const int STATUE_COUNT = 8;
     private const int NPC_COUNT = 9;
     public int ReviveSyrup;
 
@@ -31,6 +30,7 @@ public class GameSetting : InformationLoader
     public SkillStat[] mSkillInfoArr;
     public WeaponStat[] mWeaponInfoArr;
     public ItemStat[] mItemInfoArr;
+    public StatueStat[] mStatueInfoArr;
 
     public Weapon[] mWeaponArr;
     public UsingItem[] mItemArr;
@@ -44,7 +44,6 @@ public class GameSetting : InformationLoader
     public int Language; //0 = 한국어 / 1 = 영어
     public int Syrup;
     public int[] HasMaterial;
-    public bool[] StatueOpen;
     public bool TutorialEnd;
     public bool[] StageOpen;
     public bool[] StagePartsget;
@@ -66,6 +65,7 @@ public class GameSetting : InformationLoader
             LoadJson(out mSkillInfoArr, Path.SKILL_STAT);
             LoadJson(out mArtInfoArr, Path.ART_STAT);
             LoadJson(out mItemInfoArr, Path.ITEM_STAT);
+            LoadJson(out mStatueInfoArr, Path.STATUE_STAT);
             //TODO 세이브불러오기
             NowScene = 0;
         }
@@ -86,15 +86,10 @@ public class GameSetting : InformationLoader
             StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
             PlayerSkillID = 0;
             PlayerWeaponID = 0;
-            StatueOpen = new bool[STATUE_COUNT];
-            for (int i=0; i<4;i++)
-            {
-                StatueOpen[i] = true; //기본 석상 4개 오픈
-            }
             NPCOpen = new bool[NPC_COUNT];
             for (int i = 0; i < NPC_COUNT; i++)
             {
-                NPCOpen[i] = false; //기본 석상 4개 오픈
+                NPCOpen[i] = false; //NPC 세팅
             }
             NPCOpen[0] = true; //사서 npc 오픈
             NPCOpen[4] = true; //유료상인 npc 오픈
@@ -109,12 +104,12 @@ public class GameSetting : InformationLoader
         mPlayerInfoArr[2].Open = true;//핑크도넛캐릭터 오픈
         mPlayerInfoArr[2].PlayerHas = true;//핑크도넛캐릭터 오픈
         mSkillInfoArr[2].PlayerHas = true;//돌진 스킬 오픈
-        NPCOpen[1] = true;//스킬 상인 npc 오픈
         Syrup = 10000;
         for (int i=0; i<HasMaterial.Length;i++)
         {
             HasMaterial[i] = 10;
         }
+        NPCOpen[1] = true;//스킬 상인 npc 오픈
         TutorialEnd = true;
         //
     }

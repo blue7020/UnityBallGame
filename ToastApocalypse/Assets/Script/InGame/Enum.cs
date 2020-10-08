@@ -28,7 +28,8 @@ public enum eStatueType
     Gold,
     War,
     Heart,
-    Harvest
+    Harvest,
+    Resistance
 }
 public enum eStatuePay
 {

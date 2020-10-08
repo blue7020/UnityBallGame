@@ -697,6 +697,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -1596,6 +1597,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -4653,6 +4655,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -5950,6 +5953,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -23874,6 +23878,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -25676,6 +25681,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -27474,6 +27480,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -27675,8 +27682,7 @@ MonoBehaviour:
   - {fileID: 0}
   mSlotPriceText: {fileID: 0}
   mCriticalText: {fileID: 0}
-  DestroyTextZone: {fileID: 0}
-  destroy: {fileID: 0}
+  mCanvas: {fileID: 0}
 --- !u!1 &1921852539
 GameObject:
   m_ObjectHideFlags: 0
@@ -27990,6 +27996,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -33817,6 +33824,7 @@ MonoBehaviour:
   doors: []
   IsFound: 1
   Special: 0
+  IsStart: 0
   EnemyCount: 0
   blackOut: {fileID: 0}
   MapIcon: {fileID: 0}
@@ -34472,13 +34480,20 @@ MonoBehaviour:
   mStats:
     ID: 0
     Price: 0
+    OpenPrice: 0
+    Name: 
+    EngName: 
+    ContensFormat: 
+    EngContensFormat: 
     Heal: 0
     Atk: 0
     Def: 0
     AtkSpd: 0
     Spd: 0
-    Damage: 0
+    Crit: 0
     Duration: 0
+    PlayerHas: 0
+    Open: 0
   IsShopItem: 0
 --- !u!61 &4970429356595537260
 BoxCollider2D:

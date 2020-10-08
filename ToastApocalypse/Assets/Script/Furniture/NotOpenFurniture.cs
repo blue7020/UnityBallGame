@@ -7,15 +7,30 @@ public class NotOpenFurniture : MonoBehaviour
 {
     public string mText;
     public int Stage;
+    public PopUpWindow mWindow;
     private void Awake()
     {
-        if (GameSetting.Instance.Language==0)
+        if (Stage>0)
         {
-            mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: "+Stage+"클리어";
+            if (GameSetting.Instance.Language == 0)
+            {
+                mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: " + Stage + "스테이지 클리어";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {
+                mText = "This function is not open yet.\nRequirements: " + Stage + "stage clear";
+            }
         }
-        else if (GameSetting.Instance.Language == 1)
+        else
         {
-            mText = "This function is not open yet.\nRequirements: " + Stage + "Clear";
+            if (GameSetting.Instance.Language == 0)
+            {
+                mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: 모든 스테이지 내에서 확률적으로 등장";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {
+                mText = "This function is not open yet.\nRequirements: Occasionally discover in any stage";
+            }
         }
     }
 
@@ -23,7 +38,7 @@ public class NotOpenFurniture : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            PopUpWindow.Instance.ShowWindow(mText);
+            mWindow.ShowWindow(mText);
         }
     }
 }

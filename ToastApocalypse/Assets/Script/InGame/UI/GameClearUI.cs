@@ -116,6 +116,10 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (GameController.Instance.ReviveCode==1)
+        {
+            //광고 출력
+        }
         GotoMain();
     }
 

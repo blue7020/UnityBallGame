@@ -10,7 +10,8 @@ public class BlackSmith : MonoBehaviour
     public Animator mAnim;
     public Text mTitleText, mGuideText, mMaterialText;
     public Image mBlacksmithWindow;
-    public bool IsShop;
+    public NotOpenFurniture mFurniture;
+    public bool IsShop; //툴팁 구분에 사용함
 
     private void Awake()
     {
@@ -29,6 +30,7 @@ public class BlackSmith : MonoBehaviour
         if (GameSetting.Instance.NPCOpen[2]==true)
         {
             mAnim.SetBool(AnimHash.Furniture, true);
+            mFurniture.gameObject.SetActive(false);
             if (GameSetting.Instance.Language == 0)//한국어
             {
                 mTitleText.text = "대장간";

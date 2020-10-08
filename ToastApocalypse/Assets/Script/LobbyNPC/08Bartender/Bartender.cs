@@ -10,6 +10,7 @@ public class Bartender : MonoBehaviour
     public Image mWindow;
     public Text mTitleText, mItemNameText, mItemTooltipText, mButtonText;
     public Button mButton;
+    public NotOpenFurniture mFurniture;
 
     private void Awake()
     {
@@ -25,6 +26,10 @@ public class Bartender : MonoBehaviour
 
     private void SetText()
     {
+        if (GameSetting.Instance.NPCOpen[8] == true)
+        {
+            mFurniture.gameObject.SetActive(false);
+        }
         if (GameSetting.Instance.Language==0)
         {
             mTitleText.text = "선술집";

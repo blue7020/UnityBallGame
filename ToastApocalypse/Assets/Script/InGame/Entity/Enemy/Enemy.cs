@@ -31,6 +31,7 @@ public class Enemy : InformationLoader
     public float mCurrentHP, mMaxHP, SpeedAmount;
 
     public MonsterStat mStats;
+    public Text mCrititcalText;
 
     private void OnEnable()
     {
@@ -54,6 +55,7 @@ public class Enemy : InformationLoader
         isFire = false;
         mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+        mDelayCount = 0;
     }
     private void Start()
     {
@@ -71,7 +73,6 @@ public class Enemy : InformationLoader
             Nodamage = false;
             mTrackingRange.gameObject.SetActive(true);
         }
-        mDelayCount = 0;
         StartCoroutine(StateMachine());
 
     }
@@ -222,7 +223,7 @@ public class Enemy : InformationLoader
                         case 0://근접
                             if (iscrit == true)
                             {
-                                CanvasFinder.Instance.ShowCriticalText(this);
+                                ShowCriticalText();
                                 SoundController.Instance.SESound(3);
                             }
                             else
@@ -233,7 +234,7 @@ public class Enemy : InformationLoader
                         case 1://원거리
                             if (iscrit == true)
                             {
-                                CanvasFinder.Instance.ShowCriticalText(this);
+                                ShowCriticalText();
                                 SoundController.Instance.SESound(5);
                             }
                             else
@@ -244,7 +245,7 @@ public class Enemy : InformationLoader
                         case 2://지속
                             if (iscrit == true)
                             {
-                                CanvasFinder.Instance.ShowCriticalText(this);
+                                ShowCriticalText();
                                 SoundController.Instance.SESound(5);
                             }
                             else
@@ -257,6 +258,13 @@ public class Enemy : InformationLoader
             }
 
         }
+    }
+
+    private void ShowCriticalText()
+    {
+        mCrititcalText = Instantiate(CanvasFinder.Instance.mCriticalText, CanvasFinder.Instance.transform);
+        mCrititcalText.transform.position = transform.position + new Vector3(0, 1.5f, 0);
+        mCrititcalText.transform.localScale = new Vector3(0.1f, 0.1f, 0);
     }
 
     private IEnumerator HitAnimation()

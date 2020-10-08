@@ -51,11 +51,4 @@ public class CanvasFinder : MonoBehaviour
     {
         mStatuePriceText[index].gameObject.SetActive(false);
     }
-
-    public void ShowCriticalText(Enemy enemy)
-    {
-        Text effect = Instantiate(mCriticalText, mCanvas);
-        effect.transform.position = enemy.transform.localPosition + new Vector3(0, 2, 0);
-        effect.transform.localScale = new Vector3(0.1f, 0.1f, 0);
-    }
 }

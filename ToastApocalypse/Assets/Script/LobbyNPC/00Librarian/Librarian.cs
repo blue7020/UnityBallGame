@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Librarian : MonoBehaviour
 {
     public static Librarian Instance;
-    public Image mWindow, mLobbyGuideWindow;
+    public Image mWindow;
     public Text mTitle, mTutorialText, mLobbyGuideText;
 
     private void Awake()
@@ -26,15 +26,15 @@ public class Librarian : MonoBehaviour
     {
         if (GameSetting.Instance.Language == 0)//한국어
         {
-            mTitle.text = "사서: 무엇이 궁금한가?";
+            mTitle.text = "사서: 무엇을 하고 싶은가?";
             mTutorialText.text = "게임 방법";
-            mLobbyGuideText.text = "로비 기능";
+            mLobbyGuideText.text = "오프닝 다시 보기";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
-            mTitle.text = "Librarian: What do you want to know?";
+            mTitle.text = "Librarian: What do you want to do?";
             mTutorialText.text = "How to play";
-            mLobbyGuideText.text = "Lobby function";
+            mLobbyGuideText.text = "Replay\nopening";
         }
     }
 

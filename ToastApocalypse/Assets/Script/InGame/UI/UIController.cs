@@ -21,7 +21,7 @@ public class UIController : InformationLoader
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
     public Text mTitleText, mMonsterNameText, mTouchGuideText;
-    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText, YesText,NoText, WarningText,mReviveTitle, mReviveSyrup,mSyrupButtonText;
+    public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText, YesText,NoText, WarningText,mReviveTitle, mReviveSyrup,mSyrupButtonText,mReviveText;
     public string maptext;
     public Tooltip tooltip;
 
@@ -104,7 +104,15 @@ public class UIController : InformationLoader
 
     public void ReviveUI()
     {
-        if (GameController.Instance.IsRevive == true)
+        if (GameSetting.Instance.Language == 0)
+        {
+            mReviveText.text = "광고는 현재 스테이지가 끝나면 실행됩니다";
+        }
+        else if (GameSetting.Instance.Language==1)
+        {
+            mReviveText.text = "Ads show after now stage end";
+        }
+        if (GameController.Instance.ReviveCode >0)
         {
             mReviveAdButton.interactable = false;
             mReviveSyrupButton.interactable = false;
@@ -113,14 +121,14 @@ public class UIController : InformationLoader
 
     public void ReviveWindow(int id)
     {
-        if (GameController.Instance.IsRevive == false)
+        if (GameController.Instance.ReviveCode ==0)
         {
             switch (id)
             {
                 case 0:
-                    //광고 출력
                     GameController.Instance.GamePause();
                     StartCoroutine(Player.Instance.Revive());
+                    GameController.Instance.ReviveCode = 1;
                     break;
                 case 1:
                     if (GameSetting.Instance.Syrup >= 200)
@@ -128,11 +136,11 @@ public class UIController : InformationLoader
                         GameSetting.Instance.Syrup -= 200;
                         GameController.Instance.GamePause();
                         StartCoroutine(Player.Instance.Revive());
+                        GameController.Instance.ReviveCode = 2;
                     }
                     break;
             }
         }
-        GameController.Instance.IsRevive = true;
         ReviveUI();
     }
 

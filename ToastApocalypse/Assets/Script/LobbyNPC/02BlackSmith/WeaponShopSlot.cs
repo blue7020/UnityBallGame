@@ -48,7 +48,7 @@ public class WeaponShopSlot : MonoBehaviour, IPointerClickHandler
                     Type.text = "Weapon Type: <color=#FFBF00>Long Range</color><color=#ffffff>\n</color>";
                     break;
                 case 2:
-                    Type.text = "Weapon Type: <color=#FE642E>Medium Range</color><color=#ffffff>\n</color>";
+                    Type.text = "Weapon Type: <color=#FE642E>Middle Range</color><color=#ffffff>\n</color>";
                     break;
 
             }

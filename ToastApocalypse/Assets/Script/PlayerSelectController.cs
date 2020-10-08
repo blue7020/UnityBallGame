@@ -45,6 +45,10 @@ public class PlayerSelectController : InformationLoader
         else if(GameSetting.Instance.NowScene == 1)
         {
             NowPlayerID = GameSetting.Instance.PlayerID;
+            if (NowPlayerID==0)
+            {
+                LeftButton.gameObject.SetActive(false);
+            }
             ReturnLobby();
         }
         mBlackScreen.gameObject.SetActive(false);

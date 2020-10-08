@@ -19,7 +19,7 @@ public class ItemBuy : MonoBehaviour
     {
         Sell = false;
         mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
-        mPriceText.transform.localScale = new Vector3(1, 1, 0);
+        mPriceText.transform.localScale = new Vector3(0.1f, 0.1f, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

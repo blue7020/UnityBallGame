@@ -14,6 +14,7 @@ public class StatueShop : MonoBehaviour
 
     public StatueStat mStatue;
     public StatueText mStatueText;
+    public NotOpenFurniture mFurniture;
 
     public Image mScreen;
     public Button mBuyButton;
@@ -33,6 +34,10 @@ public class StatueShop : MonoBehaviour
 
     private void Start()
     {
+        if (GameSetting.Instance.NPCOpen[3]==true)
+        {
+            mFurniture.gameObject.SetActive(false);
+        }
         if (GameSetting.Instance.Language == 0)//한국어
         {
             mTitle.text = "석상 연구소";
@@ -47,7 +52,7 @@ public class StatueShop : MonoBehaviour
             mStatueLore.text = "Researching statue increases the type of statues that are appearing in the stage";
             mBuyText.text = "Research";
         }
-        Statue_Slot = GameSetting.Instance.StatueOpen.Length;
+        Statue_Slot = GameSetting.Instance.mStatueInfoArr.Length;
         for (int i = 0; i < Statue_Slot; i++)
         {
             StatueSlot mSlot = Instantiate(ShopSlot, mShopParents);
@@ -62,7 +67,7 @@ public class StatueShop : MonoBehaviour
         {
             SoundController.Instance.SESoundUI(3);
             GameSetting.Instance.Syrup -= mStatueText.Price;
-            GameSetting.Instance.StatueOpen[mStatue.ID] = true;
+            GameSetting.Instance.mStatueInfoArr[mStatue.ID].PlayerHas = true;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowStatueInfo(mStatue, mStatueText);
         }
@@ -73,7 +78,7 @@ public class StatueShop : MonoBehaviour
         mStatue = stat;
         mStatueText = lore;
         mBuyButton.interactable = true;
-        if (GameSetting.Instance.StatueOpen[mStatue.ID] == true)
+        if (GameSetting.Instance.mStatueInfoArr[mStatue.ID].PlayerHas == true)
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {

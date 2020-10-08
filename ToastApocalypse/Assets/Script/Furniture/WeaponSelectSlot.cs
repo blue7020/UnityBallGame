@@ -105,7 +105,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                             title = mWeapon.EngName + " (Weapon Type: <color=#FFBF00>Long Range</color><color=#ffffff>)\n</color>";
                             break;
                         case 2:
-                            title = mWeapon.EngName + " (Weapon Type: <color=#FE642E>Medium Range</color><color=#ffffff>)\n</color>";
+                            title = mWeapon.EngName + " (Weapon Type: <color=#FE642E>Middle Range</color><color=#ffffff>)\n</color>";
                             break;
                     }
                 }

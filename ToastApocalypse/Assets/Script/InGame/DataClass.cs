@@ -145,6 +145,9 @@ public class StatueStat
 
     public float Cooltime;
     public float Duration;
+
+    public bool PlayerHas;
+    public bool Open;
 }
 [Serializable]
 public class StatueText

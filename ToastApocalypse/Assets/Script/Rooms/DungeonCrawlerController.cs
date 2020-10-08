@@ -25,13 +25,11 @@ public class DungeonCrawlerController : MonoBehaviour
         { Direction.right,Vector2Int.right}
     };
 
-    private int RoomPlus;
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            RoomPlus = 0;
         }
         else
         {
@@ -41,15 +39,13 @@ public class DungeonCrawlerController : MonoBehaviour
 
     public List<Vector2Int> GenerateDungeon()
     {
-        RoomPlus = GameController.Instance.StageLevel - 1;
-        RoomControllers.Instance.RoomLength = 0;
-        positionsVisited = new List<Vector2Int>();
         List<DungeonCrawler> dungeonCrwalers = new List<DungeonCrawler>();
+        positionsVisited = new List<Vector2Int>();
         for (int i=0; i<GameSetting.Instance.CrawlerCount;i++)
         {
             dungeonCrwalers.Add(new DungeonCrawler(Vector2Int.zero));
         }
-        int iterations = Random.Range(GameSetting.Instance.MinRoomLength+ RoomPlus, GameSetting.Instance.MaxRoomLength);
+        int iterations = Random.Range(GameSetting.Instance.MinRoomLength, GameSetting.Instance.MaxRoomLength);
         for (int i=0; i<iterations; i++)
         {
             foreach(DungeonCrawler dungeonCrawler in dungeonCrwalers)

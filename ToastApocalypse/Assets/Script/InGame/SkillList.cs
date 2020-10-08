@@ -83,9 +83,9 @@ public class SkillList : MonoBehaviour
     //10=무적 11=공격력 12=방어력 13=공격속도 14=이동속도
     public void Roll()//0
     {
-        quaternion Backup = Player.Instance.transform.rotation;
-        Player.Instance.mAnim.SetBool(AnimHash.Tumble, true);
         int DashSpeed = 15;
+        Player.Instance.mAnim.SetBool(AnimHash.Tumble, true);
+        quaternion Backup = Player.Instance.transform.rotation;
         Vector3 tumble = Player.Instance.mDirection.transform.up;
         Player.Instance.Dash(tumble,10,DashSpeed);
         Player.Instance.transform.rotation = Backup;
@@ -138,10 +138,11 @@ public class SkillList : MonoBehaviour
 
     public void Dash()//2
     {
-        int DashSpeed = 20;
+        int DashSpeed = 17;
         Vector3 dash = Player.Instance.mDirection.transform.up;
+        Player.Instance.mAnim.SetBool(AnimHash.Tumble, true);
         effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[0], 1f,0,Color.magenta, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk),eSkilltype.DamageCollider);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[0], 1f,0,Color.clear, (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk),eSkilltype.DamageCollider);
         BuffEffectController.Instance.EffectList.Add(effect);
         Player.Instance.Dash(dash, 10,DashSpeed);
     }
@@ -206,7 +207,7 @@ public class SkillList : MonoBehaviour
         int DashSpeed = 15;
         Vector3 tumble = Player.Instance.mDirection.transform.up;
         effect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
-        effect.SetEffect(BuffEffectController.Instance.mSprite[0], 1f, 0, Color.cyan);
+        effect.SetEffect(BuffEffectController.Instance.mSprite[0], 1f, 0, new Color(255 / 255f, 155 / 255f, 0 / 255f));
         BuffEffectController.Instance.EffectList.Add(effect);
         Player.Instance.Dash(tumble, 10, DashSpeed);
         Player.Instance.transform.rotation = Backup;

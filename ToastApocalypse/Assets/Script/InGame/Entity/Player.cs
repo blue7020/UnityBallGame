@@ -245,7 +245,7 @@ public class Player : MonoBehaviour
             else
             {
                 Nodamage = true;
-                if (GameController.Instance.IsRevive == false)
+                if (GameController.Instance.ReviveCode == 0)
                 {
                     UIController.Instance.mReviveWindow.gameObject.SetActive(true);
                     GameController.Instance.GamePause();
@@ -333,7 +333,6 @@ public class Player : MonoBehaviour
     public void Dash(Vector3 dir, int code,int speed)
     {
         PlayerSkillStand = true;
-        Nodamage = true;
         BuffController.Instance.SetBuff(7, code, eBuffType.Buff,0.6f);
         mRB2D.velocity = Vector3.zero;
         mRB2D.velocity = dir.normalized * speed;
@@ -342,9 +341,11 @@ public class Player : MonoBehaviour
 
     private IEnumerator StandingCool()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.2f);
+        WaitForSeconds delay = new WaitForSeconds(0.25f);
+        Nodamage = true;
         yield return delay;
         PlayerSkillStand = false;
+        yield return delay;
         Nodamage = false;
         mAnim.SetBool(AnimHash.Tumble, false);
         transform.rotation = Quaternion.identity;

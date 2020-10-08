@@ -63,6 +63,10 @@ public class Statue : MonoBehaviour
                 eType = eStatueType.Harvest;
                 mRenderer.sprite = StatueController.Instance.mStatueSprites[14];
                 break;
+            case 8:
+                eType = eStatueType.Resistance;
+                mRenderer.sprite = StatueController.Instance.mStatueSprites[16];
+                break;
             default:
                 Debug.LogError("Wrong StatueType");
                 break;
@@ -71,12 +75,12 @@ public class Statue : MonoBehaviour
         if (GameController.Instance.IsTutorial==false)
         {
             mPriceText.transform.position = transform.position + new Vector3(0, -0.5f, 0);
-            mPriceText.transform.localScale = new Vector3(1, 1, 0);
+            mPriceText.transform.localScale = new Vector3(0.1f, 0.1f, 0);
         }
     }
 
     //석상의 buff코드
-    //20=무적 21=공격력 22=방어력 23=공격속도 24=이동속도
+    //20=무적 21=공격력 22=방어력 23=공격속도 24=이동속도 25=치명타 28= cc기 저항
     private void StatueUse()
     {
         SoundController.Instance.SESound(20);
@@ -210,7 +214,6 @@ public class Statue : MonoBehaviour
                 effect.SetText(bufftext);
                 break;
             case eStatueType.Harvest:
-                //기능
                 mRenderer.sprite = StatueController.Instance.mStatueSprites[15];
                 if (GameSetting.Instance.Language == 0)
                 {
@@ -221,6 +224,23 @@ public class Statue : MonoBehaviour
                 {
                     bufftext = "Material drop rate increase!";
                 }
+                effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(bufftext);
+                break;
+            case eStatueType.Resistance:
+                mRenderer.sprite = StatueController.Instance.mStatueSprites[17];
+                if (GameSetting.Instance.Language == 0)
+                {
+                    bufftext = "상태 이상 면역!";
+                }
+                else
+                {
+                    bufftext = "Debuff Resistance!";
+                }
+                BuffController.Instance.SetBuff(8, 38, eBuffType.Buff, mStats.Duration);
+                buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+                buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration, 0, Color.magenta);
+                BuffEffectController.Instance.EffectList.Add(buffEffect);
                 effect = TextEffectPool.Instance.GetFromPool(0);
                 effect.SetText(bufftext);
                 break;

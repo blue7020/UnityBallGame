@@ -33,9 +33,9 @@ public class StatueController : InformationLoader
             LoadJson(out mStatInfoArr, Path.STATUE_STAT);
             StatueIDList = new List<int>();
             mStatueSprites = GameSetting.Instance.mStatueSprites;
-            for (int i = 0; i < GameSetting.Instance.StatueOpen.Length; i++)
+            for (int i = 0; i < GameSetting.Instance.mStatueInfoArr.Length; i++)
             {
-                if (GameSetting.Instance.StatueOpen[i] == true)
+                if (GameSetting.Instance.mStatueInfoArr[i].PlayerHas == true)
                 {
                     StatueIDList.Add(i);
                 }

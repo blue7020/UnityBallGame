@@ -20,7 +20,7 @@ public class UIController : InformationLoader
 
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
-    public Text mTitleText, mMonsterNameText, mTouchGuideText;
+    public Text mTitleText, mTouchGuideText;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle, mClearText,mSyrupText,mItemText,mGuideText, YesText,NoText, WarningText,mReviveTitle, mReviveSyrup,mSyrupButtonText,mReviveText;
     public string maptext;
     public Tooltip tooltip;
@@ -210,14 +210,12 @@ public class UIController : InformationLoader
         {
             if (GameSetting.Instance.Language == 0)
             {//한국어
-                mTitleText.text = "사망 원인";
-                mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.Name;
+                mTitleText.text = Player.Instance.LastHitEnemy.mStats.Name+"에 의해 사망";
                 mTouchGuideText.text = "터치 시 로비로 이동합니다.";
             }
             else if (GameSetting.Instance.Language == 1)
             {//영어
-                mTitleText.text = "Cause of death";
-                mMonsterNameText.text = Player.Instance.LastHitEnemy.mStats.EngName;
+                mTitleText.text = "Death by "+ Player.Instance.LastHitEnemy.mStats.EngName;
                 mTouchGuideText.text = "Touch to move to the lobby.";
             }
             mMonsterImage.sprite = Player.Instance.LastHitEnemy.UISprite;
@@ -226,14 +224,12 @@ public class UIController : InformationLoader
         {
             if (GameSetting.Instance.Language == 0)
             {//한국어
-                mTitleText.text = "사망 원인";
-                mMonsterNameText.text = "부주의한 무기 사용";
+                mTitleText.text = "부주의한 무기 사용으로 사망";
                 mTouchGuideText.text = "터치 시 로비로 이동합니다.";
             }
             else if (GameSetting.Instance.Language == 1)
             {//영어
-                mTitleText.text = "Cause of death";
-                mMonsterNameText.text = "Careless use of weapons";
+                mTitleText.text = "Death by careless use of weapon";
                 mTouchGuideText.text = "Touch to move to the lobby.";
             }
         }

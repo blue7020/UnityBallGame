@@ -79,7 +79,12 @@ public class PlayerSkill : MonoBehaviour
 
     private IEnumerator SkillCool()
     {
-        WaitForSeconds Cool = new WaitForSeconds(mStat.Cooltime);
+        float cooltime = mStat.Cooltime - (mStat.Cooltime * Player.Instance.mStats.CooltimeReduce);
+        if (cooltime<=0.1f)
+        {
+            cooltime = 0.1f;
+        }
+        WaitForSeconds Cool = new WaitForSeconds(cooltime);
         SoundController.Instance.SESoundUI(5);
         IsSkillCool = true;
         SkillList.Instance.SkillSetting(mID);
@@ -118,7 +123,7 @@ public class PlayerSkill : MonoBehaviour
 
     private IEnumerator CooltimeRoutine()
     {
-        float maxTime = mStat.Cooltime + (mStat.Cooltime - (mStat.Cooltime * (1 + Player.Instance.mStats.CooltimeReduce)));
+        float maxTime = mStat.Cooltime - (mStat.Cooltime * Player.Instance.mStats.CooltimeReduce);
         float CoolTime = maxTime;
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
         float AttackCurrentTime = CoolTime;

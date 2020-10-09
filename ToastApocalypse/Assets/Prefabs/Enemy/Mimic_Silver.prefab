@@ -53,7 +53,9 @@ MonoBehaviour:
   BulletStarter: []
   SkillObj: []
   mBarrier: {fileID: 0}
+  BulletTrash: {fileID: 0}
   mEnemyObj: {fileID: 0}
+  mBulletTrashList: []
 --- !u!1 &2503196756638985848
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mState: 0
-  eType: 0
+  eType: 2
   mDelayCount: 0
   mID: 7
   UISprite: {fileID: -2789685161255136304, guid: d652e9594a9eb5e45b8d4edfdd9534ca,
@@ -326,8 +328,6 @@ MonoBehaviour:
   - {fileID: 2503196756638985848}
   mRB2D: {fileID: 1181414556144078674}
   mTarget: {fileID: 0}
-  Runaway: 0
-  HasBarrier: 0
   mHPBarPos: {fileID: 2503196757103172675}
   mEnemySkill: {fileID: 5064000109760571689}
   mAttackArea: {fileID: 8847745568512491493}
@@ -336,15 +336,19 @@ MonoBehaviour:
   CCState: {fileID: 2917578288524270834}
   Nodamage: 0
   Stun: 0
+  isFire: 0
   IsTraking: 0
-  SpeedAmount: 0
   AttackOn: 0
   AttackCheck: 0
   Spawned: 0
   IsMimic: 1
+  Runaway: 0
+  HasBarrier: 0
   mAnim: {fileID: 2503196758469415656}
   mCurrentHP: 0
   mMaxHP: 0
+  SpeedAmount: 0
+  CurrentRoom: {fileID: 0}
   mStats:
     ID: 0
     Name: 
@@ -356,6 +360,7 @@ MonoBehaviour:
     AtkSpd: 0
     Spd: 0
     Resistance: 0
+  mCrititcalText: {fileID: 0}
 --- !u!50 &1181414556144078674
 Rigidbody2D:
   serializedVersion: 4

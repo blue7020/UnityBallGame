@@ -69,6 +69,7 @@ public class PassiveArtifacts : MonoBehaviour
                 Player.Instance.TrapResistance = true;
                 break;
             case 9:
+                Player.Instance.mStats.CritDamage += 0.2f;
                 break;
             case 10:
                 break;

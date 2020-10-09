@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
 
     public int SyrupInStage;
     public bool IsTutorial;
+    public GameObject BulletTrash;
 
     public List<int> RescueNPCList;
 

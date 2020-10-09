@@ -4,11 +4,27 @@ using UnityEngine;
 
 public class MimicSpawner : MonoBehaviour
 {
+    public static MimicSpawner Instance;
+
     public Transform MimicPos;
+    public Room room;
     public Enemy[] mEnemyArr;
 
     private Enemy mSpawnEnemy;
     public eChestType Type;
+
+    private void Awake()
+    {
+        if (Instance==null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         if (Type == eChestType.Wood)

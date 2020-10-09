@@ -25,10 +25,11 @@ public class Enemy : InformationLoader
     public GameObject CCState;
 
     public bool Nodamage, Stun, isFire,IsTraking;
-    public bool AttackOn, AttackCheck, Spawned, IsMimic, Runaway, HasBarrier;
+    public bool AttackOn, AttackCheck, Spawned, Runaway, HasBarrier;
     public Coroutine mCoroutine;
     public Animator mAnim;
     public float mCurrentHP, mMaxHP, SpeedAmount;
+    public Room CurrentRoom;
 
     public MonsterStat mStats;
     public Text mCrititcalText;
@@ -56,16 +57,25 @@ public class Enemy : InformationLoader
         mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         mDelayCount = 0;
+        if (eType==eEnemyType.Boss)
+        {
+            CurrentRoom = PortalTrigger.Instance.room;
+        }
+        else if (eType == eEnemyType.Mimic)
+        {
+            CurrentRoom = MimicSpawner.Instance.room;
+        }
     }
     private void Start()
     {
-        if (IsMimic == false)
+        if (eType == eEnemyType.Mimic)
         {
             mState = eMonsterState.Spawning;
-            Nodamage = false;
+            EnemySpawned();
         }
         else
         {
+            Stun = true;
             mState = eMonsterState.Idle;
             gameObject.layer = 0;
             Spawned = true;
@@ -74,14 +84,16 @@ public class Enemy : InformationLoader
             mTrackingRange.gameObject.SetActive(true);
         }
         StartCoroutine(StateMachine());
-
     }
 
     public void EnemySpawned()
     {
-        mAnim.SetBool(AnimHash.Enemy_Spawn, true);
-        mSprite[0].gameObject.SetActive(false);
-        mSprite[1].gameObject.SetActive(true);
+        if (eType != eEnemyType.Mimic)
+        {
+            mAnim.SetBool(AnimHash.Enemy_Spawn, true);
+            mSprite[0].gameObject.SetActive(false);
+            mSprite[1].gameObject.SetActive(true);
+        }
         gameObject.layer = 0;
         Spawned = true;
         if (GameSetting.Instance.NowStage == 5)
@@ -90,6 +102,7 @@ public class Enemy : InformationLoader
         }
         AttackCheck = false;
         mState = eMonsterState.Idle;
+        Stun = false;
         Nodamage = false;
         mTrackingRange.gameObject.SetActive(true);
         StartCoroutine(SkillCast());
@@ -147,6 +160,7 @@ public class Enemy : InformationLoader
                         {
                             PortalTrigger.Instance.BossDeath();
                         }
+                        mEnemySkill.BulletTrash.SetActive(false);
                         gameObject.SetActive(false);
                         break;
 
@@ -322,6 +336,7 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
             mEnemySkill.Skill();
             yield return cool;
+            mEnemySkill.RemoveBulletParents();
             mCoroutine = null;
         }
     }

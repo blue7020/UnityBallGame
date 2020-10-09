@@ -41,7 +41,8 @@ public enum eStatuePay
 public enum eEnemyType
 {
     Normal,
-    Boss
+    Boss,
+    Mimic
 }
 
 public enum eTrapType

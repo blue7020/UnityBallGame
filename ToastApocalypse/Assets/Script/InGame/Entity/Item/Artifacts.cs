@@ -46,7 +46,7 @@ public class Artifacts : InformationLoader
 
     private IEnumerator SkillCool()
     {
-        WaitForSeconds Cool = new WaitForSeconds(mStats.Skill_Cooltime);
+        WaitForSeconds Cool = new WaitForSeconds(mStats.Skill_Cooltime-(mStats.Skill_Cooltime * Player.Instance.mStats.CooltimeReduce));
         IsArtifactCool = true;
         ActiveArtifacts.Instance.ArtifactsFuntion(mID);
         StartCoroutine(CooltimeRoutine());

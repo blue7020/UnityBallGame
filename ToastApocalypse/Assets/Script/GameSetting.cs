@@ -16,7 +16,6 @@ public class GameSetting : InformationLoader
     public int NowScene;
 
     public const int STAGELEVEL_COUNT = 5;
-    private const int NPC_COUNT = 9;
     public int ReviveSyrup;
 
     //로비용
@@ -40,8 +39,8 @@ public class GameSetting : InformationLoader
     public int PlayerSkillIndex;
     public int PlayerWeaponIndex;
 
-    //저장해야할 것
     public int Language; //0 = 한국어 / 1 = 영어
+
     public int Syrup;
     public int[] HasMaterial;
     public bool TutorialEnd;
@@ -50,9 +49,6 @@ public class GameSetting : InformationLoader
     public bool[] NPCOpen;
     public int DonateCount;
     public bool TodayWatchFirstAD;
-    //TODO 서버시간불러와서 TodayWatchFirstAD 초기화해야함
-    public bool FirstSetting;
-    //
 
     private void Awake()
     {
@@ -66,8 +62,18 @@ public class GameSetting : InformationLoader
             LoadJson(out mArtInfoArr, Path.ART_STAT);
             LoadJson(out mItemInfoArr, Path.ITEM_STAT);
             LoadJson(out mStatueInfoArr, Path.STATUE_STAT);
-            //TODO 세이브불러오기
+            if (Application.systemLanguage == SystemLanguage.Korean)
+            {
+                Debug.Log("Kor");
+                Language = 0; //0 = 한국어 / 1 = 영어
+            }
+            else
+            {
+                Debug.Log("None Kor" + (int)Application.systemLanguage);
+                Language = 1;
+            }
             NowScene = 0;
+            GameSaver.Instance.GameLoad();
         }
         else
         {
@@ -77,26 +83,14 @@ public class GameSetting : InformationLoader
 
     private void Start()
     {
-        if (FirstSetting == false)
-        {
-            TodayWatchFirstAD = false;
-            HasMaterial = new int[mMaterialSpt.Length];
-            StageOpen = new bool[6];
-            StageOpen[0] = true;//1스테이지 오픈
-            StagePartsget = new bool[6];//튜토리얼 스테이지가 0, 5스테이지가 5/ 6스테이지는 파츠 6개가 모여야 들어갈 수 있음
-            PlayerSkillID = 0;
-            PlayerWeaponID = 0;
-            NPCOpen = new bool[NPC_COUNT];
-            for (int i = 0; i < NPC_COUNT; i++)
-            {
-                NPCOpen[i] = false; //NPC 세팅
-            }
-            NPCOpen[0] = true; //사서 npc 오픈
-            NPCOpen[4] = true; //유료상인 npc 오픈
-            Syrup = 0;
-            TutorialEnd = false;
-            FirstSetting = true;
-        }
+        //if (TutorialEnd!=true)
+        //{
+        //    //오프닝 출력
+        //}
+        //else
+        //{
+
+        //}
         Restart();
         PlayerID = 0;
 
@@ -119,6 +113,8 @@ public class GameSetting : InformationLoader
         NowStageRoom = new Room[6];
         Ingame = false;
         NowStage = 0;
+        PlayerSkillID = 0;
+        PlayerWeaponID = 0;
         PlayerSkillIndex = 0;
         PlayerWeaponIndex = 0;
     }
@@ -129,6 +125,7 @@ public class GameSetting : InformationLoader
         {
             //광고 감상 후 300시럽 주기
             TodayWatchFirstAD = true;
+            GameSaver.Instance.GameSave();
         }
     }
 

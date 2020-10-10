@@ -70,7 +70,7 @@ public class MainLobbyUIController : MonoBehaviour
 
     public void MainStart()
     {
-        //TODO 저장기능
+        GameSaver.Instance.GameSave();
         pause = false;
         Time.timeScale = 1;
         SceneManager.LoadScene(0);

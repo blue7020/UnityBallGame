@@ -160,7 +160,10 @@ public class Enemy : InformationLoader
                         {
                             PortalTrigger.Instance.BossDeath();
                         }
-                        mEnemySkill.BulletTrash.SetActive(false);
+                        if (mEnemySkill.BulletTrash!=null)
+                        {
+                            mEnemySkill.BulletTrash.SetActive(false);
+                        }
                         gameObject.SetActive(false);
                         break;
 

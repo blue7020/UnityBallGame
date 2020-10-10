@@ -25,10 +25,8 @@ public class SoundController : MonoBehaviour
         {
             Instance = this;
             BGMChange(0);
-            UIBGMVol = 3;
-            UISEVol = 3;
-            BGMVolume = 0.3f;
-            SEVolume = 0.3f;
+            UIBGMVol = (int)(10* BGMVolume);
+            UISEVol = (int)(10 * SEVolume);
             mBGM.volume = BGMVolume;
             mSE.volume = SEVolume;
             mBGSE.volume = SEVolume;

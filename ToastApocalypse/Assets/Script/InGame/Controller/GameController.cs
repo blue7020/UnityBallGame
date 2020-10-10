@@ -84,7 +84,6 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         GameSetting.Instance.NowScene = 1;
         GameSetting.Instance.Restart();
-        //TODO 저장기능
         SceneManager.LoadScene(1);
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);
@@ -97,7 +96,6 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         GameSetting.Instance.NowScene = 0;
         GameSetting.Instance.Restart();
-        //TODO 저장기능
         SceneManager.LoadScene(0);
         SoundController.Instance.mBGM.Stop();
         SoundController.Instance.BGMChange(0);

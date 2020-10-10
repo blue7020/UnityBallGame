@@ -238,9 +238,7 @@ public class ArtText
 [Serializable]
 public class SaveData
 {
-    public int Language;
     public int Syrup;
-
     public int[] HasMaterial;
     public bool[] StatueOpen;
     public bool TutorialEnd;
@@ -249,5 +247,8 @@ public class SaveData
     public bool[] NPCOpen;
     public int DonateCount;
     public bool TodayWatchFirstAD;
+    public float CurrentServerTime;
     public bool FirstSetting;
+    public float BGMVolume;
+    public float SEVolume;
 }

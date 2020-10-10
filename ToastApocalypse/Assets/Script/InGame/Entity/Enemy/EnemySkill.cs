@@ -20,11 +20,14 @@ public class EnemySkill : MonoBehaviour
 
     private void Start()
     {
-        mBulletTrashList = new List<GameObject>();
-        Skilltrigger = false;
-        Skilltrigger2 = false;
-        SkillCount = 0;
-        BulletTrash = Instantiate(GameController.Instance.BulletTrash, mEnemy.CurrentRoom.transform);
+        if (GameController.Instance.IsTutorial==false)
+        {
+            mBulletTrashList = new List<GameObject>();
+            BulletTrash = Instantiate(GameController.Instance.BulletTrash, mEnemy.CurrentRoom.transform);
+            Skilltrigger = false;
+            Skilltrigger2 = false;
+            SkillCount = 0;
+        }
     }
 
     public void IceBarrier()
@@ -321,7 +324,10 @@ public class EnemySkill : MonoBehaviour
     public void ResetDir(int ID, int bulletDir = 0)
     {
         Bullet bolt = BulletPool.Instance.GetFromPool(ID);
-        bolt.transform.SetParent(BulletTrash.transform);
+        if (BulletTrash!=null)
+        {
+            bolt.transform.SetParent(BulletTrash.transform);
+        }
         bolt.mEnemy = mEnemy;
         bolt.transform.position = mEnemy.transform.position;
         switch (bulletDir)
@@ -436,18 +442,19 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.5f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         StartCoroutine(MoveDelay(0.45f));
-        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP)
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP)
         {
             for (int i = 1; i < 5; i++)
             {
                 ResetDir(3, i);
             }
         }
-        ResetDir(3, 0);
-        ResetDir(3, 0);
+        ResetDir(3);
+        ResetDir(3);
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
+
 
     private IEnumerator Flied1()//id = 11
     {
@@ -1524,7 +1531,6 @@ public class EnemySkill : MonoBehaviour
         Bullet bolt = BulletPool.Instance.GetFromPool(8);
         bolt.mEnemy = mEnemy;
         bolt.mDamage = 8.5f;
-        bolt.transform.SetParent(BulletTrash.transform);
         bolt.transform.position = mEnemy.transform.position;
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;

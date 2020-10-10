@@ -12,7 +12,6 @@ public class InformationLoader : MonoBehaviour
         string data = dataAsset.text;
         if (string.IsNullOrEmpty(data))//성공적로 불러오지 못했을 때
         {
-            //TODO use Popup
             Debug.LogError("Empty string in " + fileLocation);
         }
         dataArr = JsonConvert.DeserializeObject<T[]>(data);

@@ -8,10 +8,12 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 {
     public static GameClearUI Instance;
     public Animator mAnim;
-    public Image NotouchArea,mNPCWindow,mOpenItemWindow;
-    public Text NPCTitleText,OpenItemTitleText,MessageText;
+    public Image NotouchArea,mNPCWindow,mOpenItemWindow,AdsWindow;
+    public Text NPCTitleText,OpenItemTitleText,MessageText,AdsText;
+    public Button mAdsButton;
     public MapNPCSlot mNPCSlot;
     public Transform mParents;
+    private int Sequence, PlusRewardMaterial;
 
     public MaterialSlot[] mMaterialSlot;
 
@@ -24,13 +26,17 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             {
                 NPCTitleText.text = "구출한 시민";
                 OpenItemTitleText.text = "클리어 보상";
+                AdsText.text = "◀ 보상 2배!";
             }
             else if (GameSetting.Instance.Language == 1)
             {
                 NPCTitleText.text = "Rescued citizen";
                 OpenItemTitleText.text = "Clear reward";
+                AdsText.text = "◀ Double Reward!";
             }
             MessageText.text = "";
+            AdsWindow.gameObject.SetActive(false);
+            PlusRewardMaterial = 1;
         }
         else
         {
@@ -43,22 +49,13 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         StageMaterialController.Instance.GetMaterialArr(StageId);
         for (int i=0; i<mMaterialSlot.Length;i++)
         {
-            int Sequence = Random.Range(0, mMaterialSlot.Length);
+            Sequence = Random.Range(0, mMaterialSlot.Length);
             for (int j=0; j< mMaterialSlot.Length;j++)
             {
                 float rate = Random.Range(0,1f);
-                if (rate< StageMaterialController.Instance.mStageMaterialArr[Sequence].mRate)
+                if (rate> StageMaterialController.Instance.mStageMaterialArr[Sequence].mRate)
                 {
                     mMaterialSlot[i].SetData(StageMaterialController.Instance.mStageMaterialArr[Sequence].mID);
-                    if (GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID]+1>99)
-                    {
-                        GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] =99;
-                    }
-                    else
-                    {
-                        GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] += 1;
-                    }
-                    
                     break;
                 }
                 else
@@ -71,6 +68,10 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void StageClear()
     {
+        if (GameController.Instance.ReviveCode == 1)
+        {
+            //광고 출력
+        }
         GetItem(GameSetting.Instance.NowStage);
         if (GameSetting.Instance.NowStage < 6)
         {
@@ -116,15 +117,30 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (GameController.Instance.ReviveCode==1)
-        {
-            //광고 출력
-        }
         GotoMain();
     }
 
     public void GotoMain()
     {
+        if (GameSetting.Instance.Syrup + GameController.Instance.SyrupInStage >= 99999)
+        {
+            GameSetting.Instance.Syrup = 99999;
+        }
+        else
+        {
+            GameSetting.Instance.Syrup += GameController.Instance.SyrupInStage;
+        }
+        for (int i=0; i<Sequence;i++)
+        {
+            if (GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] + PlusRewardMaterial > 99)
+            {
+                GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] = 99;
+            }
+            else
+            {
+                GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] += PlusRewardMaterial;
+            }
+        }
         gameObject.SetActive(false);
         GameController.Instance.MainMenu();
     }
@@ -260,5 +276,30 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 MessageText.text = "No reward";
             }
         }
+    }
+
+    public void ShowAdsButton()
+    {
+        AdsWindow.gameObject.SetActive(true);
+    }
+
+    public void ShowAds()
+    {
+        AdsWindow.gameObject.SetActive(false);
+        //광고 출력
+        //광고 출력 후 아래 출력
+        //SoundController.Instance.SESoundUI(6);
+        //GameController.Instance.SyrupInStage *= 2;
+        //PlusRewardMaterial+=1;
+        //if (GameSetting.Instance.Language == 0)
+        //{//한국어
+        //    UIController.Instance.mSyrupText.text = "획득한 시럽: +<color=#FFFF00>" + GameController.Instance.SyrupInStage+"</color>";
+        //    UIController.Instance.mItemText.text = "획득한 재료 x2";
+        //}
+        //else if (GameSetting.Instance.Language == 1)
+        //{//영어
+        //    UIController.Instance.mSyrupText.text = "Syrup: +<color=#FFFF00>" + GameController.Instance.SyrupInStage;
+        //    UIController.Instance.mItemText.text = "Material x2";
+        //}
     }
 }

@@ -20,6 +20,7 @@ public class GameSaver : SaveDataController
 
     public void GameSave()
     {
+        Debug.Log("saving");
         Save();
     }
 

@@ -16,4 +16,7 @@ public class Constants : MonoBehaviour
     public const int NPC_COUNT = 9;
     public const int ENEMY_COUNT = 45;
     public const int MATERIAL_COUNT = 16;
+
+    public const float BGM_VOL = 0.3f;
+    public const float SE_VOL = 0.3f;
 }

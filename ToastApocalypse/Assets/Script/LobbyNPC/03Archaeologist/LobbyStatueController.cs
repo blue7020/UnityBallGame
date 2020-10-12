@@ -9,8 +9,6 @@ public class LobbyStatueController : InformationLoader
     public StatueStat[] mStatInfoArr;
     public StatueText[] mTextInfoArr;
 
-    public Sprite[] mSprites;
-
     public StatueStat[] GetStatInfoArr()
     {
         return mStatInfoArr;

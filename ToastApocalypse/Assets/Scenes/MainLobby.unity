@@ -5559,7 +5559,7 @@ GameObject:
   - component: {fileID: 327089313}
   - component: {fileID: 327089312}
   m_Layer: 5
-  m_Name: SelectButton
+  m_Name: BuyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5634,6 +5634,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1925065657}
         m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1355284489}
+        m_MethodName: BuyItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8513,6 +8524,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1925065657}
         m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1355284489}
+        m_MethodName: RightCharacterSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18823,7 +18845,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 13
+  m_SortingOrder: 6
   m_Sprite: {fileID: -1026018422352841766, guid: e15baa4a2c0325d428c8bb9bb9723d49,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -18919,6 +18941,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1925065657}
         m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1355284489}
+        m_MethodName: LeftCharacterSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23422,7 +23455,7 @@ GameObject:
   - component: {fileID: 1342068287}
   - component: {fileID: 1342068286}
   m_Layer: 5
-  m_Name: CharacterStatus
+  m_Name: ItemTooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23943,9 +23976,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mWindow: {fileID: 35447104}
+  mItemImage: {fileID: 1880230619}
   mTitle: {fileID: 1060000617}
   mItemTitle: {fileID: 921940087}
   mItemText: {fileID: 534293594}
+  mBuyText: {fileID: 1475913652}
+  RightButton: {fileID: 438084399}
+  LeftButton: {fileID: 1053269819}
+  BuyButton: {fileID: 327089312}
+  mspt:
+  - {fileID: 21300000, guid: d18d7032af113d04aba2b8dee0eb621d, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  NowItemID: 0
 --- !u!1 &1367911570
 GameObject:
   m_ObjectHideFlags: 0
@@ -24709,7 +24753,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 14
+  m_SortingOrder: 7
   m_Sprite: {fileID: 4341062788280307238, guid: 8da98f5421eceff47ab89053fd861f62,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -32685,7 +32729,7 @@ GameObject:
   - component: {fileID: 1880230620}
   - component: {fileID: 1880230619}
   m_Layer: 5
-  m_Name: CharacterImage
+  m_Name: ItemImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33365,17 +33409,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1925065657}
         m_MethodName: ButtonPush
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1925065657}
-        m_MethodName: GamePause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

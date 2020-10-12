@@ -17,7 +17,7 @@ public class StatueSlot : MonoBehaviour, IPointerClickHandler
         mID = id;
         mStatue = LobbyStatueController.Instance.mStatInfoArr[mID];
         mStatueText = LobbyStatueController.Instance.mTextInfoArr[mID];
-        Icon.sprite = LobbyStatueController.Instance.mSprites[mID];
+        Icon.sprite = GameSetting.Instance.mStatueSprites[mID];
         if (GameSetting.Instance.Language == 0)//한국어
         {
             Price.text = "가격: " + mStatueText.Price.ToString();

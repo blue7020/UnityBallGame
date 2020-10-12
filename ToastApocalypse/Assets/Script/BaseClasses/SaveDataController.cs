@@ -12,32 +12,35 @@ public class SaveDataController : MonoBehaviour
 
     protected void LoadGame()
     {
-        //string location = Application.streamingAssetsPath + "/SaveData";//여기다가는 마음대로 확장자를 만들어서 붙여도 된다.
-        if (true) //File.Exists(location)
+        string location = Application.streamingAssetsPath + "/SaveData";//여기다가는 마음대로 확장자를 만들어서 붙여도 된다.
+        if (File.Exists(location)) //File.Exists(location)
         {
             //파일로 저장하고 싶다면
-            //StreamReader Reader = new StreamReader(location); //해당하는 경로로 읽어들이기
+            StreamReader Reader = new StreamReader(location); //해당하는 경로로 읽어들이기
 
             //모바일이면 PlayerPrefs를 사용해 저장하면된다. //유니티 게임 내장 저장방식
-            string data = PlayerPrefs.GetString("SaveData"); //Reader.ReadToEnd(); //PlayerPrefs는 윈도우로 치면 레지스트리다.
-            if (string.IsNullOrEmpty(data))
-            {
-                CreateNewSaveData();
-            }
-            else
-            {
-                //TODO 저장방식 질문
-                BinaryFormatter formatter = new BinaryFormatter();
-                MemoryStream stream = new MemoryStream(Convert.FromBase64String(data));//데이터를 다시 불러오기
-                mUser = (SaveData)formatter.Deserialize(stream); //retrun값이 object이기 때문에 세이브 데이터로 강제 형변환
-            }
+            //string data = PlayerPrefs.GetString("SaveData");//PlayerPrefs는 윈도우로 치면 레지스트리다.
+            string data = Reader.ReadToEnd(); 
+            //if (string.IsNullOrEmpty(data))
+            //{
+            //    CreateNewSaveData();
+            //}
+            //else
+            //{
+            //    BinaryFormatter formatter = new BinaryFormatter();
+            //    MemoryStream stream = new MemoryStream(Convert.FromBase64String(data));//데이터를 다시 불러오기
+            //    mUser = (SaveData)formatter.Deserialize(stream); //retrun값이 object이기 때문에 세이브 데이터로 강제 형변환
+            //}
+            BinaryFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream(Convert.FromBase64String(data));//데이터를 다시 불러오기
+            mUser = (SaveData)formatter.Deserialize(stream); //retrun값이 object이기 때문에 세이브 데이터로 강제 형변환
             FixSaveData();
-            //Reader.Close();//반드시 Reader와 Write를 사용했을 시 Close 를 해줘야 한다.
+            Reader.Close();//반드시 Reader와 Write를 사용했을 시 Close 를 해줘야 한다.
         }
-        //else
-        //{
-        //    CreateNewSaveData();
-        //}
+        else
+        {
+            CreateNewSaveData();
+        }
     }
 
     protected void FixSaveData()//세이브 데이터에 들어간 모든 어레이에 대해서 길이 검증
@@ -119,29 +122,30 @@ public class SaveDataController : MonoBehaviour
             mUser.NPCOpen[0] = true; //사서 npc 오픈
             mUser.NPCOpen[4] = true; //유료상인 npc 오픈
             mUser.FirstSetting = true;
-            mUser.BGMVolume = 0.3f;
-            mUser.SEVolume = 0.3f;
+            mUser.BGMVolume = Constants.BGM_VOL;
+            mUser.SEVolume = Constants.SE_VOL;
         }
     }
 
 
     protected void Save()
     {
-        //string location = Application.streamingAssetsPath + "/SaveData";
+        string location = Application.streamingAssetsPath + "/SaveData";
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채
         MemoryStream stream = new MemoryStream();//stream은 메모리를 통째로 담은 것 = 양동이
         //파일로 저장하고 싶으면
-        //StreamWriter writer = new StreamWriter(location);
+        StreamWriter writer = new StreamWriter(location);
 
         formatter.Serialize(stream, mUser);//mUser를 stream에다가 넣은 것
 
         string data = Convert.ToBase64String(stream.GetBuffer()); //64비트짜리 데이터 파일로 변환(정확하진 않음)
         //ToBase64String은 일반적으로는 알 수 없는 문자열로 바꿔주는 것이며, GetBuffer는 담긴 덩어리를 통째로 빼는 것
+        
         //유니티 게임 내장 저장방식
-        PlayerPrefs.SetString("SaveData", data); //SetString에 들어가는 것은 하나도 빠짐 없이 문자열이 일치해야한다.
+        //PlayerPrefs.SetString("SaveData", data); //SetString에 들어가는 것은 하나도 빠짐 없이 문자열이 일치해야한다.
 
 
-        //writer.Write(data);
-        //writer.Close();
+        writer.Write(data);
+        writer.Close();
     }
 }

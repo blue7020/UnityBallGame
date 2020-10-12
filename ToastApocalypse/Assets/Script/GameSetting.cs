@@ -55,6 +55,7 @@ public class GameSetting : InformationLoader
         if (Instance == null)
         {
             Instance = this;
+            GameSaver.Instance.GameLoad();
             DontDestroyOnLoad(gameObject);
             LoadJson(out mWeaponInfoArr, Path.WEAPON_STAT);
             LoadJson(out mPlayerInfoArr, Path.PLAYER_STAT);
@@ -73,7 +74,6 @@ public class GameSetting : InformationLoader
                 Language = 1;
             }
             NowScene = 0;
-            GameSaver.Instance.GameLoad();
         }
         else
         {
@@ -95,16 +95,16 @@ public class GameSetting : InformationLoader
         PlayerID = 0;
 
         //테스트용도
-        mPlayerInfoArr[2].Open = true;//핑크도넛캐릭터 오픈
-        mPlayerInfoArr[2].PlayerHas = true;//핑크도넛캐릭터 오픈
-        mSkillInfoArr[2].PlayerHas = true;//돌진 스킬 오픈
-        Syrup = 10000;
-        for (int i=0; i<HasMaterial.Length;i++)
-        {
-            HasMaterial[i] = 10;
-        }
-        NPCOpen[1] = true;//스킬 상인 npc 오픈
-        TutorialEnd = true;
+        //mPlayerInfoArr[2].Open = true;//핑크도넛캐릭터 오픈
+        //mPlayerInfoArr[2].PlayerHas = true;//핑크도넛캐릭터 오픈
+        //mSkillInfoArr[2].PlayerHas = true;//돌진 스킬 오픈
+        //Syrup = 10000;
+        //for (int i = 0; i < HasMaterial.Length; i++)
+        //{
+        //    HasMaterial[i] = 10;
+        //}
+        //NPCOpen[1] = true;//스킬 상인 npc 오픈
+        //TutorialEnd = true;
         //
     }
 

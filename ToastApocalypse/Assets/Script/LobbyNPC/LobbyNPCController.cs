@@ -8,9 +8,9 @@ public class LobbyNPCController : MonoBehaviour
 
     private void Awake()
     {
-        for (int i=0; i<GameSetting.Instance.NPCOpen.Length;i++)
+        for (int i=0; i< SaveDataController.Instance.mUser.NPCOpen.Length;i++)
         {
-            if (GameSetting.Instance.NPCOpen[i] == false)
+            if (SaveDataController.Instance.mUser.NPCOpen[i] == false)
             {
                 NPCArr[i].SetActive(false);
             }

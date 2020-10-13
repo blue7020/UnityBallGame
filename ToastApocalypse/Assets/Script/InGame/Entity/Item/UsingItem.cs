@@ -21,7 +21,7 @@ public class UsingItem : InformationLoader
 
     private void Awake()
     {
-        mStats = GameSetting.Instance.mItemInfoArr[mID];
+        mStats = SaveDataController.Instance.mItemInfoArr[mID];
         DropCool = false;
     }
     //아이템의 buff코드

@@ -13,7 +13,7 @@ public class StageController : MonoBehaviour
 
     private void Awake()
     {
-        if (GameSetting.Instance.StageOpen[mStageNum-1]==false)
+        if (SaveDataController.Instance.mUser.StageOpen[mStageNum-1]==false)
         {
             mPortal.gameObject.SetActive(false);
         }

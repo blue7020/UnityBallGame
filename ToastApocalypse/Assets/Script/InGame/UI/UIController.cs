@@ -44,7 +44,7 @@ public class UIController : InformationLoader
                 NoText.text = "아니오";
                 WarningText.text = "메인 로비로 돌아가시겠습니까?\n<color=#FE2E2E><size=80>(현재 스테이지가 저장되지 않습니다!)</size></color>";
                 mReviveTitle.text = "부활하기";
-                mReviveSyrup.text = "현재 시럽: "+GameSetting.Instance.Syrup.ToString();
+                mReviveSyrup.text = "현재 시럽: "+ SaveDataController.Instance.mUser.Syrup.ToString();
                 mSyrupButtonText.text = GameSetting.Instance.ReviveSyrup+"\n시럽";
             }
             else if (GameSetting.Instance.Language == 1)
@@ -53,7 +53,7 @@ public class UIController : InformationLoader
                 NoText.text = "NO";
                 WarningText.text = "Do you want to return to the main lobby?\n<color=#FE2E2E><size=80>(This stage is not save!)</size></color>";
                 mReviveTitle.text = "Revive";
-                mReviveSyrup.text = "Now Syrup: " + GameSetting.Instance.Syrup.ToString();
+                mReviveSyrup.text = "Now Syrup: " + SaveDataController.Instance.mUser.Syrup.ToString();
                 mSyrupButtonText.text = GameSetting.Instance.ReviveSyrup + "\nSyrup";
             }
         }
@@ -131,9 +131,9 @@ public class UIController : InformationLoader
                     GameController.Instance.ReviveCode = 1;
                     break;
                 case 1:
-                    if (GameSetting.Instance.Syrup >= 200)
+                    if (SaveDataController.Instance.mUser.Syrup >= 200)
                     {
-                        GameSetting.Instance.Syrup -= 200;
+                        SaveDataController.Instance.mUser.Syrup -= 200;
                         GameController.Instance.GamePause();
                         StartCoroutine(Player.Instance.Revive());
                         GameController.Instance.ReviveCode = 2;

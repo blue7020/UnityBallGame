@@ -15,7 +15,7 @@ public class TutorialClearUI : MonoBehaviour,IPointerClickHandler
     }
     public void StageClear()
     {
-        if (GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage] == false)
+        if (SaveDataController.Instance.mUser.StagePartsget[GameSetting.Instance.NowStage] == false)
         {
             StartCoroutine(PartsAnim());
         }
@@ -35,7 +35,7 @@ public class TutorialClearUI : MonoBehaviour,IPointerClickHandler
         yield return delay;
         NotouchArea.gameObject.SetActive(false);
         mAnim.SetBool(AnimHash.Parts, false);
-        GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage] = true;
+        SaveDataController.Instance.mUser.StagePartsget[GameSetting.Instance.NowStage] = true;
     }
 
     public void OnPointerClick(PointerEventData eventData)

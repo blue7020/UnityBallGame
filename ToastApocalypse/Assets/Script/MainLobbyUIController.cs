@@ -25,7 +25,7 @@ public class MainLobbyUIController : MonoBehaviour
             IsSelect = true;
             for (int i=0; i<mPartsLock.Length;i++)
             {
-                if (GameSetting.Instance.StagePartsget[i]==true)
+                if (SaveDataController.Instance.mUser.StagePartsget[i]==true)
                 {
                     mPartsLock[i].gameObject.SetActive(false);
                 }
@@ -70,7 +70,6 @@ public class MainLobbyUIController : MonoBehaviour
 
     public void MainStart()
     {
-        GameSaver.Instance.GameSave();
         pause = false;
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
@@ -103,7 +102,7 @@ public class MainLobbyUIController : MonoBehaviour
 
     public void ShowSyrupText()
     {
-        mCashText.text = GameSetting.Instance.Syrup.ToString();
+        mCashText.text = SaveDataController.Instance.mUser.Syrup.ToString();
     }
 
     int ClickCount = 0;

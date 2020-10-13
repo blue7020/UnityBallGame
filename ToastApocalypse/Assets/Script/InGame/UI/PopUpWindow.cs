@@ -6,21 +6,8 @@ using UnityEngine.EventSystems;
 
 public class PopUpWindow : MonoBehaviour,IPointerClickHandler
 {
-    public static PopUpWindow Instance;
     public Image mWindow;
     public Text mText;
-
-    private void Awake()
-    {
-        if (Instance==null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void ShowWindow(string text)
     {

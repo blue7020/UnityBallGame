@@ -19,9 +19,9 @@ public class ShopController : MonoBehaviour
     private void Awake()
     {
         mItemList = new List<UsingItem>();
-        for (int i=0; i< GameSetting.Instance.mItemInfoArr.Length; i++)
+        for (int i=0; i< SaveDataController.Instance.mItemInfoArr.Length; i++)
         {
-            if (GameSetting.Instance.mItemInfoArr[i].PlayerHas==true)
+            if (SaveDataController.Instance.mUser.ItemHas[i]==true)
             {
                 mItemList.Add(GameSetting.Instance.mItemArr[i]);
             }

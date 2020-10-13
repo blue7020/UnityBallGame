@@ -28,10 +28,10 @@ public class ArtistWindowController : MonoBehaviour
     {
         for (int i = 0; i < ArtistController.Instance.mArtArr.Length; i++)
         {
-            if (GameSetting.Instance.mArtInfoArr[i].Open==true)
+            if (SaveDataController.Instance.mArtInfoArr[i].Open==true)
             {
                 ArtSlot mSlot = Instantiate(mArtSlot, mParents);
-                mSlot.SetData(i, GameSetting.Instance.mArtInfoArr[i].ArtCode);
+                mSlot.SetData(i, SaveDataController.Instance.mArtInfoArr[i].ArtCode);
             }
 
         }
@@ -40,7 +40,7 @@ public class ArtistWindowController : MonoBehaviour
     public void SelectArt(ArtText art)
     {
         mArt = art;
-        if (GameSetting.Instance.mArtInfoArr[mArt.ID].Open == true)
+        if (SaveDataController.Instance.mUser.ArtOpen[mArt.ID] == true)
         {
             ArtistController.Instance.mButton.interactable = true;
         }

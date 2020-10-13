@@ -240,11 +240,25 @@ public class SaveData
 {
     public int Syrup;
     public int[] HasMaterial;
-    public bool[] StatueOpen;
     public bool TutorialEnd;
     public bool[] StageOpen;
     public bool[] StagePartsget;
     public bool[] NPCOpen;
+
+    public bool[] WeaponOpen;
+    public bool[] StatueOpen;
+    public bool[] SkillOpen;
+    public bool[] ItemOpen;
+    public bool[] CharacterOpen;
+    public bool[] ArtOpen;
+
+    public bool[] WeaponHas;
+    public bool[] StatueHas;
+    public bool[] SkillHas;
+    public bool[] ItemHas;
+    public bool[] CharacterHas;
+
+
     public int DonateCount;
     public bool TodayWatchFirstAD;
     public float CurrentServerTime;

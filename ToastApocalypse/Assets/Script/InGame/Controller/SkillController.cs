@@ -17,12 +17,16 @@ public class SkillController : InformationLoader
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            mStatInfoArr = GameSetting.Instance.mSkillInfoArr;
-            LoadJson(out mTextInfoArr, Path.SKILL_TEXT_STAT);
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        mStatInfoArr = SaveDataController.Instance.mSkillInfoArr;
+        LoadJson(out mTextInfoArr, Path.SKILL_TEXT_STAT);
     }
 }

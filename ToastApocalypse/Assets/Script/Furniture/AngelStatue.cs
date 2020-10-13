@@ -44,7 +44,7 @@ public class AngelStatue : MonoBehaviour
 
     public void ShowMedal()
     {
-        if (GameSetting.Instance.DonateCount>=3)
+        if (SaveDataController.Instance.mUser.DonateCount>=3)
         {
             Medal.SetActive(true);
         }

@@ -13,7 +13,7 @@ public class ArtSlot : MonoBehaviour, IPointerClickHandler
     public void SetData(int id,int code)
     {
         mID = id;
-        mArt = GameSetting.Instance.mArtInfoArr[mID];
+        mArt = SaveDataController.Instance.mArtInfoArr[mID];
         Icon.sprite = ArtistController.Instance.mIcon[code];
     }
 

@@ -26,7 +26,7 @@ public class Bartender : MonoBehaviour
 
     private void SetText()
     {
-        if (GameSetting.Instance.NPCOpen[8] == true)
+        if (SaveDataController.Instance.mUser.NPCOpen[8] == true)
         {
             mFurniture.gameObject.SetActive(false);
         }

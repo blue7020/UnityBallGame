@@ -18,7 +18,7 @@ public class MapNPCController : MonoBehaviour
             mNotOpenNPCList = new List<MapNPC>();
             for (int i = 5; i < mNPCArr.Length; i++)
             {
-                if (GameSetting.Instance.NPCOpen[i] == false)
+                if (SaveDataController.Instance.mUser.NPCOpen[i] == false)
                 {
                     mNotOpenNPCList.Add(mNPCArr[i]);
                 }

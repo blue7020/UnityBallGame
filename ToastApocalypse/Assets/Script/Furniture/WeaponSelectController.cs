@@ -23,7 +23,7 @@ public class WeaponSelectController : MonoBehaviour
         {
             Instance = this;
             DragTarget.color = Color.clear;
-            for (int i = 0; i < GameSetting.Instance.mWeaponInfoArr.Length; i++)
+            for (int i = 0; i < SaveDataController.Instance.mWeaponInfoArr.Length; i++)
             {
                 WeaponCount++;
             }
@@ -37,12 +37,12 @@ public class WeaponSelectController : MonoBehaviour
     public void RefreshInventory()
     {
         mSelectSlot.mIcon.color = Color.white;
-        mSelectSlot.SetData(GameSetting.Instance.PlayerWeaponID, GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID].mWeaponImage, GameSetting.Instance.mWeaponInfoArr[GameSetting.Instance.PlayerWeaponID]);
+        mSelectSlot.SetData(GameSetting.Instance.PlayerWeaponID, GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID].mWeaponImage, SaveDataController.Instance.mWeaponInfoArr[GameSetting.Instance.PlayerWeaponID]);
 
-        SlotArr = new WeaponChangeSlot[GameSetting.Instance.mWeaponInfoArr.Length];
+        SlotArr = new WeaponChangeSlot[SaveDataController.Instance.mWeaponInfoArr.Length];
         for (int i = 0; i < SlotArr.Length; i++)
         {
-            if (GameSetting.Instance.mWeaponInfoArr[i].PlayerHas == true)
+            if (SaveDataController.Instance.mUser.WeaponHas[i] == true)
             {
                 SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
                 SlotArr[i].SetData(i);
@@ -55,7 +55,7 @@ public class WeaponSelectController : MonoBehaviour
     {
         for (int i = 0; i < SlotArr.Length; i++)
         {
-            if (GameSetting.Instance.mWeaponInfoArr[i].PlayerHas == true)
+            if (SaveDataController.Instance.mUser.WeaponHas[i] == true)
             {
                 Destroy(SlotArr[i].gameObject);
             }

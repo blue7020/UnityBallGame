@@ -44,9 +44,9 @@ public class BlackSmithShopController : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < GameSetting.Instance.mWeaponInfoArr.Length; i++)
+        for (int i = 0; i < SaveDataController.Instance.mWeaponInfoArr.Length; i++)
         {
-            if (GameSetting.Instance.mWeaponInfoArr[i].ShopSell == true && GameSetting.Instance.mWeaponInfoArr[i].Open == true)
+            if (SaveDataController.Instance.mWeaponInfoArr[i].ShopSell == true && SaveDataController.Instance.mUser.WeaponOpen[i] == true)
             {
                 WeaponShopSlot mSlot = Instantiate(ShopSlot, mShopParents);
                 mSlot.SetData(i);
@@ -57,7 +57,7 @@ public class BlackSmithShopController : MonoBehaviour
 
     public void BuyWeapon()
     {
-        if (GameSetting.Instance.Syrup >= mWeapon.mStats.Price)
+        if (SaveDataController.Instance.mUser.Syrup >= mWeapon.mStats.Price)
         {
             for (int i = 0; i < mMaterialSlot.Length; i++)
             {
@@ -67,9 +67,9 @@ public class BlackSmithShopController : MonoBehaviour
                 }
                 else
                 {
-                    if (mMaterialSlot[i].mAmount <= GameSetting.Instance.HasMaterial[mMaterialSlot[i].mMaterialID])
+                    if (mMaterialSlot[i].mAmount <= SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID])
                     {
-                        GameSetting.Instance.HasMaterial[mMaterialSlot[i].mMaterialID] -= mMaterialSlot[i].mAmount;
+                        SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID] -= mMaterialSlot[i].mAmount;
                         RecipeCheker[i] = true;
                     }
                 }
@@ -77,8 +77,8 @@ public class BlackSmithShopController : MonoBehaviour
             if (RecipeCheker[0] == true && RecipeCheker[1] == true && RecipeCheker[2] == true && RecipeCheker[3] == true)
             {
                 mBuyImage.gameObject.SetActive(true);
-                GameSetting.Instance.Syrup -= mWeapon.mStats.Price;
-                GameSetting.Instance.mWeaponInfoArr[mWeapon.mID].PlayerHas = true;
+                SaveDataController.Instance.mUser.Syrup -= mWeapon.mStats.Price;
+                SaveDataController.Instance.mUser.WeaponHas[mWeapon.mID] = true;
                 MainLobbyUIController.Instance.ShowSyrupText();
                 GameSetting.Instance.PlayerWeaponID = mWeapon.mID;
                 mBuyButton.interactable = false;
@@ -124,7 +124,7 @@ public class BlackSmithShopController : MonoBehaviour
     public void ShowWeaponInfo(Weapon weapon)
     {
         mWeapon = weapon;
-        mWeaponStat = GameSetting.Instance.mWeaponInfoArr[weapon.mID];
+        mWeaponStat = SaveDataController.Instance.mWeaponInfoArr[weapon.mID];
         mSelectSlot.SetData(mWeapon.mID,mWeapon.mWeaponImage, mWeaponStat);
         for (int i = 0; i < mMaterialSlot.Length; i++)
         {
@@ -139,7 +139,7 @@ public class BlackSmithShopController : MonoBehaviour
                 mMaterialSlot[i].mAmount = mWeapon.RecipeAmount[i];
             }
         }
-        if (GameSetting.Instance.mWeaponInfoArr[mWeapon.mID].PlayerHas == true)
+        if (SaveDataController.Instance.mUser.WeaponHas[mWeapon.mID] == true)
         {
             mBuyButton.interactable = false;
             if (GameSetting.Instance.Language == 0)//한국어

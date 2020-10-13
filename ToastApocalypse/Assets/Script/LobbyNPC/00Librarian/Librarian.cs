@@ -28,7 +28,7 @@ public class Librarian : MonoBehaviour
         {
             mTitle.text = "사서: 무엇을 하고 싶은가?";
             mTutorialText.text = "게임 방법";
-            mLobbyGuideText.text = "오프닝 다시 보기";
+            mLobbyGuideText.text = "오프닝\n다시 보기";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {

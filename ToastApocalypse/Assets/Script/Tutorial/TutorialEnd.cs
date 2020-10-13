@@ -23,11 +23,11 @@ public class TutorialEnd : MonoBehaviour
             {//한국어
                 mTitle.text = "튜토리얼 클리어!";
                 mGuideText.text = "터치 시 로비로 이동합니다.";
-                if (GameSetting.Instance.TutorialEnd == false)
+                if (SaveDataController.Instance.mUser.TutorialEnd == false)
                 {
                     mGiftText.text = "획득한 시럽: +" + ShyrupAmount;
-                    GameSetting.Instance.TutorialEnd = true;
-                    GameSetting.Instance.NPCOpen[1] = true;
+                    SaveDataController.Instance.mUser.TutorialEnd = true;
+                    SaveDataController.Instance.mUser.NPCOpen[1] = true;
                 }
                 else
                 {
@@ -38,11 +38,11 @@ public class TutorialEnd : MonoBehaviour
             {//영어
                 mTitle.text = "Tutorial Clear!";
                 mGuideText.text = "Touch to move to the lobby.";
-                if (GameSetting.Instance.TutorialEnd == false)
+                if (SaveDataController.Instance.mUser.TutorialEnd == false)
                 {
                     mGiftText.text = "Syrup: +" + ShyrupAmount;
-                    GameSetting.Instance.TutorialEnd = true;
-                    GameSetting.Instance.NPCOpen[1] = true;
+                    SaveDataController.Instance.mUser.TutorialEnd = true;
+                    SaveDataController.Instance.mUser.NPCOpen[1] = true;
                 }
                 else
                 {
@@ -61,15 +61,15 @@ public class TutorialEnd : MonoBehaviour
         GameController.Instance.pause = true;
         Player.Instance.mRB2D.velocity = Vector3.zero;
         Player.Instance.Stun = true;
-        if (GameSetting.Instance.Syrup + ShyrupAmount >= 99999)
+        if (SaveDataController.Instance.mUser.Syrup + ShyrupAmount >= 99999)
         {
-            GameSetting.Instance.Syrup = 99999;
+            SaveDataController.Instance.mUser.Syrup = 99999;
         }
         else
         {
-            GameSetting.Instance.Syrup += ShyrupAmount;
+            SaveDataController.Instance.mUser.Syrup += ShyrupAmount;
         }
-        GameSetting.Instance.StagePartsget[0] = true;
+        SaveDataController.Instance.mUser.StagePartsget[0] = true;
         mClearUI.gameObject.SetActive(true);
     }
 

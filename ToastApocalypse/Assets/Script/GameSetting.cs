@@ -23,15 +23,8 @@ public class GameSetting : InformationLoader
     public Sprite[] mPlayerSpt;
     public Sprite[] mMaterialSpt;
     public Sprite[] mStatueSprites;
-    public ArtText[] mArtInfoArr;
-    public Artifacts[] mArtifacts;
-    public PlayerStat[] mPlayerInfoArr;
-    public SkillStat[] mSkillInfoArr;
-    public WeaponStat[] mWeaponInfoArr;
-    public ItemStat[] mItemInfoArr;
-    public StatueStat[] mStatueInfoArr;
-
     public Weapon[] mWeaponArr;
+    public Artifacts[] mArtifacts;
     public UsingItem[] mItemArr;
     public Room[] NowStageRoom;
     public int NowStage;
@@ -41,28 +34,40 @@ public class GameSetting : InformationLoader
 
     public int Language; //0 = 한국어 / 1 = 영어
 
-    public int Syrup;
-    public int[] HasMaterial;
-    public bool TutorialEnd;
-    public bool[] StageOpen;
-    public bool[] StagePartsget;
-    public bool[] NPCOpen;
-    public int DonateCount;
-    public bool TodayWatchFirstAD;
+    //public int Syrup;
+    //public bool TutorialEnd;
+    //public int DonateCount;
+    //public bool TodayWatchFirstAD;
+
+    //public bool[] CharacterOpen;
+    //public bool[] CharacterHas;
+
+    //public bool[] WeaponOpen;
+    //public bool[] WeaponHas;
+
+    //public bool[] SkillOpen;
+    //public bool[] SkillHas;
+
+    //public bool[] ItemOpen;
+    //public bool[] ItemHas;
+
+    //public bool[] StatueOpen;
+    //public bool[] StatueHas;
+
+    //public bool[] ArtOpen;
+
+    //public bool[] StageOpen;
+    //public int[] HasMaterial;
+    //public bool[] StagePartsget;
+    //public bool[] NPCOpen;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            GameSaver.Instance.GameLoad();
+            SaveDataController.Instance.LoadGame();
             DontDestroyOnLoad(gameObject);
-            LoadJson(out mWeaponInfoArr, Path.WEAPON_STAT);
-            LoadJson(out mPlayerInfoArr, Path.PLAYER_STAT);
-            LoadJson(out mSkillInfoArr, Path.SKILL_STAT);
-            LoadJson(out mArtInfoArr, Path.ART_STAT);
-            LoadJson(out mItemInfoArr, Path.ITEM_STAT);
-            LoadJson(out mStatueInfoArr, Path.STATUE_STAT);
             if (Application.systemLanguage == SystemLanguage.Korean)
             {
                 Debug.Log("Kor");
@@ -98,7 +103,7 @@ public class GameSetting : InformationLoader
         //mPlayerInfoArr[2].Open = true;//핑크도넛캐릭터 오픈
         //mPlayerInfoArr[2].PlayerHas = true;//핑크도넛캐릭터 오픈
         //mSkillInfoArr[2].PlayerHas = true;//돌진 스킬 오픈
-        //Syrup = 10000;
+        SaveDataController.Instance.mUser.Syrup = 10000;
         //for (int i = 0; i < HasMaterial.Length; i++)
         //{
         //    HasMaterial[i] = 10;
@@ -121,11 +126,10 @@ public class GameSetting : InformationLoader
 
     public void ShowAds()
     {
-        if (TodayWatchFirstAD == false)
+        if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
         {
             //광고 감상 후 300시럽 주기
-            TodayWatchFirstAD = true;
-            GameSaver.Instance.GameSave();
+            SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
         }
     }
 

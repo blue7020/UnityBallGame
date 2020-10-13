@@ -75,7 +75,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         GetItem(GameSetting.Instance.NowStage);
         if (GameSetting.Instance.NowStage < 6)
         {
-            if (GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage] == false)
+            if (SaveDataController.Instance.mUser.StagePartsget[GameSetting.Instance.NowStage] == false)
             {
                 StartCoroutine(PartsAnim());
             }
@@ -105,8 +105,8 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         yield return delay;
         delay = new WaitForSeconds(1f);
         mAnim.SetBool(AnimHash.Parts, false);
-        GameSetting.Instance.StageOpen[GameSetting.Instance.NowStage] = true;
-        GameSetting.Instance.StagePartsget[GameSetting.Instance.NowStage]=true;
+        SaveDataController.Instance.mUser.StageOpen[GameSetting.Instance.NowStage] = true;
+        SaveDataController.Instance.mUser.StagePartsget[GameSetting.Instance.NowStage]=true;
         SoundController.Instance.SESoundUI(6);
         yield return delay;
         NotouchArea.gameObject.SetActive(false);
@@ -122,23 +122,23 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void GotoMain()
     {
-        if (GameSetting.Instance.Syrup + GameController.Instance.SyrupInStage >= 99999)
+        if (SaveDataController.Instance.mUser.Syrup + GameController.Instance.SyrupInStage >= 99999)
         {
-            GameSetting.Instance.Syrup = 99999;
+            SaveDataController.Instance.mUser.Syrup = 99999;
         }
         else
         {
-            GameSetting.Instance.Syrup += GameController.Instance.SyrupInStage;
+            SaveDataController.Instance.mUser.Syrup += GameController.Instance.SyrupInStage;
         }
         for (int i=0; i<Sequence;i++)
         {
-            if (GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] + PlusRewardMaterial > 99)
+            if (SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] + PlusRewardMaterial > 99)
             {
-                GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] = 99;
+                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] = 99;
             }
             else
             {
-                GameSetting.Instance.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] += PlusRewardMaterial;
+                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] += PlusRewardMaterial;
             }
         }
         gameObject.SetActive(false);
@@ -151,7 +151,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         {
             for (int i = 0; i < GameController.Instance.RescueNPCList.Count; i++)
             {
-                GameSetting.Instance.NPCOpen[GameController.Instance.RescueNPCList[i]] = true;
+                SaveDataController.Instance.mUser.NPCOpen[GameController.Instance.RescueNPCList[i]] = true;
                 MapNPCSlot slot = Instantiate(mNPCSlot, mParents);
                 slot.SetData(GameController.Instance.RescueNPCList[i]);
             }
@@ -166,72 +166,72 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         switch (GameSetting.Instance.NowStage)
         {
             case 1:
-                if (GameSetting.Instance.mWeaponInfoArr[5].Open==false && GameSetting.Instance.mWeaponInfoArr[9].Open==false)
+                if (SaveDataController.Instance.mUser.WeaponOpen[5]==false && SaveDataController.Instance.mUser.WeaponOpen[9]==false)
                 {
-                    GameSetting.Instance.mWeaponInfoArr[5].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[9].Open = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[5] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[9] = true;
                     weapon = true;
                 }
                 break;
             case 2:
-                if (GameSetting.Instance.mPlayerInfoArr[1].Open==false&& GameSetting.Instance.mSkillInfoArr[1].Open==false&& GameSetting.Instance.mWeaponInfoArr[2].Open==false && GameSetting.Instance.mWeaponInfoArr[24].Open == false)
+                if (SaveDataController.Instance.mUser.CharacterOpen[1]==false&& SaveDataController.Instance.mUser.SkillOpen[1]==false&& SaveDataController.Instance.mUser.WeaponOpen[2]==false && SaveDataController.Instance.mUser.WeaponOpen[24] == false)
                 {
-                    GameSetting.Instance.mPlayerInfoArr[1].Open = true;
-                    GameSetting.Instance.mSkillInfoArr[1].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[2].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[24].Open = true;
+                    SaveDataController.Instance.mUser.CharacterOpen[1] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[1] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[2] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[24] = true;
                     character = true;
                     skill = true;
                     weapon = true;
                 }
                 break;
             case 3:
-                if (GameSetting.Instance.mPlayerInfoArr[3].Open == false&& GameSetting.Instance.mSkillInfoArr[3].Open ==false&& GameSetting.Instance.mWeaponInfoArr[7].Open==false && GameSetting.Instance.mWeaponInfoArr[15].Open == false && GameSetting.Instance.mWeaponInfoArr[16].Open==false)
+                if (SaveDataController.Instance.mUser.CharacterOpen[3] == false&& SaveDataController.Instance.mUser.SkillOpen[3] ==false&& SaveDataController.Instance.mUser.WeaponOpen[7]==false && SaveDataController.Instance.mUser.WeaponOpen[15] == false && SaveDataController.Instance.mUser.WeaponOpen[16]==false)
                 {
-                    GameSetting.Instance.mPlayerInfoArr[3].Open = true;
-                    GameSetting.Instance.mSkillInfoArr[3].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[7].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[15].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[16].Open = true;
+                    SaveDataController.Instance.mUser.CharacterOpen[3] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[3] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[7] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[15] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[16] = true;
                     character = true;
                     skill = true;
                     weapon = true;
                 }
                 break;
             case 4:
-                if (GameSetting.Instance.mPlayerInfoArr[4].Open == false && GameSetting.Instance.mSkillInfoArr[4].Open == false && GameSetting.Instance.mWeaponInfoArr[10].Open == false && GameSetting.Instance.mWeaponInfoArr[19].Open == false && GameSetting.Instance.mWeaponInfoArr[20].Open == false && GameSetting.Instance.mWeaponInfoArr[23].Open == false)
+                if (SaveDataController.Instance.mUser.CharacterOpen[4] == false && SaveDataController.Instance.mUser.SkillOpen[4] == false && SaveDataController.Instance.mUser.WeaponOpen[10] == false && SaveDataController.Instance.mUser.WeaponOpen[19] == false && SaveDataController.Instance.mUser.WeaponOpen[20] == false && SaveDataController.Instance.mUser.WeaponOpen[23] == false)
                 {
-                    GameSetting.Instance.mPlayerInfoArr[4].Open = true;
-                    GameSetting.Instance.mSkillInfoArr[4].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[10].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[19].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[20].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[23].Open = true;
+                    SaveDataController.Instance.mUser.CharacterOpen[4] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[4] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[10] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[19] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[20] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[23] = true;
                     character = true;
                     skill = true;
                     weapon = true;
                 }
                 break;
             case 5:
-                if (GameSetting.Instance.mPlayerInfoArr[5].Open == false && GameSetting.Instance.mSkillInfoArr[5].Open == false && GameSetting.Instance.mWeaponInfoArr[11].Open == false && GameSetting.Instance.mWeaponInfoArr[18].Open == false && GameSetting.Instance.mWeaponInfoArr[21].Open == false)
+                if (SaveDataController.Instance.mUser.CharacterOpen[5] == false && SaveDataController.Instance.mUser.SkillOpen[5] == false && SaveDataController.Instance.mUser.WeaponOpen[11] == false && SaveDataController.Instance.mUser.WeaponOpen[18] == false && SaveDataController.Instance.mUser.WeaponOpen[21] == false)
                 {
-                    GameSetting.Instance.mPlayerInfoArr[5].Open = true;
-                    GameSetting.Instance.mSkillInfoArr[5].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[11].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[18].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[21].Open = true;
+                    SaveDataController.Instance.mUser.CharacterOpen[5] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[5] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[11] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[18] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[21] = true;
                     character = true;
                     skill = true;
                     weapon = true;
                 }
                 break;
             case 6:
-                if (GameSetting.Instance.mPlayerInfoArr[6].Open == false && GameSetting.Instance.mSkillInfoArr[6].Open == false && GameSetting.Instance.mWeaponInfoArr[17].Open == false && GameSetting.Instance.mWeaponInfoArr[22].Open == false)
+                if (SaveDataController.Instance.mUser.CharacterOpen[6] == false && SaveDataController.Instance.mUser.SkillOpen[6] == false && SaveDataController.Instance.mUser.WeaponOpen[17] == false && SaveDataController.Instance.mUser.WeaponOpen[22] == false)
                 {
-                    GameSetting.Instance.mPlayerInfoArr[6].Open = true;
-                    GameSetting.Instance.mSkillInfoArr[6].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[17].Open = true;
-                    GameSetting.Instance.mWeaponInfoArr[22].Open = true;
+                    SaveDataController.Instance.mUser.CharacterOpen[6] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[6] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[17] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[22] = true;
                     character = true;
                     skill = true;
                     weapon = true;

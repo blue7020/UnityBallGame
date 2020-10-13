@@ -439,9 +439,8 @@ public class EnemySkill : MonoBehaviour
 
     private IEnumerator CursedPowder()//id=45
     {
-        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        WaitForSeconds delay = new WaitForSeconds(1f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        StartCoroutine(MoveDelay(0.3f));
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP)
         {
             for (int i = 1; i < 5; i++)

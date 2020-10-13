@@ -21,7 +21,7 @@ public class PlayerSelectController : InformationLoader
         if (Instance == null)
         {
             Instance = this;
-            mPlayerStat = GameSetting.Instance.mPlayerInfoArr;
+            mPlayerStat = SaveDataController.Instance.mPlayerInfoArr;
             if (GameSetting.Instance.NowScene == 1)
             {
                 mWindow.gameObject.SetActive(false);
@@ -84,10 +84,10 @@ public class PlayerSelectController : InformationLoader
 
     public void CharaBuy()
     {
-        if (GameSetting.Instance.Syrup>=mPlayerStat[NowPlayerID].Price)
+        if (SaveDataController.Instance.mUser.Syrup>=mPlayerStat[NowPlayerID].Price)
         {
-            GameSetting.Instance.mPlayerInfoArr[NowPlayerID].PlayerHas = true;
-            GameSetting.Instance.Syrup -= mPlayerStat[NowPlayerID].Price;
+            SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] = true;
+            SaveDataController.Instance.mUser.Syrup -= mPlayerStat[NowPlayerID].Price;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowStat();
         }
@@ -115,7 +115,7 @@ public class PlayerSelectController : InformationLoader
 
     public void ShowStat()
     {
-        if (GameSetting.Instance.mPlayerInfoArr[NowPlayerID].Open == false)
+        if (SaveDataController.Instance.mUser.CharacterOpen[NowPlayerID] == false)
         {
             mPlayerImage.sprite = mLockPlayer;
             if (GameSetting.Instance.Language == 0)
@@ -154,7 +154,7 @@ public class PlayerSelectController : InformationLoader
         }
         else
         {
-            if (GameSetting.Instance.mPlayerInfoArr[NowPlayerID].PlayerHas==true)
+            if (SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] ==true)
             {
                 mPlayerImage.sprite = mPlayer[NowPlayerID].mRenderer.sprite;
                 if (GameSetting.Instance.Language == 0)

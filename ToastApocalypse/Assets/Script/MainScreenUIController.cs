@@ -90,7 +90,7 @@ public class MainScreenUIController : MonoBehaviour
 
     public void FirstGameStart()
     {
-        if (GameSetting.Instance.TutorialEnd==false)
+        if (SaveDataController.Instance.mUser.TutorialEnd==false)
         {
             GoTutorial();
         }

@@ -26,9 +26,9 @@ public class PubController : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < GameSetting.Instance.mItemInfoArr.Length; i++)
+        for (int i = 0; i < SaveDataController.Instance.mItemInfoArr.Length; i++)
         {
-            if (GameSetting.Instance.mItemInfoArr[i].Open==true)
+            if (SaveDataController.Instance.mUser.ItemOpen[i]==true)
             {
                 PubSlot mSlot = Instantiate(ShopSlot, mShopParents);
                 mSlot.SetData(i);
@@ -38,11 +38,11 @@ public class PubController : MonoBehaviour
 
     public void BuyItem()
     {
-        if (GameSetting.Instance.Syrup >= mItem.OpenPrice)
+        if (SaveDataController.Instance.mUser.Syrup >= mItem.OpenPrice)
         {
             SoundController.Instance.SESoundUI(3);
-            GameSetting.Instance.Syrup -= mItem.OpenPrice;
-            GameSetting.Instance.mItemInfoArr[mItem.ID].PlayerHas = true;
+            SaveDataController.Instance.mUser.Syrup -= mItem.OpenPrice;
+            SaveDataController.Instance.mUser.ItemHas[mItem.ID] = true;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowItemInfo(mItem);
         }
@@ -52,7 +52,7 @@ public class PubController : MonoBehaviour
     {
         mItem = stat;
         Bartender.Instance.mButton.interactable = true;
-        if (GameSetting.Instance.mItemInfoArr[mItem.ID].PlayerHas == true)
+        if (SaveDataController.Instance.mUser.ItemHas[mItem.ID] == true)
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {

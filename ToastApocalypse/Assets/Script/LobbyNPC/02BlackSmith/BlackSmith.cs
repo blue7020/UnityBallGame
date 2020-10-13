@@ -27,7 +27,7 @@ public class BlackSmith : MonoBehaviour
 
     private void Start()
     {
-        if (GameSetting.Instance.NPCOpen[2]==true)
+        if (SaveDataController.Instance.mUser.NPCOpen[2]==true)
         {
             mAnim.SetBool(AnimHash.Furniture, true);
             mFurniture.gameObject.SetActive(false);

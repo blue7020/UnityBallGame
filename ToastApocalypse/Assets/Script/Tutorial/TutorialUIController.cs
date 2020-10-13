@@ -35,7 +35,7 @@ public class TutorialUIController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.MAP_TEXT);
-            if (GameSetting.Instance.TutorialEnd==false)
+            if (SaveDataController.Instance.mUser.TutorialEnd==false)
             {
                 StartMenuButton.gameObject.SetActive(true);
                 MainMenuButton.gameObject.SetActive(false);

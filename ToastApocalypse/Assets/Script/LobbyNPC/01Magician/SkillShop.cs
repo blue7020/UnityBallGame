@@ -62,10 +62,10 @@ public class SkillShop : MonoBehaviour
             mSelectText.text = "Selection";
             mBuyText.text = "Purchase";
         }
-        SKILL_SLOT = GameSetting.Instance.mSkillInfoArr.Length;
+        SKILL_SLOT = SaveDataController.Instance.mSkillInfoArr.Length;
         for (int i = 0; i < SKILL_SLOT; i++)
         {
-            if (GameSetting.Instance.mSkillInfoArr[i].ShopSell==true&& GameSetting.Instance.mSkillInfoArr[i].Open==true)
+            if (SaveDataController.Instance.mSkillInfoArr[i].ShopSell==true&& SaveDataController.Instance.mUser.SkillOpen[i]==true)
             {
                 SkillSlot mSlot = Instantiate(ShopSlot, mShopParents);
                 mSlot.SetData(i);
@@ -76,11 +76,11 @@ public class SkillShop : MonoBehaviour
 
     public void BuySkill()
     {
-        if (GameSetting.Instance.Syrup >=mSkillText.Price)
+        if (SaveDataController.Instance.mUser.Syrup >=mSkillText.Price)
         {
             SoundController.Instance.SESoundUI(3);
-            GameSetting.Instance.Syrup -= mSkillText.Price;
-            GameSetting.Instance.mSkillInfoArr[mSkill.ID].PlayerHas = true;
+            SaveDataController.Instance.mUser.Syrup -= mSkillText.Price;
+            SaveDataController.Instance.mUser.SkillHas[mSkill.ID] = true;
             MainLobbyUIController.Instance.ShowSyrupText();
             GameSetting.Instance.PlayerSkillID = mSkill.ID;
             mBuyButton.interactable = false;
@@ -102,7 +102,7 @@ public class SkillShop : MonoBehaviour
             mSkillTitle.text = mSkillText.EngTitle;
             mLoreText.text = mSkillText.EngContensFormat + "\nPrice: " + mSkillText.Price;
         }
-        if (GameSetting.Instance.mSkillInfoArr[mSkill.ID].PlayerHas == false)
+        if (SaveDataController.Instance.mUser.SkillHas[mSkill.ID] == false)
         {
             if (GameSetting.Instance.Language == 0)//한국어
             {

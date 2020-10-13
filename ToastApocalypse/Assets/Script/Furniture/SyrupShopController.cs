@@ -40,7 +40,7 @@ public class SyrupShopController : MonoBehaviour
             {
                 SyrupText[i].text = SyrupAmount[i].ToString();
             }
-            if (GameSetting.Instance.TodayWatchFirstAD==true)
+            if (SaveDataController.Instance.mUser.TodayWatchFirstAD==true)
             {
                 mButtons[0].interactable = false;
             }

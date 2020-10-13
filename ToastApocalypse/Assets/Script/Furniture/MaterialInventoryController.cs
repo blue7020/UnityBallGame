@@ -49,7 +49,7 @@ public class MaterialInventoryController : MonoBehaviour
         {
             SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
             SlotArr[i].SetData(i);
-            SlotArr[i].mCount.text = GameSetting.Instance.HasMaterial[SlotArr[i].mMaterialID].ToString();
+            SlotArr[i].mCount.text = SaveDataController.Instance.mUser.HasMaterial[SlotArr[i].mMaterialID].ToString();
 
         }
     }

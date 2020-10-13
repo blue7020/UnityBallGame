@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
 
     public int StageLevel;//현재 층
     public int StageHP;
-
+    public Sprite[] mStatueSprites;
     public float MaterialDropRate;
     public int ReviveCode;//0== 부활안함 1==광고 2==일반 부활
 

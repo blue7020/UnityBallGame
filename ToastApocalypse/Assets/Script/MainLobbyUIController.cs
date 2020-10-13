@@ -14,6 +14,7 @@ public class MainLobbyUIController : MonoBehaviour
 
     public Text mCashText,mBGMText, mSEText;
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton;
+    public GameObject mDoor, mTosterRoom;
 
 
     private void Awake()
@@ -31,6 +32,16 @@ public class MainLobbyUIController : MonoBehaviour
                 }
             }
             ShowSyrupText();
+            if (SaveDataController.Instance.mUser.GameClear==true)
+            {
+                mDoor.gameObject.SetActive(false);
+                mTosterRoom.gameObject.SetActive(true);
+            }
+            else
+            {
+                mDoor.gameObject.SetActive(true);
+                mTosterRoom.gameObject.SetActive(false);
+            }
         }
         else
         {

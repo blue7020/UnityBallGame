@@ -166,19 +166,15 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         switch (GameSetting.Instance.NowStage)
         {
             case 1:
-                if (SaveDataController.Instance.mUser.WeaponOpen[5]==false && SaveDataController.Instance.mUser.WeaponOpen[9]==false)
-                {
-                    SaveDataController.Instance.mUser.WeaponOpen[5] = true;
-                    SaveDataController.Instance.mUser.WeaponOpen[9] = true;
-                    weapon = true;
-                }
                 break;
             case 2:
-                if (SaveDataController.Instance.mUser.CharacterOpen[1]==false&& SaveDataController.Instance.mUser.SkillOpen[1]==false&& SaveDataController.Instance.mUser.WeaponOpen[2]==false && SaveDataController.Instance.mUser.WeaponOpen[24] == false)
+                if (SaveDataController.Instance.mUser.CharacterOpen[1]==false&& SaveDataController.Instance.mUser.SkillOpen[1]==false&& SaveDataController.Instance.mUser.WeaponOpen[5] == false && SaveDataController.Instance.mUser.WeaponOpen[9] == false&& SaveDataController.Instance.mUser.WeaponOpen[2]==false && SaveDataController.Instance.mUser.WeaponOpen[24] == false)
                 {
                     SaveDataController.Instance.mUser.CharacterOpen[1] = true;
                     SaveDataController.Instance.mUser.SkillOpen[1] = true;
                     SaveDataController.Instance.mUser.WeaponOpen[2] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[5] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[9] = true;
                     SaveDataController.Instance.mUser.WeaponOpen[24] = true;
                     character = true;
                     skill = true;
@@ -236,6 +232,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                     skill = true;
                     weapon = true;
                 }
+                SaveDataController.Instance.mUser.GameClear = true;
                 break;
         }
         if (GameSetting.Instance.Language == 0)

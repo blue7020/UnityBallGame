@@ -32,7 +32,7 @@ public class StatueController : InformationLoader
             Instance = this;
             LoadJson(out mStatInfoArr, Path.STATUE_STAT);
             StatueIDList = new List<int>();
-            mStatueSprites = GameSetting.Instance.mStatueSprites;
+            mStatueSprites = GameController.Instance.mStatueSprites;
             for (int i = 0; i < mStatInfoArr.Length; i++)
             {
                 if (SaveDataController.Instance.mUser.StatueHas[i] == true)

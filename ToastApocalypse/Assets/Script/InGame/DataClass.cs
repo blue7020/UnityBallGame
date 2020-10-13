@@ -241,6 +241,7 @@ public class SaveData
     public int Syrup;
     public int[] HasMaterial;
     public bool TutorialEnd;
+    public bool GameClear;
     public bool[] StageOpen;
     public bool[] StagePartsget;
     public bool[] NPCOpen;

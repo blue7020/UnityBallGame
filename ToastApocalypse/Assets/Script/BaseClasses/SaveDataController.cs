@@ -277,6 +277,7 @@ public class SaveDataController : InformationLoader
             mUser.TutorialEnd = false;
             mUser.StagePartsget = new bool[6];
             mUser.ArtOpen = new bool[Constants.ART_COUNT];
+            mUser.GameClear = false;
 
             mUser.DonateCount = 0;
             mUser.TodayWatchFirstAD = false;

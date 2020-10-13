@@ -22,6 +22,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void SetData(int id,Sprite sprite, WeaponStat weapon)
     {
+        SoundController.Instance.SESound(7);
         mWeaponID = id;
         mIcon.sprite = sprite;
         mWeapon = weapon;

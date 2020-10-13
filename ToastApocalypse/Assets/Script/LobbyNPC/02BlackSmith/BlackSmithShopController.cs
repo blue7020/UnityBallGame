@@ -44,7 +44,7 @@ public class BlackSmithShopController : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < SaveDataController.Instance.mWeaponInfoArr.Length; i++)
+        for (int i = 0; i < GameSetting.Instance.mWeaponArr.Length; i++)
         {
             if (SaveDataController.Instance.mWeaponInfoArr[i].ShopSell == true && SaveDataController.Instance.mUser.WeaponOpen[i] == true)
             {

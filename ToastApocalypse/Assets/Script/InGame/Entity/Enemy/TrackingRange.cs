@@ -19,12 +19,14 @@ public class TrackingRange : MonoBehaviour
                     mEnemy.mState = eMonsterState.Traking;
                     Setting = true;
                 }
-
-                if (mEnemy.mCoroutine == null)
+                else
                 {
-                    mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
+                    if (mEnemy.mCoroutine == null)
+                    {
+                        mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
+                    }
+                    StartCoroutine(mEnemy.MoveToPlayer());
                 }
-                StartCoroutine(mEnemy.MoveToPlayer());
             }
         }
         

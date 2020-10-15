@@ -26,6 +26,7 @@ public class GameSetting : InformationLoader
     public Weapon[] mWeaponArr;
     public Artifacts[] mArtifacts;
     public UsingItem[] mItemArr;
+    public MapText[] mMapInfoArr;
     public Room[] NowStageRoom;
     public int NowStage;
 
@@ -33,33 +34,6 @@ public class GameSetting : InformationLoader
     public int PlayerWeaponIndex;
 
     public int Language; //0 = 한국어 / 1 = 영어
-
-    //public int Syrup;
-    //public bool TutorialEnd;
-    //public int DonateCount;
-    //public bool TodayWatchFirstAD;
-
-    //public bool[] CharacterOpen;
-    //public bool[] CharacterHas;
-
-    //public bool[] WeaponOpen;
-    //public bool[] WeaponHas;
-
-    //public bool[] SkillOpen;
-    //public bool[] SkillHas;
-
-    //public bool[] ItemOpen;
-    //public bool[] ItemHas;
-
-    //public bool[] StatueOpen;
-    //public bool[] StatueHas;
-
-    //public bool[] ArtOpen;
-
-    //public bool[] StageOpen;
-    //public int[] HasMaterial;
-    //public bool[] StagePartsget;
-    //public bool[] NPCOpen;
 
     private void Awake()
     {
@@ -78,6 +52,7 @@ public class GameSetting : InformationLoader
                 Debug.Log("None Kor" + (int)Application.systemLanguage);
                 Language = 1;
             }
+            LoadJson(out mMapInfoArr, Path.MAP_TEXT);
             NowScene = 0;
         }
         else

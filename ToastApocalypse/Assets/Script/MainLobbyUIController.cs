@@ -12,9 +12,10 @@ public class MainLobbyUIController : MonoBehaviour
     private bool pause;
     public bool IsSelect;
 
-    public Text mCashText,mBGMText, mSEText;
+    public Text mCashText,mBGMText, mSEText,mPortalNameText;
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton;
-    public GameObject mDoor, mTosterRoom;
+    public GameObject mDoor, mTosterRoom, NameParents;
+    public Transform[] PortalName;
 
 
     private void Awake()
@@ -57,6 +58,23 @@ public class MainLobbyUIController : MonoBehaviour
         mSEminus.onClick.AddListener(() => { SEMinus(); });
         mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
+        for (int i=0; i<PortalName.Length;i++)
+        {
+            if (SaveDataController.Instance.mUser.StageOpen[i]==true)
+            {
+                Text text = Instantiate(mPortalNameText, NameParents.transform);
+                if (GameSetting.Instance.Language==0)
+                {
+                    text.text = (i + 1)+"." + GameSetting.Instance.mMapInfoArr[i + 1].Title;
+                }
+                else if(GameSetting.Instance.Language==1)
+                {
+                    text.text = (i + 1) +"."+ GameSetting.Instance.mMapInfoArr[i + 1].EngTitle;
+                }
+                text.transform.localScale = new Vector3(0.07f,0.07f,1);
+                text.transform.position = PortalName[i].transform.position + new Vector3 (0, 1.2f,0);
+            }
+        }
     }
 
     public void ButtonPush()

@@ -27,17 +27,11 @@ public class UIController : InformationLoader
 
     public MapText[] mInfoArr;
 
-    public MapText[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
-
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            LoadJson(out mInfoArr, Path.MAP_TEXT);
             if (GameSetting.Instance.Language == 0)
             {
                 YesText.text = "<color=#FE2E2E>예</color>";
@@ -71,12 +65,12 @@ public class UIController : InformationLoader
         }
         if (GameSetting.Instance.Language == 0)//한국어
         {
-            maptext = mInfoArr[GameSetting.Instance.NowStage].Title;
+            maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].Title;
             mAirText.text = "공기";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
-            maptext = mInfoArr[GameSetting.Instance.NowStage].EngTitle;
+            maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].EngTitle;
             mAirText.text = "AIR";
         }
         if (GameSetting.Instance.NowStage == 4)

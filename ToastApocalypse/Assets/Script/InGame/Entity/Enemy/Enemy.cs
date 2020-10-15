@@ -52,7 +52,7 @@ public class Enemy : InformationLoader
         AttackOn = false;
         Nodamage = true;
         AttackCheck = true;
-        Stun = false;
+        Stun = true;
         isFire = false;
         mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
@@ -70,20 +70,8 @@ public class Enemy : InformationLoader
     {
         if (eType == eEnemyType.Mimic)
         {
-            mState = eMonsterState.Spawning;
             EnemySpawned();
         }
-        else
-        {
-            Stun = true;
-            mState = eMonsterState.Idle;
-            gameObject.layer = 0;
-            Spawned = true;
-            AttackCheck = false;
-            Nodamage = false;
-            mTrackingRange.gameObject.SetActive(true);
-        }
-        StartCoroutine(StateMachine());
     }
 
     public void EnemySpawned()
@@ -105,6 +93,7 @@ public class Enemy : InformationLoader
         Stun = false;
         Nodamage = false;
         mTrackingRange.gameObject.SetActive(true);
+        StartCoroutine(StateMachine());
         StartCoroutine(SkillCast());
     }
 

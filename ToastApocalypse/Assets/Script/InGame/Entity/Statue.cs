@@ -33,39 +33,39 @@ public class Statue : MonoBehaviour
         {
             case 0:
                 eType = eStatueType.Heal;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[0];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[0];
                 break;
             case 1:
                 eType = eStatueType.Strength;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[2];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[2];
                 break;
             case 2:
                 eType = eStatueType.Speed;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[4];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[4];
                 break;
             case 3:
                 eType = eStatueType.Def;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[6];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[6];
                 break;
             case 4:
                 eType = eStatueType.Gold;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[8];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[8];
                 break;
             case 5:
                 eType = eStatueType.War;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[10];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[10];
                 break;
             case 6:
                 eType = eStatueType.Heart;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[12];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[12];
                 break;
             case 7:
                 eType = eStatueType.Harvest;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[14];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[14];
                 break;
             case 8:
                 eType = eStatueType.Resistance;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[16];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[16];
                 break;
             default:
                 Debug.LogError("Wrong StatueType");
@@ -88,7 +88,7 @@ public class Statue : MonoBehaviour
         {
             case eStatueType.Heal:
                 Player.Instance.Heal(mStats.Hp);
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[1];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[1];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "체력 회복!";
@@ -105,7 +105,7 @@ public class Statue : MonoBehaviour
                 break;
             case eStatueType.Strength:
                 StartCoroutine(Player.Instance.Atk(mStats.Atk,21, mStats.Duration));
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[3];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[3];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "공격력 증가!";
@@ -123,7 +123,7 @@ public class Statue : MonoBehaviour
             case eStatueType.Speed:
                 StartCoroutine(Player.Instance.Speed(mStats.Spd,24, mStats.Duration));
                 StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd,23, mStats.Duration));
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[5];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[5];
 
                 if (GameSetting.Instance.Language == 0)
                 {
@@ -149,7 +149,7 @@ public class Statue : MonoBehaviour
                 break;
             case eStatueType.Def:
                 StartCoroutine(Player.Instance.Def(mStats.Def,22, mStats.Duration));
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[7];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[7];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "방어력 증가!";
@@ -166,7 +166,7 @@ public class Statue : MonoBehaviour
                 break;
             case eStatueType.Gold:
                 Player.Instance.mGoldBonus += 0.5f;
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[9];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[9];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "골드 획득량 증가!";
@@ -184,7 +184,7 @@ public class Statue : MonoBehaviour
                 {
                     Player.Instance.mStats.Crit = 1f;
                 }
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[11];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[11];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "치명타 확률 증가!";
@@ -198,7 +198,7 @@ public class Statue : MonoBehaviour
                 break;
             case eStatueType.Heart:
                 Player.Instance.Heal(Player.Instance.mMaxHP);
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[13];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[13];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "체력 전부 회복!";
@@ -214,7 +214,7 @@ public class Statue : MonoBehaviour
                 effect.SetText(bufftext);
                 break;
             case eStatueType.Harvest:
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[15];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[15];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "재료 획득률 상승!";
@@ -228,7 +228,7 @@ public class Statue : MonoBehaviour
                 effect.SetText(bufftext);
                 break;
             case eStatueType.Resistance:
-                mRenderer.sprite = StatueController.Instance.mStatueSprites[17];
+                mRenderer.sprite = GameController.Instance.mStatueSprites[17];
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "상태 이상 면역!";

@@ -53,7 +53,9 @@ MonoBehaviour:
   BulletStarter: []
   SkillObj: []
   mBarrier: {fileID: 0}
+  BulletTrash: {fileID: 0}
   mEnemyObj: {fileID: 0}
+  mBulletTrashList: []
 --- !u!1 &1681281346127913179
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &554775368441077713
 Transform:
   m_ObjectHideFlags: 0
@@ -305,6 +307,7 @@ Transform:
   - {fileID: 2338625869389192162}
   - {fileID: 8212466590766303545}
   - {fileID: 8353983706610853490}
+  - {fileID: 7348283646042140452}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -422,12 +425,10 @@ MonoBehaviour:
   UISprite: {fileID: 5390590848492755084, guid: d3fa1a6617b078747a87e94ee3f7f45d,
     type: 3}
   mSprite:
-  - {fileID: 0}
+  - {fileID: 5243253663166159106}
   - {fileID: 2031324471849036685}
   mRB2D: {fileID: 6673348853352372271}
   mTarget: {fileID: 0}
-  Runaway: 0
-  HasBarrier: 0
   mHPBarPos: {fileID: 8212466590766303545}
   mEnemySkill: {fileID: 3654067413658488601}
   mAttackArea: {fileID: 4292711803993236468}
@@ -436,15 +437,18 @@ MonoBehaviour:
   CCState: {fileID: 1681281346127913179}
   Nodamage: 0
   Stun: 0
+  isFire: 0
   IsTraking: 0
-  SpeedAmount: 0
   AttackOn: 0
   AttackCheck: 0
   Spawned: 0
-  IsMimic: 1
+  Runaway: 0
+  HasBarrier: 0
   mAnim: {fileID: 1413551272322966281}
   mCurrentHP: 0
   mMaxHP: 0
+  SpeedAmount: 0
+  CurrentRoom: {fileID: 0}
   mStats:
     ID: 0
     Name: 
@@ -456,6 +460,7 @@ MonoBehaviour:
     AtkSpd: 0
     Spd: 0
     Resistance: 0
+  mCrititcalText: {fileID: 0}
 --- !u!50 &6673348853352372271
 Rigidbody2D:
   serializedVersion: 4
@@ -477,6 +482,87 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!1 &5243253663166159106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7348283646042140452}
+  - component: {fileID: 6415721827669339112}
+  m_Layer: 8
+  m_Name: Waring_0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7348283646042140452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243253663166159106}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1321008355458778901}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &6415721827669339112
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243253663166159106}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 384634719
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 6c6b0bfa9ba19f940801dd3281f0332f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &7366119889459980910
 GameObject:
   m_ObjectHideFlags: 0

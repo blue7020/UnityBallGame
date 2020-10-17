@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
             if (!IsTutorial)
             {
                 MaterialDropRate = 0.3f;
-                StageHP = 3;
+                StageHP = 2;
                 RescueNPCList = new List<int>();
             }
         }

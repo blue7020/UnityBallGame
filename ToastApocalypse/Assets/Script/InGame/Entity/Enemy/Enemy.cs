@@ -328,7 +328,7 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
             mEnemySkill.Skill();
             yield return cool;
-            mEnemySkill.RemoveBulletParents();
+            mEnemySkill.RefreashBullet();
             mCoroutine = null;
         }
     }

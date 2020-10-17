@@ -51,8 +51,8 @@ public class Chest : MonoBehaviour
 
     private void Wood()
     {
-        rate[0] = 0.4f;
-        rate[1] = 0.45f;
+        rate[0] = 0.45f;
+        rate[1] = 0.4f;
         rate[2] = 0.15f;
         float rand = Random.Range(0, 1f);
         if (rand > 0.4f)//상자
@@ -86,7 +86,7 @@ public class Chest : MonoBehaviour
     private void Gold()
     {
         rate[0] = 0.15f;
-        rate[1] = 0.35f;
+        rate[1] = 0.3f;
         rate[2] = 0.55f;
         float rand = Random.Range(0, 1f);
         if (rand > 0.1f)//상자
@@ -114,7 +114,7 @@ public class Chest : MonoBehaviour
         {
             StartCoroutine(PassiveArtifactSearch());
         }
-        else
+        else//액티브 유물
         {
             StartCoroutine(ActiveArtifactSearch());
         }

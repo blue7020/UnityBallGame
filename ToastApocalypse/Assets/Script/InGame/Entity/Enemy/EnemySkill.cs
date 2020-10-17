@@ -15,14 +15,13 @@ public class EnemySkill : MonoBehaviour
     public Transform[] BulletStarter;
     public GameObject[] SkillObj;
     public GameObject mBarrier,BulletTrash;
+    public int BoltCount;//현재까지 소환한 볼트의 개수
     public EnemyObjAttackArea mEnemyObj;//에너미의 무기 등의 판정
-    public List<GameObject> mBulletTrashList;
 
     private void Start()
     {
         if (GameController.Instance.IsTutorial==false)
         {
-            mBulletTrashList = new List<GameObject>();
             BulletTrash = Instantiate(GameController.Instance.BulletTrash, mEnemy.CurrentRoom.transform);
             Skilltrigger = false;
             Skilltrigger2 = false;
@@ -36,21 +35,17 @@ public class EnemySkill : MonoBehaviour
         mEnemy.HasBarrier = true;
     }
 
-    public void RemoveBulletParents()
+    public void RefreashBullet()
     {
-        int count = mBulletTrashList.Count;
-        if (count>0)
+        if (BoltCount >49)
         {
-            for (int i = 0; i < count; i++)
-            {
-                mBulletTrashList.RemoveAt(i);
-            }
+            Destroy(BulletTrash);
+            BulletTrash = Instantiate(GameController.Instance.BulletTrash, mEnemy.CurrentRoom.transform);
         }
     }
 
     public void Skill()
     {
-        mBulletTrashList.Add(BulletTrash);
         Count = 0;
         if (mEnemy.mID < 22)
         {

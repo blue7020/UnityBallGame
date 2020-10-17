@@ -30,8 +30,6 @@ public class GameSetting : InformationLoader
     public Room[] NowStageRoom;
     public int NowStage;
 
-    public int PlayerSkillIndex;
-    public int PlayerWeaponIndex;
 
     public int Language; //0 = 한국어 / 1 = 영어
 
@@ -73,19 +71,13 @@ public class GameSetting : InformationLoader
         //}
         Restart();
         PlayerID = 0;
+        PlayerSkillID = 0;
+        PlayerWeaponID = 0;
 
         //테스트용도
         //mPlayerInfoArr[2].Open = true;//핑크도넛캐릭터 오픈
         //mPlayerInfoArr[2].PlayerHas = true;//핑크도넛캐릭터 오픈
         //mSkillInfoArr[2].PlayerHas = true;//돌진 스킬 오픈
-        SaveDataController.Instance.mUser.Syrup = 10000;
-        //for (int i = 0; i < HasMaterial.Length; i++)
-        //{
-        //    HasMaterial[i] = 10;
-        //}
-        //NPCOpen[1] = true;//스킬 상인 npc 오픈
-        //TutorialEnd = true;
-        //
     }
 
     public void Restart()
@@ -93,10 +85,6 @@ public class GameSetting : InformationLoader
         NowStageRoom = new Room[6];
         Ingame = false;
         NowStage = 0;
-        PlayerSkillID = 0;
-        PlayerWeaponID = 0;
-        PlayerSkillIndex = 0;
-        PlayerWeaponIndex = 0;
     }
 
     public void ShowAds()

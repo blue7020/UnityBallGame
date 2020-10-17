@@ -44,6 +44,7 @@ public class BuffController : MonoBehaviour
 
     public void SetBuff(int id,int code,eBuffType bufftype,float dura)
     {
+        bool buffChecker = false;
         if (buffIndex > 6)
         {
             buffIndex = 0;
@@ -62,14 +63,28 @@ public class BuffController : MonoBehaviour
         }
         else
         {
+
             if (buffIndex < 0)
             {
                 buffIndex = 0;
             }
+            for (int i = 0; i < mBuffArr.Length; i++)
+            {
+                if (mBuffArr[i]!=null&&mBuffArr[i].mBuffCode==code)
+                {
+                    mBuffArr[i].Delete();
+                    mBuffArr[i] = Instantiate(mBuff, mParents);
+                    mBuffArr[i].SetData(i, code, mSprite[id], bufftype, dura, i);
+                    buffChecker = true;
+                    break;
+                }
+            }
+            if (buffChecker==false)
+            {
                 mBuffArr[buffIndex] = Instantiate(mBuff, mParents);
                 mBuffArr[buffIndex].SetData(buffIndex, code, mSprite[id], bufftype, dura, buffIndex);
                 buffIndex++;
-
+            }
         }
     }
 

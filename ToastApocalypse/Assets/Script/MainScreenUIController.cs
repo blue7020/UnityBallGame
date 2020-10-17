@@ -8,7 +8,7 @@ public class MainScreenUIController : MonoBehaviour
 {
     public static MainScreenUIController Instance;
 
-    public Text mStartText, mEndText, mBGMText, mSEText;
+    public Text mStartText, mEndText, mBGMText, mSEText,CautionText;
     public Button mEngButton, mKorButton;
 
     private void Awake()
@@ -20,6 +20,7 @@ public class MainScreenUIController : MonoBehaviour
             {
                 mStartText.text = "게임 시작";
                 mEndText.text = "게임 종료";
+                CautionText.text = "<color=#FF2222>[주의]</color> 게임 데이터는 장치에\n저장되며, 게임을 삭제하면\n데이터를 복구할 수 없습니다!";
                 mEngButton.interactable = true;
                 mKorButton.interactable = false;
 
@@ -28,6 +29,7 @@ public class MainScreenUIController : MonoBehaviour
             {
                 mStartText.text = "Start";
                 mEndText.text = "Quit";
+                CautionText.text = "<color=#FF2222>[Caution]</color> Game data saving\non this device.\nIf you delete the game,\nyou will not be able\nto recover data!";
                 mEngButton.interactable = false;
                 mKorButton.interactable = true;
             }
@@ -56,6 +58,7 @@ public class MainScreenUIController : MonoBehaviour
         GameSetting.Instance.Language = 1;
         mStartText.text = "Start";
         mEndText.text = "Quit";
+        CautionText.text = "<color=#FF2222>[Caution]</color> Game data saving\non this device.\nIf you delete the game,\nyou will not be able\nto recover data!";
     }
     public void LanguagetoEng()
     {
@@ -64,6 +67,7 @@ public class MainScreenUIController : MonoBehaviour
         GameSetting.Instance.Language = 0;
         mStartText.text = "게임 시작";
         mEndText.text = "게임 종료";
+        CautionText.text = "<color=#FF2222>[주의]</color> 게임 데이터는 장치에\n저장되며, 게임을 삭제하면\n데이터를 복구할 수 없습니다!";
     }
 
     public void BGMPlus()

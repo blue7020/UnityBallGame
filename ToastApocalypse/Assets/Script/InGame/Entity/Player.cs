@@ -372,7 +372,6 @@ public class Player : MonoBehaviour
     {
         if (NowActiveArtifact != null)
         {
-            SoundController.Instance.SESoundUI(5);
             NowActiveArtifact.UseArtifact();
             if (GameController.Instance.IsTutorial == false)
             {

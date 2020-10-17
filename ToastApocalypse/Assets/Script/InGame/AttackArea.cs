@@ -79,7 +79,7 @@ public class AttackArea : MonoBehaviour
             {
                 TutorialUIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
             }
-            WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
+            //WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
             ResetDir();
         }
     }
@@ -143,7 +143,6 @@ public class AttackArea : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 Target = other.GetComponent<Enemy>();
-                WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
                 if (Target.mCurrentHP > 0 && Target != null)
                 {
                     float rand = Random.Range(0, 1f);
@@ -156,6 +155,7 @@ public class AttackArea : MonoBehaviour
                     {
                         Target.Hit(Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0]),0,false);
                     }
+                    WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
                     IsCrit = false;
 
                 }

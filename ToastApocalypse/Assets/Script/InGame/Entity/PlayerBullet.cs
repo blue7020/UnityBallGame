@@ -7,6 +7,9 @@ public class PlayerBullet : MonoBehaviour
     public int mWeaponID;
     public float mDamage;
     public ePlayerBulletType eType;
+    public ePlayerBulletEffectType eEffectType;
+    public float mEffectTime;
+    public float mEffectAmount;
     public bool returnPlayer;
     public bool returnCheck;
     public float mSpeed;
@@ -91,6 +94,16 @@ public class PlayerBullet : MonoBehaviour
         }
     }
 
+    private void Effect()
+    {
+        switch (eEffectType)
+        {
+            case ePlayerBulletEffectType.slow:
+                Target.StartCoroutine(Target.SpeedNurf(mEffectAmount, mEffectTime));
+                break;
+        }
+    }
+
     public IEnumerator MovetoEnemyTargetBolt(Enemy TurretTarget)
     {
         WaitForSeconds one = new WaitForSeconds(0.1f);
@@ -107,6 +120,7 @@ public class PlayerBullet : MonoBehaviour
             Target = other.GetComponent<Enemy>();
             if (Target.mCurrentHP > 0 && Target != null)
             {
+                Effect();
                 float rand = Random.Range(0, 1f);
                 if (rand <= Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5])
                 {

@@ -37,20 +37,19 @@ public class Artifacts : InformationLoader
         {
             if (IsArtifactCool == false)
             {
-                StartCoroutine(SkillCool());
+                SoundController.Instance.SESoundUI(5);
+                SkillCool();
             }
 
         }
 
     }
 
-    private IEnumerator SkillCool()
+    private void SkillCool()
     {
-        WaitForSeconds Cool = new WaitForSeconds(mStats.Skill_Cooltime-(mStats.Skill_Cooltime * Player.Instance.mStats.CooltimeReduce));
         IsArtifactCool = true;
         ActiveArtifacts.Instance.ArtifactsFuntion(mID);
         StartCoroutine(CooltimeRoutine());
-        yield return Cool;
     }
     public void ShowCooltime(float maxTime, float currentTime)
     {
@@ -63,7 +62,6 @@ public class Artifacts : InformationLoader
             }
             else
             {
-                IsArtifactCool = false;
                 UIController.Instance.ArtifactCoolWheel.gameObject.SetActive(false);
             }
         }
@@ -76,7 +74,6 @@ public class Artifacts : InformationLoader
             }
             else
             {
-                IsArtifactCool = false;
                 TutorialUIController.Instance.ArtifactCoolWheel.gameObject.SetActive(false);
             }
         }
@@ -84,7 +81,7 @@ public class Artifacts : InformationLoader
 
     private IEnumerator CooltimeRoutine()
     {
-        float maxTime = mStats.Skill_Cooltime + (mStats.Skill_Cooltime - (mStats.Skill_Cooltime * (1 + Player.Instance.mStats.CooltimeReduce)));
+        float maxTime = mStats.Skill_Cooltime - (mStats.Skill_Cooltime * Player.Instance.mStats.CooltimeReduce);
         float CoolTime = maxTime;
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
         float AttackCurrentTime = CoolTime;
@@ -94,6 +91,7 @@ public class Artifacts : InformationLoader
             AttackCurrentTime -= Time.fixedDeltaTime;
             ShowCooltime(CoolTime, AttackCurrentTime);
         }
+        IsArtifactCool = false;
     }
 
     public void EquipArtifact()

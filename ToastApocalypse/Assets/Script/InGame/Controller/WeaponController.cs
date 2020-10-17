@@ -44,14 +44,13 @@ public class WeaponController : MonoBehaviour
 
     public void WeaponSkill(int WeaponID, Enemy Target, bool Checker)
     {
-        switch (WeaponID)
+        switch (WeaponID)//원거리 무기는 Playerbullet에서 설정
         {
             case 0://이쑤시개
                 break;
             case 1://케찹
                 break;
             case 2://머스타드
-                Mustard(Target);
                 break;
             case 3://바게트
                 KnockBack(Target);
@@ -100,20 +99,18 @@ public class WeaponController : MonoBehaviour
                 break;
             case 22://샌드위치 소드
                 break;
+            case 23://어묵 꼬치
+                FishCakeBar(Target);
+                break;
+            case 24://콘도그
+                CornDog(Target,Checker);
+                break;
 
         }
         Target = null;
     }
 
     //WeaponSkillData
-    private void Mustard(Enemy Target)
-    {
-        if (Target != null)
-        {
-            Target.StartCoroutine(Target.SpeedNurf(1.5f, 0.5f));
-        }
-    }
-
     public void KnockBack(Enemy Target)
     {
         if (Target != null&&Target.mStats.Resistance<0.5f)
@@ -184,5 +181,31 @@ public class WeaponController : MonoBehaviour
         {
             Player.Instance.Heal(1);
         }
+    }
+
+    public void FishCakeBar(Enemy Target)
+    {
+        if (Target != null)
+        {
+            if (mWeaponSkillCount >= 4)
+            {
+                Target.Hit((Player.Instance.mStats.Atk + Player.Instance.buffIncrease[0]) * 0.3f, 0, false);
+                mWeaponSkillCount = 0;
+            }
+            else
+            {
+                mWeaponSkillCount++;
+            }
+        }
+    }
+
+    public void CornDog(Enemy Target, bool isCrit)
+    {
+        if (isCrit == true && Target != null)
+        {
+            Player.Instance.StartCoroutine(Player.Instance.Speed(0.2f,4,1f));
+            Debug.Log("발동");
+        }
+        KnockBack(Target);
     }
 }

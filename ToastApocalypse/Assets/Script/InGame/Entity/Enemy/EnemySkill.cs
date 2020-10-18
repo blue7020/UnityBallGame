@@ -14,7 +14,7 @@ public class EnemySkill : MonoBehaviour
     public bool Skilltrigger, Skilltrigger2;
     public Transform[] BulletStarter;
     public GameObject[] SkillObj;
-    public GameObject mBarrier,BulletTrash;
+    public GameObject mBarrier;
     public int BoltCount;//현재까지 소환한 볼트의 개수
     public EnemyObjAttackArea mEnemyObj;//에너미의 무기 등의 판정
 
@@ -22,7 +22,6 @@ public class EnemySkill : MonoBehaviour
     {
         if (GameController.Instance.IsTutorial==false)
         {
-            BulletTrash = Instantiate(GameController.Instance.BulletTrash, mEnemy.CurrentRoom.transform);
             Skilltrigger = false;
             Skilltrigger2 = false;
             SkillCount = 0;
@@ -31,16 +30,10 @@ public class EnemySkill : MonoBehaviour
 
     public void IceBarrier()
     {
-        mBarrier = Instantiate(SkillObj[0], mEnemy.transform);
-        mEnemy.HasBarrier = true;
-    }
-
-    public void RefreashBullet()
-    {
-        if (BoltCount >49)
+        if (mEnemy.eType!=eEnemyType.Mimic)
         {
-            Destroy(BulletTrash);
-            BulletTrash = Instantiate(GameController.Instance.BulletTrash, mEnemy.CurrentRoom.transform);
+            mBarrier = Instantiate(SkillObj[0], mEnemy.transform);
+            mEnemy.HasBarrier = true;
         }
     }
 
@@ -319,10 +312,6 @@ public class EnemySkill : MonoBehaviour
     public void ResetDir(int ID, int bulletDir = 0)
     {
         Bullet bolt = BulletPool.Instance.GetFromPool(ID);
-        if (BulletTrash!=null)
-        {
-            bolt.transform.SetParent(BulletTrash.transform);
-        }
         bolt.mEnemy = mEnemy;
         bolt.transform.position = mEnemy.transform.position;
         switch (bulletDir)
@@ -533,7 +522,6 @@ public class EnemySkill : MonoBehaviour
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(5);
         bolt.mEnemy = mEnemy;
-        bolt.transform.SetParent(BulletTrash.transform);
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -638,7 +626,6 @@ public class EnemySkill : MonoBehaviour
         }
         Bullet bolt1 = BulletPool.Instance.GetFromPool(bulletIndex); Bullet bolt2 = BulletPool.Instance.GetFromPool(bulletIndex);
         bolt1.mEnemy = mEnemy; bolt2.mEnemy = mEnemy;
-        bolt1.transform.SetParent(BulletTrash.transform); bolt2.transform.SetParent(BulletTrash.transform);
         bolt1.transform.localPosition = BulletStarter[0].transform.position; bolt2.transform.localPosition = BulletStarter[1].transform.position;
         bolt1.mRB2D.velocity = dirR.normalized * bolt1.mSpeed; bolt2.mRB2D.velocity = -dirL.normalized * bolt2.mSpeed;
         Count++;
@@ -715,7 +702,6 @@ public class EnemySkill : MonoBehaviour
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(12);
         bolt.mEnemy = mEnemy;
-        bolt.transform.SetParent(BulletTrash.transform);
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -824,7 +810,6 @@ public class EnemySkill : MonoBehaviour
     {
         Bullet bolt = BulletPool.Instance.GetFromPool(15);
         bolt.mEnemy = mEnemy;
-        bolt.transform.SetParent(BulletTrash.transform);
         bolt.transform.position = Player.Instance.transform.position;
         Count++;
     }
@@ -846,7 +831,6 @@ public class EnemySkill : MonoBehaviour
         if (Skilltrigger2 == true)
         {
             Enemy enemy = EnemyPool.Instance.GetFromPool(3);//화염의손 소환
-            enemy.mMaxHP = 6; enemy.mCurrentHP = 6;
             enemy.transform.position = mEnemy.transform.position + point;
         }
     }
@@ -986,7 +970,6 @@ public class EnemySkill : MonoBehaviour
             Vector3 dir = Pos - transform.position;
             Bullet bolt = BulletPool.Instance.GetFromPool(19);
             bolt.mEnemy = mEnemy;
-            bolt.transform.SetParent(BulletTrash.transform);
             bolt.transform.localPosition = mEnemy.transform.position;
             bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
             Count++;
@@ -1025,7 +1008,6 @@ public class EnemySkill : MonoBehaviour
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(20);
         bolt.mEnemy = mEnemy;
-        bolt.transform.SetParent(BulletTrash.transform);
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -1075,7 +1057,6 @@ public class EnemySkill : MonoBehaviour
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(21);
         bolt.mEnemy = mEnemy;
-        bolt.transform.SetParent(BulletTrash.transform);
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -1087,7 +1068,7 @@ public class EnemySkill : MonoBehaviour
             int Xpos = Random.Range(-7, 8);
             int Ypos = Random.Range(-7, 8);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            GameObject tentacle = Instantiate(SkillObj[0], BulletTrash.transform);
+            GameObject tentacle = Instantiate(SkillObj[0], mEnemy.CurrentRoom.transform);
             tentacle.transform.position = mEnemy.transform.position + Pos;
         }
     }
@@ -1222,7 +1203,6 @@ public class EnemySkill : MonoBehaviour
         Vector3 dir = Pos - transform.position;
         Bullet bolt = BulletPool.Instance.GetFromPool(23);
         bolt.mEnemy = mEnemy;
-        bolt.transform.SetParent(BulletTrash.transform);
         bolt.transform.localPosition = mEnemy.transform.position;
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
         Count++;
@@ -1257,7 +1237,6 @@ public class EnemySkill : MonoBehaviour
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet bolt = BulletPool.Instance.GetFromPool(24);
             bolt.mEnemy = mEnemy;
-            bolt.transform.SetParent(BulletTrash.transform);
             bolt.transform.localPosition = mEnemy.transform.position + Pos;
         }
     }
@@ -1380,7 +1359,6 @@ public class EnemySkill : MonoBehaviour
             int Ypos = Random.Range(-6, 7);
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet toast = BulletPool.Instance.GetFromPool(27);
-            toast.transform.SetParent(BulletTrash.transform);
             toast.mEnemy = mEnemy;
             toast.transform.position = mEnemy.transform.position + Pos;
         }
@@ -1490,7 +1468,6 @@ public class EnemySkill : MonoBehaviour
             Vector3 Pos = new Vector3(Xpos, Ypos, 0);
             Bullet toast = BulletPool.Instance.GetFromPool(29);
             toast.mEnemy = mEnemy;
-            toast.transform.SetParent(BulletTrash.transform);
             toast.transform.position = mEnemy.transform.position + Pos;
         }
     }
@@ -1561,7 +1538,6 @@ public class EnemySkill : MonoBehaviour
                 Vector3 Pos = new Vector3(Xpos, Ypos, 0);
                 Bullet tomato = BulletPool.Instance.GetFromPool(30);
                 tomato.mEnemy = mEnemy;
-                tomato.transform.SetParent(BulletTrash.transform);
                 tomato.transform.position = mEnemy.transform.position + Pos;
                 count++;
             }

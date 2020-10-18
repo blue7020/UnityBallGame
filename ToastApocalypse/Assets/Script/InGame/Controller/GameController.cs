@@ -18,7 +18,6 @@ public class GameController : MonoBehaviour
 
     public int SyrupInStage;
     public bool IsTutorial;
-    public GameObject BulletTrash;
 
     public List<int> RescueNPCList;
 
@@ -81,6 +80,7 @@ public class GameController : MonoBehaviour
     {
         DestroyController();
         pause = false;
+        SaveDataController.Instance.Save();
         Time.timeScale = 1;
         GameSetting.Instance.NowScene = 1;
         GameSetting.Instance.Restart();
@@ -93,6 +93,7 @@ public class GameController : MonoBehaviour
     {
         DestroyController();
         pause = false;
+        SaveDataController.Instance.Save();
         Time.timeScale = 1;
         GameSetting.Instance.NowScene = 0;
         GameSetting.Instance.Restart();

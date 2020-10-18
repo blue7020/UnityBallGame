@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
     public Artifacts UseItemInventory;
 
     public Enemy LastHitEnemy;
+    public int DeathBy;
 
     public PlayerStat GetPlayerStats()
     {
@@ -160,6 +161,8 @@ public class Player : MonoBehaviour
             if (mCurrentAir < 1)
             {
                 mCurrentHP -= mMaxHP * 0.1f;
+                LastHitEnemy = null;
+                DeathBy = 3;
                 UIController.Instance.ShowHP();
             }
             if (OnAir == false)
@@ -211,7 +214,7 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Hit(float damage)
+    public void Hit(float damage,int damagetype=0)
     {
         if (Nodamage ==false)
         {
@@ -234,6 +237,20 @@ public class Player : MonoBehaviour
             else
             {
                 TutorialUIController.Instance.ShowHP();
+            }
+            if (damagetype==1)
+            {
+                LastHitEnemy = null;
+                DeathBy = 1;
+            }
+            else if (damagetype == 2)
+            {
+                LastHitEnemy = null;
+                DeathBy = 2;
+            }
+            else
+            {
+                DeathBy = 0;
             }
         }
         if (mCurrentHP <= 0)
@@ -573,7 +590,7 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds Dura = new WaitForSeconds(duration);
         PlusBoltCount += value;
-        BuffController.Instance.SetBuff(14, code, eBuffType.Buff, duration);
+        BuffController.Instance.SetBuff(15, code, eBuffType.Buff, duration);
         yield return Dura;
         PlusBoltCount -= value;
 

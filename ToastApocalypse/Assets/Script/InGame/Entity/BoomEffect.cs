@@ -5,35 +5,14 @@ using UnityEngine;
 public class BoomEffect : MonoBehaviour
 {
     public PlayerBullet mBullet;
-    public bool PlayerIn;
     public bool NoDoubleDamage;
     public Enemy Target;
 
     private void BoomStart()
     {
         NoDoubleDamage = false;
-        PlayerIn = false;
         Target = null;
-        StartCoroutine(Boom());
-    }
-    private IEnumerator Boom()
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
         SoundController.Instance.SESound(15);
-        while (true)
-        {
-            if (PlayerIn == true&& NoDoubleDamage== false)
-            {
-                Player.Instance.Hit(mBullet.mDamage / 2);
-                NoDoubleDamage = true;
-            }
-            if (Target != null && NoDoubleDamage == false)
-            {
-                Target.Hit(mBullet.mDamage,1,false);
-                NoDoubleDamage = true;
-            }
-            yield return delay;
-        }
     }
 
     private void ActiveFalse()
@@ -43,9 +22,10 @@ public class BoomEffect : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&& NoDoubleDamage == false)
         {
-            PlayerIn = true;
+            NoDoubleDamage = true;
+            Player.Instance.Hit(mBullet.mDamage * 0.7f,1);
         }
         if (other.gameObject.CompareTag("Enemy"))
         {
@@ -54,13 +34,6 @@ public class BoomEffect : MonoBehaviour
             {
                 Target.Hit(mBullet.mDamage,1,false);
             }
-        }
-    }
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            PlayerIn = false;
         }
     }
 }

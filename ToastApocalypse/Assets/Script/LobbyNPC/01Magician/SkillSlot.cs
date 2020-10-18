@@ -20,12 +20,12 @@ public class SkillSlot : MonoBehaviour,IPointerClickHandler
         Icon.sprite = SkillController.Instance.SkillIcon[SkillID];
         if (GameSetting.Instance.Language == 0)//한국어
         {
-            Price.text = "가격: " + mSkillText.Price.ToString();
+            Price.text = "가격: " + mSkillText.Price+ "시럽";
             Title.text = mSkillText.Title;
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
-            Price.text = "Price: " + mSkillText.Price.ToString();
+            Price.text = "Price: " + mSkillText.Price+"Syrup";
             Title.text = mSkillText.EngTitle;
         }
     }

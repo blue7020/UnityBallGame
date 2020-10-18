@@ -343,7 +343,7 @@ public class SaveDataController : InformationLoader
     }
 
 
-    protected void Save()
+    public void Save()
     {
         //string location = Application.streamingAssetsPath + "/SaveData";
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채

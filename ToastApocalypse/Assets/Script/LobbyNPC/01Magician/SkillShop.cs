@@ -95,12 +95,12 @@ public class SkillShop : MonoBehaviour
         if (GameSetting.Instance.Language == 0)//한국어
         {
             mSkillTitle.text = mSkillText.Title;
-            mLoreText.text = mSkillText.ContensFormat + "\n가격: " + mSkillText.Price;
+            mLoreText.text = mSkillText.ContensFormat + "\n가격: " + mSkillText.Price + "시럽";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {
             mSkillTitle.text = mSkillText.EngTitle;
-            mLoreText.text = mSkillText.EngContensFormat + "\nPrice: " + mSkillText.Price;
+            mLoreText.text = mSkillText.EngContensFormat + "\nPrice: " + mSkillText.Price+ "Syrup";
         }
         if (SaveDataController.Instance.mUser.SkillHas[mSkill.ID] == false)
         {

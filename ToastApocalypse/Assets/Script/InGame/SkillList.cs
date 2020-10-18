@@ -216,7 +216,7 @@ public class SkillList : MonoBehaviour
     public void Topping_Plus()
     {
         StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[8].AtkSpd, 13, SkillController.Instance.mStatInfoArr[8].Duration));
-        StartCoroutine(Player.Instance.PlusBolt(1,16, SkillController.Instance.mStatInfoArr[8].Duration));
+        StartCoroutine(Player.Instance.PlusBolt(1,15, SkillController.Instance.mStatInfoArr[8].Duration));
     }
 
     public IEnumerator Champagne_Explosion()
@@ -272,7 +272,7 @@ public class SkillList : MonoBehaviour
 
     public void Crispy_Texture()
     {
-        StartCoroutine(Player.Instance.Critical(SkillController.Instance.mStatInfoArr[12].Crit, 15, SkillController.Instance.mStatInfoArr[12].Duration));
+        StartCoroutine(Player.Instance.Critical(SkillController.Instance.mStatInfoArr[12].Crit, 16, SkillController.Instance.mStatInfoArr[12].Duration));
         StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[12].AtkSpd, 13, SkillController.Instance.mStatInfoArr[12].Duration));
     }
 }

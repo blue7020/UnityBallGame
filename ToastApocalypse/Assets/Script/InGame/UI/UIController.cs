@@ -216,15 +216,44 @@ public class UIController : InformationLoader
         }
         else
         {
-            if (GameSetting.Instance.Language == 0)
-            {//한국어
-                mTitleText.text = "부주의한 무기 사용으로 사망";
-                mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+            if (Player.Instance.DeathBy==1)
+            {
+                if (GameSetting.Instance.Language == 0)
+                {//한국어
+                    mTitleText.text = "부주의한 무기 사용으로 사망";
+                    mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {//영어
+                    mTitleText.text = "Death by careless use of weapon";
+                    mTouchGuideText.text = "Touch to move to the lobby.";
+                }
             }
-            else if (GameSetting.Instance.Language == 1)
-            {//영어
-                mTitleText.text = "Death by careless use of weapon";
-                mTouchGuideText.text = "Touch to move to the lobby.";
+            else if (Player.Instance.DeathBy == 2)
+            {
+                if (GameSetting.Instance.Language == 0)
+                {//한국어
+                    mTitleText.text = "함정에 걸려 사망";
+                    mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {//영어
+                    mTitleText.text = "Death by trapped";
+                    mTouchGuideText.text = "Touch to move to the lobby.";
+                }
+            }
+            else if (Player.Instance.DeathBy == 3)
+            {
+                if (GameSetting.Instance.Language == 0)
+                {//한국어
+                    mTitleText.text = "질식하여 사망";
+                    mTouchGuideText.text = "터치 시 로비로 이동합니다.";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {//영어
+                    mTitleText.text = "Death by suffocation";
+                    mTouchGuideText.text = "Touch to move to the lobby.";
+                }
             }
         }
         mDeathWindow.gameObject.SetActive(true);

@@ -149,10 +149,6 @@ public class Enemy : InformationLoader
                         {
                             PortalTrigger.Instance.BossDeath();
                         }
-                        if (mEnemySkill.BulletTrash!=null)
-                        {
-                            mEnemySkill.BulletTrash.SetActive(false);
-                        }
                         gameObject.SetActive(false);
                         break;
 
@@ -207,6 +203,13 @@ public class Enemy : InformationLoader
                 {
                     StartCoroutine(HitAnimation());
                     mCurrentHP -= damage;
+                    if (mTarget==null)
+                    {
+                        mState = eMonsterState.Traking;
+                        IsTraking = true;
+                        mTarget = Player.Instance;
+                        StartCoroutine(MoveToPlayer());
+                    }
 
                     if (mHPBar == null)
                     {
@@ -328,7 +331,6 @@ public class Enemy : InformationLoader
             mAnim.SetBool(AnimHash.Enemy_Walk, false);
             mEnemySkill.Skill();
             yield return cool;
-            mEnemySkill.RefreashBullet();
             mCoroutine = null;
         }
     }

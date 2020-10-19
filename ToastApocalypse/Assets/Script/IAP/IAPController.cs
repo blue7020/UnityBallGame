@@ -36,11 +36,15 @@ public class IAPController : MonoBehaviour, IStoreListener
     //private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
     ////
 
-    private string Consumable_Ruby100 = "Ruby_100";
-    private string NonConsumable_StarterPack = "StarterPack";
+    //private string Consumable_Ruby100 = "Ruby_100";
+    //private string NonConsumable_StarterPack = "StarterPack";
 
-    private string GooglePlay_Ruby100 = "ruby100";//구글 플레이 콘솔에서 인앱결제 상품을 등록할때 ID(대문자가 안된다)
-    private string GooglePlay_StarterPack = "starterpack";
+    private string Consumable_NOADS = "NoAds_1";
+    private string GooglePlay_NOADS = "noAds1";
+
+
+    //private string GooglePlay_Ruby100 = "ruby100";//구글 플레이 콘솔에서 인앱결제 상품을 등록할때 ID(대문자가 안된다)
+    //private string GooglePlay_StarterPack = "starterpack";
 
     private string ios_Ruby100 = "01100"; //만약 숫자만 될 때 사용하는 방법 01은 아이템 ID 100은 개수
     private string ios_StarterPack = "s00";//한 문자만 사용하는 방법 s은 아이템 이니셜
@@ -84,16 +88,22 @@ public class IAPController : MonoBehaviour, IStoreListener
         // Create a builder, first passing in a suite of Unity provided stores.
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-        builder.AddProduct(Consumable_Ruby100, ProductType.Consumable, new IDs()
+        builder.AddProduct(Consumable_NOADS, ProductType.Consumable, new IDs()
         {
-            { GooglePlay_Ruby100,GooglePlay.Name},//해당 스토어에 이 상품을 연동시킨 것이다. 만약 한 플랫폼에만 팔고 싶다면 둘중 하나만 쓰면 된다.
-            { ios_Ruby100,AppleAppStore.Name}
+            { GooglePlay_NOADS,GooglePlay.Name}//해당 스토어에 이 상품을 연동시킨 것이다. 만약 한 플랫폼에만 팔고 싶다면 둘중 하나만 쓰면 된다.
+            //,{ ios_Ruby100,AppleAppStore.Name}
         });
-        builder.AddProduct(NonConsumable_StarterPack, ProductType.NonConsumable, new IDs()
-        {
-            { GooglePlay_StarterPack,GooglePlay.Name},
-            { ios_StarterPack,AppleAppStore.Name}
-        });
+
+        //builder.AddProduct(Consumable_Ruby100, ProductType.Consumable, new IDs()
+        //{
+        //    { GooglePlay_Ruby100,GooglePlay.Name},//해당 스토어에 이 상품을 연동시킨 것이다. 만약 한 플랫폼에만 팔고 싶다면 둘중 하나만 쓰면 된다.
+        //    { ios_Ruby100,AppleAppStore.Name}
+        //});
+        //builder.AddProduct(NonConsumable_StarterPack, ProductType.NonConsumable, new IDs()
+        //{
+        //    { GooglePlay_StarterPack,GooglePlay.Name},
+        //    { ios_StarterPack,AppleAppStore.Name}
+        //});
 
         //참고용
         //// Add a product to sell / restore by way of its identifier, associating the general identifier
@@ -123,15 +133,21 @@ public class IAPController : MonoBehaviour, IStoreListener
     }
 
     //결제를 위한 함수 - 아이템별로 함수를 각각 만들어줘야한다.
-    public void BuyRuby()
+    public void BuyNOAds()
     {
-        BuyProductID(Consumable_Ruby100);
+        BuyProductID(Consumable_NOADS);
     }
 
-    public void BuyStarterPack()
-    {
-        BuyProductID(NonConsumable_StarterPack);
-    }
+
+    //public void BuyRuby()
+    //{
+    //    BuyProductID(Consumable_Ruby100);
+    //}
+
+    //public void BuyStarterPack()
+    //{
+    //    BuyProductID(NonConsumable_StarterPack);
+    //}
     //public void BuyConsumable()
     //{
     //    // Buy the consumable product using its general identifier. Expect a response either 
@@ -257,18 +273,18 @@ public class IAPController : MonoBehaviour, IStoreListener
     {
         if (validPurchase)//영수증 처리 기본
         {
-            if (String.Equals(args.purchasedProduct.definition.id, Consumable_Ruby100, StringComparison.Ordinal))
+            if (String.Equals(args.purchasedProduct.definition.id, Consumable_NOADS, StringComparison.Ordinal))
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                //해당 아이템 지급
+                SaveDataController.Instance.mUser.NoAds = true;
             }
-            else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_StarterPack, StringComparison.Ordinal))
-            {
-                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                //해당 아이템 지급
-            }
+            //else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_StarterPack, StringComparison.Ordinal))
+            //{
+            //    Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+            //    // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+            //    //해당 아이템 지급
+            //}
             // Or ... an unknown product has been purchased by this user. Fill in additional products here....
             else//결제 실패
             {

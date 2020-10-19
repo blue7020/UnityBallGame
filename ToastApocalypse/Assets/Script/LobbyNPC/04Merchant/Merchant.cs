@@ -98,8 +98,8 @@ public class Merchant : MonoBehaviour
                     }
                     else
                     {
-                        mItemTitle.text = "광고 제거";
-                        mItemText.text = "모든 보상을 광고 없이 획득할 수 있습니다";
+                        mItemTitle.text = "No Ads";
+                        mItemText.text = "All rewards can be available without advertising.";
                         mBuyText.text = PriceEng[0];
                     }
                     BuyButton.interactable = true;

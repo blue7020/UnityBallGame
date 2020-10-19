@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainScreenUIController : MonoBehaviour
+public class MainScreenUIController : InformationLoader
 {
     public static MainScreenUIController Instance;
 
     public Text mStartText, mEndText, mBGMText, mSEText,CautionText;
     public Button mEngButton, mKorButton;
+    public Image mCutSceneBG;
+
+
 
     private void Awake()
     {
@@ -33,6 +36,7 @@ public class MainScreenUIController : MonoBehaviour
                 mEngButton.interactable = false;
                 mKorButton.interactable = true;
             }
+
         }
         else
         {
@@ -41,6 +45,14 @@ public class MainScreenUIController : MonoBehaviour
     }
     private void Start()
     {
+        if (SaveDataController.Instance.mUser.TutorialEnd==true)
+        {
+            OpeningSkip();
+        }
+        else
+        {
+            SoundController.Instance.BGMChange(0);
+        }
         mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
@@ -48,6 +60,12 @@ public class MainScreenUIController : MonoBehaviour
     public void ButtonPush()
     {
         SoundController.Instance.SESoundUI(0);
+    }
+
+    public void OpeningSkip()
+    {
+        mCutSceneBG.gameObject.SetActive(false);
+        SoundController.Instance.BGMChange(0);
     }
 
     //0 = 한국어 / 1 = 영어

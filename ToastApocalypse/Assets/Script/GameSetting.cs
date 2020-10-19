@@ -28,6 +28,8 @@ public class GameSetting : InformationLoader
     public UsingItem[] mItemArr;
     public MapText[] mMapInfoArr;
     public Room[] NowStageRoom;
+    public DialogText[] mDialogArr;
+    public Sprite[] Illust;
     public int NowStage;
 
 
@@ -50,6 +52,7 @@ public class GameSetting : InformationLoader
                 Debug.Log("None Kor" + (int)Application.systemLanguage);
                 Language = 1;
             }
+            LoadJson(out mDialogArr, Path.DIALOG_TEXT);
             LoadJson(out mMapInfoArr, Path.MAP_TEXT);
             NowScene = 0;
         }

@@ -34,7 +34,11 @@ public class SoundController : MonoBehaviour
 
     private void Start()
     {
-        BGMChange(0);
+        SoundSetting();
+    }
+
+    public void SoundSetting()
+    {
         if (BGMVolume == 1)
         {
             UIBGMVol = 10;
@@ -54,6 +58,7 @@ public class SoundController : MonoBehaviour
         mBGM.volume = BGMVolume;
         mSE.volume = SEVolume;
         mBGSE.volume = SEVolume;
+        BGMChange(0);
     }
 
     public void BGMChange(int id)

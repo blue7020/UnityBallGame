@@ -40,7 +40,10 @@ public class ObjectRoomSpawner : MonoBehaviour
             int randomPos = UnityEngine.Random.Range(1, grid.availabePoints.Count);
             Convert.ToInt32(randomPos);
             GameObject go = Instantiate(data.spawnerData.itemToSpawn, grid.availabePoints[randomPos], Quaternion.identity, transform) as GameObject;
-            go.GetComponent<Enemy>().CurrentRoom = room;
+            if (go.GetComponent<Enemy>())
+            {
+                go.GetComponent<Enemy>().CurrentRoom = room;
+            }
             go.transform.position += new Vector3(0.5f, 0, 0);
             grid.availabePoints.RemoveAt(randomPos);
         }

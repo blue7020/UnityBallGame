@@ -15,6 +15,7 @@ public class PlayerSelectController : InformationLoader
     public int NowPlayerID;
     public Text mNameText, mStatText, mSelectText,mTitleText;
     public PlayerStat[] mPlayerStat;
+    public List<PlayerStat> mPlayerStatList;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerSelectController : InformationLoader
                 mWindow.gameObject.SetActive(false);
                 GameSetting.Instance.NowScene = 1;
             }
+            PlayerSetting();
         }
         else
         {
@@ -38,21 +40,28 @@ public class PlayerSelectController : InformationLoader
     {
         if (GameSetting.Instance.NowScene == 0)
         {
-            NowPlayerID = 0;
-            LeftButton.gameObject.SetActive(false);
             ShowStat();
         }
         else if(GameSetting.Instance.NowScene == 1)
         {
-            NowPlayerID = GameSetting.Instance.PlayerID;
-            if (NowPlayerID==0)
-            {
-                LeftButton.gameObject.SetActive(false);
-            }
             ReturnLobby();
         }
         mBlackScreen.gameObject.SetActive(false);
 
+    }
+
+    public void PlayerSetting()
+    {
+        mPlayerStatList = new List<PlayerStat>();
+        for (int i = 0; i < mPlayerStat.Length; i++)
+        {
+            if (SaveDataController.Instance.mUser.CharacterHas[i] == true || SaveDataController.Instance.mUser.CharacterOpen[i] == true)
+            {
+                mPlayerStatList.Add(mPlayerStat[i]);
+            }
+        }
+        NowPlayerID = 0;
+        LeftButton.gameObject.SetActive(false);
     }
 
     public void LeftCharacterSelect()
@@ -69,7 +78,7 @@ public class PlayerSelectController : InformationLoader
     {
         NowPlayerID +=1;
         ShowStat();
-        if (NowPlayerID + 1 >= mPlayer.Length)
+        if (NowPlayerID + 1 >= mPlayerStatList.Count)
         {
             RightButton.gameObject.SetActive(false);
         }
@@ -79,15 +88,15 @@ public class PlayerSelectController : InformationLoader
     public void CharaChange()
     {
         MainLobbyUIController.Instance.IsSelect = false;
-        StartCoroutine(ShowBlackScreen(NowPlayerID));
+        StartCoroutine(ShowBlackScreen(mPlayerStatList[NowPlayerID].ID));
     }
 
     public void CharaBuy()
     {
-        if (SaveDataController.Instance.mUser.Syrup>=mPlayerStat[NowPlayerID].Price)
+        if (SaveDataController.Instance.mUser.Syrup>= mPlayerStatList[NowPlayerID].Price)
         {
             SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] = true;
-            SaveDataController.Instance.mUser.Syrup -= mPlayerStat[NowPlayerID].Price;
+            SaveDataController.Instance.mUser.Syrup -= mPlayerStatList[NowPlayerID].Price;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowStat();
         }
@@ -154,9 +163,9 @@ public class PlayerSelectController : InformationLoader
         }
         else
         {
-            if (SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] ==true)
+            if (SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] == true)
             {
-                mPlayerImage.sprite = mPlayer[NowPlayerID].mRenderer.sprite;
+                mPlayerImage.sprite = mPlayer[mPlayerStatList[NowPlayerID].ID].mRenderer.sprite;
                 if (GameSetting.Instance.Language == 0)
                 {//한국어
                     string Stat = string.Format("최대 체력: {0}\n" +
@@ -167,14 +176,14 @@ public class PlayerSelectController : InformationLoader
                                               "치명타 피해: {5}\n" +
                                               "\n" +
                                               "쿨타임 감소: {6}\n" +
-                                              "상태이상 저항: {7}", mPlayerStat[NowPlayerID].Hp.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Atk.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Def.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Spd.ToString("N1"), mPlayerStat[NowPlayerID].Crit.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CritDamage.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStat[NowPlayerID].CCReduce.ToString("P0"));
+                                              "상태이상 저항: {7}", mPlayerStatList[NowPlayerID].Hp.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Atk.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Def.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Spd.ToString("N1"), mPlayerStatList[NowPlayerID].Crit.ToString("P1"),
+                                              "1"+ mPlayerStatList[NowPlayerID].CritDamage.ToString("P1"),
+                                              mPlayerStatList[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStatList[NowPlayerID].CCReduce.ToString("P0"));
                     mStatText.text = Stat;
-                    mNameText.text = mPlayerStat[NowPlayerID].Name;
+                    mNameText.text = mPlayerStatList[NowPlayerID].Name;
                     mSelectText.text = "선택";
                     mTitleText.text = "캐릭터 선택";
                 }
@@ -188,14 +197,14 @@ public class PlayerSelectController : InformationLoader
                                               "Crit Damage: {5}\n" +
                                               "\n" +
                                               "Cooldown reduce: {6}\n" +
-                                              "Resistance: {7}", mPlayerStat[NowPlayerID].Hp.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Atk.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Def.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Spd.ToString("N1"), mPlayerStat[NowPlayerID].Crit.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CritDamage.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStat[NowPlayerID].CCReduce.ToString("P0"));
+                                              "Resistance: {7}", mPlayerStatList[NowPlayerID].Hp.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Atk.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Def.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Spd.ToString("N1"), mPlayerStatList[NowPlayerID].Crit.ToString("P1"),
+                                              "1"+ mPlayerStatList[NowPlayerID].CritDamage.ToString("P1"),
+                                              mPlayerStatList[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStatList[NowPlayerID].CCReduce.ToString("P0"));
                     mStatText.text = Stat;
-                    mNameText.text = mPlayerStat[NowPlayerID].EngName;
+                    mNameText.text = mPlayerStatList[NowPlayerID].EngName;
                     mSelectText.text = "Select";
                     mTitleText.text = "Character Select";
                 }
@@ -205,7 +214,7 @@ public class PlayerSelectController : InformationLoader
             }
             else
             {
-                mPlayerImage.sprite = mPlayer[NowPlayerID].mRenderer.sprite;
+                mPlayerImage.sprite = mPlayer[mPlayerStatList[NowPlayerID].ID].mRenderer.sprite;
                 if (GameSetting.Instance.Language == 0)
                 {//한국어
                     string Stat = string.Format("최대 체력: {0}\n" +
@@ -216,26 +225,21 @@ public class PlayerSelectController : InformationLoader
                                               "치명타 피해: {5}\n" +
                                               "\n" +
                                               "쿨타임 감소: {6}\n" +
-                                              "상태이상 저항: {7}", mPlayerStat[NowPlayerID].Hp.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Atk.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Def.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Spd.ToString("N1"), mPlayerStat[NowPlayerID].Crit.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CritDamage.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStat[NowPlayerID].CCReduce.ToString("P0"));
+                                              "상태이상 저항: {7}", mPlayerStatList[NowPlayerID].Hp.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Atk.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Def.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Spd.ToString("N1"), mPlayerStatList[NowPlayerID].Crit.ToString("P1"),
+                                              "1"+ mPlayerStatList[NowPlayerID].CritDamage.ToString("P1"),
+                                              mPlayerStatList[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStatList[NowPlayerID].CCReduce.ToString("P0"));
                     mStatText.text = Stat;
-                    mNameText.text = mPlayerStat[NowPlayerID].Name;
+                    mNameText.text = mPlayerStatList[NowPlayerID].Name;
                     mTitleText.text = "캐릭터 선택";
-                    if (mPlayerStat[NowPlayerID].PurchaseID == 0)
+                    if (mPlayerStatList[NowPlayerID].PurchaseID == 0)
                     {
-                        mSelectText.text = "구매: " + mPlayerStat[NowPlayerID].Price + "시럽";
+                        mSelectText.text = "구매: " + mPlayerStatList[NowPlayerID].Price + "시럽";
                         SelectButton.onClick.RemoveAllListeners();
                         SelectButton.onClick.AddListener(() => { CharaBuy(); });
                         SelectButton.onClick.AddListener(() => { MainLobbyUIController.Instance.ButtonPush(); });
-                    }
-                    else if (mPlayerStat[NowPlayerID].PurchaseID == 1)
-                    {
-                        mSelectText.text = "가격기재 바람";
-                        //유료 상점 버튼 연결
                     }
                 }
                 else if (GameSetting.Instance.Language == 1)
@@ -248,26 +252,21 @@ public class PlayerSelectController : InformationLoader
                                               "Crit Damage: {5}\n" +
                                               "\n" +
                                               "Cooldown reduce: {6}\n" +
-                                              "Resistance: {7}", mPlayerStat[NowPlayerID].Hp.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Atk.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Def.ToString("N1"),
-                                              mPlayerStat[NowPlayerID].Spd.ToString("N1"), mPlayerStat[NowPlayerID].Crit.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CritDamage.ToString("P1"),
-                                              mPlayerStat[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStat[NowPlayerID].CCReduce.ToString("P0"));
+                                              "Resistance: {7}", mPlayerStatList[NowPlayerID].Hp.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Atk.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Def.ToString("N1"),
+                                              mPlayerStatList[NowPlayerID].Spd.ToString("N1"), mPlayerStatList[NowPlayerID].Crit.ToString("P1"),
+                                              "1"+ mPlayerStatList[NowPlayerID].CritDamage.ToString("P1"),
+                                              mPlayerStatList[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStatList[NowPlayerID].CCReduce.ToString("P0"));
                     mStatText.text = Stat;
-                    mNameText.text = mPlayerStat[NowPlayerID].EngName;
+                    mNameText.text = mPlayerStatList[NowPlayerID].EngName;
                     mTitleText.text = "Character Select";
-                    if (mPlayerStat[NowPlayerID].PurchaseID == 0)
+                    if (mPlayerStatList[NowPlayerID].PurchaseID == 0)
                     {
-                        mSelectText.text = "Buy: " + mPlayerStat[NowPlayerID].Price + "Syrup";
+                        mSelectText.text = "Buy: " + mPlayerStatList[NowPlayerID].Price + "Syrup";
                         SelectButton.onClick.RemoveAllListeners();
                         SelectButton.onClick.AddListener(() => { CharaBuy(); });
                         SelectButton.onClick.AddListener(() => { MainLobbyUIController.Instance.ButtonPush(); });
-                    }
-                    else if (mPlayerStat[NowPlayerID].PurchaseID == 1)
-                    {
-                        mSelectText.text = "가격기재 바람";
-                        //유료 상점 버튼 연결
                     }
                 }
             }

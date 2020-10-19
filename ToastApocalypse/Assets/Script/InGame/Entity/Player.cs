@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     public bool PlayerSkillStand;
 
     public float[] buffIncrease;//0=공격력, 1=방어력, 2=공격속도, 3=이동속도, 4=치명타, 5=치명타 데미지, 6=상태이상 저항
+    public float BonusHeal;
     public bool Stun;
     public int PlusBoltCount;
     public Coroutine[] NowDebuffArr;
@@ -71,17 +72,18 @@ public class Player : MonoBehaviour
         {
             Instance = this;
             mTotalKillCount = 0;
+            BonusHeal = 0;
             TrapResistance = false;
             MapSeeker = false;
-            OnAir = false;
             InfiniteAmmo = false;
-            mCurrentAir = MAX_AIR;
             Stun = false;
             NoCC = false;
+            Nodamage = true;
+            OnAir = false;
+            mCurrentAir = MAX_AIR;
             PlayerSkillStand = false;
             NowItem = null;
             NowActiveArtifact = null;
-            Nodamage = false;
             mGoldBonus = 0;
             AttackSpeedStat = 0;
             buffIncrease = new float[7];
@@ -105,6 +107,7 @@ public class Player : MonoBehaviour
         }
         mMaxHP = mStats.Hp;
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+        StartCoroutine(StartInvincible());
         if (GameController.Instance.IsTutorial == false)
         {
             if (GameSetting.Instance.NowStage == 4)
@@ -124,6 +127,15 @@ public class Player : MonoBehaviour
         {
             TutorialUIController.Instance.ShowHP();
         }
+    }
+
+    private IEnumerator StartInvincible()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1.5f);
+        BuffController.Instance.SetBuff(7, 10, eBuffType.Buff, 1.5f);
+        Nodamage = true;
+        yield return delay;
+        Nodamage = false;
     }
 
     public void IsEnemyDeathPassiveSkill()
@@ -160,9 +172,7 @@ public class Player : MonoBehaviour
         {
             if (mCurrentAir < 1)
             {
-                mCurrentHP -= mMaxHP * 0.1f;
-                LastHitEnemy = null;
-                DeathBy = 3;
+                Hit(mMaxHP * 0.1f,3,true);
                 UIController.Instance.ShowHP();
             }
             if (OnAir == false)
@@ -214,21 +224,28 @@ public class Player : MonoBehaviour
 
     }
 
-    public void Hit(float damage,int damagetype=0)
+    public void Hit(float damage,int damagetype=0,bool trueDamage=false)
     {
         if (Nodamage ==false)
         {
             StartCoroutine(HitAnimation());
             int rand = UnityEngine.Random.Range(0, 2);
             SoundController.Instance.SESound(rand);
-            if (damage - (mStats.Def*(1+buffIncrease[1])) < 1)
+            if (trueDamage==false)
             {
-                damage = 0.5f;
-                mCurrentHP -= damage;
+                if (damage - (mStats.Def * (1 + buffIncrease[1])) < 1)
+                {
+                    damage = 0.5f;
+                    mCurrentHP -= damage;
+                }
+                else
+                {
+                    mCurrentHP -= damage - (mStats.Def * (1 + buffIncrease[1]));
+                }
             }
             else
             {
-                mCurrentHP -= damage - (mStats.Def * (1 + buffIncrease[1]));
+                mCurrentHP -= damage;
             }
             if (GameController.Instance.IsTutorial == false)
             {
@@ -247,6 +264,11 @@ public class Player : MonoBehaviour
             {
                 LastHitEnemy = null;
                 DeathBy = 2;
+            }
+            else if (damagetype == 3)
+            {
+                LastHitEnemy = null;
+                DeathBy = 3;
             }
             else
             {
@@ -455,7 +477,7 @@ public class Player : MonoBehaviour
         }
     }
     //buffs
-    public void Heal(float mHealAmount, float BonusHeal = 0)
+    public void Heal(float mHealAmount)
     {
         if ((mCurrentHP + mHealAmount) >= mMaxHP)
         {
@@ -718,6 +740,7 @@ public class Player : MonoBehaviour
         mStats.AtkSpd += weapon.mStats.AtkSpd;
         mStats.Crit += weapon.mStats.Crit / 100;
         mStats.CritDamage += weapon.mStats.CritDamage;
+        BonusHeal += weapon.mStats.BonusHeal;
         NowPlayerWeapon = weapon;
         if (GameController.Instance.IsTutorial == false)
         {
@@ -735,6 +758,7 @@ public class Player : MonoBehaviour
         mStats.AtkSpd -= weapon.mStats.AtkSpd;
         mStats.Crit -= weapon.mStats.Crit / 100;
         mStats.CritDamage -= weapon.mStats.CritDamage;
+        BonusHeal -= weapon.mStats.BonusHeal;
         NowPlayerWeapon = null;
         if (GameController.Instance.IsTutorial == false)
         {

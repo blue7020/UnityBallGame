@@ -41,6 +41,7 @@ public class Librarian : MonoBehaviour
     public void GoTutorial()
     {
         GameSetting.Instance.NowStage = 0;
+        SaveDataController.Instance.Save();
         SceneManager.LoadScene(4);
     }
 

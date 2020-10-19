@@ -26,6 +26,7 @@ public class PlayerSelect : MonoBehaviour
             MainLobbyCamera.Instance.PlayerSpawn = false;
             MainLobbyCamera.Instance.mPlayerObj=null;
             Destroy(MainLobbyPlayer.Instance.gameObject);
+            PlayerSelectController.Instance.PlayerSetting();
             PlayerSelectController.Instance.ShowStat();
             MainLobbyUIController.Instance.IsSelect = true;
             PlayerSelectController.Instance.mWindow.gameObject.SetActive(true);

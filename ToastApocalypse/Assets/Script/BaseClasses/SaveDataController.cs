@@ -281,6 +281,7 @@ public class SaveDataController : InformationLoader
 
             mUser.DonateCount = 0;
             mUser.TodayWatchFirstAD = false;
+            mUser.NoAds = false;
             mUser.CurrentServerTime = 0;//서버시간불러와서 TodayWatchFirstAD 초기화해야함
 
             mUser.CharacterOpen = new bool[Constants.CHARACTER_COUNT];

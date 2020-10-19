@@ -106,9 +106,7 @@ public class Trap : MonoBehaviour
             {
                 if (DamageOn == true && Player.Instance.TrapResistance == false)
                 {
-                    mTarget.Hit(mValue + mTarget.mStats.Def);//고정피해
-                    mTarget.LastHitEnemy = null;
-                    mTarget.DeathBy = 2;
+                    mTarget.Hit(mValue,2,true);//고정피해
 
                     if (GameController.Instance.IsTutorial == false)
                     {
@@ -124,7 +122,7 @@ public class Trap : MonoBehaviour
             {
                 if (DamageOn == true)
                 {
-                    mTarget.Hit(mValue + mTarget.mStats.Def);//고정피해
+                    mTarget.Hit(mValue);
                     Player.Instance.LastHitEnemy = mEnemy;
                 }
                 if (GameController.Instance.IsTutorial == false)

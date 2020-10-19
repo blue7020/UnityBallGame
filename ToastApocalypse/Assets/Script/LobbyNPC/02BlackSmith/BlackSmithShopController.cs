@@ -91,6 +91,7 @@ public class BlackSmithShopController : MonoBehaviour
                 {
                     mBuyImageText.text = "Succeeded weapon crafting!";
                 }
+                SaveDataController.Instance.Save();
             }
             else
             {

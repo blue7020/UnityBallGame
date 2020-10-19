@@ -70,6 +70,7 @@ public class StatueShop : MonoBehaviour
             SaveDataController.Instance.mUser.StatueHas[mStatue.ID] = true;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowStatueInfo(mStatue, mStatueText);
+            SaveDataController.Instance.Save();
         }
     }
 

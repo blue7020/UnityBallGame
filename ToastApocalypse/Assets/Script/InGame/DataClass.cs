@@ -44,6 +44,7 @@ public class WeaponStat
     public string EngContensFormat;
 
     public int Type; //0 = 근접 1 =원거리 2= 중거리
+    public float BonusHeal;
     public float Atk;
     public float AtkSpd;
     public float ReloadCool;
@@ -262,6 +263,7 @@ public class SaveData
 
     public int DonateCount;
     public bool TodayWatchFirstAD;
+    public bool NoAds;
     public float CurrentServerTime;
     public bool FirstSetting;
     public float BGMVolume;

@@ -105,6 +105,8 @@ public class WeaponController : MonoBehaviour
             case 24://콘도그
                 CornDog(Target,Checker);
                 break;
+            case 25://시럽주사기
+                break;
 
         }
         Target = null;

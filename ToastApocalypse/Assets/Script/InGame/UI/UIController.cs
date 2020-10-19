@@ -246,12 +246,12 @@ public class UIController : InformationLoader
             {
                 if (GameSetting.Instance.Language == 0)
                 {//한국어
-                    mTitleText.text = "질식하여 사망";
+                    mTitleText.text = "익사";
                     mTouchGuideText.text = "터치 시 로비로 이동합니다.";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {//영어
-                    mTitleText.text = "Death by suffocation";
+                    mTitleText.text = "Drowned";
                     mTouchGuideText.text = "Touch to move to the lobby.";
                 }
             }
@@ -438,7 +438,7 @@ public class UIController : InformationLoader
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
                                       (Player.Instance.mStats.Def * (1 + Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),
-                                      Player.Instance.mStats.CritDamage.ToString("P1"),
+                                      "1"+Player.Instance.mStats.CritDamage.ToString("P1"),
                                       CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;
@@ -461,7 +461,7 @@ public class UIController : InformationLoader
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
                                       (Player.Instance.mStats.Def *(1+Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),
-                                      Player.Instance.mStats.CritDamage.ToString("P1"),
+                                      "1"+Player.Instance.mStats.CritDamage.ToString("P1"),
                                       CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
             mStatText.text = Stat;
             mNameText.text = Name;

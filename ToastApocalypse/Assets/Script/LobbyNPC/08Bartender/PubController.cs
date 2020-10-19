@@ -45,6 +45,7 @@ public class PubController : MonoBehaviour
             SaveDataController.Instance.mUser.ItemHas[mItem.ID] = true;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowItemInfo(mItem);
+            SaveDataController.Instance.Save();
         }
     }
 

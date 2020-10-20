@@ -11,6 +11,8 @@ public class SaveDataController : InformationLoader
 
     public SaveData mUser;
 
+    public bool DataDelete;
+
     public ArtText[] mArtInfoArr;
     public PlayerStat[] mPlayerInfoArr;
     public SkillStat[] mSkillInfoArr;
@@ -32,6 +34,7 @@ public class SaveDataController : InformationLoader
             LoadJson(out mItemInfoArr, Path.ITEM_STAT);
             LoadJson(out mStatueInfoArr, Path.STATUE_STAT);
             LoadJson(out mCodeInfoArr, Path.CODE_STAT);
+            DataDelete = false;
         }
         else
         {
@@ -386,12 +389,16 @@ public class SaveDataController : InformationLoader
     public void DeleteData()
     {
         PlayerPrefs.DeleteAll();
-        PlayerPrefs.DeleteKey("SaveData");
+        DataDelete = true;
+
     }
 
     private void OnApplicationQuit()
     {
         //게임이 종료될 때 적용
-        Save();
+        if (DataDelete==false)
+        {
+            Save();
+        }
     }
 }

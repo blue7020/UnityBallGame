@@ -244,8 +244,8 @@ public class CodeStat
     public int SkillID;
     public int WeaponID;
     public int ItemID;
-    public int MaterialID;
-    public int MaterialAmount;
+    //public int[] MaterialID;
+    //public int[] MaterialAmount;
     public int SyrupAmount;
     public bool IsUse;
     public bool IsExpiration;

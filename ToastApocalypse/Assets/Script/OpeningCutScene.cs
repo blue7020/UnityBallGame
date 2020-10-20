@@ -33,7 +33,7 @@ public class OpeningCutScene : MonoBehaviour,IPointerClickHandler
     {
         if (TextID>= mDialogList.Count)
         {
-            if (SceneCheck==true)
+            if (SceneCheck==false)
             {
                 MainScreenUIController.Instance.OpeningSkip();
             }

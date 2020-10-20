@@ -25227,18 +25227,13 @@ MonoBehaviour:
   - {fileID: 6923260335352596212, guid: 8e3f87070e5c0b24e8a16e701778af76, type: 3}
   - {fileID: 6964614391271823709, guid: 47616b3e16dbdfc4cb73a58cc877426c, type: 3}
   NowItemID: 0
-  PriceKor:
-  - "\uFFE63300"
-  - "\uFFE61200"
-  - "\uFFE61200"
-  - "\uFFE61200"
-  - "\uFFE61200"
+  PriceKor: e40c0000b0040000b0040000b0040000b0040000
   PriceEng:
-  - usd 3.49
-  - usd 1.44
-  - usd 1.44
-  - usd 1.44
-  - usd 1.44
+  - 2.49
+  - 0.99
+  - 0.99
+  - 0.99
+  - 0.99
 --- !u!1 &1367911570
 GameObject:
   m_ObjectHideFlags: 0
@@ -29106,13 +29101,16 @@ MonoBehaviour:
   - {fileID: 97731708}
   - {fileID: 1230664005}
   - {fileID: 1646909081}
-  SyrupAmount: f4010000ac0d0000401f000014050000
+  SyrupAmount: f401000088130000f82a0000e8800000
   PriceText:
   - {fileID: 624790991}
   - {fileID: 158473973}
   - {fileID: 1830526673}
   KRWPrice: b0040000c409000024130000
-  USDPrice: 010000000200000003000000
+  USDPrice:
+  - 0.49
+  - 1.99
+  - 3
   mButtons:
   - {fileID: 998473751}
   - {fileID: 1119957349}
@@ -35440,17 +35438,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 561236084}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1925065657}
         m_MethodName: ButtonPush
         m_Mode: 1
@@ -35850,7 +35837,6 @@ MonoBehaviour:
   - {fileID: 651049173}
   - {fileID: 1544027148}
   - {fileID: 1700159258}
-  mCutSceneBG: {fileID: 2010750659}
   mCutSceneImage: {fileID: 1652372960}
   mCutScene: {fileID: 2010750658}
   IsSelect: 0
@@ -37231,6 +37217,7 @@ MonoBehaviour:
   mSkipButton: {fileID: 841696825}
   mCutSceneImage: {fileID: 1652372960}
   TextID: 0
+  SceneCheck: 0
 --- !u!114 &2010750659
 MonoBehaviour:
   m_ObjectHideFlags: 0

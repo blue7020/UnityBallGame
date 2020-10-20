@@ -17,6 +17,7 @@ public class SaveDataController : InformationLoader
     public WeaponStat[] mWeaponInfoArr;
     public ItemStat[] mItemInfoArr;
     public StatueStat[] mStatueInfoArr;
+    public CodeStat[] mCodeInfoArr;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class SaveDataController : InformationLoader
             LoadJson(out mArtInfoArr, Path.ART_STAT);
             LoadJson(out mItemInfoArr, Path.ITEM_STAT);
             LoadJson(out mStatueInfoArr, Path.STATUE_STAT);
+            LoadJson(out mCodeInfoArr, Path.CODE_STAT);
         }
         else
         {
@@ -263,6 +265,21 @@ public class SaveDataController : InformationLoader
             }
             mUser.CharacterOpen = temp;
         }
+
+        if (mUser.CodeUse == null)
+        {
+            mUser.CodeUse = new bool[Constants.Code_Count];
+        }
+        else if (mUser.CodeUse.Length != Constants.Code_Count)
+        {
+            bool[] temp = new bool[Constants.Code_Count];
+            int count = Mathf.Min(Constants.Code_Count, mUser.CodeUse.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.CodeUse[i];
+            }
+            mUser.CodeUse = temp;
+        }
         SoundController.Instance.BGMVolume = mUser.BGMVolume;
         SoundController.Instance.SEVolume = mUser.SEVolume;
     }
@@ -278,11 +295,12 @@ public class SaveDataController : InformationLoader
             mUser.StagePartsget = new bool[6];
             mUser.ArtOpen = new bool[Constants.ART_COUNT];
             mUser.GameClear = false;
+            mUser.CodeUse = new bool[Constants.Code_Count];
 
             mUser.DonateCount = 0;
             mUser.TodayWatchFirstAD = false;
             mUser.NoAds = false;
-            mUser.CurrentServerTime = 0;//서버시간불러와서 TodayWatchFirstAD 초기화해야함
+            mUser.LastServerTime = DateTime.Now;//마지막 접속 시의 현재 로컬 시간
 
             mUser.CharacterOpen = new bool[Constants.CHARACTER_COUNT];
             mUser.CharacterHas = new bool[Constants.CHARACTER_COUNT];
@@ -368,6 +386,7 @@ public class SaveDataController : InformationLoader
     public void DeleteData()
     {
         PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey("SaveData");
     }
 
     private void OnApplicationQuit()

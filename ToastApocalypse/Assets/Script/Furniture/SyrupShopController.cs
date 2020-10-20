@@ -12,7 +12,7 @@ public class SyrupShopController : MonoBehaviour
     public int[] SyrupAmount;
     public Text[] PriceText;
     public int[] KRWPrice;
-    public int[] USDPrice;
+    public float[] USDPrice;
     public Button[] mButtons;
 
     private void Awake()
@@ -61,13 +61,13 @@ public class SyrupShopController : MonoBehaviour
                 GameSetting.Instance.ShowAds();
                 break;
             case 1:
-                //구매
+                IAPController.Instance.BuySyrup01();
                 break;
             case 2:
-                //구매
+                IAPController.Instance.BuySyrup02();
                 break;
             case 3:
-                //구매
+                IAPController.Instance.BuySyrup03();
                 break;
         }
     }

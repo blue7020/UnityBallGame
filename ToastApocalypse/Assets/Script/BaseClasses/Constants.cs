@@ -20,6 +20,8 @@ public class Constants : MonoBehaviour
     public const int ENEMY_COUNT = 45;
     public const int ART_COUNT = 9;
 
+    public const int Code_Count = 10;
+
     public const float BGM_VOL = 0.3f;
     public const float SE_VOL = 0.3f;
 }

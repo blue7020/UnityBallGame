@@ -40,7 +40,28 @@ public class IAPController : MonoBehaviour, IStoreListener
     //private string NonConsumable_StarterPack = "StarterPack";
 
     private string Consumable_NOADS = "NoAds_1";
-    private string GooglePlay_NOADS = "noAds1";
+    private string GooglePlay_NOADS = "noads1";
+
+    private string Consumable_Chara_Hero = "Chara08Hero";
+    private string GooglePlay_Chara_Hero = "chara_08hero";
+
+    private string Consumable_Chara_Castella = "Chara09Castella";
+    private string GooglePlay_Chara_Castella = "chara_09castella";
+
+    private string Consumable_Chara_ShrimpNinja = "Chara10ShrimpNinja";
+    private string GooglePlay_Chara_ShrimpNinja = "chara_10shrimpninja";
+
+    private string Consumable_Chara_DemonToast = "Chara11DemonToast";
+    private string GooglePlay_Chara_DemonToast = "chara_11demontoast";
+
+    private string NonConsumable_Syrup_01 = "Syrup_01";
+    private string GooglePlay_Syrup_01 = "syrup_01";
+
+    private string NonConsumable_Syrup_02 = "Syrup_02";
+    private string GooglePlay_Syrup_02 = "syrup_02";
+
+    private string NonConsumable_Syrup_03 = "Syrup_03";
+    private string GooglePlay_Syrup_03 = "syrup_03";
 
 
     //private string GooglePlay_Ruby100 = "ruby100";//구글 플레이 콘솔에서 인앱결제 상품을 등록할때 ID(대문자가 안된다)
@@ -94,6 +115,42 @@ public class IAPController : MonoBehaviour, IStoreListener
             //,{ ios_Ruby100,AppleAppStore.Name}
         });
 
+        builder.AddProduct(Consumable_Chara_Hero, ProductType.Consumable, new IDs()
+        {
+            { GooglePlay_Chara_Hero,GooglePlay.Name}
+        });
+
+        builder.AddProduct(Consumable_Chara_Castella, ProductType.Consumable, new IDs()
+        {
+            { GooglePlay_Chara_Castella,GooglePlay.Name}
+        });
+
+        builder.AddProduct(Consumable_Chara_ShrimpNinja, ProductType.Consumable, new IDs()
+        {
+            { GooglePlay_Chara_ShrimpNinja,GooglePlay.Name}
+        });
+
+        builder.AddProduct(Consumable_Chara_DemonToast, ProductType.Consumable, new IDs()
+        {
+            { GooglePlay_Chara_DemonToast,GooglePlay.Name}
+        });
+
+        builder.AddProduct(NonConsumable_Syrup_01, ProductType.NonConsumable, new IDs()
+        {
+            { GooglePlay_Syrup_01,GooglePlay.Name},
+        });
+
+        builder.AddProduct(NonConsumable_Syrup_02, ProductType.NonConsumable, new IDs()
+        {
+            { GooglePlay_Syrup_02,GooglePlay.Name},
+        });
+
+        builder.AddProduct(NonConsumable_Syrup_03, ProductType.NonConsumable, new IDs()
+        {
+            { GooglePlay_Syrup_03,GooglePlay.Name},
+        });
+
+
         //builder.AddProduct(Consumable_Ruby100, ProductType.Consumable, new IDs()
         //{
         //    { GooglePlay_Ruby100,GooglePlay.Name},//해당 스토어에 이 상품을 연동시킨 것이다. 만약 한 플랫폼에만 팔고 싶다면 둘중 하나만 쓰면 된다.
@@ -138,6 +195,43 @@ public class IAPController : MonoBehaviour, IStoreListener
         BuyProductID(Consumable_NOADS);
     }
 
+    public void BuyCharaHero()
+    {
+        BuyProductID(Consumable_Chara_Hero);
+    }
+
+    public void BuyCharaCastella()
+    {
+        BuyProductID(Consumable_Chara_Castella);
+    }
+
+    public void BuyCharaShrimpNinja()
+    {
+        BuyProductID(Consumable_Chara_ShrimpNinja);
+    }
+
+    public void BuyCharaDemonToast()
+    {
+        BuyProductID(Consumable_Chara_DemonToast);
+    }
+
+    public void BuySyrup01()//다회성 결제 가능 상품
+    {
+        // Buy the non-consumable product using its general identifier. Expect a response either 
+        // through ProcessPurchase or OnPurchaseFailed asynchronously.
+        BuyProductID(NonConsumable_Syrup_01);
+    }
+
+    public void BuySyrup02()//다회성 결제 가능 상품
+    {
+        BuyProductID(NonConsumable_Syrup_02);
+    }
+
+    public void BuySyrup03()//다회성 결제 가능 상품
+    {
+        BuyProductID(NonConsumable_Syrup_03);
+    }
+
 
     //public void BuyRuby()
     //{
@@ -156,7 +250,7 @@ public class IAPController : MonoBehaviour, IStoreListener
     //}
 
 
-    //public void BuyNonConsumable()
+    //public void BuyNonConsumable()//다회성 결제 가능 상품
     //{
     //    // Buy the non-consumable product using its general identifier. Expect a response either 
     //    // through ProcessPurchase or OnPurchaseFailed asynchronously.
@@ -164,7 +258,7 @@ public class IAPController : MonoBehaviour, IStoreListener
     //}
 
 
-    //public void BuySubscription()
+    //public void BuySubscription()//구독형
     //{
     //    // Buy the subscription product using its the general identifier. Expect a response either 
     //    // through ProcessPurchase or OnPurchaseFailed asynchronously.
@@ -273,11 +367,57 @@ public class IAPController : MonoBehaviour, IStoreListener
     {
         if (validPurchase)//영수증 처리 기본
         {
-            if (String.Equals(args.purchasedProduct.definition.id, Consumable_NOADS, StringComparison.Ordinal))
+            if (String.Equals(args.purchasedProduct.definition.id, Consumable_NOADS, StringComparison.Ordinal))//광고제거
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 SaveDataController.Instance.mUser.NoAds = true;
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_Hero, StringComparison.Ordinal))//히어로 캐릭터
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                SaveDataController.Instance.mUser.CharacterHas[8]=true;
+                Debug.Log(SaveDataController.Instance.mUser.CharacterHas[8]);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_Castella, StringComparison.Ordinal))//카스테라 캐릭터
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                SaveDataController.Instance.mUser.CharacterHas[9] = true;
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_ShrimpNinja, StringComparison.Ordinal))//쉬림프 닌자 캐릭터
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                SaveDataController.Instance.mUser.CharacterHas[10] = true;
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//데몬 토스트 캐릭터
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                SaveDataController.Instance.mUser.CharacterHas[11] = true;
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 3000개
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                SaveDataController.Instance.mUser.Syrup += 5000;
+                MainLobbyUIController.Instance.ShowSyrupText();
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 6500개
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                SaveDataController.Instance.mUser.Syrup += 11000;
+                MainLobbyUIController.Instance.ShowSyrupText();
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 12000개
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                SaveDataController.Instance.mUser.Syrup += 33000;
+                MainLobbyUIController.Instance.ShowSyrupText();
             }
             //else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_StarterPack, StringComparison.Ordinal))
             //{

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.UI;
 
 public class GameSetting : InformationLoader
@@ -64,14 +65,7 @@ public class GameSetting : InformationLoader
 
     private void Start()
     {
-        //if (TutorialEnd!=true)
-        //{
-        //    //오프닝 출력
-        //}
-        //else
-        //{
-
-        //}
+        SaveDataController.Instance.mUser.LastServerTime = DateTime.Now;
         Restart();
         PlayerID = 0;
         PlayerSkillID = 0;
@@ -92,11 +86,7 @@ public class GameSetting : InformationLoader
 
     public void ShowAds()
     {
-        if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
-        {
-            //광고 감상 후 300시럽 주기
-            SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
-        }
+        GoogleAdmobHandler.Instance.PlayAD();
     }
 
 }

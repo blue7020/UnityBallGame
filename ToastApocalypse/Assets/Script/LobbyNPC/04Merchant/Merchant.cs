@@ -13,8 +13,8 @@ public class Merchant : MonoBehaviour
     public Button RightButton, LeftButton, BuyButton;
     public Sprite[] mspt;
     public int NowItemID;
-    public string[] PriceKor;
-    public string[] PriceEng;
+    public int[] PriceKor;
+    public float[] PriceEng;
 
     private void Awake()
     {
@@ -47,18 +47,25 @@ public class Merchant : MonoBehaviour
     {
         switch (NowItemID)
         {
+            //월 패키지(매달 2번 구입 가능) 모든 재료 +10개 시럽 10000개, = 10000원
             case 0://광고 제거
+                IAPController.Instance.BuyNOAds();
                 break;
             case 1://히어로
+                IAPController.Instance.BuyCharaHero();
                 break;
             case 2://카스테라
+                IAPController.Instance.BuyCharaCastella();
                 break;
             case 3://쉬림프닌자
+                IAPController.Instance.BuyCharaShrimpNinja();
                 break;
             case 4://데몬토스트
+                IAPController.Instance.BuyCharaDemonToast();
                 break;
         }
         SaveDataController.Instance.Save();
+        ItemSetting();
     }
 
     public void LeftCharacterSelect()
@@ -94,13 +101,13 @@ public class Merchant : MonoBehaviour
                     {
                         mItemTitle.text = "광고 제거";
                         mItemText.text = "모든 보상을 광고 없이 획득할 수 있습니다";
-                        mBuyText.text = PriceKor[0];
+                        mBuyText.text = "KRW "+PriceKor[0];
                     }
                     else
                     {
                         mItemTitle.text = "No Ads";
-                        mItemText.text = "All rewards can be available without advertising.";
-                        mBuyText.text = PriceEng[0];
+                        mItemText.text = "All rewards can be available without advertising";
+                        mBuyText.text = "USD "+ PriceEng[0];
                     }
                     BuyButton.interactable = true;
                 }
@@ -122,11 +129,11 @@ public class Merchant : MonoBehaviour
                     ShowStat(8);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
-                        mBuyText.text = PriceKor[1];
+                        mBuyText.text = "KRW " + PriceKor[1];
                     }
                     else
                     {
-                        mBuyText.text = PriceEng[1];
+                        mBuyText.text = "USD " + PriceEng[1];
                     }
                     BuyButton.interactable = true;
                 }
@@ -149,11 +156,11 @@ public class Merchant : MonoBehaviour
                     ShowStat(9);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
-                        mBuyText.text = PriceKor[2];
+                        mBuyText.text = "KRW " + PriceKor[2];
                     }
                     else
                     {
-                        mBuyText.text = PriceEng[2];
+                        mBuyText.text = "USD " + PriceEng[2];
                     }
                     BuyButton.interactable = true;
                 }
@@ -176,11 +183,11 @@ public class Merchant : MonoBehaviour
                     ShowStat(10);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
-                        mBuyText.text = PriceKor[3];
+                        mBuyText.text = "KRW " + PriceKor[3];
                     }
                     else
                     {
-                        mBuyText.text = PriceEng[3];
+                        mBuyText.text = "USD " + PriceEng[3];
                     }
                     BuyButton.interactable = true;
                 }
@@ -203,11 +210,11 @@ public class Merchant : MonoBehaviour
                     ShowStat(11);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
-                        mBuyText.text = PriceKor[4];
+                        mBuyText.text = "KRW " + PriceKor[4];
                     }
                     else
                     {
-                        mBuyText.text = PriceEng[4];
+                        mBuyText.text = "USD " + PriceEng[4];
                     }
                     BuyButton.interactable = true;
                 }

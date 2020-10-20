@@ -8,16 +8,21 @@ public class JsonGenerator : MonoBehaviour
 {
     public void GenerateStatInfo()
     {
-        ArtText[] infoArr = new ArtText[1];
+        CodeStat[] infoArr = new CodeStat[1];
 
-        infoArr[0] = new ArtText();
-        infoArr[0].ID = 0;
-        infoArr[0].ArtCode = 0;
-        infoArr[0].ContensFormat = "1";
-        infoArr[0].EngContensFormat = "2";
-        infoArr[0].Open = true;
+        infoArr[0] = new CodeStat();
+        infoArr[0].Code = "";
+        infoArr[0].CharacterID = -1;
+        infoArr[0].SkillID = -1;
+        infoArr[0].WeaponID = -1;
+        infoArr[0].ItemID = -1;
+        infoArr[0].MaterialID = -1;
+        infoArr[0].MaterialAmount = 0;
+        infoArr[0].SyrupAmount = 0;
+        infoArr[0].IsUse = false;
+        infoArr[0].IsExpiration = false;
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
-        WriteFile(data, "ArtText.json");
+        WriteFile(data, "CodeStat.json");
     }
 
     private void WriteFile(string data, string fileName)

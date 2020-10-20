@@ -237,6 +237,21 @@ public class ArtText
 }
 
 [Serializable]
+public class CodeStat
+{
+    public string Code;
+    public int CharacterID;
+    public int SkillID;
+    public int WeaponID;
+    public int ItemID;
+    public int MaterialID;
+    public int MaterialAmount;
+    public int SyrupAmount;
+    public bool IsUse;
+    public bool IsExpiration;
+}
+
+[Serializable]
 public class SaveData
 {
     public int Syrup;
@@ -259,12 +274,13 @@ public class SaveData
     public bool[] SkillHas;
     public bool[] ItemHas;
     public bool[] CharacterHas;
+    public bool[] CodeUse;
 
 
     public int DonateCount;
     public bool TodayWatchFirstAD;
     public bool NoAds;
-    public float CurrentServerTime;
+    public DateTime LastServerTime;
     public bool FirstSetting;
     public float BGMVolume;
     public float SEVolume;

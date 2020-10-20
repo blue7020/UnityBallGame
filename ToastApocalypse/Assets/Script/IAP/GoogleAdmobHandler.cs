@@ -48,7 +48,6 @@ public class GoogleAdmobHandler : MonoBehaviour
         rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
         // Called when the ad click caused the user to leave the application.
         rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
-        PlayAD();
         //RequestBanner();//배너
         //RequestInterstitial();//전면
     }

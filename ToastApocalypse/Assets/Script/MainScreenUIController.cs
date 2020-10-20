@@ -8,7 +8,7 @@ public class MainScreenUIController : InformationLoader
 {
     public static MainScreenUIController Instance;
 
-    public Text mStartText, mEndText, mBGMText, mSEText,CautionText;
+    public Text mStartText, mEndText, mBGMText, mSEText,CautionText,mCodeText;
     public Button mEngButton, mKorButton;
     public Image mCutSceneBG;
 
@@ -24,6 +24,7 @@ public class MainScreenUIController : InformationLoader
                 mStartText.text = "게임 시작";
                 mEndText.text = "게임 종료";
                 CautionText.text = "<color=#FF2222>[주의]</color> 게임 데이터는 장치에\n저장되며, 게임을 삭제하면\n데이터를 복구할 수 없습니다!";
+                mCodeText.text = "코드 사용";
                 mEngButton.interactable = true;
                 mKorButton.interactable = false;
 
@@ -33,6 +34,7 @@ public class MainScreenUIController : InformationLoader
                 mStartText.text = "Start";
                 mEndText.text = "Quit";
                 CautionText.text = "<color=#FF2222>[Caution]</color> Game data saving\non this device.\nIf you delete the game,\nyou will not be able\nto recover data!";
+                mCodeText.text = "Using Code";
                 mEngButton.interactable = false;
                 mKorButton.interactable = true;
             }
@@ -77,6 +79,7 @@ public class MainScreenUIController : InformationLoader
         mStartText.text = "Start";
         mEndText.text = "Quit";
         CautionText.text = "<color=#FF2222>[Caution]</color> Game data saving\non this device.\nIf you delete the game,\nyou will not be able\nto recover data!";
+        mCodeText.text = "Using Code";
     }
     public void LanguagetoEng()
     {
@@ -86,6 +89,7 @@ public class MainScreenUIController : InformationLoader
         mStartText.text = "게임 시작";
         mEndText.text = "게임 종료";
         CautionText.text = "<color=#FF2222>[주의]</color> 게임 데이터는 장치에\n저장되며, 게임을 삭제하면\n데이터를 복구할 수 없습니다!";
+        mCodeText.text = "코드 사용";
     }
 
     public void BGMPlus()

@@ -164,3 +164,12 @@ public enum eTutorialStage
     Start,
     Boss
 }
+
+public enum eAdsReward
+{
+    None,
+    DailySyrup,
+    Revive,
+    DoubleReward,
+    Syrup
+}

@@ -46,7 +46,7 @@ public class GameSetting : InformationLoader
             if (Application.systemLanguage == SystemLanguage.Korean)
             {
                 Debug.Log("Kor");
-                Language = 0; //0 = 한국어 / 1 = 영어
+                Language = 0;
             }
             else
             {
@@ -70,11 +70,6 @@ public class GameSetting : InformationLoader
         PlayerID = 0;
         PlayerSkillID = 0;
         PlayerWeaponID = 0;
-
-        //테스트용도
-        //mPlayerInfoArr[2].Open = true;//핑크도넛캐릭터 오픈
-        //mPlayerInfoArr[2].PlayerHas = true;//핑크도넛캐릭터 오픈
-        //mSkillInfoArr[2].PlayerHas = true;//돌진 스킬 오픈
     }
 
     public void Restart()
@@ -84,9 +79,53 @@ public class GameSetting : InformationLoader
         NowStage = 0;
     }
 
-    public void ShowAds()
+    public void ShowAds(eAdsReward reward)
     {
+        GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);
         GoogleAdmobHandler.Instance.PlayAD();
+    }
+
+    public void NoneReward()
+    {
+
+    }
+    public void DailySyrup()
+    {
+        DateTime timecheck = SaveDataController.Instance.mUser.LastServerTime.AddDays(1);
+        if (SaveDataController.Instance.mUser.LastServerTime >= timecheck)
+        {
+            SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
+        }
+        if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
+        {
+            SaveDataController.Instance.mUser.LastServerTime = DateTime.Now;
+            SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
+            SaveDataController.Instance.mUser.Syrup += 500;
+            MainLobbyUIController.Instance.ShowSyrupText();
+        }
+    }
+
+    public void Syrup()
+    {
+        SaveDataController.Instance.mUser.Syrup += 500;
+        MainLobbyUIController.Instance.ShowSyrupText();
+    }
+
+    public void Double()
+    {
+        SoundController.Instance.SESoundUI(6);
+        GameController.Instance.SyrupInStage *= 2;
+        GameClearUI.Instance.PlusRewardMaterial += 1;
+        if (Language == 0)
+        {//한국어
+            UIController.Instance.mSyrupText.text = "획득한 시럽: +<color=#FFFF00>" + GameController.Instance.SyrupInStage + "</color>";
+            UIController.Instance.mItemText.text = "획득한 재료 x2";
+        }
+        else if (Language == 1)
+        {//영어
+            UIController.Instance.mSyrupText.text = "Syrup: +<color=#FFFF00>" + GameController.Instance.SyrupInStage;
+            UIController.Instance.mItemText.text = "Material x2";
+        }
     }
 
 }

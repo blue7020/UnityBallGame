@@ -4622,6 +4622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mWindow: {fileID: 561236086}
   mText: {fileID: 515439283}
+  noTouchFadeOut: 0
 --- !u!114 &254444843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12018,12 +12019,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 1546731630}
+        m_MethodName: Donate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21848,6 +21849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mWindow: {fileID: 1168493759}
   mText: {fileID: 0}
+  noTouchFadeOut: 0
 --- !u!1 &1172258104
 GameObject:
   m_ObjectHideFlags: 0
@@ -22750,6 +22752,7 @@ MonoBehaviour:
   RightButton: {fileID: 1565710312}
   SelectButton: {fileID: 295486959}
   NowPlayerID: 0
+  PlayerID: 0
   mNameText: {fileID: 2087589666}
   mStatText: {fileID: 322014416}
   mSelectText: {fileID: 1804311578}
@@ -24377,6 +24380,7 @@ MonoBehaviour:
   mTooltipText: {fileID: 515439283}
   mButtonText: {fileID: 1744362790}
   mAdButton: {fileID: 1914096636}
+  mPopUpWindow: {fileID: 0}
 --- !u!1 &1336280197
 GameObject:
   m_ObjectHideFlags: 0
@@ -35594,17 +35598,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1925065657}
-        m_MethodName: GamePause
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1914902124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37122,6 +37115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mWindow: {fileID: 1903411396}
   mText: {fileID: 1415603499}
+  noTouchFadeOut: 0
 --- !u!114 &2004620283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37218,6 +37212,7 @@ MonoBehaviour:
   mCutSceneImage: {fileID: 1652372960}
   TextID: 0
   SceneCheck: 0
+  TouchDelay: 0
 --- !u!114 &2010750659
 MonoBehaviour:
   m_ObjectHideFlags: 0

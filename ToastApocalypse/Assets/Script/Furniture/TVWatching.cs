@@ -27,7 +27,7 @@ public class TVWatching : MonoBehaviour
 
     public void ShowAds()
     {
-        GameSetting.Instance.ShowAds();
+        GameSetting.Instance.ShowAds(eAdsReward.DailySyrup);
         DateTime timecheck = SaveDataController.Instance.mUser.LastServerTime.AddDays(1);
         if (SaveDataController.Instance.mUser.LastServerTime >= timecheck)
         {
@@ -35,8 +35,6 @@ public class TVWatching : MonoBehaviour
         }
         if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
         {
-            SaveDataController.Instance.mUser.LastServerTime = DateTime.Now;
-            SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
             if (GameSetting.Instance.Language==0)
             {
                 mPopUpWindow.mText.text = "일일보상을 획득했습니다!\n+500 시럽";
@@ -46,8 +44,18 @@ public class TVWatching : MonoBehaviour
                 mPopUpWindow.mText.text = "You got daily reward!\n+500 Syrup";
             }
             mPopUpWindow.gameObject.SetActive(true);
-            SaveDataController.Instance.mUser.Syrup += 500;
-            MainLobbyUIController.Instance.ShowSyrupText();
+        }
+        else
+        {
+            if (GameSetting.Instance.Language == 0)
+            {
+                mPopUpWindow.mText.text = "이미 일일 보상을 획득했습니다";
+            }
+            else if (GameSetting.Instance.Language == 1)
+            {
+                mPopUpWindow.mText.text = "You've already earned your reward";
+            }
+            mPopUpWindow.gameObject.SetActive(true);
         }
     }
 

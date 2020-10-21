@@ -11,7 +11,7 @@ public class Constants : MonoBehaviour
     public const int CHARACTER_COUNT = 12;
     public const int SKILL_COUNT = 13;
     public const int STATUE_COUNT = 9;
-    public const int WEAPON_COUNT = 25;
+    public const int WEAPON_COUNT = 26;
     public const int ITEM_COUNT = 10;
     public const int NPC_COUNT = 9;
 

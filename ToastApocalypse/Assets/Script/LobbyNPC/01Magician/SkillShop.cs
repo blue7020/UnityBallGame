@@ -133,7 +133,6 @@ public class SkillShop : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            MainLobbyUIController.Instance.GamePause();
             mScreen.gameObject.SetActive(true);
         }
     }

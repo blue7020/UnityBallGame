@@ -8,6 +8,7 @@ public class PopUpWindow : MonoBehaviour,IPointerClickHandler
 {
     public Image mWindow;
     public Text mText;
+    public bool noTouchFadeOut;
 
     public void ShowWindow(string text)
     {
@@ -17,6 +18,9 @@ public class PopUpWindow : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        mWindow.gameObject.SetActive(false);
+        if (noTouchFadeOut!=true)
+        {
+            mWindow.gameObject.SetActive(false);
+        }
     }
 }

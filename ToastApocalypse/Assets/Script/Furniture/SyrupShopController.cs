@@ -58,7 +58,7 @@ public class SyrupShopController : MonoBehaviour
         switch (id)
         {
             case 0:
-                GameSetting.Instance.ShowAds();
+                GameSetting.Instance.ShowAds(eAdsReward.Syrup);
                 break;
             case 1:
                 IAPController.Instance.BuySyrup01();

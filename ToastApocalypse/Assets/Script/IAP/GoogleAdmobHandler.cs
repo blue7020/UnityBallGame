@@ -15,6 +15,8 @@ public class GoogleAdmobHandler : MonoBehaviour
     //보상형 광고
     private RewardBasedVideoAd rewardBasedVideo;
 
+    public eAdsReward eType;
+
     private void Awake()
     {
         if (Instance == null)
@@ -32,24 +34,25 @@ public class GoogleAdmobHandler : MonoBehaviour
 
     private void Start()
     {
-        //여기서 광고 제거 구매 여부를 체크
-        rewardBasedVideo = RewardBasedVideoAd.Instance;
-        // Called when an ad request has successfully loaded.
-        rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
-        // Called when an ad request failed to load.
-        rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
-        // Called when an ad is shown.
-        rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
-        // Called when the ad starts to play.
-        rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
-        // Called when the user should be rewarded for watching a video.
-        rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
-        // Called when the ad is closed.
-        rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
-        // Called when the ad click caused the user to leave the application.
-        rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
-        //RequestBanner();//배너
-        //RequestInterstitial();//전면
+        if (SaveDataController.Instance.mUser.NoAds==false){
+            rewardBasedVideo = RewardBasedVideoAd.Instance;
+            // Called when an ad request has successfully loaded.
+            rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+            // Called when an ad request failed to load.
+            rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+            // Called when an ad is shown.
+            rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
+            // Called when the ad starts to play.
+            rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+            // Called when the user should be rewarded for watching a video.
+            rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+            // Called when the ad is closed.
+            rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+            // Called when the ad click caused the user to leave the application.
+            rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
+            //RequestBanner();//배너
+            //RequestInterstitial();//전면
+        }
     }
 
 
@@ -96,14 +99,6 @@ public class GoogleAdmobHandler : MonoBehaviour
     }
     //interstitial 지정이 끝나면 참조를 삭제하기 전 interstitial.Destroy();로 정리
 
-    private void GameOver()//게임 오버 시 전면 광고를 출력
-    {
-        if (interstitial.IsLoaded())
-        {
-            interstitial.Show();//광고 출력
-        }
-    }
-
     private void RequestRewardBasedVideo()
     {
 #if UNITY_ANDROID
@@ -124,6 +119,7 @@ public class GoogleAdmobHandler : MonoBehaviour
 
     public void PlayAD()
     {
+        Time.timeScale = 0;
         if (rewardBasedVideo.IsLoaded())
         {
             rewardBasedVideo.Show();
@@ -144,11 +140,35 @@ public class GoogleAdmobHandler : MonoBehaviour
 
     delegate void callback();
     callback call;
+
+    public void SetAdRewardCallBack(eAdsReward reward)
+    {
+        switch (reward)
+        {
+            case eAdsReward.None:
+                call = () => GameSetting.Instance.NoneReward();
+                break;
+            case eAdsReward.DailySyrup:
+                call = () => GameSetting.Instance.DailySyrup();
+                break;
+            case eAdsReward.DoubleReward:
+                call = () => GameSetting.Instance.Double();
+                break;
+            case eAdsReward.Revive:
+                call = () => GameSetting.Instance.NoneReward();
+                break;
+            case eAdsReward.Syrup:
+                call = () => GameSetting.Instance.Syrup();
+                break;
+        }
+    }
+
     private void HandleRewardBasedVideoRewarded(object sender, Reward e)
     {
         Debug.Log("Reward!");//보상 지급
-        call?.Invoke(); //call(); 와 같다. 하지만 null 체크를 위해 해당 구문을 사용한다
+        call();
         Time.timeScale = 1;
+        SaveDataController.Instance.Save();
     }
 
     private void HandleRewardBasedVideoStarted(object sender, EventArgs e)

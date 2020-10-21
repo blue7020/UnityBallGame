@@ -16,11 +16,8 @@ public class JsonGenerator : MonoBehaviour
         infoArr[0].SkillID = -1;
         infoArr[0].WeaponID = -1;
         infoArr[0].ItemID = -1;
-        //for (int i=0; i<Constants.MATERIAL_COUNT;i++)
-        //{
-        //    infoArr[0].MaterialID[i] = -1;
-        //    infoArr[0].MaterialAmount[i] = 0;
-        //}
+        infoArr[0].MaterialID = new int[Constants.MATERIAL_COUNT];
+        infoArr[0].MaterialAmount = new int[Constants.MATERIAL_COUNT];
         infoArr[0].SyrupAmount = 0;
         infoArr[0].IsUse = false;
         infoArr[0].IsExpiration = false;

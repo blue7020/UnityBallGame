@@ -11,12 +11,13 @@ public class OpeningCutScene : MonoBehaviour,IPointerClickHandler
     public Button mSkipButton;
     public Image mCutSceneImage;
     public int TextID;
-    public bool SceneCheck;
+    public bool SceneCheck,TouchDelay;
 
     private void Start()
     {
         OpeningSetting();
         ShowOpening();
+        StartCoroutine(Delay());
     }
 
     public void OpeningSetting()
@@ -56,9 +57,21 @@ public class OpeningCutScene : MonoBehaviour,IPointerClickHandler
         }
     }
 
+    private IEnumerator Delay()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        TouchDelay = true;
+        yield return delay;
+        TouchDelay = false;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
-        TextID++;
-        ShowOpening();
+        if (TouchDelay==false)
+        {
+            TextID++;
+            ShowOpening();
+        }
+        StartCoroutine(Delay());
     }
 }

@@ -122,6 +122,7 @@ public class SerialCodeController : MonoBehaviour
             SlotList[index].mIcon.sprite = GameSetting.Instance.mPlayerSpt[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID];
             SlotList[index].mAmountText.text = "1";
             SaveDataController.Instance.mUser.CharacterHas[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID] = true;
+            SaveDataController.Instance.mUser.CharacterOpen[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID] = true;
             index++;
         }
         if (SaveDataController.Instance.mCodeInfoArr[ID].SkillID >= 0)
@@ -156,15 +157,16 @@ public class SerialCodeController : MonoBehaviour
             SaveDataController.Instance.mUser.Syrup += SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount;
             index++;
         }
-        //for (int i=0; i< SaveDataController.Instance.mCodeInfoArr[ID].MaterialID.Length;i++)
-        //{
-        //    if (SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i] >= 0 && SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i] > 0)
-        //    {
-        //        RewardWindow image = Instantiate(mRewardImageWindow, Parents);
-        //        image.mIcon.sprite = GameSetting.Instance.mMaterialSpt[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]];
-        //        image.mAmountText.text = SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount.ToString();
-        //        SaveDataController.Instance.mUser.HasMaterial[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]] += SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i];
-        //    }
-        //}
+        for (int i = 0; i < SaveDataController.Instance.mCodeInfoArr[ID].MaterialID.Length; i++)
+        {
+            if (SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i] >= 0 && SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i] > 0)
+            {
+                SlotList.Add(Instantiate(mRewardImageWindow, Parents));
+                SlotList[index].mIcon.sprite = GameSetting.Instance.mMaterialSpt[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]];
+                SlotList[index].mAmountText.text = SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i].ToString();
+                SaveDataController.Instance.mUser.HasMaterial[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]] += SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i];
+                index++;
+            }
+        }
     }
 }

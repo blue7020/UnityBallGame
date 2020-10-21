@@ -353,13 +353,6 @@ public class SaveDataController : InformationLoader
             mUser.NPCOpen[4] = true; //유료상인 npc 오픈
             mUser.BGMVolume = Constants.BGM_VOL;
             mUser.SEVolume = Constants.SE_VOL;
-            //테스트 용도
-            mUser.Syrup = 10000;
-            for (int i = 0; i < mUser.HasMaterial.Length; i++)
-            {
-                mUser.HasMaterial[i] = 10;
-            }
-            //
             mUser.FirstSetting = true;
         }
     }

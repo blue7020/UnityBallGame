@@ -54,6 +54,9 @@ public class IAPController : MonoBehaviour, IStoreListener
     private string Consumable_Chara_DemonToast = "Chara11DemonToast";
     private string GooglePlay_Chara_DemonToast = "chara_11demontoast";
 
+    private string NonConsumable_Donate = "Donate_Statue";
+    private string GooglePlay_Donate = "donate_statue";
+
     private string NonConsumable_Syrup_01 = "Syrup_01";
     private string GooglePlay_Syrup_01 = "syrup_01";
 
@@ -70,7 +73,6 @@ public class IAPController : MonoBehaviour, IStoreListener
     private string ios_Ruby100 = "01100"; //만약 숫자만 될 때 사용하는 방법 01은 아이템 ID 100은 개수
     private string ios_StarterPack = "s00";//한 문자만 사용하는 방법 s은 아이템 이니셜
 
-    private bool validPurchase;
 
     private void Awake()
     {
@@ -133,6 +135,11 @@ public class IAPController : MonoBehaviour, IStoreListener
         builder.AddProduct(Consumable_Chara_DemonToast, ProductType.Consumable, new IDs()
         {
             { GooglePlay_Chara_DemonToast,GooglePlay.Name}
+        });
+
+        builder.AddProduct(NonConsumable_Donate, ProductType.NonConsumable, new IDs()
+        {
+            { GooglePlay_Donate,GooglePlay.Name},
         });
 
         builder.AddProduct(NonConsumable_Syrup_01, ProductType.NonConsumable, new IDs()
@@ -213,6 +220,11 @@ public class IAPController : MonoBehaviour, IStoreListener
     public void BuyCharaDemonToast()
     {
         BuyProductID(Consumable_Chara_DemonToast);
+    }
+
+    public void BuyDonateStatue()//다회성 결제 가능 상품
+    {
+        BuyProductID(NonConsumable_Donate);
     }
 
     public void BuySyrup01()//다회성 결제 가능 상품
@@ -365,6 +377,35 @@ public class IAPController : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
+        bool validPurchase = true;
+#if UNITY_EDITOR
+#elif UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+        // Prepare the validator with the secrets we prepared in the Editor
+        // obfuscation window.
+        var validator = new CrossPlatformValidator(GooglePlayTangle.Data(),
+            AppleTangle.Data(), Application.identifier);
+
+        try
+        {
+            // On Google Play, result has a single product ID.
+            // On Apple stores, receipts contain multiple products.
+            var result = validator.Validate(args.purchasedProduct.receipt);
+            // For informational purposes, we list the receipt(s)
+            Debug.Log("Receipt is valid. Contents:");
+            foreach (IPurchaseReceipt productReceipt in result)
+            {
+                Debug.Log(productReceipt.productID);
+                Debug.Log(productReceipt.purchaseDate);
+                Debug.Log(productReceipt.transactionID);
+            }
+        }
+        catch (IAPSecurityException)
+        {
+            Debug.Log("Invalid receipt, not unlocking content");
+            validPurchase = false;
+        }
+#endif
+
         if (validPurchase)//영수증 처리 기본
         {
             if (String.Equals(args.purchasedProduct.definition.id, Consumable_NOADS, StringComparison.Ordinal))//광고제거
@@ -378,25 +419,58 @@ public class IAPController : MonoBehaviour, IStoreListener
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 SaveDataController.Instance.mUser.CharacterHas[8]=true;
-                Debug.Log(SaveDataController.Instance.mUser.CharacterHas[8]);
+                SaveDataController.Instance.mUser.CharacterOpen[8] = true;
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_Castella, StringComparison.Ordinal))//카스테라 캐릭터
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 SaveDataController.Instance.mUser.CharacterHas[9] = true;
+                SaveDataController.Instance.mUser.CharacterOpen[9] = true;
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_ShrimpNinja, StringComparison.Ordinal))//쉬림프 닌자 캐릭터
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 SaveDataController.Instance.mUser.CharacterHas[10] = true;
+                SaveDataController.Instance.mUser.CharacterOpen[10] = true;
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//데몬 토스트 캐릭터
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 SaveDataController.Instance.mUser.CharacterHas[11] = true;
+                SaveDataController.Instance.mUser.CharacterOpen[11] = true;
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_Donate, StringComparison.Ordinal))//석상 기부
+            {
+                Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+                // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
+                if (SaveDataController.Instance.mUser.DonateCount==0)
+                {
+                    SaveDataController.Instance.mUser.CharacterHas[7] = true;
+                    SaveDataController.Instance.mUser.CharacterOpen[7] = true;
+                    SaveDataController.Instance.mUser.WeaponHas[25] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[25] = true;
+                }
+                else if (SaveDataController.Instance.mUser.DonateCount == 1)
+                {
+                    if (SaveDataController.Instance.mUser.CharacterHas[2] == true && SaveDataController.Instance.mUser.SkillHas[2] == true)
+                    {
+                        SaveDataController.Instance.mUser.Syrup += 5500;
+                    }
+                    else
+                    {
+                        SaveDataController.Instance.mUser.CharacterHas[2] = true;
+                        SaveDataController.Instance.mUser.CharacterOpen[2] = true;
+                    }
+                }
+                else
+                {
+                    SaveDataController.Instance.mUser.Syrup += 5000;
+                }
+                MainLobbyUIController.Instance.ShowSyrupText();
+                SaveDataController.Instance.mUser.DonateCount++;
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 3000개
             {

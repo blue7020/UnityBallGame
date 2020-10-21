@@ -13,7 +13,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public Button mAdsButton;
     public MapNPCSlot mNPCSlot;
     public Transform mParents;
-    private int Sequence, PlusRewardMaterial;
+    public int Sequence, PlusRewardMaterial;
 
     public MaterialSlot[] mMaterialSlot;
 
@@ -70,7 +70,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     {
         if (GameController.Instance.ReviveCode == 1)
         {
-            //광고 출력
+            GameSetting.Instance.ShowAds(eAdsReward.Revive);
         }
         GetItem(GameSetting.Instance.NowStage);
         if (GameSetting.Instance.NowStage < 6)
@@ -283,20 +283,6 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public void ShowAds()
     {
         AdsWindow.gameObject.SetActive(false);
-        //광고 출력
-        //광고 출력 후 아래 출력
-        //SoundController.Instance.SESoundUI(6);
-        //GameController.Instance.SyrupInStage *= 2;
-        //PlusRewardMaterial+=1;
-        //if (GameSetting.Instance.Language == 0)
-        //{//한국어
-        //    UIController.Instance.mSyrupText.text = "획득한 시럽: +<color=#FFFF00>" + GameController.Instance.SyrupInStage+"</color>";
-        //    UIController.Instance.mItemText.text = "획득한 재료 x2";
-        //}
-        //else if (GameSetting.Instance.Language == 1)
-        //{//영어
-        //    UIController.Instance.mSyrupText.text = "Syrup: +<color=#FFFF00>" + GameController.Instance.SyrupInStage;
-        //    UIController.Instance.mItemText.text = "Material x2";
-        //}
+        GameSetting.Instance.ShowAds(eAdsReward.DoubleReward);
     }
 }

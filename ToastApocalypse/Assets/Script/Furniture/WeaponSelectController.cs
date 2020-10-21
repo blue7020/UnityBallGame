@@ -36,17 +36,18 @@ public class WeaponSelectController : MonoBehaviour
 
     public void RefreshInventory()
     {
+        SlotArr = new WeaponChangeSlot[SaveDataController.Instance.mUser.WeaponHas.Length];
         mSelectSlot.mIcon.color = Color.white;
         mSelectSlot.SetData(GameSetting.Instance.PlayerWeaponID, GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID].mWeaponImage, SaveDataController.Instance.mWeaponInfoArr[GameSetting.Instance.PlayerWeaponID]);
 
-        SlotArr = new WeaponChangeSlot[SaveDataController.Instance.mWeaponInfoArr.Length];
-        for (int i = 0; i < SlotArr.Length; i++)
+        for (int i = 0; i < GameSetting.Instance.mWeaponArr.Length; i++)
         {
-            if (SaveDataController.Instance.mUser.WeaponHas[i] == true)
+            if (SaveDataController.Instance.mUser.WeaponHas[i] ==true)
             {
                 SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
                 SlotArr[i].SetData(i);
             }
+
 
         }
     }

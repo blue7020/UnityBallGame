@@ -267,7 +267,9 @@ public class SaveData
     public bool[] SkillOpen;
     public bool[] ItemOpen;
     public bool[] CharacterOpen;
+    public int[] CharacterUpgrade;
     public bool[] ArtOpen;
+    public bool[] ArtifactFound;
 
     public bool[] WeaponHas;
     public bool[] StatueHas;

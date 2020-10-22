@@ -15,12 +15,19 @@ public class ArtifactGuideSlot : MonoBehaviour, IPointerClickHandler
     public void SetData(int id)
     {
         mIcon.color = Color.white;
-        if (mArtifact != null && GameSetting.Instance.Ingame == false)
+        if (mArtifact != null)
         {
+            mArtifactID = id;
             mArtifact = ArtifactGuide.Instance.mInfoArr[mArtifactID];
+            mIcon.sprite = GameSetting.Instance.mArtifacts[mArtifactID].mRenderer.sprite;
         }
-        mArtifactID = id;
-        mIcon.sprite = GameSetting.Instance.mArtifacts[mArtifactID].mRenderer.sprite;
+    }
+
+    public void SetDataUnknown(Sprite spt)
+    {
+        mIcon.color = Color.white;
+        mArtifactID = -1;
+        mIcon.sprite = spt;
     }
 
     public void RemoveData()

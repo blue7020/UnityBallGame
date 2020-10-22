@@ -9,6 +9,7 @@ public class ArtifactGuideController : MonoBehaviour
     public static ArtifactGuideController Instance;
 
     public int ArtifactCount;
+    public Sprite mUnknownIcon;
     public ArtifactGuideSlot ChangeSlot;
     public ArtifactGuideSlot[] SlotArr;
     public Transform mChangeParents;
@@ -48,7 +49,14 @@ public class ArtifactGuideController : MonoBehaviour
         for (int i = 0; i < ArtifactCount; i++)
         {
             SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
-            SlotArr[i].SetData(i);
+            if (SaveDataController.Instance.mUser.ArtifactFound[i]==true)
+            {
+                SlotArr[i].SetData(i);
+            }
+            else
+            {
+                SlotArr[i].SetDataUnknown(mUnknownIcon);
+            }
 
         }
     }

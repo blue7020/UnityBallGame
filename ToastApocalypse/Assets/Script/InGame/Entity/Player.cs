@@ -105,11 +105,14 @@ public class Player : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-        mMaxHP = mStats.Hp;
-        mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
-        StartCoroutine(StartInvincible());
         if (GameController.Instance.IsTutorial == false)
         {
+            mMaxHP = mStats.Hp + (1 * SaveDataController.Instance.mUser.CharacterUpgrade[mID]);
+            if (SaveDataController.Instance.mUser.CharacterUpgrade[mID] == 5)
+            {
+                mStats.Crit += GameSetting.Instance.UpgradeCrit; mStats.CCReduce += GameSetting.Instance.UpgradeCCReduce;
+            }
+            mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
             if (GameSetting.Instance.NowStage == 4)
             {
                 StartCoroutine(Air());
@@ -125,8 +128,11 @@ public class Player : MonoBehaviour
         }
         else
         {
+            mMaxHP = mStats.Hp;
+            mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
             TutorialUIController.Instance.ShowHP();
         }
+        StartCoroutine(StartInvincible());
     }
 
     private IEnumerator StartInvincible()

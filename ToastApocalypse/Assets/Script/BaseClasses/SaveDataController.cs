@@ -254,6 +254,7 @@ public class SaveDataController : InformationLoader
             }
             mUser.CharacterHas = temp;
         }
+
         if (mUser.CharacterOpen == null)
         {
             mUser.CharacterOpen = new bool[Constants.CHARACTER_COUNT];
@@ -267,6 +268,21 @@ public class SaveDataController : InformationLoader
                 temp[i] = mUser.CharacterOpen[i];
             }
             mUser.CharacterOpen = temp;
+        }
+
+        if (mUser.CharacterUpgrade == null)
+        {
+            mUser.CharacterUpgrade = new int[Constants.CHARACTER_COUNT];
+        }
+        else if (mUser.CharacterUpgrade.Length != Constants.CHARACTER_COUNT)
+        {
+            int[] temp = new int[Constants.CHARACTER_COUNT];
+            int count = Mathf.Min(Constants.CHARACTER_COUNT, mUser.CharacterUpgrade.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.CharacterUpgrade[i];
+            }
+            mUser.CharacterUpgrade = temp;
         }
 
         if (mUser.CodeUse == null)
@@ -283,6 +299,22 @@ public class SaveDataController : InformationLoader
             }
             mUser.CodeUse = temp;
         }
+
+        if (mUser.ArtifactFound == null)
+        {
+            mUser.ArtifactFound = new bool[Constants.ARTIFACT_COUNT];
+        }
+        else if (mUser.ArtifactFound.Length != Constants.ARTIFACT_COUNT)
+        {
+            bool[] temp = new bool[Constants.ARTIFACT_COUNT];
+            int count = Mathf.Min(Constants.ARTIFACT_COUNT, mUser.ArtifactFound.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.ArtifactFound[i];
+            }
+            mUser.ArtifactFound = temp;
+        }
+
         SoundController.Instance.BGMVolume = mUser.BGMVolume;
         SoundController.Instance.SEVolume = mUser.SEVolume;
     }
@@ -299,6 +331,7 @@ public class SaveDataController : InformationLoader
             mUser.ArtOpen = new bool[Constants.ART_COUNT];
             mUser.GameClear = false;
             mUser.CodeUse = new bool[Constants.Code_Count];
+            mUser.ArtifactFound = new bool[Constants.ARTIFACT_COUNT];
 
             mUser.DonateCount = 0;
             mUser.TodayWatchFirstAD = false;
@@ -307,10 +340,12 @@ public class SaveDataController : InformationLoader
 
             mUser.CharacterOpen = new bool[Constants.CHARACTER_COUNT];
             mUser.CharacterHas = new bool[Constants.CHARACTER_COUNT];
+            mUser.CharacterUpgrade = new int[Constants.CHARACTER_COUNT];
             for (int i=0; i< Constants.CHARACTER_COUNT;i++)
             {
                 mUser.CharacterHas[i] = mPlayerInfoArr[i].PlayerHas;
                 mUser.CharacterOpen[i] = mPlayerInfoArr[i].Open;
+                mUser.CharacterUpgrade[i] = 0;
             }
 
             mUser.WeaponOpen = new bool[Constants.WEAPON_COUNT];

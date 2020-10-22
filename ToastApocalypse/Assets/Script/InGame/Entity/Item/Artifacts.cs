@@ -100,6 +100,10 @@ public class Artifacts : InformationLoader
         {
             Player.Instance.EquipArtifact(this);
             SoundController.Instance.SESoundUI(7);
+            if (SaveDataController.Instance.mUser.ArtifactFound[mID]==false)
+            {
+                SaveDataController.Instance.mUser.ArtifactFound[mID] = true;
+            }
             if (eType == eArtifactType.Active)
             {
                 for (int i = 0; i < ArtifactController.Instance.mActiveArtifact.Count; i++)

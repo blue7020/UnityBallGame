@@ -33,6 +33,8 @@ public class GameSetting : InformationLoader
     public Sprite[] Illust;
     public int NowStage;
 
+    public float UpgradeCrit,UpgradeCCReduce;
+
 
     public int Language; //0 = 한국어 / 1 = 영어
 

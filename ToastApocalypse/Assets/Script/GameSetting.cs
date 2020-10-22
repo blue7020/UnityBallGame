@@ -79,6 +79,18 @@ public class GameSetting : InformationLoader
         NowStage = 0;
     }
 
+    public void GetSyrup(int amount)
+    {
+        if (SaveDataController.Instance.mUser.Syrup + amount >= Constants.MAX_SYRUP)
+        {
+            SaveDataController.Instance.mUser.Syrup = Constants.MAX_SYRUP;
+        }
+        else
+        {
+            SaveDataController.Instance.mUser.Syrup += amount;
+        }
+    }
+
     public void ShowAds(eAdsReward reward)
     {
         GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);
@@ -100,14 +112,14 @@ public class GameSetting : InformationLoader
         {
             SaveDataController.Instance.mUser.LastServerTime = DateTime.Now;
             SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
-            SaveDataController.Instance.mUser.Syrup += 500;
+            GetSyrup(500);
             MainLobbyUIController.Instance.ShowSyrupText();
         }
     }
 
     public void Syrup()
     {
-        SaveDataController.Instance.mUser.Syrup += 500;
+        GetSyrup(500);
         MainLobbyUIController.Instance.ShowSyrupText();
     }
 

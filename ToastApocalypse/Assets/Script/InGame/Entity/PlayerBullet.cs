@@ -136,19 +136,16 @@ public class PlayerBullet : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
-        if (other.gameObject.CompareTag("Walls"))
-        {
-            if (eType == ePlayerBulletType.normal|| eType == ePlayerBulletType.fire|| eType == ePlayerBulletType.shotgun)
-            {
-                gameObject.SetActive(false);
-            }
-        }
+        //if (other.gameObject.CompareTag("Walls"))
+        //{
+        //    if (eType == ePlayerBulletType.normal|| eType == ePlayerBulletType.fire|| eType == ePlayerBulletType.shotgun)
+        //    {
+        //        gameObject.SetActive(false);
+        //    }
+        //}
         if (other.gameObject.CompareTag("DestroyZone"))
         {
-            if (eType == ePlayerBulletType.homing)
-            {
-                gameObject.SetActive(false);
-            }
+            gameObject.SetActive(false);
         }
         if (other.gameObject.CompareTag("Player"))
         {

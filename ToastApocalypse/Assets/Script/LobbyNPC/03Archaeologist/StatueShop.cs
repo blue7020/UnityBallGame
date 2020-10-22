@@ -16,7 +16,7 @@ public class StatueShop : MonoBehaviour
     public StatueText mStatueText;
     public NotOpenFurniture mFurniture;
 
-    public Image mScreen;
+    public Image mScreen, mPointer;
     public Button mBuyButton;
     public Text mTitle, mStatueName, mStatueLore, mBuyText;
 
@@ -25,6 +25,28 @@ public class StatueShop : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            if (SaveDataController.Instance.mUser.NPCOpen[3] == true)
+            {
+                mFurniture.gameObject.SetActive(false);
+                if (GameSetting.Instance.Language == 0)//한국어
+                {
+                    mTitle.text = "석상 연구소";
+                    mStatueName.text = "석상 연구";
+                    mStatueLore.text = "석상을 연구하여 스테이지에서 출현하는 석상의 종류를 늘립니다";
+                    mBuyText.text = "연구하기";
+                }
+                else if (GameSetting.Instance.Language == 1)//영어
+                {
+                    mTitle.text = "Statue Lab";
+                    mStatueName.text = "Statue research";
+                    mStatueLore.text = "Researching statue increases the type of statues that are appearing in the stage";
+                    mBuyText.text = "Research";
+                }
+            }
+            else
+            {
+                mPointer.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -34,24 +56,7 @@ public class StatueShop : MonoBehaviour
 
     private void Start()
     {
-        if (SaveDataController.Instance.mUser.NPCOpen[3]==true)
-        {
-            mFurniture.gameObject.SetActive(false);
-        }
-        if (GameSetting.Instance.Language == 0)//한국어
-        {
-            mTitle.text = "석상 연구소";
-            mStatueName.text = "석상 연구";
-            mStatueLore.text = "석상을 연구하여 스테이지에서 출현하는 석상의 종류를 늘립니다";
-            mBuyText.text = "연구하기";
-        }
-        else if (GameSetting.Instance.Language == 1)//영어
-        {
-            mTitle.text = "Statue Lab";
-            mStatueName.text = "Statue research";
-            mStatueLore.text = "Researching statue increases the type of statues that are appearing in the stage";
-            mBuyText.text = "Research";
-        }
+
         Statue_Slot = SaveDataController.Instance.mStatueInfoArr.Length;
         for (int i = 0; i < Statue_Slot; i++)
         {

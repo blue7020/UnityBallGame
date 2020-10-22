@@ -8,7 +8,7 @@ public class PlayerSelectController : InformationLoader
     public static PlayerSelectController Instance;
 
     public MainLobbyPlayer[] mPlayer;
-    public Image mBlackScreen, mPlayerImage,mWindow;
+    public Image mBlackScreen, mPlayerImage,mWindow, mShadow;
     public Sprite mLockPlayer;
     public VirtualJoyStick mStick;
     public Button LeftButton, RightButton, SelectButton;
@@ -123,12 +123,20 @@ public class PlayerSelectController : InformationLoader
         MainLobbyCamera.Instance.CameraSetting(player);
         NowPlayerID = GameSetting.Instance.PlayerID;
         mWindow.gameObject.SetActive(false);
+        StartCoroutine(SceneMoveShadow());
+    }
+
+    public IEnumerator SceneMoveShadow()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        mShadow.gameObject.SetActive(true);
+        yield return delay;
+        mShadow.gameObject.SetActive(false);
     }
 
     public void ShowStat()
     {
         PlayerID =mPlayerStatList[NowPlayerID].ID;
-        Debug.Log(PlayerID);
         if (SaveDataController.Instance.mUser.CharacterOpen[PlayerID] == true)
         {
             if (SaveDataController.Instance.mUser.CharacterHas[PlayerID] == true)

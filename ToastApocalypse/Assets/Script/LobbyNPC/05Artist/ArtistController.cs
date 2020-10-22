@@ -7,7 +7,7 @@ public class ArtistController : MonoBehaviour
 {
     public static ArtistController Instance;
 
-    public Image mArtistWindow;
+    public Image mArtistWindow, mPointer;
     public Text mTitle,mArtTitleText,mButtonText;
     public Button mButton;
     public Sprite[] mArtArr;
@@ -18,6 +18,10 @@ public class ArtistController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            if (SaveDataController.Instance.mUser.NPCOpen[5] == false)
+            {
+                mPointer.gameObject.SetActive(false);
+            }
         }
         else
         {

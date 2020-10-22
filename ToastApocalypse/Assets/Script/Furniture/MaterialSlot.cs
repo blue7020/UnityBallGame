@@ -27,7 +27,7 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
 
     public void RemoveData()
     {
-        mMaterialID = 0;
+        mMaterialID = -1;
         mAmount = -1;
         mCount.text = "";
         mIcon.color = Color.clear;

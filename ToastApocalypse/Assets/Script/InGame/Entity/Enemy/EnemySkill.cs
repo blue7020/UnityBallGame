@@ -889,12 +889,34 @@ public class EnemySkill : MonoBehaviour
 
     private void Sushinobi()
     {
-        Vector3 Pos = Player.Instance.transform.position;
-        Vector3 dir = Pos - transform.position;
-        Bullet bolt = BulletPool.Instance.GetFromPool(18);
-        bolt.mEnemy = mEnemy;
-        bolt.transform.localPosition = mEnemy.transform.position;
-        bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+        if (SkillCount>=4)
+        {
+            StartCoroutine(SushinobiDash());
+            SkillCount = 0;
+        }
+        else
+        {
+            Vector3 Pos = Player.Instance.transform.position;
+            Vector3 dir = Pos - transform.position;
+            Bullet bolt = BulletPool.Instance.GetFromPool(18);
+            bolt.mEnemy = mEnemy;
+            bolt.transform.localPosition = mEnemy.transform.position;
+            bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
+            SkillCount++;
+        }
+    }
+    private IEnumerator SushinobiDash()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        yield return delay;
+        mEnemy.IsTraking = false;
+        mEnemy.SpeedAmount += 2f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.SpeedAmount -= 2f;
+        mEnemy.IsTraking = true;
+        StartCoroutine(MoveDelay(0.5f));
     }
 
     private IEnumerator RollingSushi()
@@ -1385,7 +1407,6 @@ public class EnemySkill : MonoBehaviour
                             break;
                     }
                     enemy.mStats.Gold = 0;
-                    enemy.mCurrentHP -= 6;
                     enemy.transform.position = mEnemy.transform.position + Pos;
                 }
             }

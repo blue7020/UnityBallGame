@@ -83,11 +83,11 @@ public class SerialCodeController : MonoBehaviour
                 {
                     if (GameSetting.Instance.Language == 0)
                     {
-                        mTitleText.text = "보상 획득!";
+                        mRewardTitle.text = "보상 획득!";
                     }
                     else if (GameSetting.Instance.Language == 1)
                     {
-                        mTitleText.text = "Get Reward!";
+                        mRewardTitle.text = "Get Reward!";
                     }
                     SlotList = new List<RewardWindow>();
                     RewardInstantiate(i);
@@ -154,7 +154,7 @@ public class SerialCodeController : MonoBehaviour
             SlotList.Add(Instantiate(mRewardImageWindow, Parents));
             SlotList[index].mIcon.sprite = mSpt[0];
             SlotList[index].mAmountText.text = SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount.ToString();
-            SaveDataController.Instance.mUser.Syrup += SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount;
+            GameSetting.Instance.GetSyrup(SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount);
             index++;
         }
         for (int i = 0; i < SaveDataController.Instance.mCodeInfoArr[ID].MaterialID.Length; i++)

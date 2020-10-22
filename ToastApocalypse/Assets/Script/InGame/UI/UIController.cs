@@ -10,7 +10,7 @@ public class UIController : InformationLoader
     public static UIController Instance;
 
     public Text mGoldText, mHPText,mStatText, mNameText, mbulletText,mLevelText,mAirText,mAirGaugeText;
-    public Image mPlayerImage,mStatPlayerImage, mMinimapPlayerImage,mWeaponImage,mSkillImage,mSkillCoolWheel, NoTouchArea;
+    public Image mPlayerImage, mStatPlayerImage, mMinimapPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel, NoTouchArea, mShadow;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage,mMonsterImage,mDeathWindow,mDeathUI,mReviveWindow;
     public HPBar mAirBar, mHPBar;
 
@@ -63,6 +63,7 @@ public class UIController : InformationLoader
         {
             DontDestroyOnLoad(gameObject);
         }
+        StartCoroutine(SceneMoveShadow());
         if (GameSetting.Instance.Language == 0)//한국어
         {
             maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].Title;
@@ -90,7 +91,13 @@ public class UIController : InformationLoader
         ReviveUI();
     }
 
-
+    public IEnumerator SceneMoveShadow()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        mShadow.gameObject.SetActive(true);
+        yield return delay;
+        mShadow.gameObject.SetActive(false);
+    }
     public void ButtonPush()
     {
         SoundController.Instance.SESoundUI(0);
@@ -112,7 +119,6 @@ public class UIController : InformationLoader
             mReviveSyrupButton.interactable = false;
         }
     }
-
     public void ReviveWindow(int id)
     {
         if (GameController.Instance.ReviveCode ==0)

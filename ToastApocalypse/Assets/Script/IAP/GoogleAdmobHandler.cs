@@ -119,10 +119,14 @@ public class GoogleAdmobHandler : MonoBehaviour
 
     public void PlayAD()
     {
-        Time.timeScale = 0;
         if (rewardBasedVideo.IsLoaded())
-        {
+        {     
             rewardBasedVideo.Show();
+            Debug.Log(rewardBasedVideo.IsLoaded());
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
         RequestRewardBasedVideo();//보상형
     }
@@ -185,7 +189,7 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void HandleRewardBasedVideoFailedToLoad(object sender, AdFailedToLoadEventArgs e)
     {
         Debug.Log("Load fail");//광고 준비 안됨
-        //광고 버튼 비활성화
+        Time.timeScale = 1;
     }
 
     private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)

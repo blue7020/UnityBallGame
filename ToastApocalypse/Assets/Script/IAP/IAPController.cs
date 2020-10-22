@@ -25,9 +25,10 @@ public class IAPController : MonoBehaviour, IStoreListener
     // specific mapping to Unity Purchasing's AddProduct, below.
 
     ////상품 ID가 어떻게 사용하는지에 대한 Sample
-    //public static string kProductIDConsumable = "consumable"; //여러번 살 수 있게
-    //public static string kProductIDNonConsumable = "nonconsumable"; //한번만 살 수 있게
-    //public static string kProductIDSubscription = "subscription";
+    //public static string kProductIDConsumable = "consumable"; //한번 살 수 있게
+    //public static string kProductIDNonConsumable = "nonconsumable"; //여러번 살 수 있게
+    //내가 헷갈려서 이 곳에서는 논컨슈머블과 컨슈머블 변수 이름을 반대로 기재함;;
+    //public static string kProductIDSubscription = "subscription";//정기 구독형
 
     //// Apple App Store-specific product identifier for the subscription product.
     //private static string kProductNameAppleSubscription = "com.unity3d.subscription.new";
@@ -111,48 +112,48 @@ public class IAPController : MonoBehaviour, IStoreListener
         // Create a builder, first passing in a suite of Unity provided stores.
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-        builder.AddProduct(Consumable_NOADS, ProductType.Consumable, new IDs()
+        builder.AddProduct(Consumable_NOADS, ProductType.NonConsumable, new IDs()
         {
             { GooglePlay_NOADS,GooglePlay.Name}//해당 스토어에 이 상품을 연동시킨 것이다. 만약 한 플랫폼에만 팔고 싶다면 둘중 하나만 쓰면 된다.
             //,{ ios_Ruby100,AppleAppStore.Name}
         });
 
-        builder.AddProduct(Consumable_Chara_Hero, ProductType.Consumable, new IDs()
+        builder.AddProduct(Consumable_Chara_Hero, ProductType.NonConsumable, new IDs()
         {
             { GooglePlay_Chara_Hero,GooglePlay.Name}
         });
 
-        builder.AddProduct(Consumable_Chara_Castella, ProductType.Consumable, new IDs()
+        builder.AddProduct(Consumable_Chara_Castella, ProductType.NonConsumable, new IDs()
         {
             { GooglePlay_Chara_Castella,GooglePlay.Name}
         });
 
-        builder.AddProduct(Consumable_Chara_ShrimpNinja, ProductType.Consumable, new IDs()
+        builder.AddProduct(Consumable_Chara_ShrimpNinja, ProductType.NonConsumable, new IDs()
         {
             { GooglePlay_Chara_ShrimpNinja,GooglePlay.Name}
         });
 
-        builder.AddProduct(Consumable_Chara_DemonToast, ProductType.Consumable, new IDs()
+        builder.AddProduct(Consumable_Chara_DemonToast, ProductType.NonConsumable, new IDs()
         {
             { GooglePlay_Chara_DemonToast,GooglePlay.Name}
         });
 
-        builder.AddProduct(NonConsumable_Donate, ProductType.NonConsumable, new IDs()
+        builder.AddProduct(NonConsumable_Donate, ProductType.Consumable, new IDs()
         {
             { GooglePlay_Donate,GooglePlay.Name},
         });
 
-        builder.AddProduct(NonConsumable_Syrup_01, ProductType.NonConsumable, new IDs()
+        builder.AddProduct(NonConsumable_Syrup_01, ProductType.Consumable, new IDs()
         {
             { GooglePlay_Syrup_01,GooglePlay.Name},
         });
 
-        builder.AddProduct(NonConsumable_Syrup_02, ProductType.NonConsumable, new IDs()
+        builder.AddProduct(NonConsumable_Syrup_02, ProductType.Consumable, new IDs()
         {
             { GooglePlay_Syrup_02,GooglePlay.Name},
         });
 
-        builder.AddProduct(NonConsumable_Syrup_03, ProductType.NonConsumable, new IDs()
+        builder.AddProduct(NonConsumable_Syrup_03, ProductType.Consumable, new IDs()
         {
             { GooglePlay_Syrup_03,GooglePlay.Name},
         });
@@ -455,19 +456,12 @@ public class IAPController : MonoBehaviour, IStoreListener
                 }
                 else if (SaveDataController.Instance.mUser.DonateCount == 1)
                 {
-                    if (SaveDataController.Instance.mUser.CharacterHas[2] == true && SaveDataController.Instance.mUser.SkillHas[2] == true)
-                    {
-                        SaveDataController.Instance.mUser.Syrup += 5500;
-                    }
-                    else
-                    {
-                        SaveDataController.Instance.mUser.CharacterHas[2] = true;
-                        SaveDataController.Instance.mUser.CharacterOpen[2] = true;
-                    }
+                    SaveDataController.Instance.mUser.CharacterHas[2] = true;
+                    SaveDataController.Instance.mUser.CharacterOpen[2] = true;
                 }
                 else
                 {
-                    SaveDataController.Instance.mUser.Syrup += 5000;
+                    GameSetting.Instance.GetSyrup(5000);
                 }
                 MainLobbyUIController.Instance.ShowSyrupText();
                 SaveDataController.Instance.mUser.DonateCount++;
@@ -476,21 +470,21 @@ public class IAPController : MonoBehaviour, IStoreListener
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                SaveDataController.Instance.mUser.Syrup += 5000;
+                GameSetting.Instance.GetSyrup(5000);
                 MainLobbyUIController.Instance.ShowSyrupText();
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 6500개
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                SaveDataController.Instance.mUser.Syrup += 11000;
+                GameSetting.Instance.GetSyrup(11000);
                 MainLobbyUIController.Instance.ShowSyrupText();
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 12000개
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                SaveDataController.Instance.mUser.Syrup += 33000;
+                GameSetting.Instance.GetSyrup(33000);
                 MainLobbyUIController.Instance.ShowSyrupText();
             }
             //else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_StarterPack, StringComparison.Ordinal))

@@ -7,7 +7,7 @@ public class Bartender : MonoBehaviour
 {
     public static Bartender Instance;
 
-    public Image mWindow;
+    public Image mWindow,mPointer;
     public Text mTitleText, mItemNameText, mItemTooltipText, mButtonText;
     public Button mButton;
     public NotOpenFurniture mFurniture;
@@ -17,6 +17,14 @@ public class Bartender : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            if (SaveDataController.Instance.mUser.NPCOpen[8] == true)
+            {
+                mFurniture.gameObject.SetActive(false);
+            }
+            else
+            {
+                mPointer.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -26,10 +34,6 @@ public class Bartender : MonoBehaviour
 
     private void SetText()
     {
-        if (SaveDataController.Instance.mUser.NPCOpen[8] == true)
-        {
-            mFurniture.gameObject.SetActive(false);
-        }
         if (GameSetting.Instance.Language==0)
         {
             mTitleText.text = "선술집";

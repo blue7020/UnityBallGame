@@ -37,7 +37,7 @@ public class MaterialController : InformationLoader
         {
             mTitle.text = "Fridger";
             mMaterialTitle.text = "Material";
-            mLore.text = "Touch the material to show description";
+            mLore.text = "Touch the Material to show description";
         }
     }
 

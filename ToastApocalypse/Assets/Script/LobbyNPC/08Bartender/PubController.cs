@@ -9,7 +9,6 @@ public class PubController : MonoBehaviour
 
     public PubSlot ShopSlot;
     public Transform mShopParents;
-
     public ItemStat mItem;
 
     private void Awake()

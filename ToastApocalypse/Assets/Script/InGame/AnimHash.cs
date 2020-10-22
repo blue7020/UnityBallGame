@@ -10,6 +10,9 @@ public class AnimHash : MonoBehaviour
     //GetParts
     public static readonly int Parts = Animator.StringToHash("IsGet");
 
+    //UiController
+    public static readonly int HitAnim = Animator.StringToHash("IsHit");
+
     //Player
     public static readonly int Attack = Animator.StringToHash("IsAttack");
     public static readonly int Death = Animator.StringToHash("IsDeath");

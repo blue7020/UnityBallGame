@@ -11,7 +11,6 @@ public class PortalTrigger : MonoBehaviour
     public Enemy[] BossArr;
     public Enemy[] StageBossArr;
     private Enemy NowBoss;
-    private int rand;
     private bool Spawned;
 
     private void Awake()
@@ -46,12 +45,22 @@ public class PortalTrigger : MonoBehaviour
             }
             Spawned = true;
             Instantiate(NowBoss, transform.position, Quaternion.identity);
-            room.mEnemyFinder.SpawnAll = true;
         }
     }
 
     public void BossDeath()
     {
         portal.ShowPortal();
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (room.eType == eRoomType.Boss&& Spawned==false)
+            {
+                Instance.BossSpawn();
+                room.EnemyCount++;
+            }
+        }
     }
 }

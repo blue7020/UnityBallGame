@@ -13,7 +13,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public Button mAdsButton;
     public MapNPCSlot mNPCSlot;
     public Transform mParents;
-    public int Sequence, PlusRewardMaterial;
+    public int PlusRewardMaterial;
 
     public MaterialSlot[] mMaterialSlot;
 
@@ -49,13 +49,12 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         StageMaterialController.Instance.GetMaterialArr(StageId);
         for (int i=0; i<mMaterialSlot.Length;i++)
         {
-            Sequence = Random.Range(0, mMaterialSlot.Length);
             for (int j=0; j< mMaterialSlot.Length;j++)
             {
                 float rate = Random.Range(0,1f);
-                if (rate> StageMaterialController.Instance.mStageMaterialArr[Sequence].mRate)
+                if (rate> StageMaterialController.Instance.mStageMaterialArr[i].mRate)
                 {
-                    mMaterialSlot[i].SetData(StageMaterialController.Instance.mStageMaterialArr[Sequence].mID);
+                    mMaterialSlot[i].SetData(StageMaterialController.Instance.mStageMaterialArr[i].mID);
                     break;
                 }
                 else
@@ -122,27 +121,27 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void GotoMain()
     {
-        if (SaveDataController.Instance.mUser.Syrup + GameController.Instance.SyrupInStage >= 99999)
+        GameSetting.Instance.GetSyrup(GameController.Instance.SyrupInStage);
+        GetStageReward();
+        gameObject.SetActive(false);
+        GameController.Instance.MainMenu();
+    }
+
+    public void GetStageReward()
+    {
+        for (int i = 0; i < mMaterialSlot.Length; i++)
         {
-            SaveDataController.Instance.mUser.Syrup = 99999;
-        }
-        else
-        {
-            SaveDataController.Instance.mUser.Syrup += GameController.Instance.SyrupInStage;
-        }
-        for (int i=0; i<Sequence;i++)
-        {
-            if (SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] + PlusRewardMaterial > 99)
+            if (SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[i].mID] + PlusRewardMaterial >= Constants.MAX_MATERIAL)
             {
-                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] = 99;
+                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[i].mID] = Constants.MAX_MATERIAL;
             }
             else
             {
-                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[Sequence].mID] += PlusRewardMaterial;
+                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[i].mID] += PlusRewardMaterial;
             }
         }
-        gameObject.SetActive(false);
-        GameController.Instance.MainMenu();
+        Debug.Log("보상 획득");
+        SaveDataController.Instance.Save();
     }
 
     public void ShowNPCWindow()
@@ -251,7 +250,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             }
             if (character == false && skill == false && weapon == false)
             {
-                MessageText.text = "획득 가능한 보상이 없습니다";
+                MessageText.text = "획득 가능한 추가 보상이 없습니다";
             }
         }
         else if (GameSetting.Instance.Language == 1)
@@ -270,7 +269,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             }
             if (character == false && skill == false && weapon == false)
             {
-                MessageText.text = "No reward";
+                MessageText.text = "No additional reward";
             }
         }
     }

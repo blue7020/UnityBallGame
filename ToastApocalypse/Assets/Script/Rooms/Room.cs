@@ -229,8 +229,7 @@ public class Room : MonoBehaviour
                 }
                 if (eType == eRoomType.Boss)
                 {
-                    PortalTrigger.Instance.BossSpawn();
-                    EnemyCount++;
+                    mEnemyFinder.SpawnAll = true;
 
                 }
                 if (eType == eRoomType.Slot)

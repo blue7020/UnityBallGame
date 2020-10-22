@@ -67,6 +67,7 @@ public class Portal : MonoBehaviour
         }
         if (GameController.Instance.StageLevel == GameSetting.STAGELEVEL_COUNT)
         {
+            UIController.Instance.StartCoroutine(UIController.Instance.SceneMoveShadow());
             SceneManager.LoadScene(3);
             Player.Instance.transform.position = new Vector2(0, -10.5f);
         }
@@ -76,6 +77,7 @@ public class Portal : MonoBehaviour
         }
         else if (GameController.Instance.StageLevel < GameSetting.STAGELEVEL_COUNT)
         {
+            UIController.Instance.StartCoroutine(UIController.Instance.SceneMoveShadow());
             SceneManager.LoadScene(2);
             Player.Instance.transform.position = new Vector2(0, 0);
             UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());

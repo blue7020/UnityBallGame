@@ -87,7 +87,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 {
                     lore = "[" + artifact.TextStats.EngTitle + "]\n";
                 }
-                lore += "\n" + artifact.TextStats.EngContensFormat + "\n\n";
+                lore += "\n" + artifact.TextStats.EngContensFormat + "\n";
                 if (artifact.mStats.Heal > 0)
                 {
                     lore += "Heal amount: " + artifact.mStats.Heal + "\n";

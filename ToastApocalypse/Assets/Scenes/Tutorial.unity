@@ -2203,7 +2203,7 @@ MonoBehaviour:
   mGiftText: {fileID: 1384348108}
   mClearUI: {fileID: 1238753313}
   IsClear: 0
-  ShyrupAmount: 500
+  SyrupAmount: 0
 --- !u!1 &147839806
 GameObject:
   m_ObjectHideFlags: 0
@@ -4962,7 +4962,7 @@ MonoBehaviour:
   mPieceImage: {fileID: 292720982}
   mWarningWindow: {fileID: 1692407464}
   mHPBar: {fileID: 100650366}
-  Dialog: {fileID: 1512840982}
+  Dialog: {fileID: 1072257275}
   DefaultItemSprite: {fileID: 21300000, guid: 0e49dc634cd747647bf0fdff771c423a, type: 3}
   mStatButton: {fileID: 871675940}
   mSKillButton: {fileID: 1924441807}
@@ -14237,6 +14237,7 @@ GameObject:
   - component: {fileID: 1072257272}
   - component: {fileID: 1072257274}
   - component: {fileID: 1072257273}
+  - component: {fileID: 1072257275}
   m_Layer: 5
   m_Name: DialogWindow
   m_TagString: Untagged
@@ -14301,6 +14302,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072257271}
   m_CullTransparentMesh: 0
+--- !u!114 &1072257275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072257271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 272d7864aaa6e694fb1aefe22021cf5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NowDialogID: 0
+  MessageDelay: 0
+  NextMessage: 0
+  mWindow: {fileID: 1072257273}
+  mNPCImage: {fileID: 1482199478}
+  mText: {fileID: 593962066}
+  mGuideText: {fileID: 396934989}
+  GoalText: {fileID: 1120027246}
+  mNPCFace:
+  - {fileID: -158646377427028231, guid: 8da98f5421eceff47ab89053fd861f62, type: 3}
+  - {fileID: -4254024248610863965, guid: ea7545e5aec784742bf1cdbce3c84206, type: 3}
+  mInfoArr: []
+  ClearItem: {fileID: 996190907}
 --- !u!1 &1089486278
 GameObject:
   m_ObjectHideFlags: 0
@@ -21478,7 +21504,6 @@ GameObject:
   - component: {fileID: 1512840981}
   - component: {fileID: 1512840984}
   - component: {fileID: 1512840983}
-  - component: {fileID: 1512840982}
   m_Layer: 5
   m_Name: Dialog
   m_TagString: Untagged
@@ -21508,31 +21533,6 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: 58}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1512840982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512840980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 272d7864aaa6e694fb1aefe22021cf5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NowDialogID: 0
-  MessageDelay: 0
-  NextMessage: 0
-  mWindow: {fileID: 1072257273}
-  mNPCImage: {fileID: 1482199478}
-  mText: {fileID: 593962066}
-  mGuideText: {fileID: 396934989}
-  GoalText: {fileID: 1120027246}
-  mNPCFace:
-  - {fileID: -158646377427028231, guid: 8da98f5421eceff47ab89053fd861f62, type: 3}
-  - {fileID: -4254024248610863965, guid: ea7545e5aec784742bf1cdbce3c84206, type: 3}
-  mInfoArr: []
-  ClearItem: {fileID: 996190907}
 --- !u!114 &1512840983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21547,13 +21547,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: ef19e15ee181907458867cd177ded60c, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -25046,8 +25046,6 @@ MonoBehaviour:
   ReviveCode: 0
   SyrupInStage: 0
   IsTutorial: 1
-  BulletTrash: {fileID: 5980240878631506577, guid: 8f81c36fd2abe80418715c049655e4ab,
-    type: 3}
   RescueNPCList: 
 --- !u!4 &1717939202
 Transform:
@@ -31277,6 +31275,7 @@ MonoBehaviour:
     ContensFormat: 
     EngContensFormat: 
     Type: 0
+    BonusHeal: 0
     Atk: 0
     AtkSpd: 0
     ReloadCool: 0
@@ -34409,6 +34408,7 @@ MonoBehaviour:
     ContensFormat: 
     EngContensFormat: 
     Type: 0
+    BonusHeal: 0
     Atk: 0
     AtkSpd: 0
     ReloadCool: 0

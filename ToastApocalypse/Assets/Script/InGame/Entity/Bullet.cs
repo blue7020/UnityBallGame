@@ -100,15 +100,19 @@ public class Bullet : MonoBehaviour
             }
             if (other.gameObject.CompareTag("DestroyZone"))
             {
-                RemoveBullet();
-            }
-            if (other.gameObject.CompareTag("Walls"))
-            {
                 if (eType != eEnemyBulletType.boom)
                 {
                     RemoveBullet();
                 }
+
             }
+            //if (other.gameObject.CompareTag("Walls"))
+            //{
+            //    if (eType != eEnemyBulletType.boom)
+            //    {
+            //        RemoveBullet();
+            //    }
+            //}
         }
     }
 }

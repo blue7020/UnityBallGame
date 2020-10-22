@@ -6,7 +6,7 @@ public class LobbyNPCController : MonoBehaviour
 {
     public GameObject[] NPCArr;
 
-    private void Awake()
+    private void Start()
     {
         for (int i=0; i< SaveDataController.Instance.mUser.NPCOpen.Length;i++)
         {

@@ -9,7 +9,7 @@ public class BlackSmith : MonoBehaviour
 
     public Animator mAnim;
     public Text mTitleText, mGuideText, mMaterialText;
-    public Image mBlacksmithWindow;
+    public Image mBlacksmithWindow,mPointer;
     public NotOpenFurniture mFurniture;
     public bool IsShop; //툴팁 구분에 사용함
 
@@ -18,31 +18,31 @@ public class BlackSmith : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            if (SaveDataController.Instance.mUser.NPCOpen[2] == true)
+            {
+                mAnim.SetBool(AnimHash.Furniture, true);
+                mFurniture.gameObject.SetActive(false);
+                if (GameSetting.Instance.Language == 0)//한국어
+                {
+                    mTitleText.text = "대장간";
+                    mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
+                    mMaterialText.text = "비용 / 제작 재료";
+                }
+                else if (GameSetting.Instance.Language == 1)//영어
+                {
+                    mTitleText.text = "Smithy";
+                    mGuideText.text = "Touch the slot to view tooltips";
+                    mMaterialText.text = "Price / Recipe";
+                }
+            }
+            else
+            {
+                mPointer.gameObject.SetActive(false);
+            }
         }
         else
         {
             Destroy(gameObject);
-        }
-    }
-
-    private void Start()
-    {
-        if (SaveDataController.Instance.mUser.NPCOpen[2]==true)
-        {
-            mAnim.SetBool(AnimHash.Furniture, true);
-            mFurniture.gameObject.SetActive(false);
-            if (GameSetting.Instance.Language == 0)//한국어
-            {
-                mTitleText.text = "대장간";
-                mGuideText.text = "슬롯 터치 시 툴팁을 표시합니다";
-                mMaterialText.text = "비용 / 제작 재료";
-            }
-            else if (GameSetting.Instance.Language == 1)//영어
-            {
-                mTitleText.text = "Smithy";
-                mGuideText.text = "Touch the slot to view tooltips";
-                mMaterialText.text = "Price / Recipe";
-            }
         }
     }
 

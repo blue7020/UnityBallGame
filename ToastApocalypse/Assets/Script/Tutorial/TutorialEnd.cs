@@ -11,7 +11,7 @@ public class TutorialEnd : MonoBehaviour
     public Image mClearUI;
     public bool IsClear;
 
-    public int ShyrupAmount;
+    public int SyrupAmount;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class TutorialEnd : MonoBehaviour
                 mGuideText.text = "터치 시 로비로 이동합니다.";
                 if (SaveDataController.Instance.mUser.TutorialEnd == false)
                 {
-                    mGiftText.text = "획득한 시럽: +" + ShyrupAmount;
+                    mGiftText.text = "획득한 시럽: +" + SyrupAmount;
                     SaveDataController.Instance.mUser.TutorialEnd = true;
                     SaveDataController.Instance.mUser.NPCOpen[1] = true;
                 }
@@ -40,7 +40,7 @@ public class TutorialEnd : MonoBehaviour
                 mGuideText.text = "Touch to move to the lobby.";
                 if (SaveDataController.Instance.mUser.TutorialEnd == false)
                 {
-                    mGiftText.text = "Syrup: +" + ShyrupAmount;
+                    mGiftText.text = "Syrup: +" + SyrupAmount;
                     SaveDataController.Instance.mUser.TutorialEnd = true;
                     SaveDataController.Instance.mUser.NPCOpen[1] = true;
                 }
@@ -61,14 +61,7 @@ public class TutorialEnd : MonoBehaviour
         GameController.Instance.pause = true;
         Player.Instance.mRB2D.velocity = Vector3.zero;
         Player.Instance.Stun = true;
-        if (SaveDataController.Instance.mUser.Syrup + ShyrupAmount >= 99999)
-        {
-            SaveDataController.Instance.mUser.Syrup = 99999;
-        }
-        else
-        {
-            SaveDataController.Instance.mUser.Syrup += ShyrupAmount;
-        }
+        GameSetting.Instance.GetSyrup(SyrupAmount);
         SaveDataController.Instance.mUser.StagePartsget[0] = true;
         mClearUI.gameObject.SetActive(true);
     }

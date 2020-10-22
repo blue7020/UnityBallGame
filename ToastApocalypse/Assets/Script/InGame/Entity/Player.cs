@@ -228,7 +228,7 @@ public class Player : MonoBehaviour
     {
         if (Nodamage ==false)
         {
-            StartCoroutine(HitAnimation());
+            StartCoroutine(HitAnim());
             int rand = UnityEngine.Random.Range(0, 2);
             SoundController.Instance.SESound(rand);
             if (trueDamage==false)
@@ -297,21 +297,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    private IEnumerator HitAnimation()
+    private IEnumerator HitAnim()
     {
         WaitForSeconds Time = new WaitForSeconds(0.3f);
         if (Nodamage==false&&mCurrentHP>0)
         {
+            HitAnimation.Instance.mHitAnim.SetBool(AnimHash.HitAnim, true);
             mRenderer.color = Color.red;
             Nodamage = true;
             yield return Time;
             mRenderer.color = Color.white;
             Nodamage = false;
-            StopCoroutine(HitAnimation());
+            HitAnimation.Instance.mHitAnim.SetBool(AnimHash.HitAnim, false);
+            StopCoroutine(HitAnim());
         }
         else
         {
-            StopCoroutine(HitAnimation());
+            StopCoroutine(HitAnim());
         }
     }
 
@@ -340,7 +342,7 @@ public class Player : MonoBehaviour
         {
             UIController.Instance.mReviveWindow.gameObject.SetActive(false);
             Nodamage = true;
-            StopCoroutine(HitAnimation());
+            StopCoroutine(HitAnim());
             GameController.Instance.pause = true;
             SoundController.Instance.mBGM.Stop();
             mRB2D.velocity = Vector3.zero;

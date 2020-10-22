@@ -47,7 +47,7 @@ public class Merchant : MonoBehaviour
     {
         switch (NowItemID)
         {
-            //월 패키지(매달 2번 구입 가능) 모든 재료 +10개 시럽 10000개, = 10000원
+            //월 패키지(매달 2번 구입 가능) 모든 재료 +10개 시럽 10000개, = 9900원(9000원)
             case 0://광고 제거
                 IAPController.Instance.BuyNOAds();
                 break;

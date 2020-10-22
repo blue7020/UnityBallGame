@@ -16,11 +16,11 @@ public class UsingArtifactInventory : MonoBehaviour, IPointerDownHandler
             art = Player.Instance.NowActiveArtifact;
             if (GameSetting.Instance.Language == 0)
             {
-                lore = "[" + art.TextStats.Title + "]\n" + art.TextStats.ContensFormat + "\n\n\"" + art.TextStats.PlayableText + "\"";
+                lore = "["+art.TextStats.Title+"] (재사용 대기시간: " + art.mStats.Skill_Cooltime + "초)\n" + art.TextStats.ContensFormat + "\n\n\"" + art.TextStats.PlayableText + "\"";
             }
             else if (GameSetting.Instance.Language == 1)
             {
-                lore = "[" + art.TextStats.EngTitle + "]\n" + art.TextStats.EngContensFormat + "\n\n\"" + art.TextStats.EngPlayableText+"\"";
+                lore = "["+art.TextStats.EngTitle + "] (CoolTime: " + art.mStats.Skill_Cooltime + "Sec)\n" + art.TextStats.EngContensFormat + "\n\n\"" + art.TextStats.EngPlayableText+"\"";
             }
             if (GameController.Instance.IsTutorial == false)
             {

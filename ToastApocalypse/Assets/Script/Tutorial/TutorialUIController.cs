@@ -10,7 +10,7 @@ public class TutorialUIController : InformationLoader
     public static TutorialUIController Instance;
 
     public Text mHPText, mNameText, mbulletText, mStatText;
-    public Image mPlayerImage, mStatPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel;
+    public Image mPlayerImage, mStatPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel, mShadow;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint, mPieceImage,mWarningWindow;
     public HPBar mHPBar;
     public TutorialDialog Dialog;
@@ -95,11 +95,20 @@ public class TutorialUIController : InformationLoader
         Dialog.gameObject.SetActive(true);
         Time.timeScale = 0;
         Dialog.ShowDialog();
+        StartCoroutine(SceneMoveShadow());
     }
 
     public void ButtonPush()
     {
         SoundController.Instance.SESoundUI(0);
+    }
+
+    public IEnumerator SceneMoveShadow()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(1f);
+        mShadow.gameObject.SetActive(true);
+        yield return delay;
+        mShadow.gameObject.SetActive(false);
     }
 
     public void Delete()

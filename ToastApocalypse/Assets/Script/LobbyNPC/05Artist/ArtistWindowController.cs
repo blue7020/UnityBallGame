@@ -8,13 +8,14 @@ public class ArtistWindowController : MonoBehaviour
     public static ArtistWindowController Instance;
 
     public ArtSlot mArtSlot;
+    public ArtSlot[] mArtSlotArr;
     public Transform mParents;
     public ArtText mArt;
     public Image mShowArtWindow;
 
     private void Awake()
     {
-        if (Instance==null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -24,16 +25,27 @@ public class ArtistWindowController : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void RefreashArt()
     {
+        mArtSlotArr = new ArtSlot[Constants.ART_COUNT];
         for (int i = 0; i < ArtistController.Instance.mArtArr.Length; i++)
         {
-            if (SaveDataController.Instance.mArtInfoArr[i].Open==true)
+            if (SaveDataController.Instance.mUser.ArtOpen[mArt.ID] == true)
             {
-                ArtSlot mSlot = Instantiate(mArtSlot, mParents);
-                mSlot.SetData(i, SaveDataController.Instance.mArtInfoArr[i].ArtCode);
+                mArtSlotArr[i] = Instantiate(mArtSlot, mParents);
+                mArtSlotArr[i].SetData(i, SaveDataController.Instance.mArtInfoArr[i].ArtCode);
             }
+        }
+    }
 
+    public void DestroyArt()
+    {
+        if (mArtSlotArr != null)
+        {
+            for (int i = 0; i < mArtSlotArr.Length; i++)
+            {
+                Destroy(mArtSlotArr[i]);
+            }
         }
     }
 

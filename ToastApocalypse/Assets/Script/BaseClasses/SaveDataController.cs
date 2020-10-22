@@ -328,15 +328,24 @@ public class SaveDataController : InformationLoader
             mUser.HasMaterial = new int[Constants.MATERIAL_COUNT];
             mUser.TutorialEnd = false;
             mUser.StagePartsget = new bool[6];
-            mUser.ArtOpen = new bool[Constants.ART_COUNT];
             mUser.GameClear = false;
             mUser.CodeUse = new bool[Constants.Code_Count];
-            mUser.ArtifactFound = new bool[Constants.ARTIFACT_COUNT];
 
             mUser.DonateCount = 0;
             mUser.TodayWatchFirstAD = false;
             mUser.NoAds = false;
             mUser.LastServerTime = DateTime.Now;//마지막 접속 시의 현재 로컬 시간
+
+            mUser.ArtifactFound = new bool[Constants.ARTIFACT_COUNT];
+
+            mUser.ArtOpen = new bool[Constants.ART_COUNT];
+            for (int i = 0; i < mArtInfoArr.Length; i++)
+            {
+                if (mArtInfoArr[i].Open == true)
+                {
+                    mUser.ArtOpen[i] = true;
+                }
+            }
 
             mUser.CharacterOpen = new bool[Constants.CHARACTER_COUNT];
             mUser.CharacterHas = new bool[Constants.CHARACTER_COUNT];

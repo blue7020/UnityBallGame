@@ -642,7 +642,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 24878782}
   m_OnClick:
     m_PersistentCalls:
@@ -1260,6 +1260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mArtSlot: {fileID: 4990366004039865464, guid: cb821a79fe5506f428646720134b0aac,
     type: 3}
+  mArtSlotArr: []
   mParents: {fileID: 1242202800}
   mArt:
     ID: 0
@@ -4448,6 +4449,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1925065657}
         m_MethodName: ButtonPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 61890037}
+        m_MethodName: DestroyArt
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -29341,7 +29353,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -221}
+  m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1453100061
@@ -33154,19 +33166,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e777255a71b0a42878d54fca1b5c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mArtistWindow: {fileID: 61890036}
   mPointer: {fileID: 433106074}
   mTitle: {fileID: 1129551892}
   mArtTitleText: {fileID: 2061562110}
   mButtonText: {fileID: 1626006881}
+  mWindow: {fileID: 61890037}
   mButton: {fileID: 24878781}
   mArtArr:
   - {fileID: 21300000, guid: c092ef6ed08b9544ebef5f0b651fcf47, type: 3}
   - {fileID: 21300000, guid: 1b8581cb0efd9be40afa579131cc9aef, type: 3}
-  - {fileID: 21300000, guid: 1b8581cb0efd9be40afa579131cc9aef, type: 3}
+  - {fileID: 21300000, guid: 586550701c16428459549c3974c6b126, type: 3}
   - {fileID: 21300000, guid: e0568cdce2cfbb6418593768f80d3afc, type: 3}
   - {fileID: 21300000, guid: 537e51bb5ef3a294ea456255ba60e3c4, type: 3}
-  - {fileID: 21300000, guid: 3b1a298363ea07845b1f21b7eb670bd8, type: 3}
+  - {fileID: 21300000, guid: 2228835aebdd2ee409f5ea1f4065cced, type: 3}
   - {fileID: 21300000, guid: 3b1a298363ea07845b1f21b7eb670bd8, type: 3}
   - {fileID: 21300000, guid: c8545ccf4f63af3449551c6618453143, type: 3}
   - {fileID: 21300000, guid: 98aec9530056982439eec928e8e1707d, type: 3}

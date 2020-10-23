@@ -32,8 +32,10 @@ public class OpeningCutScene : MonoBehaviour,IPointerClickHandler
 
     public void ShowOpening()
     {
+        StartCoroutine(Delay());
         if (TextID>= mDialogList.Count)
         {
+            StopCoroutine(Delay());
             if (SceneCheck==false)
             {
                 MainScreenUIController.Instance.OpeningSkip();
@@ -72,6 +74,5 @@ public class OpeningCutScene : MonoBehaviour,IPointerClickHandler
             TextID++;
             ShowOpening();
         }
-        StartCoroutine(Delay());
     }
 }

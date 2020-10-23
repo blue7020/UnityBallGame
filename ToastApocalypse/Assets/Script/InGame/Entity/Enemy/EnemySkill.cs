@@ -392,10 +392,36 @@ public class EnemySkill : MonoBehaviour
 
     private IEnumerator PotatoGolem()//id = 5
     {
-        WaitForSeconds delay = new WaitForSeconds(3f);
+        WaitForSeconds delay = new WaitForSeconds(2.5f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         yield return delay;
+        StartCoroutine(PotatoFall());
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Walk, true);
+    }
+
+    private IEnumerator PotatoFall()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.05f);
+        int count = 0;
+        while (true)
+        {
+            if (count >= 12)
+            {
+                break;
+            }
+            else
+            {
+                int Xpos = Random.Range(-6, 7);
+                int Ypos = Random.Range(-6, 7);
+                Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+                Bullet potato = BulletPool.Instance.GetFromPool(31);
+                potato.mEnemy = mEnemy;
+                potato.transform.position = mEnemy.transform.position + Pos;
+                count++;
+            }
+            yield return delay;
+        }
     }
 
     private IEnumerator AngerTomato()//id = 6 , 9

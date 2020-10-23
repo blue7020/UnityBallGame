@@ -10,6 +10,10 @@ public class AngelStatue : MonoBehaviour
     public Text TitleText, DonateText;
     public Button DonateButton;
     public GameObject Medal;
+    public Transform Parents;
+    public RewardWindow mRewardImageWindow;
+    public List<RewardWindow> SlotList;
+    public Sprite[] mSpt;
 
     private void Awake()
     {
@@ -53,6 +57,25 @@ public class AngelStatue : MonoBehaviour
     public void Donate()
     {
         IAPController.Instance.BuyDonateStatue();
+        SlotList = new List<RewardWindow>();
+        switch (SaveDataController.Instance.mUser.DonateCount)
+        {
+            case 1:
+                SlotList[0].mIcon.sprite = GameSetting.Instance.mPlayerSpt[7];
+                SlotList[0].mAmountText.text = "1";
+                SlotList[1].mIcon.sprite = GameSetting.Instance.mWeaponArr[7].mRenderer.sprite;
+                SlotList[1].mAmountText.text = "1";
+                break;
+            case 2:
+                SlotList[0].mIcon.sprite = GameSetting.Instance.mPlayerSpt[2];
+                SlotList[0].mAmountText.text = "1";
+                SlotList[1].mIcon.sprite = SkillController.Instance.SkillIcon[2];
+                SlotList[1].mAmountText.text = "1";
+                break;
+            default:
+                break;
+        }
         ShowMedal();
     }
+
 }

@@ -11,11 +11,12 @@ public class PlayerSelectController : InformationLoader
     public Image mBlackScreen, mPlayerImage,mWindow, mShadow;
     public Sprite mLockPlayer;
     public VirtualJoyStick mStick;
-    public Button LeftButton, RightButton, SelectButton;
+    public Button LeftButton, RightButton, SelectButton, UpgradeButton;
     public int NowPlayerID, PlayerID;
-    public Text mNameText, mStatText, mSelectText,mTitleText;
+    public Text mNameText, mStatText, mSelectText,mTitleText, mUpgradeButtonText;
     public PlayerStat[] mPlayerStat;
     public List<PlayerStat> mPlayerStatList;
+    public int[] mUpgradePrice;
 
     private void Awake()
     {
@@ -63,7 +64,14 @@ public class PlayerSelectController : InformationLoader
         }
         NowPlayerID = 0;
         LeftButton.gameObject.SetActive(false);
-        RightButton.gameObject.SetActive(true);
+        if (mPlayerStatList.Count == 1)
+        {
+            RightButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            RightButton.gameObject.SetActive(true);
+        }
     }
 
     public void LeftCharacterSelect()
@@ -74,7 +82,14 @@ public class PlayerSelectController : InformationLoader
         {
             LeftButton.gameObject.SetActive(false);
         }
-        RightButton.gameObject.SetActive(true);
+        if (mPlayerStatList.Count==1)
+        {
+            RightButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            RightButton.gameObject.SetActive(true);
+        }
     }
     public void RightCharacterSelect()
     {
@@ -97,11 +112,26 @@ public class PlayerSelectController : InformationLoader
     {
         if (SaveDataController.Instance.mUser.Syrup>= mPlayerStatList[NowPlayerID].Price)
         {
+            SoundController.Instance.SESoundUI(3);
             SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] = true;
             SaveDataController.Instance.mUser.CharacterOpen[NowPlayerID] = true;
             SaveDataController.Instance.mUser.Syrup -= mPlayerStatList[NowPlayerID].Price;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowStat();
+            SaveDataController.Instance.Save();
+        }
+    }
+
+    public void CharaUpGrade()
+    {
+        if (SaveDataController.Instance.mUser.Syrup >= mUpgradePrice[NowPlayerID])
+        {
+            SoundController.Instance.SESoundUI(8);
+            SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID] += 1;
+            SaveDataController.Instance.mUser.Syrup -= mUpgradePrice[NowPlayerID];
+            MainLobbyUIController.Instance.ShowSyrupText();
+            ShowStat();
+            SaveDataController.Instance.Save();
         }
     }
 
@@ -141,7 +171,9 @@ public class PlayerSelectController : InformationLoader
         {
             if (SaveDataController.Instance.mUser.CharacterHas[PlayerID] == true)
             {
-                mPlayerImage.sprite = mPlayer[PlayerID].mRenderer.sprite;
+                mPlayerImage.sprite = mPlayer[PlayerID].mRenderer.sprite; 
+                int upgradePrice = mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[PlayerID]];
+                int upgradeCharaID = SaveDataController.Instance.mUser.CharacterUpgrade[PlayerID];
                 if (GameSetting.Instance.Language == 0)
                 {//한국어
                     string Stat = string.Format("최대 체력: {0}\n" +
@@ -152,14 +184,29 @@ public class PlayerSelectController : InformationLoader
                                               "치명타 피해: {5}\n" +
                                               "\n" +
                                               "쿨타임 감소: {6}\n" +
-                                              "상태이상 저항: {7}", mPlayerStatList[NowPlayerID].Hp.ToString("N1"),
+                                              "상태이상 저항: {7}", (mPlayerStatList[NowPlayerID].Hp + SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID]).ToString("N1"),
                                               mPlayerStatList[NowPlayerID].Atk.ToString("N1"),
                                               mPlayerStatList[NowPlayerID].Def.ToString("N1"),
                                               mPlayerStatList[NowPlayerID].Spd.ToString("N1"), mPlayerStatList[NowPlayerID].Crit.ToString("P1"),
                                               "1"+ mPlayerStatList[NowPlayerID].CritDamage.ToString("P1"),
                                               mPlayerStatList[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStatList[NowPlayerID].CCReduce.ToString("P0"));
                     mStatText.text = Stat;
-                    mNameText.text = mPlayerStatList[NowPlayerID].Name;
+                    if (SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID] == 5)
+                    {
+                        string name = string.Format("<color=#FFEE00>{0}</color>", mPlayerStatList[NowPlayerID].Name);
+                        mNameText.text = name;
+                        string upgradetext = string.Format("\n<color=#FFEE00>강화 {0 }/ 5</color>", upgradeCharaID);
+                        mStatText.text += upgradetext;
+                        mUpgradeButtonText.text = "최대 강화";
+                        UpgradeButton.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        mNameText.text = mPlayerStatList[NowPlayerID].Name;
+                        mStatText.text += "\n강화 " + upgradeCharaID + "/ 5";
+                        mUpgradeButtonText.text = "강화: " + upgradePrice + "시럽";
+                        UpgradeButton.gameObject.SetActive(true);
+                    }
                     mSelectText.text = "선택";
                     mTitleText.text = "캐릭터 선택";
                 }
@@ -173,14 +220,29 @@ public class PlayerSelectController : InformationLoader
                                               "Crit Damage: {5}\n" +
                                               "\n" +
                                               "Cooldown reduce: {6}\n" +
-                                              "Resistance: {7}", mPlayerStatList[NowPlayerID].Hp.ToString("N1"),
+                                              "Resistance: {7}", (mPlayerStatList[NowPlayerID].Hp + SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID]).ToString("N1"),
                                               mPlayerStatList[NowPlayerID].Atk.ToString("N1"),
                                               mPlayerStatList[NowPlayerID].Def.ToString("N1"),
                                               mPlayerStatList[NowPlayerID].Spd.ToString("N1"), mPlayerStatList[NowPlayerID].Crit.ToString("P1"),
                                               "1"+ mPlayerStatList[NowPlayerID].CritDamage.ToString("P1"),
                                               mPlayerStatList[NowPlayerID].CooltimeReduce.ToString("P0"), mPlayerStatList[NowPlayerID].CCReduce.ToString("P0"));
                     mStatText.text = Stat;
-                    mNameText.text = mPlayerStatList[NowPlayerID].EngName;
+                    if (SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID]==5)
+                    {
+                        string name = string.Format("<color=#FFEE00>{0}</color>", mPlayerStatList[NowPlayerID].EngName);
+                        mNameText.text = name;
+                        string upgradetext = string.Format("\n<color=#FFEE00>Upgrade {0 }/ 5</color>", upgradeCharaID);
+                        mStatText.text += upgradetext;
+                        mUpgradeButtonText.text = "Max Upgrade";
+                        UpgradeButton.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        mNameText.text = mPlayerStatList[NowPlayerID].EngName;
+                        mStatText.text += "\nUpgrade " + upgradeCharaID + "/ 5";
+                        mUpgradeButtonText.text = "Upgrade: " + upgradePrice + "Syrup";
+                        UpgradeButton.gameObject.SetActive(true);
+                    }
                     mSelectText.text = "Select";
                     mTitleText.text = "Character Select";
                 }
@@ -190,6 +252,7 @@ public class PlayerSelectController : InformationLoader
             }
             else
             {
+                UpgradeButton.gameObject.SetActive(false);
                 mPlayerImage.sprite = mPlayer[PlayerID].mRenderer.sprite;
                 if (GameSetting.Instance.Language == 0)
                 {//한국어

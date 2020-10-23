@@ -8,7 +8,7 @@ public class SerialCodeController : MonoBehaviour
     public static SerialCodeController Instance;
 
     public Text mTitleText, mGuideText, mCodeText, mRewardTitle, mRewardText, ButtonText;
-    public InputField mCodeBox;
+    public InputField inputField;
     public Image mRewardWindow;
     public RewardWindow mRewardImageWindow;
     public List<RewardWindow> SlotList;
@@ -49,7 +49,6 @@ public class SerialCodeController : MonoBehaviour
     public void ResetText()
     {
         DestroyInventory();
-        mCodeBox.text = "";
         mCodeText.text = "";
         if (GameSetting.Instance.Language == 0)
         {
@@ -67,18 +66,18 @@ public class SerialCodeController : MonoBehaviour
 
     public void CodeInput(Text code)
     {
-        mCodeBox.text = code.text;
+        mCodeText = code;
     }
 
     public void CodeCheck()
     {
         DestroyInventory();
         bool Check = false;
-        mCodeText.text = mCodeBox.text;
         for (int i = 0; i < SaveDataController.Instance.mCodeInfoArr.Length; i++)
         {
-            if (SaveDataController.Instance.mCodeInfoArr[i].Code == mCodeText.text)
+            if (SaveDataController.Instance.mCodeInfoArr[i].Code == inputField.text)
             {
+                Debug.Log(SaveDataController.Instance.mCodeInfoArr[i].Code +" / " + mCodeText.text);
                 if (SaveDataController.Instance.mUser.CodeUse[i] == false && SaveDataController.Instance.mCodeInfoArr[i].IsExpiration == false)
                 {
                     if (GameSetting.Instance.Language == 0)
@@ -111,6 +110,7 @@ public class SerialCodeController : MonoBehaviour
                 mGuideText.text = "This code is not available!";
             }
         }
+        Debug.Log(SaveDataController.Instance.mCodeInfoArr[2].Code + " / " + mCodeText.text);
         mRewardWindow.gameObject.SetActive(true);
     }
 

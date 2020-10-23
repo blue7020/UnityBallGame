@@ -107,7 +107,8 @@ public class Player : MonoBehaviour
         }
         if (GameController.Instance.IsTutorial == false)
         {
-            mMaxHP = mStats.Hp + (1 * SaveDataController.Instance.mUser.CharacterUpgrade[mID]);
+            mMaxHP = mStats.Hp + SaveDataController.Instance.mUser.CharacterUpgrade[mID];
+            Debug.Log(SaveDataController.Instance.mUser.CharacterUpgrade[mID] + " / " + mID);
             if (SaveDataController.Instance.mUser.CharacterUpgrade[mID] == 5)
             {
                 mStats.Crit += GameSetting.Instance.UpgradeCrit; mStats.CCReduce += GameSetting.Instance.UpgradeCCReduce;

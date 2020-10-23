@@ -40,7 +40,7 @@ public class SerialCodeController : MonoBehaviour
         {
             for (int i = 0; i < SlotList.Count; i++)
             {
-                Destroy(SlotList[i].gameObject);
+                SlotList[i].DestroyThis();
             }
         }
         index = 0;

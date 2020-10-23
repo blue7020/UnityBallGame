@@ -113,17 +113,18 @@ public class Player : MonoBehaviour
             {
                 mStats.Crit += GameSetting.Instance.UpgradeCrit; mStats.CCReduce += GameSetting.Instance.UpgradeCCReduce;
             }
-            mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
             if (GameSetting.Instance.NowStage == 4)
             {
                 StartCoroutine(Air());
             }
             else if (GameSetting.Instance.NowStage == 6)
             {
-                mMaxHP = mStats.Hp - (mStats.Hp * 0.15f);
+                float hp = mMaxHP;
+                mMaxHP = hp - (hp * 0.15f);
                 mStats.AtkSpd += mStats.AtkSpd * 0.15f;
                 mStats.Spd -= mStats.Spd * 0.15f;
             }
+            mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
             UIController.Instance.ShowGold();
             UIController.Instance.ShowHP();
         }
@@ -382,6 +383,7 @@ public class Player : MonoBehaviour
     {
         PlayerSkillStand = true;
         BuffController.Instance.SetBuff(7, code, eBuffType.Buff,0.6f);
+        mRB2D.mass = 50;
         mRB2D.velocity = Vector3.zero;
         mRB2D.velocity = dir.normalized * speed;
         StartCoroutine(StandingCool());
@@ -392,6 +394,7 @@ public class Player : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.25f);
         Nodamage = true;
         yield return delay;
+        mRB2D.mass = 10;
         PlayerSkillStand = false;
         yield return delay;
         Nodamage = false;

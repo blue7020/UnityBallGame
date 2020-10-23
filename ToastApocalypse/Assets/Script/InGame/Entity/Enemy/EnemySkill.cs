@@ -1377,22 +1377,20 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(0.7f));
         if (Skilltrigger == false && mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
+            mEnemy.Nodamage = true;
             Skilltrigger = true;
-            Vector3 Pos = Vector3.zero;
-            for (int i = 0; i < 2; i++)
+            float rand = Random.Range(0, 1f);
+            Enemy enemy = EnemyPool.Instance.GetFromPool(6);//빵모서리 소환
+            enemy.mMaxHP += 2; enemy.mCurrentHP += 2;
+            if (rand>0.5f)
             {
-                Enemy enemy = EnemyPool.Instance.GetFromPool(6);//빵모서리 소환
-                switch (i)
-                {
-                    case 0:
-                        Pos = new Vector3(1.5f, 0, 0);
-                        break;
-                    case 1:
-                        Pos = new Vector3(-1.5f, 0, 0);
-                        break;
-                }
-                enemy.transform.position = mEnemy.transform.position + Pos;
+                enemy.transform.position = mEnemy.transform.position + new Vector3(1.5f, 0, 0);
             }
+            else
+            {
+                enemy.transform.position = mEnemy.transform.position + new Vector3(-1.5f, 0, 0);
+            }
+            mEnemy.Nodamage = false;
         }
         ToastBoom(8);
         yield return delay;

@@ -112,6 +112,10 @@ public class Enemy : InformationLoader
                     case eMonsterState.Idle:
                         if (mDelayCount >= 20)
                         {
+                            if (mCurrentHP<1)
+                            {
+                                mState = eMonsterState.Die;
+                            }
                             if (Stun == false)
                             {
                                 mAnim.SetBool(AnimHash.Enemy_Walk, false);

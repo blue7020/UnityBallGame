@@ -79,7 +79,7 @@ public class AttackArea : MonoBehaviour
             {
                 TutorialUIController.Instance.mbulletText.text = Player.Instance.NowPlayerWeapon.nowBullet.ToString();
             }
-            //WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
+            WeaponController.Instance.WeaponSkill(weapon.mID, Target, IsCrit);
             ResetDir();
         }
     }

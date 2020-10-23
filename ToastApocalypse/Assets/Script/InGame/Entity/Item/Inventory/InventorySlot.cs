@@ -118,7 +118,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 }
                 if (artifact.mStats.CCReduce > 0)
                 {
-                    lore += "CC Resistance: +" + artifact.mStats.CCReduce * 100 + "%\n";
+                    lore += "Resistance: +" + artifact.mStats.CCReduce * 100 + "%\n";
                 }
                 if (artifact.mStats.Skill_Duration > 0)
                 {

@@ -7,4 +7,9 @@ public class RewardWindow : MonoBehaviour
 {
     public Image mIcon;
     public Text mAmountText;
+
+    public void DestroyThis()
+    {
+        Destroy(gameObject);
+    }
 }

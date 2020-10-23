@@ -143,7 +143,7 @@ public class ArtifactGuide : InformationLoader
                     }
                     if (mInfoArr[id].CCReduce > 0)
                     {
-                        mLore.text += "CC Resistance: +" + mInfoArr[id].CCReduce * 100 + "%\n";
+                        mLore.text += "Resistance: +" + mInfoArr[id].CCReduce * 100 + "%\n";
                     }
                     mLore.text += "\n\n\"" + mTextInfoArr[id].EngPlayableText + "\"";
                 }

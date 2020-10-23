@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class AngelStatue : MonoBehaviour
 {
     public static AngelStatue Instance;
-    public Image mWindow;
+    public Image mWindow,mRewardWindow;
     public Text TitleText, DonateText;
     public Button DonateButton;
     public GameObject Medal;
     public Transform Parents;
-    public RewardWindow mRewardImageWindow;
-    public List<RewardWindow> SlotList;
+    public RewardWindow mSlot;
+    public RewardWindow[] SlotArr;
     public Sprite[] mSpt;
 
     private void Awake()
@@ -57,25 +57,47 @@ public class AngelStatue : MonoBehaviour
     public void Donate()
     {
         IAPController.Instance.BuyDonateStatue();
-        SlotList = new List<RewardWindow>();
+        ShowRewardWindow();
+        ShowMedal();
+    }
+
+    public void ShowRewardWindow()
+    {
+        if (SlotArr!=null)
+        {
+            for (int i = 0; i < SlotArr.Length; i++)
+            {
+                SlotArr[i].DestroyThis();
+            }
+        }
         switch (SaveDataController.Instance.mUser.DonateCount)
         {
             case 1:
-                SlotList[0].mIcon.sprite = GameSetting.Instance.mPlayerSpt[7];
-                SlotList[0].mAmountText.text = "1";
-                SlotList[1].mIcon.sprite = GameSetting.Instance.mWeaponArr[7].mRenderer.sprite;
-                SlotList[1].mAmountText.text = "1";
+                SlotArr = new RewardWindow[2];
+                SlotArr[0] = Instantiate(mSlot, Parents);
+                SlotArr[0].mIcon.sprite = GameSetting.Instance.mPlayerSpt[7];
+                SlotArr[0].mAmountText.text = "1";
+                SlotArr[1] = Instantiate(mSlot, Parents);
+                SlotArr[1].mIcon.sprite = GameSetting.Instance.mWeaponArr[25].mRenderer.sprite;
+                SlotArr[1].mAmountText.text = "1";
                 break;
             case 2:
-                SlotList[0].mIcon.sprite = GameSetting.Instance.mPlayerSpt[2];
-                SlotList[0].mAmountText.text = "1";
-                SlotList[1].mIcon.sprite = SkillController.Instance.SkillIcon[2];
-                SlotList[1].mAmountText.text = "1";
+                SlotArr = new RewardWindow[2];
+                SlotArr[0] = Instantiate(mSlot, Parents);
+                SlotArr[0].mIcon.sprite = GameSetting.Instance.mPlayerSpt[2];
+                SlotArr[0].mAmountText.text = "1";
+                SlotArr[1] = Instantiate(mSlot, Parents);
+                SlotArr[1].mIcon.sprite = SkillController.Instance.SkillIcon[2];
+                SlotArr[1].mAmountText.text = "1";
                 break;
             default:
+                SlotArr = new RewardWindow[1];
+                SlotArr[0] = Instantiate(mSlot, Parents);
+                SlotArr[0].mIcon.sprite = mSpt[0];
+                SlotArr[0].mAmountText.text = "5000";
                 break;
         }
-        ShowMedal();
+        mRewardWindow.gameObject.SetActive(true);
     }
 
 }

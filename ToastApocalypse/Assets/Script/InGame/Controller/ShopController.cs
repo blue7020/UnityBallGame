@@ -51,9 +51,11 @@ public class ShopController : MonoBehaviour
             int ShopCount = 0;
             for (int i = 0; i < InventoryController.Instance.mSlotArr.Length; i++)
             {
-                rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
-                if (itembuy[(index - ShopCount)].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
+                if (ArtifactController.Instance.mPassiveArtifact.Count>0)
                 {
+                    rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
+                    if (itembuy[(index - ShopCount)].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
+                    {
                         if (InventoryController.Instance.mSlotArr[i].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
                         {
                             artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mPos[index]);
@@ -74,10 +76,15 @@ public class ShopController : MonoBehaviour
                                 break;
                             }
                         }
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
                 else
                 {
-                    continue;
+                    break;
                 }
             }
         }
@@ -92,11 +99,13 @@ public class ShopController : MonoBehaviour
     {
         int index = 1;
         int ShopCount = 0;
-        for (int i=0; i< ArtifactController.Instance.mActiveArtifact.Count;i++)
+        if (ArtifactController.Instance.mActiveArtifact.Count>0)
         {
-            int rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
-            if (itembuy[index - ShopCount].artifact != ArtifactController.Instance.mActiveArtifact[rand])
+            for (int i = 0; i < ArtifactController.Instance.mActiveArtifact.Count; i++)
             {
+                int rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
+                if (itembuy[index - ShopCount].artifact != ArtifactController.Instance.mActiveArtifact[rand])
+                {
                     artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], mPos[index]);
                     ArtifactController.Instance.mActiveArtifact.RemoveAt(rand);
                     artifact.transform.SetParent(mPos[index]);
@@ -114,10 +123,11 @@ public class ShopController : MonoBehaviour
                     {
                         break;
                     }
-            }
-            else
-            {
-                continue;
+                }
+                else
+                {
+                    continue;
+                }
             }
         }
     }

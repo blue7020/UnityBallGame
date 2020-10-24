@@ -67,11 +67,14 @@ public class BlackSmithShopController : MonoBehaviour
                 }
                 else
                 {
-                    if (mMaterialSlot[i].mAmount <= SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID])
+                    if (mMaterialSlot[i].mAmount>0)
                     {
-                        SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID] -= mMaterialSlot[i].mAmount;
-                        RecipeCheker[i] = true;
+                        if (mMaterialSlot[i].mAmount <= SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID])
+                        {
+                            SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID] -= mMaterialSlot[i].mAmount;
+                        }
                     }
+                    RecipeCheker[i] = true;
                 }
             }
             if (RecipeCheker[0] == true && RecipeCheker[1] == true && RecipeCheker[2] == true && RecipeCheker[3] == true)
@@ -125,15 +128,12 @@ public class BlackSmithShopController : MonoBehaviour
     public void ShowWeaponInfo(Weapon weapon)
     {
         mWeapon = weapon;
-        mWeaponStat = SaveDataController.Instance.mWeaponInfoArr[weapon.mID];
+        mWeaponStat = mWeapon.mStats;
         mSelectSlot.SetData(mWeapon.mID,mWeapon.mWeaponImage, mWeaponStat);
         for (int i = 0; i < mMaterialSlot.Length; i++)
         {
-            if (mWeapon.Recipe[i] == null)
-            {
-                mMaterialSlot[i].RemoveData();
-            }
-            else
+            mMaterialSlot[i].RemoveData();
+            if (mWeapon.Recipe[i] != null)
             {
                 mMaterialSlot[i].SetData(mWeapon.Recipe[i].mID);
                 mMaterialSlot[i].mCount.text = mWeapon.RecipeAmount[i].ToString();

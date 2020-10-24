@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
 
     public int SyrupInStage;
     public bool IsTutorial;
+    private SaveData mUser;
 
     public List<int> RescueNPCList;
 
@@ -37,6 +38,7 @@ public class GameController : MonoBehaviour
                 StageHP = 2;
                 RescueNPCList = new List<int>();
             }
+            mUser = SaveDataController.Instance.mUser;
         }
         else
         {
@@ -99,7 +101,7 @@ public class GameController : MonoBehaviour
         GameSetting.Instance.Restart();
         SceneManager.LoadScene(0);
         SoundController.Instance.mBGM.Stop();
-        SoundController.Instance.BGMChange(0);
+        SoundController.Instance.BGMChange(1);
     }
 
     public void DestroyController()
@@ -145,26 +147,29 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (GotoMain == false&&IsTutorial==false)
+        if (mUser.DeveloperID==true)
         {
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (GotoMain == false && IsTutorial == false)
             {
-                Player.Instance.mStats.Gold += 200;
-                Player.Instance.mStats.Atk += 5;
-                UIController.Instance.ShowGold();
-            }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                StageLevel = GameSetting.STAGELEVEL_COUNT;
-                Player.Instance.ResetBuff();
-                Player.Instance.Nodamage = false;
-                for (int i = 0; i < BuffEffectController.Instance.EffectList.Count; i++)
+                if (Input.GetKeyDown(KeyCode.Z))
                 {
-                    BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
+                    Player.Instance.mStats.Gold += 200;
+                    Player.Instance.mStats.Atk += 5;
+                    UIController.Instance.ShowGold();
                 }
-                SceneManager.LoadScene(3);
-                MapNPCController.Instance.NPCSpawn();
-                Player.Instance.transform.position = new Vector2(0, -10.5f);
+                if (Input.GetKeyDown(KeyCode.X))
+                {
+                    StageLevel = GameSetting.STAGELEVEL_COUNT;
+                    Player.Instance.ResetBuff();
+                    Player.Instance.Nodamage = false;
+                    for (int i = 0; i < BuffEffectController.Instance.EffectList.Count; i++)
+                    {
+                        BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
+                    }
+                    SceneManager.LoadScene(3);
+                    MapNPCController.Instance.NPCSpawn();
+                    Player.Instance.transform.position = new Vector2(0, -10.5f);
+                }
             }
         }
     }

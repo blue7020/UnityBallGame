@@ -329,6 +329,7 @@ public class SaveDataController : InformationLoader
             mUser.TutorialEnd = false;
             mUser.StagePartsget = new bool[6];
             mUser.GameClear = false;
+            mUser.FirstGameClearEvent = false;
             mUser.CodeUse = new bool[Constants.Code_Count];
 
             mUser.DonateCount = 0;
@@ -398,6 +399,8 @@ public class SaveDataController : InformationLoader
             mUser.BGMVolume = Constants.BGM_VOL;
             mUser.SEVolume = Constants.SE_VOL;
             mUser.FirstSetting = true;
+
+            mUser.DeveloperID = false;
         }
     }
 

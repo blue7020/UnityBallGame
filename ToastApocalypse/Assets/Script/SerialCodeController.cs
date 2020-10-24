@@ -77,7 +77,6 @@ public class SerialCodeController : MonoBehaviour
         {
             if (SaveDataController.Instance.mCodeInfoArr[i].Code == inputField.text)
             {
-                Debug.Log(SaveDataController.Instance.mCodeInfoArr[i].Code +" / " + mCodeText.text);
                 if (SaveDataController.Instance.mUser.CodeUse[i] == false && SaveDataController.Instance.mCodeInfoArr[i].IsExpiration == false)
                 {
                     if (GameSetting.Instance.Language == 0)
@@ -116,56 +115,63 @@ public class SerialCodeController : MonoBehaviour
 
     public void RewardInstantiate(int ID)
     {
-        if (SaveDataController.Instance.mCodeInfoArr[ID].CharacterID >= 0)
+        if (SaveDataController.Instance.mCodeInfoArr[ID].Code== "test123developercode")
         {
-            SlotList.Add(Instantiate(mRewardImageWindow, Parents));
-            SlotList[index].mIcon.sprite = GameSetting.Instance.mPlayerSpt[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID];
-            SlotList[index].mAmountText.text = "1";
-            SaveDataController.Instance.mUser.CharacterHas[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID] = true;
-            SaveDataController.Instance.mUser.CharacterOpen[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID] = true;
-            index++;
+            SaveDataController.Instance.mUser.DeveloperID = true;
         }
-        if (SaveDataController.Instance.mCodeInfoArr[ID].SkillID >= 0)
+        else
         {
-            SlotList.Add(Instantiate(mRewardImageWindow, Parents));
-            SlotList[index].mIcon.sprite = SkillController.Instance.SkillIcon[SaveDataController.Instance.mCodeInfoArr[ID].SkillID];
-            SaveDataController.Instance.mUser.SkillHas[SaveDataController.Instance.mCodeInfoArr[ID].SkillID] = true;
-            SlotList[index].mAmountText.text = "1";
-            index++;
-        }
-        if (SaveDataController.Instance.mCodeInfoArr[ID].WeaponID >= 0)
-        {
-            SlotList.Add(Instantiate(mRewardImageWindow, Parents));
-            SlotList[index].mIcon.sprite = GameSetting.Instance.mWeaponArr[SaveDataController.Instance.mCodeInfoArr[ID].WeaponID].mRenderer.sprite;
-            SaveDataController.Instance.mUser.WeaponHas[SaveDataController.Instance.mCodeInfoArr[ID].WeaponID] = true;
-            SlotList[index].mAmountText.text = "1";
-            index++;
-        }
-        if (SaveDataController.Instance.mCodeInfoArr[ID].ItemID >= 0)
-        {
-            SlotList.Add(Instantiate(mRewardImageWindow, Parents));
-            SlotList[index].mIcon.sprite = GameSetting.Instance.mItemArr[SaveDataController.Instance.mCodeInfoArr[ID].ItemID].mRenderer.sprite;
-            SaveDataController.Instance.mUser.ItemHas[SaveDataController.Instance.mCodeInfoArr[ID].ItemID] = true;
-            SlotList[index].mAmountText.text = "1";
-            index++;
-        }
-        if (SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount > 0)
-        {
-            SlotList.Add(Instantiate(mRewardImageWindow, Parents));
-            SlotList[index].mIcon.sprite = mSpt[0];
-            SlotList[index].mAmountText.text = SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount.ToString();
-            GameSetting.Instance.GetSyrup(SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount);
-            index++;
-        }
-        for (int i = 0; i < SaveDataController.Instance.mCodeInfoArr[ID].MaterialID.Length; i++)
-        {
-            if (SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i] >= 0 && SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i] > 0)
+            if (SaveDataController.Instance.mCodeInfoArr[ID].CharacterID >= 0)
             {
                 SlotList.Add(Instantiate(mRewardImageWindow, Parents));
-                SlotList[index].mIcon.sprite = GameSetting.Instance.mMaterialSpt[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]];
-                SlotList[index].mAmountText.text = SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i].ToString();
-                SaveDataController.Instance.mUser.HasMaterial[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]] += SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i];
+                SlotList[index].mIcon.sprite = GameSetting.Instance.mPlayerSpt[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID];
+                SlotList[index].mAmountText.text = "1";
+                SaveDataController.Instance.mUser.CharacterHas[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID] = true;
+                SaveDataController.Instance.mUser.CharacterOpen[SaveDataController.Instance.mCodeInfoArr[ID].CharacterID] = true;
                 index++;
+            }
+            if (SaveDataController.Instance.mCodeInfoArr[ID].SkillID >= 0)
+            {
+                SlotList.Add(Instantiate(mRewardImageWindow, Parents));
+                SlotList[index].mIcon.sprite = SkillController.Instance.SkillIcon[SaveDataController.Instance.mCodeInfoArr[ID].SkillID];
+                SaveDataController.Instance.mUser.SkillHas[SaveDataController.Instance.mCodeInfoArr[ID].SkillID] = true;
+                SlotList[index].mAmountText.text = "1";
+                index++;
+            }
+            if (SaveDataController.Instance.mCodeInfoArr[ID].WeaponID >= 0)
+            {
+                SlotList.Add(Instantiate(mRewardImageWindow, Parents));
+                SlotList[index].mIcon.sprite = GameSetting.Instance.mWeaponArr[SaveDataController.Instance.mCodeInfoArr[ID].WeaponID].mRenderer.sprite;
+                SaveDataController.Instance.mUser.WeaponHas[SaveDataController.Instance.mCodeInfoArr[ID].WeaponID] = true;
+                SlotList[index].mAmountText.text = "1";
+                index++;
+            }
+            if (SaveDataController.Instance.mCodeInfoArr[ID].ItemID >= 0)
+            {
+                SlotList.Add(Instantiate(mRewardImageWindow, Parents));
+                SlotList[index].mIcon.sprite = GameSetting.Instance.mItemArr[SaveDataController.Instance.mCodeInfoArr[ID].ItemID].mRenderer.sprite;
+                SaveDataController.Instance.mUser.ItemHas[SaveDataController.Instance.mCodeInfoArr[ID].ItemID] = true;
+                SlotList[index].mAmountText.text = "1";
+                index++;
+            }
+            if (SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount > 0)
+            {
+                SlotList.Add(Instantiate(mRewardImageWindow, Parents));
+                SlotList[index].mIcon.sprite = mSpt[0];
+                SlotList[index].mAmountText.text = SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount.ToString();
+                GameSetting.Instance.GetSyrup(SaveDataController.Instance.mCodeInfoArr[ID].SyrupAmount);
+                index++;
+            }
+            for (int i = 0; i < SaveDataController.Instance.mCodeInfoArr[ID].MaterialID.Length; i++)
+            {
+                if (SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i] >= 0 && SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i] > 0)
+                {
+                    SlotList.Add(Instantiate(mRewardImageWindow, Parents));
+                    SlotList[index].mIcon.sprite = GameSetting.Instance.mMaterialSpt[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]];
+                    SlotList[index].mAmountText.text = SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i].ToString();
+                    SaveDataController.Instance.mUser.HasMaterial[SaveDataController.Instance.mCodeInfoArr[ID].MaterialID[i]] += SaveDataController.Instance.mCodeInfoArr[ID].MaterialAmount[i];
+                    index++;
+                }
             }
         }
     }

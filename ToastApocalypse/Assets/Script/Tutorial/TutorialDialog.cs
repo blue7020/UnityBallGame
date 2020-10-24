@@ -113,7 +113,7 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "Get the effect of the statue and check the changed status";
+                                GoalText.text = "Get the effect of the statue and check status";
                             }
                             break;
                         case 29:

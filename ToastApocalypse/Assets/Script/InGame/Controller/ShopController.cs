@@ -54,7 +54,7 @@ public class ShopController : MonoBehaviour
                 if (ArtifactController.Instance.mPassiveArtifact.Count>0)
                 {
                     rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
-                    if (itembuy[(index - ShopCount)].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
+                    if (itembuy[(index - ShopCount)].artifact==null||itembuy[(index - ShopCount)].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
                     {
                         if (InventoryController.Instance.mSlotArr[i].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
                         {
@@ -84,6 +84,13 @@ public class ShopController : MonoBehaviour
                 }
                 else
                 {
+                    itembuy[(index - ShopCount)].artifact = null;
+                    itembuy[index].mPriceText.gameObject.SetActive(false);
+                    if (index < 2)
+                    {
+                        index++;
+                        ShopCount++;
+                    }
                     break;
                 }
             }

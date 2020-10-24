@@ -43,15 +43,31 @@ public class MaterialController : InformationLoader
 
     public void ShowDescription(int id)
     {
-        if (GameSetting.Instance.Language == 0)//한국어
+        if (id==-1)
         {
-            mMaterialTitle.text = mInfoArr[id].Title;
-            mLore.text = mInfoArr[id].ContensFormat;
+            if (GameSetting.Instance.Language == 0)//한국어
+            {
+                mMaterialTitle.text = "없음";
+                mLore.text = "";
+            }
+            else if (GameSetting.Instance.Language == 1)//영어
+            {
+                mMaterialTitle.text = "Null";
+                mLore.text = "";
+            }
         }
-        else if (GameSetting.Instance.Language == 1)//영어
+        else
         {
-            mMaterialTitle.text = mInfoArr[id].EngTitle;
-            mLore.text = mInfoArr[id].EngContensFormat;
+            if (GameSetting.Instance.Language == 0)//한국어
+            {
+                mMaterialTitle.text = mInfoArr[id].Title;
+                mLore.text = mInfoArr[id].ContensFormat;
+            }
+            else if (GameSetting.Instance.Language == 1)//영어
+            {
+                mMaterialTitle.text = mInfoArr[id].EngTitle;
+                mLore.text = mInfoArr[id].EngContensFormat;
+            }
         }
     }
 

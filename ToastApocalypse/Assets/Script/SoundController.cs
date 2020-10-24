@@ -58,7 +58,7 @@ public class SoundController : MonoBehaviour
         mBGM.volume = BGMVolume;
         mSE.volume = SEVolume;
         mBGSE.volume = SEVolume;
-        BGMChange(0);
+        BGMChange(1);
     }
 
     public void BGMChange(int id)

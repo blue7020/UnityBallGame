@@ -161,7 +161,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public void StageClearGift()
     {
         mOpenItemWindow.gameObject.SetActive(true);
-        bool weapon = false; bool skill = false; bool character = false;
+        bool weapon = false; bool skill = false; bool character = false; bool furniture = false;
         switch (GameSetting.Instance.NowStage)
         {
             case 1:
@@ -231,6 +231,10 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                     skill = true;
                     weapon = true;
                 }
+                if (SaveDataController.Instance.mUser.GameClear == false)
+                {
+                    furniture = true;
+                }
                 SaveDataController.Instance.mUser.GameClear = true;
                 break;
         }
@@ -248,7 +252,11 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             {
                 MessageText.text += "-제작 가능한 무기 종류 증가!";
             }
-            if (character == false && skill == false && weapon == false)
+            if (furniture == true)
+            {
+                MessageText.text += "<color=#FFFF00>로비에 가구가 추가되었습니다!</color>";
+            }
+            if (character == false && skill == false && weapon == false&& furniture==false)
             {
                 MessageText.text = "획득 가능한 추가 보상이 없습니다";
             }
@@ -267,7 +275,11 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             {
                 MessageText.text += "-Smithy has increased in weapons!\n";
             }
-            if (character == false && skill == false && weapon == false)
+            if (furniture == true)
+            {
+                MessageText.text += "<color=#FFFF00>Furniture added in the lobby!</color>";
+            }
+            if (character == false && skill == false && weapon == false&& furniture == false)
             {
                 MessageText.text = "No additional reward";
             }

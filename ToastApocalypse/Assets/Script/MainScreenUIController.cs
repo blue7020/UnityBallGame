@@ -67,7 +67,7 @@ public class MainScreenUIController : InformationLoader
     public void OpeningSkip()
     {
         mCutSceneBG.gameObject.SetActive(false);
-        SoundController.Instance.BGMChange(0);
+        SoundController.Instance.BGMChange(1);
     }
 
     //0 = 한국어 / 1 = 영어

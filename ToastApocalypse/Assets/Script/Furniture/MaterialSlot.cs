@@ -9,6 +9,7 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
     public int mMaterialID;
 
     public Image mIcon;
+    public Sprite mVoid;
     public MaterialStat mMaterial;
     public string title, lore;
     public Text mCount;
@@ -27,10 +28,12 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
 
     public void RemoveData()
     {
+        mMaterial = null;
         mMaterialID = -1;
-        mAmount = -1;
+        mAmount = 0;
         mCount.text = "";
         mIcon.color = Color.clear;
+        mIcon.sprite = mVoid;
     }
 
     public void OnPointerClick(PointerEventData eventData)

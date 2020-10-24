@@ -258,6 +258,7 @@ public class SaveData
     public int[] HasMaterial;
     public bool TutorialEnd;
     public bool GameClear;
+    public bool FirstGameClearEvent;
     public bool[] StageOpen;
     public bool[] StagePartsget;
     public bool[] NPCOpen;
@@ -286,4 +287,6 @@ public class SaveData
     public bool FirstSetting;
     public float BGMVolume;
     public float SEVolume;
+
+    public bool DeveloperID;
 }

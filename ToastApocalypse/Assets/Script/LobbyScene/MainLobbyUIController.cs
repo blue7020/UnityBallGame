@@ -17,6 +17,7 @@ public class MainLobbyUIController : MonoBehaviour
     public Text mCashText,mBGMText, mSEText,mPortalNameText;
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton;
     public GameObject mDoor, mTosterRoom, NameParents;
+    public ToasterPedestal mToster;
     public Transform[] PortalName;
 
 
@@ -35,16 +36,7 @@ public class MainLobbyUIController : MonoBehaviour
                 }
             }
             ShowSyrupText();
-            if (SaveDataController.Instance.mUser.GameClear==true)
-            {
-                mDoor.gameObject.SetActive(false);
-                mTosterRoom.gameObject.SetActive(true);
-            }
-            else
-            {
-                mDoor.gameObject.SetActive(true);
-                mTosterRoom.gameObject.SetActive(false);
-            }
+            ShowToaterRoom();
         }
         else
         {
@@ -79,6 +71,22 @@ public class MainLobbyUIController : MonoBehaviour
         }
     }
 
+    public void ShowToaterRoom()
+    {
+        if (SaveDataController.Instance.mUser.GameClear == true)
+        {
+            mDoor.gameObject.SetActive(false);
+            mTosterRoom.gameObject.SetActive(true);
+            mToster.gameObject.SetActive(true);
+        }
+        else
+        {
+            mDoor.gameObject.SetActive(true);
+            mTosterRoom.gameObject.SetActive(false);
+            mToster.gameObject.SetActive(true);
+        }
+    }
+
     public void ShowOpeningWindow()
     {
         mCutScene.OpeningSetting();
@@ -89,7 +97,7 @@ public class MainLobbyUIController : MonoBehaviour
     public void OpeningSkip()
     {
         mCutScene.gameObject.SetActive(false);
-        SoundController.Instance.BGMChange(1);
+        SoundController.Instance.BGMChange(0);
     }
 
     public void ButtonPush()
@@ -119,7 +127,7 @@ public class MainLobbyUIController : MonoBehaviour
         SceneManager.LoadScene(0);
         GameSetting.Instance.NowScene = 0;
         SoundController.Instance.mBGM.Stop();
-        SoundController.Instance.BGMChange(0);
+        SoundController.Instance.BGMChange(1);
     }
 
     public void BGMPlus()

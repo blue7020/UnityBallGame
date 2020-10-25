@@ -117,7 +117,7 @@ public class Player : MonoBehaviour
             {
                 StartCoroutine(Air());
             }
-            else if (GameSetting.Instance.NowStage == 6)
+            else if (SaveDataController.Instance.mUser.FirstGameClearEvent==false&&GameSetting.Instance.NowStage == 6)
             {
                 float hp = mMaxHP;
                 mMaxHP = hp - (hp * 0.15f);

@@ -824,6 +824,7 @@ public class EnemySkill : MonoBehaviour
                 {
                     Enemy enemy = EnemyPool.Instance.GetFromPool(2);//케이콘 소환
                     enemy.transform.position = mEnemy.transform.position;
+                    enemy.CurrentRoom = mEnemy.CurrentRoom;
                     enemy.mStats.Gold = 0;
                 }
                 break;
@@ -857,6 +858,7 @@ public class EnemySkill : MonoBehaviour
         if (Skilltrigger2 == true)
         {
             Enemy enemy = EnemyPool.Instance.GetFromPool(3);//화염의손 소환
+            enemy.CurrentRoom = mEnemy.CurrentRoom;
             enemy.transform.position = mEnemy.transform.position + point;
         }
     }
@@ -1202,6 +1204,7 @@ public class EnemySkill : MonoBehaviour
                 for (int i = 0; i < 5; i++)
                 {
                     Enemy enemy = EnemyPool.Instance.GetFromPool(5);//피즈링 소환
+                    enemy.CurrentRoom = mEnemy.CurrentRoom;
                     switch (i)
                     {
                         case 0:
@@ -1381,6 +1384,7 @@ public class EnemySkill : MonoBehaviour
             Skilltrigger = true;
             float rand = Random.Range(0, 1f);
             Enemy enemy = EnemyPool.Instance.GetFromPool(6);//빵모서리 소환
+            enemy.CurrentRoom = mEnemy.CurrentRoom;
             enemy.mMaxHP += 2; enemy.mCurrentHP += 2;
             if (rand>0.5f)
             {

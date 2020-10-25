@@ -185,7 +185,10 @@ public class UIController : InformationLoader
         mLevelText.gameObject.SetActive(false);
         if (GameSetting.Instance.NowStage == 6&& GameController.Instance.StageLevel==1)
         {
-            StartCoroutine(ShowLevelMessage());
+            if (SaveDataController.Instance.mUser.FirstGameClearEvent == false)
+            {
+                StartCoroutine(ShowLevelMessage());
+            }
         }
     }
     public IEnumerator ShowLevelMessage()

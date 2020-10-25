@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using Newtonsoft.Json;
 
 public class JsonGenerator : MonoBehaviour
@@ -20,7 +21,7 @@ public class JsonGenerator : MonoBehaviour
         infoArr[0].MaterialAmount = new int[Constants.MATERIAL_COUNT];
         infoArr[0].SyrupAmount = 0;
         infoArr[0].IsUse = false;
-        infoArr[0].IsExpiration = false;
+        infoArr[0].ExpirationTime = new DateTime(2020, 1, 25);
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
         WriteFile(data, "CodeStat.json");
     }

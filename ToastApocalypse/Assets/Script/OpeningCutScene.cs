@@ -36,12 +36,14 @@ public class OpeningCutScene : MonoBehaviour,IPointerClickHandler
         if (TextID>= mDialogList.Count)
         {
             StopCoroutine(Delay());
-            if (SceneCheck==false)
+            if (SceneCheck==true)
             {
+                Debug.Log("메인스크린");
                 MainScreenUIController.Instance.OpeningSkip();
             }
             else
             {
+                Debug.Log("메인로비");
                 MainLobbyUIController.Instance.OpeningSkip();
             }
         }

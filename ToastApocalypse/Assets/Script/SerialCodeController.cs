@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -64,6 +65,22 @@ public class SerialCodeController : MonoBehaviour
         }
     }
 
+    public bool CodeTimeCheck(int index)
+    {
+        //DateTime mExpireDateTime = new DateTime(2020, 10, 25);//AM 12:00 기준
+        DateTime mExpireDateTime = SaveDataController.Instance.mCodeInfoArr[index].ExpirationTime;
+        if (DateTime.Now >= mExpireDateTime)
+        {
+            Debug.Log("유효기간 지남");
+            return false;
+        }
+        else
+        {
+            Debug.Log("유효기간 안지남");
+            return true;
+        }
+    }
+
     public void CodeInput(Text code)
     {
         mCodeText = code;
@@ -77,22 +94,25 @@ public class SerialCodeController : MonoBehaviour
         {
             if (SaveDataController.Instance.mCodeInfoArr[i].Code == inputField.text)
             {
-                if (SaveDataController.Instance.mUser.CodeUse[i] == false && SaveDataController.Instance.mCodeInfoArr[i].IsExpiration == false)
+                if (SaveDataController.Instance.mUser.CodeUse[i] == false && SaveDataController.Instance.mCodeInfoArr[i].IsUse == false)
                 {
-                    if (GameSetting.Instance.Language == 0)
+                    if (CodeTimeCheck(i)==true)
                     {
-                        mRewardTitle.text = "보상 획득!";
+                        if (GameSetting.Instance.Language == 0)
+                        {
+                            mRewardTitle.text = "보상 획득!";
+                        }
+                        else if (GameSetting.Instance.Language == 1)
+                        {
+                            mRewardTitle.text = "Get Reward!";
+                        }
+                        SlotList = new List<RewardWindow>();
+                        RewardInstantiate(i);
+                        SaveDataController.Instance.mUser.CodeUse[i] = true;
+                        SaveDataController.Instance.Save();
+                        Check = true;
+                        break;
                     }
-                    else if (GameSetting.Instance.Language == 1)
-                    {
-                        mRewardTitle.text = "Get Reward!";
-                    }
-                    SlotList = new List<RewardWindow>();
-                    RewardInstantiate(i);
-                    SaveDataController.Instance.mUser.CodeUse[i] = true;
-                    SaveDataController.Instance.Save();
-                    Check = true;
-                    break;
                 }
             }
         }

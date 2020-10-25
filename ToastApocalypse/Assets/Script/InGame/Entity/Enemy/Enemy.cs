@@ -91,6 +91,7 @@ public class Enemy : InformationLoader
         AttackCheck = false;
         mState = eMonsterState.Idle;
         Stun = false;
+        mCurrentHP = mMaxHP;
         Nodamage = false;
         mTrackingRange.gameObject.SetActive(true);
         StartCoroutine(StateMachine());
@@ -114,7 +115,8 @@ public class Enemy : InformationLoader
                         {
                             if (mCurrentHP<1)
                             {
-                                mState = eMonsterState.Die;
+                                EnemySpawned();
+                                //mState = eMonsterState.Die;
                             }
                             if (Stun == false)
                             {
@@ -145,10 +147,6 @@ public class Enemy : InformationLoader
                         break;
                     case eMonsterState.Die:
                         Death();
-                        if (Player.Instance.CurrentRoom.EnemyCount > 0)
-                        {
-                            Player.Instance.CurrentRoom.EnemyCount--;
-                        }
                         if (eType == eEnemyType.Boss)
                         {
                             PortalTrigger.Instance.BossDeath();
@@ -186,6 +184,10 @@ public class Enemy : InformationLoader
             mGold.transform.position = transform.position;
             mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
         }
+        //if (CurrentRoom.EnemyCount > 0)
+        //{
+            CurrentRoom.EnemyCount--;
+        //}
         Player.Instance.IsEnemyDeathPassiveSkill();
         GameController.Instance.SyrupInStage += mStats.Syrup;
     }

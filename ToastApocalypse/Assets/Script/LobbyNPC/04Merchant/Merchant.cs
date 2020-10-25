@@ -114,19 +114,23 @@ public class Merchant : MonoBehaviour
                 else
                 {
                     if(GameSetting.Instance.Language==0){
+                        mItemTitle.text = "광고 제거";
+                        mItemText.text = "모든 보상을 광고 없이 획득할 수 있습니다";
                         mBuyText.text = "보유중";
                     }
                     else if (GameSetting.Instance.Language == 0)
                     {
+                        mItemTitle.text = "No Ads";
+                        mItemText.text = "All rewards can be available without advertising";
                         mBuyText.text = "Get";
                     }
                     BuyButton.interactable = false;
                 }
                 break;
             case 1://히어로
+                ShowStat(8);
                 if (SaveDataController.Instance.mUser.CharacterHas[8] == false)
                 {
-                    ShowStat(8);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
                         mBuyText.text = "KRW " + PriceKor[1];
@@ -151,9 +155,9 @@ public class Merchant : MonoBehaviour
                 }
                 break;
             case 2://카스테라
+                ShowStat(9);
                 if (SaveDataController.Instance.mUser.CharacterHas[9] == false)
                 {
-                    ShowStat(9);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
                         mBuyText.text = "KRW " + PriceKor[2];
@@ -178,9 +182,9 @@ public class Merchant : MonoBehaviour
                 }
                 break;
             case 3://쉬림프 닌자
+                ShowStat(10);
                 if (SaveDataController.Instance.mUser.CharacterHas[10] == false)
                 {
-                    ShowStat(10);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
                         mBuyText.text = "KRW " + PriceKor[3];
@@ -205,9 +209,9 @@ public class Merchant : MonoBehaviour
                 }
                 break;
             case 4://데몬 토스트
+                ShowStat(11);
                 if (SaveDataController.Instance.mUser.CharacterHas[11] == false)
                 {
-                    ShowStat(11);
                     if (Application.systemLanguage == SystemLanguage.Korean)
                     {
                         mBuyText.text = "KRW " + PriceKor[4];

@@ -248,7 +248,7 @@ public class CodeStat
     public int[] MaterialAmount;
     public int SyrupAmount;
     public bool IsUse;
-    public bool IsExpiration;
+    public DateTime ExpirationTime;
 }
 
 [Serializable]

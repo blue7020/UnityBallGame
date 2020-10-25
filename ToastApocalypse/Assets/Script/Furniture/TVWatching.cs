@@ -28,8 +28,8 @@ public class TVWatching : MonoBehaviour
     public void ShowAds()
     {
         GameSetting.Instance.ShowAds(eAdsReward.DailySyrup);
-        DateTime timecheck = SaveDataController.Instance.mUser.LastServerTime.AddDays(1);
-        if (SaveDataController.Instance.mUser.LastServerTime >= timecheck)
+        DateTime timecheck = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1);
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck)
         {
             SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
         }

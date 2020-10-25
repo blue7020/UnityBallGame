@@ -184,10 +184,10 @@ public class Enemy : InformationLoader
             mGold.transform.position = transform.position;
             mGold.GoldDrop((int)(mStats.Gold * (1 + Player.Instance.mGoldBonus)));
         }
-        //if (CurrentRoom.EnemyCount > 0)
-        //{
+        if (GameController.Instance.IsTutorial==false)
+        {
             CurrentRoom.EnemyCount--;
-        //}
+        }
         Player.Instance.IsEnemyDeathPassiveSkill();
         GameController.Instance.SyrupInStage += mStats.Syrup;
     }

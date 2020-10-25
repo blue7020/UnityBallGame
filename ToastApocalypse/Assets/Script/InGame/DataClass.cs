@@ -281,9 +281,11 @@ public class SaveData
 
 
     public int DonateCount;
-    public bool TodayWatchFirstAD;
     public bool NoAds;
-    public DateTime LastServerTime;
+    public DateTime LastWatchingDailyAdsTime;
+    public bool TodayWatchFirstAD;
+    public DateTime DailyTime;
+    public bool TodayWatchFirstNotice;
     public bool FirstSetting;
     public float BGMVolume;
     public float SEVolume;

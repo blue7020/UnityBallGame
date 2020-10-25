@@ -67,11 +67,16 @@ public class GameSetting : InformationLoader
 
     private void Start()
     {
-        SaveDataController.Instance.mUser.LastServerTime = DateTime.Now;
         Restart();
         PlayerID = 0;
         PlayerSkillID = 0;
         PlayerWeaponID = 0;
+
+        DateTime timecheck = SaveDataController.Instance.mUser.DailyTime.AddDays(1);
+        if (SaveDataController.Instance.mUser.DailyTime >= timecheck)
+        {
+            SaveDataController.Instance.mUser.DailyTime = DateTime.Now;
+        }
     }
 
     public void Restart()
@@ -108,14 +113,14 @@ public class GameSetting : InformationLoader
     }
     public void DailySyrup()
     {
-        DateTime timecheck = SaveDataController.Instance.mUser.LastServerTime.AddDays(1);
-        if (SaveDataController.Instance.mUser.LastServerTime >= timecheck)
+        DateTime timecheck = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1);
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck)
         {
             SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
         }
         if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
         {
-            SaveDataController.Instance.mUser.LastServerTime = DateTime.Now;
+            SaveDataController.Instance.mUser.LastWatchingDailyAdsTime = DateTime.Now;
             SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
             GetSyrup(500);
             MainLobbyUIController.Instance.ShowSyrupText();

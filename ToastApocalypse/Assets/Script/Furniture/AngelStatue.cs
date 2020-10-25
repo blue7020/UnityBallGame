@@ -57,7 +57,6 @@ public class AngelStatue : MonoBehaviour
     public void Donate()
     {
         IAPController.Instance.BuyDonateStatue();
-        ShowRewardWindow();
         ShowMedal();
     }
 

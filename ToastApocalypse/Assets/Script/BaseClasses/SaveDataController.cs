@@ -333,9 +333,11 @@ public class SaveDataController : InformationLoader
             mUser.CodeUse = new bool[Constants.Code_Count];
 
             mUser.DonateCount = 0;
-            mUser.TodayWatchFirstAD = false;
             mUser.NoAds = false;
-            mUser.LastServerTime = DateTime.Now;//마지막 접속 시의 현재 로컬 시간
+            mUser.DailyTime = DateTime.Now;//24시간 타이머
+            mUser.TodayWatchFirstNotice = false;
+            mUser.LastWatchingDailyAdsTime = DateTime.Now.AddDays(-1);
+            mUser.TodayWatchFirstAD = false;
 
             mUser.ArtifactFound = new bool[Constants.ARTIFACT_COUNT];
 

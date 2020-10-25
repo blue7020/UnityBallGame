@@ -465,6 +465,7 @@ public class IAPController : MonoBehaviour, IStoreListener
                 }
                 MainLobbyUIController.Instance.ShowSyrupText();
                 SaveDataController.Instance.mUser.DonateCount++;
+                AngelStatue.Instance.ShowRewardWindow();
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 3000개
             {

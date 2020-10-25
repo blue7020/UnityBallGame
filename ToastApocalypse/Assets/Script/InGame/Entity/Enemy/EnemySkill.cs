@@ -55,7 +55,7 @@ public class EnemySkill : MonoBehaviour
                     StartCoroutine(MoldKingAttack());
                     break;
                 case 4://Tomocto
-                    StartCoroutine(Tomocto());
+                    StartCoroutine(Tomocta());
                     break;
                 case 5://PotatoGolem
                     StartCoroutine(PotatoGolem());
@@ -1557,7 +1557,7 @@ public class EnemySkill : MonoBehaviour
         bolt.mRB2D.velocity = dir.normalized * bolt.mSpeed;
     }
 
-    private IEnumerator Tomocto()
+    private IEnumerator Tomocta()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);

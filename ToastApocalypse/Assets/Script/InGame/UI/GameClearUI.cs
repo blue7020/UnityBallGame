@@ -161,7 +161,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public void StageClearGift()
     {
         mOpenItemWindow.gameObject.SetActive(true);
-        bool weapon = false; bool skill = false; bool character = false; bool furniture = false;
+        bool weapon = false; bool skill = false; bool character = false; bool furniture = false; bool item =false;
         switch (GameSetting.Instance.NowStage)
         {
             case 1:
@@ -237,6 +237,27 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 }
                 SaveDataController.Instance.mUser.GameClear = true;
                 break;
+            case 7:
+                if (SaveDataController.Instance.mUser.CharacterOpen[13] == false && SaveDataController.Instance.mUser.SkillOpen[13] == false && SaveDataController.Instance.mUser.SkillOpen[14] == false
+                    && SaveDataController.Instance.mUser.WeaponOpen[26] == false && SaveDataController.Instance.mUser.WeaponOpen[27] == false && SaveDataController.Instance.mUser.WeaponOpen[28] == false && SaveDataController.Instance.mUser.WeaponOpen[29] == false)
+                {
+                    SaveDataController.Instance.mUser.CharacterOpen[13] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[13] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[14] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[26] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[27] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[28] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[29] = true;
+                    character = true;
+                    skill = true;
+                    weapon = true;
+                }
+                if (SaveDataController.Instance.mUser.ItemOpen[10]==false)
+                {
+                    SaveDataController.Instance.mUser.ItemOpen[10] = true;
+                    item = true;
+                }
+                break;
         }
         if (GameSetting.Instance.Language == 0)
         {
@@ -250,11 +271,15 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             }
             if (weapon == true)
             {
-                MessageText.text += "-제작 가능한 무기 종류 증가!";
+                MessageText.text += "-제작 가능한 무기 종류 증가!\n";
+            }
+            if (item == true)
+            {
+                MessageText.text += "-선술집의 품목 증가!\n";
             }
             if (furniture == true)
             {
-                MessageText.text += "<color=#FFFF00>로비에 가구가 추가되었습니다!</color>";
+                MessageText.text += "<color=#FFFF00>-로비에 가구가 추가되었습니다!</color>\n";
             }
             if (character == false && skill == false && weapon == false&& furniture==false)
             {
@@ -275,9 +300,13 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             {
                 MessageText.text += "-Smithy has increased in weapons!\n";
             }
+            if (item == true)
+            {
+                MessageText.text += "-Pub has increased in items!\n";
+            }
             if (furniture == true)
             {
-                MessageText.text += "<color=#FFFF00>Furniture added in the lobby!</color>";
+                MessageText.text += "<color=#FFFF00>-Furniture added in the lobby!</color>\n";
             }
             if (character == false && skill == false && weapon == false&& furniture == false)
             {

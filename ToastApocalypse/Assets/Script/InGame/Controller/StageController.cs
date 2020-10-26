@@ -17,6 +17,10 @@ public class StageController : MonoBehaviour
         {
             mPortal.gameObject.SetActive(false);
         }
+        else
+        {
+            mPortal.gameObject.SetActive(true);
+        }
     }
 
 
@@ -33,6 +37,7 @@ public class StageController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            MainLobbyUIController.Instance.mPortalButton.onClick.RemoveAllListeners();
             MainLobbyUIController.Instance.mPortalButton.onClick.AddListener(() => { Portal(); });
             MainLobbyUIController.Instance.mPortalButton.gameObject.SetActive(true);
         }

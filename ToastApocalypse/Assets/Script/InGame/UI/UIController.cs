@@ -16,7 +16,7 @@ public class UIController : InformationLoader
 
     public Sprite DefaultItemSprite;
 
-    public Button mStatButton, mSKillButton,mItemButton, mArtifactButton,mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton,mReviveAdButton,mReviveSyrupButton;
+    public Button mStatButton, mSKillButton,mItemButton, mArtifactButton,mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton,mReviveAdButton,mReviveSyrupButton,mWeaponChangeButton;
 
     public RawImage mMiniMapImage;
     public Toggle mMiniMapButton;
@@ -201,6 +201,22 @@ public class UIController : InformationLoader
         else if (GameSetting.Instance.Language == 1)//영어
         {
             mLevelText.text = "<size=85>Due to a \'curse of sogginess\', the following stats have been decreased:\n</size><size=80><color=#2EFE2E>Max HP, Attack Spd, Movement Spd</color></size>";
+        }
+        mLevelText.gameObject.SetActive(true);
+        yield return delay;
+        mLevelText.gameObject.SetActive(false);
+    }
+
+    public IEnumerator ShowBossLevel()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        if (GameSetting.Instance.Language == 0)//한국어
+        {
+            mLevelText.text = "<size=85><color=#E3242B>보스 출현!</color></size>";
+        }
+        else if (GameSetting.Instance.Language == 1)//영어
+        {
+            mLevelText.text = "<size=85><color=#E3242B>Boss Appears!</color></size>";
         }
         mLevelText.gameObject.SetActive(true);
         yield return delay;

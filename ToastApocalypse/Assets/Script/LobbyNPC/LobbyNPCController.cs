@@ -14,6 +14,10 @@ public class LobbyNPCController : MonoBehaviour
             {
                 NPCArr[i].SetActive(false);
             }
+            else
+            {
+                NPCArr[i].SetActive(true);
+            }
         }
     }
 }

@@ -35,7 +35,6 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
             {
                 mGuideText.text = "Touch to continue";
             }
-            mGuideText.gameObject.SetActive(true);
         }
         else
         {
@@ -66,12 +65,16 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        DialogEvent();
+    }
+
+    public void DialogEvent()
+    {
         if (MessageDelay == false)
         {
             if (NextMessage == false)
             {
                 StartCoroutine(Delay());
-                ShowDialog();
                 if (mInfoArr[NowDialogID + 1].IsClose == true)
                 {
                     switch (NowDialogID)
@@ -89,21 +92,21 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                         case 12:
                             if (GameSetting.Instance.Language == 0)//한국어
                             {
-                                GoalText.text = "유물을 획득하고 변화한 능력치를 확인하세요";
+                                GoalText.text = "유물과 접촉해 획득하고 변화한 능력치를 확인하세요";
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "Get artifacts and check your changed status";
+                                GoalText.text = "Contact to get artifacts and check status";
                             }
                             break;
                         case 18:
                             if (GameSetting.Instance.Language == 0)//한국어
                             {
-                                GoalText.text = "줄어든 체력을 사용 아이템으로 회복하세요";
+                                GoalText.text = "아이템과 접촉해 획득하고 줄어든 체력을 회복하세요";
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "Use items to recover your reduced HP";
+                                GoalText.text = "Contact to get item and use to recover reduced HP";
                             }
                             break;
                         case 23:
@@ -119,11 +122,11 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                         case 29:
                             if (GameSetting.Instance.Language == 0)//한국어
                             {
-                                GoalText.text = "무기를 장착한 후 허수아비를 공격해보세요";
+                                GoalText.text = "무기를 장착하세요";
                             }
                             else if (GameSetting.Instance.Language == 1)//영어
                             {
-                                GoalText.text = "Put your weapon on it and attack the Scarecrow";
+                                GoalText.text = "Put on your weapons";
                             }
                             break;
                         case 33:
@@ -177,10 +180,11 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                             }
                             ClearItem.gameObject.SetActive(true);
                             break;
+                        default:
+                            break;
                     }
                     NextMessage = true;
                 }
-                NowDialogID++;
 
             }
             else
@@ -188,26 +192,26 @@ public class TutorialDialog : InformationLoader,IPointerClickHandler
                 Time.timeScale = 1;
                 if (NowDialogID > 52)
                 {
-                    mGuideText.gameObject.SetActive(false);
                     mWindow.gameObject.SetActive(false);
                     TutorialEnd.Instance.GameClear();
                 }
                 else
                 {
-                    mGuideText.gameObject.SetActive(true);
                     mWindow.gameObject.SetActive(false);
                     NextMessage = false;
                 }
             }
-          
         }
-          
     }
     public IEnumerator Delay()
     {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.1f);
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.5f);
+        ShowDialog();
         MessageDelay = true;
+        mGuideText.gameObject.SetActive(false);
         yield return delay;
+        NowDialogID++;
         MessageDelay = false;
+        mGuideText.gameObject.SetActive(true);
     }
 }

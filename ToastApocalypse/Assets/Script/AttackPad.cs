@@ -46,6 +46,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     {
         if (Player.Instance.NowPlayerWeapon!=null)
         {
+            AttackEnd = false;
+            StartCoroutine(AttackCycle());
             Vector2 pos;
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BG.rectTransform,
                                                                         ped.position,
@@ -132,7 +134,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
     private void Attack()
     {
-        if (AttackCurrentTime <= 0)
+        if (Player.Instance.NowPlayerWeapon!=null&&AttackCurrentTime <= 0)
         {
             if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee || Player.Instance.NowPlayerWeapon.nowBullet >= 1)
             {
@@ -189,8 +191,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        AttackEnd = false;
-        StartCoroutine(AttackCycle());
+        //AttackEnd = false;
+        //StartCoroutine(AttackCycle());
     }
 
     public virtual void OnPointerUp(PointerEventData ped)
@@ -249,5 +251,13 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     public void OnEndDrag(PointerEventData eventData)
     {
         AttackEnd = true;
+    }
+
+    public void WeaponChangeReset()
+    {
+        StopCoroutine(AttackCycle());
+        StopCoroutine(AttackCooltime());
+        StopCoroutine(CooltimeRoutine(CoolMaxtime));
+        CoolWheel.gameObject.SetActive(false);
     }
 }

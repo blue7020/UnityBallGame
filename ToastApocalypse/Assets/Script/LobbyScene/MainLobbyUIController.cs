@@ -28,6 +28,7 @@ public class MainLobbyUIController : MonoBehaviour
             Instance = this;
             pause = false;
             IsSelect = true;
+            SaveDataController.Instance.Save();
             for (int i=0; i<mPartsLock.Length;i++)
             {
                 if (SaveDataController.Instance.mUser.StagePartsget[i]==true)
@@ -157,24 +158,4 @@ public class MainLobbyUIController : MonoBehaviour
         mCashText.text = SaveDataController.Instance.mUser.Syrup.ToString();
     }
 
-    int ClickCount = 0;
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape)&& IsSelect==true)
-        {
-            ClickCount++;
-            if (!IsInvoking("DoubleClick"))
-                Invoke("DoubleClick", 1.0f);
-
-        }
-        else if (ClickCount == 2 && IsSelect == true)
-        {
-            MainStart();
-        }
-
-    }
-    void DoubleClick()
-    {
-        ClickCount = 0;
-    }
 }

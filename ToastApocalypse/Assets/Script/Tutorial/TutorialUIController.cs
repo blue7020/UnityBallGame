@@ -9,14 +9,15 @@ public class TutorialUIController : InformationLoader
 
     public static TutorialUIController Instance;
 
-    public Text mHPText, mNameText, mbulletText, mStatText;
+    public Text mHPText, mNameText, mbulletText, mStatText, mSkillButtonText, mItemButtonText, mArtifactButtonText, mAttackPadText, mWeaponChangeButtonText,mStatusButtonText;
     public Image mPlayerImage, mStatPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel, mShadow;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint, mPieceImage,mWarningWindow;
     public HPBar mHPBar;
     public TutorialDialog Dialog;
     public Sprite DefaultItemSprite;
 
-    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton,StartMenuButton,YesButton;
+    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton,StartMenuButton,YesButton, mWeaponChangeButton;
+    public GameObject mAttackPad;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle,YesText,NoText, WarningText;
     public Tooltip tooltip;
     public PlayerSkill mPlayerSkill;
@@ -78,6 +79,24 @@ public class TutorialUIController : InformationLoader
 
     private void Start()
     {
+        if (GameSetting.Instance.Language == 0)
+        {
+            mSkillButtonText.text = "스킬";
+            mItemButtonText.text = "아이템";
+            mArtifactButtonText.text = "사용 유물";
+            mAttackPadText.text = "공격";
+            mWeaponChangeButtonText.text = "무기 교체";
+            mStatusButtonText.text = "능력치";
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {
+            mSkillButtonText.text = "Skill";
+            mItemButtonText.text = "Item";
+            mArtifactButtonText.text = "Active Artifact";
+            mAttackPadText.text = "Attack";
+            mWeaponChangeButtonText.text = "Weapon Change";
+            mStatusButtonText.text = "Status";
+        }
         mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
         mBGMplus.onClick.AddListener(() => { BGMPlus(); });
@@ -108,6 +127,7 @@ public class TutorialUIController : InformationLoader
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(1f);
         mShadow.gameObject.SetActive(true);
         yield return delay;
+        TutorialDialog.Instance.StartCoroutine(TutorialDialog.Instance.Delay());
         mShadow.gameObject.SetActive(false);
     }
 

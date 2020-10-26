@@ -63,7 +63,7 @@ public class OpeningCutScene : MonoBehaviour,IPointerClickHandler
 
     private IEnumerator Delay()
     {
-        WaitForSeconds delay = new WaitForSeconds(1f);
+        WaitForSeconds delay = new WaitForSeconds(0.15f);
         TouchDelay = true;
         yield return delay;
         TouchDelay = false;

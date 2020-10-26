@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
@@ -27,10 +28,13 @@ public class Weapon : MonoBehaviour
     public int mID;
     public bool mAttackCooltime;
     public bool Attackon;
-    public bool GetCooltime;
     public bool Animation;
     public int BoltID;
     public int SoundId;
+
+    private bool isTutorial;
+    private Button mUIWeaponButton, mTutorialUIWeaponButton;
+    private GameObject mTutorialAttackPad;
 
     private void Awake()
     {
@@ -40,7 +44,16 @@ public class Weapon : MonoBehaviour
         Equip = false;
         MaxBullet = mStats.Bullet;
         nowBullet = MaxBullet;
-        GetCooltime = false;
+        isTutorial = GameController.Instance.IsTutorial;
+        if (isTutorial==true)
+        {
+            mTutorialUIWeaponButton = TutorialUIController.Instance.mWeaponChangeButton;
+            mTutorialAttackPad = TutorialUIController.Instance.mAttackPad;
+        }
+        else
+        {
+            mUIWeaponButton = UIController.Instance.mWeaponChangeButton;
+        }
     }
 
     private void FixedUpdate()
@@ -153,6 +166,7 @@ public class Weapon : MonoBehaviour
     {
         if (Equip == true)
         {
+            AttackPad.Instance.WeaponChangeReset();
             mRenderer.sortingOrder = 8;
             if (eType == eWeaponType.Range)
             {
@@ -168,7 +182,6 @@ public class Weapon : MonoBehaviour
             }
             gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
             gameObject.transform.position = Player.Instance.transform.position;
-            StartCoroutine(DropCool());
             Player.Instance.UnequipWeapon(this);
             Equip = false;
         }
@@ -188,26 +201,42 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private IEnumerator DropCool()
-    {
-        WaitForSeconds cool = new WaitForSeconds(1f);
-        GetCooltime = true;
-        yield return cool;
-        GetCooltime = false;
-        StopCoroutine(DropCool());
-    }
-
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (Equip == false && GetCooltime == false)
+            if (Equip == false)
             {
-                WeaponChange();
+                if (isTutorial == true)
+                {
+                    mTutorialAttackPad.gameObject.SetActive(false);
+                    mTutorialUIWeaponButton.onClick.RemoveAllListeners();
+                    mTutorialUIWeaponButton.onClick.AddListener(() => { WeaponChange(); });
+                    mTutorialUIWeaponButton.gameObject.SetActive(true);
+                }
+                else
+                {
+                    mUIWeaponButton.onClick.RemoveAllListeners();
+                    mUIWeaponButton.onClick.AddListener(() => { WeaponChange(); });
+                    mUIWeaponButton.gameObject.SetActive(true);
+                }
             }
         }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (isTutorial==true)
+            {
+                mTutorialAttackPad.gameObject.SetActive(true);
+                mTutorialUIWeaponButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                mUIWeaponButton.gameObject.SetActive(false);
+            }
+        }
+    }
 
-    } 
-    
 }

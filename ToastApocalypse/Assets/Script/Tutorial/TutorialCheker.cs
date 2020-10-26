@@ -67,7 +67,8 @@ public class TutorialCheker : MonoBehaviour
                 {
                     case eTutorialStage.Start:
                         Wall.gameObject.SetActive(false);
-                        TutorialDialog.Instance.ShowDialog();
+                        TutorialDialog.Instance.gameObject.SetActive(true);
+                        TutorialDialog.Instance.DialogEvent();
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                         NextText = true;
                         mRenderer.color = Color.clear;
@@ -77,7 +78,8 @@ public class TutorialCheker : MonoBehaviour
                         {
                             if (Player.Instance.NowActiveArtifact !=null)
                             {
-                                TutorialDialog.Instance.ShowDialog();
+                                TutorialDialog.Instance.gameObject.SetActive(true);
+                                TutorialDialog.Instance.DialogEvent();
                                 TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                                 Wall.gameObject.SetActive(false);
                                 NextText = true;
@@ -92,7 +94,8 @@ public class TutorialCheker : MonoBehaviour
                     case eTutorialStage.Item:
                         if (Player.Instance.mCurrentHP == Player.Instance.mMaxHP)
                         {
-                            TutorialDialog.Instance.ShowDialog();
+                            TutorialDialog.Instance.gameObject.SetActive(true);
+                            TutorialDialog.Instance.DialogEvent();
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
@@ -102,7 +105,8 @@ public class TutorialCheker : MonoBehaviour
                     case eTutorialStage.Statue:
                         if (TutorialUIController.Instance.TutorialStatueCheck >= 3)
                         {
-                            TutorialDialog.Instance.ShowDialog();
+                            TutorialDialog.Instance.gameObject.SetActive(true);
+                            TutorialDialog.Instance.DialogEvent();
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
@@ -112,7 +116,8 @@ public class TutorialCheker : MonoBehaviour
                     case eTutorialStage.Combat1:
                         if (Player.Instance.NowPlayerWeapon.mID == 0 || Player.Instance.NowPlayerWeapon.mID == 1)
                         {
-                            TutorialDialog.Instance.ShowDialog();
+                            TutorialDialog.Instance.gameObject.SetActive(true);
+                            TutorialDialog.Instance.DialogEvent();
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
@@ -126,7 +131,8 @@ public class TutorialCheker : MonoBehaviour
                     case eTutorialStage.Combat2:
                         if (Player.Instance.mTotalKillCount == 2)
                         {
-                            TutorialDialog.Instance.ShowDialog();
+                            TutorialDialog.Instance.gameObject.SetActive(true);
+                            TutorialDialog.Instance.DialogEvent();
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;
@@ -135,7 +141,8 @@ public class TutorialCheker : MonoBehaviour
                         }
                         break;
                     case eTutorialStage.Skill:
-                        TutorialDialog.Instance.ShowDialog();
+                        TutorialDialog.Instance.gameObject.SetActive(true);
+                        TutorialDialog.Instance.DialogEvent();
                         TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                         Wall.gameObject.SetActive(false);
                         NextText = true;
@@ -144,7 +151,8 @@ public class TutorialCheker : MonoBehaviour
                     case eTutorialStage.Boss:
                         if (Player.Instance.mTotalKillCount >= 3)
                         {
-                            TutorialDialog.Instance.ShowDialog();
+                            TutorialDialog.Instance.gameObject.SetActive(true);
+                            TutorialDialog.Instance.DialogEvent();
                             TutorialDialog.Instance.GoalText.gameObject.SetActive(false);
                             Wall.gameObject.SetActive(false);
                             NextText = true;

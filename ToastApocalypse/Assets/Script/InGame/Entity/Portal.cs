@@ -22,6 +22,7 @@ public class Portal : MonoBehaviour
         {
             Instance = this;
             mAnim = GetComponent<Animator>();
+            UIController.Instance.mPortalButton.onClick.RemoveAllListeners();
             UIController.Instance.mPortalButton.onClick.AddListener(() => { Nextroom(); });
         }
         else

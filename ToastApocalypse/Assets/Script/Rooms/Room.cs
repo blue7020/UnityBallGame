@@ -229,7 +229,11 @@ public class Room : MonoBehaviour
                 }
                 if (eType == eRoomType.Boss)
                 {
-                    mEnemyFinder.SpawnAll = true;
+                    if (GameController.Instance.IsTutorial==false)
+                    {
+                        UIController.Instance.StartCoroutine(UIController.Instance.ShowBossLevel());
+                        mEnemyFinder.SpawnAll = true;
+                    }
 
                 }
                 if (eType == eRoomType.Slot)

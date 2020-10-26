@@ -1551,7 +1551,7 @@ public class EnemySkill : MonoBehaviour
     {
         Bullet bolt = BulletPool.Instance.GetFromPool(8);
         bolt.mEnemy = mEnemy;
-        bolt.mDamage = 8.5f;
+        bolt.mDamage = 2f;
         bolt.transform.position = mEnemy.transform.position;
         Vector3 Pos = Player.Instance.transform.position;
         Vector3 dir = Pos - transform.position;

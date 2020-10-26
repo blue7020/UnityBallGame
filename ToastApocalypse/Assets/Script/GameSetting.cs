@@ -43,8 +43,8 @@ public class GameSetting : InformationLoader
         if (Instance == null)
         {
             Instance = this;
-            SaveDataController.Instance.LoadGame();
             DontDestroyOnLoad(gameObject);
+            SaveDataController.Instance.LoadGame();
             if (Application.systemLanguage == SystemLanguage.Korean)
             {
                 Debug.Log("Kor");
@@ -71,6 +71,9 @@ public class GameSetting : InformationLoader
         PlayerID = 0;
         PlayerSkillID = 0;
         PlayerWeaponID = 0;
+
+        SaveDataController.Instance.mUser.NPCOpen[0] = true; SaveDataController.Instance.mUser.NPCOpen[4] = true;
+        SaveDataController.Instance.mUser.StageOpen[0] = true;
         DateTime timecheck = SaveDataController.Instance.mUser.DailyTime.AddDays(1);
         if (SaveDataController.Instance.mUser.DailyTime >= timecheck)
         {
@@ -83,6 +86,7 @@ public class GameSetting : InformationLoader
         NowStageRoom = new Room[6];
         Ingame = false;
         NowStage = 0;
+        SaveDataController.Instance.Save();
     }
 
     public void GetSyrup(int amount)

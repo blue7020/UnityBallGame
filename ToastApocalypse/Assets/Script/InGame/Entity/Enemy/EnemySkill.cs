@@ -604,6 +604,7 @@ public class EnemySkill : MonoBehaviour
                 for (int i = 0; i < 2; i++)
                 {
                     Enemy enemy = EnemyPool.Instance.GetFromPool(0);//햄버그 소환
+                    enemy.CurrentRoom = mEnemy.CurrentRoom;
                     enemy.mStats.Gold = 0;
                     enemy.mMaxHP -= 2; enemy.mCurrentHP -= 2;
                 }

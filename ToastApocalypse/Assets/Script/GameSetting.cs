@@ -71,7 +71,6 @@ public class GameSetting : InformationLoader
         PlayerID = 0;
         PlayerSkillID = 0;
         PlayerWeaponID = 0;
-
         DateTime timecheck = SaveDataController.Instance.mUser.DailyTime.AddDays(1);
         if (SaveDataController.Instance.mUser.DailyTime >= timecheck)
         {

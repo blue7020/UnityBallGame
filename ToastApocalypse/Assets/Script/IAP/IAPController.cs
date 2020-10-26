@@ -467,21 +467,21 @@ public class IAPController : MonoBehaviour, IStoreListener
                 SaveDataController.Instance.mUser.DonateCount++;
                 AngelStatue.Instance.ShowRewardWindow();
             }
-            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 3000개
+            else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_Syrup_01, StringComparison.Ordinal))//시럽 3000개
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 GameSetting.Instance.GetSyrup(5000);
                 MainLobbyUIController.Instance.ShowSyrupText();
             }
-            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 6500개
+            else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_Syrup_02, StringComparison.Ordinal))//시럽 6500개
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 GameSetting.Instance.GetSyrup(11000);
                 MainLobbyUIController.Instance.ShowSyrupText();
             }
-            else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_DemonToast, StringComparison.Ordinal))//시럽 12000개
+            else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_Syrup_03, StringComparison.Ordinal))//시럽 12000개
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.

@@ -322,7 +322,7 @@ public class SaveDataController : InformationLoader
 
     protected void CreateNewSaveData()
     {
-        if (mUser.FirstSetting!=true)
+        if (mUser.FirstSetting != true)
         {
             mUser.Syrup = 0;
             mUser.HasMaterial = new int[Constants.MATERIAL_COUNT];
@@ -353,7 +353,7 @@ public class SaveDataController : InformationLoader
             mUser.CharacterOpen = new bool[Constants.CHARACTER_COUNT];
             mUser.CharacterHas = new bool[Constants.CHARACTER_COUNT];
             mUser.CharacterUpgrade = new int[Constants.CHARACTER_COUNT];
-            for (int i=0; i< Constants.CHARACTER_COUNT;i++)
+            for (int i = 0; i < Constants.CHARACTER_COUNT; i++)
             {
                 mUser.CharacterHas[i] = mPlayerInfoArr[i].PlayerHas;
                 mUser.CharacterOpen[i] = mPlayerInfoArr[i].Open;
@@ -393,13 +393,14 @@ public class SaveDataController : InformationLoader
             }
 
             mUser.StageOpen = new bool[Constants.STAGE_COUNT];
-            mUser.StageOpen[0] = true;//1스테이지 오픈
 
             mUser.NPCOpen = new bool[Constants.NPC_COUNT];
+
+            mUser.StageOpen[0] = true;//1스테이지 오픈
             mUser.NPCOpen[0] = true; //사서 npc 오픈
             mUser.NPCOpen[4] = true; //유료상인 npc 오픈
-            mUser.BGMVolume = Constants.BGM_VOL;
-            mUser.SEVolume = Constants.SE_VOL;
+            mUser.BGMVolume = 0.3f;
+            mUser.SEVolume = 0.3f;
             mUser.FirstSetting = true;
 
             mUser.DeveloperID = false;

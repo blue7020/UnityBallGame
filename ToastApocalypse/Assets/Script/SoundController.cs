@@ -39,6 +39,8 @@ public class SoundController : MonoBehaviour
 
     public void SoundSetting()
     {
+        BGMVolume= SaveDataController.Instance.mUser.BGMVolume;
+        SEVolume = SaveDataController.Instance.mUser.SEVolume;
         if (BGMVolume == 1)
         {
             UIBGMVol = 10;
@@ -47,7 +49,7 @@ public class SoundController : MonoBehaviour
         {
             UIBGMVol = (int)(10 * BGMVolume);
         }
-        if (BGMVolume == 1)
+        if (SEVolume == 1)
         {
             UISEVol = 10;
         }

@@ -13,7 +13,6 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public WeaponStat mWeapon;
     public SkillTooltip mTooltip;
     public string title, lore;
-    public bool IsShop;
 
     private void Awake()
     {
@@ -49,7 +48,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 }
                 if (mWeapon.ReloadCool > 0)
                 {
-                    lore += "장전 시간: " + mWeapon.Bullet + "초\n";
+                    lore += "장전 시간: " + mWeapon.ReloadCool + "초\n";
                 }
                 if (mWeapon != null)
                 {
@@ -121,18 +120,12 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (IsShop==false)
-        {
-            mDraggingID = mWeaponID;
-        }
+        mDraggingID = mWeaponID;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (IsShop == false)
-        {
-            mDraggingID = -1;
-        }
+        mDraggingID = -1;
     }
 
     public void OnPointerClick(PointerEventData eventData)

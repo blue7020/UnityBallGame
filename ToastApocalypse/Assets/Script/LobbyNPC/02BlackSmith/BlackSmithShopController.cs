@@ -27,7 +27,9 @@ public class BlackSmithShopController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            RecipeCheker = new bool[4]; if (GameSetting.Instance.Language == 0)//한국어
+            RecipeCheker = new bool[4];
+            RecipeCheckerReset();
+            if (GameSetting.Instance.Language == 0)//한국어
             {
                 mBuyText.text = "제작";
             }
@@ -55,26 +57,35 @@ public class BlackSmithShopController : MonoBehaviour
         }
     }
 
+    public void RecipeCheckerReset()
+    {
+        for (int i=0; i<RecipeCheker.Length;i++)
+        {
+            RecipeCheker[i] = false;
+        }
+    }
+
     public void BuyWeapon()
     {
+        RecipeCheckerReset();
         if (SaveDataController.Instance.mUser.Syrup >= mWeapon.mStats.Price)
         {
             for (int i = 0; i < mMaterialSlot.Length; i++)
             {
-                if (mMaterialSlot[i] == null)
+                if (mMaterialSlot[i] == null|| mMaterialSlot[i].mAmount == 0)
                 {
                     RecipeCheker[i] = true;
                 }
                 else
                 {
-                    if (mMaterialSlot[i].mAmount>0)
+                    if (mMaterialSlot[i] != null&&mMaterialSlot[i].mAmount>0)
                     {
                         if (mMaterialSlot[i].mAmount <= SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID])
                         {
                             SaveDataController.Instance.mUser.HasMaterial[mMaterialSlot[i].mMaterialID] -= mMaterialSlot[i].mAmount;
+                            RecipeCheker[i] = true;
                         }
                     }
-                    RecipeCheker[i] = true;
                 }
             }
             if (RecipeCheker[0] == true && RecipeCheker[1] == true && RecipeCheker[2] == true && RecipeCheker[3] == true)
@@ -128,7 +139,7 @@ public class BlackSmithShopController : MonoBehaviour
     public void ShowWeaponInfo(Weapon weapon)
     {
         mWeapon = weapon;
-        mWeaponStat = mWeapon.mStats;
+        mWeaponStat = SaveDataController.Instance.mWeaponInfoArr[mWeapon.mID];
         mSelectSlot.SetData(mWeapon.mID,mWeapon.mWeaponImage, mWeaponStat);
         for (int i = 0; i < mMaterialSlot.Length; i++)
         {

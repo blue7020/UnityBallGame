@@ -12,7 +12,7 @@ public class Constants : MonoBehaviour
 
 
     public const int CHARACTER_COUNT = 14;
-    public const int SKILL_COUNT = 15;
+    public const int SKILL_COUNT = 13;
     public const int STATUE_COUNT = 9;
     public const int WEAPON_COUNT = 26;
     public const int ITEM_COUNT = 11;
@@ -24,7 +24,4 @@ public class Constants : MonoBehaviour
     public const int ART_COUNT = 9;
 
     public const int Code_Count = 10;
-
-    public const float BGM_VOL = 0.3f;
-    public const float SE_VOL = 0.3f;
 }

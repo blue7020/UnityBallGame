@@ -58,6 +58,7 @@ public class MainScreenUIController : InformationLoader
         }
         else
         {
+            mCutSceneBG.gameObject.SetActive(true);
             SoundController.Instance.BGMChange(0);
         }
         NoticeTimeCheck();

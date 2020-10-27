@@ -34,7 +34,7 @@ public class Weapon : MonoBehaviour
 
     private bool isTutorial;
     private Button mUIWeaponButton, mTutorialUIWeaponButton;
-    private GameObject mTutorialAttackPad;
+    private Text mTutoriaAttackPadText;
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class Weapon : MonoBehaviour
         if (isTutorial==true)
         {
             mTutorialUIWeaponButton = TutorialUIController.Instance.mWeaponChangeButton;
-            mTutorialAttackPad = TutorialUIController.Instance.mAttackPad;
+            mTutoriaAttackPadText = TutorialUIController.Instance.mAttackPadText;
         }
         else
         {
@@ -209,7 +209,7 @@ public class Weapon : MonoBehaviour
             {
                 if (isTutorial == true)
                 {
-                    mTutorialAttackPad.gameObject.SetActive(false);
+                    mTutoriaAttackPadText.gameObject.SetActive(false);
                     mTutorialUIWeaponButton.onClick.RemoveAllListeners();
                     mTutorialUIWeaponButton.onClick.AddListener(() => { WeaponChange(); });
                     mTutorialUIWeaponButton.gameObject.SetActive(true);
@@ -229,7 +229,7 @@ public class Weapon : MonoBehaviour
         {
             if (isTutorial==true)
             {
-                mTutorialAttackPad.gameObject.SetActive(true);
+                mTutoriaAttackPadText.gameObject.SetActive(true);
                 mTutorialUIWeaponButton.gameObject.SetActive(false);
             }
             else

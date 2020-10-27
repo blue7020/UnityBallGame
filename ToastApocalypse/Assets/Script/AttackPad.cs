@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler,IBeginDragHandler,IEndDragHandler
+public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDragHandler//,IPointerUpHandler, IPointerDownHandler
 {
     public static AttackPad Instance;
     public Image BG, Stick, CoolWheel;
@@ -12,6 +12,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     private bool AttackSwitch,IsReload,AttackEnd;
     float AttackCurrentTime;
     float CoolMaxtime;
+    private Coroutine mCycle;
 
 
     private void Awake()
@@ -23,6 +24,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
             AttackCurrentTime = 0;
             IsReload = false;
             AttackEnd = false;
+            mCycle = null;
         }
         else
         {
@@ -47,7 +49,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         if (Player.Instance.NowPlayerWeapon!=null)
         {
             AttackEnd = false;
-            StartCoroutine(AttackCycle());
+            mCycle=StartCoroutine(AttackCycle());
             Vector2 pos;
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BG.rectTransform,
                                                                         ped.position,
@@ -84,34 +86,17 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
                         Player.Instance.NowPlayerWeapon.mRenderer.flipY = false;
                     }
                 }
-                //
-
-                //
             }
 
         }
     }
 
-
-
-    public virtual void OnPointerDown(PointerEventData ped)
-    {
-        if (Player.Instance.NowPlayerWeapon!=null&&AttackSwitch==false)
-        {
-            if (Player.Instance.NowPlayerWeapon.Attackon == false)
-            {
-                OnDrag(ped);
-            }
-        }
-        
-    }
-
-    public IEnumerator AttackCycle()
+    public IEnumerator AttackCycle(bool check=true)
     {
         WaitForSeconds time = new WaitForSeconds(0.1f);
         float currentTime = 0;
         Attack();
-        while (true)
+        while (check)
         {
             float Maxtime = Player.Instance.mStats.AtkSpd;
             if (AttackEnd==false)
@@ -189,25 +174,32 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        //AttackEnd = false;
-        //StartCoroutine(AttackCycle());
-    }
+    //public virtual void OnPointerDown(PointerEventData ped)
+    //{
+    //    if (Player.Instance.NowPlayerWeapon != null && AttackSwitch == false)
+    //    {
+    //        if (Player.Instance.NowPlayerWeapon.Attackon == false)
+    //        {
+    //            OnDrag(ped);
+    //        }
+    //    }
 
-    public virtual void OnPointerUp(PointerEventData ped)
-    {
-        StopCoroutine(AttackCycle());
-        if (Player.Instance.NowPlayerWeapon != null)
-        {
-            Stick.rectTransform.anchoredPosition = Vector3.zero;
-            if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
-            {
-                Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
-                SoundController.Instance.mBGSE.Stop();
-            }
-        }
-    }
+    //}
+
+    //public virtual void OnPointerUp(PointerEventData ped)
+    //{
+    //    StopCoroutine(AttackCycle());
+    //    mCycle = null;
+    //    if (Player.Instance.NowPlayerWeapon != null)
+    //    {
+    //        Stick.rectTransform.anchoredPosition = Vector3.zero;
+    //        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+    //        {
+    //            Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
+    //            SoundController.Instance.mBGSE.Stop();
+    //        }
+    //    }
+    //}
 
     private IEnumerator AttackCooltime()
     {
@@ -251,13 +243,39 @@ public class AttackPad : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointe
     public void OnEndDrag(PointerEventData eventData)
     {
         AttackEnd = true;
+        StopCoroutine(AttackCycle());
+        mCycle = null;
+        if (Player.Instance.NowPlayerWeapon != null)
+        {
+            Stick.rectTransform.anchoredPosition = Vector3.zero;
+            if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+            {
+                Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
+                SoundController.Instance.mBGSE.Stop();
+            }
+        }
+    }
+        public void OnBeginDrag(PointerEventData ped)
+    {
+        if (Player.Instance.NowPlayerWeapon != null && AttackSwitch == false)
+        {
+            if (Player.Instance.NowPlayerWeapon.Attackon == false)
+            {
+                OnDrag(ped);
+            }
+        }
     }
 
     public void WeaponChangeReset()
     {
-        StopCoroutine(AttackCycle());
-        StopCoroutine(AttackCooltime());
+        mCycle=StartCoroutine(AttackCycle(false));
+        StopCoroutine(AttackCycle(false));
+        mCycle = null;
         StopCoroutine(CooltimeRoutine(CoolMaxtime));
-        CoolWheel.gameObject.SetActive(false);
+        StopCoroutine(AttackCooltime());
+
+        StartCoroutine(CooltimeRoutine(CoolMaxtime));
+        StartCoroutine(AttackCooltime());
+        //CoolWheel.gameObject.SetActive(false);
     }
 }

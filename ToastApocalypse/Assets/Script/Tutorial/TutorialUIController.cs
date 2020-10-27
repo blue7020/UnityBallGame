@@ -17,7 +17,6 @@ public class TutorialUIController : InformationLoader
     public Sprite DefaultItemSprite;
 
     public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton,StartMenuButton,YesButton, mWeaponChangeButton;
-    public GameObject mAttackPad;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle,YesText,NoText, WarningText;
     public Tooltip tooltip;
     public PlayerSkill mPlayerSkill;

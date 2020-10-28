@@ -70,6 +70,7 @@ public class Portal : MonoBehaviour
         {
             UIController.Instance.StartCoroutine(UIController.Instance.SceneMoveShadow());
             SceneManager.LoadScene(3);
+            UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
             Player.Instance.transform.position = new Vector2(0, -10.5f);
         }
         else if (GameController.Instance.StageLevel> GameSetting.STAGELEVEL_COUNT)

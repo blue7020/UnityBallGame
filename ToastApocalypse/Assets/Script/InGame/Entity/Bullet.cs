@@ -104,15 +104,7 @@ public class Bullet : MonoBehaviour
                 {
                     RemoveBullet();
                 }
-
             }
-            //if (other.gameObject.CompareTag("Walls"))
-            //{
-            //    if (eType != eEnemyBulletType.boom)
-            //    {
-            //        RemoveBullet();
-            //    }
-            //}
         }
     }
 }

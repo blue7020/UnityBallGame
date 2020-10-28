@@ -9,6 +9,7 @@ public class PlayerSelectController : InformationLoader
 
     public MainLobbyPlayer[] mPlayer;
     public Image mBlackScreen, mPlayerImage,mWindow, mShadow;
+    public GameObject mPlayerShadow;
     public Sprite mLockPlayer;
     public VirtualJoyStick mStick;
     public Button LeftButton, RightButton, SelectButton, UpgradeButton;
@@ -107,6 +108,7 @@ public class PlayerSelectController : InformationLoader
     {
         MainLobbyUIController.Instance.IsSelect = false;
         StartCoroutine(ShowBlackScreen(mPlayerStatList[NowPlayerID].ID));
+        SaveDataController.Instance.Save();
     }
 
     public void CharaBuy()
@@ -116,7 +118,8 @@ public class PlayerSelectController : InformationLoader
             SoundController.Instance.SESoundUI(3);
             SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] = true;
             SaveDataController.Instance.mUser.CharacterOpen[NowPlayerID] = true;
-            SaveDataController.Instance.mUser.Syrup -= mPlayerStatList[NowPlayerID].Price;
+            Debug.Log(mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID]]);
+            SaveDataController.Instance.mUser.Syrup -= mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID]];
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowStat();
             SaveDataController.Instance.Save();
@@ -125,11 +128,11 @@ public class PlayerSelectController : InformationLoader
 
     public void CharaUpGrade()
     {
-        if (SaveDataController.Instance.mUser.Syrup >= mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[PlayerID]])
+        if (SaveDataController.Instance.mUser.Syrup >= mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[PlayerID]] - 500)
         {
             SoundController.Instance.SESoundUI(8);
             SaveDataController.Instance.mUser.CharacterUpgrade[PlayerID] += 1;
-            SaveDataController.Instance.mUser.Syrup -= mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[PlayerID]];
+            SaveDataController.Instance.mUser.Syrup -= mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[PlayerID]]-500;
             MainLobbyUIController.Instance.ShowSyrupText();
             ShowStat();
             SaveDataController.Instance.Save();
@@ -142,6 +145,7 @@ public class PlayerSelectController : InformationLoader
         mBlackScreen.gameObject.SetActive(true);
         GameSetting.Instance.PlayerID = id;
         MainLobbyPlayer player= Instantiate(mPlayer[id], Vector3.zero, Quaternion.identity);
+        Instantiate(mPlayerShadow, player.transform);
         MainLobbyCamera.Instance.CameraSetting(player);
         yield return delay;
         mBlackScreen.gameObject.SetActive(false);

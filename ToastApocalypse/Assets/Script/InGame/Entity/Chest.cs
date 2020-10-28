@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Chest : MonoBehaviour
@@ -12,18 +13,28 @@ public class Chest : MonoBehaviour
     public MimicSpawner mMimicPos;
     public Room Currentroom;
 
-    public UsingItem DefaultItem;
+    public List<UsingItem> mItemList;
 
     private bool ChestOpen;
     private eChestType Type;
     private Weapon weapon;
     private Artifacts artifact;
+    private UsingItem item;
     private int index;
+    private Button mUIChestButton;
 
-    private float[] rate=new float[3];//0=무기 확률 1=패시브 유물 확률 2=액티브 유물 확률
+    private float[] mRate = new float[3];//0=무기 확률 1=패시브 유물 확률 2=액티브 유물 확률;
 
     private void Awake()
     {
+        for (int i=0; i<GameSetting.Instance.mItemArr.Length;i++)
+        {
+            if (SaveDataController.Instance.mUser.ItemOpen[i]==true)
+            {
+                mItemList.Add(GameSetting.Instance.mItemArr[i]);
+            }
+        }
+        mUIChestButton = UIController.Instance.mUIChestButton;
         int rand = Random.Range(0, 3);
         switch (rand)
         {
@@ -51,9 +62,9 @@ public class Chest : MonoBehaviour
 
     private void Wood()
     {
-        rate[0] = 0.45f;
-        rate[1] = 0.4f;
-        rate[2] = 0.15f;
+        mRate[0] = 0.45f;
+        mRate[1] = 0.4f;
+        mRate[2] = 0.15f;
         float rand = Random.Range(0, 1f);
         if (rand > 0.4f)//상자
         {
@@ -68,9 +79,9 @@ public class Chest : MonoBehaviour
 
     private void Silver()
     {
-        rate[0] = 0.2f;
-        rate[1] = 0.45f;
-        rate[2] = 0.35f;
+        mRate[0] = 0.2f;
+        mRate[1] = 0.45f;
+        mRate[2] = 0.35f;
         float rand = Random.Range(0, 1f);
         if (rand > 0.3f)//상자
         {
@@ -85,9 +96,9 @@ public class Chest : MonoBehaviour
 
     private void Gold()
     {
-        rate[0] = 0.15f;
-        rate[1] = 0.3f;
-        rate[2] = 0.55f;
+        mRate[0] = 0.15f;
+        mRate[1] = 0.3f;
+        mRate[2] = 0.55f;
         float rand = Random.Range(0, 1f);
         if (rand > 0.1f)//상자
         {
@@ -103,22 +114,68 @@ public class Chest : MonoBehaviour
 
     private void Open()
     {
+        mUIChestButton.gameObject.SetActive(false);
         ChestOpen = true;
         SoundController.Instance.SESound(18);
         float rand = Random.Range(0, 1f);
-        if (WeaponController.Instance.mWeapons.Count>= 0&&rand >= rate[0] && rand < rate[1])//무기
+        if (rand >= mRate[0] && rand < mRate[1])//무기
         {
-            StartCoroutine(WeaponSearch());
+            if (WeaponController.Instance.mWeapons.Count >= 0)
+            {
+                StartCoroutine(WeaponSearch());
+            }
+            else
+            {
+                RandomItem();
+            }
         }
-        else if (ArtifactController.Instance.mPassiveArtifact.Count >= 0&&rand >= rate[1] && rand < rate[2])//패시브유물
+        else if (rand >= mRate[1] && rand < mRate[2])//패시브유물
         {
-            StartCoroutine(PassiveArtifactSearch());
+            if (ArtifactController.Instance.mPassiveArtifact.Count >= 0)
+            {
+                StartCoroutine(PassiveArtifactSearch());
+            }
+            else
+            {
+                RandomItem();
+            }
         }
         else//액티브 유물
         {
-            StartCoroutine(ActiveArtifactSearch());
+            if (ArtifactController.Instance.mActiveArtifact.Count>=0)
+            {
+                StartCoroutine(ActiveArtifactSearch());
+            }
+            else
+            {
+                RandomItem();
+            }
         }
         mItem.SetActive(true);
+        switch (Type)
+        {
+            case eChestType.Wood:
+                mRenderer.sprite = mSprites[1];
+                break;
+            case eChestType.Silver:
+                mRenderer.sprite = mSprites[3];
+                break;
+            case eChestType.Gold:
+                mRenderer.sprite = mSprites[5];
+                break;
+            default:
+                Debug.LogError("Wrong Chest Sprite");
+                break;
+        }
+    }
+
+    private void RandomItem()
+    {
+        int rand = Random.Range(0, mItemList.Count);
+        item = Instantiate(mItemList[rand], mItem.transform);
+        item.Currentroom = Currentroom;
+        item.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
+
     }
 
     private IEnumerator WeaponSearch()
@@ -181,30 +238,22 @@ public class Chest : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-
         if (other.gameObject.CompareTag("Player"))
         {
             if (ChestOpen == false)
             {
-                Open();
-                
-                switch (Type)
-                {
-                    case eChestType.Wood:
-                        mRenderer.sprite = mSprites[1];
-                        break;
-                    case eChestType.Silver:
-                        mRenderer.sprite = mSprites[3];
-                        break;
-                    case eChestType.Gold:
-                        mRenderer.sprite = mSprites[5];
-                        break;
-                    default:
-                        Debug.LogError("Wrong Chest Sprite");
-                        break;
-                }
+                mUIChestButton.onClick.RemoveAllListeners();
+                mUIChestButton.onClick.AddListener(() => { Open(); });
+                mUIChestButton.gameObject.SetActive(true);
             }
+        }
+    }
 
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            mUIChestButton.gameObject.SetActive(false);
         }
     }
 }

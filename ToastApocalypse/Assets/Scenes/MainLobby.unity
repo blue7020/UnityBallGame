@@ -7700,7 +7700,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 2053025966658111632, guid: a1174c8d02d470c45b46064a8b5f5d04,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -15380,7 +15380,7 @@ MonoBehaviour:
   WeaponCount: 0
   ChangeSlot: {fileID: 1319335254296169801, guid: 55bee360053eb954390e923c217808e3,
     type: 3}
-  SlotArr: []
+  SlotList: []
   mWeapon:
     ID: 0
     Price: 0
@@ -17214,7 +17214,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 7871413547306426770, guid: a1174c8d02d470c45b46064a8b5f5d04,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -19402,7 +19402,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: -6621315691767321411, guid: a1174c8d02d470c45b46064a8b5f5d04,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -23973,7 +23973,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 2189510010676529607, guid: a1174c8d02d470c45b46064a8b5f5d04,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -26103,6 +26103,8 @@ MonoBehaviour:
   mPlayerImage: {fileID: 2085660556}
   mWindow: {fileID: 1546486462}
   mShadow: {fileID: 1606645992}
+  mPlayerShadow: {fileID: 8359357411481256734, guid: a84b135366ddfcc4091e47c4dc8cc036,
+    type: 3}
   mLockPlayer: {fileID: 21300000, guid: 69af63dd07812ed4dae41dd2554a1ad0, type: 3}
   mStick: {fileID: 1056804244}
   LeftButton: {fileID: 716842874}
@@ -32958,6 +32960,8 @@ MonoBehaviour:
   - {fileID: 1119957349}
   - {fileID: 1959875973}
   - {fileID: 451224975}
+  mPopupWindow: {fileID: 2004620282}
+  text: 
 --- !u!1 &1565710310
 GameObject:
   m_ObjectHideFlags: 0
@@ -33901,7 +33905,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 6929692584990154426, guid: a1174c8d02d470c45b46064a8b5f5d04,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -37675,17 +37679,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 643912468}
-        m_MethodName: DestroyInventory
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1795914764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38558,7 +38551,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 384634719
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: -1178867369846751304, guid: a1174c8d02d470c45b46064a8b5f5d04,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

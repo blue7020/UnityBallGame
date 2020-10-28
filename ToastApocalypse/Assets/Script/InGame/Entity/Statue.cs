@@ -12,18 +12,29 @@ public class Statue : MonoBehaviour
     public StatueStat mStats;
 
     public float SpendGold;
-    public Text mPriceText;
+    public Text mPriceText,mStatueSpendText;
 
     public eStatueType eType;
     public eStatuePay ePayType;
-    private bool IsUse;
+    private bool IsUse, isTutorial;
     private string text,bufftext, bufftext2;
     private TextEffect effect;
     private SkillEffect buffEffect;
+    private Button mUIStatueButton, mTutorialUIStatueButton;
 
     private void Awake()
     {
         IsUse = false;
+        isTutorial = GameController.Instance.IsTutorial;
+        if (isTutorial==true)
+        {
+            mTutorialUIStatueButton = TutorialUIController.Instance.mStatueButton;
+        }
+        else
+        {
+            mUIStatueButton = UIController.Instance.mStatueButton;
+            mStatueSpendText = UIController.Instance.mStatueSpendText;
+        }
     }
 
     public void StatSetting(int id)
@@ -124,7 +135,6 @@ public class Statue : MonoBehaviour
                 StartCoroutine(Player.Instance.Speed(mStats.Spd,24, mStats.Duration));
                 StartCoroutine(Player.Instance.AtkSpeed(mStats.AtkSpd,23, mStats.Duration));
                 mRenderer.sprite = GameController.Instance.mStatueSprites[5];
-
                 if (GameSetting.Instance.Language == 0)
                 {
                     bufftext = "이동 속도 증가!";
@@ -144,7 +154,7 @@ public class Statue : MonoBehaviour
                 buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.yellow);
                 BuffEffectController.Instance.EffectList.Add(buffEffect);
                 effect = TextEffectPool.Instance.GetFromPool(0);
-                effect.transform.position += new Vector3(0, -0.6f, 0);
+                effect.transform.position = new Vector3(0, 174.5f, 0);
                 effect.SetText(bufftext2);
                 break;
             case eStatueType.Def:
@@ -248,51 +258,90 @@ public class Statue : MonoBehaviour
                 Debug.LogError("Wrong StatueType");
                 break;
         }
+        effect = null;
         IsUse = true;
+    }
+
+    public void StatueUseButton()
+    {
+        if (isTutorial == true)
+        {
+            mTutorialUIStatueButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            mUIStatueButton.gameObject.SetActive(false);
+        }
+        if (ePayType == eStatuePay.Pay)
+        {
+            if (Player.Instance.mStats.Gold >= SpendGold)
+            {
+                Player.Instance.mStats.Gold -= SpendGold;
+                StatueUse();
+                UIController.Instance.ShowGold();
+                SoundController.Instance.SESoundUI(3);
+                CanvasFinder.Instance.DeletdStatuePrice(mID);
+            }
+            else
+            {
+                if (GameSetting.Instance.Language == 0)
+                {
+                    text = "골드가 부족합니다!";
+                }
+                else
+                {
+                    text = "Not enough Gold!";
+                }
+                TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.transform.position = new Vector3(0, 175, 0);
+                effect.SetText(text);
+            }
+        }
+        else
+        {
+            StatueUse();
+            if (isTutorial == true)
+            {
+                TutorialUIController.Instance.TutorialStatueCheck++;
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (IsUse==false)
+        if (other.gameObject.CompareTag("Player"))
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (IsUse == false)
             {
-                if (ePayType == eStatuePay.Pay)
+                if (isTutorial == true)
                 {
-                    if (Player.Instance.mStats.Gold>= SpendGold)
-                    {
-                        Player.Instance.mStats.Gold-=SpendGold;
-                        StatueUse();
-                        UIController.Instance.ShowGold();
-                        SoundController.Instance.SESoundUI(3);
-                        CanvasFinder.Instance.DeletdStatuePrice(mID);
-                    }
-                    else
-                    {
-                        if (GameSetting.Instance.Language == 0)
-                        {
-                            text = "골드가 부족합니다!";
-                        }
-                        else
-                        {
-                            text = "Not enough Gold!";
-                        }
-                        TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
-                        effect.SetText(text);
-                    }
+                    mTutorialUIStatueButton.onClick.RemoveAllListeners();
+                    mTutorialUIStatueButton.onClick.AddListener(() => { StatueUseButton(); });
+                    mTutorialUIStatueButton.gameObject.SetActive(true);
                 }
                 else
                 {
-                    StatueUse();
-                    if (GameController.Instance.IsTutorial==true)
-                    {
-                        TutorialUIController.Instance.TutorialStatueCheck++;
-                    }
+                    mUIStatueButton.onClick.RemoveAllListeners();
+                    mUIStatueButton.onClick.AddListener(() => { StatueUseButton(); });
+                    mStatueSpendText.text = "-" + SpendGold + "G";
+                    mUIStatueButton.gameObject.SetActive(true);
                 }
-                
-
             }
         }
-        
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (isTutorial == true)
+            {
+                mTutorialUIStatueButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                mUIStatueButton.gameObject.SetActive(false);
+            }
+        }
     }
 }

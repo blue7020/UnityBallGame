@@ -13,7 +13,7 @@ public class WeaponSelectController : MonoBehaviour
 
     public int WeaponCount;
     public WeaponChangeSlot ChangeSlot;
-    public WeaponChangeSlot[] SlotArr;
+    public List<WeaponChangeSlot> SlotList;
     public WeaponStat mWeapon;
     public Transform mChangeParents;
 
@@ -36,7 +36,11 @@ public class WeaponSelectController : MonoBehaviour
 
     public void RefreshInventory()
     {
-        SlotArr = new WeaponChangeSlot[SaveDataController.Instance.mUser.WeaponHas.Length];
+        if (SlotList!=null||SlotList.Count>0)
+        {
+            DestroyInventory();
+        }
+        SlotList = new List<WeaponChangeSlot>();
         mSelectSlot.mIcon.color = Color.white;
         mSelectSlot.SetData(GameSetting.Instance.PlayerWeaponID, GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID].mWeaponImage, SaveDataController.Instance.mWeaponInfoArr[GameSetting.Instance.PlayerWeaponID]);
 
@@ -44,8 +48,8 @@ public class WeaponSelectController : MonoBehaviour
         {
             if (SaveDataController.Instance.mUser.WeaponHas[i] ==true)
             {
-                SlotArr[i] = Instantiate(ChangeSlot, mChangeParents);
-                SlotArr[i].SetData(i);
+                SlotList.Add(Instantiate(ChangeSlot, mChangeParents));
+                SlotList[SlotList.Count-1].SetData(i);
             }
 
 
@@ -54,12 +58,9 @@ public class WeaponSelectController : MonoBehaviour
 
     public void DestroyInventory()
     {
-        for (int i = 0; i < SlotArr.Length; i++)
+        for (int i = 0; i < SlotList.Count; i++)
         {
-            if (SaveDataController.Instance.mUser.WeaponHas[i] == true)
-            {
-                Destroy(SlotArr[i].gameObject);
-            }
+            Destroy(SlotList[i].gameObject);
         }
     }
 

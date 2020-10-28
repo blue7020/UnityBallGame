@@ -696,10 +696,10 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         if (mEnemy.mTarget != null)
         {
-            mEnemy.mStats.Gold = 0;
             Bullet bolt = BulletPool.Instance.GetFromPool(11);
             bolt.mEnemy = mEnemy;
             bolt.transform.position = mEnemy.transform.position;
+            mEnemy.mStats.Gold = 0;
             mEnemy.Hit(mEnemy.mMaxHP,1,false);
         }
 
@@ -1563,7 +1563,7 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(1f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         StartCoroutine(MoveDelay(0.8f));
-        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP)
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
         {
             AngerTomato2();
         }

@@ -25,7 +25,7 @@ public class TrackingRange : MonoBehaviour
                     {
                         mEnemy.mCoroutine = StartCoroutine(mEnemy.SkillCast());
                     }
-                    StartCoroutine(mEnemy.MoveToPlayer());
+                    //StartCoroutine(mEnemy.MoveToPlayer());
                 }
             }
         }

@@ -95,6 +95,7 @@ public class Enemy : InformationLoader
         Nodamage = false;
         mTrackingRange.gameObject.SetActive(true);
         StartCoroutine(StateMachine());
+        StartCoroutine(MoveToPlayer());
         StartCoroutine(SkillCast());
     }
 
@@ -214,7 +215,7 @@ public class Enemy : InformationLoader
                         mState = eMonsterState.Traking;
                         IsTraking = true;
                         mTarget = Player.Instance;
-                        StartCoroutine(MoveToPlayer());
+                        //StartCoroutine(MoveToPlayer());
                     }
 
                     if (mHPBar == null)
@@ -343,35 +344,38 @@ public class Enemy : InformationLoader
 
     public IEnumerator MoveToPlayer()
     {
-        if (GameController.Instance.pause == false)
+        WaitForSeconds one = new WaitForSeconds(0.1f);
+        while (Spawned)
         {
-            if (mState == eMonsterState.Traking && Spawned == true)
+            if (GameController.Instance.pause == false)
             {
-                if (Stun == false && IsTraking == true)
+                if (mState == eMonsterState.Traking && mTarget != null)
                 {
-                    WaitForSeconds one = new WaitForSeconds(0.1f);
-                    mAnim.SetBool(AnimHash.Enemy_Walk, true);
-                    if (Player.Instance.transform.position.x - transform.position.x > 0)//- 좌
+                    if (Stun == false && IsTraking == true)
                     {
-                        transform.rotation = Quaternion.Euler(0, 180, 0);
+                        mAnim.SetBool(AnimHash.Enemy_Walk, true);
+                        if (Player.Instance.transform.position.x - transform.position.x > 0)//- 좌
+                        {
+                            transform.rotation = Quaternion.Euler(0, 180, 0);
+                        }
+                        else//+ 우
+                        {
+                            transform.rotation = Quaternion.Euler(0, 0, 0);
+                        }
+                        if (!Runaway)
+                        {
+                            Vector3 dir = Player.Instance.transform.position - transform.position;
+                            mRB2D.velocity = dir.normalized * (mStats.Spd * (1 + SpeedAmount));
+                        }
+                        else
+                        {
+                            Vector3 dir = Player.Instance.transform.position - transform.position;
+                            mRB2D.velocity = -dir.normalized * (mStats.Spd * (1 + SpeedAmount));
+                        }
                     }
-                    else//+ 우
-                    {
-                        transform.rotation = Quaternion.Euler(0, 0, 0);
-                    }
-                    if (!Runaway)
-                    {
-                        Vector3 dir = mTarget.transform.position - transform.position;
-                        mRB2D.velocity = dir.normalized * (mStats.Spd * (1 + SpeedAmount));
-                    }
-                    else
-                    {
-                        Vector3 dir = mTarget.transform.position - transform.position;
-                        mRB2D.velocity = -dir.normalized * (mStats.Spd * (1 + SpeedAmount));
-                    }
-                    yield return one;
                 }
             }
+            yield return one;
         }
     }
 

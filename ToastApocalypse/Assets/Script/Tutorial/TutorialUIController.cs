@@ -9,14 +9,14 @@ public class TutorialUIController : InformationLoader
 
     public static TutorialUIController Instance;
 
-    public Text mHPText, mNameText, mbulletText, mStatText, mSkillButtonText, mItemButtonText, mArtifactButtonText, mAttackPadText, mWeaponChangeButtonText,mStatusButtonText;
+    public Text mHPText, mNameText, mbulletText, mStatText, mSkillButtonText, mItemButtonText, mArtifactButtonText, mAttackPadText, mWeaponChangeButtonText,mStatusButtonText, mStatueSpendText;
     public Image mPlayerImage, mStatPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel, mShadow;
     public Image mitemImage, mArtifactImage, mUsingArtifactImage, ArtifactCoolWheel, mClearImage, mPlayerLookPoint, mPieceImage,mWarningWindow;
     public HPBar mHPBar;
     public TutorialDialog Dialog;
     public Sprite DefaultItemSprite;
 
-    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton,StartMenuButton,YesButton, mWeaponChangeButton;
+    public Button mStatButton, mSKillButton, mItemButton, mArtifactButton, mBGMplus, mBGMminus, mSEplus, mSEminus,MainMenuButton,StartMenuButton,YesButton, mWeaponChangeButton,mStatueButton;
     public Text mBGMText, mSEText, mStatTitle, mArtifactTitle,YesText,NoText, WarningText;
     public Tooltip tooltip;
     public PlayerSkill mPlayerSkill;
@@ -24,10 +24,8 @@ public class TutorialUIController : InformationLoader
     public Transform[] mSpawnPos;
     public int TutorialStatueCheck;
     public MapText[] mInfoArr;
-    public MapText[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
+    public string bufftext;
+    private TextEffect effect;
 
     private void Awake()
     {
@@ -222,6 +220,38 @@ public class TutorialUIController : InformationLoader
         {
             mHPText.text = value.ToString();
         }
+    }
+
+    public void ShowGetArtifact(ArtifactTextStat art)
+    {
+        effect = null;
+        if (GameSetting.Instance.Language == 0)
+        {
+            bufftext = "유물 획득: " + art.Title;
+        }
+        else
+        {
+            bufftext = "Get Artifact: " + art.EngTitle;
+        }
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.transform.position = new Vector3(0, 174.5f, 0);
+        effect.SetText(bufftext);
+    }
+
+    public void ShowGetItem(ItemStat item)
+    {
+        effect = null;
+        if (GameSetting.Instance.Language == 0)
+        {
+            bufftext = "아이템 획득: " + item.Name;
+        }
+        else
+        {
+            bufftext = "Get Item: " + item.EngName;
+        }
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.transform.position = new Vector3(0, 174.5f, 0);
+        effect.SetText(bufftext);
     }
 
     public void ShowHP()

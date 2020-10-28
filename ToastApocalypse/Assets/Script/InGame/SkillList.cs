@@ -34,6 +34,7 @@ public class SkillList : MonoBehaviour
 
     public void SkillSetting(int id)
     {
+        effect = null;
         switch (id)
         {
             case 0://구르기
@@ -236,7 +237,7 @@ public class SkillList : MonoBehaviour
             {
                 PlayerBullet bolt = Instantiate(Skillbullet[1], destroyzone.transform);
                 bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk);
-                Vector3 dir = Player.Instance.mDirection.transform.up * bolt.mSpeed*10;
+                Vector3 dir = (Player.Instance.mDirection.transform.up*-1) * bolt.mSpeed*4;
                 bolt.mRB2D.AddForce(dir);
                 count++;
             }

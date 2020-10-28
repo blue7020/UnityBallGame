@@ -11,10 +11,17 @@ public class SlotMachine : MonoBehaviour
     public int Spend,index;
     private string text;
 
-    public Text mPriceText;
+    public Text mPriceText, mShopSpendText;
+    private Button mUIShopButton;
 
     public Animator mAnim;
     public bool enable;
+
+    private void Awake()
+    {
+        mUIShopButton = UIController.Instance.mShopButton;
+        mShopSpendText = UIController.Instance.mShopSpendText;
+    }
 
     private void Start()
     {
@@ -150,80 +157,95 @@ public class SlotMachine : MonoBehaviour
         Rolling();
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    public void UseSlotMachine()
     {
-        if (other.gameObject.GetComponent<Player>())
+        if (enable == false)
         {
-            if (enable==false)
+            if (ArtifactController.Instance.mPassiveArtifact.Count < 1)
             {
-                if (ArtifactController.Instance.mPassiveArtifact.Count<1)
+                if (GameSetting.Instance.Language == 0)
                 {
-                    if (GameSetting.Instance.Language == 0)
-                    {
-                        text = "재고가 없습니다!";
-                    }
-                    else
-                    {
-                        text = "Machine is Empty!";
-                    }
-                    TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
-                    effect.SetText(text);
+                    text = "재고가 없습니다!";
                 }
                 else
                 {
-                    if (InventoryController.Instance.Full == false)
+                    text = "Machine is Empty!";
+                }
+                TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                effect.SetText(text);
+            }
+            else
+            {
+                if (InventoryController.Instance.Full == false)
+                {
+                    if (Player.Instance.mStats.Gold >= Spend)
                     {
-                        if (Player.Instance.mStats.Gold >= Spend)
-                        {
-                            enable = true;
-                            Player.Instance.mStats.Gold -= Spend;
-                            UIController.Instance.ShowGold();
-                            SoundController.Instance.SESound(19);
-                            StartCoroutine(Roll());
-                        }
-                        else
-                        {
-                            if (GameSetting.Instance.Language == 0)
-                            {
-                                text = "골드가 부족합니다!";
-                            }
-                            else
-                            {
-                                text = "Not enough Gold!";
-                            }
-                            TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
-                            effect.SetText(text);
-                        }
+                        enable = true;
+                        Player.Instance.mStats.Gold -= Spend;
+                        UIController.Instance.ShowGold();
+                        SoundController.Instance.SESound(19);
+                        StartCoroutine(Roll());
                     }
                     else
                     {
                         if (GameSetting.Instance.Language == 0)
                         {
-                            text = "인벤토리에 빈 공간이 없습니다!";
+                            text = "골드가 부족합니다!";
                         }
                         else
                         {
-                            text = "Inventory is full!";
+                            text = "Not enough Gold!";
                         }
                         TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
                         effect.SetText(text);
                     }
                 }
+                else
+                {
+                    if (GameSetting.Instance.Language == 0)
+                    {
+                        text = "인벤토리에 빈 공간이 없습니다!";
+                    }
+                    else
+                    {
+                        text = "Inventory is full!";
+                    }
+                    TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+                    effect.SetText(text);
+                }
+            }
+        }
+        else
+        {
+            if (GameSetting.Instance.Language == 0)
+            {
+                text = "아직 사용중입니다!";
             }
             else
             {
-                if (GameSetting.Instance.Language == 0)
-                {
-                    text = "아직 사용중입니다!";
-                }
-                else
-                {
-                    text = "Machine in use!";
-                }
-                TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
-                effect.SetText(text);
+                text = "Machine in use!";
             }
+            TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
+            effect.SetText(text);
+        }
+    }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            mUIShopButton.onClick.RemoveAllListeners();
+            mUIShopButton.onClick.AddListener(() => { UseSlotMachine(); });
+            mShopSpendText.text = "-" +Spend+ "G";
+            mUIShopButton.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            mUIShopButton.gameObject.SetActive(false);
         }
     }
 

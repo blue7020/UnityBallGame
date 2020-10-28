@@ -14,6 +14,8 @@ public class SyrupShopController : MonoBehaviour
     public int[] KRWPrice;
     public float[] USDPrice;
     public Button[] mButtons;
+    public PopUpWindow mPopupWindow;
+    public string text;
 
     private void Awake()
     {
@@ -23,6 +25,7 @@ public class SyrupShopController : MonoBehaviour
             if (GameSetting.Instance.Language==0)
             {
                 mTitle.text = "시럽 추출기";
+                text = "시럽 보유량이 최대입니다!";
                 for (int i = 0; i < PriceText.Length; i++)
                 {
                     PriceText[i].text = "KRW\n"+KRWPrice[i].ToString();
@@ -31,6 +34,7 @@ public class SyrupShopController : MonoBehaviour
             else if (GameSetting.Instance.Language == 1)
             {
                 mTitle.text = "Syrup Extractor";
+                text = "You have the maximum amount of syrup!";
                 for (int i = 0; i < PriceText.Length; i++)
                 {
                     PriceText[i].text = "USD\n" + USDPrice[i].ToString();
@@ -55,20 +59,27 @@ public class SyrupShopController : MonoBehaviour
 
     public void SyrupBuy(int id)
     {
-        switch (id)
+        if (SaveDataController.Instance.mUser.Syrup>=Constants.MAX_SYRUP)
         {
-            case 0:
-                GameSetting.Instance.ShowAds(eAdsReward.Syrup);
-                break;
-            case 1:
-                IAPController.Instance.BuySyrup01();
-                break;
-            case 2:
-                IAPController.Instance.BuySyrup02();
-                break;
-            case 3:
-                IAPController.Instance.BuySyrup03();
-                break;
+            mPopupWindow.ShowWindow(text);
+        }
+        else
+        {
+            switch (id)
+            {
+                case 0:
+                    GameSetting.Instance.ShowAds(eAdsReward.Syrup);
+                    break;
+                case 1:
+                    IAPController.Instance.BuySyrup01();
+                    break;
+                case 2:
+                    IAPController.Instance.BuySyrup02();
+                    break;
+                case 3:
+                    IAPController.Instance.BuySyrup03();
+                    break;
+            }
         }
     }
 

@@ -112,7 +112,7 @@ public class BuffController : MonoBehaviour
                 }
                 if (mBuffArr[i].mBuffCode == 15)
                 {
-                    Player.Instance.PlusBoltCount -= 1;
+                    Player.Instance.PlusBoltCount = 0;
                 }
                 mBuffArr[i].Delete();
                 buffIndex--;

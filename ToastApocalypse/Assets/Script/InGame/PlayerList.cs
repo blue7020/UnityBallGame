@@ -10,6 +10,7 @@ public class PlayerList : InformationLoader
     public PlayerSkill mSkill;
 
     public VirtualJoyStick stick;
+    public GameObject mPlayerShadow;
     public PlayerStat[] mInfoArr;
     public Weapon mWeapon;
     public Player player;
@@ -56,6 +57,7 @@ public class PlayerList : InformationLoader
             mWeapon = Instantiate(GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID], player.transform);
             player.NowPlayerWeapon = mWeapon;
             player.NowPlayerWeapon.EquipWeapon();
+            Instantiate(mPlayerShadow, player.transform);
             UIController.Instance.CharacterImage();
             UIController.Instance.ShowSkillImage();
             UIController.Instance.ShowItemImage();

@@ -13,7 +13,7 @@ public class UsingItem : InformationLoader
     public Vector3 backupPos;
 
     public ItemStat mStats;
-    private bool DropCool;
+    private bool DropCool,isTutorial;
     private SkillEffect effect;
 
     public bool IsShopItem;
@@ -23,6 +23,7 @@ public class UsingItem : InformationLoader
     {
         mStats = SaveDataController.Instance.mItemInfoArr[mID];
         DropCool = false;
+        isTutorial=GameController.Instance.IsTutorial;
     }
     //아이템의 buff코드
     //30=무적 31=공격력 32=방어력 33=공격속도 34=이동속도
@@ -102,6 +103,14 @@ public class UsingItem : InformationLoader
     {
         if (Player.Instance.NowItem == null)
         {
+            if (isTutorial==true)
+            {
+                TutorialUIController.Instance.ShowGetItem(mStats);
+            }
+            else
+            {
+                UIController.Instance.ShowGetItem(mStats);
+            }
             transform.SetParent(Player.Instance.gameObject.transform);
             transform.position = Vector3.zero;
             Player.Instance.NowItem = this;

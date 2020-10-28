@@ -48,8 +48,6 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
     {
         if (Player.Instance.NowPlayerWeapon!=null)
         {
-            AttackEnd = false;
-            mCycle=StartCoroutine(AttackCycle());
             Vector2 pos;
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BG.rectTransform,
                                                                         ped.position,
@@ -87,6 +85,8 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
                     }
                 }
             }
+            AttackEnd = false;
+            mCycle = StartCoroutine(AttackCycle());
 
         }
     }
@@ -268,7 +268,6 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
 
     public void WeaponChangeReset()
     {
-        mCycle=StartCoroutine(AttackCycle(false));
         StopCoroutine(AttackCycle(false));
         mCycle = null;
         StopCoroutine(CooltimeRoutine(CoolMaxtime));

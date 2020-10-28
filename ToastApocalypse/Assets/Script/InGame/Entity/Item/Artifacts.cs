@@ -118,6 +118,14 @@ public class Artifacts : InformationLoader
             {
                 PassiveArtifacts.Instance.ArtifactsFuntion(mID);
             }
+            if (GameController.Instance.IsTutorial==true)
+            {
+                TutorialUIController.Instance.ShowGetArtifact(TextStats);
+            }
+            else
+            {
+                UIController.Instance.ShowGetArtifact(TextStats);
+            }
         }
     }
 

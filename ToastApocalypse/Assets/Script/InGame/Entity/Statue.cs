@@ -154,7 +154,7 @@ public class Statue : MonoBehaviour
                 buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.yellow);
                 BuffEffectController.Instance.EffectList.Add(buffEffect);
                 effect = TextEffectPool.Instance.GetFromPool(0);
-                effect.transform.position = new Vector3(0, 174.5f, 0);
+                effect.transform.position += new Vector3(0, -0.65f, 0);
                 effect.SetText(bufftext2);
                 break;
             case eStatueType.Def:
@@ -293,7 +293,6 @@ public class Statue : MonoBehaviour
                     text = "Not enough Gold!";
                 }
                 TextEffect effect = TextEffectPool.Instance.GetFromPool(0);
-                effect.transform.position = new Vector3(0, 175, 0);
                 effect.SetText(text);
             }
         }

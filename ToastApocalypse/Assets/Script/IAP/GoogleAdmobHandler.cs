@@ -25,6 +25,8 @@ public class GoogleAdmobHandler : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             // Initialize the Google Mobile Ads SDK.
             MobileAds.Initialize(InitializationStatus => { });//첫번째 파라미터
+            //ca-app-pub-4617216056571941~5027589140 = 앱 id
+            //ca-app-pub-4617216056571941/5367334643 = 보상형 광고
         }
         else
         {
@@ -102,7 +104,7 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void RequestRewardBasedVideo()
     {
 #if UNITY_ANDROID
-        string adUnitId = "ca-app-pub-4617216056571941~5027589140";
+        string adUnitId = "ca-app-pub-4617216056571941/5367334643";
 #elif UNITY_IPHONE
             string adUnitId = "ca-app-pub-4617216056571941/4531946884";
 #else
@@ -119,6 +121,7 @@ public class GoogleAdmobHandler : MonoBehaviour
 
     public void PlayAD()
     {
+        RequestRewardBasedVideo();//보상형
         if (rewardBasedVideo.IsLoaded())
         {     
             rewardBasedVideo.Show();
@@ -128,7 +131,6 @@ public class GoogleAdmobHandler : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-        RequestRewardBasedVideo();//보상형
     }
 
     private void HandleRewardBasedVideoLeftApplication(object sender, EventArgs e)

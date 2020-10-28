@@ -81,15 +81,31 @@ public class Artifacts : InformationLoader
 
     private IEnumerator CooltimeRoutine()
     {
+        WaitForFixedUpdate frame = new WaitForFixedUpdate();
         float maxTime = mStats.Skill_Cooltime - (mStats.Skill_Cooltime * Player.Instance.mStats.CooltimeReduce);
         float CoolTime = maxTime;
-        WaitForFixedUpdate frame = new WaitForFixedUpdate();
         float AttackCurrentTime = CoolTime;
+        if (GameController.Instance.IsTutorial==true)
+        {
+            TutorialUIController.Instance.mArtifactButton.interactable = false;
+        }
+        else
+        {
+            UIController.Instance.mArtifactButton.interactable = false;
+        }
         while (AttackCurrentTime >= 0)
         {
             yield return frame;
             AttackCurrentTime -= Time.fixedDeltaTime;
             ShowCooltime(CoolTime, AttackCurrentTime);
+        }
+        if (GameController.Instance.IsTutorial == true)
+        {
+            TutorialUIController.Instance.mArtifactButton.interactable = true;
+        }
+        else
+        {
+            UIController.Instance.mArtifactButton.interactable = true;
         }
         IsArtifactCool = false;
     }

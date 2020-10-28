@@ -79,7 +79,6 @@ public class ActiveArtifacts : MonoBehaviour
             bufftext = "Damage Resistance!";
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position = new Vector3(0, 175, 0);
         effect.SetText(bufftext);
         yield return dura;
         Player.Instance.Nodamage = false;
@@ -108,7 +107,6 @@ public class ActiveArtifacts : MonoBehaviour
             bufftext = "Restore HP!";
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position = new Vector3(0, 175, 0);
         effect.SetText(bufftext);
         Player.Instance.Heal(1);
     }
@@ -137,11 +135,10 @@ public class ActiveArtifacts : MonoBehaviour
             bufftext2 = "Attack speed increase!";
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position = new Vector3(0, 175, 0);
         effect.SetText(bufftext);
         BuffEffectController.Instance.EffectList.Add(buffEffect);
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position = new Vector3(0, 174.5f, 0);
+        effect.transform.position += new Vector3(0, -0.65f, 0);
         effect.SetText(bufftext2);
         BuffEffectController.Instance.EffectList.Add(buffEffect);
         yield return dura;
@@ -170,14 +167,13 @@ public class ActiveArtifacts : MonoBehaviour
             buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.red);
             BuffEffectController.Instance.EffectList.Add(buffEffect);
             effect = TextEffectPool.Instance.GetFromPool(0);
-            effect.transform.position = new Vector3(0, 175, 0);
             effect.SetText(bufftext);
             Player.Instance.DoEffect(3, 7f, 3, 0.3f);
             buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
             buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.yellow);
             BuffEffectController.Instance.EffectList.Add(buffEffect);
             effect = TextEffectPool.Instance.GetFromPool(0);
-            effect.transform.position = new Vector3(0, 174.5f, 0);
+            effect.transform.position += new Vector3(0, -0.65f, 0);
             effect.SetText(bufftext2);
         }
         else if (rand>1f&&rand<=2f)
@@ -217,7 +213,6 @@ public class ActiveArtifacts : MonoBehaviour
             bufftext = "Debuff Resistance!";
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position = new Vector3(0, 175, 0);
         effect.SetText(bufftext);
         Player.Instance.NoCC = true;
         yield return delay;

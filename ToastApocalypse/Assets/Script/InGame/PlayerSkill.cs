@@ -123,15 +123,31 @@ public class PlayerSkill : MonoBehaviour
 
     private IEnumerator CooltimeRoutine()
     {
+        WaitForFixedUpdate frame = new WaitForFixedUpdate();
         float maxTime = mStat.Cooltime - (mStat.Cooltime * Player.Instance.mStats.CooltimeReduce);
         float CoolTime = maxTime;
-        WaitForFixedUpdate frame = new WaitForFixedUpdate();
+        if (GameController.Instance.IsTutorial == true)
+        {
+            TutorialUIController.Instance.mSKillButton.interactable = false;
+        }
+        else
+        {
+            UIController.Instance.mSKillButton.interactable = false;
+        }
         float AttackCurrentTime = CoolTime;
         while (AttackCurrentTime >= 0)
         {
             yield return frame;
             AttackCurrentTime -= Time.fixedDeltaTime;
             ShowCooltime(CoolTime, AttackCurrentTime);
+        }
+        if (GameController.Instance.IsTutorial == true)
+        {
+            TutorialUIController.Instance.mSKillButton.interactable = true;
+        }
+        else
+        {
+            UIController.Instance.mSKillButton.interactable = true;
         }
     }
 }

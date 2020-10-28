@@ -296,7 +296,6 @@ public class UIController : InformationLoader
             bufftext = "Get Artifact: "+art.EngTitle;
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position = new Vector3(0, 174.5f, 0);
         effect.SetText(bufftext);
     }
 
@@ -312,7 +311,6 @@ public class UIController : InformationLoader
             bufftext = "Get Item: " + item.EngName;
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
-        effect.transform.position = new Vector3(0, 174.5f, 0);
         effect.SetText(bufftext);
     }
 

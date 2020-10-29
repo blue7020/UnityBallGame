@@ -19,9 +19,9 @@ public class ShopController : MonoBehaviour
     private void Awake()
     {
         mItemList = new List<UsingItem>();
-        for (int i=0; i< SaveDataController.Instance.mItemInfoArr.Length; i++)
+        for (int i = 0; i < SaveDataController.Instance.mItemInfoArr.Length; i++)
         {
-            if (SaveDataController.Instance.mUser.ItemHas[i]==true)
+            if (SaveDataController.Instance.mUser.ItemHas[i] == true)
             {
                 mItemList.Add(GameSetting.Instance.mItemArr[i]);
             }
@@ -49,32 +49,29 @@ public class ShopController : MonoBehaviour
         {
             int index = 1;
             int ShopCount = 0;
-            for (int i = 0; i < InventoryController.Instance.mSlotArr.Length; i++)
+            if (GameController.Instance.mPassiveArtifactList.Count > 0)
             {
-                if (ArtifactController.Instance.mPassiveArtifact.Count>0)
+                for (int i = 0; i < GameController.Instance.mPassiveArtifactList.Count; i++)
                 {
-                    rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
-                    if (itembuy[(index - ShopCount)].artifact==null||itembuy[(index - ShopCount)].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
+                    rand = Random.Range(0, GameController.Instance.mPassiveArtifactList.Count);
+                    if (itembuy[(index - ShopCount)].artifact == null || itembuy[(index - ShopCount)].artifact != GameController.Instance.mPassiveArtifactList[rand])
                     {
-                        if (InventoryController.Instance.mSlotArr[i].artifact != ArtifactController.Instance.mPassiveArtifact[rand])
+                        artifact = Instantiate(GameController.Instance.mPassiveArtifactList[rand], mPos[index]);
+                        GameController.Instance.mPassiveArtifactList.RemoveAt(rand);
+                        artifact.transform.SetParent(mPos[index]);
+                        artifact.Currentroom = Shop;
+                        artifact.IsShopItem = true;
+                        itembuy[index].artifact = artifact;
+                        itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
+                        itembuy[index].mPriceText.gameObject.SetActive(false);
+                        if (index < 2)
                         {
-                            artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mPos[index]);
-                            ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
-                            artifact.transform.SetParent(mPos[index]);
-                            artifact.Currentroom = Shop;
-                            artifact.IsShopItem = true;
-                            itembuy[index].artifact = artifact;
-                            itembuy[index].mPriceText.text = artifact.mStats.Price.ToString() + "G";
-                            itembuy[index].mPriceText.gameObject.SetActive(false);
-                            if (index < 2)
-                            {
-                                index++;
-                                ShopCount++;
-                            }
-                            else
-                            {
-                                break;
-                            }
+                            index++;
+                            ShopCount++;
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                     else
@@ -82,39 +79,35 @@ public class ShopController : MonoBehaviour
                         continue;
                     }
                 }
-                else
-                {
-                    itembuy[(index - ShopCount)].artifact = null;
-                    itembuy[index].mPriceText.gameObject.SetActive(false);
-                    if (index < 2)
-                    {
-                        index++;
-                        ShopCount++;
-                    }
-                    break;
-                }
+            }
+            else
+            {
+                itembuy[1].artifact =null;
+                itembuy[1].mPriceText.gameObject.SetActive(false);
+                itembuy[2].artifact =null;
+                itembuy[2].mPriceText.gameObject.SetActive(false);
             }
         }
         else
         {
             ActiveArtifactSearch();
         }
-        
+
     }
-        
+
     private void ActiveArtifactSearch()
     {
         int index = 1;
         int ShopCount = 0;
-        if (ArtifactController.Instance.mActiveArtifact.Count>0)
+        if (GameController.Instance.mActiveArtifactList.Count > 0)
         {
-            for (int i = 0; i < ArtifactController.Instance.mActiveArtifact.Count; i++)
+            for (int i = 0; i < GameController.Instance.mActiveArtifactList.Count; i++)
             {
-                int rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
-                if (itembuy[index - ShopCount].artifact != ArtifactController.Instance.mActiveArtifact[rand])
+                int rand = Random.Range(0, GameController.Instance.mActiveArtifactList.Count);
+                if (itembuy[index - ShopCount].artifact != GameController.Instance.mActiveArtifactList[rand])
                 {
-                    artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], mPos[index]);
-                    ArtifactController.Instance.mActiveArtifact.RemoveAt(rand);
+                    artifact = Instantiate(GameController.Instance.mActiveArtifactList[rand], mPos[index]);
+                    GameController.Instance.mActiveArtifactList.RemoveAt(rand);
                     artifact.transform.SetParent(mPos[index]);
                     artifact.Currentroom = Shop;
                     artifact.IsShopItem = true;

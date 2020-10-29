@@ -150,7 +150,14 @@ public class ItemBuy : MonoBehaviour
                 }
                 else
                 {
-                    mShopSpendText.text = "-" + artifact.mStats.Price + "G";
+                    if (artifact == null)
+                    {
+                        mShopSpendText.text = "";
+                    }
+                    else
+                    {
+                        mShopSpendText.text = "-" + artifact.mStats.Price + "G";
+                    }
                 }
                 mUIShopButton.gameObject.SetActive(true);
             }

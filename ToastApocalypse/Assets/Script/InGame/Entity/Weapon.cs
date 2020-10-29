@@ -26,6 +26,7 @@ public class Weapon : MonoBehaviour
 
     public AttackArea mAttackArea;
     public int mID;
+    public int ListIndex;
     public bool mAttackCooltime;
     public bool Attackon;
     public bool Animation;
@@ -35,6 +36,7 @@ public class Weapon : MonoBehaviour
     private bool isTutorial;
     private Button mUIWeaponButton, mTutorialUIWeaponButton;
     private Text mTutoriaAttackPadText;
+    private Vector2 mRangeSize;
 
     private void Awake()
     {
@@ -44,6 +46,7 @@ public class Weapon : MonoBehaviour
         Equip = false;
         MaxBullet = mStats.Bullet;
         nowBullet = MaxBullet;
+        mRangeSize = mAttackArea.transform.localScale;
         isTutorial = GameController.Instance.IsTutorial;
         if (isTutorial==true)
         {
@@ -132,6 +135,16 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    public void WeaponRangeSize()
+    {
+        if (eType == eWeaponType.Melee)
+        {
+            mAttackArea.transform.localScale = mRangeSize;
+            mAttackArea.transform.localScale *= new Vector2(PassiveArtifacts.Instance.AdditionalMeleeRangeSize, PassiveArtifacts.Instance.AdditionalMeleeRangeSize);
+            Debug.Log(mAttackArea.transform.localScale);
+        }
+    }
+
     public void EquipWeapon()
     {
         if (Equip == false)
@@ -142,6 +155,7 @@ public class Weapon : MonoBehaviour
                 Aim.gameObject.SetActive(true);
                 mAttackArea.gameObject.SetActive(true);
             }
+            WeaponRangeSize();
             WeaponController.Instance.mWeaponSkillCount = 0;
             Player.Instance.EquipWeapon(this);
             Currentroom = Player.Instance.CurrentRoom;

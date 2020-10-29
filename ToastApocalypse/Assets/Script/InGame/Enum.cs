@@ -106,10 +106,18 @@ public enum ePlayerBulletType
     homing
 }
 
+public enum ePlayerBulletCritEffectType
+{
+    none,
+    slow,
+    stun
+}
+
 public enum ePlayerBulletEffectType
 {
     none,
-    slow
+    slow,
+    stun
 }
 
 public enum eBulletEffect

@@ -20,6 +20,7 @@ public class Artifacts : InformationLoader
     public bool IsArtifactCool;
     private bool DropCool;
 
+
     public bool IsShopItem;
 
     private void Awake()
@@ -120,20 +121,6 @@ public class Artifacts : InformationLoader
             {
                 SaveDataController.Instance.mUser.ArtifactFound[mID] = true;
             }
-            if (eType == eArtifactType.Active)
-            {
-                for (int i = 0; i < ArtifactController.Instance.mActiveArtifact.Count; i++)
-                {
-                    if (ArtifactController.Instance.mActiveArtifact[i] == this)
-                    {
-                        ArtifactController.Instance.mActiveArtifact.RemoveAt(i);
-                    }
-                }
-            }
-            else
-            {
-                PassiveArtifacts.Instance.ArtifactsFuntion(mID);
-            }
             if (GameController.Instance.IsTutorial==true)
             {
                 TutorialUIController.Instance.ShowGetArtifact(TextStats);
@@ -150,14 +137,6 @@ public class Artifacts : InformationLoader
         if (Equip == true)
         {
             Player.Instance.UnequipArtifact(this);
-            if (eType == eArtifactType.Passive)
-            {
-                ArtifactController.Instance.mPassiveArtifact.Add(this);
-            }
-            else
-            {
-                ArtifactController.Instance.mActiveArtifact.Add(this);
-            }
         }
     }
 
@@ -196,7 +175,6 @@ public class Artifacts : InformationLoader
             transform.position = Vector3.zero;
             Player.Instance.NowActiveArtifact = this;
             Player.Instance.UseItemInventory = this;
-            ArtifactController.Instance.mPassiveArtifact.Add(this);
             if (GameController.Instance.IsTutorial == false)
             {
                 UIController.Instance.ShowArtifactImage();
@@ -221,7 +199,6 @@ public class Artifacts : InformationLoader
                 drop.gameObject.transform.SetParent(Player.Instance.CurrentRoom.transform);
                 drop.mRenderer.color = Color.white;
                 drop.gameObject.transform.position = Player.Instance.gameObject.transform.position;
-                ArtifactController.Instance.mPassiveArtifact.Remove(drop);
                 if (IsShopItem == false)
                 {
                     StartCoroutine(drop.DropCooltime());

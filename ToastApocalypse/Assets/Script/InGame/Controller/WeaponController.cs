@@ -7,8 +7,6 @@ public class WeaponController : MonoBehaviour
 
     public static WeaponController Instance;
 
-    public List<Weapon> mWeapons;
-
     public int mWeaponSkillCount;
 
     private void Awake()
@@ -17,11 +15,6 @@ public class WeaponController : MonoBehaviour
         {
             Instance = this;
             mWeaponSkillCount = 0;
-            mWeapons = new List<Weapon>();
-            for (int i = 0; i < GameSetting.Instance.mWeaponArr.Length; i++)
-            {
-                mWeapons.Add(GameSetting.Instance.mWeaponArr[i]);
-            }
         }
         else
         {
@@ -106,6 +99,16 @@ public class WeaponController : MonoBehaviour
                 CornDog(Target,Checker);
                 break;
             case 25://시럽주사기
+                break;
+            case 26://수확자
+                TheReaper(Target,Checker);
+                break;
+            case 27://캔디 배럴
+                break;
+            case 28://캔디샷
+                break;
+            case 29://펌킨 블레이드
+                PumpkinBlade(Target);
                 break;
 
         }
@@ -206,8 +209,32 @@ public class WeaponController : MonoBehaviour
         if (isCrit == true && Target != null)
         {
             Player.Instance.StartCoroutine(Player.Instance.Speed(0.2f,4,1f));
-            Debug.Log("발동");
         }
         KnockBack(Target);
+    }
+
+    public void TheReaper(Enemy Target,bool isCrit)
+    {
+        if (isCrit == true && Target != null)
+        {
+            Player.Instance.Heal(0.5f);
+        }
+    }
+
+    public void PumpkinBlade(Enemy Target)
+    {
+        if (Target != null)
+        {
+            if (mWeaponSkillCount >= 4)
+            {
+                Player.Instance.NowPlayerWeapon.mStats.Crit = 1f;
+                mWeaponSkillCount = 0;
+            }
+            else
+            {
+                Player.Instance.NowPlayerWeapon.mStats.Crit = 0;
+                mWeaponSkillCount++;
+            }
+        }
     }
 }

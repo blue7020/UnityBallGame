@@ -7,6 +7,7 @@ public class PassiveArtifacts : MonoBehaviour
     //패시브유물의 기능을 여기서 담당
     public static PassiveArtifacts Instance;
 
+    public float AdditionalMeleeRangeSize;
     public int AdditionalBullet;
     public float AdditionalBulletSize;
     public float AdditionalCooltimeReduce;
@@ -19,6 +20,7 @@ public class PassiveArtifacts : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            AdditionalMeleeRangeSize = 1;
             AdditionalBullet = 0;
             AdditionalBulletSize = 0;
             AdditionalCooltimeReduce = 0;
@@ -91,6 +93,26 @@ public class PassiveArtifacts : MonoBehaviour
             case 18:
                 break;
             case 19:
+                break;
+            case 20:
+                break;
+            case 21:
+                break;
+            case 22:
+                break;
+            case 23:
+                break;
+            case 24://익숙한 버섯
+                AdditionalMeleeRangeSize += 0.3f;
+                Player.Instance.NowPlayerWeapon.WeaponRangeSize();
+                break;
+            case 25://마녀의 항아리
+                Player.Instance.BonusHeal +=0.3f;
+                break;
+            case 26://망령의 로브
+                Player.Instance.TrapResistance = true;
+                break;
+            case 27:
                 break;
             default:
                 Debug.LogError("Wrong Active Artifacts Id" + id);

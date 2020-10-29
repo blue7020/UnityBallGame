@@ -120,9 +120,9 @@ public class Chest : MonoBehaviour
         float rand = Random.Range(0, 1f);
         if (rand >= mRate[0] && rand < mRate[1])//무기
         {
-            if (WeaponController.Instance.mWeapons.Count >= 0)
+            if (GameController.Instance.mWeaponList.Count > 0)
             {
-                StartCoroutine(WeaponSearch());
+                WeaponSearch();
             }
             else
             {
@@ -131,9 +131,9 @@ public class Chest : MonoBehaviour
         }
         else if (rand >= mRate[1] && rand < mRate[2])//패시브유물
         {
-            if (ArtifactController.Instance.mPassiveArtifact.Count >= 0)
+            if (GameController.Instance.mPassiveArtifactList.Count > 0)
             {
-                StartCoroutine(PassiveArtifactSearch());
+                PassiveArtifactSearch();
             }
             else
             {
@@ -142,9 +142,9 @@ public class Chest : MonoBehaviour
         }
         else//액티브 유물
         {
-            if (ArtifactController.Instance.mActiveArtifact.Count>=0)
+            if (GameController.Instance.mActiveArtifactList.Count>0)
             {
-                StartCoroutine(ActiveArtifactSearch());
+                ActiveArtifactSearch();
             }
             else
             {
@@ -178,62 +178,34 @@ public class Chest : MonoBehaviour
 
     }
 
-    private IEnumerator WeaponSearch()
+    private void WeaponSearch()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        while (true)
-        {
-            int rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
-            if (Player.Instance.NowPlayerWeapon != WeaponController.Instance.mWeapons[rand])
-            {
-                rand = Random.Range(0, WeaponController.Instance.mWeapons.Count);
-                weapon = WeaponPool.Instance.GetFromPool(rand);
-                weapon.transform.SetParent(mItem.transform);
-                weapon.Currentroom = Currentroom;
-                WeaponController.Instance.mWeapons.RemoveAt(rand);
-                weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
-                break;
-            }
-            yield return delay;
-        }
+
+        int rand = Random.Range(0, GameController.Instance.mWeaponList.Count);
+        rand = Random.Range(0, GameController.Instance.mWeaponList.Count);
+        weapon = Instantiate(GameController.Instance.mWeaponList[rand], mItem.transform);
+        weapon.Currentroom = Currentroom;
+        GameController.Instance.mWeaponList.RemoveAt(rand);
+        weapon.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
     }
-    private IEnumerator PassiveArtifactSearch()
+
+    private void PassiveArtifactSearch()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        index = 0;
-        while (true)
-        {
-            int rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
-            if (InventoryController.Instance.mSlotArr[index] != ArtifactController.Instance.mPassiveArtifact[rand])
-            {
-                rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
-                artifact = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], mItem.transform);
-                artifact.Currentroom = Currentroom;
-                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
-                ArtifactController.Instance.mPassiveArtifact.Remove(artifact);
-                break;
-            }
-            index++;
-            yield return delay;
-        }
+        int rand = Random.Range(0, GameController.Instance.mPassiveArtifactList.Count);
+        rand = Random.Range(0, GameController.Instance.mPassiveArtifactList.Count);
+        artifact = Instantiate(GameController.Instance.mPassiveArtifactList[rand], mItem.transform);
+        artifact.Currentroom = Currentroom;
+        artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
+        GameController.Instance.mPassiveArtifactList.Remove(artifact);
     }
-    private IEnumerator ActiveArtifactSearch()
+    private void ActiveArtifactSearch()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
-        while (true)
-        {
-            int rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
-            if (Player.Instance.NowActiveArtifact != ArtifactController.Instance.mActiveArtifact[rand])
-            {
-                rand = Random.Range(0, ArtifactController.Instance.mActiveArtifact.Count);
-                artifact = Instantiate(ArtifactController.Instance.mActiveArtifact[rand], mItem.transform);
-                artifact.Currentroom = Currentroom;
-                artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
-                ArtifactController.Instance.mActiveArtifact.Remove(artifact);
-                break;
-            }
-            yield return delay;
-        }
+        int rand = Random.Range(0, GameController.Instance.mActiveArtifactList.Count);
+        rand = Random.Range(0, GameController.Instance.mActiveArtifactList.Count);
+        artifact = Instantiate(GameController.Instance.mActiveArtifactList[rand], mItem.transform);
+        artifact.Currentroom = Currentroom;
+        artifact.transform.position = Player.Instance.transform.position - new Vector3(0, -2, 0);
+        GameController.Instance.mActiveArtifactList.Remove(artifact);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

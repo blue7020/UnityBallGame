@@ -7,6 +7,7 @@ public class PlayerBullet : MonoBehaviour
     public int mWeaponID;
     public float mDamage;
     public ePlayerBulletType eType;
+    public ePlayerBulletCritEffectType eCritEffectType;
     public ePlayerBulletEffectType eEffectType;
     public float mEffectTime;
     public float mEffectAmount;
@@ -98,8 +99,28 @@ public class PlayerBullet : MonoBehaviour
     {
         switch (eEffectType)
         {
+            case ePlayerBulletEffectType.none:
+                break;
             case ePlayerBulletEffectType.slow:
                 Target.StartCoroutine(Target.SpeedNurf(mEffectAmount, mEffectTime));
+                break;
+            case ePlayerBulletEffectType.stun:
+                Target.StartCoroutine(Target.Stuned(mEffectTime));
+                break;
+        }
+    }
+
+    public void CritEffect()
+    {
+        switch (eCritEffectType)
+        {
+            case ePlayerBulletCritEffectType.none:
+                break;
+            case ePlayerBulletCritEffectType.slow:
+                Target.StartCoroutine(Target.SpeedNurf(mEffectAmount, mEffectTime));
+                break;
+            case ePlayerBulletCritEffectType.stun:
+                Target.StartCoroutine(Target.Stuned(mEffectTime));
                 break;
         }
     }
@@ -124,6 +145,7 @@ public class PlayerBullet : MonoBehaviour
                 float rand = Random.Range(0, 1f);
                 if (rand <= Player.Instance.mStats.Crit+ Player.Instance.buffIncrease[5])
                 {
+                    CritEffect();
                     Target.Hit(mDamage, 1, true);
                 }
                 else
@@ -136,16 +158,12 @@ public class PlayerBullet : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
-        //if (other.gameObject.CompareTag("Walls"))
-        //{
-        //    if (eType == ePlayerBulletType.normal|| eType == ePlayerBulletType.fire|| eType == ePlayerBulletType.shotgun)
-        //    {
-        //        gameObject.SetActive(false);
-        //    }
-        //}
         if (other.gameObject.CompareTag("DestroyZone"))
         {
-            gameObject.SetActive(false);
+            if (eType != ePlayerBulletType.granade|| eType != ePlayerBulletType.boom)
+            {
+                gameObject.SetActive(false);
+            }
         }
         if (other.gameObject.CompareTag("Player"))
         {

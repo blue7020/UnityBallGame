@@ -111,11 +111,28 @@ public class GoogleAdmobHandler : MonoBehaviour
             string adUnitId = "unexpected_platform";
 #endif
         rewardBasedVideo = RewardBasedVideoAd.Instance;
+        if (SaveDataController.Instance.mUser.NoAds == false)
+        {
+            // Called when an ad request has successfully loaded.
+            rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+            // Called when an ad request failed to load.
+            rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+            // Called when an ad is shown.
+            rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
+            // Called when the ad starts to play.
+            rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+            // Called when the user should be rewarded for watching a video.
+            rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+            // Called when the ad is closed.
+            rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+            // Called when the ad click caused the user to leave the application.
+            rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
 
-        // Create an empty ad request.
-        AdRequest request = new AdRequest.Builder().Build();
-        // Load the rewarded video ad with the request.
-        rewardBasedVideo.LoadAd(request, adUnitId);//광고 준비
+            // Create an empty ad request.
+            AdRequest request = new AdRequest.Builder().Build();
+            // Load the rewarded video ad with the request.
+            rewardBasedVideo.LoadAd(request, adUnitId);//광고 준비
+        }
     }
     //rewardBasedVideo.Show();//광고 출력
 

@@ -57,6 +57,15 @@ public class ActiveArtifacts : MonoBehaviour
             case 19:
                 UnbrandedCan();
                 break;
+            case 22:
+                Debug.LogError("잭오랜턴");
+                break;
+            case 23:
+                Debug.LogError("파이폭탄");
+                break;
+            case 27:
+                Debug.LogError("유체이탈패키지");
+                break;
             default:
                 Debug.LogError("Wrong Active Artifacts Id");
                 break;

@@ -22,6 +22,12 @@ public class GameController : MonoBehaviour
 
     public List<int> RescueNPCList;
 
+    public List<Weapon> mWeaponList;
+    public List<Artifacts> mActiveArtifactList;
+    public List<Artifacts> mPassiveArtifactList;
+    private Artifacts[] mArtifactsArr;
+    private Weapon[] mWeaponArr;
+
     private void Awake()
     {
         if (Instance == null)
@@ -37,6 +43,8 @@ public class GameController : MonoBehaviour
                 MaterialDropRate = 0.3f;
                 StageHP = 2;
                 RescueNPCList = new List<int>();
+                mArtifactsArr = GameSetting.Instance.mArtifacts;
+                mWeaponArr = GameSetting.Instance.mWeaponArr;
             }
             mUser = SaveDataController.Instance.mUser;
         }
@@ -46,21 +54,65 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void Delete()
-    {
-        Destroy(gameObject);
-    }
-
-    public void PlusReviveCode()
-    {
-        ReviveCode = 2;
-    }
     private void Start()
     {
         if (GotoMain == false)
         {
             DontDestroyOnLoad(gameObject);
         }
+        if (IsTutorial == false)
+        {
+            SetWeapon();
+            SetPassiveArtifacts();
+            SetActiveArtifacts();
+        }
+    }
+
+    private void Delete()
+    {
+        Destroy(gameObject);
+    }
+    
+    public void SetWeapon()
+    {
+        mWeaponList = new List<Weapon>();
+        for (int i = 0; i < mWeaponArr.Length; i++)
+        {
+            if (Player.Instance.NowPlayerWeapon != mWeaponArr[i])
+            {
+                mWeaponList.Add(mWeaponArr[i]);
+            }
+        }
+    }
+    public void SetPassiveArtifacts()
+    {
+        mPassiveArtifactList = new List<Artifacts>();
+        for (int i = 0; i < mArtifactsArr.Length; i++)
+        {
+            if (mArtifactsArr[i].eType == eArtifactType.Passive)
+            {
+                mPassiveArtifactList.Add(mArtifactsArr[i]);
+            }
+        }
+    }
+    public void SetActiveArtifacts()
+    {
+        mActiveArtifactList = new List<Artifacts>();
+        for (int i = 0; i < mArtifactsArr.Length; i++)
+        {
+            if (mArtifactsArr[i].eType == eArtifactType.Active)
+            {
+                if (Player.Instance.NowActiveArtifact!= mArtifactsArr[i])
+                {
+                    mActiveArtifactList.Add(mArtifactsArr[i]);
+                }
+            }
+        }
+    }
+
+    public void PlusReviveCode()
+    {
+        ReviveCode = 2;
     }
 
     public void GamePause()

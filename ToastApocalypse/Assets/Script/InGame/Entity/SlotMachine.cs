@@ -34,39 +34,35 @@ public class SlotMachine : MonoBehaviour
         mPriceText.transform.localScale = new Vector3(0.1f, 0.1f, 0);
     }
 
+    private void FailRolling()
+    {
+        mRenderer.sprite = mSpt[1];
+        if (GameSetting.Instance.Language == 0)
+        {
+            text = "실패...";
+        }
+        else
+        {
+            text = "Fail...";
+        }
+        SoundController.Instance.SESoundUI(9);
+    }
+
     private void Rolling()
     {
         mAnim.SetBool(AnimHash.Slot, false);
         float rand = Random.Range(0, 1f);
         if (rand<0.15f)//꽝
         {
-            mRenderer.sprite = mSpt[1];
-            if (GameSetting.Instance.Language == 0)
-            {
-                text = "실패...";
-            }
-            else
-            {
-                text = "Fail...";
-            }
-            SoundController.Instance.SESoundUI(9);
+            FailRolling();
         }
-        else if (WeaponController.Instance.mWeapons.Count > 0&&rand >=0.15f&&rand<0.6f)//무기
+        else if (rand >=0.15f&&rand<0.6f)//무기
         {
-            mRenderer.sprite = mSpt[2];
-            StartCoroutine(WeaponSearch());
-            SoundController.Instance.SESoundUI(3);
-            Spend += 5;
-            mPriceText.text = Spend.ToString() + "G";
+            WeaponSearch();
         }
-        else if (ArtifactController.Instance.mActiveArtifact.Count > 0 && rand >=0.6f)//유물
+        else if (rand >=0.6f)//유물
         {
-            index = 0;
-            mRenderer.sprite = mSpt[3];
-            StartCoroutine(ArtifactSearch());
-            SoundController.Instance.SESoundUI(3);
-            Spend += 5;
-            mPriceText.text = Spend.ToString() + "G";
+            ArtifactSearch();
         }
         Time.timeScale = 1;
         UIController.Instance.NoTouchArea.gameObject.SetActive(false);
@@ -83,16 +79,16 @@ public class SlotMachine : MonoBehaviour
         mRenderer.sprite = mSpt[0];
     }
 
-    private IEnumerator ArtifactSearch()
+    private void ArtifactSearch()
     {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.1f);
-        while (true)
+        float randArtifactType = Random.Range(0, 1f);
+        if (randArtifactType>0.5f)//패시브
         {
-            int rand = Random.Range(0, ArtifactController.Instance.mPassiveArtifact.Count);
-            if (InventoryController.Instance.mSlotArr[index].mID!= ArtifactController.Instance.mPassiveArtifact[rand].mID)
+            if (GameController.Instance.mPassiveArtifactList.Count > 0)
             {
-                Artifacts art = Instantiate(ArtifactController.Instance.mPassiveArtifact[rand], room.transform);
-                if (UIController.Instance.mPlayerLookPoint.transform.rotation.z<=60&& UIController.Instance.mPlayerLookPoint.transform.rotation.z >=-60)
+                int rand = Random.Range(0, GameController.Instance.mPassiveArtifactList.Count);
+                Artifacts art = Instantiate(GameController.Instance.mPassiveArtifactList[rand], room.transform);
+                if (UIController.Instance.mPlayerLookPoint.transform.rotation.z <= 60 && UIController.Instance.mPlayerLookPoint.transform.rotation.z >= -60)
                 {
                     art.transform.position = Player.Instance.transform.position + new Vector3(0, -2, 0);
                 }
@@ -100,7 +96,7 @@ public class SlotMachine : MonoBehaviour
                 {
                     art.transform.position = Player.Instance.transform.position + new Vector3(0, 2, 0);
                 }
-                ArtifactController.Instance.mPassiveArtifact.RemoveAt(rand);
+                GameController.Instance.mPassiveArtifactList.RemoveAt(rand);
                 if (GameSetting.Instance.Language == 0)
                 {
                     text = "유물 획득!";
@@ -109,41 +105,83 @@ public class SlotMachine : MonoBehaviour
                 {
                     text = "Get Artifact!";
                 }
-                break;
+                index = 0;
+                mRenderer.sprite = mSpt[3];
+                SoundController.Instance.SESoundUI(3);
+                Spend += 5;
+                mPriceText.text = Spend.ToString() + "G";
             }
-            index++;
-            yield return delay;
-        }
-    }
-    private IEnumerator WeaponSearch()
-    {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.1f);
-        while (true)
-        {
-            int WeaponIndex = Random.Range(0, WeaponController.Instance.mWeapons.Count);
-            if (Player.Instance.NowPlayerWeapon.mID != WeaponController.Instance.mWeapons[WeaponIndex].mID)
+            else
             {
-                Weapon weapon = Instantiate(WeaponController.Instance.mWeapons[WeaponIndex], room.transform);
+                FailRolling();
+            }
+        }
+        else//액티브
+        {
+            if (GameController.Instance.mActiveArtifactList.Count>0)
+            {
+                int rand = Random.Range(0, GameController.Instance.mActiveArtifactList.Count);
+                Artifacts art = Instantiate(GameController.Instance.mActiveArtifactList[rand], room.transform);
                 if (UIController.Instance.mPlayerLookPoint.transform.rotation.z <= 60 && UIController.Instance.mPlayerLookPoint.transform.rotation.z >= -60)
                 {
-                    weapon.transform.position = Player.Instance.transform.position + new Vector3(0, -2, 0);
+                    art.transform.position = Player.Instance.transform.position + new Vector3(0, -2, 0);
                 }
                 else
                 {
-                    weapon.transform.position = Player.Instance.transform.position + new Vector3(0, 2, 0);
+                    art.transform.position = Player.Instance.transform.position + new Vector3(0, 2, 0);
                 }
-                WeaponController.Instance.mWeapons.RemoveAt(WeaponIndex);
+                GameController.Instance.mActiveArtifactList.RemoveAt(rand);
                 if (GameSetting.Instance.Language == 0)
                 {
-                    text = "무기 획득!";
+                    text = "유물 획득!";
                 }
                 else
                 {
-                    text = "Get Weapone!";
+                    text = "Get Artifact!";
                 }
-                break;
+                index = 0;
+                mRenderer.sprite = mSpt[3];
+                SoundController.Instance.SESoundUI(3);
+                Spend += 5;
+                mPriceText.text = Spend.ToString() + "G";
             }
-            yield return delay;
+            else
+            {
+                FailRolling();
+            }
+        }
+    }
+    private void WeaponSearch()
+    {
+        int WeaponIndex = Random.Range(0, GameController.Instance.mWeaponList.Count);
+        if (GameController.Instance.mWeaponList.Count>0)
+        {
+            Weapon weapon = Instantiate(GameController.Instance.mWeaponList[WeaponIndex], room.transform);
+            if (UIController.Instance.mPlayerLookPoint.transform.rotation.z <= 60 && UIController.Instance.mPlayerLookPoint.transform.rotation.z >= -60)
+            {
+                weapon.transform.position = Player.Instance.transform.position + new Vector3(0, -2, 0);
+            }
+            else
+            {
+                weapon.transform.position = Player.Instance.transform.position + new Vector3(0, 2, 0);
+            }
+            GameController.Instance.mWeaponList.RemoveAt(WeaponIndex);
+            if (GameSetting.Instance.Language == 0)
+            {
+                text = "무기 획득!";
+            }
+            else
+            {
+                text = "Get Weapone!";
+            }
+            mRenderer.sprite = mSpt[2];
+            SoundController.Instance.SESoundUI(3);
+            Spend += 5;
+            mPriceText.text = Spend.ToString() + "G";
+        }
+        else
+        {
+            FailRolling();
         }
     }
 
@@ -161,7 +199,7 @@ public class SlotMachine : MonoBehaviour
     {
         if (enable == false)
         {
-            if (ArtifactController.Instance.mPassiveArtifact.Count < 1)
+            if (GameController.Instance.mPassiveArtifactList.Count < 1)
             {
                 if (GameSetting.Instance.Language == 0)
                 {

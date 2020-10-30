@@ -177,10 +177,21 @@ MonoBehaviour:
   mWeaponID: 0
   mDamage: 0
   eType: 1
+  eCritEffectType: 0
+  eEffectType: 0
+  mEffectTime: 0
+  mEffectAmount: 0
   returnPlayer: 0
   returnCheck: 0
-  mSpeed: 1000
+  mSpeed: 800
   mRB2D: {fileID: 3568592499283628368}
+  Target: {fileID: 0}
+  mboltscale: {x: 0, y: 0, z: 0}
+  mAnim: {fileID: 0}
+  mBoomEffect: {fileID: 0}
+  mBC2D: {fileID: 0}
+  IsBoom: 0
+  DeleteBullet: 0
 --- !u!50 &3568592499283628368
 Rigidbody2D:
   serializedVersion: 4

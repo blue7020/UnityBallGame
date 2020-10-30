@@ -20,7 +20,10 @@ public class MapNPCController : MonoBehaviour
             {
                 if (SaveDataController.Instance.mUser.NPCOpen[i] == false)
                 {
-                    mNotOpenNPCList.Add(mNPCArr[i]);
+                    if (mNPCArr[i].mID<9)
+                    {
+                        mNotOpenNPCList.Add(mNPCArr[i]);
+                    }
                 }
             }
         }
@@ -65,6 +68,9 @@ public class MapNPCController : MonoBehaviour
                 case 5:
                     break;
                 case 6:
+                    break;
+                case 7:
+                    Instantiate(mNPCArr[9], Player.Instance.CurrentRoom.mNPCSpawnPos);
                     break;
                 default:
                     break;

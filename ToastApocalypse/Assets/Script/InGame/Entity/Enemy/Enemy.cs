@@ -54,7 +54,14 @@ public class Enemy : InformationLoader
         AttackCheck = true;
         Stun = true;
         isFire = false;
-        mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);
+        if (GameSetting.Instance.NowStage<7)
+        {
+            mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);
+        }
+        else
+        {
+            mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + 2) * GameController.Instance.StageLevel);
+        }
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
         mDelayCount = 0;
         if (eType==eEnemyType.Boss)
@@ -325,7 +332,7 @@ public class Enemy : InformationLoader
         {
             Player.Instance.Hit(mStats.Atk);
             Player.Instance.LastHitEnemy = this;
-            Player.Instance.DoEffect(6, 0.75f);
+            Player.Instance.DoEffect(6, 0.5f);
         }
     }
 

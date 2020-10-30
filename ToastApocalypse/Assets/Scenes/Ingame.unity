@@ -521,6 +521,7 @@ MonoBehaviour:
   - {fileID: 1530958416494217279, guid: c7e89c53e774ed349806990f9f428091, type: 3}
   - {fileID: 3518812734771677190, guid: 4040d9afb54ea1c40a0789f11b41a5bd, type: 3}
   - {fileID: 7848525986433829751, guid: d679e8d6147a41c46a4d14965e58e576, type: 3}
+  - {fileID: 1810838639653573920, guid: 56a12ec3e274e0b418b3d83e6e92cc44, type: 3}
   mNotOpenNPCList: []
   NPCSpawnrate: 0.2
 --- !u!4 &53251263
@@ -1347,6 +1348,7 @@ MonoBehaviour:
   mPlayerLookPoint: {fileID: 977849978}
   mAirGauge: {fileID: 1881940670}
   mPieceImage: {fileID: 1849875673}
+  mPieceImageSlot: {fileID: 1502484102}
   mMonsterImage: {fileID: 1511778707}
   mDeathWindow: {fileID: 2075569269}
   mDeathUI: {fileID: 1906918481}
@@ -2627,6 +2629,9 @@ MonoBehaviour:
   SyrupInStage: 0
   IsTutorial: 0
   RescueNPCList: 
+  mWeaponList: []
+  mActiveArtifactList: []
+  mPassiveArtifactList: []
 --- !u!4 &400048389
 Transform:
   m_ObjectHideFlags: 0
@@ -4771,7 +4776,6 @@ MonoBehaviour:
     Duration: 0
     PlayerHas: 0
     Open: 0
-    ShopSell: 0
 --- !u!1 &671272096
 GameObject:
   m_ObjectHideFlags: 0
@@ -5047,8 +5051,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStatInfoArr: []
   mTextInfoArr: []
-  mPassiveArtifact: []
-  mActiveArtifact: []
 --- !u!4 &704644594
 Transform:
   m_ObjectHideFlags: 0
@@ -10125,6 +10127,8 @@ MonoBehaviour:
   - {fileID: 6518649104263173122, guid: fcc80ba8234816e49bffe09c565df458, type: 3}
   - {fileID: 3716486091036863111, guid: 2431778a7d345c04a8778e4397dbb05f, type: 3}
   - {fileID: 945098347536020141, guid: 77e3488a8243a5343a727b42a2332955, type: 3}
+  - {fileID: 5228232404278975588, guid: db96dec2c750c3d48b50ce3fbb3621c4, type: 3}
+  - {fileID: 1466459815741233419, guid: 0c4c6d9cdd01a6f419f8dbf52b92467d, type: 3}
 --- !u!4 &1236979964
 Transform:
   m_ObjectHideFlags: 0
@@ -10754,7 +10758,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 597c2f70e5bc4224badf7db87f5db0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mWeapons: []
   mWeaponSkillCount: 0
 --- !u!1 &1329576593
 GameObject:
@@ -12064,6 +12067,7 @@ MonoBehaviour:
   - {fileID: 7129664497518449516, guid: cdd704742b2a0a048b181255451a4cac, type: 3}
   - {fileID: 5844449305421069192, guid: c3ef5192098d4d342b658080b5532c3b, type: 3}
   - {fileID: 2381168964754111616, guid: 3bd0886edc13e7c438ed293f5eee6c1e, type: 3}
+  - {fileID: 3900292715053476352, guid: e10582be9ccb7674cb0b95fd541eeb89, type: 3}
 --- !u!4 &1546618449
 Transform:
   m_ObjectHideFlags: 0
@@ -12289,6 +12293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56611af83771b1a48954119ff6aac7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AdditionalMeleeRangeSize: 0
   AdditionalBullet: 0
   AdditionalBulletSize: 0
   AdditionalCooltimeReduce: 0

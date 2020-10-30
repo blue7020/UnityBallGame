@@ -6,15 +6,19 @@ public class Turret : MonoBehaviour
 {
     public PlayerBullet mBullet;
     public float mDamage;
+    public float mPlayerAttackPer;
     public float AttackSpeed;
     public float LifeTime;
+    public eTurretType eType;
+    public Rigidbody2D mRB2D;
+    public float mSpeed;
 
     public Enemy mTarget;
 
     private void Awake()
     {
         mTarget = null;
-        mDamage = Player.Instance.mStats.Atk + Player.Instance.buffIncrease[0];
+        mDamage = (Player.Instance.mStats.Atk + Player.Instance.buffIncrease[0])* mPlayerAttackPer;
         StartCoroutine(LifeTimeCycle());
     }
 

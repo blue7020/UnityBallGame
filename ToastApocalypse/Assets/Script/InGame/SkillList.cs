@@ -76,6 +76,9 @@ public class SkillList : MonoBehaviour
             case 12://바삭한 식감
                 Crispy_Texture();
                 break;
+            case 13://배트-랑
+                Bat_rang();
+                break;
         }
         
     }
@@ -96,7 +99,6 @@ public class SkillList : MonoBehaviour
     {
         DestroyCheckLevel = GameController.Instance.StageLevel;
         PlayerBullet bolt = Instantiate(Skillbullet[0],Player.Instance.CurrentRoom.transform);
-        bolt.transform.SetParent(Player.Instance.CurrentRoom.transform);
         bolt.transform.position = Player.Instance.transform.position;
         bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk);
         Vector3 dir = Player.Instance.mDirection.transform.up*bolt.mSpeed;
@@ -275,5 +277,16 @@ public class SkillList : MonoBehaviour
     {
         StartCoroutine(Player.Instance.Critical(SkillController.Instance.mStatInfoArr[12].Crit, 16, SkillController.Instance.mStatInfoArr[12].Duration));
         StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[12].AtkSpd, 13, SkillController.Instance.mStatInfoArr[12].Duration));
+    }
+
+    public void Bat_rang()
+    {
+        DestroyCheckLevel = GameController.Instance.StageLevel;
+        PlayerBullet bolt = Instantiate(Skillbullet[3], Player.Instance.CurrentRoom.transform);
+        bolt.transform.position = Player.Instance.transform.position;
+        bolt.mDamage = (PlayerSkill.Insatnce.mStat.Damage * Player.Instance.mStats.Atk);
+        Vector3 dir = Player.Instance.mDirection.transform.up * bolt.mSpeed;
+        bolt.mRB2D.AddForce(dir);
+        StartCoroutine(ShotBoomerang(bolt));
     }
 }

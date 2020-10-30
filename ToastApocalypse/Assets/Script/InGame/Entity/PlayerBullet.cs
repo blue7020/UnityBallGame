@@ -136,6 +136,16 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("DestroyZone"))
+        {
+            if (eType == ePlayerBulletType.boomerang || eType == ePlayerBulletType.granade || eType == ePlayerBulletType.boom)
+            {
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
         if (other.gameObject.CompareTag("Enemy"))
         {
             Target = other.GetComponent<Enemy>();
@@ -154,13 +164,6 @@ public class PlayerBullet : MonoBehaviour
                 }
             }
             if (eType == ePlayerBulletType.normal || eType == ePlayerBulletType.shotgun|| eType == ePlayerBulletType.homing)
-            {
-                gameObject.SetActive(false);
-            }
-        }
-        if (other.gameObject.CompareTag("DestroyZone"))
-        {
-            if (eType != ePlayerBulletType.granade|| eType != ePlayerBulletType.boom)
             {
                 gameObject.SetActive(false);
             }

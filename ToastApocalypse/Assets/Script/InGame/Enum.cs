@@ -120,6 +120,12 @@ public enum ePlayerBulletEffectType
     stun
 }
 
+public enum eTurretType
+{
+    None,
+    Pet
+}
+
 public enum eBulletEffect
 {
     none,

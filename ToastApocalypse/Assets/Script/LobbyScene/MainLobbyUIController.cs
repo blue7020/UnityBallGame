@@ -19,7 +19,8 @@ public class MainLobbyUIController : MonoBehaviour
     public GameObject mDoor, mTosterRoom, NameParents;
     public ToasterPedestal mToster;
     public Transform[] PortalName;
-
+    public PopUpWindow mPopupWindow;
+    public string text;
 
     private void Awake()
     {
@@ -38,6 +39,20 @@ public class MainLobbyUIController : MonoBehaviour
             }
             ShowSyrupText();
             ShowToaterRoom();
+
+            if (SaveDataController.Instance.mUser.StageOpen[6]==false)
+            {
+                SaveDataController.Instance.mUser.StageOpen[6] = true;
+                if (GameSetting.Instance.Language==0)
+                {
+                    text = "새 스테이지가 개방되었습니다: 호박밭\n난이도: 보통";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {
+                    text = "New stage open: Pumpkin Field\nDifficulty level: Normal";
+                }
+                mPopupWindow.ShowWindow(text);
+            }
         }
         else
         {
@@ -58,13 +73,27 @@ public class MainLobbyUIController : MonoBehaviour
             if (SaveDataController.Instance.mUser.StageOpen[i]==true)
             {
                 Text text = Instantiate(mPortalNameText, NameParents.transform);
-                if (GameSetting.Instance.Language==0)
+                if (i<6)
                 {
-                    text.text = (i + 1)+"." + GameSetting.Instance.mMapInfoArr[i + 1].Title;
+                    if (GameSetting.Instance.Language == 0)
+                    {
+                        text.text = (i + 1) + "." + GameSetting.Instance.mMapInfoArr[i + 1].Title;
+                    }
+                    else if (GameSetting.Instance.Language == 1)
+                    {
+                        text.text = (i + 1) + "." + GameSetting.Instance.mMapInfoArr[i + 1].EngTitle;
+                    }
                 }
-                else if(GameSetting.Instance.Language==1)
+                else
                 {
-                    text.text = (i + 1) +"."+ GameSetting.Instance.mMapInfoArr[i + 1].EngTitle;
+                    if (GameSetting.Instance.Language == 0)
+                    {
+                        text.text = "이벤트: " + GameSetting.Instance.mMapInfoArr[i + 1].Title;
+                    }
+                    else if (GameSetting.Instance.Language == 1)
+                    {
+                        text.text = "Event: " + GameSetting.Instance.mMapInfoArr[i + 1].EngTitle;
+                    }
                 }
                 text.transform.localScale = new Vector3(0.07f,0.07f,1);
                 text.transform.position = PortalName[i].transform.position + new Vector3 (0, 1.2f,0);

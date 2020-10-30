@@ -315,6 +315,21 @@ public class SaveDataController : InformationLoader
             mUser.ArtifactFound = temp;
         }
 
+        if (mUser.ArtifactOpen == null)
+        {
+            mUser.ArtifactOpen = new bool[Constants.EVENT_STAGE];
+        }
+        else if (mUser.ArtifactOpen.Length != Constants.EVENT_STAGE)
+        {
+            bool[] temp = new bool[Constants.EVENT_STAGE];
+            int count = Mathf.Min(Constants.EVENT_STAGE, mUser.ArtifactOpen.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.ArtifactOpen[i];
+            }
+            mUser.ArtifactOpen = temp;
+        }
+
         SoundController.Instance.BGMVolume = mUser.BGMVolume;
         SoundController.Instance.SEVolume = mUser.SEVolume;
     }
@@ -331,6 +346,7 @@ public class SaveDataController : InformationLoader
             mUser.GameClear = false;
             mUser.FirstGameClearEvent = false;
             mUser.CodeUse = new bool[Constants.Code_Count];
+            mUser.ArtifactOpen = new bool[Constants.EVENT_STAGE];
 
             mUser.DonateCount = 0;
             mUser.NoAds = false;

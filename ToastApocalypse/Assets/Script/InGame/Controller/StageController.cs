@@ -11,9 +11,9 @@ public class StageController : MonoBehaviour
 
     public Room[] mStage;
 
-    private void Awake()
+    private void Start()
     {
-        if (SaveDataController.Instance.mUser.StageOpen[mStageNum-1]==false)
+        if (SaveDataController.Instance.mUser.StageOpen[mStageNum - 1] == false)
         {
             mPortal.gameObject.SetActive(false);
         }

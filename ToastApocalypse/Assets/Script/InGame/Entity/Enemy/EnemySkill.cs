@@ -107,7 +107,7 @@ public class EnemySkill : MonoBehaviour
                     break;
             }
         }
-        else if (mEnemy.mID >= 22)
+        else if (mEnemy.mID >= 22 && mEnemy.mID < 46)
         {
             switch (mEnemy.mID)
             {
@@ -183,6 +183,32 @@ public class EnemySkill : MonoBehaviour
                     break;
             }
         }
+        else// if (mEnemy.mID > 45)
+        {
+            switch (mEnemy.mID)
+            {
+                case 46://Sweets slime
+                    break;
+                case 47://Bampkin
+                    StartCoroutine(Bampkin());
+                    break;
+                case 48://Jack
+                    Jack();
+                    break;
+                case 49://PumpkinGolem
+                    StartCoroutine(PumpkinGolem());
+                    break;
+                case 50://PumpkinVine
+                    StartCoroutine(PumpkinVine());
+                    break;
+                case 51://PumpkinReaper
+                    PumpkinReaper();
+                    break;
+                default:
+                    Debug.LogError("wrong Enemy ID");
+                    break;
+            }
+        }
     }
 
     public void DieSkill()
@@ -246,7 +272,7 @@ public class EnemySkill : MonoBehaviour
                     break;
             }
         }
-        else if (mEnemy.mID >= 22)
+        else if (mEnemy.mID >= 22&&mEnemy.mID<46)
         {
             switch (mEnemy.mID)
             {
@@ -304,6 +330,27 @@ public class EnemySkill : MonoBehaviour
                     break;
                 default:
                     Debug.LogError("wrong Enemy ID");
+                    break;
+            }
+        }
+        else if (mEnemy.mID > 45)
+        {
+            switch (mEnemy.mID)
+            {
+                case 46://Sweets slime
+                    Jack2();
+                    break;
+                case 47://Bampkin
+                    Jack2();
+                    break;
+                case 48://Jack
+                    Jack2();
+                    break;
+                case 49://PumpkinGolem
+                    break;
+                case 50://PumpkinVine
+                    break;
+                case 51://PumpkinReaper
                     break;
             }
         }
@@ -1577,7 +1624,7 @@ public class EnemySkill : MonoBehaviour
         int count = 0;
         while (true)
         {
-            if (count>=12)
+            if (count>=10)
             {
                 break;
             }
@@ -1593,5 +1640,137 @@ public class EnemySkill : MonoBehaviour
             }
             yield return delay;
         }
+    }
+
+    private IEnumerator CandyFall()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        int count = 0;
+        while (true)
+        {
+            if (count >= 8)
+            {
+                break;
+            }
+            else
+            {
+                int Xpos = Random.Range(-6, 7);
+                int Ypos = Random.Range(-6, 7);
+                Vector3 Pos = new Vector3(Xpos, Ypos, 0);
+                Bullet candy = BulletPool.Instance.GetFromPool(33);
+                candy.mEnemy = mEnemy;
+                candy.transform.position = mEnemy.transform.position + Pos;
+                count++;
+            }
+            yield return delay;
+        }
+    }
+
+    private IEnumerator Bampkin()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        if (mEnemy.mCurrentHP>mEnemy.mMaxHP/2)
+        {
+            yield return delay;
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+            mEnemy.IsTraking = false;
+            mEnemy.SpeedAmount += 1f;
+            Vector3 dir = Player.Instance.transform.position - transform.position;
+            mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+            yield return delay;
+            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+            mEnemy.SpeedAmount -= 1f;
+            mEnemy.IsTraking = true;
+        }
+        else
+        {
+            Jack2();
+            yield return delay;
+        }
+    }
+
+    private void Jack()
+    {
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            Skilltrigger = false;
+            StartCoroutine(CandyFall());
+        }
+    }
+    private void Jack2()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            ResetDir(32, i);
+        }
+    }
+
+    private IEnumerator PumpkinGolem()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        mEnemy.IsTraking = false;
+        StartCoroutine(CandyFall());
+        yield return delay;
+        mEnemy.SpeedAmount += 3f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.SpeedAmount -= 3f;
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            StartCoroutine(CandyFall());
+        }
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.IsTraking = true;
+    }
+
+    private IEnumerator PumpkinVine()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(MoveDelay(0.8f));
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            Jack2();
+        }
+        StartCoroutine(CandyFall());
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+    }
+
+    private void PumpkinReaper()
+    {
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            if (Skilltrigger == false)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Enemy enemy = EnemyPool.Instance.GetFromPool(8);//호박쥐 소환
+                    enemy.CurrentRoom = mEnemy.CurrentRoom;
+                    enemy.mStats.Gold = 0;
+                    enemy.mMaxHP -= 2; enemy.mCurrentHP -= 2;
+                }
+                Skilltrigger = true;
+            }
+        }
+        StartCoroutine(PumpkinReaper0());
+    }
+    private IEnumerator PumpkinReaper0()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1.7f);
+        StartCoroutine(MoveDelay(1.9f));
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            Jack2();
+        }
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        yield return delay;
+        mEnemy.SpeedAmount += 1f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.SpeedAmount -= 1f;
     }
 }

@@ -11,7 +11,7 @@ public class UIController : InformationLoader
 
     public Text mGoldText, mHPText,mStatText, mNameText, mbulletText,mLevelText,mAirText,mAirGaugeText,mShopSpendText,mStatueSpendText;
     public Image mPlayerImage, mStatPlayerImage, mMinimapPlayerImage, mWeaponImage, mSkillImage, mSkillCoolWheel, NoTouchArea, mShadow;
-    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage,mMonsterImage,mDeathWindow,mDeathUI,mReviveWindow;
+    public Image mitemImage, mArtifactImage, mUsingArtifactImage,ArtifactCoolWheel,mClearImage,mPlayerLookPoint,mAirGauge,mPieceImage,mPieceImageSlot,mMonsterImage,mDeathWindow,mDeathUI,mReviveWindow;
     public HPBar mAirBar, mHPBar;
 
     public Sprite DefaultItemSprite;
@@ -333,7 +333,18 @@ public class UIController : InformationLoader
             mItemText.text = "Material";
             mGuideText.text = "Touch to move to the lobby.";
         }
-        mPieceImage.sprite = GameSetting.Instance.mParts[GameSetting.Instance.NowStage];
+        if (GameSetting.Instance.NowStage > 5)
+        {
+            mPieceImageSlot.gameObject.SetActive(false);
+        }
+        if (GameSetting.Instance.NowStage<7)
+        {
+            mPieceImage.sprite = GameSetting.Instance.mParts[GameSetting.Instance.NowStage];
+        }
+        else
+        {
+            mPieceImage.sprite = GameSetting.Instance.mParts[7];
+        }
         mClearImage.gameObject.SetActive(true);
         GameClearUI.Instance.StageClear();
     }

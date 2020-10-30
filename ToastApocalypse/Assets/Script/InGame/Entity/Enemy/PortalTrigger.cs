@@ -50,6 +50,7 @@ public class PortalTrigger : MonoBehaviour
 
     public void BossDeath()
     {
+        room.EnemyCount = 0;
         portal.ShowPortal();
     }
     private void OnTriggerEnter2D(Collider2D other)

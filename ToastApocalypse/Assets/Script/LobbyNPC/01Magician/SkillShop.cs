@@ -65,7 +65,7 @@ public class SkillShop : MonoBehaviour
         SKILL_SLOT = SaveDataController.Instance.mSkillInfoArr.Length;
         for (int i = 0; i < SKILL_SLOT; i++)
         {
-            if (SaveDataController.Instance.mSkillInfoArr[i].ShopSell==true&& SaveDataController.Instance.mUser.SkillOpen[i]==true)
+            if (SaveDataController.Instance.mUser.SkillOpen[i]==true)
             {
                 SkillSlot mSlot = Instantiate(ShopSlot, mShopParents);
                 mSlot.SetData(i);

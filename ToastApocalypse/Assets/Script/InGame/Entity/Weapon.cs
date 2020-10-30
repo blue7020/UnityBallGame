@@ -141,7 +141,6 @@ public class Weapon : MonoBehaviour
         {
             mAttackArea.transform.localScale = mRangeSize;
             mAttackArea.transform.localScale *= new Vector2(PassiveArtifacts.Instance.AdditionalMeleeRangeSize, PassiveArtifacts.Instance.AdditionalMeleeRangeSize);
-            Debug.Log(mAttackArea.transform.localScale);
         }
     }
 

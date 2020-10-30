@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     public List<Weapon> mWeaponList;
     public List<Artifacts> mActiveArtifactList;
     public List<Artifacts> mPassiveArtifactList;
-    private Artifacts[] mArtifactsArr;
+    private List<Artifacts> mArtifactsList;
     private Weapon[] mWeaponArr;
 
     private void Awake()
@@ -43,7 +43,21 @@ public class GameController : MonoBehaviour
                 MaterialDropRate = 0.3f;
                 StageHP = 2;
                 RescueNPCList = new List<int>();
-                mArtifactsArr = GameSetting.Instance.mArtifacts;
+                mArtifactsList = new List<Artifacts>();
+                if (GameSetting.Instance.NowStage==7||SaveDataController.Instance.mUser.ArtifactOpen[0]==true)
+                {
+                    for (int i = 0; i < 28; i++)
+                    {
+                        mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
+                    }
+                }
+                else//기본
+                {
+                    for (int i=0; i< 20;i++)
+                    {
+                        mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
+                    }
+                }
                 mWeaponArr = GameSetting.Instance.mWeaponArr;
             }
             mUser = SaveDataController.Instance.mUser;
@@ -87,24 +101,24 @@ public class GameController : MonoBehaviour
     public void SetPassiveArtifacts()
     {
         mPassiveArtifactList = new List<Artifacts>();
-        for (int i = 0; i < mArtifactsArr.Length; i++)
+        for (int i = 0; i < mArtifactsList.Count; i++)
         {
-            if (mArtifactsArr[i].eType == eArtifactType.Passive)
+            if (mArtifactsList[i].eType == eArtifactType.Passive)
             {
-                mPassiveArtifactList.Add(mArtifactsArr[i]);
+                mPassiveArtifactList.Add(mArtifactsList[i]);
             }
         }
     }
     public void SetActiveArtifacts()
     {
         mActiveArtifactList = new List<Artifacts>();
-        for (int i = 0; i < mArtifactsArr.Length; i++)
+        for (int i = 0; i < mArtifactsList.Count; i++)
         {
-            if (mArtifactsArr[i].eType == eArtifactType.Active)
+            if (mArtifactsList[i].eType == eArtifactType.Active)
             {
-                if (Player.Instance.NowActiveArtifact!= mArtifactsArr[i])
+                if (Player.Instance.NowActiveArtifact!= mArtifactsList[i])
                 {
-                    mActiveArtifactList.Add(mArtifactsArr[i]);
+                    mActiveArtifactList.Add(mArtifactsList[i]);
                 }
             }
         }

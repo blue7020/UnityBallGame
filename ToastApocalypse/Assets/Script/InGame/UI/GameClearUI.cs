@@ -86,6 +86,13 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 StageClearGift();
             }
         }
+        else if(GameSetting.Instance.NowStage == 6)
+        {
+            UIController.Instance.mPieceImage.gameObject.transform.localScale = new Vector3(1, 1, 1);
+            UIController.Instance.mPieceImage.gameObject.SetActive(true);
+            ShowNPCWindow();
+            StageClearGift();
+        }
         else
         {
             UIController.Instance.mPieceImage.gameObject.transform.localScale = new Vector3(1, 1, 1);
@@ -238,12 +245,11 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                 SaveDataController.Instance.mUser.GameClear = true;
                 break;
             case 7:
-                if (SaveDataController.Instance.mUser.CharacterOpen[13] == false && SaveDataController.Instance.mUser.SkillOpen[13] == false && SaveDataController.Instance.mUser.SkillOpen[14] == false
-                    && SaveDataController.Instance.mUser.WeaponOpen[26] == false && SaveDataController.Instance.mUser.WeaponOpen[27] == false && SaveDataController.Instance.mUser.WeaponOpen[28] == false && SaveDataController.Instance.mUser.WeaponOpen[29] == false)
+                if (SaveDataController.Instance.mUser.CharacterOpen[13] == false && SaveDataController.Instance.mUser.SkillOpen[13] == false && SaveDataController.Instance.mUser.WeaponOpen[26] == false
+                    && SaveDataController.Instance.mUser.WeaponOpen[27] == false && SaveDataController.Instance.mUser.WeaponOpen[28] == false && SaveDataController.Instance.mUser.WeaponOpen[29] == false)
                 {
                     SaveDataController.Instance.mUser.CharacterOpen[13] = true;
                     SaveDataController.Instance.mUser.SkillOpen[13] = true;
-                    SaveDataController.Instance.mUser.SkillOpen[14] = true;
                     SaveDataController.Instance.mUser.WeaponOpen[26] = true;
                     SaveDataController.Instance.mUser.WeaponOpen[27] = true;
                     SaveDataController.Instance.mUser.WeaponOpen[28] = true;
@@ -269,11 +275,11 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             {
                 MessageText.text += "-스킬 상점의 품목 증가!\n";
             }
-            if (weapon == true)
+            if (weapon == true && SaveDataController.Instance.mUser.NPCOpen[2])
             {
                 MessageText.text += "-제작 가능한 무기 종류 증가!\n";
             }
-            if (item == true)
+            if (item == true&&SaveDataController.Instance.mUser.NPCOpen[8])
             {
                 MessageText.text += "-선술집의 품목 증가!\n";
             }
@@ -296,11 +302,11 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
             {
                 MessageText.text += "-Skill shop has increased in skills!\n";
             }
-            if (weapon == true)
+            if (weapon == true && SaveDataController.Instance.mUser.NPCOpen[2])
             {
                 MessageText.text += "-Smithy has increased in weapons!\n";
             }
-            if (item == true)
+            if (item == true && SaveDataController.Instance.mUser.NPCOpen[8])
             {
                 MessageText.text += "-Pub has increased in items!\n";
             }

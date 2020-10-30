@@ -181,7 +181,6 @@ public class SkillStat
 
     public bool PlayerHas;
     public bool Open;
-    public bool ShopSell;
 }
 
 [Serializable]
@@ -271,6 +270,7 @@ public class SaveData
     public int[] CharacterUpgrade;
     public bool[] ArtOpen;
     public bool[] ArtifactFound;
+    public bool[] ArtifactOpen;
 
     public bool[] WeaponHas;
     public bool[] StatueHas;

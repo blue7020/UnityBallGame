@@ -10,7 +10,7 @@ public class ActiveArtifacts : MonoBehaviour
 
     public GameObject[] mSkillobj;
     public SkillEffect buffEffect;
-    private string bufftext, bufftext2;
+    private string bufftext, bufftext2, bufftext3;
     private TextEffect effect;
 
     private void Awake()
@@ -52,19 +52,19 @@ public class ActiveArtifacts : MonoBehaviour
                 PetCookie();
                 break;
             case 15:
-                StartCoroutine(FreshMilk());
+                FreshMilk();
                 break;
             case 19:
                 UnbrandedCan();
                 break;
             case 22:
-                Debug.LogError("잭오랜턴");
+                JackOLantern();
                 break;
             case 23:
-                Debug.LogError("파이폭탄");
+                PieBoom();
                 break;
             case 27:
-                Debug.LogError("유체이탈패키지");
+                GhostPackgage();
                 break;
             default:
                 Debug.LogError("Wrong Active Artifacts Id");
@@ -120,16 +120,12 @@ public class ActiveArtifacts : MonoBehaviour
         Player.Instance.Heal(1);
     }
 
-    public IEnumerator FreshMilk()
+    public void FreshMilk()
     {
-        WaitForSeconds dura = new WaitForSeconds(5f);
         BuffController.Instance.RemoveNurf();
-        BuffController.Instance.SetBuff(2, 2, eBuffType.Buff, 5f);
-        BuffController.Instance.SetBuff(3, 3, eBuffType.Buff, 5f);
-        Player.Instance.buffIncrease[2] += 0.4f;
-        Player.Instance.buffIncrease[3] += 0.4f;
         buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
         buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.yellow);
+        BuffEffectController.Instance.EffectList.Add(buffEffect);
         buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
         buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.cyan);
         BuffEffectController.Instance.EffectList.Add(buffEffect);
@@ -143,17 +139,13 @@ public class ActiveArtifacts : MonoBehaviour
             bufftext = "Movement speed increase!";
             bufftext2 = "Attack speed increase!";
         }
+        Player.Instance.DoEffect(4, 7f, 4, 0.4f);
         effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(bufftext);
-        BuffEffectController.Instance.EffectList.Add(buffEffect);
+        Player.Instance.DoEffect(3, 7f, 3, 0.4f);
         effect = TextEffectPool.Instance.GetFromPool(0);
         effect.transform.position += new Vector3(0, -0.65f, 0);
         effect.SetText(bufftext2);
-        BuffEffectController.Instance.EffectList.Add(buffEffect);
-        yield return dura;
-        Player.Instance.buffIncrease[2] -= 0.4f;
-        Player.Instance.buffIncrease[3] -= 0.4f;
-  
     }
 
     public void UnbrandedCan()
@@ -226,5 +218,47 @@ public class ActiveArtifacts : MonoBehaviour
         Player.Instance.NoCC = true;
         yield return delay;
         Player.Instance.NoCC = false;
+    }
+
+    public void PieBoom()
+    {
+        PlayerBullet bolt = Instantiate(SkillList.Instance.Skillbullet[2], Player.Instance.transform);
+        bolt.mDamage = (0.8f * Player.Instance.mStats.Atk);
+        bolt.mRB2D.AddForce(Player.Instance.mDirection.transform.up * bolt.mSpeed, ForceMode2D.Impulse);
+    }
+
+    public void JackOLantern()
+    {
+        Turret turret = Instantiate(SkillList.Instance.SkillTurret[1], Player.Instance.transform);
+        turret.transform.position = Player.Instance.transform.position+new Vector3(0,1.5f,0);
+    }
+
+    public void GhostPackgage()
+    {
+        StartCoroutine(CCReduce());
+        buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.yellow);
+        BuffEffectController.Instance.EffectList.Add(buffEffect);
+        buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
+        buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 5, 0, Color.cyan);
+        BuffEffectController.Instance.EffectList.Add(buffEffect);
+        if (GameSetting.Instance.Language == 0)
+        {
+            bufftext2 = "이동 속도 증가!";
+            bufftext3 = "공격 속도 증가!";
+        }
+        else
+        {
+            bufftext2 = "Movement speed increase!";
+            bufftext3 = "Attack speed increase!";
+        }
+        Player.Instance.DoEffect(4, 7f, 4, 0.4f);
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.transform.position += new Vector3(0, -0.65f, 0);
+        effect.SetText(bufftext2);
+        Player.Instance.DoEffect(3, 7f, 3, 0.4f);
+        effect = TextEffectPool.Instance.GetFromPool(0);
+        effect.transform.position += new Vector3(0, -1.3f, 0);
+        effect.SetText(bufftext3);
     }
 }

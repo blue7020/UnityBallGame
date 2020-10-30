@@ -12,13 +12,28 @@ public class NotOpenFurniture : MonoBehaviour
     {
         if (Stage>0)
         {
-            if (GameSetting.Instance.Language == 0)
+
+            if (Stage==7)
             {
-                mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: " + Stage + "스테이지 클리어";
+                if (GameSetting.Instance.Language == 0)
+                {
+                    mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: 호박밭 스테이지";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {
+                    mText = "This function is not open yet.\nRequirements: Pumpkin Field stage";
+                }
             }
-            else if (GameSetting.Instance.Language == 1)
+            else
             {
-                mText = "This function is not open yet.\nRequirements: " + Stage + "stage clear";
+                if (GameSetting.Instance.Language == 0)
+                {
+                    mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: " + Stage + "스테이지 클리어";
+                }
+                else if (GameSetting.Instance.Language == 1)
+                {
+                    mText = "This function is not open yet.\nRequirements: " + Stage + "stage clear";
+                }
             }
         }
         else

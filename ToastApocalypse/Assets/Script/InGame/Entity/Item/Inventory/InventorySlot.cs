@@ -42,6 +42,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 {
                     lore += "회복량: " + artifact.mStats.Heal + "\n";
                 }
+                if (artifact.mStats.Hp > 0)
+                {
+                    lore += "체력: +" + artifact.mStats.Hp * 100 + "%\n";
+                }
                 if (artifact.mStats.Atk > 0)
                 {
                     lore += "공격력: +" + artifact.mStats.Atk * 100 + "%\n";
@@ -57,6 +61,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 if (artifact.mStats.Crit > 0)
                 {
                     lore += "치명타 확률: +" + artifact.mStats.Crit * 100 + "%\n";
+                }
+                if (artifact.mStats.CritDamage > 0)
+                {
+                    lore += "치명타 피해: +" + artifact.mStats.CritDamage * 100 + "%\n";
                 }
                 if (artifact.mStats.Spd > 0)
                 {
@@ -92,6 +100,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 {
                     lore += "Heal amount: " + artifact.mStats.Heal + "\n";
                 }
+                if (artifact.mStats.Hp > 0)
+                {
+                    lore += "Hp: +" + artifact.mStats.Hp * 100 + "%\n";
+                }
                 if (artifact.mStats.Atk > 0)
                 {
                     lore += "Atk: +" + artifact.mStats.Atk * 100 + "%\n";
@@ -107,6 +119,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
                 if (artifact.mStats.Crit > 0)
                 {
                     lore += "Critical chance: +" + artifact.mStats.Crit * 100 + "%\n";
+                }
+                if (artifact.mStats.CritDamage > 0)
+                {
+                    lore += "Critical Damage: +" + artifact.mStats.CritDamage * 100 + "%\n";
                 }
                 if (artifact.mStats.Spd > 0)
                 {

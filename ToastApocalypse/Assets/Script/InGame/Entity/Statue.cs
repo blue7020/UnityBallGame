@@ -17,7 +17,7 @@ public class Statue : MonoBehaviour
     public eStatueType eType;
     public eStatuePay ePayType;
     private bool IsUse, isTutorial;
-    private string text,bufftext, bufftext2;
+    private string text,bufftext;
     private TextEffect effect;
     private SkillEffect buffEffect;
     private Button mUIStatueButton, mTutorialUIStatueButton;
@@ -137,25 +137,21 @@ public class Statue : MonoBehaviour
                 mRenderer.sprite = GameController.Instance.mStatueSprites[5];
                 if (GameSetting.Instance.Language == 0)
                 {
-                    bufftext = "이동 속도 증가!";
-                    bufftext2 = "공격 속도 증가!";
+                    bufftext = "이동 속도, 공격 속도 증가!";
                 }
                 else
                 {
-                    bufftext = "Movement speed increase!";
-                    bufftext2 = "Attack speed increase!";
+                    bufftext = "Movement speed, Attack speed increase!";
                 }
                 buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
                 buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0, Color.cyan);
                 BuffEffectController.Instance.EffectList.Add(buffEffect);
-                effect = TextEffectPool.Instance.GetFromPool(0);
-                effect.SetText(bufftext);
                 buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
                 buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], mStats.Duration,0,Color.yellow);
                 BuffEffectController.Instance.EffectList.Add(buffEffect);
                 effect = TextEffectPool.Instance.GetFromPool(0);
-                effect.transform.position += new Vector3(0, -0.65f, 0);
-                effect.SetText(bufftext2);
+                effect.SetText(bufftext);
+                effect = null;
                 break;
             case eStatueType.Def:
                 StartCoroutine(Player.Instance.Def(mStats.Def,22, mStats.Duration));

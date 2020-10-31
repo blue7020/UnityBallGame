@@ -713,6 +713,10 @@ public class Player : MonoBehaviour
                 TutorialUIController.Instance.ShowArtifactImage();
             }
         }
+        else
+        {
+            PassiveArtifacts.Instance.ArtifactsFuntion(art.mID);
+        }
         if (GameController.Instance.IsTutorial == false)
         {
             UIController.Instance.ShowHP();

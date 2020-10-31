@@ -9,7 +9,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
     public static AttackPad Instance;
     public Image BG, Stick, CoolWheel;
     public Vector2 inputVector;
-    private bool AttackSwitch,IsReload,AttackEnd;
+    private bool AttackSwitch,IsReload,AttackEnd, check;
     float AttackCurrentTime;
     float CoolMaxtime;
     private Coroutine mCycle;
@@ -46,8 +46,9 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
 
     public virtual void OnDrag(PointerEventData ped)
     {
-        if (Player.Instance.NowPlayerWeapon!=null)
+        if (Player.Instance.NowPlayerWeapon != null)
         {
+            AttackEnd = true;
             Vector2 pos;
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(BG.rectTransform,
                                                                         ped.position,
@@ -65,7 +66,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
                     = new Vector2(inputVector.x * (BG.rectTransform.sizeDelta.x / 2 / 2),
                                   inputVector.y * (BG.rectTransform.sizeDelta.y / 2) / 2);
 
-                
+
 
                 //무기 방향 돌리기
                 float angle = Mathf.Atan2(inputVector.y, inputVector.x) * Mathf.Rad2Deg;
@@ -86,26 +87,27 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
                 }
             }
             AttackEnd = false;
-            mCycle = StartCoroutine(AttackCycle());
 
         }
     }
 
-    public IEnumerator AttackCycle(bool check=true)
+    public IEnumerator AttackCycle()
     {
         WaitForSeconds time = new WaitForSeconds(0.1f);
         float currentTime = 0;
-        Attack();
         while (check)
         {
-            float Maxtime = Player.Instance.mStats.AtkSpd;
+            float Maxtime = Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]));
             if (AttackEnd==false)
             {
+                if (currentTime==0)
+                {
+                    Attack();
+                }
                 if (currentTime >= Maxtime)
                 {
                     currentTime = 0;
                     Attack();
-
                 }
             }
             else
@@ -115,6 +117,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
             currentTime += 0.1f;
             yield return time;
         }
+        StopCoroutine(AttackCycle());
     }
 
     private void Attack()
@@ -123,97 +126,49 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
         {
             if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee || Player.Instance.NowPlayerWeapon.nowBullet >= 1)
             {
-                CoolMaxtime = Player.Instance.mStats.AtkSpd;
+                CoolMaxtime = Player.Instance.mStats.AtkSpd * (1-(Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]));
             }
-            AttackSwitch = true;
             StartCoroutine(CooltimeRoutine(CoolMaxtime));
-
-            if (AttackSwitch == true && Player.Instance.Stun == false)
+            if (Player.Instance.Stun == false)
             {
                 if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
                 {
                     Player.Instance.NowPlayerWeapon.MeleeAttack();
-                    StartCoroutine(AttackCooltime());
                 }
-                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+                else
                 {
                     if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
                     {
-                        Player.Instance.NowPlayerWeapon.RangeAttack();
-                        StartCoroutine(AttackCooltime());
+                        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
+                        {
+                            Player.Instance.NowPlayerWeapon.RangeAttack();
+                        }
+                        else if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+                        {
+                            Player.Instance.NowPlayerWeapon.FireAttack();
+                        }
                     }
                     else
                     {
-                        AttackSwitch = false;
+                        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+                        {
+                            Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
+                        }
                         float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
                         CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
                         IsReload = true;
                         StartCoroutine(CooltimeRoutine(CoolMaxtime));
-                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
-                    }
-                }
-                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
-                {
-                    if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
-                    {
-                        Player.Instance.NowPlayerWeapon.FireAttack();
-                    }
-                    else
-                    {
-                        Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
-                        AttackSwitch = false;
-                        float reloadCool = Player.Instance.NowPlayerWeapon.mStats.ReloadCool;
-                        IsReload = true;
-                        CoolMaxtime = reloadCool * (1 - PassiveArtifacts.Instance.ReloadCooltimeReduce);
-                        StartCoroutine(CooltimeRoutine(CoolMaxtime));
-                        Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
-                        UIController.Instance.ShowNowBulletText();
                     }
                 }
             }
         }
     }
 
-    //public virtual void OnPointerDown(PointerEventData ped)
-    //{
-    //    if (Player.Instance.NowPlayerWeapon != null && AttackSwitch == false)
-    //    {
-    //        if (Player.Instance.NowPlayerWeapon.Attackon == false)
-    //        {
-    //            OnDrag(ped);
-    //        }
-    //    }
-
-    //}
-
-    //public virtual void OnPointerUp(PointerEventData ped)
-    //{
-    //    StopCoroutine(AttackCycle());
-    //    mCycle = null;
-    //    if (Player.Instance.NowPlayerWeapon != null)
-    //    {
-    //        Stick.rectTransform.anchoredPosition = Vector3.zero;
-    //        if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
-    //        {
-    //            Player.Instance.NowPlayerWeapon.mAttackArea.FireStarter.Stop();
-    //            SoundController.Instance.mBGSE.Stop();
-    //        }
-    //    }
-    //}
-
-    private IEnumerator AttackCooltime()
-    {
-        WaitForSeconds Cool = new WaitForSeconds(Player.Instance.mStats.AtkSpd/ (1+ Player.Instance.AttackSpeedStat +Player.Instance.buffIncrease[2]));
-        yield return Cool;
-        AttackSwitch = false;
-
-    }
-
     public void ShowCooltime(float maxTime, float currentTime)
     {
+        CoolWheel.gameObject.SetActive(true);
         if (currentTime > 0)
         {
-            CoolWheel.gameObject.SetActive(true);
             CoolWheel.fillAmount = currentTime / maxTime;
         }
         else
@@ -229,6 +184,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
         AttackCurrentTime = CoolTime;
         while (AttackCurrentTime >= 0)
         {
+            AttackSwitch = true;
             yield return frame;
             AttackCurrentTime -= Time.fixedDeltaTime;
             ShowCooltime(CoolTime, AttackCurrentTime);
@@ -236,14 +192,17 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
         if (IsReload == true)
         {
             SoundController.Instance.SESound(7);
+            Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
+            UIController.Instance.ShowNowBulletText();
             IsReload = false;
         }
+        AttackSwitch = false;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         AttackEnd = true;
-        StopCoroutine(AttackCycle());
+        check = false;
         mCycle = null;
         if (Player.Instance.NowPlayerWeapon != null)
         {
@@ -255,26 +214,23 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
             }
         }
     }
-        public void OnBeginDrag(PointerEventData ped)
+    public void OnBeginDrag(PointerEventData ped)
     {
         if (Player.Instance.NowPlayerWeapon != null && AttackSwitch == false)
         {
-            if (Player.Instance.NowPlayerWeapon.Attackon == false)
-            {
-                OnDrag(ped);
-            }
+            OnDrag(ped);
+            check = true;
+            mCycle = StartCoroutine(AttackCycle());
         }
     }
 
     public void WeaponChangeReset()
     {
-        StopCoroutine(AttackCycle(false));
+        AttackEnd = true;
+        check = false;
         mCycle = null;
         StopCoroutine(CooltimeRoutine(CoolMaxtime));
-        StopCoroutine(AttackCooltime());
 
         StartCoroutine(CooltimeRoutine(CoolMaxtime));
-        StartCoroutine(AttackCooltime());
-        //CoolWheel.gameObject.SetActive(false);
     }
 }

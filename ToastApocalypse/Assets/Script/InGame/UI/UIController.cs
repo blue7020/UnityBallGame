@@ -286,7 +286,6 @@ public class UIController : InformationLoader
 
     public void ShowGetArtifact(ArtifactTextStat art)
     {
-        effect = null;
         if (GameSetting.Instance.Language == 0)
         {
             bufftext = "유물 획득: "+art.Title;
@@ -297,11 +296,11 @@ public class UIController : InformationLoader
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(bufftext);
+        effect = null;
     }
 
     public void ShowGetItem(ItemStat item)
     {
-        effect = null;
         if (GameSetting.Instance.Language == 0)
         {
             bufftext = "아이템 획득: " + item.Name;
@@ -312,6 +311,7 @@ public class UIController : InformationLoader
         }
         effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(bufftext);
+        effect = null;
     }
 
     public void ShowClearText()
@@ -502,7 +502,7 @@ public class UIController : InformationLoader
                                       "쿨타임 감소: {8}\n" +
                                       "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
-                                      (Player.Instance.mStats.Def * (1 + Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
+                                      (Player.Instance.mStats.Def * (1 + Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]))).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),
                                       "1"+Player.Instance.mStats.CritDamage.ToString("P1"),
                                       CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));
@@ -525,7 +525,7 @@ public class UIController : InformationLoader
                                       "Cooldown reduce: {8}\n" +
                                       "Resistance: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
-                                      (Player.Instance.mStats.Def *(1+Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd / (1 + Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2])).ToString("N2"),
+                                      (Player.Instance.mStats.Def *(1+Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]))).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),
                                       "1"+Player.Instance.mStats.CritDamage.ToString("P1"),
                                       CooltimeReduce.ToString("P0"), CCreduce.ToString("P0"));

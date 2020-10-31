@@ -11,10 +11,6 @@ public class MaterialController : InformationLoader
     public Image mMaterialWindow;
 
     public MaterialStat[] mInfoArr;
-    public MaterialStat[] GetInfoArr()
-    {
-        return mInfoArr;
-    }
 
     private void Awake()
     {

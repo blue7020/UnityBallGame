@@ -28,7 +28,6 @@ public class Weapon : MonoBehaviour
     public int mID;
     public int ListIndex;
     public bool mAttackCooltime;
-    public bool Attackon;
     public bool Animation;
     public int BoltID;
     public int SoundId;
@@ -42,7 +41,6 @@ public class Weapon : MonoBehaviour
     {
         mStats = SaveDataController.Instance.mWeaponInfoArr[mID];
         mAttackCooltime = false;
-        Attackon = false;
         Equip = false;
         MaxBullet = mStats.Bullet;
         nowBullet = MaxBullet;

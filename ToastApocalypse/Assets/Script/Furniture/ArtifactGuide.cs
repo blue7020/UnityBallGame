@@ -79,6 +79,10 @@ public class ArtifactGuide : InformationLoader
                     {
                         mLore.text += "회복량: " + mInfoArr[id].Heal + "\n";
                     }
+                    if (mInfoArr[id].Hp > 0)
+                    {
+                        mLore.text += "체력: +" + mInfoArr[id].Hp * 100 + "%\n";
+                    }
                     if (mInfoArr[id].Atk > 0)
                     {
                         mLore.text += "공격력: +" + mInfoArr[id].Atk * 100 + "%\n";
@@ -94,6 +98,10 @@ public class ArtifactGuide : InformationLoader
                     if (mInfoArr[id].Crit > 0)
                     {
                         mLore.text += "치명타 확률: +" + mInfoArr[id].Crit * 100 + "%\n";
+                    }
+                    if (mInfoArr[id].CritDamage > 0)
+                    {
+                        mLore.text += "치명타 피해: +" + mInfoArr[id].CritDamage * 100 + "%\n";
                     }
                     if (mInfoArr[id].Spd > 0)
                     {
@@ -117,6 +125,10 @@ public class ArtifactGuide : InformationLoader
                     {
                         mLore.text += "Heal amount: " + mInfoArr[id].Heal + "\n";
                     }
+                    if (mInfoArr[id].Hp > 0)
+                    {
+                        mLore.text += "Hp: +" + mInfoArr[id].Hp * 100 + "%\n";
+                    }
                     if (mInfoArr[id].Atk > 0)
                     {
                         mLore.text += "Atk: +" + mInfoArr[id].Atk * 100 + "%\n";
@@ -132,6 +144,10 @@ public class ArtifactGuide : InformationLoader
                     if (mInfoArr[id].Crit > 0)
                     {
                         mLore.text += "Critical chance: +" + mInfoArr[id].Crit * 100 + "%\n";
+                    }
+                    if (mInfoArr[id].CritDamage > 0)
+                    {
+                        mLore.text += "Critical damage: +" + mInfoArr[id].CritDamage * 100 + "%\n";
                     }
                     if (mInfoArr[id].Spd > 0)
                     {

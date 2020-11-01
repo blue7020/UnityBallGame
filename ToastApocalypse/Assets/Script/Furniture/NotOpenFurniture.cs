@@ -28,11 +28,11 @@ public class NotOpenFurniture : MonoBehaviour
             {
                 if (GameSetting.Instance.Language == 0)
                 {
-                    mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: " + Stage + "스테이지 클리어";
+                    mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: " + Stage + "스테이지 5층에서 구출";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
-                    mText = "This function is not open yet.\nRequirements: " + Stage + "stage clear";
+                    mText = "This function is not open yet.\nRequirements: Rescue 5F in " + Stage + "stage";
                 }
             }
         }
@@ -40,11 +40,11 @@ public class NotOpenFurniture : MonoBehaviour
         {
             if (GameSetting.Instance.Language == 0)
             {
-                mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: 모든 스테이지 내에서 확률적으로 등장";
+                mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: 모든 스테이지의 3층에서 확률적으로 등장";
             }
             else if (GameSetting.Instance.Language == 1)
             {
-                mText = "This function is not open yet.\nRequirements: Occasionally discover in any stage";
+                mText = "This function is not open yet.\nRequirements: Occasionally discover in 3F in any stage";
             }
         }
     }

@@ -9,7 +9,7 @@ public class GoogleAdmobHandler : MonoBehaviour
     public static GoogleAdmobHandler Instance;
 
     //배너 광고
-    public BannerView bannerView;
+    private BannerView bannerView;
     //전면 광고
     private InterstitialAd interstitial;
     //보상형 광고
@@ -37,23 +37,7 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void Start()
     {
         if (SaveDataController.Instance.mUser.NoAds==false){
-            rewardBasedVideo = RewardBasedVideoAd.Instance;
-            // Called when an ad request has successfully loaded.
-            rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
-            // Called when an ad request failed to load.
-            rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
-            // Called when an ad is shown.
-            rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
-            // Called when the ad starts to play.
-            rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
-            // Called when the user should be rewarded for watching a video.
-            rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
-            // Called when the ad is closed.
-            rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
-            // Called when the ad click caused the user to leave the application.
-            rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
-            //RequestBanner();//배너
-            //RequestInterstitial();//전면
+            RequestRewardBasedVideo();
         }
     }
 
@@ -106,48 +90,64 @@ public class GoogleAdmobHandler : MonoBehaviour
 #if UNITY_ANDROID
         string adUnitId = "ca-app-pub-4617216056571941/5367334643";
 #elif UNITY_IPHONE
-            string adUnitId = "ca-app-pub-4617216056571941/4531946884";
+                    string adUnitId = "ca-app-pub-4617216056571941/4531946884";
 #else
-            string adUnitId = "unexpected_platform";
+                    string adUnitId = "unexpected_platform";
 #endif
         rewardBasedVideo = RewardBasedVideoAd.Instance;
-        if (SaveDataController.Instance.mUser.NoAds == false)
-        {
-            // Called when an ad request has successfully loaded.
-            rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
-            // Called when an ad request failed to load.
-            rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
-            // Called when an ad is shown.
-            rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
-            // Called when the ad starts to play.
-            rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
-            // Called when the user should be rewarded for watching a video.
-            rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
-            // Called when the ad is closed.
-            rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
-            // Called when the ad click caused the user to leave the application.
-            rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
+        // Called when an ad request has successfully loaded.
+        rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+        // Called when an ad request failed to load.
+        rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+        // Called when an ad is shown.
+        rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
+        // Called when the ad starts to play.
+        rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+        // Called when the user should be rewarded for watching a video.
+        rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+        // Called when the ad is closed.
+        rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+        // Called when the ad click caused the user to leave the application.
+        rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
 
-            // Create an empty ad request.
-            AdRequest request = new AdRequest.Builder().Build();
-            // Load the rewarded video ad with the request.
-            rewardBasedVideo.LoadAd(request, adUnitId);//광고 준비
-        }
+        // Create an empty ad request.
+        AdRequest request = new AdRequest.Builder().Build();
+        // Load the rewarded video ad with the request.
+        rewardBasedVideo.LoadAd(request, adUnitId);//광고 준비
     }
     //rewardBasedVideo.Show();//광고 출력
 
+    private void DeleteRequestRewardBasedVideo()
+    {
+        rewardBasedVideo = RewardBasedVideoAd.Instance;
+        // Called when an ad request has successfully loaded.
+        rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+        // Called when an ad request failed to load.
+        rewardBasedVideo.OnAdFailedToLoad += HandleRewardBasedVideoFailedToLoad;
+        // Called when an ad is shown.
+        rewardBasedVideo.OnAdOpening += HandleRewardBasedVideoOpened;
+        // Called when the ad starts to play.
+        rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+        // Called when the user should be rewarded for watching a video.
+        rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+        // Called when the ad is closed.
+        rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+        // Called when the ad click caused the user to leave the application.
+        rewardBasedVideo.OnAdLeavingApplication += HandleRewardBasedVideoLeftApplication;
+    }
+
     public void PlayAD()
     {
-        RequestRewardBasedVideo();//보상형
-        if (rewardBasedVideo.IsLoaded())
-        {     
-            rewardBasedVideo.Show();
-            Debug.Log(rewardBasedVideo.IsLoaded());
-        }
-        else
+        if (SaveDataController.Instance.mUser.NoAds == false)
         {
-            Time.timeScale = 1;
+            RequestRewardBasedVideo();//보상형
+            if (rewardBasedVideo.IsLoaded())
+            {
+                rewardBasedVideo.Show();
+                Debug.Log(rewardBasedVideo.IsLoaded());
+            }
         }
+        Time.timeScale = 1;
     }
 
     private void HandleRewardBasedVideoLeftApplication(object sender, EventArgs e)
@@ -183,14 +183,18 @@ public class GoogleAdmobHandler : MonoBehaviour
             case eAdsReward.Syrup:
                 call = () => GameSetting.Instance.Syrup();
                 break;
+            default:
+                call = () => GameSetting.Instance.NoneReward();
+                break;
         }
     }
 
     private void HandleRewardBasedVideoRewarded(object sender, Reward e)
     {
         Debug.Log("Reward!");//보상 지급
-        call();
         Time.timeScale = 1;
+        DeleteRequestRewardBasedVideo();
+        call();
         SaveDataController.Instance.Save();
     }
 

@@ -25,9 +25,9 @@ public class AttackArea : MonoBehaviour
         SoundController.Instance.SESound(8);
         if (Player.Instance.ver > 0) //상
         {
-            mRenderer.sortingOrder = 0;
+            mRenderer.sortingOrder = 2;
         }
-        if (Player.Instance.ver < 0) //하
+        else if (Player.Instance.ver < 0) //하
         {
             mRenderer.sortingOrder = 3;
         }

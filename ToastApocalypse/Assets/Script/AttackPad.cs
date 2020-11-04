@@ -9,7 +9,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
     public static AttackPad Instance;
     public Image BG, Stick, CoolWheel;
     public Vector2 inputVector;
-    private bool AttackSwitch,IsReload,AttackEnd, check;
+    public bool AttackSwitch,IsReload,AttackEnd, check;
     float AttackCurrentTime;
     float CoolMaxtime;
     private Coroutine mCycle;
@@ -95,9 +95,9 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
         while (check)
         {
             float Maxtime = Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]));
-            if (AttackEnd==false)
+            if (AttackEnd == false)
             {
-                if (currentTime==0)
+                if (currentTime == 0)
                 {
                     Attack();
                 }
@@ -114,8 +114,6 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
             currentTime += 0.1f;
             yield return time;
         }
-        StopCoroutine(AttackCycle());
-        mCycle = null;
     }
 
     private void Attack()
@@ -124,30 +122,24 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
         {
             if (Player.Instance.Stun == false)
             {
-                if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee || Player.Instance.NowPlayerWeapon.nowBullet > 0)
+                if (Player.Instance.NowPlayerWeapon.nowBullet > 0)//weaponstat의 모든 무기는 타입에 상관 없이 bullet이 1 이상이다
                 {
-                    CoolMaxtime = Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]));
-                    StartCoroutine(CooltimeRoutine(CoolMaxtime));
                     if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Melee)
                     {
                         Player.Instance.NowPlayerWeapon.MeleeAttack();
                     }
-                    else
+                    else if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
                     {
-                        if (Player.Instance.NowPlayerWeapon.nowBullet > 0)
-                        {
-                            if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Range)
-                            {
-                                Player.Instance.NowPlayerWeapon.RangeAttack();
-                            }
-                            else if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
-                            {
-                                Player.Instance.NowPlayerWeapon.FireAttack();
-                            }
-                        }
+                        Player.Instance.NowPlayerWeapon.RangeAttack();
                     }
+                    else if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
+                    {
+                        Player.Instance.NowPlayerWeapon.FireAttack();
+                    }
+                    CoolMaxtime = Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]));
+                    StartCoroutine(CooltimeRoutine(CoolMaxtime));
                 }
-                else if(Player.Instance.NowPlayerWeapon.eType != eWeaponType.Melee&& Player.Instance.NowPlayerWeapon.nowBullet <= 0)
+                else if(Player.Instance.NowPlayerWeapon.nowBullet <= 0)
                 {
                     if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
                     {
@@ -191,7 +183,14 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
         {
             SoundController.Instance.SESound(7);
             Player.Instance.NowPlayerWeapon.nowBullet = Player.Instance.NowPlayerWeapon.MaxBullet;
-            UIController.Instance.ShowNowBulletText();
+            if (GameController.Instance.IsTutorial==true)
+            {
+                TutorialUIController.Instance.ShowNowBulletText();
+            }
+            else
+            {
+                UIController.Instance.ShowNowBulletText();
+            }
             IsReload = false;
         }
         AttackSwitch = false;
@@ -199,11 +198,12 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        AttackEnd = true;
-        check = false;
-        mCycle = null;
         if (Player.Instance.NowPlayerWeapon != null)
         {
+            AttackEnd = true;
+            check = false;
+            StopCoroutine(AttackCycle());
+            mCycle = null;
             Stick.rectTransform.anchoredPosition = Vector3.zero;
             if (Player.Instance.NowPlayerWeapon.eType == eWeaponType.Fire)
             {
@@ -214,7 +214,7 @@ public class AttackPad : MonoBehaviour, IDragHandler, IEndDragHandler,IBeginDrag
     }
     public void OnBeginDrag(PointerEventData ped)
     {
-        if (Player.Instance.NowPlayerWeapon != null && AttackSwitch == false)
+        if (Player.Instance.NowPlayerWeapon != null && AttackSwitch == false && check ==false)
         {
             OnDrag(ped);
             check = true;

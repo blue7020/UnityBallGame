@@ -103,11 +103,8 @@ public class GameSetting : InformationLoader
 
     public void ShowAds(eAdsReward reward)
     {
-        if (SaveDataController.Instance.mUser.DeveloperID==true)
-        {
-            GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);
-            GoogleAdmobHandler.Instance.PlayAD();
-        }
+        GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);
+        GoogleAdmobHandler.Instance.PlayAD();
     }
 
     public void NoneReward()

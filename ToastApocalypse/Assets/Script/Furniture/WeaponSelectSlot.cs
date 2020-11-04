@@ -42,7 +42,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 {
                     lore += " 치명타 확률: +" + mWeapon.Crit + "%\n";
                 }
-                if (mWeapon.Bullet > 0)
+                if (mWeapon.Bullet > 0&&weapon.Type==1)
                 {
                     lore += "탄약 수: " + mWeapon.Bullet + "발\n";
                 }
@@ -86,7 +86,7 @@ public class WeaponSelectSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
                 {
                     lore += "Critical chance: +" + mWeapon.Crit + "%\n";
                 }
-                if (mWeapon.Bullet > 0)
+                if (mWeapon.Bullet > 0 && weapon.Type == 1)
                 {
                     lore += "Bullets: +" + mWeapon.Bullet + "\n";
                 }

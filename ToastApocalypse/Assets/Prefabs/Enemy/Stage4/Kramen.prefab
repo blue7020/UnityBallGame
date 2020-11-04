@@ -155,6 +155,7 @@ MonoBehaviour:
   SkillObj:
   - {fileID: 5829964792947787035, guid: 57382281a41ef3448a9079f9b6960e48, type: 3}
   mBarrier: {fileID: 0}
+  BoltCount: 0
   mEnemyObj: {fileID: 0}
 --- !u!1 &3787850162892043216
 GameObject:
@@ -466,7 +467,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8, y: 8}
+  m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
 --- !u!114 &1652877211981250025
 MonoBehaviour:
@@ -685,13 +686,13 @@ MonoBehaviour:
   AttackOn: 0
   AttackCheck: 0
   Spawned: 0
-  IsMimic: 0
   Runaway: 0
   HasBarrier: 0
   mAnim: {fileID: 8192273170983669079}
   mCurrentHP: 0
   mMaxHP: 0
   SpeedAmount: 0
+  CurrentRoom: {fileID: 0}
   mStats:
     ID: 0
     Name: 
@@ -703,6 +704,7 @@ MonoBehaviour:
     AtkSpd: 0
     Spd: 0
     Resistance: 0
+  mCrititcalText: {fileID: 0}
 --- !u!50 &2057032308974213409
 Rigidbody2D:
   serializedVersion: 4

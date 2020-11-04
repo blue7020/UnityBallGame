@@ -17,11 +17,11 @@ public class NotOpenFurniture : MonoBehaviour
             {
                 if (GameSetting.Instance.Language == 0)
                 {
-                    mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: 호박밭 스테이지";
+                    mText = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: 호박밭 스테이지 5층에서 구출";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
-                    mText = "This function is not open yet.\nRequirements: Pumpkin Field stage";
+                    mText = "This function is not open yet.\nRequirements: Rescue on the 5F of Pumpkin Field";
                 }
             }
             else
@@ -32,7 +32,7 @@ public class NotOpenFurniture : MonoBehaviour
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
-                    mText = "This function is not open yet.\nRequirements: Rescue 5F in " + Stage + "stage";
+                    mText = "This function is not open yet.\nRequirements: Rescue on the 5F of stage " + Stage;
                 }
             }
         }

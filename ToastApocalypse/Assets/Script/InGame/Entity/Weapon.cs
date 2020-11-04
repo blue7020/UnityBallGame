@@ -93,7 +93,9 @@ public class Weapon : MonoBehaviour
     {
         WaitForSeconds Cool =new WaitForSeconds(Player.Instance.mStats.AtkSpd);
         mAttackCooltime = true;
+        mAttackArea.gameObject.SetActive(true);
         StartCoroutine(Slash());
+        mAttackArea.Melee();
         yield return Cool;
         mAttackCooltime = false;
     }
@@ -102,8 +104,6 @@ public class Weapon : MonoBehaviour
     {
         WaitForSeconds few = new WaitForSeconds(0.3f);
         mAnim.SetBool(AnimHash.Attack, true);
-        mAttackArea.gameObject.SetActive(true);
-        mAttackArea.Melee();
         yield return few;
         mAnim.SetBool(AnimHash.Attack, false);
         mAttackArea.gameObject.SetActive(false);
@@ -152,6 +152,7 @@ public class Weapon : MonoBehaviour
                 Aim.gameObject.SetActive(true);
                 mAttackArea.gameObject.SetActive(true);
             }
+            AttackPad.Instance.AttackEnd = false;
             WeaponRangeSize();
             WeaponController.Instance.mWeaponSkillCount = 0;
             Player.Instance.EquipWeapon(this);

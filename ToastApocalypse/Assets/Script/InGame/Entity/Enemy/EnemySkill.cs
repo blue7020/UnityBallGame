@@ -441,6 +441,10 @@ public class EnemySkill : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(2.5f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            StartCoroutine(PotatoFall());
+        }
         yield return delay;
         StartCoroutine(PotatoFall());
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
@@ -449,7 +453,7 @@ public class EnemySkill : MonoBehaviour
 
     private IEnumerator PotatoFall()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.05f);
+        WaitForSeconds delay = new WaitForSeconds(0.08f);
         int count = 0;
         while (true)
         {
@@ -459,8 +463,8 @@ public class EnemySkill : MonoBehaviour
             }
             else
             {
-                int Xpos = Random.Range(-6, 7);
-                int Ypos = Random.Range(-6, 7);
+                int Xpos = Random.Range(-4, 5);
+                int Ypos = Random.Range(-4, 5);
                 Vector3 Pos = new Vector3(Xpos, Ypos, 0);
                 Bullet potato = BulletPool.Instance.GetFromPool(31);
                 potato.mEnemy = mEnemy;

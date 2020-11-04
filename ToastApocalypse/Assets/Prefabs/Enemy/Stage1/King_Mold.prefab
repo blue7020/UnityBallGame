@@ -117,6 +117,7 @@ MonoBehaviour:
   BulletStarter: []
   SkillObj: []
   mBarrier: {fileID: 0}
+  BoltCount: 0
   mEnemyObj: {fileID: 0}
 --- !u!1 &1803073132450870687
 GameObject:
@@ -363,13 +364,13 @@ MonoBehaviour:
   AttackOn: 0
   AttackCheck: 0
   Spawned: 0
-  IsMimic: 0
   Runaway: 0
   HasBarrier: 0
   mAnim: {fileID: 3787186870694598204}
   mCurrentHP: 0
   mMaxHP: 0
   SpeedAmount: 0
+  CurrentRoom: {fileID: 0}
   mStats:
     ID: 0
     Name: 
@@ -381,6 +382,7 @@ MonoBehaviour:
     AtkSpd: 0
     Spd: 0
     Resistance: 0
+  mCrititcalText: {fileID: 0}
 --- !u!50 &-7878203268523589357
 Rigidbody2D:
   serializedVersion: 4

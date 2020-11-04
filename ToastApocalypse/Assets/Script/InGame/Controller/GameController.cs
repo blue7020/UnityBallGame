@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     public bool GotoMain;
 
     public int StageLevel;//현재 층
-    public int StageHP;
+    public float StageHP;
     public Sprite[] mStatueSprites;
     public float MaterialDropRate;
     public int ReviveCode;//0== 부활안함 1==광고 2==일반 부활
@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
             if (!IsTutorial)
             {
                 MaterialDropRate = 0.3f;
-                StageHP = 2;
+                StageHP = 2.5f;
                 RescueNPCList = new List<int>();
                 mArtifactsList = new List<Artifacts>();
                 if (GameSetting.Instance.NowStage==7||SaveDataController.Instance.mUser.ArtifactOpen[0]==true)

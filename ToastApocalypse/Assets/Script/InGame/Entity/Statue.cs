@@ -312,7 +312,6 @@ public class Statue : MonoBehaviour
                 {
                     mTutorialUIStatueButton.onClick.RemoveAllListeners();
                     mTutorialUIStatueButton.onClick.AddListener(() => { StatueUseButton(); });
-                    mStatueSpendText.text = "-0G";
                     mTutorialUIStatueButton.gameObject.SetActive(true);
                 }
                 else

@@ -154,6 +154,7 @@ MonoBehaviour:
   BulletStarter: []
   SkillObj: []
   mBarrier: {fileID: 0}
+  BoltCount: 0
   mEnemyObj: {fileID: 0}
 --- !u!1 &4125718370223950015
 GameObject:
@@ -294,7 +295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &9147450686026164671
 Transform:
   m_ObjectHideFlags: 0
@@ -333,7 +334,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8, y: 8}
+  m_Size: {x: 10, y: 10}
   m_EdgeRadius: 0
 --- !u!114 &1954676905121646214
 MonoBehaviour:
@@ -685,13 +686,13 @@ MonoBehaviour:
   AttackOn: 0
   AttackCheck: 0
   Spawned: 0
-  IsMimic: 0
   Runaway: 0
   HasBarrier: 0
   mAnim: {fileID: 8962328544686683704}
   mCurrentHP: 0
   mMaxHP: 0
   SpeedAmount: 0
+  CurrentRoom: {fileID: 0}
   mStats:
     ID: 0
     Name: 
@@ -703,6 +704,7 @@ MonoBehaviour:
     AtkSpd: 0
     Spd: 0
     Resistance: 0
+  mCrititcalText: {fileID: 0}
 --- !u!50 &1250963463199367758
 Rigidbody2D:
   serializedVersion: 4

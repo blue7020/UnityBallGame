@@ -15,6 +15,7 @@ public class MiniMap : MonoBehaviour
         {
             Instance = this;
             MinimapOn = false;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {

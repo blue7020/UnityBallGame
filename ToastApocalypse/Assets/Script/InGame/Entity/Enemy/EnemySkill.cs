@@ -457,7 +457,7 @@ public class EnemySkill : MonoBehaviour
         int count = 0;
         while (true)
         {
-            if (count >= 12)
+            if (count >= 7)
             {
                 break;
             }

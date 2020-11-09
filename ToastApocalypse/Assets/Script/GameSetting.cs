@@ -74,10 +74,26 @@ public class GameSetting : InformationLoader
 
         SaveDataController.Instance.mUser.NPCOpen[0] = true; SaveDataController.Instance.mUser.NPCOpen[4] = true;
         SaveDataController.Instance.mUser.StageOpen[0] = true;
-        DateTime timecheck = SaveDataController.Instance.mUser.DailyTime.AddDays(1);
-        if (SaveDataController.Instance.mUser.DailyTime >= timecheck)
+        DateTime time = SaveDataController.Instance.mUser.DailyTime;
+        DateTime timecheck = DateTime.Now;
+        int yesterday = 0;
+        int dummyYear = 1000;
+        if (time.Day-1>0)
+        {
+            yesterday = time.Day - 1;
+            timecheck = new DateTime(time.Year, time.Month, yesterday);
+        }
+        else
+        {
+            dummyYear = time.Year - 1;
+            yesterday = 1999;
+            timecheck = new DateTime(dummyYear, time.Month, yesterday);
+        }
+        Debug.Log(time+" / "+ timecheck);
+        if (SaveDataController.Instance.mUser.DailyTime >= timecheck.AddDays(1))
         {
             SaveDataController.Instance.mUser.DailyTime = DateTime.Now;
+            Debug.Log("24시간 갱신");
         }
     }
 
@@ -113,8 +129,23 @@ public class GameSetting : InformationLoader
     }
     public void DailySyrup()
     {
-        DateTime timecheck = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1);
-        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck)
+        DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
+        DateTime timecheck = DateTime.Now;
+        int yesterday = 0;
+        int dummyYear = 1000;
+        if (time.Day - 1 > 0)
+        {
+            yesterday = time.Day - 1;
+            timecheck = new DateTime(time.Year, time.Month, yesterday);
+        }
+        else
+        {
+            dummyYear = time.Year - 1;
+            yesterday = time.Day - 1;
+            timecheck = new DateTime(dummyYear, time.Month, yesterday);
+        }
+        Debug.Log(time + " / " + timecheck);
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck.AddDays(1))
         {
             SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
         }

@@ -28,8 +28,23 @@ public class TVWatching : MonoBehaviour
     public void ShowAds()
     {
         GameSetting.Instance.ShowAds(eAdsReward.DailySyrup);
-        DateTime timecheck = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1);
-        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck)
+        DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
+        DateTime timecheck = DateTime.Now;
+        int yesterday = 0;
+        int dummyYear = 1000;
+        if (time.Day - 1 > 0)
+        {
+            yesterday = time.Day - 1;
+            timecheck = new DateTime(time.Year, time.Month, yesterday);
+        }
+        else
+        {
+            dummyYear = time.Year - 1;
+            yesterday = time.Day - 1;
+            timecheck = new DateTime(dummyYear, time.Month, yesterday);
+        }
+        Debug.Log(time + " / " + timecheck);
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck.AddDays(1))
         {
             SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
         }
@@ -43,7 +58,6 @@ public class TVWatching : MonoBehaviour
             {
                 mPopUpWindow.mText.text = "You got daily reward!\n+500 Syrup";
             }
-            mPopUpWindow.gameObject.SetActive(true);
         }
         else
         {
@@ -55,8 +69,8 @@ public class TVWatching : MonoBehaviour
             {
                 mPopUpWindow.mText.text = "You've already earned your reward";
             }
-            mPopUpWindow.gameObject.SetActive(true);
         }
+        mPopUpWindow.gameObject.SetActive(true);
     }
 
     public void TimeReset()

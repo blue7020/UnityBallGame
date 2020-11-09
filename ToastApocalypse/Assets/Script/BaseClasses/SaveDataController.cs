@@ -352,7 +352,7 @@ public class SaveDataController : InformationLoader
             mUser.NoAds = false;
             mUser.DailyTime = DateTime.Now;//24시간 타이머
             mUser.TodayWatchFirstNotice = false;
-            mUser.LastWatchingDailyAdsTime = DateTime.Now.AddDays(-1);
+            mUser.LastWatchingDailyAdsTime = new DateTime(mUser.DailyTime.Year-1, mUser.DailyTime.Month, mUser.DailyTime.Day);
             mUser.TodayWatchFirstAD = false;
 
             mUser.ArtifactFound = new bool[Constants.ARTIFACT_COUNT];

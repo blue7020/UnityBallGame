@@ -78,6 +78,10 @@ public class GameSetting : InformationLoader
         DateTime timecheck = DateTime.Now;
         int yesterday = 0;
         int dummyYear = 1000;
+        if (time==new DateTime(0001,01,01))
+        {
+            time = DateTime.Now;
+        }
         if (time.Day-1>0)
         {
             yesterday = time.Day - 1;
@@ -90,10 +94,12 @@ public class GameSetting : InformationLoader
             timecheck = new DateTime(dummyYear, time.Month, yesterday);
         }
         Debug.Log(time+" / "+ timecheck);
+        Debug.Log(SaveDataController.Instance.mUser.DailyTime);
         if (SaveDataController.Instance.mUser.DailyTime >= timecheck.AddDays(1))
         {
             SaveDataController.Instance.mUser.DailyTime = DateTime.Now;
             Debug.Log("24시간 갱신");
+            SaveDataController.Instance.Save();
         }
     }
 
@@ -133,6 +139,10 @@ public class GameSetting : InformationLoader
         DateTime timecheck = DateTime.Now;
         int yesterday = 0;
         int dummyYear = 1000;
+        if (time == new DateTime(0001, 01, 01))
+        {
+            time = DateTime.Now;
+        }
         if (time.Day - 1 > 0)
         {
             yesterday = time.Day - 1;

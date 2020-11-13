@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         Moving();
         if (jump < 41)
         {
-            if (isJump == false && Input.GetKey(KeyCode.Space)&& isFalling==false)
+            if (isJump == false && Input.GetKey(KeyCode.Space) && isFalling == false)
             {
                 isJump = true;
                 mAnim.SetBool(AnimHash.Jump, true);
@@ -92,23 +92,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void Jumping()
-    {
-        mAnim.SetBool(AnimHash.Jump, false);
-        mAnim.SetBool(AnimHash.Jumping, true);
-    }
-
     public void JumpEnd()
     {
         isFalling = true;
         mRB2D.gravityScale = mGravityScale;
-        mAnim.SetBool(AnimHash.Jumping, false);
+        mAnim.SetBool(AnimHash.Jump, false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
+            mAnim.SetBool(AnimHash.Jump, false);
             isFalling = false;
             jump = 0;
         }

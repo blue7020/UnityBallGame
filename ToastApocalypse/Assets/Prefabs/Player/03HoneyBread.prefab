@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292241907795077534}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1292241908008036577}
@@ -109,7 +109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292241908008036606}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -141,16 +141,21 @@ MonoBehaviour:
   TrapResistance: 0
   MapSeeker: 0
   NoCC: 0
+  InfiniteAmmo: 0
   CurrentRoom: {fileID: 0}
   EnemySwitch: 0
   mNowStage: 0
   PlayerSkillStand: 0
   buffIncrease: []
+  BonusHeal: 0
   Stun: 0
+  PlusBoltCount: 0
   CCState: {fileID: 2333454476795839399}
   mStats:
     Gold: 0
     ID: 0
+    PurchaseID: 0
+    Price: 0
     Name: 
     EngName: 
     Hp: 0
@@ -164,6 +169,8 @@ MonoBehaviour:
     CCReduce: 0
     Skill_Cooltime: 0
     Skill_Duration: 0
+    PlayerHas: 0
+    Open: 0
   AttackSpeedStat: 0
   mGoldBonus: 0
   mDirection: {fileID: 5938257170445305840}
@@ -173,6 +180,7 @@ MonoBehaviour:
   NowActiveArtifact: {fileID: 0}
   UseItemInventory: {fileID: 0}
   LastHitEnemy: {fileID: 0}
+  DeathBy: 0
   mRenderer: {fileID: 1292241907795077532}
   mRB2D: {fileID: 1292241908008036579}
   mAnim: {fileID: 1292241908008036605}
@@ -213,18 +221,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06453781, y: 0}
+  m_Offset: {x: -0.05, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5625, y: 1.5625}
-    newSize: {x: 1.5625, y: 1.5625}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.54840326, y: 0.5}
+  m_Size: {x: 0.6, y: 0.55}
   m_EdgeRadius: 0
 --- !u!95 &1292241908008036605
 Animator:

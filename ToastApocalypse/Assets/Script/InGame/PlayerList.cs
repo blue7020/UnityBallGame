@@ -57,7 +57,8 @@ public class PlayerList : InformationLoader
             mWeapon = Instantiate(GameSetting.Instance.mWeaponArr[GameSetting.Instance.PlayerWeaponID], player.transform);
             player.NowPlayerWeapon = mWeapon;
             player.NowPlayerWeapon.EquipWeapon();
-            Instantiate(mPlayerShadow, player.transform);
+            GameObject shadow= Instantiate(mPlayerShadow, player.transform);
+            shadow.transform.position += new Vector3(0,0.15f,0);
             UIController.Instance.CharacterImage();
             UIController.Instance.ShowSkillImage();
             UIController.Instance.ShowItemImage();

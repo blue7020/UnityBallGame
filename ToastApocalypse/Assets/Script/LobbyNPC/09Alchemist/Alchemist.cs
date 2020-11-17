@@ -9,7 +9,7 @@ public class Alchemist : MonoBehaviour
 
     public Image mWindow, mPointer;
     public Text mTitleText, mGuideText, mHalloweenButtonText;
-    public Button mHalloweenButton;
+    public Button[] mButtonArr;
     public NotOpenFurniture mFurniture;
     public PopUpWindow mPopupWindow;
     public string text,ArtifactText;
@@ -52,7 +52,11 @@ public class Alchemist : MonoBehaviour
     {
         if (SaveDataController.Instance.mUser.ArtifactOpen[0] == true)
         {
-            mHalloweenButton.interactable = false;
+            mButtonArr[0].interactable = false;
+        }
+        if (SaveDataController.Instance.mUser.ArtifactOpen[1] == true)
+        {
+            mButtonArr[1].interactable = false;
         }
     }
 
@@ -72,6 +76,18 @@ public class Alchemist : MonoBehaviour
                         ArtifactText = "Halloween";
                     }
                     SaveDataController.Instance.mUser.ArtifactOpen[0]=true;
+                    IsGetArtifact();
+                    break;
+                case 8:
+                    if (GameSetting.Instance.Language == 0)
+                    {
+                        ArtifactText = "크리스마스";
+                    }
+                    else if (GameSetting.Instance.Language == 1)
+                    {
+                        ArtifactText = "Christmas";
+                    }
+                    SaveDataController.Instance.mUser.ArtifactOpen[1] = true;
                     IsGetArtifact();
                     break;
                 default:

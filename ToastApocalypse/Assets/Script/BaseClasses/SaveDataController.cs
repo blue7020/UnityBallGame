@@ -94,14 +94,15 @@ public class SaveDataController : InformationLoader
             mUser.HasMaterial = temp;
         }
 
+        int StageCount = Constants.STAGE_COUNT + Constants.EVENT_STAGE;
         if (mUser.StageOpen == null)//Stage
         {
-            mUser.StageOpen = new bool[Constants.STAGE_COUNT];
+            mUser.StageOpen = new bool[StageCount];
         }
-        else if (mUser.StageOpen.Length != Constants.STAGE_COUNT)
+        else if (mUser.StageOpen.Length != StageCount)
         {
-            bool[] temp = new bool[Constants.STAGE_COUNT];
-            int count = Mathf.Min(Constants.STAGE_COUNT, mUser.StageOpen.Length);
+            bool[] temp = new bool[StageCount];
+            int count = Mathf.Min(StageCount, mUser.StageOpen.Length);
             for (int i = 0; i < count; i++)
             {
                 temp[i] = mUser.StageOpen[i];

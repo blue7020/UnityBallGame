@@ -40,16 +40,16 @@ public class MainLobbyUIController : MonoBehaviour
             ShowSyrupText();
             ShowToaterRoom();
 
-            if (SaveDataController.Instance.mUser.StageOpen[6]==false)
+            if (SaveDataController.Instance.mUser.StageOpen[7]==false)
             {
-                SaveDataController.Instance.mUser.StageOpen[6] = true;
+                SaveDataController.Instance.mUser.StageOpen[7] = true;
                 if (GameSetting.Instance.Language==0)
                 {
-                    text = "새 스테이지가 개방되었습니다: 호박밭\n난이도: 보통";
+                    text = "새 스테이지가 개방되었습니다: 고요한 밤\n난이도: 보통";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
-                    text = "New stage open: Pumpkin Field\nDifficulty level: Normal";
+                    text = "New stage open: Silent Night\nDifficulty level: Normal";
                 }
                 mPopupWindow.ShowWindow(text);
             }

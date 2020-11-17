@@ -44,16 +44,22 @@ public class GameController : MonoBehaviour
                 StageHP = 2.5f;
                 RescueNPCList = new List<int>();
                 mArtifactsList = new List<Artifacts>();
-                if (GameSetting.Instance.NowStage==7||SaveDataController.Instance.mUser.ArtifactOpen[0]==true)
+                //기본 유물
+                for (int i = 0; i < 20; i++)
                 {
-                    for (int i = 0; i < 28; i++)
+                    mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
+                }
+                //이벤트 유물들
+                if (GameSetting.Instance.NowStage == 7 || SaveDataController.Instance.mUser.ArtifactOpen[0] == true)
+                {
+                    for (int i = 20; i < 8; i++)
                     {
                         mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
                     }
                 }
-                else//기본
+                if (GameSetting.Instance.NowStage == 8 || SaveDataController.Instance.mUser.ArtifactOpen[1] == true)
                 {
-                    for (int i=0; i< 20;i++)
+                    for (int i = 28; i < 8; i++)
                     {
                         mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
                     }

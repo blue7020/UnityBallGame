@@ -48,6 +48,10 @@ public class SyrupShopController : MonoBehaviour
             {
                 mButtons[0].interactable = false;
             }
+            else
+            {
+                mButtons[0].interactable = true;
+            }
 
         }
         else

@@ -22,7 +22,10 @@ public class MapNPCController : MonoBehaviour
                 {
                     if (mNPCArr[i].mID<9)
                     {
-                        mNotOpenNPCList.Add(mNPCArr[i]);
+                        if (mNPCArr[i].mID!=7)
+                        {
+                            mNotOpenNPCList.Add(mNPCArr[i]);
+                        }
                     }
                 }
             }
@@ -71,6 +74,9 @@ public class MapNPCController : MonoBehaviour
                     break;
                 case 7:
                     Instantiate(mNPCArr[9], Player.Instance.CurrentRoom.mNPCSpawnPos);
+                    break;
+                case 8:
+                    Instantiate(mNPCArr[7], Player.Instance.CurrentRoom.mNPCSpawnPos);
                     break;
                 default:
                     break;

@@ -235,6 +235,34 @@ public class StageMaterialController : MonoBehaviour
                     }
                 }
                 break;
+            case 8:
+                for (int i = 0; i < mStageMaterialArr.Length; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            mStageMaterialArr[i] = mMaterialArr[0];
+                            mStageMaterialArr[i].mRate = 0.15f;
+                            break;
+                        case 1:
+                            mStageMaterialArr[i] = mMaterialArr[18];
+                            mStageMaterialArr[i].mRate = 0.25f + GameController.Instance.MaterialDropRate;
+                            break;
+                        case 2:
+                            mStageMaterialArr[i] = mMaterialArr[14];
+                            mStageMaterialArr[i].mRate = 0.25f + GameController.Instance.MaterialDropRate;
+                            break;
+                        case 3:
+                            mStageMaterialArr[i] = mMaterialArr[13];
+                            mStageMaterialArr[i].mRate = 0.25f + GameController.Instance.MaterialDropRate;
+                            break;
+                        case 4:
+                            mStageMaterialArr[i] = mMaterialArr[7];
+                            mStageMaterialArr[i].mRate = 0.1f + GameController.Instance.MaterialDropRate;
+                            break;
+                    }
+                }
+                break;
         }
     }
 }

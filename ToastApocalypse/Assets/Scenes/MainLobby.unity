@@ -8529,7 +8529,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 4
   mPortal: {fileID: 367172225}
-  PortalType: 000000
   mStage:
   - {fileID: 6611272795595246150, guid: 855401c2e2d131e48a2c3ed262788ffe, type: 3}
   - {fileID: 1104835448354831666, guid: 6c3e2592c3f47c84aa53074a5f8ef38e, type: 3}
@@ -8934,6 +8933,7 @@ MonoBehaviour:
   mPortalArr:
   - {fileID: 1919444127}
   - {fileID: 2019086505}
+  EventPortalOpenCheckArr: 
 --- !u!1 &386804022
 GameObject:
   m_ObjectHideFlags: 0
@@ -18350,7 +18350,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 2
   mPortal: {fileID: 710066123}
-  PortalType: 000000
   mStage:
   - {fileID: 6611272795595246150, guid: 9e38a0fc759c5ae4cb8da7d80d971b01, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
@@ -20539,7 +20538,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 5
   mPortal: {fileID: 811535465}
-  PortalType: 000000
   mStage:
   - {fileID: 6611272795595246150, guid: 38433d701217bd44287ac5e14a1f9660, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
@@ -25412,7 +25410,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 1
   mPortal: {fileID: 1114385154}
-  PortalType: 000000
   mStage:
   - {fileID: 6611272795595246150, guid: 5af884ff9dcf0834b80bb12f425286e0, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
@@ -35733,7 +35730,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 3
   mPortal: {fileID: 1613001863}
-  PortalType: 000000
   mStage:
   - {fileID: 6611272795595246150, guid: 571b123c1335d45469148e836a6a8a53, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
@@ -40779,7 +40775,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 6
   mPortal: {fileID: 1831213926}
-  PortalType: 000000
   mStage:
   - {fileID: 6611272795595246150, guid: 17c67c9cc06c4584fb09aa5a17afaa02, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
@@ -43025,7 +43020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1919444126
 Transform:
   m_ObjectHideFlags: 0
@@ -43054,7 +43049,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 7
   mPortal: {fileID: 1919444125}
-  PortalType: 000000
   mStage:
   - {fileID: 6611272795595246150, guid: 7bdd0862b88b8f846b418e13750b8485, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}
@@ -43166,7 +43160,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1924403690
 RectTransform:
   m_ObjectHideFlags: 0
@@ -43282,6 +43276,7 @@ MonoBehaviour:
   mSEText: {fileID: 1902686654}
   mPortalNameText: {fileID: 5970570535234499543, guid: 4c35fd96780e73344b8040e62ecd371a,
     type: 3}
+  text: {fileID: 0}
   mBGMplus: {fileID: 147825554}
   mBGMminus: {fileID: 532766750}
   mSEplus: {fileID: 927700990}
@@ -43301,7 +43296,7 @@ MonoBehaviour:
   - {fileID: 1919444126}
   - {fileID: 2019086504}
   mPopupWindow: {fileID: 2004620282}
-  text: 
+  mtext: 
 --- !u!1 &1928321273
 GameObject:
   m_ObjectHideFlags: 0
@@ -43545,6 +43540,7 @@ MonoBehaviour:
   SkillTurret:
   - {fileID: 760343930849750519, guid: 649c331790be80143b4c5cb343f8a2fa, type: 3}
   - {fileID: 6518129758613955377, guid: 7a4717d2d6e89c3459e1699190cfbd12, type: 3}
+  - {fileID: 1295575002206798151, guid: f192036af9c82b64d8726423527862b9, type: 3}
   DestroyCheckLevel: 0
   isTutorial: 0
   DestroyObjZone: {fileID: 2148071937517105278, guid: a1cd503830b7951448ee1764254676ec,
@@ -45422,7 +45418,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStageNum: 8
   mPortal: {fileID: 2019086503}
-  PortalType: 000001
   mStage:
   - {fileID: 6611272795595246150, guid: 6c92094189dc62b4f9b72aad518a5f3f, type: 3}
   - {fileID: 3670027495657242063, guid: ca1dd815d857bf942967b384699b077c, type: 3}

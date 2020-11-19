@@ -14,13 +14,13 @@ public class MainLobbyUIController : MonoBehaviour
     private bool pause;
     public bool IsSelect;
 
-    public Text mCashText,mBGMText, mSEText,mPortalNameText;
+    public Text mCashText,mBGMText, mSEText,mPortalNameText,text;
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton;
     public GameObject mDoor, mTosterRoom, NameParents;
     public ToasterPedestal mToster;
     public Transform[] PortalName;
     public PopUpWindow mPopupWindow;
-    public string text;
+    public string mtext;
 
     private void Awake()
     {
@@ -44,25 +44,25 @@ public class MainLobbyUIController : MonoBehaviour
             {
                 if (GameSetting.Instance.Language == 0)
                 {
-                    text = "포탈학자 NPC가 개방되었습니다!\n";
+                    mtext = "포탈학자 NPC가 개방되었습니다!\n";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
-                    text = "Portal Scholar NPC is open!\n";
+                    mtext = "Portal Scholar NPC is open!\n";
                 }
             }
-            if (SaveDataController.Instance.mUser.StageOpen[7]==false)
+            if (SaveDataController.Instance.mUser.StageOpen[8]==false)
             {
-                SaveDataController.Instance.mUser.StageOpen[7] = true;
+                SaveDataController.Instance.mUser.StageOpen[8] = true;
                 if (GameSetting.Instance.Language==0)
                 {
-                    text += "새 스테이지가 개방되었습니다: 고요한 밤\n난이도: 보통";
+                    mtext += "새 스테이지가 개방되었습니다: 고요한 밤\n난이도: 보통";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
-                    text += "New stage open: Silent Night\nDifficulty level: Normal";
+                    mtext += "New stage open: Silent Night\nDifficulty level: Normal";
                 }
-                mPopupWindow.ShowWindow(text);
+                mPopupWindow.ShowWindow(mtext);
             }
         }
         else
@@ -83,7 +83,7 @@ public class MainLobbyUIController : MonoBehaviour
         {
             if (SaveDataController.Instance.mUser.StageOpen[i]==true)
             {
-                Text text = Instantiate(mPortalNameText, NameParents.transform);
+                text = Instantiate(mPortalNameText, NameParents.transform);
                 if (i<6)
                 {
                     if (GameSetting.Instance.Language == 0)
@@ -94,6 +94,8 @@ public class MainLobbyUIController : MonoBehaviour
                     {
                         text.text = (i + 1) + "." + GameSetting.Instance.mMapInfoArr[i + 1].EngTitle;
                     }
+                    text.transform.localScale = new Vector3(0.07f, 0.07f, 1);
+                    text.transform.position = PortalName[i].transform.position + new Vector3(0, 1.2f, 0);
                 }
                 else
                 {
@@ -105,9 +107,26 @@ public class MainLobbyUIController : MonoBehaviour
                     {
                         text.text = "Event: " + GameSetting.Instance.mMapInfoArr[i + 1].EngTitle;
                     }
+                    text.transform.localScale = new Vector3(0.07f, 0.07f, 1);
+                    text.transform.position = PortalName[i].transform.position + new Vector3(0, 1.2f, 0);
                 }
-                text.transform.localScale = new Vector3(0.07f,0.07f,1);
-                text.transform.position = PortalName[i].transform.position + new Vector3 (0, 1.2f,0);
+            }
+        }
+        PortalTextRefresh();
+    }
+
+    public void PortalTextRefresh()
+    {
+        for (int j = 0; j < SaveDataController.Instance.mUser.EventPortalOpenCheckArr.Length; j++)
+        {
+            if (SaveDataController.Instance.mUser.EventPortalOpenCheckArr[j] == true)
+            {
+                text.gameObject.SetActive(true);//고요한밤이 활성화되면 호박밭은 비활성화되어야함
+                Debug.Log(text.text+" / 활성화");
+            }
+            else
+            {
+                text.gameObject.SetActive(false);
             }
         }
     }

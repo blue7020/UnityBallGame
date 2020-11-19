@@ -43,6 +43,9 @@ public class UsingItem : InformationLoader
             case 8:
                 Player.Instance.CCreduce(1f,38,mStats.Duration);
                 break;
+            case 11:
+                BuffController.Instance.RemoveNurf();
+                break;
             default:
                 break;
         }

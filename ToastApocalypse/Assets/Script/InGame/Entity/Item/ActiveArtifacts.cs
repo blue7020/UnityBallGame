@@ -206,6 +206,7 @@ public class ActiveArtifacts : MonoBehaviour
         buffEffect = Instantiate(BuffEffectController.Instance.mEffect, Player.Instance.transform);
         buffEffect.SetEffect(BuffEffectController.Instance.mSprite[0], 7, 0, Color.magenta);
         BuffEffectController.Instance.EffectList.Add(buffEffect);
+        Player.Instance.DoEffect(5, 7f, 7, 1f);
         effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(bufftext);
         effect = null;
@@ -243,6 +244,7 @@ public class ActiveArtifacts : MonoBehaviour
         {
             bufftext = "Debuff Resistance, Movement speed, Attack speed increase!";
         }
+        Player.Instance.DoEffect(5, 7f, 7, 1f);
         Player.Instance.DoEffect(4, 7f, 4, 0.4f);
         Player.Instance.DoEffect(3, 7f, 3, 0.4f);
         effect = TextEffectPool.Instance.GetFromPool(0);

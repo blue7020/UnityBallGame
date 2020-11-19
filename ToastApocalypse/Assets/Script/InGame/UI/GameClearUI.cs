@@ -264,6 +264,26 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
                     item = true;
                 }
                 break;
+            case 8:
+                if (SaveDataController.Instance.mUser.CharacterOpen[14] == false && SaveDataController.Instance.mUser.SkillOpen[14] == false && SaveDataController.Instance.mUser.WeaponOpen[30] == false
+                    && SaveDataController.Instance.mUser.WeaponOpen[31] == false && SaveDataController.Instance.mUser.WeaponOpen[32] == false && SaveDataController.Instance.mUser.WeaponOpen[33] == false)
+                {
+                    SaveDataController.Instance.mUser.CharacterOpen[14] = true;
+                    SaveDataController.Instance.mUser.SkillOpen[14] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[30] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[31] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[32] = true;
+                    SaveDataController.Instance.mUser.WeaponOpen[33] = true;
+                    character = true;
+                    skill = true;
+                    weapon = true;
+                }
+                if (SaveDataController.Instance.mUser.ItemOpen[11] == false)
+                {
+                    SaveDataController.Instance.mUser.ItemOpen[11] = true;
+                    item = true;
+                }
+                break;
         }
         if (GameSetting.Instance.Language == 0)
         {

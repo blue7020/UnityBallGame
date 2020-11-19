@@ -278,7 +278,7 @@ public class SaveData
     public bool[] ItemHas;
     public bool[] CharacterHas;
     public bool[] CodeUse;
-
+    public bool[] EventPortalOpenCheckArr;
 
     public int DonateCount;
     public bool NoAds;

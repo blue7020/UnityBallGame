@@ -79,6 +79,9 @@ public class SkillList : MonoBehaviour
             case 13://배트-랑
                 Bat_rang();
                 break;
+            case 14://크리스마스의 축복
+                StartCoroutine(The_Blessing_Of_Christmas());
+                break;
         }
         
     }
@@ -257,7 +260,7 @@ public class SkillList : MonoBehaviour
         float amount = Player.Instance.mMaxHP * 0.3f;
         while (true)
         {
-            if (count >= 5)
+            if (count >= 6)
             {
                 break;
             }
@@ -288,5 +291,24 @@ public class SkillList : MonoBehaviour
         Vector3 dir = Player.Instance.mDirection.transform.up * bolt.mSpeed;
         bolt.mRB2D.AddForce(dir);
         StartCoroutine(ShotBoomerang(bolt));
+    }
+
+    public IEnumerator The_Blessing_Of_Christmas()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        BuffController.Instance.RemoveNurf();
+        Player.Instance.DoEffect(5, PlayerSkill.Insatnce.mStat.Duration, 17, 1f);
+        int count = 0;
+        float amount = Player.Instance.mMaxHP * 0.49f;
+        while (true)
+        {
+            if (count >= 7)
+            {
+                break;
+            }
+            Player.Instance.Heal(amount / 7);
+            count++;
+            yield return delay;
+        }
     }
 }

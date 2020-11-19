@@ -12,16 +12,16 @@ public class Constants : MonoBehaviour
     public const int MAX_MATERIAL = 99;
 
 
-    public const int CHARACTER_COUNT = 14;
-    public const int SKILL_COUNT = 14;
+    public const int CHARACTER_COUNT = 15;
+    public const int SKILL_COUNT = 15;
     public const int STATUE_COUNT = 9;
-    public const int WEAPON_COUNT = 30;
-    public const int ITEM_COUNT = 11;
+    public const int WEAPON_COUNT = 34;
+    public const int ITEM_COUNT = 12;
     public const int NPC_COUNT = 10;
 
-    public const int MATERIAL_COUNT = 18;
-    public const int ARTIFACT_COUNT = 28;
-    public const int ENEMY_COUNT = 51; //기본 몬스터 수 45+ 할로윈 몬스터 6(ID 46~51)
+    public const int MATERIAL_COUNT = 19;
+    public const int ARTIFACT_COUNT = 36;
+    public const int ENEMY_COUNT = 58; //기본 몬스터 수 46+ 할로윈 몬스터 6(ID 46~51) + 크리스마스 몬스터 6(ID 52~57)
     public const int ART_COUNT = 9;
 
     public const int Code_Count = 10;

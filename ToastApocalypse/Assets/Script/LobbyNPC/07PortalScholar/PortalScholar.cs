@@ -11,12 +11,14 @@ public class PortalScholar : MonoBehaviour
     public Text mTitleText, mGuideText, mHalloweenText, mChristmasText;
     public Button[] mPortalButtonArr;
     public StageController[] mPortalArr;
+    public bool[] EventPortalOpenCheckArr;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
+            EventPortalOpenCheckArr = SaveDataController.Instance.mUser.EventPortalOpenCheckArr;
             if (SaveDataController.Instance.mUser.NPCOpen[7] == true)
             {
                 if (GameSetting.Instance.Language == 0)//한국어
@@ -53,26 +55,27 @@ public class PortalScholar : MonoBehaviour
             switch (i)
             {
                 case 0:
-                    mPortalArr[0].PortalType[1] = true;
                     mPortalArr[0].gameObject.SetActive(true);
-                    mPortalArr[1].PortalType[2] = false;
+                    EventPortalOpenCheckArr[0] = true;
                     mPortalArr[1].gameObject.SetActive(false);
+                    EventPortalOpenCheckArr[1] = false;
                     break;
                 case 1:
-                    mPortalArr[1].PortalType[2] = true;
                     mPortalArr[1].gameObject.SetActive(true);
-                    mPortalArr[0].PortalType[1] = false;
+                    EventPortalOpenCheckArr[1] = true;
                     mPortalArr[0].gameObject.SetActive(false);
+                    EventPortalOpenCheckArr[0] = true;
                     break;
             }
             ButtonRefresh();
+            MainLobbyUIController.Instance.PortalTextRefresh();
             SaveDataController.Instance.Save();
         }
     }
 
     public void ButtonRefresh()
     {
-        if (mPortalArr[0].PortalType[1]==true)
+        if (EventPortalOpenCheckArr[0]==true)
         {
             mPortalButtonArr[0].interactable = false;
         }
@@ -80,7 +83,7 @@ public class PortalScholar : MonoBehaviour
         {
             mPortalButtonArr[0].interactable = true;
         }
-        if (mPortalArr[1].PortalType[2] == true)
+        if (EventPortalOpenCheckArr[1] == true)
         {
             mPortalButtonArr[1].interactable = false;
         }

@@ -13,6 +13,8 @@ public class SaveDataController : InformationLoader
 
     public bool DataDelete;
 
+    public int EventMapID;
+
     public ArtText[] mArtInfoArr;
     public PlayerStat[] mPlayerInfoArr;
     public SkillStat[] mSkillInfoArr;
@@ -346,6 +348,17 @@ public class SaveDataController : InformationLoader
             mUser.EventPortalOpenCheckArr = temp;
         }
 
+        if (mUser.NowEventMapID<1)
+        {
+            mUser.NowEventMapID = EventMapID;
+        }
+
+        for (int i=0;i< mUser.EventPortalOpenCheckArr.Length;i++)
+        {
+            mUser.EventPortalOpenCheckArr[i] = false;
+        }
+        mUser.EventPortalOpenCheckArr[mUser.NowEventMapID-1] = true;
+
         SoundController.Instance.BGMVolume = mUser.BGMVolume;
         SoundController.Instance.SEVolume = mUser.SEVolume;
     }
@@ -355,6 +368,9 @@ public class SaveDataController : InformationLoader
     {
         if (mUser.FirstSetting != true)
         {
+            //
+            mUser.NowEventMapID = EventMapID;//크리스마스이기 때문에 2 할로윈은 1
+            //
             mUser.Syrup = 0;
             mUser.HasMaterial = new int[Constants.MATERIAL_COUNT];
             mUser.TutorialEnd = false;

@@ -28,7 +28,7 @@ public class MainScreenUIController : InformationLoader
                 mCodeText.text = "코드 사용";
                 mNoticeButtonText.text = "공지 사항";
                 mNoticeTitle.text = "공지 사항";
-                mNoticeText.text = "-플레이 해 주셔서 감사합니다!\n\n-버그 제보 환영합니다.\n\n-불쌍한 개발자를 위해 이 게임을 많이 홍보해주세요.\n\n-광고 기능들이 제대로 작동하지 않을 수 있습니다.\n\n-현재 근접 공격 기능을 개선 중입니다. 불편을 드려 죄송합니다.";
+                mNoticeText.text = "-플레이 해 주셔서 감사합니다!\n\n-버그 제보 환영합니다.\n\n-불쌍한 개발자를 위해 이 게임을 많이 홍보해주세요.\n\n-광고 기능들이 제대로 작동하지 않을 수 있습니다.";
                 mEngButton.interactable = true;
                 mKorButton.interactable = false;
 
@@ -41,7 +41,7 @@ public class MainScreenUIController : InformationLoader
                 mCodeText.text = "Using Code";
                 mNoticeButtonText.text = "Notice";
                 mNoticeTitle.text = "Notice";
-                mNoticeText.text = "-Thanks for playing!\n\n-Please report the error.\n\n-Please promote this game a lot for poor developer.\n\n-Ad functions may not work properly.\n\n-Improving the short-range attack system. Apologize for the inconvenience.";
+                mNoticeText.text = "-Thanks for playing!\n\n-Please report the error.\n\n-Please promote this game a lot for poor developer.\n\n-Ad functions may not work properly.";
                 mEngButton.interactable = false;
                 mKorButton.interactable = true;
             }

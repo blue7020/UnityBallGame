@@ -18,6 +18,7 @@ public class PortalScholar : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            
             EventPortalOpenCheckArr = SaveDataController.Instance.mUser.EventPortalOpenCheckArr;
             if (SaveDataController.Instance.mUser.NPCOpen[7] == true)
             {
@@ -36,6 +37,7 @@ public class PortalScholar : MonoBehaviour
                     mChristmasText.text = GameSetting.Instance.mMapInfoArr[8].EngTitle;
                 }
             }
+            
             else
             {
                 mPointer.gameObject.SetActive(false);
@@ -59,15 +61,18 @@ public class PortalScholar : MonoBehaviour
                     EventPortalOpenCheckArr[0] = true;
                     mPortalArr[1].gameObject.SetActive(false);
                     EventPortalOpenCheckArr[1] = false;
+                    SaveDataController.Instance.mUser.NowEventMapID = 1;
                     break;
                 case 1:
                     mPortalArr[1].gameObject.SetActive(true);
                     EventPortalOpenCheckArr[1] = true;
                     mPortalArr[0].gameObject.SetActive(false);
                     EventPortalOpenCheckArr[0] = true;
+                    SaveDataController.Instance.mUser.NowEventMapID = 2;
                     break;
             }
             ButtonRefresh();
+            MainLobbyUIController.Instance.ShowSyrupText();
             MainLobbyUIController.Instance.PortalTextRefresh();
             SaveDataController.Instance.Save();
         }
@@ -78,18 +83,22 @@ public class PortalScholar : MonoBehaviour
         if (EventPortalOpenCheckArr[0]==true)
         {
             mPortalButtonArr[0].interactable = false;
+            mPortalButtonArr[1].interactable = true;
         }
         else
         {
             mPortalButtonArr[0].interactable = true;
+            mPortalButtonArr[1].interactable = false;
         }
         if (EventPortalOpenCheckArr[1] == true)
         {
             mPortalButtonArr[1].interactable = false;
+            mPortalButtonArr[0].interactable = true;
         }
         else
         {
             mPortalButtonArr[1].interactable = true;
+            mPortalButtonArr[0].interactable = false;
         }
     }
 

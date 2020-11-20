@@ -21,6 +21,31 @@ public class StageController : MonoBehaviour
         {
             mPortal.gameObject.SetActive(true);
         }
+        switch (mStageNum)
+        {
+            case 7:
+                if (SaveDataController.Instance.mUser.EventPortalOpenCheckArr[0] == false)
+                {
+                    PortalScholar.Instance.mPortalArr[0].gameObject.SetActive(false);
+                }
+                else
+                {
+                    PortalScholar.Instance.mPortalArr[0].gameObject.SetActive(true);
+                }
+                break;
+            case 8:
+                if (SaveDataController.Instance.mUser.EventPortalOpenCheckArr[1] == false)
+                {
+                    PortalScholar.Instance.mPortalArr[1].gameObject.SetActive(false);
+                }
+                else
+                {
+                    PortalScholar.Instance.mPortalArr[1].gameObject.SetActive(true);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
 

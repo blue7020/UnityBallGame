@@ -51,7 +51,7 @@ public class WeaponController : MonoBehaviour
             case 4://포크
                 break;
             case 5://뒤집개
-                Fliper(Target, Checker);
+                Stun_Crit(Target, Checker);
                 break;
             case 6://아이스크림 스쿱
                 break;
@@ -60,7 +60,7 @@ public class WeaponController : MonoBehaviour
             case 8://피자 커터
                 break;
             case 9://시리얼 디스펜서
-                StartCoroutine(Cereal());
+                StartCoroutine(TripleShot());
                 break;
             case 10://나루토마키
                 break;
@@ -82,7 +82,7 @@ public class WeaponController : MonoBehaviour
                 JamBlade(Target);
                 break;
             case 18://페퍼로니 건
-                StartCoroutine(Pepperoni());
+                StartCoroutine(DoubleShot());
                 break;
             case 19://피쉬본
                 break;
@@ -110,6 +110,17 @@ public class WeaponController : MonoBehaviour
             case 29://펌킨 블레이드
                 PumpkinBlade(Target);
                 break;
+            case 30://캔디케인
+                CandyCane(Target);
+                break;
+            case 31://산타의굴뚝
+                StartCoroutine(TripleShot());
+                break;
+            case 32://아이스캔디바
+                Stun_Crit(Target,Checker);
+                break;
+            case 33://기프트런처
+                break;
 
         }
         Target = null;
@@ -126,7 +137,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public void Fliper(Enemy Target, bool isCrit)
+    public void Stun_Crit(Enemy Target, bool isCrit)
     {
         if (isCrit == true&&Target!=null)
         {
@@ -134,7 +145,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    public IEnumerator Cereal()
+    public IEnumerator TripleShot()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         yield return delay;
@@ -173,7 +184,7 @@ public class WeaponController : MonoBehaviour
         KnockBack(Target);
     }
 
-    public IEnumerator Pepperoni()
+    public IEnumerator DoubleShot()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         yield return delay;
@@ -235,6 +246,15 @@ public class WeaponController : MonoBehaviour
                 Player.Instance.NowPlayerWeapon.mStats.Crit = 0;
                 mWeaponSkillCount++;
             }
+        }
+    }
+
+    public void CandyCane(Enemy Target)
+    {
+        if (Target != null)
+        {
+            Player.Instance.StartCoroutine(Player.Instance.Speed(0.2f, 4, 0.5f));
+            KnockBack(Target);
         }
     }
 }

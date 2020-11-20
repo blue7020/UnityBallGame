@@ -14,13 +14,14 @@ public class MainLobbyUIController : MonoBehaviour
     private bool pause;
     public bool IsSelect;
 
-    public Text mCashText,mBGMText, mSEText,mPortalNameText,text;
+    public Text mCashText,mBGMText, mSEText,mPortalNameText,text,eventtext;
     public Button mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton;
     public GameObject mDoor, mTosterRoom, NameParents;
     public ToasterPedestal mToster;
     public Transform[] PortalName;
     public PopUpWindow mPopupWindow;
     public string mtext;
+    public int NowEventStageNum;
 
     private void Awake()
     {
@@ -83,9 +84,9 @@ public class MainLobbyUIController : MonoBehaviour
         {
             if (SaveDataController.Instance.mUser.StageOpen[i]==true)
             {
-                text = Instantiate(mPortalNameText, NameParents.transform);
                 if (i<6)
                 {
+                    text = Instantiate(mPortalNameText, NameParents.transform);
                     if (GameSetting.Instance.Language == 0)
                     {
                         text.text = (i + 1) + "." + GameSetting.Instance.mMapInfoArr[i + 1].Title;
@@ -99,16 +100,7 @@ public class MainLobbyUIController : MonoBehaviour
                 }
                 else
                 {
-                    if (GameSetting.Instance.Language == 0)
-                    {
-                        text.text = "이벤트: " + GameSetting.Instance.mMapInfoArr[i + 1].Title;
-                    }
-                    else if (GameSetting.Instance.Language == 1)
-                    {
-                        text.text = "Event: " + GameSetting.Instance.mMapInfoArr[i + 1].EngTitle;
-                    }
-                    text.transform.localScale = new Vector3(0.07f, 0.07f, 1);
-                    text.transform.position = PortalName[i].transform.position + new Vector3(0, 1.2f, 0);
+
                 }
             }
         }
@@ -117,18 +109,28 @@ public class MainLobbyUIController : MonoBehaviour
 
     public void PortalTextRefresh()
     {
-        for (int j = 0; j < SaveDataController.Instance.mUser.EventPortalOpenCheckArr.Length; j++)
+        if (SaveDataController.Instance.mUser.NowEventMapID == 0)
         {
-            if (SaveDataController.Instance.mUser.EventPortalOpenCheckArr[j] == true)
-            {
-                text.gameObject.SetActive(true);//고요한밤이 활성화되면 호박밭은 비활성화되어야함
-                Debug.Log(text.text+" / 활성화");
-            }
-            else
-            {
-                text.gameObject.SetActive(false);
-            }
+            SaveDataController.Instance.mUser.NowEventMapID = 2;
+            Debug.Log(SaveDataController.Instance.mUser.NowEventMapID);
         }
+        int map = 6 + SaveDataController.Instance.mUser.NowEventMapID;
+        if (eventtext!=null)
+        {
+            Destroy(eventtext);
+        }
+        eventtext = Instantiate(mPortalNameText, NameParents.transform);
+        eventtext.gameObject.SetActive(true);
+        if (GameSetting.Instance.Language == 0)
+        {
+            eventtext.text = "이벤트: " + GameSetting.Instance.mMapInfoArr[map].Title;
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {
+            eventtext.text = "Event: " + GameSetting.Instance.mMapInfoArr[map].EngTitle;
+        }
+        eventtext.transform.localScale = new Vector3(0.07f, 0.07f, 1);
+        eventtext.transform.position = PortalName[6].transform.position + new Vector3(0, 1.2f, 0);
     }
 
     public void ShowToaterRoom()

@@ -290,15 +290,22 @@ public class Player : MonoBehaviour
             }
             else
             {
-                Nodamage = true;
-                if (GameController.Instance.ReviveCode == 0)
+                if (PassiveArtifacts.Instance.ReviveCount > 0)
                 {
-                    UIController.Instance.mReviveWindow.gameObject.SetActive(true);
-                    GameController.Instance.GamePause();
+                    StartCoroutine(Revive(true));
                 }
                 else
                 {
-                    GameOver();
+                    Nodamage = true;
+                    if (GameController.Instance.ReviveCode == 0)
+                    {
+                        UIController.Instance.mReviveWindow.gameObject.SetActive(true);
+                        GameController.Instance.GamePause();
+                    }
+                    else
+                    {
+                        GameOver();
+                    }
                 }
             }
         }
@@ -325,14 +332,22 @@ public class Player : MonoBehaviour
     }
 
 
-    public IEnumerator Revive()
+    public IEnumerator Revive(bool isItemRevive=false)
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
         SoundController.Instance.SESoundUI(10);
         UIController.Instance.mReviveWindow.gameObject.SetActive(false);
         BuffController.Instance.SetBuff(7, 7, eBuffType.Buff, 2f);
         Nodamage = true;
-        mCurrentHP = mMaxHP;
+        if (isItemRevive==false)
+        {
+            mCurrentHP = mMaxHP;
+        }
+        else
+        {
+            PassiveArtifacts.Instance.ReviveCount -=1;
+            mCurrentHP = 2;
+        }
         UIController.Instance.ShowHP();
         if (GameSetting.Instance.NowStage == 4)
         {

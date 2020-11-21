@@ -7,11 +7,8 @@ public class PassiveArtifacts : MonoBehaviour
     //패시브유물의 기능을 여기서 담당
     public static PassiveArtifacts Instance;
 
-    public float AdditionalMeleeRangeSize;
     public int AdditionalBullet;
-    public float AdditionalBulletSize;
-    public float AdditionalCooltimeReduce;
-    public float ReloadCooltimeReduce;
+    public float AdditionalMeleeRangeSize,AdditionalBulletSize, AdditionalCooltimeReduce, ReloadCooltimeReduce, ReviveCount;
 
     public GameObject[] mSkillobj;//혹시 모를 펫에 대비해서
 
@@ -25,6 +22,7 @@ public class PassiveArtifacts : MonoBehaviour
             AdditionalBulletSize = 0;
             AdditionalCooltimeReduce = 0;
             ReloadCooltimeReduce = 0;
+            ReviveCount = 0;
         }
         else
         {
@@ -48,58 +46,18 @@ public class PassiveArtifacts : MonoBehaviour
     {
         switch (id)
         {
-            case 0:
-                break;
-            case 1:
-                break;
             case 2://금단의 레시피
                 AdditionalBulletSize += 0.5f;
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
                 break;
             case 6://누틸라
                 Player.Instance.MapSeeker = true;
                 RoomControllers.Instance.Seeker();
                 break;
-            case 7:
-                break;
             case 8://쿠키틀
                 Player.Instance.TrapResistance = true;
                 break;
-            case 9:
-                break;
-            case 10:
-                break;
-            case 11:
-                break;
-            case 12:
-                break;
-            case 13:
-                break;
             case 14://달걀과 베이컨
                 ReloadCooltimeReduce += 0.3f;
-                break;
-            case 15:
-                break;
-            case 16:
-                break;
-            case 17:
-                break;
-            case 18:
-                break;
-            case 19:
-                break;
-            case 20:
-                break;
-            case 21:
-                break;
-            case 22:
-                break;
-            case 23:
                 break;
             case 24://익숙한 버섯
                 AdditionalMeleeRangeSize += 0.3f;
@@ -111,10 +69,14 @@ public class PassiveArtifacts : MonoBehaviour
             case 26://망령의 로브
                 Player.Instance.TrapResistance = true;
                 break;
-            case 27:
+            case 31://굴뚝
+                Player.Instance.BonusHeal += 0.3f;
+                break;
+            case 34://홀리 장식
+                ReviveCount += 1;
                 break;
             default:
-                Debug.LogError("Wrong Active Artifacts Id" + id);
+                //Debug.LogError("Wrong Active Artifacts Id" + id);
                 break;
         }
     }

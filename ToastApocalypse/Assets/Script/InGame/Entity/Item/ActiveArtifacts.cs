@@ -66,8 +66,14 @@ public class ActiveArtifacts : MonoBehaviour
             case 27:
                 GhostPackgage();
                 break;
+            case 30:
+                SurpriseGift();
+                break;
+            case 35:
+                ChristmasCookie();
+                break;
             default:
-                Debug.LogError("Wrong Active Artifacts Id");
+                //Debug.LogError("Wrong Active Artifacts Id");
                 break;
         }
     }
@@ -250,6 +256,16 @@ public class ActiveArtifacts : MonoBehaviour
         effect = TextEffectPool.Instance.GetFromPool(0);
         effect.SetText(bufftext);
         effect = null;
+    }
 
+    public void SurpriseGift()
+    {
+        Turret turret = Instantiate(SkillList.Instance.SkillTurret[2], Player.Instance.transform);
+        turret.transform.position = Player.Instance.transform.position + new Vector3(0, 1.5f, 0);
+    }
+
+    public void ChristmasCookie()
+    {
+        Player.Instance.Heal(Player.Instance.mMaxHP*0.2f);
     }
 }

@@ -52,18 +52,19 @@ public class GameController : MonoBehaviour
                 //이벤트 유물들
                 if (GameSetting.Instance.NowStage == 7 || SaveDataController.Instance.mUser.ArtifactOpen[0] == true)
                 {
-                    for (int i = 20; i < 8; i++)
+                    for (int i = 20; i < 28; i++)
                     {
                         mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
                     }
                 }
                 if (GameSetting.Instance.NowStage == 8 || SaveDataController.Instance.mUser.ArtifactOpen[1] == true)
                 {
-                    for (int i = 28; i < 8; i++)
+                    for (int i = 28; i < 36; i++)
                     {
                         mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
                     }
                 }
+                Debug.Log(mArtifactsList.Count);
                 mWeaponArr = GameSetting.Instance.mWeaponArr;
             }
             mUser = SaveDataController.Instance.mUser;

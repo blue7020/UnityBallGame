@@ -11,15 +11,12 @@ public class PortalScholar : MonoBehaviour
     public Text mTitleText, mGuideText, mHalloweenText, mChristmasText;
     public Button[] mPortalButtonArr;
     public StageController[] mPortalArr;
-    public bool[] EventPortalOpenCheckArr;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            
-            EventPortalOpenCheckArr = SaveDataController.Instance.mUser.EventPortalOpenCheckArr;
             if (SaveDataController.Instance.mUser.NPCOpen[7] == true)
             {
                 if (GameSetting.Instance.Language == 0)//한국어
@@ -58,16 +55,16 @@ public class PortalScholar : MonoBehaviour
             {
                 case 0:
                     mPortalArr[0].gameObject.SetActive(true);
-                    EventPortalOpenCheckArr[0] = true;
+                    SaveDataController.Instance.mUser.EventPortalOpenCheckArr[0] = true;
                     mPortalArr[1].gameObject.SetActive(false);
-                    EventPortalOpenCheckArr[1] = false;
+                    SaveDataController.Instance.mUser.EventPortalOpenCheckArr[1] = false;
                     SaveDataController.Instance.mUser.NowEventMapID = 1;
                     break;
                 case 1:
                     mPortalArr[1].gameObject.SetActive(true);
-                    EventPortalOpenCheckArr[1] = true;
+                    SaveDataController.Instance.mUser.EventPortalOpenCheckArr[1] = true;
                     mPortalArr[0].gameObject.SetActive(false);
-                    EventPortalOpenCheckArr[0] = true;
+                    SaveDataController.Instance.mUser.EventPortalOpenCheckArr[0] = false;
                     SaveDataController.Instance.mUser.NowEventMapID = 2;
                     break;
             }
@@ -80,7 +77,7 @@ public class PortalScholar : MonoBehaviour
 
     public void ButtonRefresh()
     {
-        if (EventPortalOpenCheckArr[0]==true)
+        if (SaveDataController.Instance.mUser.EventPortalOpenCheckArr[0]==true)
         {
             mPortalButtonArr[0].interactable = false;
             mPortalButtonArr[1].interactable = true;
@@ -90,7 +87,7 @@ public class PortalScholar : MonoBehaviour
             mPortalButtonArr[0].interactable = true;
             mPortalButtonArr[1].interactable = false;
         }
-        if (EventPortalOpenCheckArr[1] == true)
+        if (SaveDataController.Instance.mUser.EventPortalOpenCheckArr[1] == true)
         {
             mPortalButtonArr[1].interactable = false;
             mPortalButtonArr[0].interactable = true;

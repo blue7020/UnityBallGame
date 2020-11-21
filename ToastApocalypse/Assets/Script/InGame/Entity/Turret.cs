@@ -38,6 +38,7 @@ public class Turret : MonoBehaviour
             if (mTarget!=null)
             {
                 PlayerBullet bullet = Instantiate(mBullet,transform);
+                bullet.transform.position = transform.position;
                 bullet.mDamage = mDamage;
                 bullet.StartCoroutine(bullet.MovetoEnemyTargetBolt(mTarget));
             }

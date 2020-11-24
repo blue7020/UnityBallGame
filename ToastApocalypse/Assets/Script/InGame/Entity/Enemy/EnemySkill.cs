@@ -61,7 +61,7 @@ public class EnemySkill : MonoBehaviour
                     StartCoroutine(PotatoGolem());
                     break;
                 case 6://AngerTomato
-                    StartCoroutine(AngerTomato());
+                    StartCoroutine(Xbolt50(2));
                     break;
                 case 7://Mimic_Silver
                     break;
@@ -204,6 +204,23 @@ public class EnemySkill : MonoBehaviour
                 case 51://PumpkinReaper
                     PumpkinReaper();
                     break;
+                case 52://The Box
+                    StartCoroutine(Xbolt50(34));
+                    break;
+                case 53://SnowSlime
+                    break;
+                case 54://RudolphHead
+                    RudolphHead();
+                    break;
+                case 55://MrSnow
+
+                    break;
+                case 56://Surprise
+
+                    break;
+                case 57://Trixie
+
+                    break;
                 default:
                     Debug.LogError("wrong Enemy ID");
                     break;
@@ -231,19 +248,19 @@ public class EnemySkill : MonoBehaviour
                 case 5://PotatoGolem
                     break;
                 case 6://AngerTomato
-                    AngerTomato2();
+                    Xbolt(2);
                     break;
                 case 7://Mimic_Silver
                     break;
                 case 8://Mimic_Gold
                     break;
                 case 9://Ketchup_Slime
-                    AngerTomato2();
+                    Xbolt(2);
                     break;
                 case 10://Hambug
                     break;
                 case 11://Flied
-                    Flied2();
+                    Xbolt(4);
                     break;
                 case 12://Burger-Pac
                     CabbageBoomerang();
@@ -277,7 +294,7 @@ public class EnemySkill : MonoBehaviour
             switch (mEnemy.mID)
             {
                 case 22://Wasabi
-                    Wasabi();
+                    Xbolt(17);
                     break;
                 case 23://Sushinobi
                     break;
@@ -295,7 +312,7 @@ public class EnemySkill : MonoBehaviour
                     Ice();
                     break;
                 case 30://CoolTomato
-                    CoolTomato2();
+                    Xbolt(22);
                     break;
                 case 31://IceWing
                     break;
@@ -310,7 +327,7 @@ public class EnemySkill : MonoBehaviour
                 case 36://Bagoyle
                     break;
                 case 37://Zombie Toast
-                    ZombieToast();
+                    Xbolt(26);
                     break;
                 case 38://Bread Crust
                     break;
@@ -338,19 +355,35 @@ public class EnemySkill : MonoBehaviour
             switch (mEnemy.mID)
             {
                 case 46://Sweets slime
-                    Jack2();
+                    Xbolt(32);
                     break;
                 case 47://Bampkin
-                    Jack2();
+                    Xbolt(32);
                     break;
                 case 48://Jack
-                    Jack2();
+                    Xbolt(32);
                     break;
                 case 49://PumpkinGolem
                     break;
                 case 50://PumpkinVine
                     break;
                 case 51://PumpkinReaper
+                    break;
+                case 52://The Box
+                    break;
+                case 53://SnowSlime
+                    Xbolt(34);
+                    break;
+                case 54://RudolphHead
+                    break;
+                case 55://MrSnow
+                    break;
+                case 56://Surprise
+                    break;
+                case 57://Trixie
+                    break;
+                default:
+                    Debug.LogError("wrong Enemy ID");
                     break;
             }
         }
@@ -443,39 +476,15 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
         {
-            StartCoroutine(PotatoFall());
+            StartCoroutine(FallingBolt(31,7));
         }
         yield return delay;
-        StartCoroutine(PotatoFall());
+        StartCoroutine(FallingBolt(31, 7));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Walk, true);
     }
 
-    private IEnumerator PotatoFall()
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.08f);
-        int count = 0;
-        while (true)
-        {
-            if (count >= 7)
-            {
-                break;
-            }
-            else
-            {
-                int Xpos = Random.Range(-4, 5);
-                int Ypos = Random.Range(-4, 5);
-                Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-                Bullet potato = BulletPool.Instance.GetFromPool(31);
-                potato.mEnemy = mEnemy;
-                potato.transform.position = mEnemy.transform.position + Pos;
-                count++;
-            }
-            yield return delay;
-        }
-    }
-
-    private IEnumerator AngerTomato()//id = 6 , 9
+    private IEnumerator Xbolt50(int id)//id = 6 , 9
     {
         WaitForSeconds Cool = new WaitForSeconds(1.5f);
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2 && Skilltrigger == true)
@@ -484,17 +493,17 @@ public class EnemySkill : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-                ResetDir(2, i + 1);
+                ResetDir(id, i + 1);
             }
         }
         yield return Cool;
         Skilltrigger = true;
     }
-    private void AngerTomato2()
+    private void Xbolt(int id)
     {
         for (int i = 1; i < 5; i++)
         {
-            ResetDir(2, i);
+            ResetDir(id, i);
         }
     }
 
@@ -504,12 +513,8 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP)
         {
-            for (int i = 1; i < 5; i++)
-            {
-                ResetDir(3, i);
-            }
+            Xbolt(3);
         }
-        ResetDir(3);
         ResetDir(3);
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
@@ -529,14 +534,6 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.SpeedAmount -= 0.5f;
         mEnemy.IsTraking = true;
-    }
-
-    private void Flied2()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(4, i);
-        }
     }
 
     private void Potatargot()//id = 13
@@ -618,15 +615,7 @@ public class EnemySkill : MonoBehaviour
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-            XShot();
-        }
-    }
-
-    private void XShot()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(5, i);
+            Xbolt(5);
         }
     }
 
@@ -855,10 +844,7 @@ public class EnemySkill : MonoBehaviour
     }
     private void ChocoShot()
     {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(14, i);
-        }
+        Xbolt(14);
         Count++;
     }
 
@@ -959,13 +945,6 @@ public class EnemySkill : MonoBehaviour
     }
 
     //===================================ID >=22
-    private void Wasabi()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(17, i);
-        }
-    }
 
     private void Sushinobi()
     {
@@ -1199,13 +1178,6 @@ public class EnemySkill : MonoBehaviour
         yield return delay;
         Skilltrigger = true;
     }
-    private void CoolTomato2()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(22, i);
-        }
-    }
 
 
     private void IceWing()
@@ -1417,14 +1389,6 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-    private void ZombieToast()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(26, i);
-        }
-    }
-
     private IEnumerator SandwichFanatic()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
@@ -1500,22 +1464,15 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            ToastShot();
+            Xbolt(28);
         }
         yield return delay;
         mEnemy.SpeedAmount += 2f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
         mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
-        ToastShot();
+        Xbolt(28);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.SpeedAmount -= 2f;
-    }
-    private void ToastShot()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(28, i);
-        }
     }
 
 
@@ -1556,20 +1513,8 @@ public class EnemySkill : MonoBehaviour
         }
         else
         {
-            ToothPickFall();
+            FallingBolt(29,8);
             SkillCount++;
-        }
-    }
-    private void ToothPickFall()
-    {
-        for (int i = 1; i < 8; i++)
-        {
-            int Xpos = Random.Range(-6, 7);
-            int Ypos = Random.Range(-6, 7);
-            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            Bullet toast = BulletPool.Instance.GetFromPool(29);
-            toast.mEnemy = mEnemy;
-            toast.transform.position = mEnemy.transform.position + Pos;
         }
     }
     private IEnumerator Sandwitch1()
@@ -1616,43 +1561,20 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(0.8f));
         if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
         {
-            AngerTomato2();
+            Xbolt(2);
         }
-        StartCoroutine(TomatoFall());
+        StartCoroutine(FallingBolt(30,10));
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
-    private IEnumerator TomatoFall()
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.05f);
-        int count = 0;
-        while (true)
-        {
-            if (count>=10)
-            {
-                break;
-            }
-            else
-            {
-                int Xpos = Random.Range(-6, 7);
-                int Ypos = Random.Range(-6, 7);
-                Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-                Bullet tomato = BulletPool.Instance.GetFromPool(30);
-                tomato.mEnemy = mEnemy;
-                tomato.transform.position = mEnemy.transform.position + Pos;
-                count++;
-            }
-            yield return delay;
-        }
-    }
 
-    private IEnumerator CandyFall()
+    private IEnumerator FallingBolt(int id, int count)
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
-        int count = 0;
+        int BoltCount = 0;
         while (true)
         {
-            if (count >= 8)
+            if (BoltCount >= count)
             {
                 break;
             }
@@ -1661,10 +1583,10 @@ public class EnemySkill : MonoBehaviour
                 int Xpos = Random.Range(-6, 7);
                 int Ypos = Random.Range(-6, 7);
                 Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-                Bullet candy = BulletPool.Instance.GetFromPool(33);
-                candy.mEnemy = mEnemy;
-                candy.transform.position = mEnemy.transform.position + Pos;
-                count++;
+                Bullet bolt = BulletPool.Instance.GetFromPool(id);
+                bolt.mEnemy = mEnemy;
+                bolt.transform.position = mEnemy.transform.position + Pos;
+                BoltCount++;
             }
             yield return delay;
         }
@@ -1688,7 +1610,7 @@ public class EnemySkill : MonoBehaviour
         }
         else
         {
-            Jack2();
+            Xbolt(32);
             yield return delay;
         }
     }
@@ -1698,14 +1620,7 @@ public class EnemySkill : MonoBehaviour
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             Skilltrigger = false;
-            StartCoroutine(CandyFall());
-        }
-    }
-    private void Jack2()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(32, i);
+            StartCoroutine(FallingBolt(33,8));
         }
     }
 
@@ -1714,7 +1629,7 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.3f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         mEnemy.IsTraking = false;
-        StartCoroutine(CandyFall());
+        StartCoroutine(FallingBolt(33,8));
         yield return delay;
         mEnemy.SpeedAmount += 3f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
@@ -1723,7 +1638,7 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount -= 3f;
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            StartCoroutine(CandyFall());
+            StartCoroutine(FallingBolt(33,8));
         }
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.IsTraking = true;
@@ -1736,9 +1651,9 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(0.8f));
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            Jack2();
+            Xbolt(32);
         }
-        StartCoroutine(CandyFall());
+        StartCoroutine(FallingBolt(33,8));
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
@@ -1767,7 +1682,7 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(1.9f));
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            Jack2();
+            Xbolt(32);
         }
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         yield return delay;
@@ -1776,5 +1691,26 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.SpeedAmount -= 1f;
+    }
+
+    private void RudolphHead()
+    {
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            StartCoroutine(RudolphDash());
+        }
+        FallingBolt(34,7);
+    }
+    private IEnumerator RudolphDash()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        yield return delay;
+        mEnemy.IsTraking = false;
+        mEnemy.SpeedAmount += 0.6f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.SpeedAmount -= 0.6f;
+        mEnemy.IsTraking = true;
     }
 }

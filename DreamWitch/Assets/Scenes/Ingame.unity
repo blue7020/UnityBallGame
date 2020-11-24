@@ -242,9 +242,9 @@ GameObject:
   - component: {fileID: 469532862}
   - component: {fileID: 469532863}
   - component: {fileID: 469532864}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -351,9 +351,9 @@ GameObject:
   - component: {fileID: 515196601}
   - component: {fileID: 515196603}
   - component: {fileID: 515196602}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -488,8 +488,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef0a00faf66f364abb2bdee62410a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mPlayerObj: {fileID: 1883792022}
-  mCamera: {fileID: 519420031}
+  mTarget: {fileID: 1883792028}
+  mOffset: {x: 0, y: 0, z: -10}
+  mSmoothFactor: 3
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -558,9 +559,9 @@ GameObject:
   - component: {fileID: 1328116000}
   - component: {fileID: 1328116001}
   - component: {fileID: 1328116002}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -847,6 +848,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1591006013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1591006014}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1591006014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591006013}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.687, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1883792028}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1663320435
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,9 +889,9 @@ GameObject:
   - component: {fileID: 1663320438}
   - component: {fileID: 1663320437}
   - component: {fileID: 1663320436}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -967,9 +998,9 @@ GameObject:
   - component: {fileID: 1846407560}
   - component: {fileID: 1846407562}
   - component: {fileID: 1846407561}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tile
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1185,11 +1216,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1883792028}
   - component: {fileID: 1883792027}
-  - component: {fileID: 1883792026}
   - component: {fileID: 1883792025}
   - component: {fileID: 1883792024}
   - component: {fileID: 1883792023}
-  - component: {fileID: 1883792029}
+  - component: {fileID: 1883792026}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1228,15 +1258,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac95e6af45bad344abe7766c42d8e2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mGoundLayer:
+    serializedVersion: 2
+    m_Bits: 256
   mRB2D: {fileID: 1883792025}
   mAnim: {fileID: 1883792023}
   mRenderer: {fileID: 1883792027}
+  mGroundChecker: {fileID: 1591006014}
   mSpeed: 10
-  mJumpForce: 500
+  mJumpForce: 10000
   isJump: 0
-  isFalling: 0
-  mGravityScale: 50
-  jump: 0
+  isGround: 0
 --- !u!50 &1883792025
 Rigidbody2D:
   serializedVersion: 4
@@ -1252,14 +1284,14 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 50
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &1883792026
-BoxCollider2D:
+--- !u!70 &1883792026
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1267,23 +1299,13 @@ BoxCollider2D:
   m_GameObject: {fileID: 1883792022}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 7bb031dc1973d9744b115f6052c1c501, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.029501855, y: -0.04128331}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.875, y: 1.875}
-    newSize: {x: 1.875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.55751604, y: 1.3358995}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0.0662176, y: -0.037838697}
+  m_Size: {x: 0.6233891, y: 1.439856}
+  m_Direction: 0
 --- !u!212 &1883792027
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1343,38 +1365,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883792022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.19, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1591006014}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1883792029
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1883792022}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.058457583, y: -0.71679914}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.875, y: 1.875}
-    newSize: {x: 1.875, y: 1.875}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.46791703, y: 0.06142199}
-  m_EdgeRadius: 0
 --- !u!1 &2009003801
 GameObject:
   m_ObjectHideFlags: 0

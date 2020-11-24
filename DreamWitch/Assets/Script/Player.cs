@@ -5,24 +5,25 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static Player Instance;
+    public LayerMask mGoundLayer;
 
+    const float mGoundCheckRadius = 0.2f;
     public Rigidbody2D mRB2D;
     public Animator mAnim;
     public SpriteRenderer mRenderer;
+    public Transform mGroundChecker;
 
     public float mSpeed;
     public float mJumpForce;
-    public bool isJump,isFalling;
+    public bool isJump=false;
+    public bool isGround=false;
     private float Hori;
-    public int mGravityScale;
-    public int jump;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            isJump = false;
         }
         else
         {
@@ -30,33 +31,34 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        GroundCheck();
+        Moving(isJump);
+    }
+
     private void Update()
     {
-        Moving();
-        if (jump < 41)
+        mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isJump == false && Input.GetKey(KeyCode.Space) && isFalling == false)
-            {
-                isJump = true;
-                mAnim.SetBool(AnimHash.Jump, true);
-                Invoke("JumpCheck", 0.05f);
-                mRB2D.AddForce(Vector3.up * mJumpForce);
-                mRB2D.gravityScale += mRB2D.velocity.y;
-            }
+            isJump = true;
+            mAnim.SetBool(AnimHash.Jump, true);
         }
-        else
+        else if (Input.GetKeyUp(KeyCode.Space))
         {
-            JumpEnd();
+            isJump = false;
         }
     }
 
-    private void JumpCheck()
+    private void Moving(bool jumpFlag)
     {
-        jump++;
-    }
-
-    private void Moving()
-    {
+        if (isGround&& jumpFlag)
+        {
+            mRB2D.AddForce(new Vector3(0,1,0)*mJumpForce,ForceMode2D.Impulse);
+            jumpFlag = false;
+        }
+        #region Move
         Hori = Input.GetAxisRaw("Horizontal");
         Vector2 dir = new Vector2(Hori, 0);
         float spd;
@@ -76,36 +78,26 @@ public class Player : MonoBehaviour
             spd = mSpeed;
         }
         mRB2D.velocity = dir.normalized * spd;
+        mAnim.SetFloat("xVelocity", mRB2D.velocity.x);
         if (Hori > 0)//좌
         {
-            mAnim.SetBool(AnimHash.Walk, true);
             mRenderer.flipX = false;
         }
         if (Hori < 0)//우
         {
-            mAnim.SetBool(AnimHash.Walk, true);
             mRenderer.flipX = true;
         }
-        if (mRB2D.velocity == Vector2.zero)
-        {
-            mAnim.SetBool(AnimHash.Walk, false);
-        }
+        #endregion
     }
 
-    public void JumpEnd()
+    public void GroundCheck()
     {
-        isFalling = true;
-        mRB2D.gravityScale = mGravityScale;
-        mAnim.SetBool(AnimHash.Jump, false);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
+        isGround = false;
+        Collider2D[] Coll2D = Physics2D.OverlapCircleAll(mGroundChecker.position, mGoundCheckRadius,mGoundLayer);
+        if (Coll2D.Length>0)
         {
-            mAnim.SetBool(AnimHash.Jump, false);
-            isFalling = false;
-            jump = 0;
+            isGround = true;
         }
+        mAnim.SetBool(AnimHash.Jump, !isGround);
     }
 }

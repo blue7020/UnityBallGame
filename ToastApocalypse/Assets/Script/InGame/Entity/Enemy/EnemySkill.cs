@@ -213,13 +213,13 @@ public class EnemySkill : MonoBehaviour
                     RudolphHead();
                     break;
                 case 55://MrSnow
-
+                    MrSnow();
                     break;
                 case 56://Surprise
-
+                    StartCoroutine(Surprise());
                     break;
                 case 57://Trixie
-
+                    Trixie();
                     break;
                 default:
                     Debug.LogError("wrong Enemy ID");
@@ -309,7 +309,7 @@ public class EnemySkill : MonoBehaviour
                 case 28://Kramen
                     break;
                 case 29://Ice
-                    Ice();
+                    Xbolt(22);
                     break;
                 case 30://CoolTomato
                     Xbolt(22);
@@ -476,10 +476,10 @@ public class EnemySkill : MonoBehaviour
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
         {
-            StartCoroutine(FallingBolt(31,7));
+            StartCoroutine(RandomBolt(31,7));
         }
         yield return delay;
-        StartCoroutine(FallingBolt(31, 7));
+        StartCoroutine(RandomBolt(31, 7));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Walk, true);
     }
@@ -762,7 +762,6 @@ public class EnemySkill : MonoBehaviour
             yield return delay;
         }
     }
-
     private void CreamRay()
     {
         Vector3 Pos = Player.Instance.transform.position;
@@ -1154,15 +1153,6 @@ public class EnemySkill : MonoBehaviour
         }
     }
 
-
-    private void Ice()
-    {
-        for (int i = 1; i < 5; i++)
-        {
-            ResetDir(22, i);
-        }
-    }
-
     private IEnumerator CoolTomato()
     {
         WaitForSeconds delay = new WaitForSeconds(1.5f);
@@ -1185,7 +1175,7 @@ public class EnemySkill : MonoBehaviour
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             StartCoroutine(MoveDelay(0.5f));
-            IceWing2();
+            Allbolt(22);
         }
         else
         {
@@ -1206,19 +1196,12 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount -= 1.5f;
         mEnemy.IsTraking = true;
     }
-    private void IceWing2()
-    {
-        for (int i = 1; i < 9; i++)
-        {
-            ResetDir(22, i);
-        }
-    }
 
     private void PhantomPizz()
     {
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            IceWing2();
+            Allbolt(22);
             if (Skilltrigger == false)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Phase, true);
@@ -1288,7 +1271,7 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.3f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         mEnemy.IsTraking = false;
-        IceBoom();
+        RandomBolt(24, 8);
         yield return delay;
         mEnemy.SpeedAmount += 3f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
@@ -1297,23 +1280,15 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount -= 3f;
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            IceBoom();
+            if (Skilltrigger==false)
+            {
+                Skilltrigger = true;
+                IceBarrier();
+            }
+            RandomBolt(24,8);
         }
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.IsTraking = true;
-    }
-
-    private void IceBoom()
-    {
-        for (int i = 1; i < 8; i++)
-        {
-            int Xpos = Random.Range(-6, 7);
-            int Ypos = Random.Range(-6, 7);
-            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            Bullet bolt = BulletPool.Instance.GetFromPool(24);
-            bolt.mEnemy = mEnemy;
-            bolt.transform.localPosition = mEnemy.transform.position + Pos;
-        }
     }
 
     private void Tunight()
@@ -1340,7 +1315,7 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(2f));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         yield return delay;
-        IceBoom();
+        RandomBolt(24, 8);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
     private IEnumerator Tunight1()
@@ -1352,7 +1327,7 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount += 1f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
         mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
-        IceBoom();
+        RandomBolt(24, 8);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.SpeedAmount -= 1f;
     }
@@ -1362,7 +1337,7 @@ public class EnemySkill : MonoBehaviour
     {
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            Bagoyle1();
+            Allbolt(25);
         }
         else
         {
@@ -1381,11 +1356,11 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount -= 1.5f;
         mEnemy.IsTraking = true;
     }
-    private void Bagoyle1()
+    private void Allbolt(int id)
     {
         for (int i = 1; i < 9; i++)
         {
-            ResetDir(25, i);
+            ResetDir(id, i);
         }
     }
 
@@ -1412,22 +1387,9 @@ public class EnemySkill : MonoBehaviour
             }
             mEnemy.Nodamage = false;
         }
-        ToastBoom(8);
+        RandomBolt(27, 8);
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-    }
-
-    private void ToastBoom(int count)
-    {
-        for (int i = 1; i < count; i++)
-        {
-            int Xpos = Random.Range(-6, 7);
-            int Ypos = Random.Range(-6, 7);
-            Vector3 Pos = new Vector3(Xpos, Ypos, 0);
-            Bullet toast = BulletPool.Instance.GetFromPool(27);
-            toast.mEnemy = mEnemy;
-            toast.transform.position = mEnemy.transform.position + Pos;
-        }
     }
 
     private void Tomster()
@@ -1485,7 +1447,7 @@ public class EnemySkill : MonoBehaviour
                 mEnemy.mStats.AtkSpd += 0.5f;
                 Skilltrigger = true;
             }
-            ToastBoom(10);
+            RandomBolt(27, 10);
         }
         else
         {
@@ -1513,7 +1475,7 @@ public class EnemySkill : MonoBehaviour
         }
         else
         {
-            FallingBolt(29,8);
+            RandomBolt(29,8);
             SkillCount++;
         }
     }
@@ -1563,12 +1525,12 @@ public class EnemySkill : MonoBehaviour
         {
             Xbolt(2);
         }
-        StartCoroutine(FallingBolt(30,10));
+        StartCoroutine(RandomBolt(30,10));
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
-    private IEnumerator FallingBolt(int id, int count)
+    private IEnumerator RandomBolt(int id, int count)
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         int BoltCount = 0;
@@ -1620,7 +1582,7 @@ public class EnemySkill : MonoBehaviour
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
             Skilltrigger = false;
-            StartCoroutine(FallingBolt(33,8));
+            StartCoroutine(RandomBolt(33,8));
         }
     }
 
@@ -1629,7 +1591,7 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.3f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         mEnemy.IsTraking = false;
-        StartCoroutine(FallingBolt(33,8));
+        StartCoroutine(RandomBolt(33,8));
         yield return delay;
         mEnemy.SpeedAmount += 3f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
@@ -1638,7 +1600,7 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount -= 3f;
         if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
         {
-            StartCoroutine(FallingBolt(33,8));
+            StartCoroutine(RandomBolt(33,8));
         }
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.IsTraking = true;
@@ -1653,7 +1615,7 @@ public class EnemySkill : MonoBehaviour
         {
             Xbolt(32);
         }
-        StartCoroutine(FallingBolt(33,8));
+        StartCoroutine(RandomBolt(33,8));
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
@@ -1699,7 +1661,7 @@ public class EnemySkill : MonoBehaviour
         {
             StartCoroutine(RudolphDash());
         }
-        FallingBolt(34,7);
+        RandomBolt(34,7);
     }
     private IEnumerator RudolphDash()
     {
@@ -1712,5 +1674,98 @@ public class EnemySkill : MonoBehaviour
         yield return delay;
         mEnemy.SpeedAmount -= 0.6f;
         mEnemy.IsTraking = true;
+    }
+
+    private void MrSnow()
+    {
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            Allbolt(33);
+            RandomBolt(34, 10);
+            if (Skilltrigger==false)
+            {
+                IceBarrier();
+                Skilltrigger = true;
+            }
+        }
+        else
+        {
+            Xbolt(33);
+            RandomBolt(34, 8);
+        }
+    }
+
+    private IEnumerator Surprise()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        mEnemy.IsTraking = false;
+        Allbolt(33);
+        yield return delay;
+        mEnemy.SpeedAmount += 2.5f;
+        Vector3 dir = Player.Instance.transform.position - transform.position;
+        mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
+        yield return delay;
+        mEnemy.SpeedAmount -= 2.5f;
+        if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+        {
+            if (Skilltrigger==false)
+            {
+                IceBarrier();
+                Skilltrigger = true;
+                Vector3 Pos = Vector3.zero;
+                for (int i = 0; i < 2; i++)
+                {
+                    Enemy enemy = EnemyPool.Instance.GetFromPool(5);//더박스 소환
+                    enemy.CurrentRoom = mEnemy.CurrentRoom;
+                    enemy.mStats.Gold = 0;
+                    switch (i)
+                    {
+                        case 0:
+                            Pos = new Vector3(1, 0, 0);
+                            break;
+                        case 1:
+                            Pos = new Vector3(-1, 0, 0);
+                            break;
+                    }
+                    enemy.transform.position = mEnemy.transform.position + Pos;
+                    enemy.mCurrentHP -= 3;
+                }
+            }
+            RandomBolt(34, 8);
+        }
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.IsTraking = true;
+    }
+
+    private void Trixie()
+    {
+        if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
+        {
+            if (Skilltrigger==false)
+            {
+                IceBarrier();
+                Skilltrigger = true;
+            }
+        }
+        if (SkillCount >= 3)
+        {
+            StartCoroutine(Snowball());
+        }
+        else
+        {
+            RandomBolt(34, 8);
+            SkillCount++;
+        }
+    }
+    private IEnumerator Snowball()
+    {
+        WaitForSeconds delay = new WaitForSeconds(2f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        GameObject snowball = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
+        StartCoroutine(MoveDelay(2.1f));
+        yield return delay;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        SkillCount = 0;
     }
 }

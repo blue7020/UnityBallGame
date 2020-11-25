@@ -46,15 +46,7 @@ public class Enemy : InformationLoader
     private void Awake()
     {
         mStats = EnemyController.Instance.mInfoArr[mID];
-        Spawned = false;
-        HasBarrier = false;
-        IsTraking = true;
-        AttackOn = false;
-        Nodamage = true;
-        AttackCheck = true;
-        Stun = true;
-        isFire = false;
-        if (GameSetting.Instance.NowStage<7)
+        if (GameSetting.Instance.NowStage < 7)
         {
             mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);
         }
@@ -63,6 +55,14 @@ public class Enemy : InformationLoader
             mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + 2) * GameController.Instance.StageLevel);
         }
         mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
+        Spawned = false;
+        HasBarrier = false;
+        IsTraking = true;
+        AttackOn = false;
+        Nodamage = true;
+        AttackCheck = true;
+        Stun = true;
+        isFire = false;
         mDelayCount = 0;
         if (eType==eEnemyType.Boss)
         {
@@ -91,7 +91,7 @@ public class Enemy : InformationLoader
         }
         gameObject.layer = 0;
         Spawned = true;
-        if (GameSetting.Instance.NowStage == 5)
+        if (GameSetting.Instance.NowStage == 5|| GameSetting.Instance.NowStage == 8)
         {
             mEnemySkill.IceBarrier();
         }

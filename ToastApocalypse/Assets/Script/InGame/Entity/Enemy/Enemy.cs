@@ -41,11 +41,11 @@ public class Enemy : InformationLoader
             Player.Instance.CurrentRoom.EnemyCount++;
         }
         gameObject.layer = 8;
+        mStats = EnemyController.Instance.mInfoArr[mID];
     }
 
     private void Awake()
     {
-        mStats = EnemyController.Instance.mInfoArr[mID];
         if (GameSetting.Instance.NowStage < 7)
         {
             mMaxHP = mStats.Hp + ((GameController.Instance.StageHP + GameSetting.Instance.NowStage) * GameController.Instance.StageLevel);

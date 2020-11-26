@@ -1271,7 +1271,7 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.3f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         mEnemy.IsTraking = false;
-        RandomBolt(24, 8);
+        StartCoroutine(RandomBolt(24, 8));
         yield return delay;
         mEnemy.SpeedAmount += 3f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
@@ -1285,7 +1285,7 @@ public class EnemySkill : MonoBehaviour
                 Skilltrigger = true;
                 IceBarrier();
             }
-            RandomBolt(24,8);
+            StartCoroutine(RandomBolt(24,8));
         }
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.IsTraking = true;
@@ -1315,7 +1315,7 @@ public class EnemySkill : MonoBehaviour
         StartCoroutine(MoveDelay(2f));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         yield return delay;
-        RandomBolt(24, 8);
+        StartCoroutine(RandomBolt(24, 8));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
     private IEnumerator Tunight1()
@@ -1327,7 +1327,7 @@ public class EnemySkill : MonoBehaviour
         mEnemy.SpeedAmount += 1f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
         mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
-        RandomBolt(24, 8);
+        StartCoroutine(RandomBolt(24, 8));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.SpeedAmount -= 1f;
     }
@@ -1387,7 +1387,7 @@ public class EnemySkill : MonoBehaviour
             }
             mEnemy.Nodamage = false;
         }
-        RandomBolt(27, 8);
+        StartCoroutine(RandomBolt(27, 8));
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
@@ -1403,6 +1403,7 @@ public class EnemySkill : MonoBehaviour
                 for (int i = 0; i < 2; i++)
                 {
                     Enemy enemy = EnemyPool.Instance.GetFromPool(7);//좀비소트스 소환
+                    enemy.CurrentRoom = mEnemy.CurrentRoom;
                     switch (i)
                     {
                         case 0:
@@ -1447,7 +1448,7 @@ public class EnemySkill : MonoBehaviour
                 mEnemy.mStats.AtkSpd += 0.5f;
                 Skilltrigger = true;
             }
-            RandomBolt(27, 10);
+            StartCoroutine(RandomBolt(27, 10));
         }
         else
         {
@@ -1475,7 +1476,7 @@ public class EnemySkill : MonoBehaviour
         }
         else
         {
-            RandomBolt(29,8);
+            StartCoroutine(RandomBolt(29,8));
             SkillCount++;
         }
     }
@@ -1661,18 +1662,20 @@ public class EnemySkill : MonoBehaviour
         {
             StartCoroutine(RudolphDash());
         }
-        RandomBolt(34,7);
+        StartCoroutine(RandomBolt(35,7));
     }
     private IEnumerator RudolphDash()
     {
         WaitForSeconds delay = new WaitForSeconds(0.3f);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         yield return delay;
         mEnemy.IsTraking = false;
-        mEnemy.SpeedAmount += 0.6f;
+        mEnemy.SpeedAmount += 1.5f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
         mEnemy.mRB2D.velocity = dir.normalized * (mEnemy.mStats.Spd * (1 + mEnemy.SpeedAmount));
         yield return delay;
-        mEnemy.SpeedAmount -= 0.6f;
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.SpeedAmount -= 1.5f;
         mEnemy.IsTraking = true;
     }
 
@@ -1680,8 +1683,8 @@ public class EnemySkill : MonoBehaviour
     {
         if (mEnemy.mCurrentHP<=mEnemy.mMaxHP/2)
         {
-            Allbolt(33);
-            RandomBolt(34, 10);
+            Allbolt(34);
+            StartCoroutine(RandomBolt(35, 10));
             if (Skilltrigger==false)
             {
                 IceBarrier();
@@ -1690,8 +1693,8 @@ public class EnemySkill : MonoBehaviour
         }
         else
         {
-            Xbolt(33);
-            RandomBolt(34, 8);
+            Xbolt(34);
+            StartCoroutine(RandomBolt(35, 8));
         }
     }
 
@@ -1700,7 +1703,7 @@ public class EnemySkill : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.3f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         mEnemy.IsTraking = false;
-        Allbolt(33);
+        Allbolt(34);
         yield return delay;
         mEnemy.SpeedAmount += 2.5f;
         Vector3 dir = Player.Instance.transform.position - transform.position;
@@ -1732,7 +1735,7 @@ public class EnemySkill : MonoBehaviour
                     enemy.mCurrentHP -= 3;
                 }
             }
-            RandomBolt(34, 8);
+            StartCoroutine(RandomBolt(35, 8));
         }
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mEnemy.IsTraking = true;
@@ -1754,7 +1757,7 @@ public class EnemySkill : MonoBehaviour
         }
         else
         {
-            RandomBolt(34, 8);
+            StartCoroutine(RandomBolt(35, 8));
             SkillCount++;
         }
     }
@@ -1762,7 +1765,7 @@ public class EnemySkill : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        GameObject snowball = Instantiate(SkillObj[0], Player.Instance.CurrentRoom.transform);
+        GameObject snowball = Instantiate(SkillObj[1], Player.Instance.CurrentRoom.transform);
         StartCoroutine(MoveDelay(2.1f));
         yield return delay;
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);

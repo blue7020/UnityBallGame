@@ -70,7 +70,7 @@ public class MagnetProjectile : MonoBehaviour
                 if (count >= 26)
                 {
                     StartCoroutine(RemoveObj());
-                    mRB2D.DOMove(Pos, 0.25f);
+                    mRB2D.DOMove(Pos, 1f);
                     break;
                 }
             }

@@ -872,7 +872,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591006013}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.687, z: 0}
+  m_LocalPosition: {x: 0, y: -0.554, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1883792028}
@@ -1266,7 +1266,10 @@ MonoBehaviour:
   mRenderer: {fileID: 1883792027}
   mGroundChecker: {fileID: 1591006014}
   mSpeed: 10
-  mJumpForce: 10000
+  mJumpForce: 500
+  mHangeCounter: 0
+  mHangTime: 0.2
+  mJumpBufferLength: 1
   isJump: 0
   isGround: 0
 --- !u!50 &1883792025
@@ -1288,7 +1291,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!70 &1883792026
 CapsuleCollider2D:
@@ -1299,12 +1302,12 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1883792022}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 7bb031dc1973d9744b115f6052c1c501, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0662176, y: -0.037838697}
-  m_Size: {x: 0.6233891, y: 1.439856}
+  m_Offset: {x: 0.0318622, y: -0.026903331}
+  m_Size: {x: 0.57213676, y: 1.4463233}
   m_Direction: 0
 --- !u!212 &1883792027
 SpriteRenderer:

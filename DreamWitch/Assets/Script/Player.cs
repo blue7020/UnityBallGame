@@ -15,6 +15,12 @@ public class Player : MonoBehaviour
 
     public float mSpeed;
     public float mJumpForce;
+    public float mHangeCounter;
+    public float mHangTime =0.2f;
+
+    public float mJumpBufferLength=1f;
+    private float mJumpBufferCount;
+
     public bool isJump=false;
     public bool isGround=false;
     private float Hori;
@@ -34,30 +40,61 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         GroundCheck();
-        Moving(isJump);
+        Moving();
     }
 
     private void Update()
     {
-        mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        //HangTime
+        if (isGround)
         {
-            isJump = true;
-            mAnim.SetBool(AnimHash.Jump, true);
+            mHangeCounter = mHangTime;
         }
-        else if (Input.GetKeyUp(KeyCode.Space))
+        else
+        {
+            mHangeCounter -= Time.deltaTime;
+        }
+
+        //JumpBuffer
+        if (Input.GetButtonDown("Jump"))
+        {
+            mJumpBufferCount = mJumpBufferLength;
+        }
+        else
+        {
+            mJumpBufferCount -= Time.deltaTime;
+        }
+
+        //Jump
+        if (mJumpBufferCount>=0&& mHangeCounter>0f)
+        {
+            if (isGround)
+            {
+                Jump();
+            }
+        }
+        else if (Input.GetButtonUp("Jump")&& mRB2D.velocity.y<0)
         {
             isJump = false;
         }
+        mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
     }
 
-    private void Moving(bool jumpFlag)
+    private void Jump()
     {
-        if (isGround&& jumpFlag)
+        Debug.Log(mRB2D.velocity.y +" / "+Vector2.up);
+        if (mRB2D.velocity.y<=0)
         {
-            mRB2D.AddForce(new Vector3(0,1,0)*mJumpForce,ForceMode2D.Impulse);
-            jumpFlag = false;
+            mJumpBufferCount = 0;
+            isJump = true;
+            mAnim.SetBool(AnimHash.Jump, true);
+            mRB2D.AddForce(Vector2.up*mJumpForce);
         }
+    }
+
+    private void Moving()
+    {
         #region Move
         Hori = Input.GetAxisRaw("Horizontal");
         Vector2 dir = new Vector2(Hori, 0);

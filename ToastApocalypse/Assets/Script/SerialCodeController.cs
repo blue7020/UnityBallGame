@@ -129,7 +129,7 @@ public class SerialCodeController : MonoBehaviour
                 mGuideText.text = "This code is not available!";
             }
         }
-        Debug.Log(SaveDataController.Instance.mCodeInfoArr[2].Code + " / " + mCodeText.text);
+        inputField.text = null;
         mRewardWindow.gameObject.SetActive(true);
     }
 

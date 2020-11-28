@@ -7,22 +7,17 @@ public class Player : MonoBehaviour
     public static Player Instance;
     public LayerMask mGoundLayer;
 
-    const float mGoundCheckRadius = 0.2f;
+    const float mGoundCheckRadius = 0.05f;
     public Rigidbody2D mRB2D;
     public Animator mAnim;
     public SpriteRenderer mRenderer;
-    public Transform mGroundChecker;
+    public Transform mGroundChecker, mHoldZone, Map;
+    public HoldingItem mHold,mNowHold;
 
     public float mSpeed;
     public float mJumpForce;
-    public float mHangeCounter;
-    public float mHangTime =0.2f;
 
-    public float mJumpBufferLength=1f;
-    private float mJumpBufferCount;
-
-    public bool isJump=false;
-    public bool isGround=false;
+    public bool isJump,isGround,isHold;
     private float Hori;
 
     private void Awake()
@@ -39,90 +34,55 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Hori = Input.GetAxis("Horizontal");
         GroundCheck();
-        Moving();
+        Moving(Hori,isJump);
     }
 
     private void Update()
     {
 
-        //HangTime
-        if (isGround)
-        {
-            mHangeCounter = mHangTime;
-        }
-        else
-        {
-            mHangeCounter -= Time.deltaTime;
-        }
-
-        //JumpBuffer
+        mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
         if (Input.GetButtonDown("Jump"))
         {
-            mJumpBufferCount = mJumpBufferLength;
+            isJump = true;
+            mAnim.SetBool(AnimHash.Jump, true);
         }
-        else
-        {
-            mJumpBufferCount -= Time.deltaTime;
-        }
-
-        //Jump
-        if (mJumpBufferCount>=0&& mHangeCounter>0f)
-        {
-            if (isGround)
-            {
-                Jump();
-            }
-        }
-        else if (Input.GetButtonUp("Jump")&& mRB2D.velocity.y<0)
+        else if (Input.GetButtonUp("Jump"))
         {
             isJump = false;
         }
-        mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
-    }
 
-    private void Jump()
-    {
-        Debug.Log(mRB2D.velocity.y +" / "+Vector2.up);
-        if (mRB2D.velocity.y<=0)
+        if (Input.GetKey(KeyCode.S))
         {
-            mJumpBufferCount = 0;
-            isJump = true;
-            mAnim.SetBool(AnimHash.Jump, true);
-            mRB2D.AddForce(Vector2.up*mJumpForce);
+            if (mHold != null)
+            {
+                GetItem(mHold);
+            }
         }
     }
 
-    private void Moving()
+    private void Moving(float dir,bool jumpFlag)
     {
+        if (isGround&& jumpFlag)
+        {
+            jumpFlag = false;
+            mRB2D.AddForce(new Vector2(0f, mJumpForce));
+        }
+
         #region Move
-        Hori = Input.GetAxisRaw("Horizontal");
-        Vector2 dir = new Vector2(Hori, 0);
-        float spd;
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        Vector3 move = new Vector3(dir, 0f, 0f);
+        transform.position += move * Time.deltaTime * mSpeed;
+        mAnim.SetFloat("xVelocity", dir);
+        if (dir > 0)//좌
         {
-            if (isJump == false)
-            {
-                spd = mSpeed * 1.3f;
-            }
-            else
-            {
-                spd = mSpeed;
-            }
+            //mRenderer.flipX = false;
+            mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
         }
-        else
+        if (dir < 0)//우
         {
-            spd = mSpeed;
-        }
-        mRB2D.velocity = dir.normalized * spd;
-        mAnim.SetFloat("xVelocity", mRB2D.velocity.x);
-        if (Hori > 0)//좌
-        {
-            mRenderer.flipX = false;
-        }
-        if (Hori < 0)//우
-        {
-            mRenderer.flipX = true;
+            mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+            //mRenderer.flipX = true;
         }
         #endregion
     }
@@ -134,7 +94,20 @@ public class Player : MonoBehaviour
         if (Coll2D.Length>0)
         {
             isGround = true;
+            mRB2D.velocity = Vector2.zero;
         }
         mAnim.SetBool(AnimHash.Jump, !isGround);
     }
+
+    public void GetItem(HoldingItem obj)//아이템 획득
+    {
+        //인벤토리 구현
+        //mNowHold = obj;
+        //mNowHold.transform.SetParent(mHoldZone);
+        //mNowHold.transform.position = Vector3.zero;
+        //isHold = true;
+    }
+
+    //TODO 아이템 홀드
+
 }

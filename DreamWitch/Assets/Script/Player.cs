@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     public float mSpeed;
     public float mJumpForce;
 
-    public bool isJump, isGround, isHold;
+    public bool isJump, isGround, isNoDamage,isHold;
     private float Hori;
 
     //TODO 1.피격 시 깜빡임, 2.사망, 3.공격
@@ -116,20 +116,51 @@ public class Player : MonoBehaviour
 
     public void Damage(int damage)
     {
-        mCurrentHP -= damage;
-        GameController.Instance.Damege();
+        if (!isNoDamage)
+        {
+            mCurrentHP -= damage;
+            GameController.Instance.Damege();
+            StartCoroutine(DamageAnimation());
+        }
+    }
+    public IEnumerator DamageAnimation()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        isNoDamage = true;
+        mRenderer.color = new Vector4(1,1,1,0.2f);
+        yield return delay;
+        mRenderer.color = Color.white;
+        yield return delay;
+        mRenderer.color = new Vector4(1, 1, 1, 0.2f);
+        yield return delay;
+        mRenderer.color = Color.white;
+        yield return delay;
+        mRenderer.color = new Vector4(1, 1, 1, 0.2f);
+        yield return delay;
+        mRenderer.color = Color.white;
+        yield return delay;
+        mRenderer.color = new Vector4(1, 1, 1, 0.2f);
+        yield return delay;
+        mRenderer.color = Color.white;
+        yield return delay;
+        mRenderer.color = new Vector4(1, 1, 1, 0.2f);
+        yield return delay;
+        mRenderer.color = Color.white;
+        isNoDamage = false;
     }
 
     public void Death()
     {
-        Damage(1);
+        mCurrentHP -= 1;
+        GameController.Instance.Damege();
+        StartCoroutine(DamageAnimation());
         if (mCurrentHP > 0)
         {
             transform.position = CheckPointPos;
         }
         else
         {
-            //게임 오버
+            GameController.Instance.GameOver();
         }
     }
 

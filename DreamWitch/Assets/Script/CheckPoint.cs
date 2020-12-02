@@ -12,7 +12,6 @@ public class CheckPoint : MonoBehaviour
         {
             mCheckPointOn = true;
             Player.Instance.CheckPointPos = new Vector3(transform.position.x, 2f,0);
-            Debug.Log(Player.Instance.mMaxHP+"/"+Player.Instance.mCurrentHP);
             GameController.Instance.Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
         }   
     }

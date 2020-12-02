@@ -6,23 +6,22 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     public LayerMask mGoundLayer;
-
     const float GROUND_CHECK_RADIUS = 0.01f;
+
     public Rigidbody2D mRB2D;
     public Animator mAnim;
     public SpriteRenderer mRenderer;
-    public Transform mGroundChecker, mHoldZone, Map;
+    public Transform mGroundChecker, mHoldZone, mBulletStart,Map;
     public Vector2 CheckPointPos;
     public HoldingItem mHold, mNowHold;
+    public PlayerBolt mBolt;
 
     public int mMaxHP, mCurrentHP;
     public float mSpeed;
     public float mJumpForce;
 
-    public bool isJump, isGround, isNoDamage,isHold;
+    public bool isJump, isGround, isNoDamage,isCooltime,isHold;
     private float Hori;
-
-    //TODO 1.피격 시 깜빡임, 2.사망, 3.공격
 
     private void Awake()
     {
@@ -59,13 +58,22 @@ public class Player : MonoBehaviour
             isJump = false;
         }
 
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    if (mHold != null)
-        //    {
-        //        GetItem(mHold);
-        //    }
-        //}
+        if (Input.GetKey(KeyCode.S)&&!isCooltime)//공격
+        {
+            StartCoroutine(AttackCooltime());
+        }
+    }
+
+    public IEnumerator AttackCooltime()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.5f);
+        PlayerBolt bolt = Instantiate(mBolt);
+        bolt.transform.position = transform.position;
+        bolt.transform.rotation = mRenderer.gameObject.transform.rotation;
+        bolt.mRB2D.AddForce(mBulletStart.right * mSpeed, ForceMode2D.Impulse);
+        isCooltime = true;
+        yield return delay;
+        isCooltime = false;
     }
 
     private void Moving(float dir, bool jumpFlag)

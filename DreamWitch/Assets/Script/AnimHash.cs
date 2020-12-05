@@ -10,4 +10,8 @@ public class AnimHash : MonoBehaviour
 
     //TriggerObj
     public static readonly int On = Animator.StringToHash("IsTrigger");
+
+    //Enemy
+    public static readonly int Enemy_Attack = Animator.StringToHash("IsAttack");
+    public static readonly int Enemy_Death = Animator.StringToHash("IsDeath");
 }

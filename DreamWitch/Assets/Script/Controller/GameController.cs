@@ -11,7 +11,6 @@ public class GameController : MonoBehaviour
     public Image mHeart,mHeartFrame;
     public List<Image> mPlayerHP;
     public List<Image> mHPFrame;
-    public int PlayCount=3;//목숨
     public bool Pause;
 
 
@@ -48,7 +47,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void SetHP(int count)
+    public void SetHP(float count)
     {
         for (int i = 0; i < count; i++)
         {
@@ -72,7 +71,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void Heal(int count)
+    public void Heal(float count)
     {
         for (int i = 0; i < count; i++)
         {
@@ -96,17 +95,19 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-        PlayCount -= 1;
-        if (PlayCount==0)
+        TitleController.Instance.PlayCount -= 1;
+        if (TitleController.Instance.PlayCount ==0)
         {
+            TitleController.Instance.PlayCount = 3;
             SceneManager.LoadScene(0);
         }
         else
         {
-           StartCoroutine(UIController.Instance.ShowPlayCountScreen());
-            Player.Instance.CheckPointPos = mStartPoint.position;
-            RemoveHealth();
-            Heal(3);
+            SceneManager.LoadScene(1);
+           //StartCoroutine(UIController.Instance.ShowPlayCountScreen());
+           // Player.Instance.CheckPointPos = mStartPoint.position;
+           // RemoveHealth();
+           // Heal(3);
         }
     }
 }

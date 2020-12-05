@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class TriggerObject : MonoBehaviour
 {
-    public bool mTrigger,mIsLoop;
+    public bool mTrigger,mIsLoop,mMovingTrigger;
+    public int mMovingDirCode;
     public GameObject mTriggerObj;
     public Animator mAnim;
     public float mDelay;
@@ -13,13 +14,19 @@ public class TriggerObject : MonoBehaviour
     {
         if (other.gameObject.CompareTag("PlayerBolt") &&!mTrigger)
         {
+            mAnim.SetBool(AnimHash.On, true);
             mTrigger = true;
             Destroy(other.gameObject);
-            mAnim.SetBool(AnimHash.On, true);
             mTriggerObj.gameObject.SetActive(true);
             if (mIsLoop)
             {
                 StartCoroutine(Loop());
+            }
+            if (mMovingTrigger)
+            {
+
+                mTriggerObj.GetComponent<MovingTile>().mDir = mMovingDirCode;
+                mTriggerObj.GetComponent<MovingTile>().isMove = true;
             }
         }
     }

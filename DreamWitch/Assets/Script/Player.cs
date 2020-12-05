@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     public LayerMask mGoundLayer;
-    const float GROUND_CHECK_RADIUS = 0.01f;
+    const float GROUND_CHECK_RADIUS = 0.05f;
 
     public Rigidbody2D mRB2D;
     public Animator mAnim;
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public HoldingItem mHold, mNowHold;
     public PlayerBolt mBolt;
 
-    public int mMaxHP, mCurrentHP;
+    public float mMaxHP, mCurrentHP;
     public float mSpeed;
     public float mJumpForce;
 
@@ -41,7 +41,8 @@ public class Player : MonoBehaviour
     {
         Hori = Input.GetAxis("Horizontal");
         GroundCheck();
-        Moving(Hori, isJump);
+        Moving(Hori);
+        Jump(isJump);
     }
 
     private void Update()
@@ -76,15 +77,16 @@ public class Player : MonoBehaviour
         isCooltime = false;
     }
 
-    private void Moving(float dir, bool jumpFlag)
+    public void Jump(bool jumpFlag)
     {
         if (isGround && jumpFlag)
         {
             jumpFlag = false;
             mRB2D.AddForce(new Vector2(0f, mJumpForce));
         }
-
-        #region Move
+    }
+    private void Moving(float dir)
+    {
         Vector3 move = new Vector3(dir, 0f, 0f);
         transform.position += move * Time.deltaTime * mSpeed;
         mAnim.SetFloat("xVelocity", dir);
@@ -96,7 +98,6 @@ public class Player : MonoBehaviour
         {
             mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
         }
-        #endregion
     }
 
     public void GroundCheck()
@@ -122,13 +123,17 @@ public class Player : MonoBehaviour
 
     //TODO 아이템 홀드
 
-    public void Damage(int damage)
+    public void Damage(float damage)
     {
         if (!isNoDamage)
         {
             mCurrentHP -= damage;
             GameController.Instance.Damege();
             StartCoroutine(DamageAnimation());
+        }
+        if (mCurrentHP<1)
+        {
+            GameController.Instance.GameOver();
         }
     }
     public IEnumerator DamageAnimation()
@@ -157,7 +162,7 @@ public class Player : MonoBehaviour
         isNoDamage = false;
     }
 
-    public void Death()
+    public void FallingDamage()
     {
         mCurrentHP -= 1;
         GameController.Instance.Damege();
@@ -166,9 +171,24 @@ public class Player : MonoBehaviour
         {
             transform.position = CheckPointPos;
         }
-        else
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            GameController.Instance.GameOver();
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            if (mRB2D.velocity.y<0&&transform.position.y>enemy.transform.position.y)//몬스터보다 높은 위치에 있을 때
+            {
+                enemy.Damage(2);
+            }
+            else
+            {
+                if (enemy.isDeath == false)//아니라면 플레이어가 데미지 받음
+                {
+                    Damage(enemy.mAtk);
+                }
+            }
         }
     }
 

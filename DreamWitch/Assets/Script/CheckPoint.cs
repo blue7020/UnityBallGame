@@ -11,7 +11,7 @@ public class CheckPoint : MonoBehaviour
         if (other.gameObject.CompareTag("Player")&& mCheckPointOn==false)
         {
             mCheckPointOn = true;
-            Player.Instance.CheckPointPos = new Vector3(transform.position.x, 2f,0);
+            Player.Instance.CheckPointPos = new Vector3(transform.position.x, transform.position.y+1f, 0);
             GameController.Instance.Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
         }   
     }

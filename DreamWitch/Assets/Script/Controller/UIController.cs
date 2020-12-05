@@ -31,7 +31,7 @@ public class UIController : MonoBehaviour
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(2f);
         GameController.Instance.GamePause();
-        mPlayCountText.text = "x"+GameController.Instance.PlayCount;
+        mPlayCountText.text = "x"+TitleController.Instance.PlayCount;
         mPlayCountSceen.gameObject.SetActive(true);
         yield return delay;
         mPlayCountSceen.gameObject.SetActive(false);

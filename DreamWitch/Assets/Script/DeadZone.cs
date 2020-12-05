@@ -8,7 +8,7 @@ public class DeadZone : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Player.Instance.Death();
+            Player.Instance.FallingDamage();
         }
     }
 }

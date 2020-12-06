@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     public LayerMask mGoundLayer;
-    const float GROUND_CHECK_RADIUS = 0.05f;
+    const float GROUND_CHECK_RADIUS = 0.01f;
 
     public Rigidbody2D mRB2D;
     public Animator mAnim;
@@ -61,17 +61,21 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.S)&&!isCooltime)//공격
         {
-            StartCoroutine(AttackCooltime());
+            if (GameController.Instance.Pause==false)
+            {
+                StartCoroutine(AttackCooltime());
+            }
         }
     }
 
     public IEnumerator AttackCooltime()
     {
         WaitForSeconds delay = new WaitForSeconds(0.5f);
+        SoundController.Instance.SESound(2);
         PlayerBolt bolt = Instantiate(mBolt);
         bolt.transform.position = transform.position;
         bolt.transform.rotation = mRenderer.gameObject.transform.rotation;
-        bolt.mRB2D.AddForce(mBulletStart.right * mSpeed, ForceMode2D.Impulse);
+        bolt.mRB2D.AddForce(mBulletStart.right * bolt.mSpeed, ForceMode2D.Impulse);
         isCooltime = true;
         yield return delay;
         isCooltime = false;
@@ -82,6 +86,7 @@ public class Player : MonoBehaviour
         if (isGround && jumpFlag)
         {
             jumpFlag = false;
+            SoundController.Instance.SESound(13);
             mRB2D.AddForce(new Vector2(0f, mJumpForce));
         }
     }
@@ -178,7 +183,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
-            if (mRB2D.velocity.y<0&&transform.position.y>enemy.transform.position.y)//몬스터보다 높은 위치에 있을 때
+            if (mRB2D.velocity.y < 0 && transform.position.y > enemy.mHead.transform.position.y)//몬스터보다 높은 위치에 있을 때
             {
                 enemy.Damage(2);
             }

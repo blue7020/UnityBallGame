@@ -5,7 +5,6 @@ using UnityEngine;
 public class TriggerObject : MonoBehaviour
 {
     public bool mTrigger,mIsLoop,mMovingTrigger;
-    public int mMovingDirCode;
     public GameObject mTriggerObj;
     public Animator mAnim;
     public float mDelay;
@@ -15,6 +14,7 @@ public class TriggerObject : MonoBehaviour
         if (other.gameObject.CompareTag("PlayerBolt") &&!mTrigger)
         {
             mAnim.SetBool(AnimHash.On, true);
+            SoundController.Instance.SESound(3);
             mTrigger = true;
             Destroy(other.gameObject);
             mTriggerObj.gameObject.SetActive(true);
@@ -24,8 +24,6 @@ public class TriggerObject : MonoBehaviour
             }
             if (mMovingTrigger)
             {
-
-                mTriggerObj.GetComponent<MovingTile>().mDir = mMovingDirCode;
                 mTriggerObj.GetComponent<MovingTile>().isMove = true;
             }
         }
@@ -48,6 +46,7 @@ public class TriggerObject : MonoBehaviour
         yield return delay;
         mTriggerObj.gameObject.SetActive(false);
         mAnim.SetBool(AnimHash.On, false);
+        SoundController.Instance.SESound(4);
         mTrigger = false;
     }
 }

@@ -23,5 +23,6 @@ public class TitleUIController : MonoBehaviour
     public void GameStart()
     {
         SceneManager.LoadScene(1);
+        SoundController.Instance.BGMChange(0);
     }
 }

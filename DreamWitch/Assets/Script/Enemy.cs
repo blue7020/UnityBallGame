@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public bool isNoDamage,isDeath;
     public int mNextMove;
 
+    public Transform mHead;
     public Animator mAnim;
     public Rigidbody2D mRB2D;
     public SpriteRenderer mRenderer;
@@ -26,7 +27,7 @@ public class Enemy : MonoBehaviour
         mRB2D.velocity = new Vector2(mNextMove, mRB2D.velocity.y);
 
 
-        Vector2 frontVec = new Vector2(mRB2D.position.x + mNextMove*0.5f, mRB2D.position.y);
+        Vector2 frontVec = new Vector2(mRB2D.position.x + mNextMove*0.7f, mRB2D.position.y-1f);
         
         //낭떠러지 체크
         Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));//한칸 앞 부분아래 쪽으로 ray를 쏨
@@ -73,6 +74,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
+                SoundController.Instance.SESound(1);
                 StartCoroutine(DamageAnimation());
             }
         }
@@ -93,13 +95,6 @@ public class Enemy : MonoBehaviour
         yield return delay;
         mRenderer.color = Color.white;
         yield return delay;
-        mRenderer.color = new Vector4(1, 1, 1, 0.2f);
-        yield return delay;
-        mRenderer.color = Color.white;
-        yield return delay;
-        mRenderer.color = new Vector4(1, 1, 1, 0.2f);
-        yield return delay;
-        mRenderer.color = Color.white;
         isNoDamage = false;
     }
 
@@ -107,6 +102,7 @@ public class Enemy : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         mAnim.SetBool(AnimHash.Enemy_Death, true);
+        SoundController.Instance.SESound(0);
         CancelInvoke();
         mNextMove = 0;
         mRB2D.velocity = Vector2.zero;

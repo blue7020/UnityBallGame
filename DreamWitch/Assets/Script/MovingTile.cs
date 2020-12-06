@@ -5,53 +5,60 @@ using DG.Tweening;
 
 public class MovingTile : MonoBehaviour
 {
-    public bool isMove,isDown, isUp;
-    public int mDir;
-    public float mTime;
+    public bool isMove;
+    public float mSpeed;
     public Rigidbody2D mRB2D;
-    public Vector2 mMinPos, mMaxPos;
+    public Transform Pos1, Pos2,mStartPos;
+    public Vector3 mNextPos;
+
+    private void Start()
+    {
+        mNextPos = mStartPos.position;
+    }
 
     private void FixedUpdate()
     {
         if (isMove)
         {
-                StartCoroutine(MoveDelay());
-            switch (mDir)
+            if (transform.position==Pos1.position)
             {
-                case 0:
-                    mRB2D.DOMove(mMinPos, mTime);
-                    mDir = 1;
-                    break;
-                case 1:
-                    mRB2D.DOMove(mMaxPos, mTime);
-                    mDir = 0;
-                    break;
+                mNextPos = Pos2.position;
             }
+            if (transform.position == Pos2.position)
+            {
+                mNextPos = Pos1.position;
+            }
+            transform.position = Vector3.MoveTowards(transform.position, mNextPos, mSpeed * Time.deltaTime);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(Pos1.position, Pos2.position);
     }
 
     public IEnumerator MoveDelay()
     {
-        WaitForSeconds delay = new WaitForSeconds(mTime + 2f);
+        WaitForSeconds delay = new WaitForSeconds(mSpeed + 2f);
         isMove = false;
+        mRB2D.velocity = Vector2.zero;
         yield return delay;
         isMove = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.collider.transform.SetParent(transform);
-            other.gameObject.GetComponent<Rigidbody2D>().velocity= new Vector2(other.gameObject.GetComponent<Rigidbody2D>().velocity.x, other.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+            other.gameObject.transform.SetParent(transform);
+            other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(other.gameObject.GetComponent<Rigidbody2D>().velocity.x, other.gameObject.GetComponent<Rigidbody2D>().velocity.y);
         }
     }
-
-    private void OnCollisionExit2D(Collision2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.collider.transform.SetParent(null);
+            other.gameObject.transform.SetParent(null);
         }
     }
 }

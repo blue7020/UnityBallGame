@@ -77,6 +77,8 @@ public class GameController : MonoBehaviour
         {
             mPlayerHP.Add(Instantiate(mHeart, mCanvas));
         }
+        int rand = Random.Range(11, 13);//Player laugh
+        SoundController.Instance.SESound(rand);
         Player.Instance.mCurrentHP += count;
     }
 
@@ -88,6 +90,8 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            int rand = Random.Range(7, 10);//hitSound
+            SoundController.Instance.SESound(rand);
             Destroy(mPlayerHP[mPlayerHP.Count - 1].gameObject);
             mPlayerHP.RemoveAt(mPlayerHP.Count - 1);
         }

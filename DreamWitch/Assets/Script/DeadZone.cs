@@ -14,5 +14,9 @@ public class DeadZone : MonoBehaviour
         {
             other.gameObject.GetComponent<Enemy>().Damage(other.gameObject.GetComponent<Enemy>().mMaxHP);
         }
+        if (other.gameObject.CompareTag("EnemyBolt"))
+        {
+            other.gameObject.GetComponent<EnemyBolt>().gameObject.SetActive(false);
+        }
     }
 }

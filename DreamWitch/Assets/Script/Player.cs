@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     public HoldingItem mHold, mNowHold;
     public PlayerBolt mBolt;
 
+    public Sprite[] mActionArr;
+    public GameObject mAction;
+
     public float mMaxHP, mCurrentHP;
     public float mSpeed;
     public float mJumpForce;
@@ -197,4 +200,70 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("MoveEnd"))
+        {
+            ShowAction(0);
+            StartCoroutine(End());
+        }
+    }
+
+    public IEnumerator End()
+    {
+        float time = 2.5f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        yield return delay;
+        SoundController.Instance.mBGM.volume = 0;
+        mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+        SoundController.Instance.SESound(6);
+        ShowAction(1);
+        time = 1f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        CutSceneController.Instance.CutSceneCamera();
+        time = 5f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        CutSceneController.Instance.ChangeMainCamera();
+        //time = 1f;
+        //delay = new WaitForSeconds(time);
+        //yield return delay;
+        //CutSceneController.Instance.FadeOut();
+    }
+
+    public void ShowAction(int id)
+    {
+        switch (id)
+        {
+            case 0://생각
+                SoundController.Instance.SESound(10);
+                mAction.GetComponent<SpriteRenderer>().sprite = mActionArr[0];
+                break;
+            case 1://놀람
+                SoundController.Instance.SESound(15);
+                mAction.GetComponent<SpriteRenderer>().sprite = mActionArr[1];
+                break;
+            case 2://웃음
+                SoundController.Instance.SESound(11);
+                mAction.GetComponent<SpriteRenderer>().sprite = mActionArr[2];
+                break;
+            case 3://하트
+                SoundController.Instance.SESound(12);
+                mAction.GetComponent<SpriteRenderer>().sprite = mActionArr[3];
+                break;
+            case 4://물음표
+                SoundController.Instance.SESound(14);
+                mAction.GetComponent<SpriteRenderer>().sprite = mActionArr[4];
+                break;
+        }
+        StartCoroutine(ActiveAction());
+    }
+    private IEnumerator ActiveAction()
+    {
+        WaitForSeconds delay = new WaitForSeconds(2f);
+        mAction.SetActive(true);
+        yield return delay;
+        mAction.SetActive(false);
+    }
 }

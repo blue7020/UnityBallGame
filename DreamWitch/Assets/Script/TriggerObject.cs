@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TriggerObject : MonoBehaviour
 {
-    public bool mTrigger,mIsLoop,mMovingTrigger;
+    public bool mTrigger,mIsLoop,mMovingTrigger,mShowBlock;
     public GameObject mTriggerObj;
     public Animator mAnim;
     public float mDelay;
@@ -17,7 +17,14 @@ public class TriggerObject : MonoBehaviour
             SoundController.Instance.SESound(3);
             mTrigger = true;
             Destroy(other.gameObject);
-            mTriggerObj.gameObject.SetActive(true);
+            if (mShowBlock)
+            {
+                mTriggerObj.gameObject.SetActive(true);
+            }
+            else
+            {
+                mTriggerObj.gameObject.SetActive(false);
+            }
             if (mIsLoop)
             {
                 StartCoroutine(Loop());
@@ -44,7 +51,14 @@ public class TriggerObject : MonoBehaviour
         yield return delay;
         renderer.color = Color.white;
         yield return delay;
-        mTriggerObj.gameObject.SetActive(false);
+        if (mShowBlock)
+        {
+            mTriggerObj.gameObject.SetActive(false);
+        }
+        else
+        {
+            mTriggerObj.gameObject.SetActive(true);
+        }
         mAnim.SetBool(AnimHash.On, false);
         SoundController.Instance.SESound(4);
         mTrigger = false;

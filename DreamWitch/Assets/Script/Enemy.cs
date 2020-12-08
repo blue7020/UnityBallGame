@@ -7,10 +7,10 @@ public class Enemy : MonoBehaviour
 {
     public int mTypeCode;
     public float mMaxHP, mCurrentHP,mAtk;
-    public bool isNoDamage,isDeath;
+    public bool isMoving,isNoDamage,isDeath;
     public int mNextMove;
 
-    public Transform mHead;
+    public Transform mHead,mBoltStarter;
     public Animator mAnim;
     public Rigidbody2D mRB2D;
     public SpriteRenderer mRenderer;
@@ -18,24 +18,34 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         mCurrentHP = mMaxHP;
-        Invoke("Think", 2f);
+        if (mTypeCode == 0)
+        {
+            Invoke("Think", 2f);
+        }
+        else if (mTypeCode == 1)
+        {
+            Invoke("BoltAttack", 2.5f);
+        }
     }
 
     private void FixedUpdate()
     {
-        //이동
-        mRB2D.velocity = new Vector2(mNextMove, mRB2D.velocity.y);
-
-
-        Vector2 frontVec = new Vector2(mRB2D.position.x + mNextMove*0.7f, mRB2D.position.y-1f);
-        
-        //낭떠러지 체크
-        Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));//한칸 앞 부분아래 쪽으로 ray를 쏨
-        //레이를 쏴서 맞은 오브젝트를 탐지 
-        RaycastHit2D raycast = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("Ground"));
-        if (raycast.collider == null)
+        if (isMoving)
         {
-            Turn();
+            //이동
+            mRB2D.velocity = new Vector2(mNextMove, mRB2D.velocity.y);
+
+
+            Vector2 frontVec = new Vector2(mRB2D.position.x + mNextMove * 0.7f, mRB2D.position.y - 1f);
+
+            //낭떠러지 체크
+            Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));//한칸 앞 부분아래 쪽으로 ray를 쏨
+                                                                      //레이를 쏴서 맞은 오브젝트를 탐지 
+            RaycastHit2D raycast = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("Ground"));
+            if (raycast.collider == null)
+            {
+                Turn();
+            }
         }
     }
     
@@ -61,6 +71,21 @@ public class Enemy : MonoBehaviour
         Invoke("Think", time);
     }
 
+    public void BoltAttack()
+    {
+        Debug.Log("attack");
+        mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        Invoke("BoltAttack", 2.5f);
+    }
+    public void AttackEnd()
+    {
+        EnemyBolt bolt = EnemyBoltPool.Instance.GetFromPool(0);
+        bolt.mEnemy = this;
+        bolt.transform.position = mBoltStarter.position;
+        bolt.mRB2D.AddForce(mBoltStarter.up * bolt.mSpeed, ForceMode2D.Impulse);
+        mAnim.SetBool(AnimHash.Enemy_Attack, false);
+    }
+
     //mTypeCode 0=좌우 이동, 1=접근형, 2=원거리 공격
 
     public void Damage(float damage)
@@ -68,8 +93,10 @@ public class Enemy : MonoBehaviour
         if (isNoDamage==false)
         {
             mCurrentHP -= damage;
-            if (mCurrentHP < 1)
+            if (mCurrentHP <= 0)
             {
+                gameObject.layer = 10;
+                mAnim.SetBool(AnimHash.Enemy_Death, true);
                 StartCoroutine(Death());
             }
             else
@@ -101,14 +128,12 @@ public class Enemy : MonoBehaviour
     public IEnumerator Death()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
-        mAnim.SetBool(AnimHash.Enemy_Death, true);
         SoundController.Instance.SESound(0);
         CancelInvoke();
         mNextMove = 0;
         mRB2D.velocity = Vector2.zero;
         isDeath = true;
         isNoDamage = true;
-        gameObject.layer = 10;
         yield return delay;
         gameObject.SetActive(false);
     }

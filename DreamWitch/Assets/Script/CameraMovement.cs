@@ -6,6 +6,7 @@ public class CameraMovement : MonoBehaviour
 {
     public static CameraMovement Instance;
     public Transform mTarget;
+    public bool mTracking;
     public Vector3 mOffset;
     public float mSmoothFactor;
 
@@ -39,7 +40,10 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        Follow();
+        if (mTracking)
+        {
+            Follow();
+        }
     }
 
 }

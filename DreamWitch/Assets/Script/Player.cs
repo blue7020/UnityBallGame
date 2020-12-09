@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
     public Sprite[] mActionArr;
     public GameObject mAction;
+    public Enemy mEnemy;
 
     public float mMaxHP, mCurrentHP;
     public float mSpeed;
@@ -185,18 +186,31 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-            if (mRB2D.velocity.y < 0 && transform.position.y > enemy.mHead.transform.position.y)//몬스터보다 높은 위치에 있을 때
+            mEnemy = other.gameObject.GetComponent<Enemy>();
+            if (mRB2D.velocity.y < 0 && transform.position.y > mEnemy.mHead.transform.position.y)//몬스터보다 높은 위치에 있을 때
             {
-                enemy.Damage(2);
+                mEnemy.Damage(2);
             }
             else
             {
-                if (enemy.isDeath == false)//아니라면 플레이어가 데미지 받음
-                {
-                    Damage(enemy.mAtk);
-                }
+                DamageCount();//아니라면 플레이어가 데미지 받음
             }
+        }
+    }
+
+    private void DamageCount()
+    {
+        if (mEnemy.isCollide)
+        {
+            if (mEnemy.isDeath == false)
+            {
+                Damage(mEnemy.mAtk);
+            }
+            Invoke("DamageCount", 0.7f);
+        }
+        else
+        {
+            CancelInvoke();
         }
     }
 

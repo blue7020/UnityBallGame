@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public int mTypeCode;
     public float mMaxHP, mCurrentHP,mAtk;
-    public bool isMoving,isNoDamage,isDeath;
+    public bool isMoving,isNoDamage,isDeath,isCollide;
     public int mNextMove;
 
     public Transform mHead,mBoltStarter;
@@ -144,6 +144,21 @@ public class Enemy : MonoBehaviour
         {
             Damage(other.gameObject.GetComponent<PlayerBolt>().mDamage);
             Destroy(other.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isCollide = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            isCollide = false;
         }
     }
 }

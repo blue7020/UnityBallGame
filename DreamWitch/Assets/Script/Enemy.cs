@@ -73,7 +73,6 @@ public class Enemy : MonoBehaviour
 
     public void BoltAttack()
     {
-        Debug.Log("attack");
         mAnim.SetBool(AnimHash.Enemy_Attack, true);
         Invoke("BoltAttack", 2.5f);
     }

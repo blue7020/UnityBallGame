@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public static Player Instance;
-    public LayerMask mGoundLayer;
+    public LayerMask mGoundLayer,mLadderLayer;
     const float GROUND_CHECK_RADIUS = 0.01f;
 
     public Rigidbody2D mRB2D;
@@ -23,9 +23,10 @@ public class Player : MonoBehaviour
     public float mMaxHP, mCurrentHP;
     public float mSpeed;
     public float mJumpForce;
+    public float mDistance;
 
-    public bool isJump, isGround, isNoDamage,isCooltime,isHold;
-    private float Hori;
+    public bool isJump, isGround, isNoDamage,isCooltime, isClimbing, isHold;
+    private float Hori,Ver;
 
     private void Awake()
     {
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Hori = Input.GetAxis("Horizontal");
+        LadderCheck();
         GroundCheck();
         Moving(Hori);
         Jump(isJump);
@@ -55,15 +57,18 @@ public class Player : MonoBehaviour
         mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
         if (Input.GetButton("Jump"))
         {
-            isJump = true;
-            mAnim.SetBool(AnimHash.Jump, true);
+            if (!isClimbing)
+            {
+                isJump = true;
+                mAnim.SetBool(AnimHash.Jump, true);
+            }
         }
         else if (Input.GetButtonUp("Jump"))
         {
             isJump = false;
         }
 
-        if (Input.GetKey(KeyCode.S)&&!isCooltime)//공격
+        if (Input.GetKey(KeyCode.Q)&&!isCooltime)//공격
         {
             if (GameController.Instance.Pause==false)
             {
@@ -71,7 +76,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
     public IEnumerator AttackCooltime()
     {
         WaitForSeconds delay = new WaitForSeconds(0.5f);
@@ -87,6 +91,7 @@ public class Player : MonoBehaviour
 
     public void Jump(bool jumpFlag)
     {
+
         if (isGround && jumpFlag)
         {
             jumpFlag = false;
@@ -111,14 +116,48 @@ public class Player : MonoBehaviour
 
     public void GroundCheck()
     {
-        isGround = false;
-        Collider2D[] Coll2D = Physics2D.OverlapCircleAll(mGroundChecker.position, GROUND_CHECK_RADIUS, mGoundLayer);
-        if (Coll2D.Length > 0)
+        if (!isClimbing)
         {
-            isGround = true;
-            mRB2D.velocity = Vector2.zero;
+            isGround = false;
+            Collider2D[] Coll2D = Physics2D.OverlapCircleAll(mGroundChecker.position, GROUND_CHECK_RADIUS, mGoundLayer);
+            if (Coll2D.Length > 0)
+            {
+                isGround = true;
+                mRB2D.velocity = Vector2.zero;
+            }
+            mAnim.SetBool(AnimHash.Jump, !isGround);
         }
-        mAnim.SetBool(AnimHash.Jump, !isGround);
+    }
+    public void LadderCheck()
+    {
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, mDistance, mLadderLayer);
+        if (hitInfo.collider != null)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                isClimbing = true;
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            {
+                isClimbing = false;
+            }
+        }
+        if (isClimbing && hitInfo.collider != null)
+        {
+            mAnim.SetBool(AnimHash.Climb, true);
+            Ver = Input.GetAxisRaw("Vertical");
+            mRB2D.velocity = new Vector2(mRB2D.velocity.x, Ver * mSpeed);
+            mRB2D.gravityScale = 0;
+        }
+        else
+        {
+            mAnim.SetBool(AnimHash.Climb, false);
+            isClimbing = false;
+            mRB2D.gravityScale = 3;
+        }
     }
 
     public void GetItem(HoldingItem obj)//아이템 획득
@@ -239,11 +278,8 @@ public class Player : MonoBehaviour
         time = 5f;
         delay = new WaitForSeconds(time);
         yield return delay;
+        SoundController.Instance.mBGM.volume = 1f;
         CutSceneController.Instance.ChangeMainCamera();
-        //time = 1f;
-        //delay = new WaitForSeconds(time);
-        //yield return delay;
-        //CutSceneController.Instance.FadeOut();
     }
 
     public void ShowAction(int id)

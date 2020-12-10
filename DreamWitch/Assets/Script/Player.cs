@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     public float mJumpForce;
     public float mDistance;
 
-    public bool isJump, isGround, isNoDamage,isCooltime, isClimbing, isHold;
+    public bool isCutScene,isJump, isGround, isNoDamage,isCooltime, isClimbing, isHold;
     private float Hori,Ver;
 
     private void Awake()
@@ -47,17 +47,19 @@ public class Player : MonoBehaviour
         Hori = Input.GetAxis("Horizontal");
         LadderCheck();
         GroundCheck();
-        Moving(Hori);
-        Jump(isJump);
+        if (!isCutScene)
+        {
+            Moving(Hori);
+            Jump(isJump);
+        }
     }
 
     private void Update()
     {
-
         mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
         if (Input.GetButton("Jump"))
         {
-            if (!isClimbing)
+            if (!isClimbing&& !isCutScene)
             {
                 isJump = true;
                 mAnim.SetBool(AnimHash.Jump, true);
@@ -70,9 +72,17 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Q)&&!isCooltime)//공격
         {
-            if (GameController.Instance.Pause==false)
+            if (GameController.Instance.Pause==false|| !isCutScene)
             {
                 StartCoroutine(AttackCooltime());
+            }
+        }
+
+        if (Input.GetKey(KeyCode.F) && !isCooltime)//습득
+        {
+            if (GameController.Instance.Pause == false || !isCutScene)
+            {
+                GetItem();
             }
         }
     }
@@ -160,7 +170,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void GetItem(HoldingItem obj)//아이템 획득
+    public void GetItem()
     {
         //인벤토리 구현
         //mNowHold = obj;
@@ -168,8 +178,6 @@ public class Player : MonoBehaviour
         //mNowHold.transform.position = Vector3.zero;
         //isHold = true;
     }
-
-    //TODO 아이템 홀드
 
     public void Damage(float damage)
     {
@@ -253,35 +261,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("MoveEnd"))
-        {
-            ShowAction(0);
-            StartCoroutine(End());
-        }
-    }
-
-    public IEnumerator End()
-    {
-        float time = 2.5f;
-        WaitForSeconds delay = new WaitForSeconds(time);
-        yield return delay;
-        SoundController.Instance.mBGM.volume = 0;
-        mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
-        SoundController.Instance.SESound(6);
-        ShowAction(1);
-        time = 1f;
-        delay = new WaitForSeconds(time);
-        yield return delay;
-        CutSceneController.Instance.CutSceneCamera();
-        time = 5f;
-        delay = new WaitForSeconds(time);
-        yield return delay;
-        SoundController.Instance.mBGM.volume = 1f;
-        CutSceneController.Instance.ChangeMainCamera();
-    }
-
     public void ShowAction(int id)
     {
         switch (id)
@@ -311,7 +290,7 @@ public class Player : MonoBehaviour
     }
     private IEnumerator ActiveAction()
     {
-        WaitForSeconds delay = new WaitForSeconds(2f);
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(2f);
         mAction.SetActive(true);
         yield return delay;
         mAction.SetActive(false);

@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CutSceneController : MonoBehaviour
 {
     public static CutSceneController Instance;
     public Camera mMainCamera, mCutSceneCamera;
-    public GameObject mTentacle,mFadeOut;
+    public GameObject mTentacle,mFadeOut,mFadeIn;
+    public Image mCutSceneImage;
+    public Sprite[] mCutScenceSpriteArr;
 
     private void Awake()
     {
@@ -31,6 +34,16 @@ public class CutSceneController : MonoBehaviour
         transform.position = SmoothedPos;
     }
 
+    public void ShowCutSceneImage()
+    {
+        mCutSceneImage.sprite = mCutScenceSpriteArr[0];
+        mCutSceneImage.gameObject.SetActive(true);
+    }
+    public void CloseCutSceneImage()
+    {
+        mCutSceneImage.gameObject.SetActive(false);
+    }
+
     public void ChangeMainCamera()
     {
         mCutSceneCamera.gameObject.SetActive(false);
@@ -40,6 +53,12 @@ public class CutSceneController : MonoBehaviour
 
     public void FadeOut()
     {
+        mFadeIn.SetActive(false);
         mFadeOut.SetActive(true);
+    }
+    public void FadeIn()
+    {
+        mFadeOut.SetActive(false);
+        mFadeIn.SetActive(true);
     }
 }

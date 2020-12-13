@@ -7,7 +7,8 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage;
+    public Sprite mNull;
     public Text mPlayCountText;
 
     private void Awake()
@@ -36,5 +37,10 @@ public class UIController : MonoBehaviour
         yield return delay;
         mPlayCountSceen.gameObject.SetActive(false);
         GameController.Instance.GamePause();
+    }
+
+    public void ItemImageChange(Sprite spt=null)
+    {
+        mItemImage.sprite = spt;
     }
 }

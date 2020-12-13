@@ -13,19 +13,22 @@ public class Player : MonoBehaviour
     public SpriteRenderer mRenderer;
     public Transform mGroundChecker, mHoldZone, mBulletStart,Map;
     public Vector2 CheckPointPos;
-    public HoldingItem mHold, mNowHold;
+
+    public HoldingItem mDropItem,mNowItem;
+    public int mNowItemID;
     public PlayerBolt mBolt;
 
     public Sprite[] mActionArr;
     public GameObject mAction;
     public Enemy mEnemy;
+    public Transform mItemTransform;
 
     public float mMaxHP, mCurrentHP;
     public float mSpeed;
     public float mJumpForce;
     public float mDistance;
 
-    public bool isCutScene,isJump, isGround, isNoDamage,isCooltime, isClimbing, isHold;
+    public bool isCutScene,isJump, isGround, isNoDamage,isCooltime, isItemCooltime, isClimbing, isHold;
     private float Hori,Ver;
 
     private void Awake()
@@ -35,6 +38,14 @@ public class Player : MonoBehaviour
             Instance = this;
             mCurrentHP = mMaxHP;
             CheckPointPos = GameController.Instance.mStartPoint.transform.position + new Vector3(0, 2f, 0);
+            if (mNowItem==null)
+            {
+                mNowItemID = -1;
+            }
+            else
+            {
+                mNowItemID = mNowItem.mID;
+            }
         }
         else
         {
@@ -74,19 +85,32 @@ public class Player : MonoBehaviour
         {
             if (GameController.Instance.Pause==false|| !isCutScene)
             {
-                StartCoroutine(AttackCooltime());
+                StartCoroutine(Attack());
             }
         }
 
-        if (Input.GetKey(KeyCode.F) && !isCooltime)//습득
+        if (Input.GetKeyDown(KeyCode.F))//습득
         {
             if (GameController.Instance.Pause == false || !isCutScene)
             {
-                GetItem();
+                if (mDropItem!=null)
+                {
+                    GetItem(mDropItem);
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E))//사용
+        {
+            if (GameController.Instance.Pause == false || !isCutScene)
+            {
+                if (mNowItemID > -1)
+                {
+                    ItemUse();
+                }
             }
         }
     }
-    public IEnumerator AttackCooltime()
+    public IEnumerator Attack()
     {
         WaitForSeconds delay = new WaitForSeconds(0.5f);
         SoundController.Instance.SESound(2);
@@ -170,15 +194,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void GetItem()
-    {
-        //인벤토리 구현
-        //mNowHold = obj;
-        //mNowHold.transform.SetParent(mHoldZone);
-        //mNowHold.transform.position = Vector3.zero;
-        //isHold = true;
-    }
-
     public void Damage(float damage)
     {
         if (!isNoDamage)
@@ -227,6 +242,35 @@ public class Player : MonoBehaviour
         {
             transform.position = CheckPointPos;
         }
+    }
+
+    public void GetItem(HoldingItem obj)
+    {
+        if (mNowItem != null)
+        {
+            mNowItem.Drop();
+        }
+        mNowItem = obj;
+        mDropItem = null;
+        mNowItem.Hold();
+        mNowItemID = mNowItem.mID;
+        UIController.Instance.ItemImageChange(mNowItem.mRenderer.sprite);
+    }
+
+    public void ItemUse()
+    {
+        mNowItem.ItemUse();
+        if (mNowItem.isConsumable)
+        {
+            ItemDelete();
+        }
+    }
+    public void ItemDelete()
+    {
+        Destroy(mNowItem.gameObject);
+        mNowItem = null;
+        mNowItem.mID = -1;
+        UIController.Instance.ItemImageChange();
     }
 
     private void OnCollisionEnter2D(Collision2D other)

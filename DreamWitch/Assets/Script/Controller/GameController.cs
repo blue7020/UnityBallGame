@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     public Image mHeart,mHeartFrame;
     public List<Image> mPlayerHP;
     public List<Image> mHPFrame;
-    public bool Pause;
+    public bool Pause,isShowUI;
 
 
     private void Awake()
@@ -44,6 +44,25 @@ public class GameController : MonoBehaviour
         {
             Time.timeScale = 0;
             Pause = true;
+        }
+    }
+
+
+    public void ShowUI()
+    {
+        if (isShowUI)
+        {
+            UIController.Instance.mItemBoxImage.gameObject.SetActive(true);
+            mHeartFrameCanvas.gameObject.SetActive(true);
+            mCanvas.gameObject.SetActive(true);
+            isShowUI = false;
+        }
+        else
+        {
+            UIController.Instance.mItemBoxImage.gameObject.SetActive(false);
+            mHeartFrameCanvas.gameObject.SetActive(false);
+            mCanvas.gameObject.SetActive(false);
+            isShowUI = true;
         }
     }
 
@@ -108,10 +127,6 @@ public class GameController : MonoBehaviour
         else
         {
             SceneManager.LoadScene(1);
-           //StartCoroutine(UIController.Instance.ShowPlayCountScreen());
-           // Player.Instance.CheckPointPos = mStartPoint.position;
-           // RemoveHealth();
-           // Heal(3);
         }
     }
 }

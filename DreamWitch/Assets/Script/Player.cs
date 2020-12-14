@@ -28,6 +28,9 @@ public class Player : MonoBehaviour
     public float mJumpForce;
     public float mDistance;
 
+    public ParticleSystem mFootStep;
+    private ParticleSystem.EmissionModule mFootEmission;
+
     public bool isCutScene,isJump, isGround, isNoDamage,isCooltime, isItemCooltime, isClimbing, isHold;
     private float Hori,Ver;
 
@@ -51,6 +54,11 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        mFootEmission = mFootStep.emission;
     }
 
     private void FixedUpdate()
@@ -138,6 +146,14 @@ public class Player : MonoBehaviour
         Vector3 move = new Vector3(dir, 0f, 0f);
         transform.position += move * Time.deltaTime * mSpeed;
         mAnim.SetFloat("xVelocity", dir);
+        if (dir != 0&&isGround)
+        {
+            mFootEmission.rateOverTime = 25f;
+        }
+        else
+        {
+            mFootEmission.rateOverTime = 0f;
+        }
         if (dir > 0)//좌
         {
             mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
@@ -250,6 +266,7 @@ public class Player : MonoBehaviour
         {
             mNowItem.Drop();
         }
+        SoundController.Instance.SESound(16);
         mNowItem = obj;
         mDropItem = null;
         mNowItem.Hold();

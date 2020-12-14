@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CutScenePoint : MonoBehaviour
 {
@@ -65,16 +66,27 @@ public class CutScenePoint : MonoBehaviour
         SoundController.Instance.mBGM.mute = true;
         SoundController.Instance.SESound(6);
         CutSceneController.Instance.ShowCutSceneImage();
-        Player.Instance.mNowItem.gameObject.SetActive(false);
-        Player.Instance.mNowItem.transform.SetParent(Player.Instance.mItemTransform);
-        Player.Instance.mNowItem.mRenderer.sortingOrder = 2;
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         SoundController.Instance.mBGM.mute = false;
         CutSceneController.Instance.CloseCutSceneImage();
-        GameController.Instance.ShowUI();
-        Player.Instance.isCutScene = false;
+        mID = 2;
+        PlayCutScene();
+    }
+
+    public IEnumerator CutScene2()
+    {
+        float time = 1f;
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
+        SoundController.Instance.BGMFadeOut(3f);
+        TitleController.Instance.isShowTitle = true;
+        yield return delay;
+        CutSceneController.Instance.FadeOut();
+        time = 4f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        SceneManager.LoadScene(0);
     }
 
     public void PlayCutScene()
@@ -89,6 +101,9 @@ public class CutScenePoint : MonoBehaviour
                 {
                     StartCoroutine(CutScene1());
                 }
+                break;
+            case 2:
+                StartCoroutine(CutScene2());
                 break;
             default:
                 break;

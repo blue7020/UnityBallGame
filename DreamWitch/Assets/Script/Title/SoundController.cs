@@ -37,4 +37,23 @@ public class SoundController : MonoBehaviour
     {
         mSE.PlayOneShot(mSEArr[id]);
     }
+
+    public void BGMFadeOut(float time)
+    {
+        StartCoroutine(FadeOut(time));
+    }
+    private IEnumerator FadeOut(float FadeTime)
+    {
+        float startVolume = mBGM.volume;
+
+        while (mBGM.volume > 0)
+        {
+            mBGM.volume -= startVolume * Time.deltaTime / FadeTime;
+
+            yield return null;
+        }
+
+        mBGM.Stop();
+        mBGM.volume = startVolume;
+    }
 }

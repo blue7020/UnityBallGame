@@ -8,12 +8,16 @@ public class TitleUIController : MonoBehaviour
 {
     public static TitleUIController Instance;
     public Image mTitle;
+    public Text mKeyText;
+    public float mAlphaAnimPeriod = 2;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
+            mKeyText.text = "Press SpaceBar key";
+            StartCoroutine(AlphaAnim());
         }
         else
         {
@@ -29,21 +33,57 @@ public class TitleUIController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)&& TitleController.Instance.isShowTitle==false)
+        {
+            GameStart();
+        }
+    }
+
     public IEnumerator ShowTitle()
     {
         WaitForSeconds delay = new WaitForSeconds(5f);
         SoundController.Instance.mBGM.Stop();
-        TitleController.Instance.isShowTitle = false;
         mTitle.gameObject.SetActive(true);
         SoundController.Instance.SESound(17);
         yield return delay;
         //SoundController.Instance.BGMChange(1);
         mTitle.gameObject.SetActive(false);
+        TitleController.Instance.isShowTitle = false;
     }
 
     public void GameStart()
     {
         SceneManager.LoadScene(1);
         SoundController.Instance.BGMChange(0);
+    }
+
+    public IEnumerator AlphaAnim()
+    {
+        WaitForFixedUpdate delay = new WaitForFixedUpdate();
+        bool Ascending = true;
+        float halfTime = mAlphaAnimPeriod / 2;
+        Color color = new Color(0, 0, 0, 1 / halfTime * Time.fixedDeltaTime);
+        while (true)
+        {
+            yield return delay;
+            if (Ascending)
+            {
+                mKeyText.color += color;
+                if (mKeyText.color.a>=1)
+                {
+                    Ascending = false;
+                }
+            }
+            else
+            {
+                mKeyText.color -= color;
+                if (mKeyText.color.a<=0)
+                {
+                    Ascending = true;
+                }
+            }
+        }
     }
 }

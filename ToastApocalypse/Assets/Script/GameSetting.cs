@@ -74,15 +74,22 @@ public class GameSetting : InformationLoader
 
         SaveDataController.Instance.mUser.NPCOpen[0] = true; SaveDataController.Instance.mUser.NPCOpen[4] = true;
         SaveDataController.Instance.mUser.StageOpen[0] = true;
+
+        TimeCheck24();
+        MainScreenUIController.Instance.NoticeTimeCheck();
+    }
+
+    public void TimeCheck24()
+    {
         DateTime time = SaveDataController.Instance.mUser.DailyTime;
         DateTime timecheck = DateTime.Now;
         int yesterday = 0;
         int dummyYear = 1000;
-        if (time==new DateTime(0001,01,01))
+        if (time == new DateTime(0001, 01, 01))
         {
             time = DateTime.Now;
         }
-        if (time.Day-1>0)
+        if (time.Day - 1 > 0)
         {
             yesterday = time.Day - 1;
             timecheck = new DateTime(time.Year, time.Month, yesterday);
@@ -93,11 +100,13 @@ public class GameSetting : InformationLoader
             yesterday = 1999;
             timecheck = new DateTime(dummyYear, time.Month, yesterday);
         }
-        Debug.Log(time+" / "+ timecheck);
+        Debug.Log(time + " / " + timecheck);
         Debug.Log(SaveDataController.Instance.mUser.DailyTime);
         if (SaveDataController.Instance.mUser.DailyTime >= timecheck.AddDays(1))
         {
             SaveDataController.Instance.mUser.DailyTime = DateTime.Now;
+            SaveDataController.Instance.mUser.TodayWatchFirstNotice = false;
+            SaveDataController.Instance.mUser.GeneratorUseAmount = 5;
             Debug.Log("24시간 갱신");
             SaveDataController.Instance.Save();
         }

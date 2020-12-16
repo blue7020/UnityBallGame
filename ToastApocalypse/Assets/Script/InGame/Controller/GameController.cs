@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
 
     public int SyrupInStage;
     public bool IsTutorial;
-    private SaveData mUser;
+    public SaveData mUser;
 
     public List<int> RescueNPCList;
 
@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour
     public List<Artifacts> mPassiveArtifactList;
     private List<Artifacts> mArtifactsList;
     private Weapon[] mWeaponArr;
+    public int[] mPlusGold;
 
     private void Awake()
     {
@@ -50,24 +51,24 @@ public class GameController : MonoBehaviour
                     mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
                 }
                 //이벤트 유물들
-                if (GameSetting.Instance.NowStage == 7 || SaveDataController.Instance.mUser.ArtifactOpen[0] == true)
+                if (GameSetting.Instance.NowStage == 7 || SaveDataController.Instance.mUser.ArtifactOpen[0] == true)//할로윈
                 {
                     for (int i = 20; i < 28; i++)
                     {
                         mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
                     }
                 }
-                if (GameSetting.Instance.NowStage == 8 || SaveDataController.Instance.mUser.ArtifactOpen[1] == true)
+                if (GameSetting.Instance.NowStage == 8 || SaveDataController.Instance.mUser.ArtifactOpen[1] == true)//크리스마스
                 {
                     for (int i = 28; i < 36; i++)
                     {
                         mArtifactsList.Add(GameSetting.Instance.mArtifacts[i]);
                     }
                 }
-                Debug.Log(mArtifactsList.Count);
                 mWeaponArr = GameSetting.Instance.mWeaponArr;
             }
             mUser = SaveDataController.Instance.mUser;
+
         }
         else
         {

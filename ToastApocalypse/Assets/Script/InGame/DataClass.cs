@@ -261,6 +261,8 @@ public class SaveData
     public bool[] StageOpen;
     public bool[] StagePartsget;
     public bool[] NPCOpen;
+    public int SafeGold;
+    public int GeneratorUseAmount;
 
     public bool[] WeaponOpen;
     public bool[] StatueOpen;

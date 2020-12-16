@@ -28,7 +28,7 @@ public class MainScreenUIController : InformationLoader
                 mCodeText.text = "코드 사용";
                 mNoticeButtonText.text = "공지 사항";
                 mNoticeTitle.text = "공지 사항";
-                mNoticeText.text = "-플레이 해 주셔서 감사합니다!\n\n-버그 제보 환영합니다.\n\n-불쌍한 개발자를 위해 이 게임을 많이 홍보해주세요.\n\n-광고 기능들이 제대로 작동하지 않을 수 있습니다.";
+                mNoticeText.text = "-로비에 새 가구 2종이 추가되었습니다!\n\n-플레이 해 주셔서 감사합니다!\n\n-버그 제보 환영합니다.\n\n-다운로드 수가 적어 광고 기능이 승인되지 않았습니다. 홍보해주세요!!";
                 mEngButton.interactable = true;
                 mKorButton.interactable = false;
 
@@ -41,7 +41,7 @@ public class MainScreenUIController : InformationLoader
                 mCodeText.text = "Using Code";
                 mNoticeButtonText.text = "Notice";
                 mNoticeTitle.text = "Notice";
-                mNoticeText.text = "-Thanks for playing!\n\n-Please report the error.\n\n-Please promote this game a lot for poor developer.\n\n-Ad functions may not work properly.";
+                mNoticeText.text = "-Two new furniture has been added to the lobby!\n\n-Thanks for playing!\n\n-Please report the error.\n\n-The advertising feature was not approved due to a low number of downloads. Please promote it!!";
                 mEngButton.interactable = false;
                 mKorButton.interactable = true;
             }
@@ -63,18 +63,12 @@ public class MainScreenUIController : InformationLoader
             mCutSceneBG.gameObject.SetActive(true);
             SoundController.Instance.BGMChange(0);
         }
-        NoticeTimeCheck();
         mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
     }
 
     public void NoticeTimeCheck()
     {
-        DateTime timecheck = SaveDataController.Instance.mUser.DailyTime.AddDays(1);
-        if (SaveDataController.Instance.mUser.DailyTime >= timecheck)
-        {
-            SaveDataController.Instance.mUser.TodayWatchFirstNotice = false;
-        }
         if (SaveDataController.Instance.mUser.TodayWatchFirstNotice == false)
         {
             SaveDataController.Instance.mUser.TodayWatchFirstNotice = true;

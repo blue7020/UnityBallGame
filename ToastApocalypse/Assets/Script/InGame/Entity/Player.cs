@@ -126,6 +126,8 @@ public class Player : MonoBehaviour
             mCurrentHP = mMaxHP;//최대 체력에 변동이 생기면 mmaxHP를 조작
             UIController.Instance.ShowGold();
             UIController.Instance.ShowHP();
+            mStats.Gold += GameController.Instance.mPlusGold[GameController.Instance.mUser.SafeGold];
+            UIController.Instance.ShowGold();
         }
         else
         {

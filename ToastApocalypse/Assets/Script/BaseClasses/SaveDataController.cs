@@ -359,6 +359,11 @@ public class SaveDataController : InformationLoader
         }
         mUser.EventPortalOpenCheckArr[mUser.NowEventMapID-1] = true;
 
+        if (mUser.SafeGold <= 0)
+        {
+            mUser.SafeGold = 0;
+        }
+
         SoundController.Instance.BGMVolume = mUser.BGMVolume;
         SoundController.Instance.SEVolume = mUser.SEVolume;
     }
@@ -379,6 +384,8 @@ public class SaveDataController : InformationLoader
             mUser.FirstGameClearEvent = false;
             mUser.CodeUse = new bool[Constants.Code_Count];
             mUser.ArtifactOpen = new bool[Constants.EVENT_STAGE];
+            mUser.SafeGold = 0;
+            mUser.GeneratorUseAmount = 5;
 
             mUser.DonateCount = 0;
             mUser.NoAds = false;

@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public GameObject mAction;
     public Enemy mEnemy;
     public Transform mItemTransform;
+    public bool mTextBoxChecker;
 
     public float mMaxHP, mCurrentHP;
     public float mSpeed;
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            mTextBoxChecker = false;
             mCurrentHP = mMaxHP;
             CheckPointPos = GameController.Instance.mStartPoint.transform.position + new Vector3(0, 2f, 0);
             if (mNowItem==null)
@@ -355,5 +357,17 @@ public class Player : MonoBehaviour
         mAction.SetActive(true);
         yield return delay;
         mAction.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("TextBoxTop"))
+        {
+            mTextBoxChecker = true;
+        }
+        if (other.gameObject.CompareTag("TextBoxDown"))
+        {
+            mTextBoxChecker = false;
+        }
     }
 }

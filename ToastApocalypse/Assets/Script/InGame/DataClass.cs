@@ -263,6 +263,7 @@ public class SaveData
     public bool[] NPCOpen;
     public int SafeGold;
     public int GeneratorUseAmount;
+    public bool FirstGeneratorUse;
 
     public bool[] WeaponOpen;
     public bool[] StatueOpen;

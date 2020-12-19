@@ -108,6 +108,7 @@ public class Enemy : MonoBehaviour
     public IEnumerator DamageAnimation()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
+        mHead.gameObject.SetActive(false);
         isNoDamage = true;
         mRenderer.color = new Vector4(1, 1, 1, 0.2f);
         yield return delay;
@@ -121,6 +122,10 @@ public class Enemy : MonoBehaviour
         yield return delay;
         mRenderer.color = Color.white;
         yield return delay;
+        mRenderer.color = new Vector4(1, 1, 1, 0.2f);
+        yield return delay;
+        mRenderer.color = Color.white;
+        mHead.gameObject.SetActive(true);
         isNoDamage = false;
     }
 

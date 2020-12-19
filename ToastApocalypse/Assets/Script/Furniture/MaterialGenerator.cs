@@ -34,7 +34,7 @@ public class MaterialGenerator : MonoBehaviour
 
     public void RefreshCount()
     {
-        mPrice = 50 + ((5 - SaveDataController.Instance.mUser.GeneratorUseAmount) * 10);
+        mPrice = 60 + ((5 - SaveDataController.Instance.mUser.GeneratorUseAmount) * 10);
         if (GameSetting.Instance.Language == 0)
         {
             mTitleText.text = "재료 생성기";

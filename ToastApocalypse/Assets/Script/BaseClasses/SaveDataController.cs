@@ -364,6 +364,12 @@ public class SaveDataController : InformationLoader
             mUser.SafeGold = 0;
         }
 
+        if (mUser.FirstGeneratorUse == false)
+        {
+            mUser.GeneratorUseAmount = 5;
+            mUser.FirstGeneratorUse = true;
+        }
+
         SoundController.Instance.BGMVolume = mUser.BGMVolume;
         SoundController.Instance.SEVolume = mUser.SEVolume;
     }
@@ -386,6 +392,7 @@ public class SaveDataController : InformationLoader
             mUser.ArtifactOpen = new bool[Constants.EVENT_STAGE];
             mUser.SafeGold = 0;
             mUser.GeneratorUseAmount = 5;
+            mUser.FirstGeneratorUse = false;
 
             mUser.DonateCount = 0;
             mUser.NoAds = false;

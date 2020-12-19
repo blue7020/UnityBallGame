@@ -8,7 +8,7 @@ public class CutScenePoint : MonoBehaviour
     public bool mTrigger;
     public int mID;
 
-    public IEnumerator CutScene0()
+    public IEnumerator CutScene4()
     {
         float time = 2.5f;
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
@@ -18,29 +18,35 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.isCutScene = true;
         Player.Instance.ShowAction(0);
         yield return delay;
-        SoundController.Instance.mBGM.mute = true;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
-        SoundController.Instance.SESound(6);
         Player.Instance.ShowAction(1);
-        time = 1f;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("저게...뭐야...!", 2f));
+        time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
+        SoundController.Instance.mBGM.mute = true;
+        SoundController.Instance.SESound(6);
         CutSceneController.Instance.CutSceneCamera();
-        time = 5f;
+        time = 4f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        SoundController.Instance.mBGM.mute = false;
+        CutSceneController.Instance.ChangeMainCamera();
+        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("불길해...빨리 집으로 가야겠어.", 3f));
+        time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.isCutScene = false;
         GameController.Instance.ShowUI();
-        SoundController.Instance.mBGM.mute=false;
-        CutSceneController.Instance.ChangeMainCamera();
     }
 
-    public IEnumerator CutScene1()
+    public IEnumerator CutScene7()
     {
-        float time = 2f;
+        float time = 1.5f;
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
         CutSceneController.Instance.FadeOut();
+        GameController.Instance.ShowUI();
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
@@ -55,7 +61,12 @@ public class CutScenePoint : MonoBehaviour
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.ShowAction(0);
-        time = 2f;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("...프레스톤 씨 이곳이 어둠에 둘러쌓인다고 해도", 2f));
+        time = 3f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("마지막까지 저랑 항상 함께한다고 약속해주세요...\n너무 무서워요...", 2f,false));
+        time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
@@ -69,13 +80,17 @@ public class CutScenePoint : MonoBehaviour
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        SoundController.Instance.mBGM.mute = false;
         CutSceneController.Instance.CloseCutSceneImage();
-        mID = 2;
+        SoundController.Instance.mBGM.mute = false;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("...우린...앞으로 어떻게 될까요?", 4f));
+        time = 5f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        mID = 8;
         PlayCutScene();
     }
 
-    public IEnumerator CutScene2()
+    public IEnumerator CutScene8()
     {
         float time = 1f;
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
@@ -93,17 +108,17 @@ public class CutScenePoint : MonoBehaviour
     {
         switch (mID)
         {
-            case 0:
-                StartCoroutine(CutScene0());
+            case 4:
+                StartCoroutine(CutScene4());
                 break;
-            case 1:
+            case 7:
                 if (Player.Instance.mNowItemID==0)
                 {
-                    StartCoroutine(CutScene1());
+                    StartCoroutine(CutScene7());
                 }
                 break;
-            case 2:
-                StartCoroutine(CutScene2());
+            case 8:
+                StartCoroutine(CutScene8());
                 break;
             default:
                 break;

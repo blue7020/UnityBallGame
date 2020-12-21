@@ -30,31 +30,18 @@ public class TVWatching : MonoBehaviour
         GameSetting.Instance.ShowAds(eAdsReward.DailySyrup);
         DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
         DateTime timecheck = DateTime.Now;
-        int yesterday = 0;
-        int dummyYear = 1000;
-        if (time.Day - 1 > 0)
-        {
-            yesterday = time.Day - 1;
-            timecheck = new DateTime(time.Year, time.Month, yesterday);
-        }
-        else
-        {
-            dummyYear = time.Year - 1;
-            yesterday = time.Day - 1;
-            timecheck = new DateTime(dummyYear, time.Month, yesterday);
-        }
         Debug.Log(time + " / " + timecheck);
-        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck.AddDays(1))
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
         {
             SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
         }
         if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
         {
-            if (GameSetting.Instance.Language==0)
+            if (GameSetting.Instance.Language == 0)
             {
                 mPopUpWindow.mText.text = "일일보상을 획득했습니다!\n+500 시럽";
             }
-            else if (GameSetting.Instance.Language==1)
+            else if (GameSetting.Instance.Language == 1)
             {
                 mPopUpWindow.mText.text = "You got daily reward!\n+500 Syrup";
             }

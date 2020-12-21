@@ -117,8 +117,19 @@ public class GameSetting : InformationLoader
 
     public void ShowAds(eAdsReward reward)
     {
-        GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);
-        GoogleAdmobHandler.Instance.PlayAD();
+        GameSetting.Instance.ShowAds(eAdsReward.DailySyrup);
+        DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
+        DateTime timecheck = DateTime.Now;
+        Debug.Log(time + " / " + timecheck);
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
+        {
+            SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
+        }
+        if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
+        {
+            GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);
+            GoogleAdmobHandler.Instance.PlayAD();
+        }
     }
 
     public void NoneReward()

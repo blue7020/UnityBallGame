@@ -83,26 +83,9 @@ public class GameSetting : InformationLoader
     {
         DateTime time = SaveDataController.Instance.mUser.DailyTime;
         DateTime timecheck = DateTime.Now;
-        int yesterday = 0;
-        int dummyYear = 1000;
-        if (time == new DateTime(0001, 01, 01))
-        {
-            time = DateTime.Now;
-        }
-        if (time.Day - 1 > 0)
-        {
-            yesterday = time.Day - 1;
-            timecheck = new DateTime(time.Year, time.Month, yesterday);
-        }
-        else
-        {
-            dummyYear = time.Year - 1;
-            yesterday = 1999;
-            timecheck = new DateTime(dummyYear, time.Month, yesterday);
-        }
         Debug.Log(time + " / " + timecheck);
         Debug.Log(SaveDataController.Instance.mUser.DailyTime);
-        if (SaveDataController.Instance.mUser.DailyTime >= timecheck.AddDays(1))
+        if (SaveDataController.Instance.mUser.DailyTime.AddDays(1) <= timecheck)
         {
             SaveDataController.Instance.mUser.DailyTime = DateTime.Now;
             SaveDataController.Instance.mUser.TodayWatchFirstNotice = false;
@@ -144,27 +127,10 @@ public class GameSetting : InformationLoader
     }
     public void DailySyrup()
     {
-        DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
+        DateTime time = SaveDataController.Instance.mUser.DailyTime;
         DateTime timecheck = DateTime.Now;
-        int yesterday = 0;
-        int dummyYear = 1000;
-        if (time == new DateTime(0001, 01, 01))
-        {
-            time = DateTime.Now;
-        }
-        if (time.Day - 1 > 0)
-        {
-            yesterday = time.Day - 1;
-            timecheck = new DateTime(time.Year, time.Month, yesterday);
-        }
-        else
-        {
-            dummyYear = time.Year - 1;
-            yesterday = time.Day - 1;
-            timecheck = new DateTime(dummyYear, time.Month, yesterday);
-        }
         Debug.Log(time + " / " + timecheck);
-        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime >= timecheck.AddDays(1))
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
         {
             SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
         }

@@ -61,9 +61,9 @@ public class Safe : MonoBehaviour
         {
             if (SaveDataController.Instance.mUser.Syrup>= mUpgradePrice[SaveDataController.Instance.mUser.SafeGold])
             {
-                SaveDataController.Instance.mUser.SafeGold += 1;
                 SoundController.Instance.SESoundUI(3);
                 SaveDataController.Instance.mUser.Syrup -= mUpgradePrice[SaveDataController.Instance.mUser.SafeGold];
+                SaveDataController.Instance.mUser.SafeGold += 1;
                 MainLobbyUIController.Instance.ShowSyrupText();
                 RefreshText();
                 SaveDataController.Instance.Save();

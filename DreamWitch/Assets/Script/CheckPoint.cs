@@ -13,7 +13,7 @@ public class CheckPoint : MonoBehaviour
         {
             mCheckPointOn = true;
             mAnim.SetBool(AnimHash.CheckPoint, true);
-            SoundController.Instance.SESound(5);
+            UIController.Instance.CheckPointSet();
             Player.Instance.CheckPointPos = new Vector3(transform.position.x, transform.position.y+1f, 0);
             GameController.Instance.Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
         }   

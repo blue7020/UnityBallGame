@@ -9,13 +9,22 @@ public class UIController : MonoBehaviour
 
     public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage;
     public Sprite mNull;
-    public Text mPlayCountText,mDialogue;
+    public Text mPlayCountText,mDialogue,mCheckPointText;
+    public GameObject mCheckPointTextObj;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
+            if (TitleController.Instance.mLanguage == 0)
+            {
+                mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
+            }
+            else if (TitleController.Instance.mLanguage == 1)
+            {
+                mCheckPointText.text = "*Checkpoints updated!";
+            }
         }
         else
         {
@@ -38,6 +47,12 @@ public class UIController : MonoBehaviour
         {
             mDialogueImage.transform.localPosition = new Vector3(0,-330f,0);
         }
+    }
+
+    public void CheckPointSet()
+    {
+        mCheckPointTextObj.gameObject.SetActive(true);
+        SoundController.Instance.SESound(5);
     }
 
     public IEnumerator ShowPlayCountScreen()
@@ -66,7 +81,6 @@ public class UIController : MonoBehaviour
     public IEnumerator ShowDialogueTimer(string text,float time,bool fadein=true)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
-        TextBoxCheck();
         if (fadein)
         {
             StartCoroutine(ShowDialogueFadeIn());

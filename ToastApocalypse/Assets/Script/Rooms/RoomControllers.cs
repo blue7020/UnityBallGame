@@ -45,7 +45,14 @@ public class RoomControllers : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            rooms = GameSetting.Instance.NowStageRoom;
+            if (GameSetting.Instance.ChallengeMode)
+            {
+                MapController.Instance.SetMapIngame();
+            }
+            else
+            {
+                rooms = GameSetting.Instance.NowStageRoom;
+            }
             LoadedRooms = new List<Room>();
             LoadRoomQueue = new Queue<RoomInfo>();
             RoomLength = 0;

@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
     private List<Artifacts> mArtifactsList;
     private Weapon[] mWeaponArr;
     public int[] mPlusGold;
+    public List<int> mRewardMaterialList;
 
     private void Awake()
     {
@@ -42,7 +43,14 @@ public class GameController : MonoBehaviour
             if (!IsTutorial)
             {
                 MaterialDropRate = 0.3f;
-                StageHP = 2.5f;
+                if (GameSetting.Instance.ChallengeMode)
+                {
+                    StageHP = 2.3f;
+                }
+                else
+                {
+                    StageHP = 2.5f;
+                }
                 RescueNPCList = new List<int>();
                 mArtifactsList = new List<Artifacts>();
                 //기본 유물
@@ -217,6 +225,27 @@ public class GameController : MonoBehaviour
         }
         Delete();
 
+    }
+
+    public void SetRewardMaterial(int StageId)
+    {
+        StageMaterialController.Instance.GetMaterialArr(StageId);
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                float rate = Random.Range(0, 1f);
+                if (rate > StageMaterialController.Instance.mStageMaterialArr[i].mRate)
+                {
+                    mRewardMaterialList.Add(StageMaterialController.Instance.mStageMaterialArr[i].mID);
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
     }
 
     private void Update()

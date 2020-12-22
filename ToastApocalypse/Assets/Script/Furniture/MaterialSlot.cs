@@ -8,7 +8,7 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
 {
     public int mMaterialID;
 
-    public Image mIcon;
+    public Image mIcon,mAmountImage;
     public Sprite mVoid;
     public MaterialStat mMaterial;
     public string title, lore;
@@ -24,6 +24,11 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
         }
         mMaterialID = id;
         mIcon.sprite = GameSetting.Instance.mMaterialSpt[mMaterialID];
+    }
+
+    public void HideAmount()
+    {
+        mAmountImage.gameObject.SetActive(false);
     }
 
     public void RemoveData()

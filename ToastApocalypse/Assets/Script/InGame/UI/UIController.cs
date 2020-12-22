@@ -64,16 +64,7 @@ public class UIController : InformationLoader
             DontDestroyOnLoad(gameObject);
         }
         StartCoroutine(SceneMoveShadow());
-        if (GameSetting.Instance.Language == 0)//한국어
-        {
-            maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].Title;
-            mAirText.text = "공기";
-        }
-        else if (GameSetting.Instance.Language == 1)//영어
-        {
-            maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].EngTitle;
-            mAirText.text = "AIR";
-        }
+        SetMapText();
         if (GameSetting.Instance.NowStage == 4)
         {
             mAirGauge.gameObject.SetActive(true);
@@ -89,6 +80,20 @@ public class UIController : InformationLoader
         mArtifactButton.onClick.AddListener(() => { Player.Instance.ArtifactUse(); });
         mSKillButton.onClick.AddListener(() => { Player.Instance.NowPlayerSkill.SkillUse(); });
         ReviveUI();
+    }
+
+    public void SetMapText()
+    {
+        if (GameSetting.Instance.Language == 0)//한국어
+        {
+            maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].Title;
+            mAirText.text = "공기";
+        }
+        else if (GameSetting.Instance.Language == 1)//영어
+        {
+            maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].EngTitle;
+            mAirText.text = "AIR";
+        }
     }
 
     public IEnumerator SceneMoveShadow()
@@ -348,6 +353,45 @@ public class UIController : InformationLoader
         mClearImage.gameObject.SetActive(true);
         GameClearUI.Instance.StageClear();
     }
+
+    public void ShowClearTextInMode()
+    {
+        GameController.Instance.pause = true;
+        Player.Instance.mRB2D.velocity = Vector3.zero;
+        Player.Instance.Stun = true;
+        mPieceImageSlot.gameObject.SetActive(false);
+        if (GameSetting.Instance.Language == 0)
+        {//한국어
+            if (GameController.Instance.StageLevel ==5&& GameSetting.Instance.NowStage==6)
+            {
+                mClearText.text = "모든 스테이지 클리어!";
+            }
+            else
+            {
+                mClearText.text = "현재 위치: " + GameSetting.Instance.NowStage + "스테이지 / " + GameController.Instance.StageLevel + "층";
+            }
+            mSyrupText.text = "획득한 시럽: +" + GameController.Instance.SyrupInStage;
+            mItemText.text = "획득한 재료";
+            mGuideText.text = "터치 시 로비로 이동합니다.";
+        }
+        else if (GameSetting.Instance.Language == 1)
+        {//영어
+            if (GameController.Instance.StageLevel == 5 && GameSetting.Instance.NowStage == 6)
+            {
+                mClearText.text = "All stage clear!";
+            }
+            else
+            {
+                mClearText.text = "Now: " + GameSetting.Instance.NowStage + "Stage / " + GameController.Instance.StageLevel + "F";
+            }
+            mSyrupText.text = "Syrup: +" + GameController.Instance.SyrupInStage;
+            mItemText.text = "Material";
+            mGuideText.text = "Touch to move to the lobby.";
+        }
+        mClearImage.gameObject.SetActive(true);
+        GameClearUI.Instance.StageClear();
+    }
+
 
     public void ShowItemImage()
     {

@@ -112,11 +112,8 @@ public class Player : MonoBehaviour
             {
                 mStats.Crit += GameSetting.Instance.UpgradeCrit; mStats.CCReduce += GameSetting.Instance.UpgradeCCReduce;
             }
-            if (GameSetting.Instance.NowStage == 4)
-            {
-                StartCoroutine(Air());
-            }
-            else if (SaveDataController.Instance.mUser.FirstGameClearEvent==false&&GameSetting.Instance.NowStage == 6)
+            StageCheck();
+            if (SaveDataController.Instance.mUser.FirstGameClearEvent==false&&GameSetting.Instance.NowStage == 6)
             {
                 float hp = mMaxHP;
                 mMaxHP = hp - (hp * 0.15f);
@@ -136,6 +133,14 @@ public class Player : MonoBehaviour
             TutorialUIController.Instance.ShowHP();
         }
         StartCoroutine(StartInvincible());
+    }
+
+    public void StageCheck()
+    {
+        if (GameSetting.Instance.NowStage == 4)
+        {
+            StartCoroutine(Air());
+        }
     }
 
     private IEnumerator StartInvincible()

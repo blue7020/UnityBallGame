@@ -12,10 +12,10 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public Text NPCTitleText,OpenItemTitleText,MessageText,AdsText;
     public Button mAdsButton;
     public MapNPCSlot mNPCSlot;
-    public Transform mParents;
+    public Transform mParents, mRewardMaterialParents;
     public int PlusRewardMaterial;
 
-    public MaterialSlot[] mMaterialSlot;
+    public MaterialSlot mMaterialSlot;
 
     private void Awake()
     {
@@ -44,24 +44,13 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         }
     }
 
-    public void GetItem(int StageId)
+    public void SetReward()
     {
-        StageMaterialController.Instance.GetMaterialArr(StageId);
-        for (int i=0; i<mMaterialSlot.Length;i++)
+        for (int i = 0; i < GameController.Instance.mRewardMaterialList.Count; i++)
         {
-            for (int j=0; j< mMaterialSlot.Length;j++)
-            {
-                float rate = Random.Range(0,1f);
-                if (rate> StageMaterialController.Instance.mStageMaterialArr[i].mRate)
-                {
-                    mMaterialSlot[i].SetData(StageMaterialController.Instance.mStageMaterialArr[i].mID);
-                    break;
-                }
-                else
-                {
-                    continue;
-                }
-            }
+            MaterialSlot slot = Instantiate(mMaterialSlot, mRewardMaterialParents);
+            slot.SetData(GameController.Instance.mRewardMaterialList[i]);
+            slot.HideAmount();
         }
     }
 
@@ -71,7 +60,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
         {
             GameSetting.Instance.ShowAds(eAdsReward.Revive);
         }
-        GetItem(GameSetting.Instance.NowStage);
+        SetReward();
         if (GameSetting.Instance.NowStage < 6)
         {
             if (SaveDataController.Instance.mUser.StagePartsget[GameSetting.Instance.NowStage] == false)
@@ -136,15 +125,15 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
 
     public void GetStageReward()
     {
-        for (int i = 0; i < mMaterialSlot.Length; i++)
+        for (int i = 0; i < GameController.Instance.mRewardMaterialList.Count; i++)
         {
-            if (SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[i].mID] + PlusRewardMaterial >= Constants.MAX_MATERIAL)
+            if (SaveDataController.Instance.mUser.HasMaterial[GameController.Instance.mRewardMaterialList[i]] + PlusRewardMaterial >= Constants.MAX_MATERIAL)
             {
-                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[i].mID] = Constants.MAX_MATERIAL;
+                SaveDataController.Instance.mUser.HasMaterial[GameController.Instance.mRewardMaterialList[i]] = Constants.MAX_MATERIAL;
             }
             else
             {
-                SaveDataController.Instance.mUser.HasMaterial[StageMaterialController.Instance.mStageMaterialArr[i].mID] += PlusRewardMaterial;
+                SaveDataController.Instance.mUser.HasMaterial[GameController.Instance.mRewardMaterialList[i]] += PlusRewardMaterial;
             }
         }
         Debug.Log("보상 획득");

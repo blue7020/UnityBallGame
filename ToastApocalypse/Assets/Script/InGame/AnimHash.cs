@@ -6,6 +6,7 @@ public class AnimHash : MonoBehaviour
 {
     //LobbyObj
     public static readonly int Furniture = Animator.StringToHash("NPCon");
+    public static readonly int ModePortal = Animator.StringToHash("IsActive");
 
     //GetParts
     public static readonly int Parts = Animator.StringToHash("IsGet");

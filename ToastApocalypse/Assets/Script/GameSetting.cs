@@ -13,7 +13,7 @@ public class GameSetting : InformationLoader
     public int PlayerID;
     public int PlayerSkillID;
     public int PlayerWeaponID;
-    public bool Ingame;
+    public bool Ingame, ChallengeMode;
     public int NowScene;
 
     public const int STAGELEVEL_COUNT = 5;
@@ -117,7 +117,6 @@ public class GameSetting : InformationLoader
 
     public void ShowAds(eAdsReward reward)
     {
-        GameSetting.Instance.ShowAds(eAdsReward.DailySyrup);
         DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
         DateTime timecheck = DateTime.Now;
         Debug.Log(time + " / " + timecheck);
@@ -164,16 +163,13 @@ public class GameSetting : InformationLoader
     {
         SoundController.Instance.SESoundUI(6);
         GameController.Instance.SyrupInStage *= 2;
-        GameClearUI.Instance.PlusRewardMaterial += 1;
         if (Language == 0)
         {//한국어
             UIController.Instance.mSyrupText.text = "획득한 시럽: +<color=#FFFF00>" + GameController.Instance.SyrupInStage + "</color>";
-            UIController.Instance.mItemText.text = "획득한 재료 x2";
         }
         else if (Language == 1)
         {//영어
             UIController.Instance.mSyrupText.text = "Syrup: +<color=#FFFF00>" + GameController.Instance.SyrupInStage;
-            UIController.Instance.mItemText.text = "Material x2";
         }
     }
 

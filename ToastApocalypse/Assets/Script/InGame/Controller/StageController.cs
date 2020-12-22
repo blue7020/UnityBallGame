@@ -13,6 +13,7 @@ public class StageController : MonoBehaviour
 
     private void Start()
     {
+        MapController.Instance.SetMapList(mStageNum, mStage);
         if (SaveDataController.Instance.mUser.StageOpen[mStageNum - 1] == false)
         {
             mPortal.gameObject.SetActive(false);

@@ -252,6 +252,31 @@ public class GoogleAdmobHandler : MonoBehaviour
     private void HandleRewardBasedVideoFailedToLoad(object sender, AdFailedToLoadEventArgs e)
     {
         Debug.Log("Load fail");//광고 준비 안됨
+        string text = "";
+        if (GameSetting.Instance.Ingame)
+        {
+            if (GameSetting.Instance.Language == 0)
+            {
+                text = "광고가 준비되지 않았습니다!";
+            }
+            else
+            {
+                text = "The ad is not ready!";
+            }
+            UIController.Instance.mPopupWindow.ShowWindow(text);
+        }
+        else
+        {
+            if (GameSetting.Instance.Language==0)
+            {
+                text = "광고가 준비되지 않았습니다!";
+            }
+            else
+            {
+                text = "The ad is not ready!";
+            }
+            MainLobbyUIController.Instance.mPopupWindow.ShowWindow(text);
+        }
     }
 
     private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)

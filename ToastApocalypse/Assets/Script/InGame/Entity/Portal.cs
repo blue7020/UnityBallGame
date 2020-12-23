@@ -89,9 +89,8 @@ public class Portal : MonoBehaviour
                     }
                     else
                     {
-                        NextMapInMode();
-                        //ui컨트롤러에서 선택지 창 표시
-                        //선택지 터치 시 해당 버프를 적용시킨 후 NextMapInMode - 이건 선택지 스크립트에 넣을 것
+                        BuffSelectController.Instance.SetBuff();
+                        BuffSelectController.Instance.mWindow.gameObject.SetActive(true);
                     }
                 }
                 else
@@ -116,20 +115,5 @@ public class Portal : MonoBehaviour
         }
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();
-    }
-
-    public void NextMapInMode()
-    {
-        GameSetting.Instance.NowStage += 1;
-        GameController.Instance.StageLevel = 1;
-        UIController.Instance.StartCoroutine(UIController.Instance.SceneMoveShadow());
-        SceneManager.LoadScene(2);
-        Player.Instance.transform.position = new Vector2(0, 0);
-        Player.Instance.StageCheck();
-        UIController.Instance.SetMapText();
-        UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
-        //Player.Instance.Heal(1);
-        GameController.Instance.SetActiveArtifacts();
-        GameController.Instance.SetWeapon();
     }
 }

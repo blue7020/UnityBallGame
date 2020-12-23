@@ -15,6 +15,7 @@ public class UIController : InformationLoader
     public HPBar mAirBar, mHPBar;
 
     public Sprite DefaultItemSprite;
+    public PopUpWindow mPopupWindow;
 
     public Button mStatButton, mSKillButton,mItemButton, mArtifactButton,mBGMplus, mBGMminus, mSEplus, mSEminus,mPortalButton,mReviveAdButton,mReviveSyrupButton,mWeaponChangeButton,mShopButton,mStatueButton, mUIChestButton;
 
@@ -65,10 +66,6 @@ public class UIController : InformationLoader
         }
         StartCoroutine(SceneMoveShadow());
         SetMapText();
-        if (GameSetting.Instance.NowStage == 4)
-        {
-            mAirGauge.gameObject.SetActive(true);
-        }
         StartCoroutine(ShowLevel());
         mBGMText.text = SoundController.Instance.UIBGMVol.ToString();
         mSEText.text = SoundController.Instance.UISEVol.ToString();
@@ -84,6 +81,10 @@ public class UIController : InformationLoader
 
     public void SetMapText()
     {
+        if (GameSetting.Instance.NowStage == 4)
+        {
+            mAirGauge.gameObject.SetActive(true);
+        }
         if (GameSetting.Instance.Language == 0)//한국어
         {
             maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].Title;

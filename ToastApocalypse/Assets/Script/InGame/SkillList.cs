@@ -82,6 +82,9 @@ public class SkillList : MonoBehaviour
             case 14://크리스마스의 축복
                 StartCoroutine(The_Blessing_Of_Christmas());
                 break;
+            case 15://절구찧기
+                StartCoroutine(Mortar());
+                break;
         }
         
     }
@@ -297,9 +300,28 @@ public class SkillList : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         BuffController.Instance.RemoveNurf();
-        Player.Instance.DoEffect(5, PlayerSkill.Insatnce.mStat.Duration, 17, 1f);
+        Player.Instance.DoEffect(5, SkillController.Instance.mStatInfoArr[14].Duration, 17, 1f);
         int count = 0;
         float amount = Player.Instance.mMaxHP * 0.49f;
+        while (true)
+        {
+            if (count >= 7)
+            {
+                break;
+            }
+            Player.Instance.Heal(amount / 7);
+            count++;
+            yield return delay;
+        }
+    }
+
+    public IEnumerator Mortar()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        StartCoroutine(Player.Instance.Atk(SkillController.Instance.mStatInfoArr[15].Atk, 11, SkillController.Instance.mStatInfoArr[15].Duration));
+        StartCoroutine(Player.Instance.AtkSpeed(SkillController.Instance.mStatInfoArr[15].AtkSpd, 13, SkillController.Instance.mStatInfoArr[15].Duration));
+        int count = 0;
+        float amount = Player.Instance.mMaxHP * 0.3f;
         while (true)
         {
             if (count >= 7)

@@ -139,6 +139,7 @@ public class Player : MonoBehaviour
     {
         if (GameSetting.Instance.NowStage == 4)
         {
+            UIController.Instance.SetMapText();
             StartCoroutine(Air());
         }
     }

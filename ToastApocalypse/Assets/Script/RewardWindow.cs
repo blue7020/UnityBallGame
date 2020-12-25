@@ -10,6 +10,6 @@ public class RewardWindow : MonoBehaviour
 
     public void DestroyThis()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

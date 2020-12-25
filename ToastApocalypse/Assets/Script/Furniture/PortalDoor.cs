@@ -46,13 +46,13 @@ public class PortalDoor : MonoBehaviour
                 {
                     mMapText.text= "도전 모드";
                     mTitle.text = "도전 모드";
-                    mTooltip.text = "이 기능은 아직 개방되지 않았습니다.\n\n개방 조건: 1~6 스테이지 클리어";
+                    mTooltip.text = "1~6스테이지를 연속으로 플레이합니다.\n더 많은 시럽을 획득할 수 있으며,\n도중에 죽어도 보상을 받을 수 있습니다.\n\n<color=#FFFF00>이 기능은 아직 개방되지 않았습니다.\n개방 조건: 1~6 스테이지 클리어</color>";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
                     mMapText.text = "Challenge Mode";
                     mTitle.text = "Challenge Mode";
-                    mTooltip.text = "This function is not open yet.\nRequirements: 1~6 stage clear";
+                    mTooltip.text = "Playing 1 to 6 stages in a row.\nYou can earn more syrup,\nand you can get compensation if you die on the way.\n\n<color=#FFFF00>This function is not open yet.\nRequirements: 1~6 stage clear</color>";
                 }
             }
         }

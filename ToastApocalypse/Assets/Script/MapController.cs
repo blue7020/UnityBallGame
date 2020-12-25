@@ -11,6 +11,8 @@ public class MapController : MonoBehaviour
     public Room[] Stage4;
     public Room[] Stage5;
     public Room[] Stage6;
+    public Room[] Stage7;
+    public Room[] Stage8;
 
     private void Awake()
     {
@@ -47,6 +49,12 @@ public class MapController : MonoBehaviour
             case 6:
                 Stage6 = map;
                 break;
+            case 7:
+                Stage7 = map;
+                break;
+            case 8:
+                Stage8 = map;
+                break;
             default:
                 break;
         }
@@ -73,6 +81,12 @@ public class MapController : MonoBehaviour
                 break;
             case 6:
                 RoomControllers.Instance.rooms = Stage6;
+                break;
+            case 7:
+                RoomControllers.Instance.rooms = Stage7;
+                break;
+            case 8:
+                RoomControllers.Instance.rooms = Stage8;
                 break;
             default:
                 break;

@@ -640,7 +640,6 @@ public class EnemySkill : MonoBehaviour
             if (Skilltrigger == false)
             {
                 Count = 0;
-                StartCoroutine(MoveDelay(0.4f));
                 for (int i = 0; i < 2; i++)
                 {
                     Enemy enemy = EnemyPool.Instance.GetFromPool(0);//햄버그 소환
@@ -651,8 +650,6 @@ public class EnemySkill : MonoBehaviour
                 StartCoroutine(ColaBoom());
                 Skilltrigger = true;
             }
-            mEnemy.mStats.Spd = 0f;
-            mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         }
         StartCoroutine(DrinkRay());
     }
@@ -660,14 +657,30 @@ public class EnemySkill : MonoBehaviour
     private IEnumerator DrinkRay()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
-        StartCoroutine(MoveDelay(4.1f));
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, true);
         while (true)
         {
             Invoke("DrinkShot", 0.1f);
-            if (Count >= 39)
+            if (Count >= 29)
             {
                 mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                if (mEnemy.mCurrentHP <= mEnemy.mMaxHP / 2)
+                {
+                    int bulletIndex = 0;
+                    switch (SkillRand)
+                    {
+                        case 0://cola
+                            bulletIndex = 8;
+                            break;
+                        case 1://sprite
+                            bulletIndex = 9;
+                            break;
+                        case 2://fanta
+                            bulletIndex = 10;
+                            break;
+                    }
+                    Xbolt(bulletIndex);
+                }
                 break;
             }
             yield return delay;

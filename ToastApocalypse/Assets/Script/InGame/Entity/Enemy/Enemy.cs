@@ -67,6 +67,10 @@ public class Enemy : InformationLoader
         if (eType==eEnemyType.Boss)
         {
             CurrentRoom = PortalTrigger.Instance.room;
+            if (GameSetting.Instance.ChallengeMode&& GameSetting.Instance.NowStage!=6)
+            {
+                mStats.Gold += 20 * GameSetting.Instance.NowStage;
+            }
         }
         else if (eType == eEnemyType.Mimic)
         {

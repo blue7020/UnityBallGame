@@ -139,7 +139,11 @@ public class Player : MonoBehaviour
         if (isGround && jumpFlag)
         {
             jumpFlag = false;
-            SoundController.Instance.SESound(13);
+            float rand = Random.Range(0, 1f);
+            if (rand<=0.7f)
+            {
+                SoundController.Instance.SESound(13);
+            }
             mRB2D.AddForce(new Vector2(0f, mJumpForce));
         }
     }

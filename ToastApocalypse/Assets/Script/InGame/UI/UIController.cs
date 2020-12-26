@@ -536,16 +536,15 @@ public class UIController : InformationLoader
             mStatTitle.text = "캐릭터정보";
             mArtifactTitle.text = "유물";
             string Name = Player.Instance.mStats.Name;
-            string Stat = string.Format("체력: {0} / {1}\n" +
-                                      "공격력: {2}\n" +
-                                      "방어력: {3}\n" +
-                                      "공격속도: {4}\n" +
-                                      "이동속도: {5}\n" +
-                                      "치명타 확률: {6}\n" +
-                                      "치명타 피해: {7}\n" +
-                                      "\n" +
-                                      "쿨타임 감소: {8}\n" +
-                                      "상태이상 저항: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
+            string Stat = string.Format("현재 층: {0}층\n\n"+"체력: {1} / {2}\n" +
+                                      "공격력: {3}\n" +
+                                      "방어력: {4}\n" +
+                                      "공격속도: {5}\n" +
+                                      "이동속도: {6}\n" +
+                                      "치명타 확률: {7}\n" +
+                                      "치명타 피해: {8}\n\n" +
+                                      "쿨타임 감소: {9}\n" +
+                                      "상태이상 저항: {10}", GameController.Instance.StageLevel, Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
                                       (Player.Instance.mStats.Def * (1 + Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]))).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),
@@ -559,16 +558,15 @@ public class UIController : InformationLoader
             mStatTitle.text = "Stat";
             mArtifactTitle.text = "Artifact";
             string Name = Player.Instance.mStats.EngName;
-            string Stat = string.Format("HP: {0} / {1}\n" +
-                                      "Atk: {2}\n" +
-                                      "Def: {3}\n" +
-                                      "Atk Spd: {4}\n" +
-                                      "Movement Spd: {5}\n" +
-                                      "Crit: {6}\n" +
-                                      "Crit Damage: {7}\n" +
-                                      "\n" +
-                                      "Cooldown reduce: {8}\n" +
-                                      "Resistance: {9}", Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
+            string Stat = string.Format("Now: {0}F\n\n" + "HP: {1} / {2}\n" +
+                                      "Atk: {3}\n" +
+                                      "Def: {4}\n" +
+                                      "Atk Spd: {5}\n" +
+                                      "Movement Spd: {6}\n" +
+                                      "Crit: {7}\n" +
+                                      "Crit Damage: {8}\n\n" +
+                                      "Cooldown reduce: {9}\n" +
+                                      "Resistance: {10}", GameController.Instance.StageLevel, Player.Instance.mCurrentHP.ToString("N1"), Player.Instance.mMaxHP.ToString("N1"),
                                       (Player.Instance.mStats.Atk * (1 + Player.Instance.buffIncrease[0])).ToString("N1"),
                                       (Player.Instance.mStats.Def *(1+Player.Instance.buffIncrease[1])).ToString("N1"), (Player.Instance.mStats.AtkSpd * (1 - (Player.Instance.AttackSpeedStat + Player.Instance.buffIncrease[2]))).ToString("N2"),
                                       (Player.Instance.mStats.Spd * (1 + Player.Instance.buffIncrease[3])).ToString("N1"), Crit.ToString("P1"),

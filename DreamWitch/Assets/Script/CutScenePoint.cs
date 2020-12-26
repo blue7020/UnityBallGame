@@ -48,8 +48,8 @@ public class CutScenePoint : MonoBehaviour
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("...자꾸 혼잣말을 하게 되는데,\n내가 정신 나간 건 아니겠지?!\n꽃이 필요해!", 2f));
-        time = 2f;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("...자꾸 혼잣말을 하게 되는데,\n내가 정신 나간 건 아니겠지?! 꽃이 필요해!", 2f));
+        time = 2.5f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.isCutScene = false;

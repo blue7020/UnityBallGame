@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public List<Image> mPlayerHP;
     public List<Image> mHPFrame;
     public bool Pause,isShowUI;
+    public CutScenePoint mStartCutScene;
 
 
     private void Awake()
@@ -31,6 +32,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         SetHP(Player.Instance.mCurrentHP);
+        StartCoroutine(mStartCutScene.CutScene0());
     }
 
     public void GamePause()

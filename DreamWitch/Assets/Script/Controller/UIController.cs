@@ -9,7 +9,7 @@ public class UIController : MonoBehaviour
 
     public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage;
     public Sprite mNull;
-    public Text mPlayCountText,mDialogue,mCheckPointText;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText;
     public GameObject mCheckPointTextObj;
 
     private void Awake()
@@ -65,6 +65,16 @@ public class UIController : MonoBehaviour
         mPlayCountSceen.gameObject.SetActive(false);
         GameController.Instance.GamePause();
     }
+
+    public void ShowTutorial()
+    {
+        mTutorialText.gameObject.SetActive(true);
+    }
+    public void HideTutorial()
+    {
+        mTutorialText.gameObject.SetActive(false);
+    }
+
 
     public void ItemImageChange(Sprite spt=null)
     {

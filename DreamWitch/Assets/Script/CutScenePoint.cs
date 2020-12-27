@@ -7,6 +7,53 @@ public class CutScenePoint : MonoBehaviour
 {
     public bool mTrigger;
     public int mID;
+    private bool mWalkTrigger;
+
+    public IEnumerator CutScene0()
+    {
+        mTrigger = true;
+        float time = 2f;
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
+        GameController.Instance.ShowUI();
+        Player.Instance.mRB2D.velocity = Vector2.zero;
+        Player.Instance.mAnim.SetFloat("xVelocity", 0);
+        Player.Instance.isCutScene = true;
+        yield return delay;
+        mWalkTrigger = true;
+        StartCoroutine(MovePlayer());
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("후, 오늘 산책길도 얼마 안 남았네.", 3f));
+        time = 5f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        mWalkTrigger = false;
+        Player.Instance.mRB2D.velocity = Vector2.zero;
+        Player.Instance.mAnim.SetFloat("xVelocity", 0);
+        StopCoroutine(MovePlayer());
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("저런 언덕쯤은 거뜬하지!", 2f));
+        time = 3f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        UIController.Instance.ShowTutorial();
+        Player.Instance.isCutScene = false;
+        GameController.Instance.ShowUI();
+    }
+    public IEnumerator MovePlayer()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.03f);
+        while (mWalkTrigger)
+        {
+            if (!mWalkTrigger)
+            {
+                break;
+            }
+            else
+            {
+                Player.Instance.Moving(1f);
+                yield return delay;
+            }
+        }
+    }
+
 
     public IEnumerator CutScene1()
     {
@@ -28,7 +75,7 @@ public class CutScenePoint : MonoBehaviour
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("Q 키로 화염 마법을 사용할 수 있어.\n그거면 점화할 수 있을거야!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("Q 키로 마법을 사용할 수 있어.\n그거면 점화할 수 있을거야!", 2f));
         time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -84,6 +131,7 @@ public class CutScenePoint : MonoBehaviour
         float time = 2f;
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
         GameController.Instance.ShowUI();
+        UIController.Instance.HideTutorial();
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
@@ -176,11 +224,11 @@ public class CutScenePoint : MonoBehaviour
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.ShowAction(0);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("...프레스톤 씨 이곳이 어둠에 둘러쌓인다고 해도", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("...프레스톤 씨, 이곳이 어둠으로\n둘러쌓인다고 해도", 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("마지막까지 저랑 항상 함께한다고 약속해주세요...\n너무 무서워요...", 2f,false));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer("마지막까지 저랑 항상 함께한다고 약속해주세요...너무 무서워요...", 2f,false));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -224,6 +272,10 @@ public class CutScenePoint : MonoBehaviour
         UIController.Instance.TextBoxCheck();
         switch (mID)
         {
+            case 0:
+                mTrigger = true;
+                StartCoroutine(CutScene0());
+                break;
             case 1:
                 mTrigger = true;
                 StartCoroutine(CutScene1());

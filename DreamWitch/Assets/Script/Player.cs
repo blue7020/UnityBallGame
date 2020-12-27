@@ -91,17 +91,17 @@ public class Player : MonoBehaviour
             isJump = false;
         }
 
-        if (Input.GetKey(KeyCode.Q)&&!isCooltime)//공격
+        if (Input.GetKey(KeyCode.Q)&& !isCutScene)//공격
         {
-            if (GameController.Instance.Pause==false|| !isCutScene)
+            if (GameController.Instance.Pause==false && !isCooltime)
             {
                 StartCoroutine(Attack());
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.F))//습득
+        if (Input.GetKeyDown(KeyCode.F)&& !isCutScene)//습득
         {
-            if (GameController.Instance.Pause == false || !isCutScene)
+            if (GameController.Instance.Pause == false)
             {
                 if (mDropItem!=null)
                 {
@@ -109,9 +109,9 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKeyDown(KeyCode.E))//사용
+        if (Input.GetKeyDown(KeyCode.E)&& !isCutScene)//사용
         {
-            if (GameController.Instance.Pause == false || !isCutScene)
+            if (GameController.Instance.Pause == false)
             {
                 if (mNowItemID > -1)
                 {
@@ -140,14 +140,14 @@ public class Player : MonoBehaviour
         {
             jumpFlag = false;
             float rand = Random.Range(0, 1f);
-            if (rand<=0.7f)
+            if (rand<=0.6f)
             {
                 SoundController.Instance.SESound(13);
             }
             mRB2D.AddForce(new Vector2(0f, mJumpForce));
         }
     }
-    private void Moving(float dir)
+    public void Moving(float dir)
     {
         Vector3 move = new Vector3(dir, 0f, 0f);
         transform.position += move * Time.deltaTime * mSpeed;

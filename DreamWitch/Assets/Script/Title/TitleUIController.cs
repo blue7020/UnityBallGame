@@ -16,7 +16,7 @@ public class TitleUIController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            mKeyText.text = "Press SpaceBar key";
+            mKeyText.text = "Press Any key";
             StartCoroutine(AlphaAnim());
         }
         else
@@ -35,7 +35,7 @@ public class TitleUIController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Space)&& TitleController.Instance.isShowTitle==false)
+        if (Input.anyKeyDown&& TitleController.Instance.isShowTitle==false)
         {
             GameStart();
         }

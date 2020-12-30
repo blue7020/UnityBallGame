@@ -57,6 +57,8 @@ public class TitleUIController : MonoBehaviour
     {
         if (TitleController.Instance.TutorialClear==true)
         {
+            SceneManager.LoadScene(1);
+            SoundController.Instance.BGMChange(0);
             //SceneManager.LoadScene(2);
             //SoundController.Instance.BGMChange(2);
         }

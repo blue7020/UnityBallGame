@@ -8,7 +8,7 @@ public class CutSceneController : MonoBehaviour
     public static CutSceneController Instance;
     public Camera mMainCamera, mCutSceneCamera;
     public GameObject mTentacle,mFadeOut,mFadeIn;
-    public Image mCutSceneImage;
+    public Image mCutSceneImage, mCutSceneImage2;
     public Sprite[] mCutScenceSpriteArr;
 
     private void Awake()
@@ -39,9 +39,29 @@ public class CutSceneController : MonoBehaviour
         mCutSceneImage.sprite = mCutScenceSpriteArr[id];
         mCutSceneImage.gameObject.SetActive(true);
     }
+    public IEnumerator FadeinCutSceneImage(int id)
+    {
+        WaitForFixedUpdate delay = new WaitForFixedUpdate();
+        mCutSceneImage2.sprite = mCutScenceSpriteArr[id];
+        mCutSceneImage2.color = new Color(1, 1, 1, 0);
+        mCutSceneImage2.gameObject.SetActive(true);
+        float halfTime = 2f;
+        Color color = new Color(0, 0, 0, 1 / halfTime * Time.fixedDeltaTime);
+        while (true)
+        {
+            yield return delay;
+            mCutSceneImage2.color += color;
+            if (mCutSceneImage2.color.a >= 1)
+            {
+                break;
+            }
+        }
+    }
+
     public void CloseCutSceneImage()
     {
         mCutSceneImage.gameObject.SetActive(false);
+        mCutSceneImage2.gameObject.SetActive(false);
     }
 
     public void ChangeMainCamera()

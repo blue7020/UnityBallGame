@@ -10,9 +10,11 @@ public class UIController : MonoBehaviour
     public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage;
     public Sprite mNull;
     public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText;
-    public GameObject mCheckPointTextObj;
     public CutScenePoint mCutScenePoint;
     public Button mCutSceneSkipButton;
+
+    public string[] mSentences;
+    private int mIndex;
 
     private void Awake()
     {
@@ -53,8 +55,26 @@ public class UIController : MonoBehaviour
 
     public void CheckPointSet()
     {
-        mCheckPointTextObj.gameObject.SetActive(true);
+        StartCoroutine(CheckPointAnim());
         SoundController.Instance.SESound(5);
+    }
+    public IEnumerator CheckPointAnim()
+    {
+        WaitForFixedUpdate delay = new WaitForFixedUpdate();
+        mCheckPointText.color = new Color(0.005f, 1, 0, 1);
+        mCheckPointText.gameObject.SetActive(true);
+        float halfTime = 1.3f;
+        Color color = new Color(0, 0, 0, 1 / halfTime * Time.fixedDeltaTime);
+        while (true)
+        {
+            yield return delay;
+            mCheckPointText.color -= color;
+            if (mCheckPointText.color.a >= 1)
+            {
+                mCheckPointText.gameObject.SetActive(false);
+                break;
+            }
+        }
     }
 
     public void SkipCutScene()
@@ -97,38 +117,27 @@ public class UIController : MonoBehaviour
         mDialogueImage.gameObject.SetActive(true);
     }
 
-    public IEnumerator ShowDialogueTimer(string text,float time,bool fadein=true)
+    public IEnumerator ShowDialogueTimer(string text,float time)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
-        if (fadein)
-        {
-            StartCoroutine(ShowDialogueFadeIn());
-        }
-        mDialogue.text = text;
+        mDialogue.text = "";
+        StartCoroutine(TypingText(text, time));
         mDialogueImage.gameObject.SetActive(true);
         yield return delay;
         mDialogueImage.gameObject.SetActive(false);
     }
-    public IEnumerator ShowDialogueFadeIn()
+    private IEnumerator TypingText(string text, float time)
     {
-        WaitForFixedUpdate delay = new WaitForFixedUpdate();
-        Color color = new Color(0, 0, 0, 1 / 1f * Time.fixedDeltaTime);
-        mDialogueImage.color = new Color(1,1,1,0);
-        while (true)
+        foreach (char letter in text.ToCharArray())
         {
-            yield return delay;
-            mDialogueImage.color += color;
-            if (mDialogueImage.color.a >= 1)
-            {
-                break;
-            }
+            mDialogue.text += letter;
+            yield return null;
         }
     }
 
     public void HideDialogue()
     {
         StopCoroutine(ShowDialogueTimer("",0f));
-        StopCoroutine(ShowDialogueFadeIn());
         mDialogueImage.gameObject.SetActive(false);
     }
 }

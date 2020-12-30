@@ -11,6 +11,8 @@ public class UIController : MonoBehaviour
     public Sprite mNull;
     public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText;
     public GameObject mCheckPointTextObj;
+    public CutScenePoint mCutScenePoint;
+    public Button mCutSceneSkipButton;
 
     private void Awake()
     {
@@ -53,6 +55,13 @@ public class UIController : MonoBehaviour
     {
         mCheckPointTextObj.gameObject.SetActive(true);
         SoundController.Instance.SESound(5);
+    }
+
+    public void SkipCutScene()
+    {
+        mCutScenePoint.StopAllCoroutines();
+        mCutScenePoint.EndCutScene();
+        mCutScenePoint = null;
     }
 
     public IEnumerator ShowPlayCountScreen()
@@ -114,5 +123,12 @@ public class UIController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void HideDialogue()
+    {
+        StopCoroutine(ShowDialogueTimer("",0f));
+        StopCoroutine(ShowDialogueFadeIn());
+        mDialogueImage.gameObject.SetActive(false);
     }
 }

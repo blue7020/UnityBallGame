@@ -5,9 +5,12 @@ using UnityEngine;
 public class TitleController : MonoBehaviour
 {
     public static TitleController Instance;
-    public int PlayCount;//목숨
     public bool isShowTitle;
     public int mLanguage;
+
+    //저장용
+    public int PlayCount;//목숨
+    public bool TutorialClear;
 
     private void Awake()
     {

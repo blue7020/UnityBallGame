@@ -55,8 +55,16 @@ public class TitleUIController : MonoBehaviour
 
     public void GameStart()
     {
-        SceneManager.LoadScene(1);
-        SoundController.Instance.BGMChange(0);
+        if (TitleController.Instance.TutorialClear==true)
+        {
+            //SceneManager.LoadScene(2);
+            //SoundController.Instance.BGMChange(2);
+        }
+        else
+        {
+            SceneManager.LoadScene(1);
+            SoundController.Instance.BGMChange(0);
+        }
     }
 
     public IEnumerator AlphaAnim()

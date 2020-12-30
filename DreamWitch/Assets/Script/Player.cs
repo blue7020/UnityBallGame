@@ -373,5 +373,9 @@ public class Player : MonoBehaviour
         {
             mTextBoxChecker = false;
         }
+        if (other.gameObject.CompareTag("MoveEnd"))
+        {
+            other.gameObject.SetActive(false);
+        }
     }
 }

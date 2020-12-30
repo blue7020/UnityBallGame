@@ -34,9 +34,9 @@ public class CutSceneController : MonoBehaviour
         transform.position = SmoothedPos;
     }
 
-    public void ShowCutSceneImage()
+    public void ShowCutSceneImage(int id)
     {
-        mCutSceneImage.sprite = mCutScenceSpriteArr[0];
+        mCutSceneImage.sprite = mCutScenceSpriteArr[id];
         mCutSceneImage.gameObject.SetActive(true);
     }
     public void CloseCutSceneImage()

@@ -18,20 +18,22 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
+        Player.Instance.mSpeed -= 1.5f;
         yield return delay;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(0, 2f));
         mMoveTrigger = true;
         StartCoroutine(MovePlayer());
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("후, 오늘 산책길도 얼마 안 남았네.", 3f));
-        time = 1.2f;
+        time = 1.5f;
         delay = new WaitForSeconds(time);
         yield return delay;
         mMoveTrigger = false;
         time = 2f;
         delay = new WaitForSeconds(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("저런 언덕쯤은 거뜬하지!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(1, 2f));
         time = 3f;
         delay = new WaitForSeconds(time);
+        Player.Instance.mSpeed += 1.5f;
         yield return delay;
         UIController.Instance.ShowTutorial();
         EndCutScene();
@@ -44,13 +46,11 @@ public class CutScenePoint : MonoBehaviour
             Player.Instance.Moving(1);
             if (!mMoveTrigger)
             {
-                Player.Instance.mRB2D.velocity = Vector2.zero;
-                Player.Instance.mAnim.SetFloat("xVelocity", 0);
                 break;
             }
             yield return delay;
         }
-        Player.Instance.mRB2D.velocity = Vector2.zero;
+        Player.Instance.mRB2D.velocity = new Vector2(Player.Instance.mRB2D.velocity.x, Player.Instance.mRB2D.velocity.y);
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
     }
 
@@ -65,17 +65,17 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.isCutScene = true;
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("등불을 밝힐때면 무슨 일이 일어나곤 해.", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(2, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("저 위로 올라가려면 등불을 밝히는 게 좋을거야.", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(3, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("Q 키로 마법을 사용할 수 있어.\n그거면 점화할 수 있을거야!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(4, 2f));
         time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -90,11 +90,11 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("망각의 꽃은 항상 편안한 기분이 들게끔 도와줘.\n고통, 슬픔, 외로움...같은 것에서 말이야.", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(5, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("...자꾸 혼잣말을 하게 되는데,\n내가 정신 나간 건 아니겠지?! 꽃이 필요해!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(6, 2f));
         time = 2.5f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -109,15 +109,15 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("저 검은 녀석들, 얼마 전부터 나타나기\n시작했는데...생명체일까?", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(7, 2f));
         time = 3.5f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("나 외의 생물을 보는 건 처음인데...\n암튼 다가가면 물려고 했었지!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(8, 2f));
         time = 3.5f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("밟아주거나 마법으로 손 좀 봐줘야겠어!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(9, 2f));
         time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -137,7 +137,7 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
         Player.Instance.ShowAction(1);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("저게...뭐야...!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(10, 2f));
         time = 1.5f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -150,7 +150,7 @@ public class CutScenePoint : MonoBehaviour
         SoundController.Instance.mBGM.mute = false;
         CutSceneController.Instance.ChangeMainCamera();
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("불길해...빨리 집으로 가야겠어.", 3f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(11, 3f));
         time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -166,11 +166,11 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
         Player.Instance.ShowAction(4);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("우왓, 저런 애들은 처음보는데...!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(12, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("암튼 쟤네가 쏘는 것에 맞으면\n좋을 것 같진 않네.", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(13, 2f));
         time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -185,15 +185,15 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("다녀왔어요, 프레스톤 씨!\n오늘은 산책하는데 검은 녀석들이\n더 늘어난 것 같아서 걱정돼요...", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(14, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("이러다가 쟤네들이 우리 집까지\n오면 어떡하죠...!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(15, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("아, 섬 전경 보는 걸 잊었다구요?\n네, 빨리 보러가요!", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(16, 2f));
         time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -220,11 +220,11 @@ public class CutScenePoint : MonoBehaviour
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.ShowAction(0);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("...프레스톤 씨, 이곳이 어둠에 둘러싸인다 해도", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(17, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("마지막까지 저랑 항상 함께한다고 약속해주세요...너무 무서워요...", 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(18, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -233,11 +233,11 @@ public class CutScenePoint : MonoBehaviour
         time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        SoundController.Instance.mBGM.mute = true;
         CutSceneController.Instance.ShowCutSceneImage(0);
         time = 1f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
+        SoundController.Instance.mBGM.mute = true;
         SoundController.Instance.SESound(6);
         StartCoroutine(CutSceneController.Instance.FadeinCutSceneImage(1));
         time = 5.5f;
@@ -245,7 +245,7 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         CutSceneController.Instance.CloseCutSceneImage();
         SoundController.Instance.mBGM.mute = false;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer("...우린...앞으로 어떻게 될까요?", 3f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(19, 3f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;

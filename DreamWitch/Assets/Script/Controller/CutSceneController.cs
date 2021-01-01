@@ -11,6 +11,8 @@ public class CutSceneController : MonoBehaviour
     public Image mCutSceneImage, mCutSceneImage2;
     public Sprite[] mCutScenceSpriteArr;
 
+
+
     private void Awake()
     {
         if (Instance==null)
@@ -29,7 +31,6 @@ public class CutSceneController : MonoBehaviour
         mTentacle.SetActive(true);
         mCutSceneCamera.gameObject.SetActive(true);
         Vector3 TargetPos = new Vector3(-15.5f, 1, 10);
-
         Vector3 SmoothedPos = Vector3.Lerp(transform.position, TargetPos, 3f * Time.fixedDeltaTime);
         transform.position = SmoothedPos;
     }

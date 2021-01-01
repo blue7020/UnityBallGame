@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class UIController : InformationLoader
 {
     public static UIController Instance;
 
@@ -13,21 +13,23 @@ public class UIController : MonoBehaviour
     public CutScenePoint mCutScenePoint;
     public Button mCutSceneSkipButton;
 
-    public string[] mSentences;
-    private int mIndex;
+    public DialogueText[] mDialogueTextArr;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
+            LoadJson(out mDialogueTextArr, Path.DIALOGUE_TEXT);
             if (TitleController.Instance.mLanguage == 0)
             {
                 mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
+                mTutorialText.text = "이동: WASD / 점프: 스페이스바\n마법: Q / 줍기: F / 사용: E\n메뉴: ESC";
             }
             else if (TitleController.Instance.mLanguage == 1)
             {
                 mCheckPointText.text = "*Checkpoints updated!";
+                mTutorialText.text = "Move: WASD / Jump: Space Bar\nMagic: Q / Pick: F / Use: E\nMenu: ESC";
             }
         }
         else
@@ -110,17 +112,33 @@ public class UIController : MonoBehaviour
         mItemImage.sprite = spt;
     }
 
-    public void ShowDialogue(string text)
+    public void ShowDialogue(int id)
     {
         TextBoxCheck();
-        mDialogue.text = text;
+        if (TitleController.Instance.mLanguage == 0)
+        {
+            mDialogue.text = mDialogueTextArr[id].text_kor;
+        }
+        else if (TitleController.Instance.mLanguage == 1)
+        {
+            mDialogue.text = mDialogueTextArr[id].text_eng;
+        }
         mDialogueImage.gameObject.SetActive(true);
     }
 
-    public IEnumerator ShowDialogueTimer(string text,float time)
+    public IEnumerator ShowDialogueTimer(int id,float time)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
         mDialogue.text = "";
+        string text="";
+        if (TitleController.Instance.mLanguage == 0)
+        {
+            text = mDialogueTextArr[id].text_kor;
+        }
+        else if (TitleController.Instance.mLanguage == 1)
+        {
+            text = mDialogueTextArr[id].text_eng;
+        }
         StartCoroutine(TypingText(text, time));
         mDialogueImage.gameObject.SetActive(true);
         yield return delay;
@@ -137,7 +155,7 @@ public class UIController : MonoBehaviour
 
     public void HideDialogue()
     {
-        StopCoroutine(ShowDialogueTimer("",0f));
+        StopCoroutine(ShowDialogueTimer(0,0f));
         mDialogueImage.gameObject.SetActive(false);
     }
 }

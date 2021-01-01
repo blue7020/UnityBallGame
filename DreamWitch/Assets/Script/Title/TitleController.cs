@@ -17,6 +17,14 @@ public class TitleController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            if (Application.systemLanguage==SystemLanguage.Korean)
+            {
+                mLanguage = 0;
+            }
+            else if (Application.systemLanguage == SystemLanguage.English)
+            {
+                mLanguage = 1;
+            }
             DontDestroyOnLoad(gameObject);
         }
         else

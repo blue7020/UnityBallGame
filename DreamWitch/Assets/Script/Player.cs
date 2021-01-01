@@ -29,6 +29,9 @@ public class Player : MonoBehaviour
     public float mJumpForce;
     public float mDistance;
 
+    public float mHangTime=0.2f;//모서리에서 점프 판정 보정
+    private float hangCounter;
+
     public ParticleSystem mFootStep;
     private ParticleSystem.EmissionModule mFootEmission;
 
@@ -78,17 +81,20 @@ public class Player : MonoBehaviour
     private void Update()
     {
         mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
-        if (Input.GetButton("Jump"))
+
+        if (Input.GetButton("Jump") && hangCounter >0)
         {
-            if (!isClimbing&& !isCutScene)
+            if (!isClimbing && !isCutScene)
             {
                 isJump = true;
                 mAnim.SetBool(AnimHash.Jump, true);
             }
         }
-        else if (Input.GetButtonUp("Jump"))
+
+        if (Input.GetButtonUp("Jump"))
         {
             isJump = false;
+            mRB2D.velocity = new Vector2(mRB2D.velocity.x, mRB2D.velocity.y * 0.5f);
         }
 
         if (Input.GetKey(KeyCode.Q)&& !isCutScene)//공격
@@ -180,6 +186,15 @@ public class Player : MonoBehaviour
             {
                 isGround = true;
                 mRB2D.velocity = Vector2.zero;
+            }
+            //Manage hangtime
+            if (isGround)
+            {
+                hangCounter = mHangTime;
+            }
+            else
+            {
+                hangCounter -= Time.deltaTime;
             }
             mAnim.SetBool(AnimHash.Jump, !isGround);
         }

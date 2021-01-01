@@ -7,11 +7,12 @@ public class Player : MonoBehaviour
     public static Player Instance;
     public LayerMask mGoundLayer,mLadderLayer;
     const float GROUND_CHECK_RADIUS = 0.01f;
+    const float FRONT_CHECK_RADIUS = 0.5f;
+    const float SLIDE_FACTOR = 0.2f;
 
     public Rigidbody2D mRB2D;
     public Animator mAnim;
     public SpriteRenderer mRenderer;
-    public Transform mGroundChecker, mHoldZone, mBulletStart,Map;
     public Vector2 CheckPointPos;
 
     public HoldingItem mDropItem,mNowItem;
@@ -21,22 +22,18 @@ public class Player : MonoBehaviour
     public Sprite[] mActionArr;
     public GameObject mAction;
     public Enemy mEnemy;
-    public Transform mItemTransform;
     public bool mTextBoxChecker;
 
-    public float mMaxHP, mCurrentHP;
-    public float mSpeed;
-    public float mJumpForce;
+    public Transform mItemTransform, mGroundChecker, mHoldZone, mBulletStart, mFrontCheck, Map;
+    public bool isCutScene, isJump, isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold;
+    public float Hori, Ver;
+    public float mMaxHP, mCurrentHP, mSpeed, mStamina, mJumpForce, mWallSlidingSpeed,mWallJumpForce;
     public float mDistance;
 
-    public float mHangTime=0.2f;//모서리에서 점프 판정 보정
-    private float hangCounter;
+    private float gravityStore;
 
     public ParticleSystem mFootStep;
     private ParticleSystem.EmissionModule mFootEmission;
-
-    public bool isCutScene,isJump, isGround, isNoDamage,isCooltime, isItemCooltime, isClimbing, isHold;
-    private float Hori,Ver;
 
     private void Awake()
     {
@@ -45,6 +42,7 @@ public class Player : MonoBehaviour
             Instance = this;
             mTextBoxChecker = false;
             mCurrentHP = mMaxHP;
+            mStamina = 100;
             CheckPointPos = GameController.Instance.mStartPoint.transform.position + new Vector3(0, 2f, 0);
             if (mNowItem==null)
             {
@@ -63,6 +61,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        gravityStore = mRB2D.gravityScale;
         mFootEmission = mFootStep.emission;
     }
 
@@ -73,6 +72,7 @@ public class Player : MonoBehaviour
         GroundCheck();
         if (!isCutScene)
         {
+            WallCheck();
             Moving(Hori);
             Jump(isJump);
         }
@@ -81,41 +81,52 @@ public class Player : MonoBehaviour
     private void Update()
     {
         mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
-
-        if (Input.GetButton("Jump") && hangCounter >0)
+        if (Input.GetButton("Jump") && !isWallSliding)
         {
             if (!isClimbing && !isCutScene)
             {
                 isJump = true;
                 mAnim.SetBool(AnimHash.Jump, true);
             }
-        }
+        }//점프
+
+        if (Input.GetButtonDown("Jump") && isWallSliding)
+        {
+            mAnim.SetBool(AnimHash.Jump, true);
+            float rand = Random.Range(0, 1f);
+            if (rand <= 0.6f)
+            {
+                SoundController.Instance.SESound(13);
+            }
+            mRB2D.velocity += new Vector2(0f, mWallJumpForce);
+        }//벽 점프
 
         if (Input.GetButtonUp("Jump"))
         {
             isJump = false;
             mRB2D.velocity = new Vector2(mRB2D.velocity.x, mRB2D.velocity.y * 0.5f);
-        }
+        }//하강
 
-        if (Input.GetKey(KeyCode.Q)&& !isCutScene)//공격
+        if (Input.GetKey(KeyCode.Q) && !isCutScene)
         {
-            if (GameController.Instance.Pause==false && !isCooltime)
+            if (GameController.Instance.Pause == false && !isCooltime)
             {
                 StartCoroutine(Attack());
             }
-        }
+        }//공격
 
-        if (Input.GetKeyDown(KeyCode.F)&& !isCutScene)//습득
+        if (Input.GetKeyDown(KeyCode.F) && !isCutScene)
         {
             if (GameController.Instance.Pause == false)
             {
-                if (mDropItem!=null)
+                if (mDropItem != null)
                 {
                     GetItem(mDropItem);
                 }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.E)&& !isCutScene)//사용
+        }//습득
+
+        if (Input.GetKeyDown(KeyCode.E) && !isCutScene)
         {
             if (GameController.Instance.Pause == false)
             {
@@ -124,7 +135,7 @@ public class Player : MonoBehaviour
                     ItemUse();
                 }
             }
-        }
+        }//사용
     }
     public IEnumerator Attack()
     {
@@ -141,7 +152,6 @@ public class Player : MonoBehaviour
 
     public void Jump(bool jumpFlag)
     {
-
         if (isGround && jumpFlag)
         {
             jumpFlag = false;
@@ -187,17 +197,23 @@ public class Player : MonoBehaviour
                 isGround = true;
                 mRB2D.velocity = Vector2.zero;
             }
-            //Manage hangtime
-            if (isGround)
-            {
-                hangCounter = mHangTime;
-            }
-            else
-            {
-                hangCounter -= Time.deltaTime;
-            }
             mAnim.SetBool(AnimHash.Jump, !isGround);
         }
+    }//땅 체크
+    public void WallCheck()//벽 체크
+    {
+        isTouchingFront = Physics2D.OverlapCircle(mFrontCheck.position, FRONT_CHECK_RADIUS, mGoundLayer);
+        if (isTouchingFront && Mathf.Abs(Hori) > 0 &&mRB2D.velocity.y<0&& !isGround)
+        {
+            mRB2D.velocity = new Vector2(0f, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed, float.MaxValue));
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+            mRB2D.gravityScale = gravityStore;
+        }
+        //mAnim.SetBool(AnimHash.Grab, isWallGrab);
     }
     public void LadderCheck()
     {
@@ -229,7 +245,7 @@ public class Player : MonoBehaviour
             isClimbing = false;
             mRB2D.gravityScale = 3;
         }
-    }
+    }//사다리 체크
 
     public void Damage(float damage)
     {

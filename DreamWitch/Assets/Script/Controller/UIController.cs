@@ -149,6 +149,22 @@ public class UIController : InformationLoader
         foreach (char letter in text.ToCharArray())
         {
             mDialogue.text += letter;
+            //int rand = Random.Range(0, 4);
+            //switch (rand)
+            //{
+            //    case 0:
+            //        SoundController.Instance.SESound(18);
+            //        break;
+            //    case 1:
+            //        SoundController.Instance.SESound(20);
+            //        break;
+            //    case 2:
+            //        SoundController.Instance.SESound(19);
+            //        break;
+            //    case 3:
+            //        SoundController.Instance.SESound(21);
+            //        break;
+            //}
             yield return null;
         }
     }

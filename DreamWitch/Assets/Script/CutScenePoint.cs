@@ -76,7 +76,7 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
         StartCoroutine(UIController.Instance.ShowDialogueTimer(4, 2f));
-        time = 2f;
+        time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         EndCutScene();
@@ -95,7 +95,7 @@ public class CutScenePoint : MonoBehaviour
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         StartCoroutine(UIController.Instance.ShowDialogueTimer(6, 2f));
-        time = 2.5f;
+        time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         EndCutScene();
@@ -118,7 +118,7 @@ public class CutScenePoint : MonoBehaviour
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         StartCoroutine(UIController.Instance.ShowDialogueTimer(9, 2f));
-        time = 2f;
+        time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         EndCutScene();
@@ -151,7 +151,7 @@ public class CutScenePoint : MonoBehaviour
         CutSceneController.Instance.ChangeMainCamera();
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
         StartCoroutine(UIController.Instance.ShowDialogueTimer(11, 3f));
-        time = 2f;
+        time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         EndCutScene();
@@ -165,13 +165,8 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
-        Player.Instance.ShowAction(4);
         StartCoroutine(UIController.Instance.ShowDialogueTimer(12, 2f));
         time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(13, 2f));
-        time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         EndCutScene();
@@ -185,22 +180,42 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
+        Player.Instance.ShowAction(4);
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(13, 2f));
+        time = 3f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
         StartCoroutine(UIController.Instance.ShowDialogueTimer(14, 2f));
         time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(15, 2f));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(16, 2f));
-        time = 2f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         EndCutScene();
     }
 
     public IEnumerator CutScene7()
+    {
+        float time = 3f;
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
+        GameController.Instance.ShowUI();
+        Player.Instance.mRB2D.velocity = Vector2.zero;
+        Player.Instance.mAnim.SetFloat("xVelocity", 0);
+        Player.Instance.isCutScene = true;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(15, 2f));
+        time = 3f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(16, 2f));
+        time = 3f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(17, 2f));
+        time = 3f;
+        delay = new WaitForSecondsRealtime(time);
+        yield return delay;
+        EndCutScene();
+    }
+
+    public IEnumerator CutScene8()
     {
         float time = 1.5f;
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
@@ -220,11 +235,11 @@ public class CutScenePoint : MonoBehaviour
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
         Player.Instance.ShowAction(0);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(17, 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(18, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(18, 2f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(19, 2f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
@@ -245,15 +260,15 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         CutSceneController.Instance.CloseCutSceneImage();
         SoundController.Instance.mBGM.mute = false;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(19, 3f));
+        StartCoroutine(UIController.Instance.ShowDialogueTimer(20, 3f));
         time = 3f;
         delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        mID = 8;
+        mID = 9;
         PlayCutScene();
     }
 
-    public IEnumerator CutScene8()
+    public IEnumerator CutScene9()
     {
         float time = 1f;
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
@@ -270,6 +285,7 @@ public class CutScenePoint : MonoBehaviour
 
     public void PlayCutScene()
     {
+        Player.Instance.mRB2D.velocity = Vector2.zero;
         UIController.Instance.TextBoxCheck();
         UIController.Instance.mCutScenePoint = this;
         if (IsSkip)
@@ -307,15 +323,19 @@ public class CutScenePoint : MonoBehaviour
                 StartCoroutine(CutScene6());
                 break;
             case 7:
+                mTrigger = true;
+                StartCoroutine(CutScene7());
+                break;
+            case 8:
                 if (Player.Instance.mNowItemID==0)
                 {
                     mTrigger = true;
-                    StartCoroutine(CutScene7());
+                    StartCoroutine(CutScene8());
                 }
                 break;
-            case 8:
+            case 9:
                 mTrigger = true;
-                StartCoroutine(CutScene8());
+                StartCoroutine(CutScene9());
                 break;
             default:
                 break;
@@ -352,6 +372,9 @@ public class CutScenePoint : MonoBehaviour
                 break;
             case 8:
                 StopCoroutine(CutScene8());
+                break;
+            case 9:
+                StopCoroutine(CutScene9());
                 break;
             default:
                 break;

@@ -25,12 +25,14 @@ public class Player : MonoBehaviour
     public bool mTextBoxChecker;
 
     public Transform mItemTransform, mGroundChecker, mHoldZone, mBulletStart, mFrontCheck, Map;
-    public bool isCutScene, isJump, isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold;
+    public bool isCutScene, isJump,isMultipleJump,isCoyoteJump,isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold;
     public float Hori, Ver;
-    public float mMaxHP, mCurrentHP, mSpeed, mStamina, mJumpForce, mWallSlidingSpeed,mWallJumpForce;
-    public float mDistance;
+    public float mMaxHP, mCurrentHP, mMaxStamina,mCurrentStamina,mSpeed, mJumpForce;
+    public float mDistance,mCoyoteTime,mWallSlidingSpeed;
 
-    private float gravityStore;
+    public int mMaxmJumpToken, mJumpToken;
+
+    public float Gravity;
 
     public ParticleSystem mFootStep;
     private ParticleSystem.EmissionModule mFootEmission;
@@ -42,7 +44,7 @@ public class Player : MonoBehaviour
             Instance = this;
             mTextBoxChecker = false;
             mCurrentHP = mMaxHP;
-            mStamina = 100;
+            mCurrentStamina = mMaxStamina;
             CheckPointPos = GameController.Instance.mStartPoint.transform.position + new Vector3(0, 2f, 0);
             if (mNowItem==null)
             {
@@ -61,45 +63,34 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        gravityStore = mRB2D.gravityScale;
+        Gravity = mRB2D.gravityScale;
         mFootEmission = mFootStep.emission;
     }
 
     private void FixedUpdate()
     {
         Hori = Input.GetAxis("Horizontal");
-        LadderCheck();
         GroundCheck();
+        LadderCheck();
+        WallCheck();
         if (!isCutScene)
         {
-            WallCheck();
             Moving(Hori);
-            Jump(isJump);
         }
     }
 
     private void Update()
     {
         mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
-        if (Input.GetButton("Jump") && !isWallSliding)
+
+        if (Input.GetButtonDown("Jump"))
         {
             if (!isClimbing && !isCutScene)
             {
                 isJump = true;
-                mAnim.SetBool(AnimHash.Jump, true);
+                Jump();
             }
         }//점프
-
-        if (Input.GetButtonDown("Jump") && isWallSliding)
-        {
-            mAnim.SetBool(AnimHash.Jump, true);
-            float rand = Random.Range(0, 1f);
-            if (rand <= 0.6f)
-            {
-                SoundController.Instance.SESound(13);
-            }
-            mRB2D.velocity += new Vector2(0f, mWallJumpForce);
-        }//벽 점프
 
         if (Input.GetButtonUp("Jump"))
         {
@@ -150,17 +141,44 @@ public class Player : MonoBehaviour
         isCooltime = false;
     }
 
-    public void Jump(bool jumpFlag)
+    public void Jump()
     {
-        if (isGround && jumpFlag)
+        float rand = Random.Range(0, 1f);
+        if (isGround && mJumpToken > 0)
         {
-            jumpFlag = false;
-            float rand = Random.Range(0, 1f);
-            if (rand<=0.6f)
+            isMultipleJump = true;
+            mJumpToken--;
+            if (rand <= 0.6f)
             {
                 SoundController.Instance.SESound(13);
             }
-            mRB2D.AddForce(new Vector2(0f, mJumpForce));
+            mRB2D.velocity= Vector2.up*mJumpForce;
+            mAnim.SetBool(AnimHash.Jump, true);
+        }
+        else
+        {
+            if (isCoyoteJump && mJumpToken > 0)
+            {
+                isMultipleJump = true;
+                mJumpToken--;
+                if (rand <= 0.6f)
+                {
+                    SoundController.Instance.SESound(13);
+                }
+                mRB2D.velocity = Vector2.up * mJumpForce;
+                mAnim.SetBool(AnimHash.Jump, true);
+            }
+
+            if (isMultipleJump && mJumpToken > 0)
+            {
+                mJumpToken--;
+                if (rand <= 0.6f)
+                {
+                    SoundController.Instance.SESound(13);
+                }
+                mRB2D.velocity = Vector2.up * mJumpForce;
+                mAnim.SetBool(AnimHash.Jump, true);
+            }
         }
     }
     public void Moving(float dir)
@@ -190,30 +208,71 @@ public class Player : MonoBehaviour
     {
         if (!isClimbing)
         {
+            bool wasGround = isGround;
             isGround = false;
+            mRB2D.velocity = new Vector2(0, mRB2D.velocity.y);
             Collider2D[] Coll2D = Physics2D.OverlapCircleAll(mGroundChecker.position, GROUND_CHECK_RADIUS, mGoundLayer);
             if (Coll2D.Length > 0)
             {
                 isGround = true;
-                mRB2D.velocity = Vector2.zero;
+                if (!wasGround)
+                {
+                    mJumpToken = mMaxmJumpToken;
+                    mCurrentStamina = mMaxStamina;
+                }
+            }
+            else
+            {
+                if (wasGround)
+                {
+                    StartCoroutine(CoyoteJumpDelay());
+                }
             }
             mAnim.SetBool(AnimHash.Jump, !isGround);
         }
     }//땅 체크
+
+    public IEnumerator CoyoteJumpDelay()
+    {
+        isCoyoteJump = true;
+        yield return new WaitForSeconds(mCoyoteTime);
+        isCoyoteJump = false;
+    }
+
     public void WallCheck()//벽 체크
     {
         isTouchingFront = Physics2D.OverlapCircle(mFrontCheck.position, FRONT_CHECK_RADIUS, mGoundLayer);
         if (isTouchingFront && Mathf.Abs(Hori) > 0 &&mRB2D.velocity.y<0&& !isGround)
         {
+            if (!isWallSliding)
+            {
+                mJumpToken = mMaxmJumpToken;
+                isMultipleJump = false;
+            }
             mRB2D.velocity = new Vector2(0f, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed, float.MaxValue));
             isWallSliding = true;
+
+            if (Input.GetButtonDown("Jump")&& isWallSliding)
+            {
+                if (mJumpToken > 0&& mCurrentStamina>0)
+                {
+                    mJumpToken--;
+                    mCurrentStamina--;
+                    float rand = Random.Range(0, 1f);
+                    if (rand <= 0.6f)
+                    {
+                        SoundController.Instance.SESound(13);
+                    }
+                    mRB2D.velocity = Vector2.up * mJumpForce;
+                    mAnim.SetBool(AnimHash.Jump, true);
+                }
+            }
         }
         else
         {
             isWallSliding = false;
-            mRB2D.gravityScale = gravityStore;
         }
-        //mAnim.SetBool(AnimHash.Grab, isWallGrab);
+        mAnim.SetBool(AnimHash.Grab, isWallSliding);
     }
     public void LadderCheck()
     {
@@ -243,7 +302,7 @@ public class Player : MonoBehaviour
         {
             mAnim.SetBool(AnimHash.Climb, false);
             isClimbing = false;
-            mRB2D.gravityScale = 3;
+            mRB2D.gravityScale = Gravity;
         }
     }//사다리 체크
 

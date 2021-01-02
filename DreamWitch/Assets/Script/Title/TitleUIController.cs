@@ -16,7 +16,7 @@ public class TitleUIController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            mKeyText.text = "Press Any key";
+            mKeyText.text = "Press Any Key";
             StartCoroutine(AlphaAnim());
         }
         else
@@ -57,9 +57,7 @@ public class TitleUIController : MonoBehaviour
     {
         if (TitleController.Instance.TutorialClear==true)
         {
-            SceneManager.LoadScene(1);
-            SoundController.Instance.BGMChange(0);
-            //SceneManager.LoadScene(2);
+            SceneManager.LoadScene(2);
             //SoundController.Instance.BGMChange(2);
         }
         else

@@ -13,6 +13,9 @@ public class AnimHash : MonoBehaviour
     //TriggerObj
     public static readonly int On = Animator.StringToHash("IsTrigger");
 
+    //FallingTile
+    public static readonly int Falling = Animator.StringToHash("IsFalling");
+
     //CheckPoint
     public static readonly int CheckPoint = Animator.StringToHash("IsActive");
 

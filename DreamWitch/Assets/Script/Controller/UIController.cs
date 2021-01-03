@@ -7,8 +7,9 @@ public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage;
     public Sprite mNull;
+    public Sprite[] mFaceSprite;
     public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText;
     public CutScenePoint mCutScenePoint;
     public Button mCutSceneSkipButton;
@@ -126,10 +127,11 @@ public class UIController : InformationLoader
         mDialogueImage.gameObject.SetActive(true);
     }
 
-    public IEnumerator ShowDialogueTimer(int id,float time)
+    public IEnumerator ShowDialogueTimer(int id, float time, int FaceID = 0)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
         mDialogue.text = "";
+        mDialogueFaceImage.sprite=mFaceSprite[FaceID];
         string text="";
         if (TitleController.Instance.mLanguage == 0)
         {

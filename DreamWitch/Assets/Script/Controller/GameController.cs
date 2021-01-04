@@ -12,7 +12,6 @@ public class GameController : MonoBehaviour
     public List<Image> mPlayerHP;
     public List<Image> mHPFrame;
     public bool Pause,isShowUI;
-    public CutScenePoint mStartCutScene;
 
 
     private void Awake()
@@ -32,7 +31,6 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         SetHP(Player.Instance.mCurrentHP);
-        StartCoroutine(mStartCutScene.CutScene0());
     }
 
     public void GamePause()
@@ -49,6 +47,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+    public void GotoStageSelect(int SceneID)
+    {
+        SceneManager.LoadScene(SceneID);
+    }
 
     public void ShowUI()
     {
@@ -98,8 +101,6 @@ public class GameController : MonoBehaviour
         {
             mPlayerHP.Add(Instantiate(mHeart, mCanvas));
         }
-        int rand = Random.Range(11, 13);//Player laugh
-        SoundController.Instance.SESound(rand);
         Player.Instance.mCurrentHP += count;
     }
 
@@ -128,7 +129,20 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(1);
+            Player.Instance.CheckPointPos = mStartPoint.position + new Vector3(0, 2f, 0);
+            StartCoroutine(DeathLoad());
         }
+    }
+    private IEnumerator DeathLoad()
+    {
+        WaitForSeconds delay = new WaitForSeconds(0.5f);
+        UIController.Instance.mBlackScrean.gameObject.SetActive(true);
+        Heal((Player.Instance.mMaxHP-1) - Player.Instance.mCurrentHP);
+        Player.Instance.transform.position = Player.Instance.CheckPointPos;
+        MapMaterialController.Instance.ReviveEnemy();
+        MapMaterialController.Instance.ResetCheckPoint();
+        yield return delay;
+        UIController.Instance.mBlackScrean.gameObject.SetActive(false);
+        StartCoroutine(UIController.Instance.ShowPlayCountScreen());
     }
 }

@@ -11,18 +11,28 @@ public class CutSceneController : MonoBehaviour
     public Image mCutSceneImage, mCutSceneImage2;
     public Sprite[] mCutScenceSpriteArr;
 
-
+    public List<bool> mCutSceneList;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
+            mCutSceneList = new List<bool>();
+            for (int i = 0; i < MapMaterialController.Instance.mCutsceneArr.Length; i++)
+            {
+                mCutSceneList.Add(MapMaterialController.Instance.mCutsceneArr[i].mTrigger);
+            }
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     public void CutSceneCamera()

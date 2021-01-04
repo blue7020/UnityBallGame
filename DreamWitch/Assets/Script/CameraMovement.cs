@@ -22,8 +22,13 @@ public class CameraMovement : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     public void Follow()
@@ -39,7 +44,10 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        Follow();
+        if (mTarget!=null)
+        {
+            Follow();
+        }
     }
 
 }

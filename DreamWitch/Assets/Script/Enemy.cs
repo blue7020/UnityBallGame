@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     public bool isMoving,isNoDamage,isDeath,isCollide;
     public int mNextMove;
 
-    public Transform mHead,mBoltStarter;
+    public Transform mHead,mBoltStarter,mSpawnPos;
     public Animator mAnim;
     public Rigidbody2D mRB2D;
     public SpriteRenderer mRenderer;
@@ -18,14 +18,8 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         mCurrentHP = mMaxHP;
-        if (mTypeCode == 0)
-        {
-            Invoke("Think", 2f);
-        }
-        else if (mTypeCode == 1)
-        {
-            Invoke("BoltAttack", 2.5f);
-        }
+        mSpawnPos = transform;
+        StartAI();
     }
 
     private void FixedUpdate()
@@ -49,6 +43,18 @@ public class Enemy : MonoBehaviour
         }
     }
     
+    public void StartAI()
+    {
+        if (mTypeCode == 0)
+        {
+            Invoke("Think", 2f);
+        }
+        else if (mTypeCode == 1)
+        {
+            Invoke("BoltAttack", 2.5f);
+        }
+    }
+
     public void Turn()
     {
         mNextMove =mNextMove * (-1);//직접 방향을 바꾸어 주었으니 Think는 잠시 멈추어야함
@@ -164,5 +170,17 @@ public class Enemy : MonoBehaviour
         {
             isCollide = false;
         }
+    }
+
+    public void Revive()
+    {
+        mCurrentHP = mMaxHP;
+        gameObject.layer = 0;
+        transform.position = mSpawnPos.position;
+        isDeath = false;
+        isNoDamage = false;
+        gameObject.SetActive(true);
+        mAnim.SetBool(AnimHash.Enemy_Death, false);
+        StartAI();
     }
 }

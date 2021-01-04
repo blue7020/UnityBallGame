@@ -15,7 +15,15 @@ public class CheckPoint : MonoBehaviour
             mAnim.SetBool(AnimHash.CheckPoint, true);
             UIController.Instance.CheckPointSet();
             Player.Instance.CheckPointPos = new Vector3(transform.position.x, transform.position.y+1f, 0);
+            int rand = Random.Range(11, 13);//Player laugh
+            SoundController.Instance.SESound(rand);
             GameController.Instance.Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
         }   
+    }
+
+    public void ResetCheckPoint()
+    {
+        mCheckPointOn = false;
+        mAnim.SetBool(AnimHash.CheckPoint, false);
     }
 }

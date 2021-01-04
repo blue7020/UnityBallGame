@@ -7,12 +7,11 @@ public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
-    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText;
     public CutScenePoint mCutScenePoint;
-    public Button mCutSceneSkipButton;
 
     public DialogueText[] mDialogueTextArr;
 
@@ -26,22 +25,46 @@ public class UIController : InformationLoader
             {
                 mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
                 mTutorialText.text = "이동: WASD / 점프: 스페이스바\n마법: Q / 줍기: F / 사용: E\n메뉴: ESC";
+                mSkipText.text = "건너뛰기: C";
             }
             else if (TitleController.Instance.mLanguage == 1)
             {
                 mCheckPointText.text = "*Checkpoints updated!";
                 mTutorialText.text = "Move: WASD / Jump: Space Bar\nMagic: Q / Pick: F / Use: E\nMenu: ESC";
+                mSkipText.text = "Skip: C";
             }
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     private void Start()
     {
         StartCoroutine(ShowPlayCountScreen());
+    }
+
+    private void FixedUpdate()
+    {
+        if (mCutScenePoint != null && mCutScenePoint.IsSkip)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                SkipCutScene();
+            }
+        }
+    }
+    public void SkipCutScene()
+    {
+        mCutScenePoint.StopAllCoroutines();
+        mCutScenePoint.EndCutScene();
+        mCutScenePoint = null;
     }
 
     public void TextBoxCheck()
@@ -78,13 +101,6 @@ public class UIController : InformationLoader
                 break;
             }
         }
-    }
-
-    public void SkipCutScene()
-    {
-        mCutScenePoint.StopAllCoroutines();
-        mCutScenePoint.EndCutScene();
-        mCutScenePoint = null;
     }
 
     public IEnumerator ShowPlayCountScreen()

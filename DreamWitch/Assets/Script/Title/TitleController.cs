@@ -8,6 +8,8 @@ public class TitleController : MonoBehaviour
     public bool isShowTitle;
     public int mLanguage;
 
+    public int NowStage;
+
     //저장용
     public int PlayCount;//목숨
     public bool TutorialClear;

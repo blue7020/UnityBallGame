@@ -57,8 +57,13 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Delete();
         }
+    }
+
+    public void Delete()
+    {
+        Destroy(gameObject);
     }
 
     private void Start()

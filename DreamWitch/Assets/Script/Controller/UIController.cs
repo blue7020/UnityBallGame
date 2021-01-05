@@ -7,13 +7,15 @@ public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
-    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mTextBoxText,mCloseText;
     public CutScenePoint mCutScenePoint;
 
     public DialogueText[] mDialogueTextArr;
+
+    public bool isShowTextBox;
 
     private void Awake()
     {
@@ -26,12 +28,14 @@ public class UIController : InformationLoader
                 mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
                 mTutorialText.text = "이동: WASD / 점프: 스페이스바\n마법: Q / 줍기: F / 사용: E\n메뉴: ESC";
                 mSkipText.text = "건너뛰기: C";
+                mCloseText.text = "닫기: C";
             }
             else if (TitleController.Instance.mLanguage == 1)
             {
                 mCheckPointText.text = "*Checkpoints updated!";
                 mTutorialText.text = "Move: WASD / Jump: Space Bar\nMagic: Q / Pick: F / Use: E\nMenu: ESC";
                 mSkipText.text = "Skip: C";
+                mCloseText.text = "Close: C";
             }
         }
         else
@@ -57,6 +61,13 @@ public class UIController : InformationLoader
             if (Input.GetKeyDown(KeyCode.C))
             {
                 SkipCutScene();
+            }
+        }
+        if (isShowTextBox==true)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                mTextBoxImage.gameObject.SetActive(false);
             }
         }
     }
@@ -157,32 +168,33 @@ public class UIController : InformationLoader
         {
             text = mDialogueTextArr[id].text_eng;
         }
-        StartCoroutine(TypingText(text, time));
+        StartCoroutine(TypingTextToDialogue(text));
         mDialogueImage.gameObject.SetActive(true);
         yield return delay;
         mDialogueImage.gameObject.SetActive(false);
     }
-    private IEnumerator TypingText(string text, float time)
+    private IEnumerator TypingTextToDialogue(string text)
     {
         foreach (char letter in text.ToCharArray())
         {
             mDialogue.text += letter;
-            //int rand = Random.Range(0, 4);
-            //switch (rand)
-            //{
-            //    case 0:
-            //        SoundController.Instance.SESound(18);
-            //        break;
-            //    case 1:
-            //        SoundController.Instance.SESound(20);
-            //        break;
-            //    case 2:
-            //        SoundController.Instance.SESound(19);
-            //        break;
-            //    case 3:
-            //        SoundController.Instance.SESound(21);
-            //        break;
-            //}
+            yield return null;
+        }
+    }
+
+    public void ShowTextBox(string text)
+    {
+        isShowTextBox = true;
+        mTextBoxText.text = "";
+        mTextBoxImage.gameObject.SetActive(true);
+        StartCoroutine(TypingTextToTextBox(text));
+
+    }
+    private IEnumerator TypingTextToTextBox(string text)
+    {
+        foreach (char letter in text.ToCharArray())
+        {
+            mTextBoxText.text += letter;
             yield return null;
         }
     }

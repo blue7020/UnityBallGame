@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public static Player Instance;
     public LayerMask mGoundLayer,mLadderLayer;
     const float GROUND_CHECK_RADIUS = 0.01f;
-    const float FRONT_CHECK_RADIUS = 0.5f;
+    const float FRONT_CHECK_RADIUS = 0.07f;
     const float SLIDE_FACTOR = 0.2f;
 
     public Rigidbody2D mRB2D;
@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
 
     public ParticleSystem mFootStep;
     private ParticleSystem.EmissionModule mFootEmission;
+
+    public Delegates.VoidCallback mFuntion;
 
     private void Awake()
     {
@@ -66,21 +68,43 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public IEnumerator StaminaUse()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        while (true)
+        {
+            if (mCurrentStamina>0&& isWallSliding)
+            {
+                mCurrentStamina--;
+            }
+            yield return delay;
+        }
+    }
+
     private void Start()
     {
         Gravity = mRB2D.gravityScale;
         mFootEmission = mFootStep.emission;
+        StartCoroutine(StaminaUse());
     }
 
     private void FixedUpdate()
     {
         Hori = Input.GetAxis("Horizontal");
+        Ver= Input.GetAxis("Vertical");
         GroundCheck();
         LadderCheck();
         WallCheck();
         if (!isCutScene)
         {
-            Moving(Hori);
+            if (isWallSliding)
+            {
+                MovingWall(Ver);
+            }
+            else
+            {
+                Moving(Hori);
+            }
         }
     }
 
@@ -113,14 +137,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && !isCutScene)
         {
-            if (GameController.Instance.Pause == false)
+            if (mFuntion != null)
             {
-                if (mDropItem != null)
-                {
-                    GetItem(mDropItem);
-                }
+                mFuntion();
+                mFuntion = null;
             }
-        }//습득
+        }//상호작용
 
         if (Input.GetKeyDown(KeyCode.E) && !isCutScene)
         {
@@ -146,8 +168,20 @@ public class Player : MonoBehaviour
         isCooltime = false;
     }
 
+    public void ItemFuntion()
+    {
+        if (GameController.Instance.Pause == false)
+        {
+            if (mDropItem != null)
+            {
+                GetItem(mDropItem);
+            }
+        }
+    }
+
     public void Jump()
     {
+
         float rand = Random.Range(0, 1f);
         if (isGround && mJumpToken > 0)
         {
@@ -162,14 +196,25 @@ public class Player : MonoBehaviour
         }
         else
         {
+            if (rand <= 0.6f)
+            {
+                SoundController.Instance.SESound(13);
+            }
+            if (isWallSliding&& !isClimbing)
+            {
+                isWallSliding = false;
+                isMultipleJump = true;
+                mJumpToken--;//점프 한번만 가능하게 함
+                mCurrentStamina = mMaxStamina/2;
+
+                mRB2D.gravityScale = Gravity;
+                mRB2D.velocity = Vector2.up * mJumpForce;
+                mAnim.SetBool(AnimHash.Jump, true);
+            }
             if (isCoyoteJump && mJumpToken > 0)
             {
                 isMultipleJump = true;
                 mJumpToken--;
-                if (rand <= 0.6f)
-                {
-                    SoundController.Instance.SESound(13);
-                }
                 mRB2D.velocity = Vector2.up * mJumpForce;
                 mAnim.SetBool(AnimHash.Jump, true);
             }
@@ -177,15 +222,12 @@ public class Player : MonoBehaviour
             if (isMultipleJump && mJumpToken > 0)
             {
                 mJumpToken--;
-                if (rand <= 0.6f)
-                {
-                    SoundController.Instance.SESound(13);
-                }
                 mRB2D.velocity = Vector2.up * mJumpForce;
                 mAnim.SetBool(AnimHash.Jump, true);
             }
         }
     }
+
     public void Moving(float dir)
     {
         Vector3 move = new Vector3(dir, 0f, 0f);
@@ -206,6 +248,16 @@ public class Player : MonoBehaviour
         if (dir < 0)//우
         {
             mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+        }
+    }
+
+    public void MovingWall(float dir)
+    {
+        if (mCurrentStamina > 0)
+        {
+            Vector3 move = new Vector3(0f, dir, 0f);
+            transform.position += move * Time.deltaTime * (mSpeed/2);
+            mAnim.SetFloat("yVelocity", dir);
         }
     }
 
@@ -252,30 +304,26 @@ public class Player : MonoBehaviour
             if (!isWallSliding)
             {
                 mJumpToken = mMaxmJumpToken;
-                isMultipleJump = false;
             }
-            mRB2D.velocity = new Vector2(0f, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed, float.MaxValue));
             isWallSliding = true;
 
-            if (Input.GetButtonDown("Jump")&& isWallSliding)
+            if (mCurrentStamina<=0&& !isClimbing)
             {
-                if (mJumpToken > 0&& mCurrentStamina>0)
-                {
-                    mJumpToken--;
-                    mCurrentStamina--;
-                    float rand = Random.Range(0, 1f);
-                    if (rand <= 0.6f)
-                    {
-                        SoundController.Instance.SESound(13);
-                    }
-                    mRB2D.velocity = Vector2.up * mJumpForce;
-                    mAnim.SetBool(AnimHash.Jump, true);
-                }
+                mRB2D.gravityScale = Gravity;
+                mRB2D.velocity = new Vector2(0f, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed, float.MaxValue));
+            }
+            else if (mCurrentStamina >= 0 && !isClimbing)
+            {
+                mRB2D.gravityScale = 0;
             }
         }
         else
         {
             isWallSliding = false;
+            if (!isClimbing)
+            {
+                mRB2D.gravityScale = Gravity;
+            }
         }
         mAnim.SetBool(AnimHash.Grab, isWallSliding);
     }

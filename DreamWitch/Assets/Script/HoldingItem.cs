@@ -62,11 +62,13 @@ public class HoldingItem : MonoBehaviour
         isCooltime = false;
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             Player.Instance.mDropItem = this;
+            Player.Instance.mFuntion = (()=> { Player.Instance.ItemFuntion(); });
         }
 
     }
@@ -75,6 +77,7 @@ public class HoldingItem : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Player.Instance.mDropItem = null;
+            Player.Instance.mFuntion = null;
         }
 
     }

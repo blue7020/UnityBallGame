@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public static Player Instance;
     public LayerMask mGoundLayer,mLadderLayer;
     const float GROUND_CHECK_RADIUS = 0.01f;
-    const float FRONT_CHECK_RADIUS = 0.07f;
+    const float FRONT_CHECK_RADIUS = 0.03f;
     const float SLIDE_FACTOR = 0.2f;
 
     public Rigidbody2D mRB2D;
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 
     public IEnumerator StaminaUse()
     {
-        WaitForSeconds delay = new WaitForSeconds(1f);
+        WaitForSeconds delay = new WaitForSeconds(0.5f);
         while (true)
         {
             if (mCurrentStamina>0&& isWallSliding)
@@ -182,11 +182,11 @@ public class Player : MonoBehaviour
     public void Jump()
     {
 
-        float rand = Random.Range(0, 1f);
         if (isGround && mJumpToken > 0)
         {
             isMultipleJump = true;
             mJumpToken--;
+            float rand = Random.Range(0, 1f);
             if (rand <= 0.6f)
             {
                 SoundController.Instance.SESound(13);
@@ -196,35 +196,33 @@ public class Player : MonoBehaviour
         }
         else
         {
+            float rand = Random.Range(0, 1f);
             if (rand <= 0.6f)
             {
                 SoundController.Instance.SESound(13);
             }
-            if (isWallSliding&& !isClimbing)
+            if (isWallSliding)
             {
                 isWallSliding = false;
-                isMultipleJump = true;
-                mJumpToken--;//점프 한번만 가능하게 함
-                mCurrentStamina = mMaxStamina/2;
-
-                mRB2D.gravityScale = Gravity;
-                mRB2D.velocity = Vector2.up * mJumpForce;
-                mAnim.SetBool(AnimHash.Jump, true);
+                isMultipleJump = false;
+                mJumpToken = 0;
+                mCurrentStamina = 1;
+                mRB2D.velocity = new Vector2(-Hori * mSpeed, mJumpForce);
+                //여기가 문제, 점프 시 반대 방향으로 튕겨지게 하고싶음
             }
             if (isCoyoteJump && mJumpToken > 0)
             {
                 isMultipleJump = true;
                 mJumpToken--;
                 mRB2D.velocity = Vector2.up * mJumpForce;
-                mAnim.SetBool(AnimHash.Jump, true);
             }
 
             if (isMultipleJump && mJumpToken > 0)
             {
                 mJumpToken--;
                 mRB2D.velocity = Vector2.up * mJumpForce;
-                mAnim.SetBool(AnimHash.Jump, true);
             }
+            mAnim.SetBool(AnimHash.Jump, true);
         }
     }
 
@@ -257,7 +255,7 @@ public class Player : MonoBehaviour
         {
             Vector3 move = new Vector3(0f, dir, 0f);
             transform.position += move * Time.deltaTime * (mSpeed/2);
-            mAnim.SetFloat("yVelocity", dir);
+            mAnim.SetFloat("WallVelocity", dir);
         }
     }
 
@@ -299,39 +297,40 @@ public class Player : MonoBehaviour
     public void WallCheck()//벽 체크
     {
         isTouchingFront = Physics2D.OverlapCircle(mFrontCheck.position, FRONT_CHECK_RADIUS, mGoundLayer);
-        if (isTouchingFront && Mathf.Abs(Hori) > 0 &&mRB2D.velocity.y<0&& !isGround)
+        if (!isClimbing)
         {
-            if (!isWallSliding)
+            if (isTouchingFront && Mathf.Abs(Hori) > 0 && mRB2D.velocity.y < 0 && !isGround)
             {
-                mJumpToken = mMaxmJumpToken;
-            }
-            isWallSliding = true;
+                isWallSliding = true;
 
-            if (mCurrentStamina<=0&& !isClimbing)
-            {
-                mRB2D.gravityScale = Gravity;
-                mRB2D.velocity = new Vector2(0f, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed, float.MaxValue));
+                if (mCurrentStamina <= 0)
+                {
+                    mRB2D.gravityScale = Gravity;
+                    mRB2D.velocity = new Vector2(0f, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed, float.MaxValue));
+                }
+                else if (mCurrentStamina >= 0)
+                {
+                    mRB2D.gravityScale = 0;
+                }
             }
-            else if (mCurrentStamina >= 0 && !isClimbing)
+            else
             {
-                mRB2D.gravityScale = 0;
+                isWallSliding = false;
+                if (!isClimbing)
+                {
+                    mRB2D.gravityScale = Gravity;
+                }
             }
+            mAnim.SetBool(AnimHash.Grab, isWallSliding);
         }
-        else
-        {
-            isWallSliding = false;
-            if (!isClimbing)
-            {
-                mRB2D.gravityScale = Gravity;
-            }
-        }
-        mAnim.SetBool(AnimHash.Grab, isWallSliding);
     }
     public void LadderCheck()
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, mDistance, mLadderLayer);
         if (hitInfo.collider != null)
         {
+            mJumpToken = mMaxmJumpToken;
+            mCurrentStamina = mMaxStamina;
             if (Input.GetKeyDown(KeyCode.W))
             {
                 isClimbing = true;
@@ -457,7 +456,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void DamageCount()
+    private void DamageCount()//몬스터랑 계속 붙어있을 때 주기적으로 피해를 입음
     {
         if (mEnemy.isCollide)
         {

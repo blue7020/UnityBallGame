@@ -10,6 +10,7 @@ public class MapMaterialController : MonoBehaviour
     public CutScenePoint[] mCutsceneArr;
     public Enemy[] mEnemyArr;
     public CheckPoint[] mCheckPointArr;
+    public bool isShowStartCutScene;
 
     public CutScenePoint mStartCutScene;
 
@@ -27,13 +28,16 @@ public class MapMaterialController : MonoBehaviour
 
     private void Start()
     {
-        switch (TitleController.Instance.NowStage)
+        if (isShowStartCutScene)
         {
-            case 0:
-                StartCoroutine(mStartCutScene.CutScene0());
-                break;
-            default:
-                break;
+            switch (TitleController.Instance.NowStage)
+            {
+                case 0:
+                    StartCoroutine(mStartCutScene.CutScene0());
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

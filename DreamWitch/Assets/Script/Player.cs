@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public static Player Instance;
     public LayerMask mGoundLayer,mLadderLayer;
     const float GROUND_CHECK_RADIUS = 0.01f;
-    const float FRONT_CHECK_RADIUS = 0.03f;
+    public float FRONT_CHECK_RADIUS;
     const float SLIDE_FACTOR = 0.2f;
 
     public Rigidbody2D mRB2D;
@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     public Sprite[] mActionArr;
     public GameObject mAction;
     public Enemy mEnemy;
-    public bool mTextBoxChecker;
 
     public Transform mItemTransform, mGroundChecker, mHoldZone, mBulletStart, mFrontCheck, Map;
     public bool isCutScene, isJump,isMultipleJump,isCoyoteJump,isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold;
@@ -44,7 +43,6 @@ public class Player : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            mTextBoxChecker = false;
             mCurrentHP = mMaxHP;
             mCurrentStamina = mMaxStamina;
             CheckPointPos = GameController.Instance.mStartPoint.transform.position + new Vector3(0, 2f, 0);
@@ -93,7 +91,6 @@ public class Player : MonoBehaviour
         Hori = Input.GetAxis("Horizontal");
         Ver= Input.GetAxis("Vertical");
         GroundCheck();
-        LadderCheck();
         WallCheck();
         if (!isCutScene)
         {
@@ -101,7 +98,7 @@ public class Player : MonoBehaviour
             {
                 MovingWall(Ver);
             }
-            else
+            if (!isWallSliding)
             {
                 Moving(Hori);
             }
@@ -111,10 +108,11 @@ public class Player : MonoBehaviour
     private void Update()
     {
         mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
+        LadderCheck();
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && !isCutScene)
         {
-            if (!isClimbing && !isCutScene)
+            if (!isClimbing)
             {
                 isJump = true;
                 Jump();
@@ -137,7 +135,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && !isCutScene)
         {
-            if (mFuntion != null)
+            if (GameController.Instance.Pause == false && mFuntion != null)
             {
                 mFuntion();
                 mFuntion = null;
@@ -181,7 +179,6 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-
         if (isGround && mJumpToken > 0)
         {
             isMultipleJump = true;
@@ -191,7 +188,7 @@ public class Player : MonoBehaviour
             {
                 SoundController.Instance.SESound(13);
             }
-            mRB2D.velocity= Vector2.up*mJumpForce;
+            mRB2D.velocity = Vector2.up * mJumpForce;
             mAnim.SetBool(AnimHash.Jump, true);
         }
         else
@@ -206,9 +203,11 @@ public class Player : MonoBehaviour
                 isWallSliding = false;
                 isMultipleJump = false;
                 mJumpToken = 0;
-                mCurrentStamina = 1;
-                mRB2D.velocity = new Vector2(-Hori * mSpeed, mJumpForce);
-                //여기가 문제, 점프 시 반대 방향으로 튕겨지게 하고싶음
+                if (mCurrentStamina<=1)
+                {
+                    mCurrentStamina = 1;
+                }
+                mRB2D.velocity = Vector2.up * mJumpForce;
             }
             if (isCoyoteJump && mJumpToken > 0)
             {
@@ -228,7 +227,7 @@ public class Player : MonoBehaviour
 
     public void Moving(float dir)
     {
-        Vector3 move = new Vector3(dir, 0f, 0f);
+        Vector3 move = new Vector3(dir, 0f,0f);
         transform.position += move * Time.deltaTime * mSpeed;
         mAnim.SetFloat("xVelocity", dir);
         if (dir != 0&&isGround)
@@ -265,11 +264,11 @@ public class Player : MonoBehaviour
         {
             bool wasGround = isGround;
             isGround = false;
-            mRB2D.velocity = new Vector2(0, mRB2D.velocity.y);
             Collider2D[] Coll2D = Physics2D.OverlapCircleAll(mGroundChecker.position, GROUND_CHECK_RADIUS, mGoundLayer);
             if (Coll2D.Length > 0)
             {
                 isGround = true;
+                mRB2D.velocity = new Vector2(0, mRB2D.velocity.y);
                 if (!wasGround)
                 {
                     mJumpToken = mMaxmJumpToken;
@@ -296,30 +295,39 @@ public class Player : MonoBehaviour
 
     public void WallCheck()//벽 체크
     {
-        isTouchingFront = Physics2D.OverlapCircle(mFrontCheck.position, FRONT_CHECK_RADIUS, mGoundLayer);
         if (!isClimbing)
         {
+            isTouchingFront = Physics2D.OverlapCircle(mFrontCheck.position, FRONT_CHECK_RADIUS, mGoundLayer);
             if (isTouchingFront && Mathf.Abs(Hori) > 0 && mRB2D.velocity.y < 0 && !isGround)
             {
                 isWallSliding = true;
-
-                if (mCurrentStamina <= 0)
-                {
-                    mRB2D.gravityScale = Gravity;
-                    mRB2D.velocity = new Vector2(0f, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed, float.MaxValue));
-                }
-                else if (mCurrentStamina >= 0)
+                if (mCurrentStamina > 0)
                 {
                     mRB2D.gravityScale = 0;
                 }
-            }
-            else
-            {
-                isWallSliding = false;
-                if (!isClimbing)
+                else
                 {
                     mRB2D.gravityScale = Gravity;
+                    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
                 }
+            }
+            if (isTouchingFront && Mathf.Abs(Hori) < 0 && mRB2D.velocity.y < 0 && !isGround)
+            {
+                isWallSliding = true;
+                if (mCurrentStamina > 0)
+                {
+                    mRB2D.gravityScale = 0;
+                }
+                else
+                {
+                    mRB2D.gravityScale = Gravity;
+                    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                }
+            }
+            if (!isTouchingFront|| isGround|| mCurrentStamina <= 0)
+            {
+                isWallSliding = false;
+                mRB2D.gravityScale = Gravity;
             }
             mAnim.SetBool(AnimHash.Grab, isWallSliding);
         }
@@ -333,7 +341,10 @@ public class Player : MonoBehaviour
             mCurrentStamina = mMaxStamina;
             if (Input.GetKeyDown(KeyCode.W))
             {
-                isClimbing = true;
+                if (!isWallSliding)
+                {
+                    isClimbing = true;
+                }
             }
         }
         else
@@ -505,17 +516,5 @@ public class Player : MonoBehaviour
         mAction.SetActive(true);
         yield return delay;
         mAction.SetActive(false);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("TextBoxTop"))
-        {
-            mTextBoxChecker = true;
-        }
-        if (other.gameObject.CompareTag("TextBoxDown"))
-        {
-            mTextBoxChecker = false;
-        }
     }
 }

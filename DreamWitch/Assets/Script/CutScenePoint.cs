@@ -321,7 +321,6 @@ public class CutScenePoint : MonoBehaviour
     {
         CutSceneController.Instance.mCutSceneList[mID] = true;
         Player.Instance.mRB2D.velocity = Vector2.zero;
-        //UIController.Instance.TextBoxCheck();
         UIController.Instance.mCutScenePoint = this;
         if (IsSkip)
         {

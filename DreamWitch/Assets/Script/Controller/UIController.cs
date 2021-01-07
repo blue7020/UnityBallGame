@@ -78,18 +78,6 @@ public class UIController : InformationLoader
         mCutScenePoint = null;
     }
 
-    public void TextBoxCheck()
-    {
-        if (Player.Instance.mTextBoxChecker)
-        {
-            mDialogueImage.transform.localPosition = new Vector3(0, 330f, 0);
-        }
-        else
-        {
-            mDialogueImage.transform.localPosition = new Vector3(0,-330f,0);
-        }
-    }
-
     public void CheckPointSet()
     {
         StartCoroutine(CheckPointAnim());
@@ -140,17 +128,20 @@ public class UIController : InformationLoader
         mItemImage.sprite = spt;
     }
 
-    public void ShowDialogue(int id)
+    public void ShowDialogue(int id, int FaceID = 0)
     {
-        TextBoxCheck();
+        mDialogue.text = "";
+        mDialogueFaceImage.sprite = mFaceSprite[FaceID];
+        string text = "";
         if (TitleController.Instance.mLanguage == 0)
         {
-            mDialogue.text = mDialogueTextArr[id].text_kor;
+            text = mDialogueTextArr[id].text_kor;
         }
         else if (TitleController.Instance.mLanguage == 1)
         {
-            mDialogue.text = mDialogueTextArr[id].text_eng;
+            text = mDialogueTextArr[id].text_eng;
         }
+        StartCoroutine(TypingTextToDialogue(text));
         mDialogueImage.gameObject.SetActive(true);
     }
 

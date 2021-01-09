@@ -129,16 +129,16 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            UIController.Instance.mBlackScrean.gameObject.SetActive(true);
             Player.Instance.CheckPointPos = mStartPoint.position + new Vector3(0, 2f, 0);
+            Heal((Player.Instance.mMaxHP - 1) - Player.Instance.mCurrentHP);
+            Player.Instance.transform.position = Player.Instance.CheckPointPos;
             StartCoroutine(DeathLoad());
         }
     }
     private IEnumerator DeathLoad()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.5f);
-        UIController.Instance.mBlackScrean.gameObject.SetActive(true);
-        Heal((Player.Instance.mMaxHP-1) - Player.Instance.mCurrentHP);
-        Player.Instance.transform.position = Player.Instance.CheckPointPos;
+        WaitForSeconds delay = new WaitForSeconds(1f);
         MapMaterialController.Instance.ReviveEnemy();
         MapMaterialController.Instance.ResetCheckPoint();
         yield return delay;

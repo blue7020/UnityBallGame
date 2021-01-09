@@ -26,14 +26,15 @@ public class MapMaterialController : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void StartCutScene()
     {
         if (isShowStartCutScene)
         {
             switch (TitleController.Instance.NowStage)
             {
                 case 0:
-                    StartCoroutine(mStartCutScene.CutScene0());
+                    isShowStartCutScene = false;
+                    mStartCutScene.PlayCutScene();
                     break;
                 default:
                     break;

@@ -9,4 +9,5 @@ public class DialogueText
     public int ID;
     public string text_kor;
     public string text_eng;
+    public int FaceCode;
 }

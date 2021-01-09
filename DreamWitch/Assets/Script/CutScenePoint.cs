@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class CutScenePoint : MonoBehaviour
 {
-    public bool mTrigger,IsSkip;
-    public int mID;
+    public bool mTrigger,IsSkip,IsPreStart;
+    public int mID,mStartIndex,mEndIndex;
     private bool mMoveTrigger;
 
     private void Start()
@@ -17,34 +17,105 @@ public class CutScenePoint : MonoBehaviour
         }
     }
 
+    public void PreStartAction()
+    {
+        switch (mID)
+        {
+            case 0:
+                mTrigger = true;
+                StartCoroutine(CutScene0());
+                break;
+            case 5:
+                mTrigger = true;
+                StartCoroutine(CutScene5());
+                break;
+            case 7:
+                mTrigger = true;
+                Player.Instance.ShowAction(4);
+                CameraMovement.Instance.CameraMove(new Vector3(195, 1.5f, 0), 1.5f);
+                DialogueSystem.Instance.DialogueSetting(15, 16);
+                break;
+            case 9:
+                mTrigger = true;
+                StartCoroutine(CutScene9());
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetAction(int index)
+    {
+        switch (index)
+        {
+            case -1:
+                DialogueSystem.Instance.EndCutScene();
+                break;
+            case 2:
+                Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+            case 3:
+                CameraMovement.Instance.CameraMove(Player.Instance.transform.position + new Vector3(0, 4f, 0), 2f);
+                Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2(1f));
+                break;
+            case 4:
+                CameraMovement.Instance.mFollowing = true;
+                Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+            case 7:
+                CameraMovement.Instance.CameraMove(new Vector3(19, 1.25f, 0), 1f);
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+            case 10:
+                CameraMovement.Instance.CameraMove(new Vector3(111, 14.5f, 0), 1f);
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2(1f));
+                break;
+            case 11:
+                CameraMovement.Instance.mFollowing = true;
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+            case 13:
+                StartCoroutine(CutScene5_2());
+                break;
+            case 20:
+                SoundController.Instance.mBGM.mute = false;
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+            case 21:
+                CutSceneController.Instance.CloseCutSceneImage();
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+            case 23:
+                mID = 10;
+                PlayCutScene();
+                break;
+            default:
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+        }
+    }
+
     public IEnumerator CutScene0()
     {
-        mTrigger = true;
         float time = 0.5f;
+        mTrigger = true;
         WaitForSeconds delay = new WaitForSeconds(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
         Player.Instance.mSpeed -= 1.5f;
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(0, 2f,0));
         mMoveTrigger = true;
         StartCoroutine(MovePlayer());
+        DialogueSystem.Instance.DialogueSetting(0, 1);
+        yield return delay;
+        DialogueSystem.Instance.isChatDelay = false;
         time = 1.5f;
         delay = new WaitForSeconds(time);
         yield return delay;
         mMoveTrigger = false;
-        time = 2f;
-        delay = new WaitForSeconds(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(1, 2f,0));
-        time = 3f;
-        delay = new WaitForSeconds(time);
         Player.Instance.mSpeed += 1.5f;
         yield return delay;
         UIController.Instance.ShowTutorial();
-        EndCutScene();
     }
     public IEnumerator MovePlayer()
     {
@@ -62,197 +133,38 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
     }
 
-
-    public IEnumerator CutScene1()
-    {
-        float time = 1f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
-        yield return delay;
-        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(2, 2f,4));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        CameraMovement.Instance.CameraMove(Player.Instance.transform.position+new Vector3(0, 4f, 0), 2f);
-        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(3, 2f,4));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        CameraMovement.Instance.mFollowing = true;
-        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(4, 2f,0));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        EndCutScene();
-    }
-
-    public IEnumerator CutScene2()
-    {
-        float time = 3f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(5, 2f,6));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(6, 2f,5));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        EndCutScene();
-    }
-
-    public IEnumerator CutScene3()
-    {
-        float time = 3f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
-        CameraMovement.Instance.CameraMove(new Vector3(19, 1.25f, 0), 1f);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(7, 2f,4));
-        time = 3.5f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(8, 2f,2));
-        time = 3.5f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(9, 2f,7));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        EndCutScene();
-    }
-
-
-    public IEnumerator CutScene4()
-    {
-        float time = 3f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(12, 2.5f, 4));
-        CameraMovement.Instance.CameraMove(new Vector3(111,14.5f,0),3f);
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        CameraMovement.Instance.mFollowing = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(13, 2f, 0));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        EndCutScene();
-    }
-
     public IEnumerator CutScene5()
     {
         float time = 2f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
+        WaitForSeconds delay = new WaitForSeconds(time);
         UIController.Instance.HideTutorial();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
         Player.Instance.ShowAction(0);
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
         Player.Instance.ShowAction(1);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(10, 2f,5));
-        time = 1.5f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
+        DialogueSystem.Instance.DialogueSetting(12, 13);
+    }
+    public IEnumerator CutScene5_2()
+    {
+        float time = 4f;
+        WaitForSeconds delay = new WaitForSeconds(time);
         SoundController.Instance.mBGM.mute = true;
         SoundController.Instance.SESound(6);
         CutSceneController.Instance.CutSceneCamera();
-        time = 4f;
-        delay = new WaitForSecondsRealtime(time);
         yield return delay;
-        SoundController.Instance.mBGM.mute = false;
         CutSceneController.Instance.ChangeMainCamera();
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(11, 3f,4));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
+        time = 0.75f;
+        delay = new WaitForSeconds(time);
         yield return delay;
-        EndCutScene();
-    }
-
-    public IEnumerator CutScene6()
-    {
-        float time = 3f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(14, 2f, 4));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        EndCutScene();
-    }
-
-    public IEnumerator CutScene7()
-    {
-        float time = 3f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
-        Player.Instance.ShowAction(4);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(15, 2f, 5));
-        CameraMovement.Instance.CameraMove(new Vector3(195, 1.5f, 0), 1.5f);
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(16, 2f, 4));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        EndCutScene();
-    }
-
-    public IEnumerator CutScene8()
-    {
-        float time = 3f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
-        GameController.Instance.ShowUI();
-        Player.Instance.mRB2D.velocity = Vector2.zero;
-        Player.Instance.mAnim.SetFloat("xVelocity", 0);
-        Player.Instance.isCutScene = true;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(17, 2f,0));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(18, 2f,4));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(19, 2f,0));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        EndCutScene();
+        SoundController.Instance.mBGM.mute = false;
+        StartCoroutine(DialogueSystem.Instance.ChatDelay2());
     }
 
     public IEnumerator CutScene9()
     {
-        float time = 1f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
+        float time = 1.5f;
+        WaitForSeconds delay = new WaitForSeconds(time);
         CutSceneController.Instance.FadeOut();
         GameController.Instance.ShowUI();
         Player.Instance.mRB2D.velocity = Vector2.zero;
@@ -266,53 +178,37 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mNowItem.mRenderer.sortingOrder = 6;
         CutSceneController.Instance.FadeIn();
         time = 2f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        Player.Instance.ShowAction(0);
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(20, 2f,6));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(21, 2f,3));
-        time = 3f;
-        delay = new WaitForSecondsRealtime(time);
+        delay = new WaitForSeconds(time);
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
         Player.Instance.ShowAction(1);
-        time = 2f;
-        delay = new WaitForSecondsRealtime(time);
+        time = 1.5f;
+        delay = new WaitForSeconds(time);
         yield return delay;
         CutSceneController.Instance.ShowCutSceneImage(0);
         time = 1f;
-        delay = new WaitForSecondsRealtime(time);
+        delay = new WaitForSeconds(time);
         yield return delay;
         SoundController.Instance.mBGM.mute = true;
         SoundController.Instance.SESound(6);
         StartCoroutine(CutSceneController.Instance.FadeinCutSceneImage(1));
-        time = 5.5f;
-        delay = new WaitForSecondsRealtime(time);
-        yield return delay;
-        CutSceneController.Instance.CloseCutSceneImage();
-        SoundController.Instance.mBGM.mute = false;
-        StartCoroutine(UIController.Instance.ShowDialogueTimer(22, 3f,4));
         time = 3f;
-        delay = new WaitForSecondsRealtime(time);
+        delay = new WaitForSeconds(time);
         yield return delay;
-        mID = 10;
-        PlayCutScene();
+        DialogueSystem.Instance.DialogueSetting(20, 23);
     }
 
     public IEnumerator CutScene10()
     {
         float time = 1f;
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(time);
+        WaitForSeconds delay = new WaitForSeconds(time);
         SoundController.Instance.BGMFadeOut(3f);
         TitleController.Instance.isShowTitle = true;
         yield return delay;
         CutSceneController.Instance.FadeOut();
         TitleController.Instance.TutorialClear = true;
         time = 4f;
-        delay = new WaitForSecondsRealtime(time);
+        delay = new WaitForSeconds(time);
         yield return delay;
         GameController.Instance.GotoStageSelect(0);
     }
@@ -320,117 +216,76 @@ public class CutScenePoint : MonoBehaviour
     public void PlayCutScene()
     {
         CutSceneController.Instance.mCutSceneList[mID] = true;
+        DialogueSystem.Instance.mCutScenePoint = this;
+        GameController.Instance.ShowUI();
         Player.Instance.mRB2D.velocity = Vector2.zero;
-        UIController.Instance.mCutScenePoint = this;
+        Player.Instance.mAnim.SetFloat("xVelocity", 0);
+        Player.Instance.isCutScene = true;
         if (IsSkip)
         {
             UIController.Instance.mSkipText.gameObject.SetActive(true);
         }
-        switch (mID)
+        if (IsPreStart)
         {
-            case 0:
-                mTrigger = true;
-                StartCoroutine(CutScene0());
-                break;
-            case 1:
-                mTrigger = true;
-                StartCoroutine(CutScene1());
-                break;
-            case 2:
-                mTrigger = true;
-                StartCoroutine(CutScene2());
-                break;
-            case 3:
-                mTrigger = true;
-                StartCoroutine(CutScene3());
-                break;
-            case 4:
-                mTrigger = true;
-                StartCoroutine(CutScene4());
-                break;
-            case 5:
-                mTrigger = true;
-                StartCoroutine(CutScene5());
-                break;
-            case 6:
-                mTrigger = true;
-                StartCoroutine(CutScene6());
-                break;
-            case 7:
-                mTrigger = true;
-                StartCoroutine(CutScene7());
-                break;
-            case 8:
-                mTrigger = true;
-                StartCoroutine(CutScene8());
-                break;
-            case 9:
-                if (Player.Instance.mNowItemID==0)
-                {
+            PreStartAction();
+        }
+        else
+        {
+            switch (mID)
+            {
+                case 0:
                     mTrigger = true;
-                    StartCoroutine(CutScene9());
-                }
-                break;
-            case 10:
-                mTrigger = true;
-                StartCoroutine(CutScene10());
-                break;
-            default:
-                break;
+                    break;
+                case 1:
+                    mTrigger = true;
+                    DialogueSystem.Instance.DialogueSetting(2, 4);
+                    break;
+                case 2:
+                    mTrigger = true;
+                    DialogueSystem.Instance.DialogueSetting(5, 6);
+                    break;
+                case 3:
+                    mTrigger = true;
+                    DialogueSystem.Instance.DialogueSetting(7, 9);
+                    break;
+                case 4:
+                    mTrigger = true;
+                    DialogueSystem.Instance.DialogueSetting(10, 11);
+                    break;
+                case 5:
+                    mTrigger = true;
+                    break;
+                case 6:
+                    mTrigger = true;
+                    DialogueSystem.Instance.DialogueSetting(14, 14);
+                    break;
+                case 7:
+                    mTrigger = true;
+                    break;
+                case 8:
+                    mTrigger = true;
+                    DialogueSystem.Instance.DialogueSetting(17, 19);
+                    break;
+                case 9:
+                    if (Player.Instance.mNowItemID == 0)
+                    {
+                        mTrigger = true;
+                    }
+                    break;
+                default:
+                    mTrigger = true;
+                    break;
+            }
         }
-    }
-
-    public void StopCutScene(int id)
-    {
-        switch (id)
-        {
-            case 0:
-                StopCoroutine(CutScene0());
-                break;
-            case 1:
-                StopCoroutine(CutScene1());
-                break;
-            case 2:
-                StopCoroutine(CutScene2());
-                break;
-            case 3:
-                StopCoroutine(CutScene3());
-                break;
-            case 4:
-                StopCoroutine(CutScene4());
-                break;
-            case 5:
-                StopCoroutine(CutScene5());
-                break;
-            case 6:
-                StopCoroutine(CutScene6());
-                break;
-            case 7:
-                StopCoroutine(CutScene7());
-                break;
-            case 8:
-                StopCoroutine(CutScene8());
-                break;
-            case 9:
-                StopCoroutine(CutScene9());
-                break;
-            case 10:
-                StopCoroutine(CutScene10());
-                break;
-            default:
-                break;
-        }
-        UIController.Instance.HideDialogue();
-        UIController.Instance.mCutScenePoint = null;
-        EndCutScene();
     }
 
     public void EndCutScene()
     {
         Player.Instance.isCutScene = false;
         CameraMovement.Instance.mFollowing = true;
+        DialogueSystem.Instance.mCutScenePoint = null;
         UIController.Instance.mSkipText.gameObject.SetActive(false);
-        UIController.Instance.HideDialogue();
+        UIController.Instance.mDialogueImage.gameObject.SetActive(false);
         GameController.Instance.ShowUI();
     }
 

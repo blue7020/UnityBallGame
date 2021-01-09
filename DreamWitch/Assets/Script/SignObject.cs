@@ -28,7 +28,7 @@ public class SignObject : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             SetText();
-            Player.Instance.mFuntion = (() => { UIController.Instance.ShowTextBox(text); });
+            Player.Instance.mFuntion = (() => { UIController.Instance.ShowDialogue(text); });
         }   
     }
 

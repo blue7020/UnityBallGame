@@ -24,9 +24,9 @@ public class Player : MonoBehaviour
     public Enemy mEnemy;
 
     public Transform mItemTransform, mGroundChecker, mHoldZone, mBulletStart, mFrontCheck, Map;
-    public bool isCutScene, isJump,isMultipleJump,isCoyoteJump,isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold;
+    public bool isCutScene, isJump,isMultipleJump,isCoyoteJump,isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold,isWallJumpDash;
     public float Hori, Ver;
-    public float mMaxHP, mCurrentHP, mMaxStamina,mCurrentStamina,mSpeed, mJumpForce;
+    public float mMaxHP, mCurrentHP,mSpeed, mJumpForce;
     public float mDistance,mCoyoteTime,mWallSlidingSpeed;
 
     public int mMaxmJumpToken, mJumpToken;
@@ -44,7 +44,6 @@ public class Player : MonoBehaviour
         {
             Instance = this;
             mCurrentHP = mMaxHP;
-            mCurrentStamina = mMaxStamina;
             CheckPointPos = GameController.Instance.mStartPoint.transform.position + new Vector3(0, 2f, 0);
             if (mNowItem==null)
             {
@@ -66,24 +65,10 @@ public class Player : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public IEnumerator StaminaUse()
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.5f);
-        while (true)
-        {
-            if (mCurrentStamina>0&& isWallSliding)
-            {
-                mCurrentStamina--;
-            }
-            yield return delay;
-        }
-    }
-
     private void Start()
     {
         Gravity = mRB2D.gravityScale;
         mFootEmission = mFootStep.emission;
-        StartCoroutine(StaminaUse());
     }
 
     private void FixedUpdate()
@@ -92,23 +77,27 @@ public class Player : MonoBehaviour
         Ver= Input.GetAxis("Vertical");
         GroundCheck();
         WallCheck();
+        LadderCheck();
         if (!isCutScene)
         {
-            if (isWallSliding)
-            {
-                MovingWall(Ver);
-            }
-            if (!isWallSliding)
+            if (!isWallJumpDash)
             {
                 Moving(Hori);
             }
+            //if (isWallSliding)
+            //{
+            //    MovingWall(Ver);
+            //}
+            //if (!isWallSliding)
+            //{
+            //    Moving(Hori);
+            //}
         }
     }
 
     private void Update()
     {
         mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
-        LadderCheck();
 
         if (Input.GetButtonDown("Jump") && !isCutScene)
         {
@@ -193,36 +182,59 @@ public class Player : MonoBehaviour
         }
         else
         {
-            float rand = Random.Range(0, 1f);
-            if (rand <= 0.6f)
-            {
-                SoundController.Instance.SESound(13);
-            }
-            if (isWallSliding)
+            if (!isWallJumpDash&&isWallSliding && !isClimbing)
             {
                 isWallSliding = false;
                 isMultipleJump = false;
-                mJumpToken = 0;
-                if (mCurrentStamina<=1)
+                float dir = Hori;
+                float rand = Random.Range(0, 1f);
+                if (rand <= 0.6f)
                 {
-                    mCurrentStamina = 1;
+                    SoundController.Instance.SESound(13);
                 }
-                mRB2D.velocity = Vector2.up * mJumpForce;
+                StartCoroutine(JumpWait());
+                if (dir > 0)//좌
+                {
+                    mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+                }
+                if (dir < 0)//우
+                {
+                    mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
+                }
+                mRB2D.velocity = new Vector2(-dir * 5, mJumpForce);
+                mAnim.SetBool(AnimHash.Jump, true);
             }
             if (isCoyoteJump && mJumpToken > 0)
             {
                 isMultipleJump = true;
                 mJumpToken--;
+                float rand = Random.Range(0, 1f);
+                if (rand <= 0.6f)
+                {
+                    SoundController.Instance.SESound(13);
+                }
                 mRB2D.velocity = Vector2.up * mJumpForce;
+                mAnim.SetBool(AnimHash.Jump, true);
             }
 
             if (isMultipleJump && mJumpToken > 0)
             {
                 mJumpToken--;
+                float rand = Random.Range(0, 1f);
+                if (rand <= 0.6f)
+                {
+                    SoundController.Instance.SESound(13);
+                }
                 mRB2D.velocity = Vector2.up * mJumpForce;
+                mAnim.SetBool(AnimHash.Jump, true);
             }
-            mAnim.SetBool(AnimHash.Jump, true);
         }
+    }
+    public IEnumerator JumpWait()
+    {
+        isWallJumpDash = true;
+        yield return new WaitForSeconds(0.3f);
+        isWallJumpDash = false;
     }
 
     public void Moving(float dir)
@@ -248,15 +260,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void MovingWall(float dir)
-    {
-        if (mCurrentStamina > 0)
-        {
-            Vector3 move = new Vector3(0f, dir, 0f);
-            transform.position += move * Time.deltaTime * (mSpeed/2);
-            mAnim.SetFloat("WallVelocity", dir);
-        }
-    }
+    //public void MovingWall(float dir)
+    //{
+    //    if (mCurrentStamina > 0)
+    //    {
+    //        Vector3 move = new Vector3(0f, dir, 0f);
+    //        transform.position += move * Time.deltaTime * (mSpeed/2);
+    //        mAnim.SetFloat("WallVelocity", dir);
+    //    }
+    //}
 
     public void GroundCheck()
     {
@@ -272,7 +284,6 @@ public class Player : MonoBehaviour
                 if (!wasGround)
                 {
                     mJumpToken = mMaxmJumpToken;
-                    mCurrentStamina = mMaxStamina;
                 }
             }
             else
@@ -295,39 +306,47 @@ public class Player : MonoBehaviour
 
     public void WallCheck()//벽 체크
     {
+        isTouchingFront = Physics2D.OverlapCircle(mFrontCheck.position, FRONT_CHECK_RADIUS, mGoundLayer);
         if (!isClimbing)
         {
-            isTouchingFront = Physics2D.OverlapCircle(mFrontCheck.position, FRONT_CHECK_RADIUS, mGoundLayer);
             if (isTouchingFront && Mathf.Abs(Hori) > 0 && mRB2D.velocity.y < 0 && !isGround)
             {
                 isWallSliding = true;
-                if (mCurrentStamina > 0)
-                {
-                    mRB2D.gravityScale = 0;
-                }
-                else
-                {
-                    mRB2D.gravityScale = Gravity;
-                    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
-                }
+                mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                isWallJumpDash = false;
+                //if (mCurrentStamina > 0)
+                //{
+                //    mRB2D.gravityScale = 0;
+                //}
+                //else
+                //{
+                //    mRB2D.gravityScale = Gravity;
+                //    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                //}
             }
-            if (isTouchingFront && Mathf.Abs(Hori) < 0 && mRB2D.velocity.y < 0 && !isGround)
+            else if (isTouchingFront && Mathf.Abs(Hori) < 0 && mRB2D.velocity.y < 0 && !isGround)
             {
                 isWallSliding = true;
-                if (mCurrentStamina > 0)
-                {
-                    mRB2D.gravityScale = 0;
-                }
-                else
-                {
-                    mRB2D.gravityScale = Gravity;
-                    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
-                }
+                mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                isWallJumpDash = false;
+                //if (mCurrentStamina > 0)
+                //{
+                //    mRB2D.gravityScale = 0;
+                //}
+                //else
+                //{
+                //    mRB2D.gravityScale = Gravity;
+                //    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                //}
             }
-            if (!isTouchingFront|| isGround|| mCurrentStamina <= 0)
+            if (!isTouchingFront&& isGround)
             {
                 isWallSliding = false;
-                mRB2D.gravityScale = Gravity;
+                //if (isGround|| mCurrentStamina < 1)
+                //{
+                //    isWallSliding = false;
+                //    mRB2D.gravityScale = Gravity;
+                //}
             }
             mAnim.SetBool(AnimHash.Grab, isWallSliding);
         }
@@ -338,7 +357,6 @@ public class Player : MonoBehaviour
         if (hitInfo.collider != null)
         {
             mJumpToken = mMaxmJumpToken;
-            mCurrentStamina = mMaxStamina;
             if (Input.GetKeyDown(KeyCode.W))
             {
                 if (!isWallSliding)
@@ -458,7 +476,6 @@ public class Player : MonoBehaviour
             {
                 mEnemy.Damage(2);
                 mJumpToken = mMaxmJumpToken;
-                mCurrentStamina = mMaxStamina;
             }
             else
             {

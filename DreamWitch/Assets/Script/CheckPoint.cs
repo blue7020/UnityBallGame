@@ -23,7 +23,10 @@ public class CheckPoint : MonoBehaviour
 
     public void ResetCheckPoint()
     {
-        mCheckPointOn = false;
-        mAnim.SetBool(AnimHash.CheckPoint, false);
+        if (mCheckPointOn)
+        {
+            mCheckPointOn = false;
+            mAnim.SetBool(AnimHash.CheckPoint, false);
+        }
     }
 }

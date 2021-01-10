@@ -162,7 +162,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &182237231
 GameObject:
@@ -301,7 +301,7 @@ RectTransform:
   - {fileID: 1902447978}
   - {fileID: 1330213682}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5574,6 +5574,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1106331213}
   - component: {fileID: 1106331212}
+  - component: {fileID: 1106331214}
   m_Layer: 0
   m_Name: SoundController
   m_TagString: Untagged
@@ -5635,8 +5636,16 @@ Transform:
   - {fileID: 471928859}
   - {fileID: 1333150348}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1106331214
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106331211}
+  m_Enabled: 1
 --- !u!1 &1142954913
 GameObject:
   m_ObjectHideFlags: 0
@@ -5701,7 +5710,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1330213681
 GameObject:
@@ -5971,7 +5980,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1344183385}
   - component: {fileID: 1344183384}
-  - component: {fileID: 1344183383}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5979,14 +5987,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1344183383
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1344183382}
-  m_Enabled: 1
 --- !u!20 &1344183384
 Camera:
   m_ObjectHideFlags: 0
@@ -6236,7 +6236,7 @@ Transform:
   - {fileID: 681646120}
   - {fileID: 506549764}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1765480487
 GameObject:
@@ -6352,7 +6352,7 @@ MonoBehaviour:
   mLanguage: 0
   NowStage: 0
   PlayCount: 3
-  TutorialClear: 0
+  TutorialClear: 1
 --- !u!4 &1830640720
 Transform:
   m_ObjectHideFlags: 0

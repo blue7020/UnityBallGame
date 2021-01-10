@@ -90,7 +90,7 @@ public class CutScenePoint : MonoBehaviour
                 break;
             case 23:
                 mID = 10;
-                PlayCutScene();
+                StartCoroutine(CutScene10());
                 break;
             default:
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
@@ -166,7 +166,6 @@ public class CutScenePoint : MonoBehaviour
         float time = 1.5f;
         WaitForSeconds delay = new WaitForSeconds(time);
         CutSceneController.Instance.FadeOut();
-        GameController.Instance.ShowUI();
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
@@ -182,7 +181,7 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
         Player.Instance.ShowAction(1);
-        time = 1.5f;
+        time = 2f;
         delay = new WaitForSeconds(time);
         yield return delay;
         CutSceneController.Instance.ShowCutSceneImage(0);
@@ -202,10 +201,12 @@ public class CutScenePoint : MonoBehaviour
     {
         float time = 1f;
         WaitForSeconds delay = new WaitForSeconds(time);
+        UIController.Instance.mNextDialogueText.gameObject.SetActive(false);
         SoundController.Instance.BGMFadeOut(3f);
         TitleController.Instance.isShowTitle = true;
         yield return delay;
         CutSceneController.Instance.FadeOut();
+        UIController.Instance.mDialogueImage.gameObject.SetActive(false);
         TitleController.Instance.TutorialClear = true;
         time = 4f;
         delay = new WaitForSeconds(time);

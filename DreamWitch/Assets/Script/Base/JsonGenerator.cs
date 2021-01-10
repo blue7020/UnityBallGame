@@ -9,14 +9,16 @@ public class JsonGenerator : MonoBehaviour
 {
     public void GenerateStatInfo()
     {
-        DialogueText[] infoArr = new DialogueText[1];
+        StageInfo[] infoArr = new StageInfo[1];
 
-        infoArr[0] = new DialogueText();
+        infoArr[0] = new StageInfo();
         infoArr[0].ID = 0;
-        infoArr[0].text_kor = "";
-        infoArr[0].text_eng = "";
+        infoArr[0].title_kor = "";
+        infoArr[0].title_eng = "";
+        infoArr[0].info_kor = "";
+        infoArr[0].info_eng = "";
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
-        WriteFile(data, "DialogueText.json");
+        WriteFile(data, "StageInfo.json");
     }
 
     private void WriteFile(string data, string fileName)

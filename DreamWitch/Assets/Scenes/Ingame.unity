@@ -7634,6 +7634,7 @@ MonoBehaviour:
   mOffset: {x: 0, y: 0, z: -10}
   mSmoothFactor: 3
   mFollowing: 0
+  CurserFollow: 0
   mRB2D: {fileID: 519420029}
   mMinValue: {x: -22, y: -4, z: -10}
   mMaxValue: {x: 277.5, y: 27, z: -10}
@@ -19376,8 +19377,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextArr:
   - "\uC810\uD504\uD574\uC11C \uBCBD\uC5D0 \uBC00\uCC29\uD558\uBA74 \uB9E4\uB2EC\uB9B4
-    \uC218 \uC788\uC2B5\uB2C8\uB2E4.  \uC774 \uC0C1\uD0DC\uC5D0\uC120 \uB290\uB9AC\uAC8C
-    \uB5A8\uC5B4\uC9C0\uBA70, \uC810\uD504\uB3C4 \uAC00\uB2A5\uD569\uB2C8\uB2E4."
+    \uC218 \uC788\uC2B5\uB2C8\uB2E4. \uB9E4\uB2EC\uB9B0 \uC0C1\uD0DC\uC5D0\uC120
+    \uB290\uB9AC\uAC8C \uB5A8\uC5B4\uC9C0\uBA70, \uC810\uD504\uD558\uBA74 \uBC18\uB300
+    \uBC29\uD5A5\uC73C\uB85C \uB3CC\uC9C4\uD569\uB2C8\uB2E4."
   - 
   text: 
   isCollide: 0
@@ -37111,8 +37113,6 @@ MonoBehaviour:
   Ver: 0
   mMaxHP: 3
   mCurrentHP: 0
-  mMaxStamina: 6
-  mCurrentStamina: 0
   mSpeed: 7
   mJumpForce: 10
   mDistance: 3
@@ -43820,7 +43820,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2135834917}
   - component: {fileID: 2135834919}
-  - component: {fileID: 2135834918}
   m_Layer: 0
   m_Name: CutSceneCameraController
   m_TagString: Untagged
@@ -43842,14 +43841,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &2135834918
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2135834916}
-  m_Enabled: 1
 --- !u!114 &2135834919
 MonoBehaviour:
   m_ObjectHideFlags: 0

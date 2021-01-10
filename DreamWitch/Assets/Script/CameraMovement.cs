@@ -9,7 +9,7 @@ public class CameraMovement : MonoBehaviour
     public Transform mTarget;
     public Vector3 mOffset;
     public float mSmoothFactor;
-    public bool mFollowing;
+    public bool mFollowing,CurserFollow;
     public Rigidbody2D mRB2D;
 
     //Camera Clamp
@@ -37,12 +37,24 @@ public class CameraMovement : MonoBehaviour
 
     public void Follow()
     {
-        Vector3 TargetPos = mTarget.position+ mOffset;
+        Vector3 TargetPos = mTarget.position + mOffset;
         Vector3 ClampPos = new Vector3(Mathf.Clamp(TargetPos.x, mMinValue.x, mMaxValue.x),
             Mathf.Clamp(TargetPos.y, mMinValue.y, mMaxValue.y),
             Mathf.Clamp(TargetPos.z, mMinValue.z, mMaxValue.z));
 
         Vector3 SmoothedPos = Vector3.Lerp(transform.position, ClampPos, mSmoothFactor*Time.fixedDeltaTime);
+        transform.position = SmoothedPos;
+    }
+
+    public void MouseFollow()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 TargetPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, -10));
+        Vector3 ClampPos = new Vector3(Mathf.Clamp(TargetPos.x, mMinValue.x, mMaxValue.x),
+            Mathf.Clamp(TargetPos.y, mMinValue.y, mMaxValue.y),
+            Mathf.Clamp(TargetPos.z, mMinValue.z, mMaxValue.z));
+
+        Vector3 SmoothedPos = Vector3.Lerp(transform.position, ClampPos, mSmoothFactor * Time.fixedDeltaTime);
         transform.position = SmoothedPos;
     }
 
@@ -57,9 +69,16 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (mTarget!=null&& mFollowing)
+        if (mFollowing)
         {
-            Follow();
+            if (mTarget != null)
+            {
+                Follow();
+            }
+            else if (CurserFollow)
+            {
+                MouseFollow();
+            }
         }
     }
 

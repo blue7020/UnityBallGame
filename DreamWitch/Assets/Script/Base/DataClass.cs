@@ -12,6 +12,7 @@ public class DialogueText
     public int FaceCode;
 }
 
+[Serializable]
 public class StageInfo
 {
     public int ID;
@@ -19,4 +20,17 @@ public class StageInfo
     public string title_eng;
     public string info_kor;
     public string info_eng;
+}
+
+[Serializable]
+public class SaveData
+{
+    public int LastPlayStage;
+    public int BGMVolume;
+    public int SEVolume;
+    public int Language;
+
+    public bool[] StageClear;
+    public bool[] StageShowEvent;
+    public bool[] StageShow;
 }

@@ -84,7 +84,7 @@ public class UIController : MonoBehaviour
         yield return delay;
         mPlayCountSceen.gameObject.SetActive(false);
         GameController.Instance.GamePause();
-        MapMaterialController.Instance.StartCutScene();
+        GameController.Instance.mMapMaterialController.StartCutScene();
     }
 
     public void ShowTutorial()

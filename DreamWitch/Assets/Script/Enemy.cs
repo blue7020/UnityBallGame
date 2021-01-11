@@ -100,7 +100,6 @@ public class Enemy : MonoBehaviour
             mCurrentHP -= damage;
             if (mCurrentHP <= 0)
             {
-                gameObject.layer = 10;
                 mAnim.SetBool(AnimHash.Enemy_Death, true);
                 StartCoroutine(Death());
             }
@@ -114,8 +113,8 @@ public class Enemy : MonoBehaviour
     public IEnumerator DamageAnimation()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
-        mHead.gameObject.SetActive(false);
         isNoDamage = true;
+        gameObject.layer = 10;
         mRenderer.color = new Vector4(1, 1, 1, 0.2f);
         yield return delay;
         mRenderer.color = Color.white;
@@ -131,7 +130,7 @@ public class Enemy : MonoBehaviour
         mRenderer.color = new Vector4(1, 1, 1, 0.2f);
         yield return delay;
         mRenderer.color = Color.white;
-        mHead.gameObject.SetActive(true);
+        gameObject.layer = 0;
         isNoDamage = false;
     }
 
@@ -139,6 +138,7 @@ public class Enemy : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         SoundController.Instance.SESound(0);
+        gameObject.layer = 10;
         CancelInvoke();
         mNextMove = 0;
         mRB2D.velocity = Vector2.zero;

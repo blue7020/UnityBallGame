@@ -9,23 +9,28 @@ public class StageSelectController : InformationLoader
     public static StageSelectController Instance;
 
     public Image mSelectUIImage;
-    public Text mStageTitleText, mStageInfoText,mStageButtonText,mCloseText;
+    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText;
     public Camera mCamera;
 
     public StageInfo[] mInfoArr;
     public IslandSelect[] IslandSelectArr;
 
-    public bool isSelectDelay;
+    public bool isSelectDelay, isShowNewStage;
     public int NowStage;
 
     private void Awake()
     {
-        if (Instance==null)
+        if (Instance == null)
         {
             Instance = this;
-            LoadJson(out mInfoArr,Path.STAGE_INFO);
-            //이후 세이브 시스템 넣으면 마지막으로 플레이한 스테이지의 시작 위치 불러옴
-            ShowStageSelectUI(NowStage);
+            LoadJson(out mInfoArr, Path.STAGE_INFO);
+            for (int i = 0; i < IslandSelectArr.Length; i++)
+            {
+                if (SaveDataController.Instance.mUser.StageShow[i] == false)
+                {
+                    IslandSelectArr[i].gameObject.SetActive(false);
+                }
+            }
         }
         else
         {
@@ -33,10 +38,27 @@ public class StageSelectController : InformationLoader
         }
     }
 
+    private void Start()
+    {
+        if (isShowNewStage)
+        {
+            mCamera.transform.position = IslandSelectArr[NowStage].pos + new Vector3(0, 0, -10); ;
+            IslandSelectArr[NowStage].ShowStage();
+            StartCoroutine(CameraMovement.Instance.CameraFollowDelay(2.2f));
+        }
+        else
+        {
+            NowStage = SaveDataController.Instance.mUser.LastPlayStage;
+            StartCoroutine(CameraMovement.Instance.CameraFollowDelay(1f));
+            mCamera.transform.position = IslandSelectArr[NowStage].pos + new Vector3(0, 0, -10);
+        }
+    }
+
+
     public void ShowStageSelectUI(int id)
     {
         NowStage = id;
-        if (TitleController.Instance.mLanguage==0)
+        if (TitleController.Instance.mLanguage == 0)
         {
             mStageButtonText.text = "이동하기";
             mStageTitleText.text = mInfoArr[NowStage].title_kor;
@@ -51,20 +73,22 @@ public class StageSelectController : InformationLoader
             mCloseText.text = "Close: X";
         }
         mSelectUIImage.gameObject.SetActive(true);
-        mCamera.transform.position = IslandSelectArr[NowStage].pos;
+        mCamera.transform.position = IslandSelectArr[NowStage].pos + new Vector3(0, 0, -10); ;
     }
 
     public void EnterStage()
     {
+        SaveDataController.Instance.mUser.LastPlayStage = NowStage;
+        SaveDataController.Instance.Save();
         switch (NowStage)
         {
             case 0:
-                SceneManager.LoadScene(1);
                 SoundController.Instance.BGMChange(0);
                 break;
             default:
                 break;
         }
+        SceneManager.LoadScene(1);
     }
 
     private void Update()

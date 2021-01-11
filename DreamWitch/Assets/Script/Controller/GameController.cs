@@ -7,6 +7,15 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
+
+    public MapMaterialController[] mMapMaterialControllerArr;
+    public MapMaterialController mMapMaterialController;
+
+    public GameObject[] mStageObject;
+    public Transform[] mStartPointArr;
+
+    public Player mPlayer;
+
     public Transform mStartPoint, mCanvas,mHeartFrameCanvas;
     public Image mHeart,mHeartFrame;
     public List<Image> mPlayerHP;
@@ -21,6 +30,8 @@ public class GameController : MonoBehaviour
             Instance = this;
             mPlayerHP = new List<Image>();
             mHPFrame = new List<Image>();
+            mStageObject[TitleController.Instance.NowStage].SetActive(true);
+            mMapMaterialController = mMapMaterialControllerArr[TitleController.Instance.NowStage];
         }
         else
         {
@@ -30,6 +41,17 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        switch (TitleController.Instance.NowStage)
+        {
+            case 0:
+                mPlayer.transform.position = new Vector3(-32,1.76f,0);
+                break;
+            default:
+                break;
+        }
+        mStartPoint = mStartPointArr[TitleController.Instance.NowStage];
+        mPlayer.CheckPointPos = mStartPoint.transform.position + new Vector3(0, 2f, 0);
+        mPlayer.gameObject.SetActive(true);
         SetHP(Player.Instance.mCurrentHP);
     }
 
@@ -139,8 +161,8 @@ public class GameController : MonoBehaviour
     private IEnumerator DeathLoad()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
-        MapMaterialController.Instance.ReviveEnemy();
-        MapMaterialController.Instance.ResetCheckPoint();
+        mMapMaterialController.ReviveEnemy();
+        mMapMaterialController.ResetCheckPoint();
         yield return delay;
         UIController.Instance.mBlackScrean.gameObject.SetActive(false);
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());

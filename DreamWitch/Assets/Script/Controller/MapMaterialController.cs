@@ -4,27 +4,12 @@ using UnityEngine;
 
 public class MapMaterialController : MonoBehaviour
 {
-
-    public static MapMaterialController Instance;
-
     public CutScenePoint[] mCutsceneArr;
     public Enemy[] mEnemyArr;
     public CheckPoint[] mCheckPointArr;
     public bool isShowStartCutScene;
 
     public CutScenePoint mStartCutScene;
-
-    private void Awake()
-    {
-        if (Instance==null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     public void StartCutScene()
     {

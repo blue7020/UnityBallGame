@@ -206,9 +206,16 @@ public class CutScenePoint : MonoBehaviour
         TitleController.Instance.isShowTitle = true;
         yield return delay;
         CutSceneController.Instance.FadeOut();
+        time = 2f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
         UIController.Instance.mDialogueImage.gameObject.SetActive(false);
-        TitleController.Instance.TutorialClear = true;
-        time = 4f;
+        //저장 중 애니메이션 불러오기
+        SaveDataController.Instance.mUser.StageClear[0] = true;
+        SaveDataController.Instance.mUser.StageShowEvent[0] = true;
+        SaveDataController.Instance.mUser.StageShow[0] = true;
+        SaveDataController.Instance.mUser.StageShow[1] = true;
+        time = 2f;
         delay = new WaitForSeconds(time);
         yield return delay;
         GameController.Instance.GotoStageSelect(0);

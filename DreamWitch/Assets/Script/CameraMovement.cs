@@ -66,6 +66,14 @@ public class CameraMovement : MonoBehaviour
         mRB2D.DOMove(SmoothedPos, time);
     }
 
+    public IEnumerator CameraFollowDelay(float time)
+    {
+        WaitForSeconds delay = new WaitForSeconds(time);
+        mFollowing = false;
+        yield return delay;
+        mFollowing = true;
+    }
+
     // Update is called once per frame
     private void FixedUpdate()
     {

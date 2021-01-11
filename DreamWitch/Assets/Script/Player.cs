@@ -44,7 +44,6 @@ public class Player : MonoBehaviour
         {
             Instance = this;
             mCurrentHP = mMaxHP;
-            CheckPointPos = GameController.Instance.mStartPoint.transform.position + new Vector3(0, 2f, 0);
             if (mNowItem==null)
             {
                 mNowItemID = -1;

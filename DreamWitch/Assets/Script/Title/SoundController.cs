@@ -13,6 +13,7 @@ public class SoundController : MonoBehaviour
     public AudioSource mBGM, mSE;
     public AudioClip[] mBGMArr, mSEArr;
     public AudioMixer mMixer;
+    public float BGMVolume, SEVolume;
 
     private void Awake()
     {
@@ -20,11 +21,19 @@ public class SoundController : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            BGMVolume = SaveDataController.Instance.mUser.BGMVolume;
+            SEVolume = SaveDataController.Instance.mUser.SEVolume;
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        mBGM.volume = BGMVolume * 0.1f;
+        mSE.volume = SEVolume * 0.1f;
     }
 
     public void BGMChange(int id)

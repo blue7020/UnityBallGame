@@ -55,7 +55,7 @@ public class TitleUIController : MonoBehaviour
 
     public void GameStart()
     {
-        if (TitleController.Instance.TutorialClear==true)
+        if (SaveDataController.Instance.mUser.StageClear[0]==true)
         {
             SceneManager.LoadScene(2);
             //SoundController.Instance.BGMChange(2);

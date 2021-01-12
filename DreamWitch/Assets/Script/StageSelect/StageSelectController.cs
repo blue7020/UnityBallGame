@@ -8,7 +8,7 @@ public class StageSelectController : InformationLoader
 {
     public static StageSelectController Instance;
 
-    public Image mSelectUIImage;
+    public Image mSelectUIImage,mPlayerIcon;
     public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText;
     public Camera mCamera;
 
@@ -49,13 +49,12 @@ public class StageSelectController : InformationLoader
         else
         {
             NowStage = SaveDataController.Instance.mUser.LastPlayStage;
-            StartCoroutine(CameraMovement.Instance.CameraFollowDelay(1f));
-            mCamera.transform.position = IslandSelectArr[NowStage].pos + new Vector3(0, 0, -10);
+            StartCoroutine(IslandSelectArr[NowStage].SelectDelay());
         }
     }
 
 
-    public void ShowStageSelectUI(int id)
+    public void ShowStageSelectUI(int id, bool dir)
     {
         NowStage = id;
         if (TitleController.Instance.mLanguage == 0)
@@ -71,6 +70,14 @@ public class StageSelectController : InformationLoader
             mStageTitleText.text = mInfoArr[NowStage].title_eng;
             mStageInfoText.text = mInfoArr[NowStage].info_eng;
             mCloseText.text = "Close: X";
+        }
+        if (dir)
+        {
+            mSelectUIImage.transform.localPosition = new Vector3(-632,6,0);
+        }
+        else
+        {
+            mSelectUIImage.transform.localPosition = new Vector3(632,6,0);
         }
         mSelectUIImage.gameObject.SetActive(true);
         mCamera.transform.position = IslandSelectArr[NowStage].pos + new Vector3(0, 0, -10); ;

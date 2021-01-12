@@ -18,6 +18,7 @@ public class TitleUIController : MonoBehaviour
             Instance = this;
             mKeyText.text = "Press Any Key";
             StartCoroutine(AlphaAnim());
+            //SoundController.Instance.BGMChange(1);
         }
         else
         {
@@ -33,7 +34,7 @@ public class TitleUIController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.anyKeyDown&& TitleController.Instance.isShowTitle==false)
         {

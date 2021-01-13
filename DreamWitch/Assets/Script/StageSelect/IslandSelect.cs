@@ -18,7 +18,7 @@ public class IslandSelect : MonoBehaviour,IPointerClickHandler
             if (SaveDataController.Instance.mUser.StageShowEvent[mID] == false)
             {
                 StageSelectController.Instance.isShowNewStage = true;
-                StageSelectController.Instance.NowStage = mID;
+                TitleController.Instance.NowStage = mID;
             }
             else
             {

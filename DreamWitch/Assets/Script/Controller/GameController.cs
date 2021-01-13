@@ -41,17 +41,18 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        switch (TitleController.Instance.NowStage)
-        {
-            case 0:
-                mPlayer.transform.position = new Vector3(-32,1.76f,0);
-                break;
-            default:
-                break;
-        }
         mStartPoint = mStartPointArr[TitleController.Instance.NowStage];
         mPlayer.CheckPointPos = mStartPoint.transform.position + new Vector3(0, 2f, 0);
         mPlayer.gameObject.SetActive(true);
+        switch (TitleController.Instance.NowStage)
+        {
+            case 0:
+                mPlayer.transform.position = new Vector3(-32, 1.76f, 0);
+                break;
+            default:
+                mPlayer.transform.position = mStartPoint.position;
+                break;
+        }
         SetHP(Player.Instance.mCurrentHP);
     }
 

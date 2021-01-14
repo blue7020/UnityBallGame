@@ -122,7 +122,8 @@ public class CutScenePoint : MonoBehaviour
         WaitForFixedUpdate delay = new WaitForFixedUpdate();
         while (mMoveTrigger)
         {
-            Player.Instance.Moving(1);
+            Vector3 move = new Vector3(1, 0f, 0f);
+            Player.Instance.transform.position += move * Time.deltaTime * Player.Instance.mSpeed;
             if (!mMoveTrigger)
             {
                 break;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TriggerObject : MonoBehaviour
 {
-    public bool mTrigger,mIsLoop,mMovingTrigger,mShowBlock;
+    public bool mTrigger,mIsLoop,mMovingTrigger,mShowBlock,mFallingBlock;
     public GameObject mTriggerObj;
     public Animator mAnim;
     public float mDelay;
@@ -32,6 +32,10 @@ public class TriggerObject : MonoBehaviour
             if (mMovingTrigger)
             {
                 mTriggerObj.GetComponent<MovingTile>().isMove = true;
+            }
+            if (mFallingBlock)
+            {
+                mTriggerObj.GetComponent<FallingObject>().Falling();
             }
         }
     }

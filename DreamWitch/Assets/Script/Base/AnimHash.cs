@@ -25,4 +25,7 @@ public class AnimHash : MonoBehaviour
 
     //StageSelect
     public static readonly int MAP_SHOW = Animator.StringToHash("IsClear");
+
+    //UI
+    public static readonly int Close = Animator.StringToHash("IsClose");
 }

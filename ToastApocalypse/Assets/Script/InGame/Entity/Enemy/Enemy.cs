@@ -324,7 +324,7 @@ public class Enemy : InformationLoader
 
     public void Attack()
     {
-        if (AttackCheck == true)
+        if (AttackCheck == true&&mTarget!=null)
         {
             mTarget.Hit(mStats.Atk);
             Player.Instance.LastHitEnemy = this;

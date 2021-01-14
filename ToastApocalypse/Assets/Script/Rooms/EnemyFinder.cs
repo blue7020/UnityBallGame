@@ -26,16 +26,16 @@ public class EnemyFinder : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void FixedUpdate()
     {
-        if (other.gameObject.CompareTag("Player")&&SpawnAll ==true)
+        if (WallOn&& SpawnAll)
         {
-            if (Player.Instance.CurrentRoom.EnemyCount == 0)
+            if (Player.Instance.CurrentRoom.EnemyCount < 1)
             {
+                WallOn = false;
+                SoundController.Instance.SESound(17);
                 gameObject.SetActive(false);
             }
         }
-        
-        
     }
 }

@@ -95,6 +95,17 @@ public class GameSetting : InformationLoader
         }
     }
 
+    public void TimeCheck24Ad()
+    {
+        DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
+        DateTime timecheck = DateTime.Now;
+        Debug.Log(time + " / " + timecheck);
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
+        {
+            SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
+        }
+    }
+
     public void Restart()
     {
         NowStageRoom = new Room[6];
@@ -117,13 +128,7 @@ public class GameSetting : InformationLoader
 
     public void ShowAds(eAdsReward reward)
     {
-        DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
-        DateTime timecheck = DateTime.Now;
-        Debug.Log(time + " / " + timecheck);
-        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
-        {
-            SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
-        }
+        TimeCheck24Ad();
         if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
         {
             GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);

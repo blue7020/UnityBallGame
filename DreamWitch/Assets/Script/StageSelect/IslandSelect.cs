@@ -61,7 +61,6 @@ public class IslandSelect : MonoBehaviour,IPointerClickHandler
     public IEnumerator SelectDelay()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
-        StartCoroutine(CameraMovement.Instance.CameraFollowDelay(1f));
         PlayerIconMove();
         StageSelectController.Instance.isSelectDelay = true;
         StageSelectController.Instance.ShowStageSelectUI(mID, IsRight);

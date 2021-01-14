@@ -148,7 +148,7 @@ public class GameController : MonoBehaviour
         if (TitleController.Instance.PlayCount ==0)
         {
             TitleController.Instance.PlayCount = 3;
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         }
         else
         {

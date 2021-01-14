@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using DG.Tweening;
 
-public class UIController : MonoBehaviour
+public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage, mScreenSaver, mMenuWindow;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
-    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText;
-    public bool isShowTextBox;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText;
+    public bool isShowTextBox, isShowMenu;
+    public Transform Top, End;
+
+    public StageInfo[] mInfoArr;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
+            LoadJson(out mInfoArr, Path.STAGE_INFO);
             if (TitleController.Instance.mLanguage == 0)
             {
                 mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
@@ -25,6 +31,9 @@ public class UIController : MonoBehaviour
                 mSkipText.text = "건너뛰기: C";
                 mCloseText.text = "닫기: Z";
                 mNextDialogueText.text= "다음: Z";
+                mMenuMainButtonText.text = "스테이지 선택으로";
+                mMenuSoundText.text = "소리";
+                mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_kor;
             }
             else if (TitleController.Instance.mLanguage == 1)
             {
@@ -33,6 +42,9 @@ public class UIController : MonoBehaviour
                 mSkipText.text = "Skip: C";
                 mCloseText.text = "Close: Z";
                 mNextDialogueText.text = "Next: Z";
+                mMenuMainButtonText.text = "To the stage select";
+                mMenuSoundText.text = "Sound";
+                mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_eng;
             }
         }
         else
@@ -119,12 +131,48 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void GotoStage()
+    {
+        SaveDataController.Instance.Save();
+        SceneManager.LoadScene(2);
+    }
+
+    public IEnumerator MenuClose()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
+        mMenuWindow.GetComponent<Rigidbody2D>().DOMove(Top.position, 0.3f);
+        yield return delay;
+        mScreenSaver.gameObject.SetActive(false);
+        GameController.Instance.GamePause();
+        isShowMenu = false;
+    }
+    public IEnumerator MenuShow()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
+        mScreenSaver.gameObject.SetActive(true);
+        mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
+        yield return delay;
+        GameController.Instance.GamePause();
+        isShowMenu = true;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z)&& isShowTextBox)
+        if (Input.GetKeyDown(KeyCode.Z)&& isShowTextBox&&!isShowMenu)
         {
             Player.Instance.isCutScene = false;
             mTextBoxImage.gameObject.SetActive(false);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isShowMenu)
+            {
+                StartCoroutine(MenuClose());
+            }
+            else
+            {
+                StartCoroutine(MenuShow());
+            }
         }
     }
 }

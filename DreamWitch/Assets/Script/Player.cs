@@ -73,73 +73,68 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Hori = Input.GetAxis("Horizontal");
-        Ver= Input.GetAxis("Vertical");
+        Ver = Input.GetAxis("Vertical");
         GroundCheck();
-        WallCheck();
-        LadderCheck();
-        if (!isCutScene)
+        if (!isCutScene &&GameController.Instance.Pause==false)
         {
             if (!isWallJumpDash)
             {
                 Moving(Hori);
             }
-            //if (isWallSliding)
-            //{
-            //    MovingWall(Ver);
-            //}
-            //if (!isWallSliding)
-            //{
-            //    Moving(Hori);
-            //}
         }
     }
 
     private void Update()
     {
-        mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
-
-        if (Input.GetButtonDown("Jump") && !isCutScene)
+        if (!GameController.Instance.Pause)
         {
-            if (!isClimbing)
+            WallCheck();
+            LadderCheck();
+            mAnim.SetFloat("yVelocity", mRB2D.velocity.y);
+
+            if (Input.GetButtonDown("Jump") && !isCutScene)
             {
-                isJump = true;
-                Jump();
-            }
-        }//점프
-
-        if (Input.GetButtonUp("Jump"))
-        {
-            isJump = false;
-            mRB2D.velocity = new Vector2(mRB2D.velocity.x, mRB2D.velocity.y * 0.5f);
-        }//하강
-
-        if (Input.GetKey(KeyCode.Q) && !isCutScene)
-        {
-            if (GameController.Instance.Pause == false && !isCooltime)
-            {
-                StartCoroutine(Attack());
-            }
-        }//공격
-
-        if (Input.GetKeyDown(KeyCode.F) && !isCutScene)
-        {
-            if (GameController.Instance.Pause == false && mFuntion != null)
-            {
-                mFuntion();
-                mFuntion = null;
-            }
-        }//상호작용
-
-        if (Input.GetKeyDown(KeyCode.E) && !isCutScene)
-        {
-            if (GameController.Instance.Pause == false)
-            {
-                if (mNowItemID > -1)
+                if (!isClimbing)
                 {
-                    ItemUse();
+                    isJump = true;
+                    Jump();
                 }
-            }
-        }//사용
+            }//점프
+
+            if (Input.GetButtonUp("Jump"))
+            {
+                isJump = false;
+                mRB2D.velocity = new Vector2(mRB2D.velocity.x, mRB2D.velocity.y * 0.5f);
+            }//하강
+
+            if (Input.GetKey(KeyCode.Q) && !isCutScene)
+            {
+                if (GameController.Instance.Pause == false && !isCooltime)
+                {
+                    StartCoroutine(Attack());
+                }
+            }//공격
+
+            if (Input.GetKeyDown(KeyCode.F) && !isCutScene)
+            {
+                if (GameController.Instance.Pause == false && mFuntion != null)
+                {
+                    mFuntion();
+                    mFuntion = null;
+                }
+            }//상호작용
+
+            if (Input.GetKeyDown(KeyCode.E) && !isCutScene)
+            {
+                if (GameController.Instance.Pause == false)
+                {
+                    if (mNowItemID > -1)
+                    {
+                        ItemUse();
+                    }
+                }
+            }//사용
+        }
     }
     public IEnumerator Attack()
     {
@@ -176,7 +171,7 @@ public class Player : MonoBehaviour
             {
                 SoundController.Instance.SESound(13);
             }
-            mRB2D.velocity = Vector2.up * mJumpForce;
+            mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
             mAnim.SetBool(AnimHash.Jump, true);
         }
         else
@@ -184,7 +179,9 @@ public class Player : MonoBehaviour
             if (!isWallJumpDash&&isWallSliding && !isClimbing)
             {
                 isWallSliding = false;
+                mAnim.SetBool(AnimHash.Grab, isWallSliding);
                 isMultipleJump = false;
+                isWallJumpDash = true;
                 float dir = Hori;
                 float rand = Random.Range(0, 1f);
                 if (rand <= 0.6f)
@@ -212,7 +209,7 @@ public class Player : MonoBehaviour
                 {
                     SoundController.Instance.SESound(13);
                 }
-                mRB2D.velocity = Vector2.up * mJumpForce;
+                mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
                 mAnim.SetBool(AnimHash.Jump, true);
             }
 
@@ -224,7 +221,7 @@ public class Player : MonoBehaviour
                 {
                     SoundController.Instance.SESound(13);
                 }
-                mRB2D.velocity = Vector2.up * mJumpForce;
+                mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
                 mAnim.SetBool(AnimHash.Jump, true);
             }
         }
@@ -238,8 +235,9 @@ public class Player : MonoBehaviour
 
     public void Moving(float dir)
     {
-        Vector3 move = new Vector3(dir, 0f,0f);
-        transform.position += move * Time.deltaTime * mSpeed;
+        //Vector3 move = new Vector3(dir,0f,0f);
+        mRB2D.velocity = new Vector3(dir * mSpeed, mRB2D.velocity.y);
+        //transform.position += move * Time.deltaTime * mSpeed;
         mAnim.SetFloat("xVelocity", dir);
         if (dir != 0&&isGround)
         {
@@ -279,7 +277,7 @@ public class Player : MonoBehaviour
             if (Coll2D.Length > 0)
             {
                 isGround = true;
-                mRB2D.velocity = new Vector2(0, mRB2D.velocity.y);
+                mRB2D.velocity = new Vector2(mRB2D.velocity.x/2, mRB2D.velocity.y);
                 if (!wasGround)
                 {
                     mJumpToken = mMaxmJumpToken;
@@ -353,36 +351,39 @@ public class Player : MonoBehaviour
     public void LadderCheck()
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, mDistance, mLadderLayer);
-        if (hitInfo.collider != null)
+        if (!isWallSliding)
         {
-            mJumpToken = mMaxmJumpToken;
-            if (Input.GetKeyDown(KeyCode.W))
+            if (hitInfo.collider != null)
             {
-                if (!isWallSliding)
+                mJumpToken = mMaxmJumpToken;
+                if (Input.GetKeyDown(KeyCode.W))
                 {
-                    isClimbing = true;
+                    if (!isWallSliding)
+                    {
+                        isClimbing = true;
+                    }
                 }
             }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            else
             {
-                isClimbing = false;
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+                {
+                    isClimbing = false;
+                }
             }
-        }
-        if (isClimbing && hitInfo.collider != null)
-        {
-            mAnim.SetBool(AnimHash.Climb, true);
-            Ver = Input.GetAxisRaw("Vertical");
-            mRB2D.velocity = new Vector2(mRB2D.velocity.x, Ver * mSpeed);
-            mRB2D.gravityScale = 0;
-        }
-        else
-        {
-            mAnim.SetBool(AnimHash.Climb, false);
-            isClimbing = false;
-            mRB2D.gravityScale = Gravity;
+            if (isClimbing && hitInfo.collider != null)
+            {
+                mAnim.SetBool(AnimHash.Climb, true);
+                Ver = Input.GetAxisRaw("Vertical");
+                mRB2D.velocity = new Vector2(mRB2D.velocity.x, Ver * mSpeed);
+                mRB2D.gravityScale = 0;
+            }
+            else
+            {
+                mAnim.SetBool(AnimHash.Climb, false);
+                isClimbing = false;
+                mRB2D.gravityScale = Gravity;
+            }
         }
     }//사다리 체크
 

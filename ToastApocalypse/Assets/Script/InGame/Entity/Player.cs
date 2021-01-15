@@ -185,6 +185,12 @@ public class Player : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(1f);
         while (true)
         {
+            if (GameSetting.Instance.NowStage != 4)
+            {
+                mCurrentAir = MAX_AIR;
+                UIController.Instance.SetMapText();
+                break;
+            }
             if (mCurrentAir < 1)
             {
                 Hit(mMaxHP * 0.1f,3,true);
@@ -199,7 +205,7 @@ public class Player : MonoBehaviour
                 UIController.Instance.ShowAirGaugeBar();
             }
 
-            yield return delay;
+                yield return delay;
         }
     }
 

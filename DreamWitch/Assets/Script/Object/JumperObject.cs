@@ -14,6 +14,8 @@ public class JumperObject : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(0.5f);
         isCooltime = true;
         mAnim.SetBool(AnimHash.On, true);
+        player.isMultipleJump = true;
+        player.mJumpToken = player.mMaxmJumpToken;
         switch (mDir)
         {
             case 0:
@@ -31,7 +33,7 @@ public class JumperObject : MonoBehaviour
             default:
                 break;
         }
-        //띠용 사운드
+        SoundController.Instance.SESound(18);
         yield return delay;
         isCooltime = false;
         mAnim.SetBool(AnimHash.On, false);

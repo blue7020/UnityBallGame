@@ -85,6 +85,10 @@ public class UIController : InformationLoader
         {
             mAirGauge.gameObject.SetActive(true);
         }
+        else
+        {
+            mAirGauge.gameObject.SetActive(false);
+        }
         if (GameSetting.Instance.Language == 0)//한국어
         {
             maptext = GameSetting.Instance.mMapInfoArr[GameSetting.Instance.NowStage].Title;

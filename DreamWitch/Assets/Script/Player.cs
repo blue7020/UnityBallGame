@@ -104,6 +104,8 @@ public class Player : MonoBehaviour
             if (Input.GetButtonUp("Jump"))
             {
                 isJump = false;
+                isWallSliding = false;
+                mAnim.SetBool(AnimHash.Grab, false);
                 mRB2D.velocity = new Vector2(mRB2D.velocity.x, mRB2D.velocity.y * 0.5f);
             }//하강
 
@@ -174,12 +176,23 @@ public class Player : MonoBehaviour
             mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
             mAnim.SetBool(AnimHash.Jump, true);
         }
+        else if (isCoyoteJump && mJumpToken > 0)
+        {
+            isMultipleJump = true;
+            mJumpToken--;
+            float rand = Random.Range(0, 1f);
+            if (rand <= 0.6f)
+            {
+                SoundController.Instance.SESound(13);
+            }
+            mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
+            mAnim.SetBool(AnimHash.Jump, true);
+        }
         else
         {
             if (!isWallJumpDash&&isWallSliding && !isClimbing)
             {
                 isWallSliding = false;
-                mAnim.SetBool(AnimHash.Grab, isWallSliding);
                 isMultipleJump = false;
                 isWallJumpDash = true;
                 float dir = Hori;
@@ -200,21 +213,10 @@ public class Player : MonoBehaviour
                 mRB2D.velocity = new Vector2(-dir * 5, mJumpForce);
                 mAnim.SetBool(AnimHash.Jump, true);
             }
-            if (isCoyoteJump && mJumpToken > 0)
-            {
-                isMultipleJump = true;
-                mJumpToken--;
-                float rand = Random.Range(0, 1f);
-                if (rand <= 0.6f)
-                {
-                    SoundController.Instance.SESound(13);
-                }
-                mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
-                mAnim.SetBool(AnimHash.Jump, true);
-            }
 
             if (isMultipleJump && mJumpToken > 0)
             {
+                isMultipleJump = false;
                 mJumpToken--;
                 float rand = Random.Range(0, 1f);
                 if (rand <= 0.6f)
@@ -336,17 +338,17 @@ public class Player : MonoBehaviour
                 //    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
                 //}
             }
-            if (!isTouchingFront&& isGround)
-            {
-                isWallSliding = false;
-                //if (isGround|| mCurrentStamina < 1)
-                //{
-                //    isWallSliding = false;
-                //    mRB2D.gravityScale = Gravity;
-                //}
-            }
-            mAnim.SetBool(AnimHash.Grab, isWallSliding);
         }
+        if (!isTouchingFront|| isGround)
+        {
+            isWallSliding = false;
+            //if (isGround|| mCurrentStamina < 1)
+            //{
+            //    isWallSliding = false;
+            //    mRB2D.gravityScale = Gravity;
+            //}
+        }
+        mAnim.SetBool(AnimHash.Grab, isWallSliding);
     }
     public void LadderCheck()
     {

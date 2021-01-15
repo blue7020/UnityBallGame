@@ -182,5 +182,6 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(true);
         mAnim.SetBool(AnimHash.Enemy_Death, false);
         StartAI();
+        mCurrentHP = mMaxHP;
     }
 }

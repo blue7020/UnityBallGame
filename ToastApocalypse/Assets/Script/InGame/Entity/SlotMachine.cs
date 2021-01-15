@@ -11,7 +11,7 @@ public class SlotMachine : MonoBehaviour
     public int Spend,index;
     private string text;
 
-    public Text mPriceText, mShopSpendText;
+    public Text mPriceText;
     private Button mUIShopButton;
 
     public Animator mAnim;
@@ -20,7 +20,6 @@ public class SlotMachine : MonoBehaviour
     private void Awake()
     {
         mUIShopButton = UIController.Instance.mShopButton;
-        mShopSpendText = UIController.Instance.mShopSpendText;
     }
 
     private void Start()
@@ -64,6 +63,7 @@ public class SlotMachine : MonoBehaviour
         {
             ArtifactSearch();
         }
+        UIController.Instance.mShopSpendText.text = "-" + Spend + "G";
         Time.timeScale = 1;
         UIController.Instance.NoTouchArea.gameObject.SetActive(false);
         StartCoroutine(ResetSlot());
@@ -274,7 +274,7 @@ public class SlotMachine : MonoBehaviour
         {
             mUIShopButton.onClick.RemoveAllListeners();
             mUIShopButton.onClick.AddListener(() => { UseSlotMachine(); });
-            mShopSpendText.text = "-" +Spend+ "G";
+            UIController.Instance.mShopSpendText.text = "-" +Spend+ "G";
             mUIShopButton.gameObject.SetActive(true);
         }
     }

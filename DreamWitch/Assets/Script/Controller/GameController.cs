@@ -162,8 +162,7 @@ public class GameController : MonoBehaviour
     private IEnumerator DeathLoad()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
-        mMapMaterialController.ReviveEnemy();
-        mMapMaterialController.ResetCheckPoint();
+        mMapMaterialController.RefreshMap();
         yield return delay;
         UIController.Instance.mBlackScrean.gameObject.SetActive(false);
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());

@@ -10,7 +10,11 @@ public class AnimHash : MonoBehaviour
     public static readonly int Climb = Animator.StringToHash("IsClimb");
     public static readonly int Grab = Animator.StringToHash("IsGrab");
 
-    //TriggerObj,JumperObj
+
+    //CollectionObj
+    public static readonly int Get = Animator.StringToHash("IsGet");
+
+    //TriggerObj,JumperObj,CollectionObj
     public static readonly int On = Animator.StringToHash("IsTrigger");
 
     //FallingTile

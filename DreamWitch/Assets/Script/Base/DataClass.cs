@@ -30,6 +30,14 @@ public class SaveData
     public int SEVolume;
     public int Language;
 
+    public int CollectionAmount;
+    public bool[] Stage_0_CollectionCheck;
+    public bool[] Stage_1_CollectionCheck;
+    public bool[] Stage_2_CollectionCheck;
+    public bool[] Stage_3_CollectionCheck;
+    public bool[] Stage_4_CollectionCheck;
+    public bool[] Stage_5_CollectionCheck;
+
     public bool[] StageClear;
     public bool[] StageShowEvent;
     public bool[] StageShow;

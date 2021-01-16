@@ -10,7 +10,7 @@ public class StageSelectController : InformationLoader
     public static StageSelectController Instance;
 
     public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow;
-    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText;
+    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText,mCollectionText;
     public Camera mCamera;
     public Transform Top, End;
     public StageInfo[] mInfoArr;
@@ -133,6 +133,11 @@ public class StageSelectController : InformationLoader
         SceneManager.LoadScene(0);
     }
 
+    public void ShowCollection()
+    {
+        mCollectionText.text = "x" + SaveDataController.Instance.mUser.CollectionAmount.ToString();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.X)&&!isShowMenu)
@@ -154,6 +159,7 @@ public class StageSelectController : InformationLoader
                     CameraMovement.Instance.mFollowing = false;
                 }
                 mScreenSaver.gameObject.SetActive(true);
+                ShowCollection();
                 mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
                 isShowMenu = true;
             }

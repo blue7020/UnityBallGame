@@ -83,7 +83,7 @@ public class SaveDataController : InformationLoader
         {
             mUser.StageShowEvent = new bool[Constants.STAGE_COUNT];
         }
-        else if (mUser.StageShowEvent.Length != Constants.STAGE_COUNT) // != 혹은 < 를 사용해 둘 중에 짧은 배열에 긴 배열을 덮어씌운다.
+        else if (mUser.StageShowEvent.Length != Constants.STAGE_COUNT)
         {
             bool[] temp = new bool[Constants.STAGE_COUNT];
             int count = Mathf.Min(Constants.STAGE_COUNT, mUser.StageShowEvent.Length);
@@ -98,7 +98,7 @@ public class SaveDataController : InformationLoader
         {
             mUser.StageShow = new bool[Constants.STAGE_COUNT];
         }
-        else if (mUser.StageShow.Length != Constants.STAGE_COUNT) // != 혹은 < 를 사용해 둘 중에 짧은 배열에 긴 배열을 덮어씌운다.
+        else if (mUser.StageShow.Length != Constants.STAGE_COUNT)
         {
             bool[] temp = new bool[Constants.STAGE_COUNT];
             int count = Mathf.Min(Constants.STAGE_COUNT, mUser.StageShow.Length);
@@ -107,6 +107,96 @@ public class SaveDataController : InformationLoader
                 temp[i] = mUser.StageShow[i];
             }
             mUser.StageShow = temp;
+        }
+
+        if (mUser.Stage_0_CollectionCheck == null)//0 collection check
+        {
+            mUser.Stage_0_CollectionCheck = new bool[Constants.STAGE_0_COLLECTION];
+        }
+        else if (mUser.Stage_0_CollectionCheck.Length != Constants.STAGE_0_COLLECTION)
+        {
+            bool[] temp = new bool[Constants.STAGE_0_COLLECTION];
+            int count = Mathf.Min(Constants.STAGE_0_COLLECTION, mUser.Stage_0_CollectionCheck.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.Stage_0_CollectionCheck[i];
+            }
+            mUser.Stage_0_CollectionCheck = temp;
+        }
+
+        if (mUser.Stage_1_CollectionCheck == null)//1 collection check
+        {
+            mUser.Stage_1_CollectionCheck = new bool[Constants.STAGE_1_COLLECTION];
+        }
+        else if (mUser.Stage_1_CollectionCheck.Length != Constants.STAGE_1_COLLECTION)
+        {
+            bool[] temp = new bool[Constants.STAGE_1_COLLECTION];
+            int count = Mathf.Min(Constants.STAGE_1_COLLECTION, mUser.Stage_1_CollectionCheck.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.Stage_1_CollectionCheck[i];
+            }
+            mUser.Stage_1_CollectionCheck = temp;
+        }
+
+        if (mUser.Stage_2_CollectionCheck == null)//2 collection check
+        {
+            mUser.Stage_2_CollectionCheck = new bool[Constants.STAGE_2_COLLECTION];
+        }
+        else if (mUser.Stage_2_CollectionCheck.Length != Constants.STAGE_2_COLLECTION)
+        {
+            bool[] temp = new bool[Constants.STAGE_2_COLLECTION];
+            int count = Mathf.Min(Constants.STAGE_2_COLLECTION, mUser.Stage_2_CollectionCheck.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.Stage_2_CollectionCheck[i];
+            }
+            mUser.Stage_2_CollectionCheck = temp;
+        }
+
+        if (mUser.Stage_3_CollectionCheck == null)//3 collection check
+        {
+            mUser.Stage_3_CollectionCheck = new bool[Constants.STAGE_3_COLLECTION];
+        }
+        else if (mUser.Stage_3_CollectionCheck.Length != Constants.STAGE_3_COLLECTION)
+        {
+            bool[] temp = new bool[Constants.STAGE_3_COLLECTION];
+            int count = Mathf.Min(Constants.STAGE_3_COLLECTION, mUser.Stage_3_CollectionCheck.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.Stage_3_CollectionCheck[i];
+            }
+            mUser.Stage_3_CollectionCheck = temp;
+        }
+
+        if (mUser.Stage_4_CollectionCheck == null)//4 collection check
+        {
+            mUser.Stage_4_CollectionCheck = new bool[Constants.STAGE_4_COLLECTION];
+        }
+        else if (mUser.Stage_4_CollectionCheck.Length != Constants.STAGE_4_COLLECTION)
+        {
+            bool[] temp = new bool[Constants.STAGE_4_COLLECTION];
+            int count = Mathf.Min(Constants.STAGE_4_COLLECTION, mUser.Stage_4_CollectionCheck.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.Stage_4_CollectionCheck[i];
+            }
+            mUser.Stage_4_CollectionCheck = temp;
+        }
+
+        if (mUser.Stage_5_CollectionCheck == null)//5 collection check
+        {
+            mUser.Stage_5_CollectionCheck = new bool[Constants.STAGE_5_COLLECTION];
+        }
+        else if (mUser.Stage_5_CollectionCheck.Length != Constants.STAGE_5_COLLECTION)
+        {
+            bool[] temp = new bool[Constants.STAGE_5_COLLECTION];
+            int count = Mathf.Min(Constants.STAGE_5_COLLECTION, mUser.Stage_5_CollectionCheck.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.Stage_5_CollectionCheck[i];
+            }
+            mUser.Stage_5_CollectionCheck = temp;
         }
 
         SoundController.Instance.BGMVolume = mUser.BGMVolume;
@@ -130,6 +220,13 @@ public class SaveDataController : InformationLoader
         mUser.StageClear = new bool[Constants.STAGE_COUNT];
         mUser.StageShowEvent = new bool[Constants.STAGE_COUNT];
         mUser.StageShow = new bool[Constants.STAGE_COUNT];
+        mUser.CollectionAmount = 0;
+        mUser.Stage_0_CollectionCheck = new bool[Constants.STAGE_0_COLLECTION];
+        mUser.Stage_1_CollectionCheck = new bool[Constants.STAGE_1_COLLECTION];
+        mUser.Stage_2_CollectionCheck = new bool[Constants.STAGE_2_COLLECTION];
+        mUser.Stage_3_CollectionCheck = new bool[Constants.STAGE_3_COLLECTION];
+        mUser.Stage_4_CollectionCheck = new bool[Constants.STAGE_4_COLLECTION];
+        mUser.Stage_5_CollectionCheck = new bool[Constants.STAGE_5_COLLECTION];
     }
 
 

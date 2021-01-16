@@ -9,12 +9,12 @@ public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage, mScreenSaver, mMenuWindow;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
-    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText;
-    public bool isShowTextBox, isShowMenu;
-    public Transform Top, End;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText;
+    public bool isShowTextBox, isShowMenu,isCollect;
+    public Transform Top, End, CollectionTop, CollectionEnd;
 
     public StageInfo[] mInfoArr;
 
@@ -140,6 +140,10 @@ public class UIController : InformationLoader
     public IEnumerator MenuClose()
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
+        if (!isCollect)
+        {
+            mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionTop.position, 0.3f);
+        }
         mMenuWindow.GetComponent<Rigidbody2D>().DOMove(Top.position, 0.3f);
         yield return delay;
         mScreenSaver.gameObject.SetActive(false);
@@ -149,11 +153,38 @@ public class UIController : InformationLoader
     public IEnumerator MenuShow()
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
+        ShowCollection();
         mScreenSaver.gameObject.SetActive(true);
+        if (!isCollect)
+        {
+            mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionEnd.position, 0.3f);
+        }
         mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
         yield return delay;
         GameController.Instance.GamePause();
         isShowMenu = true;
+    }
+
+    public void ShowCollection()
+    {
+        mCollectionText.text = "x"+SaveDataController.Instance.mUser.CollectionAmount.ToString();
+    }
+
+    public IEnumerator CollectAnimation()
+    {
+        float time = 0.4f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        isCollect = true;
+        mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionEnd.position, 0.3f);
+        SaveDataController.Instance.mUser.CollectionAmount += 1;
+        yield return delay;
+        ShowCollection();
+        //개수 증가 효과음
+        time = 1f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionTop.position, 0.5f);
+        isCollect = false;
     }
 
     private void Update()

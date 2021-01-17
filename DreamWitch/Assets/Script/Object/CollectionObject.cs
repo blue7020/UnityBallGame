@@ -9,7 +9,7 @@ public class CollectionObject : MonoBehaviour
     public Transform pos;
     public bool isGet;
 
-    private void Awake()
+    private void Start()
     {
         pos = transform;
         Setting();
@@ -110,6 +110,7 @@ public class CollectionObject : MonoBehaviour
                 Check();
                 UIController.Instance.StartCoroutine(UIController.Instance.CollectAnimation());
             }
+            SoundController.Instance.SESound(19);
             gameObject.SetActive(false);
         }
     }

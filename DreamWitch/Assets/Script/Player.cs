@@ -237,9 +237,9 @@ public class Player : MonoBehaviour
 
     public void Moving(float dir)
     {
-        //Vector3 move = new Vector3(dir,0f,0f);
-        mRB2D.velocity = new Vector3(dir * mSpeed, mRB2D.velocity.y);
-        //transform.position += move * Time.deltaTime * mSpeed;
+        Vector3 move = new Vector3(dir,0f,0f);
+        //mRB2D.velocity = new Vector2(dir * mSpeed, mRB2D.velocity.y);
+        transform.position += move * Time.deltaTime * mSpeed;
         mAnim.SetFloat("xVelocity", dir);
         if (dir != 0&&isGround)
         {
@@ -279,7 +279,7 @@ public class Player : MonoBehaviour
             if (Coll2D.Length > 0)
             {
                 isGround = true;
-                mRB2D.velocity = new Vector2(mRB2D.velocity.x/2, mRB2D.velocity.y);
+                mRB2D.velocity = new Vector2(0f, mRB2D.velocity.y);
                 if (!wasGround)
                 {
                     mJumpToken = mMaxmJumpToken;

@@ -131,6 +131,8 @@ public class GameController : MonoBehaviour
     {
         if (mPlayerHP.Count==1)
         {
+            int rand = Random.Range(7, 10);//hitSound
+            SoundController.Instance.SESound(rand);
             GameOver();
         }
         else

@@ -179,7 +179,6 @@ public class UIController : InformationLoader
         SaveDataController.Instance.mUser.CollectionAmount += 1;
         yield return delay;
         ShowCollection();
-        //개수 증가 효과음
         time = 1f;
         delay = new WaitForSeconds(time);
         yield return delay;

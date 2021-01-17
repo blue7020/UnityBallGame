@@ -38,9 +38,9 @@ public class FallingTile : MonoBehaviour
         StartCoroutine(ReSpawning());
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player")&&!isRespawn)
+        if (other.gameObject.CompareTag("Player") && !isRespawn)
         {
             mAnim.SetBool(AnimHash.Falling, true);
         }

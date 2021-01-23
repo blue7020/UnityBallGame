@@ -6,9 +6,8 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
     public LayerMask mGoundLayer,mLadderLayer;
-    const float GROUND_CHECK_RADIUS = 0.01f;
+    const float GROUND_CHECK_RADIUS = 0.02f;
     public float FRONT_CHECK_RADIUS;
-    const float SLIDE_FACTOR = 0.2f;
 
     public Rigidbody2D mRB2D;
     public Animator mAnim;
@@ -26,17 +25,21 @@ public class Player : MonoBehaviour
     public Transform mItemTransform, mGroundChecker, mHoldZone, mBulletStart, mFrontCheck, Map;
     public bool isCutScene, isJump,isMultipleJump,isCoyoteJump,isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold,isWallJumpDash;
     public float Hori, Ver;
-    public float mMaxHP, mCurrentHP,mSpeed, mJumpForce;
-    public float mDistance,mCoyoteTime,mWallSlidingSpeed;
-
-    public int mMaxmJumpToken, mJumpToken;
 
     public float Gravity;
-
     public ParticleSystem mFootStep;
     private ParticleSystem.EmissionModule mFootEmission;
 
     public Delegates.VoidCallback mFuntion;
+
+    [Header("Player Stat")]
+    public float mMaxHP;
+    public float mCurrentHP;
+    public float mSpeed;
+    public float mJumpForce;
+
+    public float mDistance,mCoyoteTime,mWallSlidingSpeed;
+    public int mMaxmJumpToken, mJumpToken,mDir;
 
     private void Awake()
     {
@@ -173,7 +176,7 @@ public class Player : MonoBehaviour
             {
                 SoundController.Instance.SESound(13);
             }
-            mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
+            mRB2D.velocity = new Vector2(0, mJumpForce);
             mAnim.SetBool(AnimHash.Jump, true);
         }
         else if (isCoyoteJump && mJumpToken > 0)
@@ -185,7 +188,7 @@ public class Player : MonoBehaviour
             {
                 SoundController.Instance.SESound(13);
             }
-            mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
+            mRB2D.velocity = new Vector2(0, mJumpForce);
             mAnim.SetBool(AnimHash.Jump, true);
         }
         else
@@ -195,22 +198,22 @@ public class Player : MonoBehaviour
                 isWallSliding = false;
                 isMultipleJump = false;
                 isWallJumpDash = true;
-                float dir = Hori;
                 float rand = Random.Range(0, 1f);
                 if (rand <= 0.6f)
                 {
                     SoundController.Instance.SESound(13);
                 }
                 StartCoroutine(JumpWait());
-                if (dir > 0)//좌
+                if (mDir==1)//좌
                 {
                     mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+                    mRB2D.velocity = new Vector2(-mJumpForce/2, mJumpForce);
                 }
-                if (dir < 0)//우
+                if (mDir == 0)//우
                 {
                     mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
+                    mRB2D.velocity = new Vector2(mJumpForce/2, mJumpForce);
                 }
-                mRB2D.velocity = new Vector2(-dir * 5, mJumpForce);
                 mAnim.SetBool(AnimHash.Jump, true);
             }
 
@@ -223,7 +226,7 @@ public class Player : MonoBehaviour
                 {
                     SoundController.Instance.SESound(13);
                 }
-                mRB2D.velocity = new Vector2(mRB2D.velocity.x, mJumpForce);
+                mRB2D.velocity = new Vector2(0, mJumpForce);
                 mAnim.SetBool(AnimHash.Jump, true);
             }
         }
@@ -235,13 +238,13 @@ public class Player : MonoBehaviour
         isWallJumpDash = false;
     }
 
-    public void Moving(float dir)
+    public void Moving(float hori)
     {
-        Vector3 move = new Vector3(dir,0f,0f);
+        Vector3 move = new Vector3(hori,0f,0f);
         //mRB2D.velocity = new Vector2(dir * mSpeed, mRB2D.velocity.y);
         transform.position += move * Time.deltaTime * mSpeed;
-        mAnim.SetFloat("xVelocity", dir);
-        if (dir != 0&&isGround)
+        mAnim.SetFloat("xVelocity", hori);
+        if (hori != 0&&isGround)
         {
             mFootEmission.rateOverTime = 25f;
         }
@@ -249,12 +252,14 @@ public class Player : MonoBehaviour
         {
             mFootEmission.rateOverTime = 0f;
         }
-        if (dir > 0)//좌
+        if (hori > 0)//좌
         {
+            mDir = 1;
             mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
         }
-        if (dir < 0)//우
+        if (hori < 0)//우
         {
+            mDir = 0;
             mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
         }
     }
@@ -394,10 +399,11 @@ public class Player : MonoBehaviour
         if (!isNoDamage)
         {
             mCurrentHP -= damage;
+            mRB2D.velocity = Vector2.zero;
             GameController.Instance.Damege();
             StartCoroutine(DamageAnimation());
         }
-        if (mCurrentHP<1)
+        if (mCurrentHP<=0)
         {
             GameController.Instance.GameOver();
         }
@@ -435,6 +441,7 @@ public class Player : MonoBehaviour
         StartCoroutine(DamageAnimation());
         if (mCurrentHP > 0)
         {
+            mRB2D.velocity = Vector2.zero;
             transform.position = CheckPointPos;
         }
     }

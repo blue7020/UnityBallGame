@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class MovingTile : MonoBehaviour
 {
-    public bool isMove;
+    public bool isMove,isTrap;
     public float mSpeed;
     public Rigidbody2D mRB2D;
     public Transform Pos1, Pos2,mStartPos;
@@ -48,7 +48,7 @@ public class MovingTile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&& !isTrap)
         {
             other.gameObject.transform.SetParent(transform);
             other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(other.gameObject.GetComponent<Rigidbody2D>().velocity.x, other.gameObject.GetComponent<Rigidbody2D>().velocity.y);
@@ -56,7 +56,7 @@ public class MovingTile : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !isTrap)
         {
             other.gameObject.transform.SetParent(null);
         }

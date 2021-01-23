@@ -13,7 +13,11 @@ public class CameraMovement : MonoBehaviour
     public Rigidbody2D mRB2D;
 
     //Camera Clamp
-    public Vector3 mMinValue, mMaxValue;
+    public Vector3[] mMinValueArr;
+    public Vector3[] mMaxValueArr;
+
+    public Vector3 mMinValue;
+    public Vector3 mMaxValue;
 
 
 
@@ -22,6 +26,11 @@ public class CameraMovement : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            if (!CurserFollow)
+            {
+                mMinValue = mMinValueArr[TitleController.Instance.NowStage];
+                mMaxValue = mMaxValueArr[TitleController.Instance.NowStage];
+            }
             mFollowing = true;
         }
         else

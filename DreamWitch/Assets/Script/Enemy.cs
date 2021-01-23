@@ -6,7 +6,7 @@ using DG.Tweening;
 public class Enemy : MonoBehaviour
 {
     public int mTypeCode;
-    public float mMaxHP, mCurrentHP,mAtk;
+    public float mMaxHP, mCurrentHP,mAtk,DelayTime;
     public bool isMoving,isNoDamage,isDeath,isCollide;
     public int mNextMove;
 
@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     {
         mCurrentHP = mMaxHP;
         mSpawnPos = transform;
-        StartAI();
+        StartAI(DelayTime);
     }
 
     private void FixedUpdate()
@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void StartAI()
+    public void StartAI(float time =0)
     {
         if (mTypeCode == 0)
         {
@@ -51,9 +51,23 @@ public class Enemy : MonoBehaviour
         }
         else if (mTypeCode == 1)
         {
-            Invoke("BoltAttack", 2.5f);
+            if (time>0)
+            {
+                StartCoroutine(StartDelay(time));
+            }
+            else
+            {
+                Invoke("BoltAttack", 2.5f);
+            }
         }
     }
+    private IEnumerator StartDelay(float time)
+    {
+        WaitForSeconds delay = new WaitForSeconds(time);
+        yield return delay;
+        Invoke("BoltAttack", 2.5f);
+    }
+
 
     public void Turn()
     {
@@ -79,6 +93,7 @@ public class Enemy : MonoBehaviour
 
     public void BoltAttack()
     {
+        mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mAnim.SetBool(AnimHash.Enemy_Attack, true);
         Invoke("BoltAttack", 2.5f);
     }
@@ -138,6 +153,7 @@ public class Enemy : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         SoundController.Instance.SESound(0);
+        mAnim.SetBool(AnimHash.Enemy_Attack, false);
         gameObject.layer = 10;
         CancelInvoke();
         mNextMove = 0;
@@ -174,6 +190,7 @@ public class Enemy : MonoBehaviour
 
     public void Revive()
     {
+        mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mCurrentHP = mMaxHP;
         gameObject.layer = 0;
         transform.position = mSpawnPos.position;
@@ -181,7 +198,14 @@ public class Enemy : MonoBehaviour
         isNoDamage = false;
         gameObject.SetActive(true);
         mAnim.SetBool(AnimHash.Enemy_Death, false);
-        StartAI();
+        if (mTypeCode==1)
+        {
+            StartCoroutine(StartDelay(DelayTime));
+        }
+        else
+        {
+            StartAI(DelayTime);
+        }
         mCurrentHP = mMaxHP;
     }
 }

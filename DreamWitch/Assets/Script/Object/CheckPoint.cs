@@ -11,6 +11,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player")&& mCheckPointOn==false)
         {
+            Player.Instance.mRB2D.velocity = Vector2.zero;
             mCheckPointOn = true;
             mAnim.SetBool(AnimHash.CheckPoint, true);
             UIController.Instance.CheckPointSet();

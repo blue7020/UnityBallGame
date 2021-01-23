@@ -15,5 +15,13 @@ public class EnemyBolt : MonoBehaviour
             Player.Instance.Damage(mDamage);
             gameObject.SetActive(false);
         }
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            gameObject.SetActive(false);
+        }
+        if (other.gameObject.CompareTag("BoltTrasher"))
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

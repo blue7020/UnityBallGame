@@ -147,7 +147,7 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         TitleController.Instance.PlayCount -= 1;
-        if (TitleController.Instance.PlayCount ==0)
+        if (TitleController.Instance.PlayCount <=0)
         {
             TitleController.Instance.PlayCount = 3;
             SceneManager.LoadScene(2);
@@ -155,9 +155,8 @@ public class GameController : MonoBehaviour
         else
         {
             UIController.Instance.mBlackScrean.gameObject.SetActive(true);
-            Player.Instance.CheckPointPos = mStartPoint.position + new Vector3(0, 2f, 0);
-            Heal((Player.Instance.mMaxHP - 1) - Player.Instance.mCurrentHP);
-            Player.Instance.transform.position = Player.Instance.CheckPointPos;
+            RemoveHealth();
+            Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
             StartCoroutine(DeathLoad());
         }
     }
@@ -165,6 +164,8 @@ public class GameController : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         mMapMaterialController.RefreshMap();
+        Player.Instance.mRB2D.velocity = Vector2.zero;
+        Player.Instance.transform.position = Player.Instance.CheckPointPos;
         yield return delay;
         UIController.Instance.mBlackScrean.gameObject.SetActive(false);
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());

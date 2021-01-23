@@ -140,12 +140,14 @@ public class UIController : InformationLoader
     public IEnumerator MenuClose()
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
+        CameraMovement.Instance.mFollowing = false;
         if (!isCollect)
         {
             mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionTop.position, 0.3f);
         }
         mMenuWindow.GetComponent<Rigidbody2D>().DOMove(Top.position, 0.3f);
         yield return delay;
+        CameraMovement.Instance.mFollowing = true;
         mScreenSaver.gameObject.SetActive(false);
         GameController.Instance.GamePause();
         isShowMenu = false;
@@ -153,6 +155,7 @@ public class UIController : InformationLoader
     public IEnumerator MenuShow()
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
+        CameraMovement.Instance.mFollowing = false;
         ShowCollection();
         mScreenSaver.gameObject.SetActive(true);
         if (!isCollect)
@@ -161,6 +164,7 @@ public class UIController : InformationLoader
         }
         mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
         yield return delay;
+        CameraMovement.Instance.mFollowing = true;
         GameController.Instance.GamePause();
         isShowMenu = true;
     }

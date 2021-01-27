@@ -149,14 +149,14 @@ public class GameController : MonoBehaviour
         TitleController.Instance.PlayCount -= 1;
         if (TitleController.Instance.PlayCount <=0)
         {
-            TitleController.Instance.PlayCount = 3;
-            SceneManager.LoadScene(2);
+            StartCoroutine(LobbyLoad());
         }
         else
         {
             UIController.Instance.mBlackScrean.gameObject.SetActive(true);
             RemoveHealth();
             Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
+            Player.Instance.isReset = true;
             StartCoroutine(DeathLoad());
         }
     }
@@ -167,7 +167,16 @@ public class GameController : MonoBehaviour
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.transform.position = Player.Instance.CheckPointPos;
         yield return delay;
+        Player.Instance.isReset = false;
         UIController.Instance.mBlackScrean.gameObject.SetActive(false);
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());
+    }
+    private IEnumerator LobbyLoad()
+    {
+        WaitForSeconds delay = new WaitForSeconds(1f);
+        UIController.Instance.mBlackScrean.gameObject.SetActive(true);
+        TitleController.Instance.PlayCount = 3;
+        yield return delay;
+        SceneManager.LoadScene(2);
     }
 }

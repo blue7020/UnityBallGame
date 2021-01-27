@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
     public Enemy mEnemy;
 
     public Transform mItemTransform, mGroundChecker, mHoldZone, mBulletStart, mFrontCheck, Map;
-    public bool isCutScene, isJump,isMultipleJump,isCoyoteJump,isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold,isWallJumpDash;
+    public bool isCutScene, isJump,isMultipleJump,isCoyoteJump,isGround, isNoDamage, isCooltime, isItemCooltime, isClimbing, isTouchingFront, isWallSliding, isHold,isWallJumpDash,isReset;
     public float Hori, Ver;
 
     public float Gravity;

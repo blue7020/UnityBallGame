@@ -9,10 +9,11 @@ public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage, mSoundMenu;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
-    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText, mMenuCloseText;
+    public Text mSoundText, mBGMText, mSEText, mBGMVolumeText, mSEVolumeText, mBackText;
     public bool isShowTextBox, isShowMenu,isCollect;
     public Transform Top, End, CollectionTop, CollectionEnd;
 
@@ -24,6 +25,8 @@ public class UIController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Path.STAGE_INFO);
+            mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
+            mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
             if (TitleController.Instance.mLanguage == 0)
             {
                 mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
@@ -32,7 +35,12 @@ public class UIController : InformationLoader
                 mCloseText.text = "닫기: Z";
                 mNextDialogueText.text= "다음: Z";
                 mMenuMainButtonText.text = "스테이지 선택으로";
-                mMenuSoundText.text = "소리";
+                mMenuCloseText.text = "닫기: ESC";
+                mMenuSoundText.text = "소리 설정";
+                mSoundText.text = "소리 설정";
+                mBackText.text = "뒤로";
+                mBGMText.text = "배경 음악";
+                mSEText.text = "효과음";
                 mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_kor;
             }
             else if (TitleController.Instance.mLanguage == 1)
@@ -43,7 +51,12 @@ public class UIController : InformationLoader
                 mCloseText.text = "Close: Z";
                 mNextDialogueText.text = "Next: Z";
                 mMenuMainButtonText.text = "To the stage select";
-                mMenuSoundText.text = "Sound";
+                mMenuCloseText.text = "Close: ESC";
+                mMenuSoundText.text = "Sound Setting";
+                mSoundText.text = "Sound Setting";
+                mBackText.text = "Back";
+                mBGMText.text = "BGM";
+                mSEText.text = "SE";
                 mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_eng;
             }
         }
@@ -156,6 +169,7 @@ public class UIController : InformationLoader
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
         CameraMovement.Instance.mFollowing = false;
+        mSoundMenu.gameObject.SetActive(false);
         ShowCollection();
         mScreenSaver.gameObject.SetActive(true);
         if (!isCollect)
@@ -208,5 +222,26 @@ public class UIController : InformationLoader
                 StartCoroutine(MenuShow());
             }
         }
+    }
+
+    public void BGMPlus()
+    {
+        SoundController.Instance.BGMPlus();
+        mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
+    }
+    public void BGMMinus()
+    {
+        SoundController.Instance.BGMMinus();
+        mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
+    }
+    public void SEPlus()
+    {
+        SoundController.Instance.SEPlus();
+        mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
+    }
+    public void SEMinus()
+    {
+        SoundController.Instance.SEMinus();
+        mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
     }
 }

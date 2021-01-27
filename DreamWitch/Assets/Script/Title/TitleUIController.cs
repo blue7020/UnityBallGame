@@ -59,7 +59,6 @@ public class TitleUIController : MonoBehaviour
         if (SaveDataController.Instance.mUser.StageClear[0]==true)
         {
             SceneManager.LoadScene(2);
-            //SoundController.Instance.BGMChange(2);
         }
         else
         {

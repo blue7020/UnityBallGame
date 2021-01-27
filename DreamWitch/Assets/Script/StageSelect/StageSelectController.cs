@@ -9,20 +9,24 @@ public class StageSelectController : InformationLoader
 {
     public static StageSelectController Instance;
 
-    public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow;
-    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText,mCollectionText;
+    public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu;
+    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText;
+    public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mNowLanguageText, mLanguageBackText;
     public Camera mCamera;
     public Transform Top, End;
     public StageInfo[] mInfoArr;
     public IslandSelect[] IslandSelectArr;
 
-    public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage;
+    public Button mPreviousLanguageButton, mNextLangaugeButton;
+
+    public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage,mLanguageCooltime;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            SoundController.Instance.BGMChange(1);
             LoadJson(out mInfoArr, Path.STAGE_INFO);
             for (int i = 0; i < IslandSelectArr.Length; i++)
             {
@@ -31,24 +35,24 @@ public class StageSelectController : InformationLoader
                     IslandSelectArr[i].gameObject.SetActive(false);
                 }
             }
-            if (TitleController.Instance.mLanguage == 0)
+            mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
+            mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
+            if (TitleController.Instance.mLanguage == TitleController.Instance.mLanguageCount)
             {
-                mStageButtonText.text = "이동하기";
-                mCloseText.text = "닫기: X";
-                mMenuTitleText.text = "메뉴";
-                mMenuMainButtonText.text = "메인 화면으로";
-                mMenuLanguageText.text = "언어";
-                mMenuSoundText.text = "소리";
+                mNextLangaugeButton.interactable = false;
+                mPreviousLanguageButton.interactable = true;
             }
-            else if (TitleController.Instance.mLanguage == 1)
+            else if (TitleController.Instance.mLanguage == 0)
             {
-                mStageButtonText.text = "Enter";
-                mCloseText.text = "Close: X";
-                mMenuTitleText.text = "MENU";
-                mMenuMainButtonText.text = "To the main screen";
-                mMenuLanguageText.text = "Language";
-                mMenuSoundText.text = "Sound";
+                mNextLangaugeButton.interactable = true;
+                mPreviousLanguageButton.interactable = false;
             }
+            else
+            {
+                mNextLangaugeButton.interactable = true;
+                mPreviousLanguageButton.interactable = true;
+            }
+            LanguageSetting();
         }
         else
         {
@@ -108,6 +112,9 @@ public class StageSelectController : InformationLoader
             case 0:
                 SoundController.Instance.BGMChange(0);
                 break;
+            case 1:
+                SoundController.Instance.BGMChange(0);
+                break;
             default:
                 break;
         }
@@ -121,9 +128,13 @@ public class StageSelectController : InformationLoader
         yield return delay;
         mScreenSaver.gameObject.SetActive(false);
         isShowMenu = false;
-        if (!isShowStage)
+        if (isShowStage)
         {
             CameraMovement.Instance.mFollowing = false;
+        }
+        else
+        {
+            CameraMovement.Instance.mFollowing = true;
         }
     }
 
@@ -133,9 +144,14 @@ public class StageSelectController : InformationLoader
         SceneManager.LoadScene(0);
     }
 
-    public void ShowCollection()
+    public void MenuShow()
     {
         mCollectionText.text = "x" + SaveDataController.Instance.mUser.CollectionAmount.ToString();
+        mSoundMenu.gameObject.SetActive(false);
+        mLanguageMenu.gameObject.SetActive(false);
+        mScreenSaver.gameObject.SetActive(true);
+        mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
+        isShowMenu = true;
     }
 
     private void Update()
@@ -158,11 +174,144 @@ public class StageSelectController : InformationLoader
                 {
                     CameraMovement.Instance.mFollowing = false;
                 }
-                mScreenSaver.gameObject.SetActive(true);
-                ShowCollection();
-                mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
-                isShowMenu = true;
+                MenuShow();
             }
+        }
+    }
+
+    public void BGMPlus()
+    {
+        SoundController.Instance.BGMPlus();
+        mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
+    }
+    public void BGMMinus()
+    {
+        SoundController.Instance.BGMMinus();
+        mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
+    }
+    public void SEPlus()
+    {
+        SoundController.Instance.SEPlus();
+        mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
+    }
+    public void SEMinus()
+    {
+        SoundController.Instance.SEMinus();
+        mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
+    }
+
+    public void NextLanguage()
+    {
+        if (!mLanguageCooltime)
+        {
+            if (TitleController.Instance.mLanguage +1<=TitleController.Instance.mLanguageCount)
+            {
+                TitleController.Instance.mLanguage += 1;
+                if (TitleController.Instance.mLanguage== TitleController.Instance.mLanguageCount)
+                {
+                    mNextLangaugeButton.interactable = false;
+                    mPreviousLanguageButton.interactable = true;
+                }
+            }
+            StartCoroutine(LanguageDelay());
+        }
+    }
+
+    public void PreviousLanguage()
+    {
+        if (!mLanguageCooltime)
+        {
+            if (TitleController.Instance.mLanguage - 1 >= 0)
+            {
+                TitleController.Instance.mLanguage -= 1;
+                if (TitleController.Instance.mLanguage == 0)
+                {
+                    mNextLangaugeButton.interactable = true;
+                    mPreviousLanguageButton.interactable = false;
+                }
+            }
+            StartCoroutine(LanguageDelay());
+        }
+    }
+
+    private IEnumerator LanguageDelay()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.45f);
+        LanguageSetting();
+        mLanguageCooltime = true;
+        yield return delay;
+        mLanguageCooltime = false;
+    }
+
+    private void LanguageSetting()
+    {
+        if (TitleController.Instance.mLanguage == 0)
+        {
+            mStageTitleText.text = mInfoArr[TitleController.Instance.NowStage].title_kor;
+            mStageInfoText.text = mInfoArr[TitleController.Instance.NowStage].info_kor;
+        }
+        else if (TitleController.Instance.mLanguage == 1)
+        {
+            mStageTitleText.text = mInfoArr[TitleController.Instance.NowStage].title_eng;
+            mStageInfoText.text = mInfoArr[TitleController.Instance.NowStage].info_eng;
+        }
+        if (TitleController.Instance.mLanguage == 0)
+        {
+            mStageButtonText.text = "이동하기";
+            mCloseText.text = "닫기: X";
+            mMenuTitleText.text = "메뉴";
+            mMenuCloseText.text = "닫기: ESC";
+            mMenuMainButtonText.text = "메인 화면으로";
+            mMenuLanguageText.text = "언어 설정";
+            mMenuSoundText.text = "소리 설정";
+            mLanguageText.text = "언어 설정";
+            mSoundText.text = "소리 설정";
+            mSoundBackText.text = "뒤로";
+            mLanguageBackText.text = "뒤로";
+            mBGMText.text = "배경 음악";
+            mSEText.text = "효과음";
+
+        }
+        else if (TitleController.Instance.mLanguage == 1)
+        {
+            mStageButtonText.text = "Enter";
+            mCloseText.text = "Close: X";
+            mMenuTitleText.text = "MENU";
+            mMenuCloseText.text = "Close: ESC";
+            mMenuMainButtonText.text = "To the main screen";
+            mMenuLanguageText.text = "Language Setting";
+            mMenuSoundText.text = "Sound Setting";
+            mLanguageText.text = "Language Setting";
+            mSoundText.text = "Sound Setting";
+            mSoundBackText.text = "Back";
+            mLanguageBackText.text = "Back";
+            mBGMText.text = "BGM";
+            mSEText.text = "SE";
+        }
+        switch (TitleController.Instance.mLanguage)
+        {
+            case 0:
+                if (TitleController.Instance.mLanguage == 0)
+                {
+                    mNowLanguageText.text = "한국어";
+                }
+                else if (TitleController.Instance.mLanguage == 1)
+                {
+                    mNowLanguageText.text = "Korean";
+                }
+                break;
+            case 1:
+                if (TitleController.Instance.mLanguage == 0)
+                {
+                    mNowLanguageText.text = "영어";
+                }
+                else if (TitleController.Instance.mLanguage == 1)
+                {
+                    mNowLanguageText.text = "English";
+                }
+                break;
+            default:
+                break;
         }
     }
 }

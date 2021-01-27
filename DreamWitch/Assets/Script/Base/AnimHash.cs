@@ -26,6 +26,8 @@ public class AnimHash : MonoBehaviour
     //Enemy
     public static readonly int Enemy_Attack = Animator.StringToHash("IsAttack");
     public static readonly int Enemy_Death = Animator.StringToHash("IsDeath");
+    public static readonly int Enemy_Spawn = Animator.StringToHash("IsSpawn");
+    public static readonly int Enemy_Damage_Boss = Animator.StringToHash("IsDamage");
 
     //StageSelect
     public static readonly int MAP_SHOW = Animator.StringToHash("IsClear");

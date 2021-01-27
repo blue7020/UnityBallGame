@@ -6,6 +6,8 @@ public class TitleController : MonoBehaviour
 {
     public static TitleController Instance;
     public bool isShowTitle;
+
+    public int mLanguageCount = 1; 
     public int mLanguage;
 
     public int NowStage;
@@ -19,7 +21,6 @@ public class TitleController : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             SaveDataController.Instance.LoadGame();
-            mLanguage=SaveDataController.Instance.mUser.Language;
             SaveDataController.Instance.Save();
         }
         else

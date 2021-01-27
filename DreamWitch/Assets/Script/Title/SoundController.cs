@@ -65,4 +65,40 @@ public class SoundController : MonoBehaviour
         mBGM.Stop();
         mBGM.volume = startVolume;
     }
+
+    public void BGMPlus()
+    {
+        if (BGMVolume+1 <=10)
+        {
+            BGMVolume += 1;
+            mBGM.volume = BGMVolume * 0.1f;
+        }
+    }
+
+    public void BGMMinus()
+    {
+        if (BGMVolume - 1 >= 0)
+        {
+            BGMVolume -= 1;
+            mBGM.volume = BGMVolume * 0.1f;
+        }
+    }
+
+    public void SEPlus()
+    {
+        if (SEVolume + 1 <= 10)
+        {
+            SEVolume += 1;
+            mSE.volume = SEVolume * 0.1f;
+        }
+    }
+
+    public void SEMinus()
+    {
+        if (SEVolume - 1 >= 0)
+        {
+            SEVolume -= 1;
+            mSE.volume = SEVolume * 0.1f;
+        }
+    }
 }

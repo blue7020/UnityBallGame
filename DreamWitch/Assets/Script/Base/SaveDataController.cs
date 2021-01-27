@@ -262,6 +262,7 @@ public class SaveDataController : InformationLoader
     {
         if (DataDelete==false)
         {
+            TitleController.Instance.mLanguage = mUser.Language;
             Save();
         }
     }

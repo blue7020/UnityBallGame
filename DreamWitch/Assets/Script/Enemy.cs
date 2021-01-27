@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public int mTypeCode;
     public float mMaxHP, mCurrentHP,mAtk,DelayTime;
-    public bool isMoving,isNoDamage,isDeath,isCollide;
+    public bool isBoss,isMoving,isNoDamage,isDeath,isCollide;
     public int mNextMove;
 
     public Transform mHead,mBoltStarter,mSpawnPos;
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isMoving)
+        if (isMoving&& !isBoss)
         {
             //이동
             mRB2D.velocity = new Vector2(mNextMove, mRB2D.velocity.y);
@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
         }
         else if (mTypeCode == 1)
         {
-            if (time>0)
+            if (time > 0)
             {
                 StartCoroutine(StartDelay(time));
             }
@@ -59,6 +59,10 @@ public class Enemy : MonoBehaviour
             {
                 Invoke("BoltAttack", 2.5f);
             }
+        }
+        else if (mTypeCode == 2)//Boss1
+        {
+
         }
     }
     private IEnumerator StartDelay(float time)

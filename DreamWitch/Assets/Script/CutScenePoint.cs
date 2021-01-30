@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class CutScenePoint : MonoBehaviour
 {
+    public int mNowStage;
     public bool mTrigger,IsSkip,IsPreStart;
     public int mID,mStartIndex,mEndIndex;
     private bool mMoveTrigger;
 
     private void Start()
     {
+        mNowStage = TitleController.Instance.NowStage;
         if (CutSceneController.Instance.mCutSceneList[mID] == true)
         {
             mTrigger = true;
@@ -19,34 +21,48 @@ public class CutScenePoint : MonoBehaviour
 
     public void PreStartAction()
     {
-        switch (mID)
+        if (mNowStage==0)//스테이지로 판단
         {
-            case 0:
-                mTrigger = true;
-                StartCoroutine(CutScene0());
-                break;
-            case 5:
-                mTrigger = true;
-                StartCoroutine(CutScene5());
-                break;
-            case 7:
-                mTrigger = true;
-                Player.Instance.ShowAction(4);
-                CameraMovement.Instance.CameraMove(new Vector3(195, 1.5f, 0), 1.5f);
-                DialogueSystem.Instance.DialogueSetting(15, 16);
-                break;
-            case 9:
-                mTrigger = true;
-                StartCoroutine(CutScene9());
-                break;
-            default:
-                break;
+            switch (mID)
+            {
+                case 0:
+                    mTrigger = true;
+                    StartCoroutine(CutScene0());
+                    break;
+                case 5:
+                    mTrigger = true;
+                    StartCoroutine(CutScene5());
+                    break;
+                case 7:
+                    mTrigger = true;
+                    Player.Instance.ShowAction(4);
+                    CameraMovement.Instance.CameraMove(new Vector3(195, 1.5f, 0), 1.5f);
+                    DialogueSystem.Instance.DialogueSetting(15, 16);
+                    break;
+                case 9:
+                    mTrigger = true;
+                    StartCoroutine(CutScene9());
+                    break;
+                default:
+                    break;
+            }
         }
+        else if (mNowStage==1)
+        {
+            switch (mID)
+            {
+                case 0:
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
     public void SetAction(int index)
     {
-        switch (index)
+        switch (index)//대사 번호로만 판단
         {
             case -1:
                 DialogueSystem.Instance.EndCutScene();
@@ -240,69 +256,86 @@ public class CutScenePoint : MonoBehaviour
         }
         else
         {
-            switch (mID)
+            if (mNowStage == 0)//스테이지로 판단
             {
-                case 0:
-                    mTrigger = true;
-                    break;
-                case 1:
-                    mTrigger = true;
-                    DialogueSystem.Instance.DialogueSetting(2, 4);
-                    break;
-                case 2:
-                    mTrigger = true;
-                    DialogueSystem.Instance.DialogueSetting(5, 6);
-                    break;
-                case 3:
-                    mTrigger = true;
-                    DialogueSystem.Instance.DialogueSetting(7, 9);
-                    break;
-                case 4:
-                    mTrigger = true;
-                    DialogueSystem.Instance.DialogueSetting(10, 11);
-                    break;
-                case 5:
-                    mTrigger = true;
-                    break;
-                case 6:
-                    mTrigger = true;
-                    DialogueSystem.Instance.DialogueSetting(14, 14);
-                    break;
-                case 7:
-                    mTrigger = true;
-                    break;
-                case 8:
-                    mTrigger = true;
-                    DialogueSystem.Instance.DialogueSetting(17, 19);
-                    break;
-                case 9:
-                    if (Player.Instance.mNowItemID == 0)
-                    {
+                switch (mID)
+                {
+                    case 0:
                         mTrigger = true;
-                    }
-                    break;
-                default:
-                    mTrigger = true;
-                    break;
+                        break;
+                    case 1:
+                        mTrigger = true;
+                        DialogueSystem.Instance.DialogueSetting(2, 4);
+                        break;
+                    case 2:
+                        mTrigger = true;
+                        DialogueSystem.Instance.DialogueSetting(5, 6);
+                        break;
+                    case 3:
+                        mTrigger = true;
+                        DialogueSystem.Instance.DialogueSetting(7, 9);
+                        break;
+                    case 4:
+                        mTrigger = true;
+                        DialogueSystem.Instance.DialogueSetting(10, 11);
+                        break;
+                    case 5:
+                        mTrigger = true;
+                        break;
+                    case 6:
+                        mTrigger = true;
+                        DialogueSystem.Instance.DialogueSetting(14, 14);
+                        break;
+                    case 7:
+                        mTrigger = true;
+                        break;
+                    case 8:
+                        mTrigger = true;
+                        DialogueSystem.Instance.DialogueSetting(17, 19);
+                        break;
+                    case 9:
+                        if (Player.Instance.mNowItemID == 0)
+                        {
+                            mTrigger = true;
+                        }
+                        break;
+                    default:
+                        mTrigger = true;
+                        break;
+                }
+            }
+            else if (mNowStage == 1)
+            {
+                switch (mID)
+                {
+                    case 0:
+                        SoundController.Instance.SESound(21);
+                        StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
+                        break;
+                    default:
+                        mTrigger = true;
+                        break;
+                }
+
             }
         }
     }
 
-    public void EndCutScene()
-    {
-        Player.Instance.isCutScene = false;
-        CameraMovement.Instance.mFollowing = true;
-        DialogueSystem.Instance.mCutScenePoint = null;
-        UIController.Instance.mSkipText.gameObject.SetActive(false);
-        UIController.Instance.mDialogueImage.gameObject.SetActive(false);
-        GameController.Instance.ShowUI();
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player")&& !mTrigger)
+        public void EndCutScene()
         {
-            PlayCutScene();
+            Player.Instance.isCutScene = false;
+            CameraMovement.Instance.mFollowing = true;
+            DialogueSystem.Instance.mCutScenePoint = null;
+            UIController.Instance.mSkipText.gameObject.SetActive(false);
+            UIController.Instance.mDialogueImage.gameObject.SetActive(false);
+            GameController.Instance.ShowUI();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Player") && !mTrigger)
+            {
+                PlayCutScene();
+            }
         }
     }
-}

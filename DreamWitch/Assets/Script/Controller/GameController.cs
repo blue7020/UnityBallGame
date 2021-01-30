@@ -54,6 +54,10 @@ public class GameController : MonoBehaviour
                 break;
         }
         SetHP(Player.Instance.mCurrentHP);
+        for (int i = 0; i < mMapMaterialController.mCutsceneArr.Length; i++)
+        {
+            CutSceneController.Instance.mCutSceneList.Add(mMapMaterialController.mCutsceneArr[i].mTrigger);
+        }
     }
 
     public void GamePause()
@@ -164,11 +168,13 @@ public class GameController : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         mMapMaterialController.RefreshMap();
+        Player.Instance.isNoDamage = true;
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.transform.position = Player.Instance.CheckPointPos;
         yield return delay;
-        Player.Instance.isReset = false;
         UIController.Instance.mBlackScrean.gameObject.SetActive(false);
+        Player.Instance.isNoDamage = false;
+        Player.Instance.isReset = false;
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());
     }
     private IEnumerator LobbyLoad()

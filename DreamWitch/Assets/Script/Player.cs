@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
@@ -507,6 +508,20 @@ public class Player : MonoBehaviour
         {
             CancelInvoke();
         }
+    }
+
+    public void CutSceneKnockBack(Vector2 pos,float dura)
+    {
+        isCutScene = true;
+        mRB2D.DOMove(pos,dura);
+        Invoke("KnockBackEnd",dura);
+
+    }
+
+    public void KnockBackEnd()
+    {
+        isCutScene = false;
+        CancelInvoke();
     }
 
     public void ShowAction(int id)

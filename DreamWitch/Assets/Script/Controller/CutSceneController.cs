@@ -19,10 +19,6 @@ public class CutSceneController : MonoBehaviour
         {
             Instance = this;
             mCutSceneList = new List<bool>();
-            for (int i = 0; i < GameController.Instance.mMapMaterialController.mCutsceneArr.Length; i++)
-            {
-                mCutSceneList.Add(GameController.Instance.mMapMaterialController.mCutsceneArr[i].mTrigger);
-            }
         }
         else
         {

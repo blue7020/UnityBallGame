@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class Enemy : MonoBehaviour
 {
-    public int mTypeCode;
+    public int mTypeCode,mBossCode;
     public float mMaxHP, mCurrentHP,mAtk,DelayTime;
     public bool isBoss,isMoving,isNoDamage,isDeath,isCollide;
     public int mNextMove;
@@ -15,10 +15,16 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D mRB2D;
     public SpriteRenderer mRenderer;
 
+    public GameObject BossController;
+    public Delegates.VoidCallback mFuntion;
+
     private void Awake()
     {
         mCurrentHP = mMaxHP;
-        mSpawnPos = transform;
+        if (mTypeCode!=2)
+        {
+            mSpawnPos = transform;
+        }
         StartAI(DelayTime);
     }
 
@@ -34,7 +40,7 @@ public class Enemy : MonoBehaviour
 
             //낭떠러지 체크
             Debug.DrawRay(frontVec, Vector3.down, new Color(0, 1, 0));//한칸 앞 부분아래 쪽으로 ray를 쏨
-                                                                      //레이를 쏴서 맞은 오브젝트를 탐지 
+            //레이를 쏴서 맞은 레이어를 탐지 
             RaycastHit2D raycast = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("Ground"));
             if (raycast.collider == null)
             {
@@ -60,9 +66,9 @@ public class Enemy : MonoBehaviour
                 Invoke("BoltAttack", 2.5f);
             }
         }
-        else if (mTypeCode == 2)//Boss1
+        else if (mTypeCode == 2)//Boss
         {
-
+            isNoDamage = true;
         }
     }
     private IEnumerator StartDelay(float time)
@@ -124,8 +130,26 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                SoundController.Instance.SESound(1);
-                StartCoroutine(DamageAnimation());
+                switch (mBossCode)
+                {
+                    case 0:
+                        SoundController.Instance.SESound(1);
+                        StartCoroutine(DamageAnimation());
+                        break;
+                    case 1:
+                        mAnim.SetBool(AnimHash.Enemy_Damage_Boss, false);
+                        SoundController.Instance.SESound(1);//보스 데미지 사운드 찾기
+                        StartCoroutine(DamageAnimation());
+                        StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
+                        BossController.GetComponent<Boss1Controller>().RemoveObject();
+                        Player.Instance.CutSceneKnockBack(BossController.GetComponent<Boss1Controller>().PlayerStartPos, 0.5f);
+                        BossController.GetComponent<Boss1Controller>().isAttacked = false;
+                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
+                        StartCoroutine(Boss1AttackCooltime_1());
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -194,22 +218,76 @@ public class Enemy : MonoBehaviour
 
     public void Revive()
     {
-        mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        mCurrentHP = mMaxHP;
-        gameObject.layer = 0;
-        transform.position = mSpawnPos.position;
-        isDeath = false;
-        isNoDamage = false;
-        gameObject.SetActive(true);
-        mAnim.SetBool(AnimHash.Enemy_Death, false);
-        if (mTypeCode==1)
+        if (!isBoss)
         {
-            StartCoroutine(StartDelay(DelayTime));
+            mAnim.SetBool(AnimHash.Enemy_Attack, false);
+            mCurrentHP = mMaxHP;
+            gameObject.layer = 0;
+            transform.position = mSpawnPos.position;
+            isDeath = false;
+            isNoDamage = false;
+            gameObject.SetActive(true);
+            mAnim.SetBool(AnimHash.Enemy_Death, false);
+            if (mTypeCode == 1)
+            {
+                StartCoroutine(StartDelay(DelayTime));
+            }
+            else
+            {
+                StartAI(DelayTime);
+            }
+            mCurrentHP = mMaxHP;
         }
         else
         {
-            StartAI(DelayTime);
+            if (mFuntion!=null)
+            {
+                mFuntion();
+            }
         }
+    }
+
+    public void BossSpawn()
+    {
+        mAnim.SetBool(AnimHash.Enemy_Spawn, true);
         mCurrentHP = mMaxHP;
+    }
+
+    public void Boss1AttackEnd()
+    {
+        mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        isNoDamage = true;
+        BossController.GetComponent<Boss1Controller>().isDamage = false;
+        StartCoroutine(Boss1AttackCooltime_1());
+    }
+
+    public void Boss1Attack()
+    {
+        isNoDamage = true;
+        mAnim.SetBool(AnimHash.Enemy_Attack, true);
+        StartCoroutine(BossController.GetComponent<Boss1Controller>().StartFallingBlock());
+    }
+
+    public void Boss1Cooltime()
+    {
+        BossController.GetComponent<Boss1Controller>().DamageCooltime();
+    }
+
+    public IEnumerator Boss1AttackCooltime_1()
+    {
+        WaitForSeconds delay = new WaitForSeconds(2f);
+        if (BossController.GetComponent<Boss1Controller>().isAttacked==false)
+        {
+            BossController.GetComponent<Boss1Controller>().isAttacked = true;
+            mAnim.SetBool(AnimHash.Enemy_Damage_Boss, false);
+            BossController.GetComponent<Boss1Controller>().RemoveObject();
+            yield return delay;
+            Boss1Attack();
+        }
+        else
+        {
+            StopCoroutine(Boss1AttackCooltime_1());
+            yield return delay;
+        }
     }
 }

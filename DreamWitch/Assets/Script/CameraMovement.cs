@@ -11,6 +11,7 @@ public class CameraMovement : MonoBehaviour
     public float mSmoothFactor;
     public bool mFollowing,CurserFollow;
     public Rigidbody2D mRB2D;
+    public Camera mCamera;
 
     //Camera Clamp
     public Vector3[] mMinValueArr;
@@ -26,6 +27,7 @@ public class CameraMovement : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            mCamera = GetComponent<Camera>();
             if (!CurserFollow)
             {
                 mMinValue = mMinValueArr[TitleController.Instance.NowStage];

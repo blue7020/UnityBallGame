@@ -15,7 +15,6 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D mRB2D;
     public SpriteRenderer mRenderer;
 
-    public GameObject BossController;
     public Delegates.VoidCallback mFuntion;
 
     private void Awake()
@@ -68,7 +67,7 @@ public class Enemy : MonoBehaviour
         }
         else if (mTypeCode == 2)//Boss
         {
-            isNoDamage = true;
+            //isNoDamage = true;
         }
     }
     private IEnumerator StartDelay(float time)
@@ -125,8 +124,20 @@ public class Enemy : MonoBehaviour
             mCurrentHP -= damage;
             if (mCurrentHP <= 0)
             {
-                mAnim.SetBool(AnimHash.Enemy_Death, true);
-                StartCoroutine(Death());
+                switch (mBossCode)
+                {
+                    case 0:
+                        mAnim.SetBool(AnimHash.Enemy_Death, true);
+                        StartCoroutine(Death());
+                        break;
+                    case 1:
+                        GetComponent<Boss1Controller>().BossDeath();
+                        mAnim.SetBool(AnimHash.Enemy_Death, true);
+                        StartCoroutine(Death());
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {
@@ -137,15 +148,9 @@ public class Enemy : MonoBehaviour
                         StartCoroutine(DamageAnimation());
                         break;
                     case 1:
-                        mAnim.SetBool(AnimHash.Enemy_Damage_Boss, false);
-                        SoundController.Instance.SESound(1);//보스 데미지 사운드 찾기
+                        Debug.Log("damage");
                         StartCoroutine(DamageAnimation());
-                        StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
-                        BossController.GetComponent<Boss1Controller>().RemoveObject();
-                        Player.Instance.CutSceneKnockBack(BossController.GetComponent<Boss1Controller>().PlayerStartPos, 0.5f);
-                        BossController.GetComponent<Boss1Controller>().isAttacked = false;
-                        mAnim.SetBool(AnimHash.Enemy_Attack, false);
-                        StartCoroutine(Boss1AttackCooltime_1());
+                        GetComponent<Boss1Controller>().BossHit();
                         break;
                     default:
                         break;
@@ -244,50 +249,6 @@ public class Enemy : MonoBehaviour
             {
                 mFuntion();
             }
-        }
-    }
-
-    public void BossSpawn()
-    {
-        mAnim.SetBool(AnimHash.Enemy_Spawn, true);
-        mCurrentHP = mMaxHP;
-    }
-
-    public void Boss1AttackEnd()
-    {
-        mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        isNoDamage = true;
-        BossController.GetComponent<Boss1Controller>().isDamage = false;
-        StartCoroutine(Boss1AttackCooltime_1());
-    }
-
-    public void Boss1Attack()
-    {
-        isNoDamage = true;
-        mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        StartCoroutine(BossController.GetComponent<Boss1Controller>().StartFallingBlock());
-    }
-
-    public void Boss1Cooltime()
-    {
-        BossController.GetComponent<Boss1Controller>().DamageCooltime();
-    }
-
-    public IEnumerator Boss1AttackCooltime_1()
-    {
-        WaitForSeconds delay = new WaitForSeconds(2f);
-        if (BossController.GetComponent<Boss1Controller>().isAttacked==false)
-        {
-            BossController.GetComponent<Boss1Controller>().isAttacked = true;
-            mAnim.SetBool(AnimHash.Enemy_Damage_Boss, false);
-            BossController.GetComponent<Boss1Controller>().RemoveObject();
-            yield return delay;
-            Boss1Attack();
-        }
-        else
-        {
-            StopCoroutine(Boss1AttackCooltime_1());
-            yield return delay;
         }
     }
 }

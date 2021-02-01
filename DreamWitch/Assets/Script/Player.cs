@@ -482,7 +482,12 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             mEnemy = other.gameObject.GetComponent<Enemy>();
-            if (mRB2D.velocity.y < 0 && transform.position.y > mEnemy.mHead.transform.position.y+0.3f)//몬스터보다 높은 위치에 있을 때
+            if (mEnemy.isBoss)
+            {
+                Debug.Log("set");
+                mEnemy = other.gameObject.GetComponent<Boss1Controller>();
+            }
+            if (mRB2D.velocity.y < 0 && transform.position.y > mEnemy.mHead.transform.position.y + 0.3f)//몬스터보다 높은 위치에 있을 때
             {
                 mEnemy.Damage(2);
                 mJumpToken = mMaxmJumpToken;

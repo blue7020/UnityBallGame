@@ -10,31 +10,38 @@ public class IslandSelect : MonoBehaviour,IPointerClickHandler
     public Vector3 pos;
     public Transform IconPos;
     public Animator mAnim,mCloudAnim;
+    public StageSelectController mController;
 
     private void Awake()
+    {
+        if (SaveDataController.Instance.mUser.StageShow[mID]==true)
+        {
+            gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void Start()
     {
         if (SaveDataController.Instance.mUser.StageClear[mID] == false)
         {
             if (SaveDataController.Instance.mUser.StageShowEvent[mID] == false)
             {
-                StageSelectController.Instance.isShowNewStage = true;
-                TitleController.Instance.NowStage = mID;
+                mController.isShowNewStage = true;
+                mController.ShowNewStage(mID);
             }
             else
             {
-                if (mCloudAnim != null)
-                {
-                    mCloudAnim.gameObject.SetActive(false);
-                }
+                HideCloud();
                 mAnim.SetBool("IsClear", false);
             }
         }
         else
         {
-            if (mCloudAnim != null)
-            {
-                mCloudAnim.gameObject.SetActive(false);
-            }
+            HideCloud();
             mAnim.SetBool("IsClear", false);
         }
     }
@@ -50,12 +57,20 @@ public class IslandSelect : MonoBehaviour,IPointerClickHandler
         mCloudAnim.SetBool("IsClear", true);
         SaveDataController.Instance.mUser.StageShowEvent[mID] = true;
     }
+
     public void HideCloud()
     {
         if (mCloudAnim != null)
         {
             mCloudAnim.gameObject.SetActive(false);
         }
+    }
+
+    public void CameraFollowing()
+    {
+        mController.isShowPopup = false;
+        StartCoroutine(SelectDelay());
+        CameraMovement.Instance.mFollowing = true;
     }
 
     public IEnumerator SelectDelay()

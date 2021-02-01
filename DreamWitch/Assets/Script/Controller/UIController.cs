@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 public class UIController : InformationLoader
@@ -146,8 +145,8 @@ public class UIController : InformationLoader
 
     public void GotoStage()
     {
-        SaveDataController.Instance.Save();
-        SceneManager.LoadScene(2);
+        Time.timeScale = 1;
+        Loading.Instance.StartLoading(2);
     }
 
     public IEnumerator MenuClose()

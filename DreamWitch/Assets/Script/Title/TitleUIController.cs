@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class TitleUIController : MonoBehaviour
 {
@@ -18,7 +17,6 @@ public class TitleUIController : MonoBehaviour
             Instance = this;
             mKeyText.text = "Press Any Key";
             StartCoroutine(AlphaAnim());
-            //SoundController.Instance.BGMChange(1);
         }
         else
         {
@@ -49,7 +47,7 @@ public class TitleUIController : MonoBehaviour
         mTitle.gameObject.SetActive(true);
         SoundController.Instance.SESound(17);
         yield return delay;
-        //SoundController.Instance.BGMChange(1);
+        //SoundController.Instance.BGMChange(2);
         mTitle.gameObject.SetActive(false);
         TitleController.Instance.isShowTitle = false;
     }
@@ -58,11 +56,11 @@ public class TitleUIController : MonoBehaviour
     {
         if (SaveDataController.Instance.mUser.StageClear[0]==true)
         {
-            SceneManager.LoadScene(2);
+            Loading.Instance.StartLoading(2);
         }
         else
         {
-            SceneManager.LoadScene(1);
+            Loading.Instance.StartLoading(1);
             SoundController.Instance.BGMChange(0);
         }
     }

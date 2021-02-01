@@ -230,8 +230,13 @@ public class SaveDataController : InformationLoader
     }
 
 
-    public void Save()
+    public void Save(bool ShowIcon=false)
     {
+        TitleController.Instance.mLanguage = mUser.Language;
+        if (ShowIcon)
+        {
+            Loading.Instance.StartSaving();
+        }
         //string location = Application.streamingAssetsPath + "/SaveData";
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채
         MemoryStream stream = new MemoryStream();//stream은 메모리를 통째로 담은 것 = 양동이
@@ -262,7 +267,6 @@ public class SaveDataController : InformationLoader
     {
         if (DataDelete==false)
         {
-            TitleController.Instance.mLanguage = mUser.Language;
             Save();
         }
     }

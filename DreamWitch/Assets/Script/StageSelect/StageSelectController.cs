@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 public class StageSelectController : InformationLoader
 {
     public static StageSelectController Instance;
 
-    public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu;
+    public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu,mPopupImage;
     public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText;
-    public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mNowLanguageText, mLanguageBackText;
+    public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mNowLanguageText, mLanguageBackText,mPopupText;
     public Camera mCamera;
     public Transform Top, End;
     public StageInfo[] mInfoArr;
@@ -19,7 +18,7 @@ public class StageSelectController : InformationLoader
 
     public Button mPreviousLanguageButton, mNextLangaugeButton;
 
-    public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage,mLanguageCooltime;
+    public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage,mLanguageCooltime,isShowPopup;
 
     private void Awake()
     {
@@ -28,15 +27,10 @@ public class StageSelectController : InformationLoader
             Instance = this;
             SoundController.Instance.BGMChange(1);
             LoadJson(out mInfoArr, Path.STAGE_INFO);
-            for (int i = 0; i < IslandSelectArr.Length; i++)
-            {
-                if (SaveDataController.Instance.mUser.StageShow[i] == false)
-                {
-                    IslandSelectArr[i].gameObject.SetActive(false);
-                }
-            }
             mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
             mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
+            TitleController.Instance.NowStage = SaveDataController.Instance.mUser.LastPlayStage;
+            StartCoroutine(IslandSelectArr[TitleController.Instance.NowStage].SelectDelay());
             if (TitleController.Instance.mLanguage == TitleController.Instance.mLanguageCount)
             {
                 mNextLangaugeButton.interactable = false;
@@ -60,21 +54,17 @@ public class StageSelectController : InformationLoader
         }
     }
 
-    private void Start()
+    public void ShowNewStage(int id)
     {
-        if (isShowNewStage)
-        {
-            mCamera.transform.position = IslandSelectArr[TitleController.Instance.NowStage].pos + new Vector3(0, 0, -10); ;
-            IslandSelectArr[TitleController.Instance.NowStage].ShowStage();
-            StartCoroutine(CameraMovement.Instance.CameraFollowDelay(2.2f));
-        }
-        else
-        {
-            TitleController.Instance.NowStage = SaveDataController.Instance.mUser.LastPlayStage;
-            StartCoroutine(IslandSelectArr[TitleController.Instance.NowStage].SelectDelay());
-        }
+        mSelectUIImage.gameObject.SetActive(false);
+        isShowPopup = true;
+        isShowStage = false;
+        TitleController.Instance.NowStage = id;
+        CameraMovement.Instance.mFollowing = false;
+        mCamera.transform.position = IslandSelectArr[TitleController.Instance.NowStage].pos;
+        IslandSelectArr[TitleController.Instance.NowStage].ShowStage();
+        isShowNewStage = false;
     }
-
 
     public void ShowStageSelectUI(int id, bool dir)
     {
@@ -106,19 +96,37 @@ public class StageSelectController : InformationLoader
     public void EnterStage()
     {
         SaveDataController.Instance.mUser.LastPlayStage = TitleController.Instance.NowStage;
-        SaveDataController.Instance.Save();
         switch (TitleController.Instance.NowStage)
         {
             case 0:
                 SoundController.Instance.BGMChange(0);
+                Loading.Instance.StartLoading(1);
                 break;
             case 1:
                 SoundController.Instance.BGMChange(0);
+                Loading.Instance.StartLoading(1);
+                break;
+            case 2:
+                isShowPopup = true;
+                if (TitleController.Instance.mLanguage==0)
+                {
+                    mPopupText.text = "...섣불리 가지 말자.\n아직 준비가 필요해.";
+                }
+                else if (TitleController.Instance.mLanguage == 1)
+                {
+                    mPopupText.text = "...Don't rush.\nI need to get ready.";
+                }
+                mPopupImage.gameObject.SetActive(true);
                 break;
             default:
                 break;
         }
-        SceneManager.LoadScene(1);
+    }
+
+    public void PopUpClose()
+    {
+        isShowPopup = false;
+        mPopupImage.gameObject.SetActive(false);
     }
 
     public IEnumerator MenuClose()
@@ -140,8 +148,8 @@ public class StageSelectController : InformationLoader
 
     public void GotoMain()
     {
-        SaveDataController.Instance.Save();
-        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+        Loading.Instance.StartLoading(0);
     }
 
     public void MenuShow()
@@ -162,7 +170,7 @@ public class StageSelectController : InformationLoader
             isShowStage = false;
             CameraMovement.Instance.mFollowing = true;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)&& !isShowPopup)
         {
             if (isShowMenu)
             {

@@ -6,16 +6,25 @@ using UnityEngine.UI;
 public class TitleUIController : MonoBehaviour
 {
     public static TitleUIController Instance;
-    public Image mTitle;
+    public Image mTitle,mNoticeImage;
     public Text mKeyText;
     public float mAlphaAnimPeriod = 2;
+
+
+    private void OnEnable()
+    {
+        if (TitleController.Instance.isShowNotice == true)
+        {
+            mNoticeImage.gameObject.SetActive(false);
+        }
+    }
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            mKeyText.text = "Press Any Key";
+            mKeyText.text = "Press SpaceBar";
             StartCoroutine(AlphaAnim());
         }
         else
@@ -26,6 +35,10 @@ public class TitleUIController : MonoBehaviour
 
     private void Start()
     {
+        if (TitleController.Instance.isShowNotice == false)
+        {
+            StartCoroutine(ShowNotice());
+        }
         if (TitleController.Instance.isShowTitle==true)
         {
             StartCoroutine(ShowTitle());
@@ -34,10 +47,22 @@ public class TitleUIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.anyKeyDown&& TitleController.Instance.isShowTitle==false)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameStart();
+            if (!TitleController.Instance.isShowTitle && TitleController.Instance.isShowNotice)
+            {
+                GameStart();
+            }
         }
+    }
+
+    public IEnumerator ShowNotice()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(4f);
+        yield return delay;
+        mNoticeImage.gameObject.SetActive(false);
+        TitleController.Instance.isShowNotice = true;
+        SoundController.Instance.BGMChange(1);
     }
 
     public IEnumerator ShowTitle()
@@ -47,9 +72,9 @@ public class TitleUIController : MonoBehaviour
         mTitle.gameObject.SetActive(true);
         SoundController.Instance.SESound(17);
         yield return delay;
-        //SoundController.Instance.BGMChange(2);
+        SoundController.Instance.BGMChange(1);
         mTitle.gameObject.SetActive(false);
-        TitleController.Instance.isShowTitle = false;
+        TitleController.Instance.isShowTitle = true;
     }
 
     public void GameStart()

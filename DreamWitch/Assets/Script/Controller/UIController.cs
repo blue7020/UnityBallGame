@@ -8,7 +8,7 @@ public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage,mBlackScrean, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage, mSoundMenu;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage, mSoundMenu, mScreenEffect,mGameOverImage;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
     public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText, mMenuCloseText;
@@ -147,6 +147,7 @@ public class UIController : InformationLoader
     {
         Time.timeScale = 1;
         Loading.Instance.StartLoading(2);
+        SoundController.Instance.BGMChange(1);
     }
 
     public IEnumerator MenuClose()

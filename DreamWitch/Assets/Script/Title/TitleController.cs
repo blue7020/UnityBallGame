@@ -5,7 +5,7 @@ using UnityEngine;
 public class TitleController : MonoBehaviour
 {
     public static TitleController Instance;
-    public bool isShowTitle;
+    public bool isShowTitle, isShowNotice;
 
     public int mLanguageCount = 1; 
     public int mLanguage;

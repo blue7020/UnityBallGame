@@ -153,36 +153,52 @@ public class GameController : MonoBehaviour
         TitleController.Instance.PlayCount -= 1;
         if (TitleController.Instance.PlayCount <=0)
         {
-            StartCoroutine(LobbyLoad());
+            SoundController.Instance.mBGM.Pause();
+            Time.timeScale = 0;
+            Player.Instance.isNoDamage = true;
+            UIController.Instance.mGameOverImage.gameObject.SetActive(true);
         }
         else
         {
-            UIController.Instance.mBlackScrean.gameObject.SetActive(true);
-            RemoveHealth();
-            Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
-            Player.Instance.isReset = true;
             StartCoroutine(DeathLoad());
         }
     }
+
+    public void ReStart()
+    {
+        Time.timeScale = 1;
+        TitleController.Instance.PlayCount = 3;
+        Loading.Instance.StartLoading(1);
+    }
+
     private IEnumerator DeathLoad()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
+        UIController.Instance.mGameOverImage.gameObject.SetActive(false);
+        UIController.Instance.mScreenEffect.gameObject.SetActive(true);
+        RemoveHealth();
+        Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
+        Player.Instance.isReset = true;
         mMapMaterialController.RefreshMap();
         Player.Instance.isNoDamage = true;
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.transform.position = Player.Instance.CheckPointPos;
         yield return delay;
-        UIController.Instance.mBlackScrean.gameObject.SetActive(false);
+        UIController.Instance.mScreenEffect.gameObject.SetActive(false);
         Player.Instance.isNoDamage = false;
         Player.Instance.isReset = false;
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());
     }
-    private IEnumerator LobbyLoad()
+
+    public void LobbyLoad()
     {
-        WaitForSeconds delay = new WaitForSeconds(1f);
-        UIController.Instance.mBlackScrean.gameObject.SetActive(true);
         TitleController.Instance.PlayCount = 3;
-        yield return delay;
-        SceneManager.LoadScene(2);
+        Loading.Instance.StartLoading(2);
     }
+
+    public void BGMStart()
+    {
+        SoundController.Instance.mBGM.UnPause();
+    }
+
 }

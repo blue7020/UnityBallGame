@@ -400,7 +400,6 @@ public class Player : MonoBehaviour
         if (!isNoDamage)
         {
             mCurrentHP -= damage;
-            mRB2D.velocity = Vector2.zero;
             GameController.Instance.Damege();
             StartCoroutine(DamageAnimation());
         }

@@ -25,7 +25,6 @@ public class StageSelectController : InformationLoader
         if (Instance == null)
         {
             Instance = this;
-            SoundController.Instance.BGMChange(1);
             LoadJson(out mInfoArr, Path.STAGE_INFO);
             mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
             mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();

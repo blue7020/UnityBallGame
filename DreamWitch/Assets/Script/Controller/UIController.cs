@@ -13,7 +13,7 @@ public class UIController : InformationLoader
     public Sprite[] mFaceSprite;
     public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText, mMenuCloseText;
     public Text mSoundText, mBGMText, mSEText, mBGMVolumeText, mSEVolumeText, mBackText;
-    public bool isShowTextBox, isShowMenu,isCollect;
+    public bool isShowTextBox, isShowMenu,isCollect,isMenuCooltime;
     public Transform Top, End, CollectionTop, CollectionEnd;
 
     public StageInfo[] mInfoArr;
@@ -211,7 +211,7 @@ public class UIController : InformationLoader
             Player.Instance.isCutScene = false;
             mTextBoxImage.gameObject.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)&& !isMenuCooltime)
         {
             if (isShowMenu)
             {
@@ -221,7 +221,16 @@ public class UIController : InformationLoader
             {
                 StartCoroutine(MenuShow());
             }
+            StartCoroutine(MenuCooltime());
         }
+    }
+
+    public IEnumerator MenuCooltime()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.5f);
+        isMenuCooltime = true;
+        yield return delay;
+        isMenuCooltime = false;
     }
 
     public void BGMPlus()

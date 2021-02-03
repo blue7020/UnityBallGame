@@ -481,12 +481,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             mEnemy = other.gameObject.GetComponent<Enemy>();
-            if (mEnemy.isBoss)
-            {
-                Debug.Log("set");
-                mEnemy = other.gameObject.GetComponent<Boss1Controller>();
-            }
-            if (mRB2D.velocity.y < 0 && transform.position.y > mEnemy.mHead.transform.position.y + 0.3f)//몬스터보다 높은 위치에 있을 때
+            if (mRB2D.velocity.y < 0 && transform.position.y > mEnemy.mHead.transform.localPosition.y + 0.3f)//몬스터보다 높은 위치에 있을 때
             {
                 mEnemy.Damage(2);
                 mJumpToken = mMaxmJumpToken;
@@ -516,16 +511,17 @@ public class Player : MonoBehaviour
 
     public void CutSceneKnockBack(Vector2 pos,float dura)
     {
-        isCutScene = true;
-        mRB2D.DOMove(pos,dura);
-        Invoke("KnockBackEnd",dura);
+        StartCoroutine(KnockBackEnd(pos, dura));
 
     }
 
-    public void KnockBackEnd()
+    public IEnumerator KnockBackEnd(Vector2 pos,float dura)
     {
+        WaitForSeconds delay = new WaitForSeconds(dura);
+        isCutScene = true;
+        mRB2D.DOMove(pos, dura);
+        yield return delay;
         isCutScene = false;
-        CancelInvoke();
     }
 
     public void ShowAction(int id)

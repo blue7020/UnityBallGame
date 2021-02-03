@@ -1,9 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public enum eMonsterState
+public enum eEnemyState
 {
+    None,
+    Spawn,
     Idle,
-    Walk,
-    Die
+    Damaged,
+    Attack
+}
+
+public enum eEnemyType
+{
+    Normal,
+    Boss
 }

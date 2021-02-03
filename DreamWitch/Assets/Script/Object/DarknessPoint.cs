@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class DarknessPoint : MonoBehaviour
 {
+    public bool isEnd;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Darkness.Instance.CancelInvoke();
-            Darkness.Instance.gameObject.SetActive(false);
-            gameObject.SetActive(false);
+            if (isEnd)
+            {
+                Darkness.Instance.CancelInvoke();
+                Darkness.Instance.gameObject.SetActive(false);
+            }
+            else
+            {
+                Darkness.Instance.gameObject.SetActive(true);
+                Darkness.Instance.isMoving = true;
+                Darkness.Instance.Moving();
+            }
         }
     }
 }

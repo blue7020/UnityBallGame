@@ -11,6 +11,8 @@ public class Darkness : MonoBehaviour
     public SpriteRenderer mRenderer;
     public GameObject mWhite;
 
+    public bool isMoving;
+
     private void Awake()
     {
         if (Instance==null)
@@ -27,19 +29,23 @@ public class Darkness : MonoBehaviour
     {
         //컷씬에서 이제 게임이 시작될 때 1.5초 후 움직이게 함으로써 플레이어가 안전하게
         //탑을 내려갈 수 있게 배려 / 현재는 테스트를 위해 바로 움직임
+        isMoving = true;
         Moving();
     }
 
     public void Moving()
     {
-        mWhite.SetActive(false);
-        StartCoroutine(Dash());
-        Invoke("Moving", 5f);
+        if (isMoving)
+        {
+            mWhite.SetActive(false);
+            StartCoroutine(Dash());
+        }
     }
 
     public IEnumerator Dash()
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
+        isMoving = false;
         int MaxTime = 20;
         int CurrentTitme = 0;
         while (true)
@@ -47,8 +53,7 @@ public class Darkness : MonoBehaviour
             if (CurrentTitme>=MaxTime)
             {
                 //사운드 출력
-                Vector2 pos = new Vector2(Player.Instance.transform.position.x+50,Player.Instance.transform.position.y);
-                mRB2D.DOMove(pos, 3f);
+                StartCoroutine(DashCooltime());
                 break;
             }
             else
@@ -57,15 +62,22 @@ public class Darkness : MonoBehaviour
                 {
                     mWhite.SetActive(true);
                 }
-                else
-                {
-                    mWhite.SetActive(false);
-                }
-                transform.position = Player.Instance.transform.position+new Vector3(-5,0,0);
+                transform.position = new Vector3(Player.Instance.transform.position.x - 5, Player.Instance.transform.position.y, 0);
+
                 CurrentTitme++;
             }
             yield return delay;
         }
+    }
+
+    public IEnumerator DashCooltime()
+    {
+        WaitForSeconds delay = new WaitForSeconds(6f);
+        Vector2 pos = new Vector2(Player.Instance.transform.position.x + 30, Player.Instance.transform.position.y);
+        mRB2D.DOMove(pos, 3f);
+        yield return delay;
+        isMoving = true;
+        Moving();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

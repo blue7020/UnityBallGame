@@ -6,8 +6,10 @@ using DG.Tweening;
 public class Enemy : MonoBehaviour
 {
     public int mTypeCode,mBossCode;
+    public eEnemyType mType;
+
     public float mMaxHP, mCurrentHP,mAtk,DelayTime;
-    public bool isBoss,isMoving,isNoDamage,isDeath,isCollide;
+    public bool isMoving,isNoDamage,isDeath,isCollide;
     public int mNextMove;
 
     public Transform mHead,mBoltStarter,mSpawnPos;
@@ -24,12 +26,15 @@ public class Enemy : MonoBehaviour
         {
             mSpawnPos = transform;
         }
-        StartAI(DelayTime);
+        else
+        {
+            StartAI(DelayTime);
+        }
     }
 
     private void FixedUpdate()
     {
-        if (isMoving&& !isBoss)
+        if (isMoving&& mType==eEnemyType.Normal)
         {
             //이동
             mRB2D.velocity = new Vector2(mNextMove, mRB2D.velocity.y);
@@ -64,10 +69,6 @@ public class Enemy : MonoBehaviour
             {
                 Invoke("BoltAttack", 2.5f);
             }
-        }
-        else if (mTypeCode == 2)//Boss
-        {
-            //isNoDamage = true;
         }
     }
     private IEnumerator StartDelay(float time)
@@ -133,7 +134,7 @@ public class Enemy : MonoBehaviour
                     case 1:
                         GetComponent<Boss1Controller>().BossDeath();
                         mAnim.SetBool(AnimHash.Enemy_Death, true);
-                        StartCoroutine(Death());
+                        StartCoroutine(Death(1.7f));
                         break;
                     default:
                         break;
@@ -148,9 +149,8 @@ public class Enemy : MonoBehaviour
                         StartCoroutine(DamageAnimation());
                         break;
                     case 1:
-                        Debug.Log("damage");
                         StartCoroutine(DamageAnimation());
-                        GetComponent<Boss1Controller>().BossHit();
+                        GetComponent<Boss1Controller>().GotoIdle();
                         break;
                     default:
                         break;
@@ -182,9 +182,9 @@ public class Enemy : MonoBehaviour
         isNoDamage = false;
     }
 
-    public IEnumerator Death()
+    public IEnumerator Death(float time =1f)
     {
-        WaitForSeconds delay = new WaitForSeconds(1f);
+        WaitForSeconds delay = new WaitForSeconds(time);
         SoundController.Instance.SESound(0);
         mAnim.SetBool(AnimHash.Enemy_Attack, false);
         gameObject.layer = 10;
@@ -223,7 +223,7 @@ public class Enemy : MonoBehaviour
 
     public void Revive()
     {
-        if (!isBoss)
+        if (mType == eEnemyType.Normal)
         {
             mAnim.SetBool(AnimHash.Enemy_Attack, false);
             mCurrentHP = mMaxHP;

@@ -80,11 +80,11 @@ public class StageSelectController : InformationLoader
         }
         if (dir)
         {
-            mSelectUIImage.transform.localPosition = new Vector3(-632,6,0);
+            mSelectUIImage.transform.localPosition = new Vector3(-480,6,0);
         }
         else
         {
-            mSelectUIImage.transform.localPosition = new Vector3(632,6,0);
+            mSelectUIImage.transform.localPosition = new Vector3(480,6,0);
         }
         mSelectUIImage.gameObject.SetActive(true);
         mCamera.transform.position = IslandSelectArr[TitleController.Instance.NowStage].pos + new Vector3(0, 0, -10);

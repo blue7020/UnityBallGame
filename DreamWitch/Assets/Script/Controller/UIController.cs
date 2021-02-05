@@ -8,13 +8,14 @@ public class UIController : InformationLoader
 {
     public static UIController Instance;
 
-    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage, mSoundMenu, mScreenEffect,mGameOverImage;
+    public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage, mSoundMenu, mScreenEffect,mGameOverImage,mClearImage;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
-    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText, mMenuCloseText;
-    public Text mSoundText, mBGMText, mSEText, mBGMVolumeText, mSEVolumeText, mBackText;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText, mMenuCloseText,mGameOverStageText,mGameOverRestartText;
+    public Text mSoundText, mBGMText, mSEText, mBGMVolumeText, mSEVolumeText, mBackText,mClearText;
     public bool isShowTextBox, isShowMenu,isCollect,isMenuCooltime;
     public Transform Top, End, CollectionTop, CollectionEnd;
+    public Button mStageSelectButton;
 
     public StageInfo[] mInfoArr;
 
@@ -26,6 +27,14 @@ public class UIController : InformationLoader
             LoadJson(out mInfoArr, Path.STAGE_INFO);
             mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
             mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
+            if (SaveDataController.Instance.mUser.StageClear[0]==false)
+            {
+                mStageSelectButton.interactable = false;
+            }
+            else
+            {
+                mStageSelectButton.interactable = true;
+            }
             if (TitleController.Instance.mLanguage == 0)
             {
                 mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
@@ -40,6 +49,8 @@ public class UIController : InformationLoader
                 mBackText.text = "뒤로";
                 mBGMText.text = "배경 음악";
                 mSEText.text = "효과음";
+                mGameOverStageText.text = "스테이지 선택으로";
+                mGameOverRestartText.text = "다시 하기";
                 mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_kor;
             }
             else if (TitleController.Instance.mLanguage == 1)
@@ -56,6 +67,8 @@ public class UIController : InformationLoader
                 mBackText.text = "Back";
                 mBGMText.text = "BGM";
                 mSEText.text = "SE";
+                mGameOverStageText.text = "Go to stage select";
+                mGameOverRestartText.text = "Restart";
                 mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_eng;
             }
         }
@@ -97,6 +110,36 @@ public class UIController : InformationLoader
                 break;
             }
         }
+    }
+
+    public IEnumerator ShowStageClear()
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(4f);
+        if (TitleController.Instance.NowStage == 0)
+        {
+            if (TitleController.Instance.mLanguage == 0)
+            {
+                mClearText.text = "튜토리얼 클리어!";
+            }
+            else if (TitleController.Instance.mLanguage == 1)
+            {
+                mClearText.text = "Tutorial Clear!";
+            }
+        }
+        else
+        {
+            if (TitleController.Instance.mLanguage == 0)
+            {
+                mClearText.text = TitleController.Instance.NowStage + "클리어!";
+            }
+            else if (TitleController.Instance.mLanguage == 1)
+            {
+                mClearText.text = TitleController.Instance.NowStage + "Clear!";
+            }
+        }
+        mClearImage.gameObject.SetActive(true);
+        yield return delay;
+        GameController.Instance.GotoStageSelect(0);
     }
 
     public IEnumerator ShowPlayCountScreen()

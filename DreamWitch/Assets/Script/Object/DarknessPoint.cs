@@ -17,7 +17,7 @@ public class DarknessPoint : MonoBehaviour
             }
             else
             {
-                Darkness.Instance.gameObject.SetActive(true);
+                Darkness.Instance.Show();
                 Darkness.Instance.isMoving = true;
                 Darkness.Instance.Moving();
             }

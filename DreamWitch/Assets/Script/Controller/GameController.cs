@@ -58,6 +58,16 @@ public class GameController : MonoBehaviour
         {
             CutSceneController.Instance.mCutSceneList.Add(mMapMaterialController.mCutsceneArr[i].mTrigger);
         }
+        if (CutSceneController.Instance.mCutSceneList.Count > 0)
+        {
+            for (int i=0; i< CutSceneController.Instance.mCutSceneList.Count;i++)
+            {
+                if (CutSceneController.Instance.mCutSceneList[i] == true)
+                {
+                    mMapMaterialController.mCutsceneArr[i].mTrigger = true;
+                }
+            }
+        }
     }
 
     public void GamePause()

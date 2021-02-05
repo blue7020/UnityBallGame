@@ -22,13 +22,8 @@ public class CutSceneController : MonoBehaviour
         }
         else
         {
-            Delete();
+            Destroy(gameObject);
         }
-    }
-
-    public void Delete()
-    {
-        Destroy(gameObject);
     }
 
     public void CutSceneCamera()

@@ -74,7 +74,7 @@ public class TitleUIController : MonoBehaviour
         yield return delay;
         SoundController.Instance.BGMChange(1);
         mTitle.gameObject.SetActive(false);
-        TitleController.Instance.isShowTitle = true;
+        TitleController.Instance.isShowTitle = false;
     }
 
     public void GameStart()

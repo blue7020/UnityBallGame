@@ -242,7 +242,6 @@ public class Player : MonoBehaviour
     public void Moving(float hori)
     {
         Vector3 move = new Vector3(hori,0f,0f);
-        //mRB2D.velocity = new Vector2(dir * mSpeed, mRB2D.velocity.y);
         transform.position += move * Time.deltaTime * mSpeed;
         mAnim.SetFloat("xVelocity", hori);
         if (hori != 0&&isGround)
@@ -481,7 +480,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             mEnemy = other.gameObject.GetComponent<Enemy>();
-            if (mRB2D.velocity.y < 0 && transform.position.y > mEnemy.mHead.transform.localPosition.y + 0.3f)//몬스터보다 높은 위치에 있을 때
+            if (mRB2D.velocity.y < 0 && transform.position.y >= mEnemy.mHead.transform.position.y + 0.2f)//몬스터보다 높은 위치에 있을 때
             {
                 mEnemy.Damage(2);
                 mJumpToken = mMaxmJumpToken;

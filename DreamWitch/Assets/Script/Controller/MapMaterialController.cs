@@ -28,6 +28,10 @@ public class MapMaterialController : MonoBehaviour
                     isShowStartCutScene = false;
                     mStartCutScene.PlayCutScene();
                     break;
+                case 1:
+                    isShowStartCutScene = false;
+                    mStartCutScene.PlayCutScene();
+                    break;
                 default:
                     break;
             }

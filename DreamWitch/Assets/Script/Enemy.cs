@@ -7,8 +7,10 @@ public class Enemy : MonoBehaviour
 {
     public int mTypeCode,mBossCode;
     public eEnemyType mType;
+    public eEnemyState mEnemyState;
+    public int mStateDelayTime;
 
-    public float mMaxHP, mCurrentHP,mAtk,DelayTime;
+    public float mMaxHP, mCurrentHP,mAtk,DelayTime,MoveDelayTime;
     public bool isMoving,isNoDamage,isDeath,isCollide;
     public int mNextMove;
 
@@ -22,13 +24,27 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         mCurrentHP = mMaxHP;
-        if (mTypeCode!=2)
+        MoveDelayTime = 20;
+        if (DelayTime==0)
         {
-            mSpawnPos = transform;
+            DelayTime = 25;
         }
         else
         {
-            StartAI(DelayTime);
+            DelayTime = DelayTime * 10;
+        }
+        if (mTypeCode!=2)
+        {
+            mSpawnPos = transform;
+            if (mTypeCode == 0)
+            {
+                mEnemyState = eEnemyState.Idle;
+            }
+            else if (mTypeCode == 1)
+            {
+                mEnemyState = eEnemyState.Attack;
+            }
+            StartCoroutine(StateMachine());
         }
     }
 
@@ -53,29 +69,51 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void StartAI(float time =0)
+    public IEnumerator StateMachine()
     {
-        if (mTypeCode == 0)
+        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        while (true)
         {
-            Invoke("Think", 2f);
-        }
-        else if (mTypeCode == 1)
-        {
-            if (time > 0)
+            switch (mEnemyState)
             {
-                StartCoroutine(StartDelay(time));
+                case eEnemyState.Idle://사실상 Move
+                    if (mStateDelayTime>= MoveDelayTime)
+                    {
+                        mStateDelayTime = 0;
+                        mNextMove = Random.Range(-1, 2);
+
+                        mAnim.SetInteger("WalkSpeed", mNextMove);
+                        if (mNextMove != 0)
+                        {
+                            mRenderer.flipX = mNextMove == 1;//nextmove 가 1이면 방향을 반대로 변경  
+                        }
+                        float time = Random.Range(20, 50);
+                        MoveDelayTime = time;
+                    }
+                    else
+                    {
+                        mStateDelayTime++;
+                    }
+                    break;
+                case eEnemyState.Attack:
+                    if (mStateDelayTime >= DelayTime)
+                    {
+                        mStateDelayTime = 0;
+                        if (mTypeCode==1)
+                        {
+                            BoltAttack();
+                        }
+                    }
+                    else
+                    {
+                        mStateDelayTime++;
+                    }
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                Invoke("BoltAttack", 2.5f);
-            }
+            yield return delay;
         }
-    }
-    private IEnumerator StartDelay(float time)
-    {
-        WaitForSeconds delay = new WaitForSeconds(time);
-        yield return delay;
-        Invoke("BoltAttack", 2.5f);
     }
 
 
@@ -83,29 +121,13 @@ public class Enemy : MonoBehaviour
     {
         mNextMove =mNextMove * (-1);//직접 방향을 바꾸어 주었으니 Think는 잠시 멈추어야함
         mRenderer.flipX = mNextMove == 1;
-
-        CancelInvoke(); //think를 잠시 멈춘 후 재실행
-        Invoke("Think", 2f);
-    }
-
-    public void Think()
-    {
-        mNextMove = Random.Range(-1, 2);
-
-        mAnim.SetInteger("WalkSpeed", mNextMove);
-        if (mNextMove != 0)
-        {
-            mRenderer.flipX = mNextMove == 1;//nextmove 가 1이면 방향을 반대로 변경  
-        }
-        float time = Random.Range(2f, 5f);
-        Invoke("Think", time);
+        mStateDelayTime = 0;
     }
 
     public void BoltAttack()
     {
         mAnim.SetBool(AnimHash.Enemy_Attack, false);
         mAnim.SetBool(AnimHash.Enemy_Attack, true);
-        Invoke("BoltAttack", 2.5f);
     }
     public void AttackEnd()
     {
@@ -233,13 +255,9 @@ public class Enemy : MonoBehaviour
             isNoDamage = false;
             gameObject.SetActive(true);
             mAnim.SetBool(AnimHash.Enemy_Death, false);
-            if (mTypeCode == 1)
+            if (mTypeCode!=2)
             {
-                StartCoroutine(StartDelay(DelayTime));
-            }
-            else
-            {
-                StartAI(DelayTime);
+                StartCoroutine(StateMachine());
             }
             mCurrentHP = mMaxHP;
         }

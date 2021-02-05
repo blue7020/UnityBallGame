@@ -7,13 +7,26 @@ public class CollectionObject : MonoBehaviour
     public int mID;
     public Animator mAnim;
     public Transform pos;
-    public bool isGet;
+    public bool isGet,isMessage;
+    public string[] textArr;//kor =0, eng =0
+    public string text;
 
     private void Start()
     {
         pos = transform;
         Setting();
         GameController.Instance.mMapMaterialController.CollectionList.Add(this);
+        if (isMessage)
+        {
+            if (TitleController.Instance.mLanguage == 0)
+            {
+                text = textArr[0];
+            }
+            else if (TitleController.Instance.mLanguage == 1)
+            {
+                text = textArr[1];
+            }
+        }
     }
 
     public void Refresh()
@@ -109,6 +122,10 @@ public class CollectionObject : MonoBehaviour
             {
                 Check();
                 UIController.Instance.StartCoroutine(UIController.Instance.CollectAnimation());
+                if (isMessage)
+                {
+                    UIController.Instance.ShowDialogue(text);
+                }
             }
             SoundController.Instance.SESound(19);
             gameObject.SetActive(false);

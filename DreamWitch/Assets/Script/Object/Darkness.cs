@@ -18,6 +18,7 @@ public class Darkness : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            gameObject.SetActive(false);
         }
         else
         {
@@ -25,12 +26,9 @@ public class Darkness : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Show()
     {
-        //컷씬에서 이제 게임이 시작될 때 1.5초 후 움직이게 함으로써 플레이어가 안전하게
-        //탑을 내려갈 수 있게 배려 / 현재는 테스트를 위해 바로 움직임
-        isMoving = true;
-        Moving();
+        gameObject.SetActive(true);
     }
 
     public void Moving()
@@ -40,6 +38,11 @@ public class Darkness : MonoBehaviour
             mWhite.SetActive(false);
             StartCoroutine(Dash());
         }
+    }
+
+    public void MoveCutScene(Vector3 pos, float time)
+    {
+        mRB2D.DOMove(pos,time);
     }
 
     public IEnumerator Dash()

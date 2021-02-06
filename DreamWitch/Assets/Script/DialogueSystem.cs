@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class DialogueSystem : InformationLoader
 {
@@ -55,7 +56,7 @@ public class DialogueSystem : InformationLoader
         }
         yield return delay;
     }
-    public IEnumerator ChatDelay2(float time =0.5f)
+    public IEnumerator ChatDelay2(float time =1f)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
         yield return delay;
@@ -103,7 +104,8 @@ public class DialogueSystem : InformationLoader
         {
             text = mDialogueTextArr[id].text_eng;
         }
-        StartCoroutine(TypingTextToTextBox(text));
+        UIController.Instance.mDialogue.DOText(text,0.8f);
+        //StartCoroutine(TypingTextToTextBox(text));
         UIController.Instance.mDialogueImage.gameObject.SetActive(true);
     }
     private IEnumerator TypingTextToTextBox(string text)

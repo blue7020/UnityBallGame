@@ -26,37 +26,38 @@ public class Boss1Controller : MonoBehaviour
         mEnemy.mFuntion = (() => { BossReset(); });
         BlockList = new List<GameObject>();
         RandomNumList = new List<int>();
-    }
-
-    private void Start()
-    {
-        BossSpawn();//컷씬 구현 후 지우기
+        gameObject.SetActive(false);
     }
 
     public void BossSpawn()
     {
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Spawn, true);
         mEnemy.mCurrentHP = mEnemy.mMaxHP;
-        //mState = eEnemyState.Spawn;
-        mState = eEnemyState.None;
+        mState = eEnemyState.Spawn;
         StartCoroutine(StateMachine());
     }
 
-    public void BossReset()
+    public IEnumerator BossReset()
     {
-        mObj[0].SetActive(false);
+        WaitForSeconds delay = new WaitForSeconds(2.5f);
+        StopCoroutine(StateMachine());
+        StopCoroutine(StartFallingBlock());
+        mState = eEnemyState.None;
+        mDelayCount = 0;
+        mObj[0].SetActive(true);
         mObj[1].SetActive(true);
         mObj[2].SetActive(false);
         mObj[3].SetActive(true);
-        RemoveObject();
-        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
-        mEnemy.mAnim.SetBool(AnimHash.Enemy_Damage_Boss, false);
         gameObject.layer = 0;
-        gameObject.SetActive(false);
         mEnemy.isDeath = false;
         mEnemy.isNoDamage = true;
+        RemoveObject();
+        yield return delay;
+        RemoveObject();
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Death, false);
-        //컷씬에서 먹구름이 보스를 소환하는 것부터 시작하기 때문에 보스 입장 컷씬을 초기화하기
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Damage_Boss, false);
+        mState = eEnemyState.Idle;
     }
 
     private void CreateUnDuplicateRandom(int min, int max)
@@ -161,6 +162,8 @@ public class Boss1Controller : MonoBehaviour
         mObj[1].SetActive(false);
         mObj[2].SetActive(true);
         mObj[3].SetActive(false);
+        SoundController.Instance.BGMChange(0);
+        GameController.Instance.isBoss = false;
     }
 
     public void GotoIdle()
@@ -191,6 +194,8 @@ public class Boss1Controller : MonoBehaviour
                         mState = eEnemyState.Idle;
                         break;
                     case eEnemyState.Idle:
+                        isAttack = false;
+                        isDamage = false;
                         mEnemy.mAnim.SetBool(AnimHash.Enemy_Attack, false);
                         mEnemy.mAnim.SetBool(AnimHash.Enemy_Damage_Boss, false);
                         if (mDelayCount >= 20 && mDelayCount < 60)

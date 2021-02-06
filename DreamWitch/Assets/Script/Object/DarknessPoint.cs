@@ -13,10 +13,11 @@ public class DarknessPoint : MonoBehaviour
             if (isEnd)
             {
                 Darkness.Instance.CancelInvoke();
-                Darkness.Instance.gameObject.SetActive(false);
+                Darkness.Instance.isHide=true;
             }
             else
             {
+                Darkness.Instance.isHide = false;
                 Darkness.Instance.Show();
                 Darkness.Instance.isMoving = true;
                 Darkness.Instance.Moving();

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -29,34 +27,25 @@ public class SaveDataController : InformationLoader
     public void LoadGame()
     {
         //string location = Application.streamingAssetsPath + "/SaveData";//여기다가는 마음대로 확장자를 만들어서 붙여도 된다.
-        if (true) //(File.Exists(location))
+        //string location = "Assets/Resources/SaveData.savedata";//유니티 리소시즈 폴더에 저장할 때만.
+        string location = "Alone In a Dream_Data/Resources/SaveData.savedata";//게임 파일로 빌드했을때
+        if (File.Exists(location))//(true)
         {
-            //파일로 저장하고 싶다면
-            //StreamReader Reader = new StreamReader(location); //해당하는 경로로 읽어들이기
+            StreamReader Reader = new StreamReader(location); //해당하는 경로로 읽어들이기
 
-            //모바일이면 PlayerPrefs를 사용해 저장하면된다. //유니티 게임 내장 저장방식
-            string data = PlayerPrefs.GetString("SaveData");//PlayerPrefs는 윈도우로 치면 레지스트리다.
-            //string data = Reader.ReadToEnd(); 
-            if (string.IsNullOrEmpty(data))
-            {
-                CreateNewSaveData();
-            }
-            else
-            {
-                BinaryFormatter formatter = new BinaryFormatter();
-                MemoryStream stream = new MemoryStream(Convert.FromBase64String(data));//데이터를 다시 불러오기
-                mUser = (SaveData)formatter.Deserialize(stream); //retrun값이 object이기 때문에 세이브 데이터로 강제 형변환
-            }
-            //BinaryFormatter formatter = new BinaryFormatter();
-            //MemoryStream stream = new MemoryStream(Convert.FromBase64String(data));//데이터를 다시 불러오기
-            //mUser = (SaveData)formatter.Deserialize(stream); //retrun값이 object이기 때문에 세이브 데이터로 강제 형변환
+            string data = Reader.ReadToEnd(); 
+            BinaryFormatter formatter = new BinaryFormatter();
+            MemoryStream stream = new MemoryStream(Convert.FromBase64String(data));//데이터를 다시 불러오기
+            mUser = (SaveData)formatter.Deserialize(stream); //retrun값이 object이기 때문에 세이브 데이터로 강제 형변환
             FixSaveData();
-            //Reader.Close();//반드시 Reader와 Write를 사용했을 시 Close 를 해줘야 한다.
+            Debug.Log("불러오기 성공");
+            Reader.Close();//반드시 Reader와 Write를 사용했을 시 Close 를 해줘야 한다.
         }
-        //else
-        //{
-        //    CreateNewSaveData();
-        //}
+        else
+        {
+            Debug.Log("파일 생성");
+            CreateNewSaveData();
+        }
     }
 
     protected void FixSaveData()//세이브 데이터에 들어간 모든 어레이에 대해서 길이 검증
@@ -227,6 +216,8 @@ public class SaveDataController : InformationLoader
         mUser.Stage_3_CollectionCheck = new bool[Constants.STAGE_3_COLLECTION];
         mUser.Stage_4_CollectionCheck = new bool[Constants.STAGE_4_COLLECTION];
         mUser.Stage_5_CollectionCheck = new bool[Constants.STAGE_5_COLLECTION];
+        //File.Create("Assets/Resources/SaveData.savedata");
+        File.Create("Alone In a Dream_Data/Resources/SaveData.savedata");
     }
 
 
@@ -238,22 +229,20 @@ public class SaveDataController : InformationLoader
             Loading.Instance.StartSaving();
         }
         //string location = Application.streamingAssetsPath + "/SaveData";
+        //string location = "Assets/Resources/SaveData.savedata";
+        string location = "Alone In a Dream_Data/Resources/SaveData.savedata";
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채
         MemoryStream stream = new MemoryStream();//stream은 메모리를 통째로 담은 것 = 양동이
-        //파일로 저장하고 싶으면
-        //StreamWriter writer = new StreamWriter(location);
+        StreamWriter writer = new StreamWriter(location);
 
         formatter.Serialize(stream, mUser);//mUser를 stream에다가 넣은 것
 
         string data = Convert.ToBase64String(stream.GetBuffer()); //64비트짜리 데이터 파일로 변환(정확하진 않음)
-        //ToBase64String은 일반적으로는 알 수 없는 문자열로 바꿔주는 것이며, GetBuffer는 담긴 덩어리를 통째로 빼는 것
-        
-        //유니티 게임 내장 저장방식
-        PlayerPrefs.SetString("SaveData", data); //SetString에 들어가는 것은 하나도 빠짐 없이 문자열이 일치해야한다.
+                                                                  //ToBase64String은 일반적으로는 알 수 없는 문자열로 바꿔주는 것이며, GetBuffer는 담긴 덩어리를 통째로 빼는 것
 
-
-        //writer.Write(data);
-        //writer.Close();
+        writer.Write(data);
+        Debug.Log("저장완료");
+        writer.Close();
     }
 
     public void DeleteData()

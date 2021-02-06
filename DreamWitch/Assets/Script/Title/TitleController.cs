@@ -21,7 +21,6 @@ public class TitleController : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             SaveDataController.Instance.LoadGame();
-            SaveDataController.Instance.Save();
         }
         else
         {

@@ -10,15 +10,17 @@ public class Darkness : MonoBehaviour
     public Rigidbody2D mRB2D;
     public SpriteRenderer mRenderer;
     public GameObject mWhite;
+    public ParticleSystem mParticle;
+    private ParticleSystem.EmissionModule mEmission;
 
-    public bool isMoving;
+    public bool isMoving,isAttack,isHide;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            gameObject.SetActive(false);
+            mEmission = mParticle.emission;
         }
         else
         {
@@ -26,8 +28,17 @@ public class Darkness : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        GameController.Instance.mDarkness = this;
+        gameObject.SetActive(false);
+    }
+
     public void Show()
     {
+        isHide = false;
+        mEmission.rateOverTime = 30f;
+        mRenderer.color = new Color(1, 1, 1, 1);
         gameObject.SetActive(true);
     }
 
@@ -35,7 +46,9 @@ public class Darkness : MonoBehaviour
     {
         if (isMoving)
         {
-            mWhite.SetActive(false);
+            mEmission.rateOverTime = 30f;
+            mRenderer.color = new Color(1, 1, 1, 1);
+            isAttack = true;
             StartCoroutine(Dash());
         }
     }
@@ -55,7 +68,7 @@ public class Darkness : MonoBehaviour
         {
             if (CurrentTitme>=MaxTime)
             {
-                //사운드 출력
+                SoundController.Instance.SESound(22);
                 StartCoroutine(DashCooltime());
                 break;
             }
@@ -75,17 +88,35 @@ public class Darkness : MonoBehaviour
 
     public IEnumerator DashCooltime()
     {
-        WaitForSeconds delay = new WaitForSeconds(6f);
+        WaitForSeconds delay = new WaitForSeconds(2.5f);
         Vector2 pos = new Vector2(Player.Instance.transform.position.x + 30, Player.Instance.transform.position.y);
-        mRB2D.DOMove(pos, 3f);
+        mRB2D.DOMove(pos, 2.5f);
         yield return delay;
-        isMoving = true;
-        Moving();
+        AttackEnd();
+        delay = new WaitForSeconds(2f);
+        yield return delay;
+        if (!isHide)
+        {
+            isMoving = true;
+            Moving();
+        }
+        else
+        {
+            mEmission.rateOverTime = 0f;
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void AttackEnd()
+    {
+        mWhite.SetActive(false);
+        isAttack = false;
+        mRenderer.color = new Color(1, 1, 1, 0);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player")&& isAttack)
         {
             Player.Instance.Damage(1);
         }

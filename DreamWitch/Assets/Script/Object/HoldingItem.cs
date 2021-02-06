@@ -9,6 +9,7 @@ public class HoldingItem : MonoBehaviour
     public bool isDrop, isConsumable,isCooltime;
     public GameObject mItemKeyObj;
     public SpriteRenderer mRenderer;
+    public Rigidbody2D mRB2D;
 
     private void Awake()
     {

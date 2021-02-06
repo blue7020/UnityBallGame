@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.SceneManagement;
 
 public class CutScenePoint : MonoBehaviour
@@ -70,6 +70,10 @@ public class CutScenePoint : MonoBehaviour
             case -1:
                 DialogueSystem.Instance.EndCutScene();
                 break;
+            case 1:
+                UIController.Instance.ShowTutorial();
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
             case 2:
                 Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
@@ -112,6 +116,7 @@ public class CutScenePoint : MonoBehaviour
                 StartCoroutine(CutScene10());
                 break;
             case 25://여기부터 스테이지 1
+                UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -249, 0);
                 Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
                 Player.Instance.ShowAction(0);
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
@@ -128,24 +133,58 @@ public class CutScenePoint : MonoBehaviour
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
                 break;
             case 32:
+                StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
+                SoundController.Instance.SESound(22);
+                mObj[1].gameObject.SetActive(true);
+                Player.Instance.GetItem(mObj[0].GetComponent<HoldingItem>());
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
-                StartCoroutine(CutScene11_1());
                 break;
             case 33:
                 StartCoroutine(CutScene12());
                 break;
             case 34:
+                Player.Instance.isNoDamage = true;
+                Player.Instance.ShowAction(1);
+                mObj[0].gameObject.SetActive(true);
+                Player.Instance.mNowItem.gameObject.SetActive(true);
+                Player.Instance.mNowItem.transform.SetParent(null);
+                Sequence seq = DOTween.Sequence();
+                seq.Append(Player.Instance.mRB2D.DOMove(Player.Instance.transform.position + new Vector3(-0.7f, 0, 0), 0.5f));
+                Player.Instance.mNowItem.transform.position = Player.Instance.transform.position+new Vector3(-0.2f,0,0);
+                seq.Append(Player.Instance.mNowItem.mRB2D.DOMove(new Vector3(Player.Instance.transform.position.x + -1.5f, -0.75f, 0), 0.4f));
+                Player.Instance.ShowAction(1);
+                seq.Play();
                 StartCoroutine(CutScene12_1());
                 break;
             case 36:
                 StartCoroutine(CutScene12_2());
                 break;
             case 37:
+                Darkness.Instance.transform.position = new Vector3(515, -146, 0);
+                UIController.Instance.mDialogueImage.gameObject.SetActive(true);
                 Player.Instance.ShowAction(0);
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
                 break;
-            case 38:
-                DialogueSystem.Instance.EndCutScene();
+            case 43:
+                StartCoroutine(CutScene14());
+                break;
+            case 45:
+                StartCoroutine(CutScene14_1());
+                break;
+            case 46:
+                StartCoroutine(CutScene14_2());
+                break;
+            case 47:
+                StartCoroutine(CutScene15());
+                break;
+            case 48:
+                SoundController.Instance.SESound(22);
+                SoundController.Instance.SESound(6);
+                Darkness.Instance.MoveCutScene(new Vector3(600f, -80, 0), 5f);
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
+            case 54:
+                StartCoroutine(CutScene15_1());
                 break;
             default:
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
@@ -169,8 +208,6 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         mMoveTrigger = false;
         Player.Instance.mSpeed += 1.5f;
-        yield return delay;
-        UIController.Instance.ShowTutorial();
     }
     public IEnumerator MovePlayer()
     {
@@ -260,7 +297,6 @@ public class CutScenePoint : MonoBehaviour
         WaitForSeconds delay = new WaitForSeconds(time);
         UIController.Instance.mNextDialogueText.gameObject.SetActive(false);
         SoundController.Instance.BGMFadeOut(3f);
-        TitleController.Instance.isShowTitle = true;
         yield return delay;
         CutSceneController.Instance.FadeOut();
         time = 2f;
@@ -277,33 +313,159 @@ public class CutScenePoint : MonoBehaviour
         StartCoroutine(UIController.Instance.ShowStageClear());
     }
 
-    public IEnumerator CutScene11()
+    public IEnumerator CutScene11()//스테이지 1
     {
         float time = 1f;
         WaitForSeconds delay = new WaitForSeconds(time);
         Player.Instance.isCutScene = true;
         UIController.Instance.mScreenEffect.gameObject.SetActive(true);
         mObj[0].transform.position = new Vector3(-25.5f, 18.26f, 0);
+        mObj[0].GetComponent<HoldingItem>().mItemKeyObj.SetActive(false);
         yield return delay;
         UIController.Instance.mScreenEffect.gameObject.SetActive(false);
         DialogueSystem.Instance.DialogueSetting(25, 32);
-    }
-    public IEnumerator CutScene11_1()
-    {
-        float time = 1f;
-        WaitForSeconds delay = new WaitForSeconds(time);
-        SoundController.Instance.SESound(6);
-        mObj[1].gameObject.SetActive(true);
-        Player.Instance.GetItem(mObj[0].GetComponent<HoldingItem>());
-        yield return delay;
-        DialogueSystem.Instance.EndCutScene();
-        Darkness.Instance.Moving();
-        UIController.Instance.mDialogueImage.transform.position = new Vector3(-20, 231, 0);
     }
 
     public IEnumerator CutScene12()
     {
         float time = 2.5f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -249, 0);
+        Player.Instance.mSpeed -= 3f;
+        mMoveTrigger = true;
+        StartCoroutine(MovePlayer());
+        yield return delay;
+        mMoveTrigger = false;
+        Player.Instance.mSpeed += 3f;
+        StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+    }
+    public IEnumerator CutScene12_1()
+    {
+        float time = 2.5f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        yield return delay;
+        Darkness.Instance.transform.localPosition = new Vector3(162, 0, 0);
+        Darkness.Instance.Show();
+        Darkness.Instance.MoveCutScene(Player.Instance.mNowItem.transform.position, 0.5f);
+        SoundController.Instance.SESound(22);
+        time = 0.5f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        HoldingItem item = Player.Instance.mNowItem;
+        Player.Instance.mNowItem.Drop();
+        item.mItemKeyObj.gameObject.SetActive(false);
+        item.transform.SetParent(Darkness.Instance.transform);
+        item.transform.localPosition = new Vector3(0, 0.5f, 0);
+        yield return delay;
+        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+        Darkness.Instance.MoveCutScene(new Vector3(185, 1, 0), 2f);
+        yield return delay;
+        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
+        StartCoroutine(DialogueSystem.Instance.ChatDelay());
+    }
+    public IEnumerator CutScene12_2()
+    {
+        float time = 3f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        Darkness.Instance.MoveCutScene(new Vector3(199,1,0),3f);
+        CameraMovement.Instance.CameraMove(new Vector3(199, 1, 0), 0.2f);
+        Player.Instance.mSpeed -= 3f;
+        mMoveTrigger = true;
+        StartCoroutine(MovePlayer());
+        yield return delay;
+        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -249, 0);
+        time = 2f;
+        delay = new WaitForSeconds(time);
+        mMoveTrigger = false;
+        Player.Instance.mSpeed += 3f;
+        yield return delay;
+        StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
+        SoundController.Instance.SESound(22);
+        Darkness.Instance.MoveCutScene(new Vector3(199, -50, 0), 2f);
+        time = 1;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        Player.Instance.mNowItem = null;
+        Player.Instance.mNowItemID = -1;
+        UIController.Instance.ItemImageChange();
+        CameraMovement.Instance.mFollowing = true;
+        Player.Instance.isNoDamage = false;
+        StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+    }
+
+    public IEnumerator CutScene13()
+    {
+        float time = 2f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, 231, 0);
+        Quaternion.Euler(new Vector2(0, 0));
+        Vector3 pos = new Vector3(160, -32, -10);
+        CameraMovement.Instance.CameraMove(pos, 2.5f);
+        yield return delay;
+        DialogueSystem.Instance.DialogueSetting(39, 39);
+        time = 4f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        CameraMovement.Instance.mFollowing = true;
+    }
+
+    public IEnumerator CutScene14()
+    {
+        float time = 1f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        yield return delay;
+        time = 0.5f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        UIController.Instance.mDialogueImage.gameObject.SetActive(false);
+        StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
+        SoundController.Instance.SESound(22);
+        yield return delay;
+        StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
+        SoundController.Instance.SESound(22);
+        Darkness.Instance.MoveCutScene(new Vector3(525, -141, 0), 1.5f);
+        time = 1.5f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        Darkness.Instance.transform.DOScale(new Vector3(2, 2, 1), 1f);
+        time = 1f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        GameController.Instance.mMapMaterialController.mBoss.gameObject.SetActive(true);
+        GameController.Instance.mMapMaterialController.mBoss.transform.position = new Vector3(525.1f, -141.25f, 0);
+        GameController.Instance.mMapMaterialController.mBoss.GetComponent<Rigidbody2D>().DOMoveY(-144.4f, 3.5f);
+        time = 5f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        Darkness.Instance.transform.DOScale(new Vector3(1, 1, 1), 1f);
+        StartCoroutine(DialogueSystem.Instance.ChatDelay());
+        UIController.Instance.mDialogueImage.gameObject.SetActive(true);
+    }
+    public IEnumerator CutScene14_1()
+    {
+        float time = 2f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        StartCoroutine(CameraMovement.Instance.Shake(1.5f, 0.15f));
+        SoundController.Instance.SESound(22);
+        Darkness.Instance.MoveCutScene(new Vector3(575.5f, -144,0),5f);
+        yield return delay;
+        mObj[0].SetActive(true);
+        StartCoroutine(DialogueSystem.Instance.ChatDelay());
+    }
+    public IEnumerator CutScene14_2()
+    {
+        float time = 1f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        SoundController.Instance.BGMChange(2);
+        Player.Instance.CheckPointPos = transform.position;
+        GameController.Instance.isBoss = true;
+        yield return delay;
+        StartCoroutine(DialogueSystem.Instance.ChatDelay());
+    }
+
+    public IEnumerator CutScene15()
+    {
+        float time = 2f;
         WaitForSeconds delay = new WaitForSeconds(time);
         Player.Instance.mSpeed -= 3f;
         mMoveTrigger = true;
@@ -311,61 +473,35 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         mMoveTrigger = false;
         Player.Instance.mSpeed += 3f;
-        DialogueSystem.Instance.isChatDelay = false;
+        StartCoroutine(DialogueSystem.Instance.ChatDelay());
     }
-    public IEnumerator CutScene12_1()
-    {
-        float time = 2.5f;
-        WaitForSeconds delay = new WaitForSeconds(time);
-        Player.Instance.isNoDamage = true;
-        Player.Instance.ShowAction(1);
-        mObj[0].gameObject.SetActive(true);
-        //프레스톤 떨굼
-        yield return delay;
-        time = 0.5f;
-        delay = new WaitForSeconds(time);
-        Darkness.Instance.Show();
-        //먹구름이 뒤에서 나타나 프레스톤 위치로 이동
-        yield return delay;
-        //프레스톤이 먹구름 하위로 들어간 후 먹구름 이동해서 플레이어 앞에섬
-        //두트윈으로 먹구름 이동 설정하기
-        time = 1f;
-        delay = new WaitForSeconds(time);
-        yield return delay;
-        Player.Instance.isNoDamage = false;
-        DialogueSystem.Instance.DialogueSetting(37, 38);
-    }
-    public IEnumerator CutScene12_2()
-    {
-        float time = 2.5f;
-        WaitForSeconds delay = new WaitForSeconds(time);
-        //먹구름을 따라감, 먹구름도 이동하며 동굴 속으로 들어감
-        yield return delay;
-        DialogueSystem.Instance.isChatDelay = false;
-        Darkness.Instance.transform.position = new Vector3(515,-146,0);
-    }
-
-    public IEnumerator CutScene13()
-    {
-        float time = 1f;
-        WaitForSeconds delay = new WaitForSeconds(time);
-        Quaternion.Euler(new Vector2(0, 180f));
-        DialogueSystem.Instance.DialogueSetting(39, 39);
-        yield return delay;
-        time = 4f;
-        delay = new WaitForSeconds(time);
-        Vector3 pos = new Vector3(160,-32, -10);
-        CameraMovement.Instance.CameraMove(pos, 2.5f);
-        yield return delay;
-        CameraMovement.Instance.mFollowing = true;
-        DialogueSystem.Instance.isChatDelay = false;
-    }
-
-    public IEnumerator CutScene14()
+    public IEnumerator CutScene15_1()
     {
         float time = 2f;
         WaitForSeconds delay = new WaitForSeconds(time);
+        Player.Instance.mSpeed -= 3f;
+        mMoveTrigger = true;
+        StartCoroutine(MovePlayer());
         yield return delay;
+        mMoveTrigger = false;
+        Player.Instance.mSpeed += 3f;
+        time = 1f;
+        delay = new WaitForSeconds(time);
+        UIController.Instance.mNextDialogueText.gameObject.SetActive(false);
+        SoundController.Instance.BGMFadeOut(3f);
+        yield return delay;
+        CutSceneController.Instance.FadeOut();
+        time = 2f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        UIController.Instance.mDialogueImage.gameObject.SetActive(false);
+        TitleController.Instance.isShowTitle = true;
+        SaveDataController.Instance.mUser.StageClear[1] = true;
+        SaveDataController.Instance.mUser.StageShow[2] = true;
+        time = 1f;
+        delay = new WaitForSeconds(time);
+        yield return delay;
+        SceneManager.LoadScene(0);
     }
 
     public void PlayCutScene()
@@ -446,8 +582,7 @@ public class CutScenePoint : MonoBehaviour
                         mTrigger = true;
                         break;
                     case 1:
-                        UIController.Instance.mDialogueImage.transform.position = new Vector3(-20, -249, 0);
-                        DialogueSystem.Instance.DialogueSetting(33, 36);
+                        DialogueSystem.Instance.DialogueSetting(33, 38);
                         mTrigger = true;
                         break;
                     case 2:
@@ -468,7 +603,7 @@ public class CutScenePoint : MonoBehaviour
                         break;
                     case 6:
                         mTrigger = true;
-                        DialogueSystem.Instance.DialogueSetting(47, 53);
+                        DialogueSystem.Instance.DialogueSetting(47, 54);
                         break;
                     default:
                         mTrigger = true;

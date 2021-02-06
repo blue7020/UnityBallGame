@@ -471,7 +471,7 @@ public class Player : MonoBehaviour
     {
         Destroy(mNowItem.gameObject);
         mNowItem = null;
-        mNowItem.mID = -1;
+        mNowItemID = -1;
         UIController.Instance.ItemImageChange();
     }
 

@@ -21,8 +21,6 @@ public class SoundController : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            BGMVolume = SaveDataController.Instance.mUser.BGMVolume;
-            SEVolume = SaveDataController.Instance.mUser.SEVolume;
         }
         else
         {
@@ -32,6 +30,13 @@ public class SoundController : MonoBehaviour
 
     private void Start()
     {
+        VolumeRefresh();
+    }
+
+    public void VolumeRefresh()
+    {
+        BGMVolume = SaveDataController.Instance.mUser.BGMVolume;
+        SEVolume = SaveDataController.Instance.mUser.SEVolume;
         mBGM.volume = BGMVolume * 0.1f;
         mSE.volume = SEVolume * 0.1f;
     }

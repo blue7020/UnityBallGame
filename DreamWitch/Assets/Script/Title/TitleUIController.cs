@@ -75,6 +75,7 @@ public class TitleUIController : MonoBehaviour
         SoundController.Instance.BGMChange(1);
         mTitle.gameObject.SetActive(false);
         TitleController.Instance.isShowTitle = false;
+        SaveDataController.Instance.Save();
     }
 
     public void GameStart()

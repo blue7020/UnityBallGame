@@ -13,6 +13,8 @@ public class MapMaterialController : MonoBehaviour
 
     public List<CollectionObject> CollectionList;
 
+    public GameObject mBoss;
+
     private void Awake()
     {
         CollectionList = new List<CollectionObject>();

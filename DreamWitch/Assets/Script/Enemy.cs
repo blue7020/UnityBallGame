@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            DelayTime = DelayTime * 10;
+            DelayTime = 25+ (DelayTime*25);
         }
         if (mTypeCode!=2)
         {

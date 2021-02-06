@@ -46,6 +46,7 @@ public class StageSelectController : InformationLoader
                 mPreviousLanguageButton.interactable = true;
             }
             LanguageSetting();
+            SoundController.Instance.VolumeRefresh();
         }
         else
         {

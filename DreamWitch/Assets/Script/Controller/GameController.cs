@@ -20,7 +20,9 @@ public class GameController : MonoBehaviour
     public Image mHeart,mHeartFrame;
     public List<Image> mPlayerHP;
     public List<Image> mHPFrame;
-    public bool Pause,isShowUI;
+    public bool Pause, isShowUI, isBoss;
+
+    public Darkness mDarkness;
 
 
     private void Awake()
@@ -32,6 +34,8 @@ public class GameController : MonoBehaviour
             mHPFrame = new List<Image>();
             mStageObject[TitleController.Instance.NowStage].SetActive(true);
             mMapMaterialController = mMapMaterialControllerArr[TitleController.Instance.NowStage];
+            mPlayer.gameObject.SetActive(true);
+            SoundController.Instance.VolumeRefresh();
         }
         else
         {
@@ -43,7 +47,6 @@ public class GameController : MonoBehaviour
     {
         mStartPoint = mStartPointArr[TitleController.Instance.NowStage];
         mPlayer.CheckPointPos = mStartPoint.transform.position + new Vector3(0, 2f, 0);
-        mPlayer.gameObject.SetActive(true);
         switch (TitleController.Instance.NowStage)
         {
             case 0:
@@ -68,6 +71,7 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        StartCoroutine(UIController.Instance.ShowPlayCountScreen());
     }
 
     public void GamePause()
@@ -184,6 +188,10 @@ public class GameController : MonoBehaviour
     private IEnumerator DeathLoad()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
+        if (mDarkness!=null)
+        {
+            mDarkness.isMoving = false;
+        }
         UIController.Instance.mGameOverImage.gameObject.SetActive(false);
         UIController.Instance.mScreenEffect.gameObject.SetActive(true);
         RemoveHealth();
@@ -198,6 +206,23 @@ public class GameController : MonoBehaviour
         Player.Instance.isNoDamage = false;
         Player.Instance.isReset = false;
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());
+        if (mDarkness != null)
+        {
+            mDarkness.isMoving = true;
+        }
+    }
+
+    public void LoadBossStage()
+    {
+        switch (TitleController.Instance.NowStage)
+        {
+            case 1:
+                mMapMaterialController.mBoss.gameObject.SetActive(true);
+                StartCoroutine(mMapMaterialController.mBoss.GetComponent<Boss1Controller>().BossReset());
+                break;
+            default:
+                break;
+        }
     }
 
     public void LobbyLoad()

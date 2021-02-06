@@ -83,11 +83,6 @@ public class UIController : InformationLoader
         Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        StartCoroutine(ShowPlayCountScreen());
-    }
-
     public void CheckPointSet()
     {
         StartCoroutine(CheckPointAnim());
@@ -115,6 +110,7 @@ public class UIController : InformationLoader
     public IEnumerator ShowStageClear()
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(4f);
+        SoundController.Instance.SESound(5);
         if (TitleController.Instance.NowStage == 0)
         {
             if (TitleController.Instance.mLanguage == 0)
@@ -139,19 +135,28 @@ public class UIController : InformationLoader
         }
         mClearImage.gameObject.SetActive(true);
         yield return delay;
-        GameController.Instance.GotoStageSelect(0);
+        GameController.Instance.GotoStageSelect(2);
     }
 
     public IEnumerator ShowPlayCountScreen()
     {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(2f);
-        GameController.Instance.GamePause();
+        WaitForSeconds delay = new WaitForSeconds(2f);
+        Player.Instance.isCutScene = true;
+        isMenuCooltime = true;
         mPlayCountText.text = "x"+TitleController.Instance.PlayCount;
+        if (GameController.Instance.isBoss)
+        {
+            GameController.Instance.LoadBossStage();
+        }
         mPlayCountSceen.gameObject.SetActive(true);
         yield return delay;
         mPlayCountSceen.gameObject.SetActive(false);
-        GameController.Instance.GamePause();
-        GameController.Instance.mMapMaterialController.StartCutScene();
+        Player.Instance.isCutScene = false;
+        isMenuCooltime = false;
+        if (!GameController.Instance.isBoss)
+        {
+            GameController.Instance.mMapMaterialController.StartCutScene();
+        }
     }
 
     public void ShowTutorial()
@@ -165,7 +170,14 @@ public class UIController : InformationLoader
 
     public void ItemImageChange(Sprite spt=null)
     {
-        mItemImage.sprite = spt;
+        if (spt==null)
+        {
+            mItemImage.sprite = mNull;
+        }
+        else
+        {
+            mItemImage.sprite = spt;
+        }
     }
 
     public void ShowDialogue(string text)

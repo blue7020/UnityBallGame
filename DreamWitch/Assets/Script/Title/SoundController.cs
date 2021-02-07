@@ -13,7 +13,7 @@ public class SoundController : MonoBehaviour
     public AudioSource mBGM, mSE;
     public AudioClip[] mBGMArr, mSEArr;
     public AudioMixer mMixer;
-    public float BGMVolume, SEVolume;
+    public int BGMVolume, SEVolume;
 
     private void Awake()
     {

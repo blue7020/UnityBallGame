@@ -33,24 +33,22 @@ public class Enemy : MonoBehaviour
         {
             DelayTime = 25+ (DelayTime*25);
         }
-        if (mTypeCode!=2)
+        mSpawnPos = transform;
+        if (mTypeCode == 0)
         {
-            mSpawnPos = transform;
-            if (mTypeCode == 0)
-            {
-                mEnemyState = eEnemyState.Idle;
-            }
-            else if (mTypeCode == 1)
-            {
-                mEnemyState = eEnemyState.Attack;
-            }
             StartCoroutine(StateMachine());
+            mEnemyState = eEnemyState.Idle;
+        }
+        else if (mTypeCode == 1)
+        {
+            StartCoroutine(StateMachine());
+            mEnemyState = eEnemyState.Attack;
         }
     }
 
     private void FixedUpdate()
     {
-        if (isMoving&& mType==eEnemyType.Normal)
+        if (isMoving&& mTypeCode==0)
         {
             //이동
             mRB2D.velocity = new Vector2(mNextMove, mRB2D.velocity.y);
@@ -138,7 +136,7 @@ public class Enemy : MonoBehaviour
         mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
-    //mTypeCode 0=좌우 이동, 1=접근형, 2=원거리 공격
+    //mTypeCode 0=좌우 이동, 1=원거리 공격
 
     public void Damage(float damage)
     {
@@ -154,9 +152,7 @@ public class Enemy : MonoBehaviour
                         StartCoroutine(Death());
                         break;
                     case 1:
-                        GetComponent<Boss1Controller>().BossDeath();
-                        mAnim.SetBool(AnimHash.Enemy_Death, true);
-                        StartCoroutine(Death(1.7f));
+                        StartCoroutine(GetComponent<Boss1Controller>().BossDeath());
                         break;
                     default:
                         break;
@@ -210,7 +206,6 @@ public class Enemy : MonoBehaviour
         SoundController.Instance.SESound(0);
         mAnim.SetBool(AnimHash.Enemy_Attack, false);
         gameObject.layer = 10;
-        CancelInvoke();
         mNextMove = 0;
         mRB2D.velocity = Vector2.zero;
         isDeath = true;
@@ -247,6 +242,7 @@ public class Enemy : MonoBehaviour
     {
         if (mType == eEnemyType.Normal)
         {
+            StopCoroutine((StateMachine()));
             mAnim.SetBool(AnimHash.Enemy_Attack, false);
             mCurrentHP = mMaxHP;
             gameObject.layer = 0;
@@ -255,7 +251,7 @@ public class Enemy : MonoBehaviour
             isNoDamage = false;
             gameObject.SetActive(true);
             mAnim.SetBool(AnimHash.Enemy_Death, false);
-            if (mTypeCode!=2)
+            if (mBossCode==0)
             {
                 StartCoroutine(StateMachine());
             }

@@ -23,7 +23,7 @@ public class DialogueSystem : InformationLoader
             Instance = this;
             NowIndex = -1;
             EndIndex = -1;
-            LoadJson(out mDialogueTextArr, Path.DIALOGUE_TEXT);
+            LoadJson(out mDialogueTextArr, Paths.DIALOGUE_TEXT);
             mTextList = new List<string>();
         }
         else

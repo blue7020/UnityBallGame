@@ -19,6 +19,9 @@ public class Boss1Controller : MonoBehaviour
 
     public Enemy mEnemy;
 
+    public bool isHint;
+    public string text;
+
     public GameObject[] mObj;//보스 방과 연결된 문과 출구쪽 사다리
 
     private void Awake()
@@ -26,6 +29,14 @@ public class Boss1Controller : MonoBehaviour
         mEnemy.mFuntion = (() => { BossReset(); });
         BlockList = new List<GameObject>();
         RandomNumList = new List<int>();
+        if (TitleController.Instance.mLanguage==0)
+        {
+            text = DialogueSystem.Instance.mDialogueTextArr[55].text_kor;
+        }
+        else if(TitleController.Instance.mLanguage == 1)
+        {
+           text = DialogueSystem.Instance.mDialogueTextArr[55].text_eng;
+        }
         gameObject.SetActive(false);
     }
 
@@ -40,6 +51,8 @@ public class Boss1Controller : MonoBehaviour
     public IEnumerator BossReset()
     {
         WaitForSeconds delay = new WaitForSeconds(2.5f);
+        UIController.Instance.mTextBoxImage.gameObject.SetActive(false);
+        isHint = false;
         StopCoroutine(StateMachine());
         StopCoroutine(StartFallingBlock());
         mState = eEnemyState.None;
@@ -155,15 +168,20 @@ public class Boss1Controller : MonoBehaviour
         mEnemy.isNoDamage = false;
     }
 
-    public void BossDeath()
+    public IEnumerator BossDeath()
     {
+        WaitForSeconds delay = new WaitForSeconds(3f);
+        UIController.Instance.mTextBoxImage.gameObject.SetActive(false);
         RemoveObject();
         SoundController.Instance.SESound(22);
+        mEnemy.mAnim.SetBool(AnimHash.Enemy_Death, true);
+        SoundController.Instance.BGMChange(0);
+        GameController.Instance.isBoss = false;
+        yield return delay;
         mObj[1].SetActive(false);
         mObj[2].SetActive(true);
         mObj[3].SetActive(false);
-        SoundController.Instance.BGMChange(0);
-        GameController.Instance.isBoss = false;
+        StartCoroutine(mEnemy.Death());
     }
 
     public void GotoIdle()
@@ -238,6 +256,7 @@ public class Boss1Controller : MonoBehaviour
                             isAttack = false;
                             RemoveObject();
                             mDelayCount = 0;
+                            ShowHint();
                             mState = eEnemyState.Idle;
                         }
                         mDelayCount++;
@@ -247,6 +266,15 @@ public class Boss1Controller : MonoBehaviour
                 }
             }
             yield return delay;
+        }
+    }
+
+    public void ShowHint()
+    {
+        if (!isHint)
+        {
+            isHint = true;
+            UIController.Instance.ShowDialogue(text,false);
         }
     }
 

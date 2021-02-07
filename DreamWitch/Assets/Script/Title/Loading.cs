@@ -32,12 +32,12 @@ public class Loading : MonoBehaviour
         mSavingImage.SetActive(true);
     }
 
-    public void StartLoading(int sceneIndex)
+    public void StartLoading(int sceneIndex,bool save=true)
     {
-        StartCoroutine(ShowLoading(sceneIndex));
+        StartCoroutine(ShowLoading(sceneIndex,save));
     }
 
-    public IEnumerator ShowLoading(int sceneIndex)
+    public IEnumerator ShowLoading(int sceneIndex, bool save)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
         mBlackScreen.gameObject.SetActive(true);
@@ -49,6 +49,9 @@ public class Loading : MonoBehaviour
             yield return null;
         }
         mBlackScreen.gameObject.SetActive(false);
-        SaveDataController.Instance.Save(true);
+        if (save)
+        {
+            SaveDataController.Instance.Save(true);
+        }
     }
 }

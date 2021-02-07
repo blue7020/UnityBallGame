@@ -10,48 +10,51 @@ public class StageSelectController : InformationLoader
 
     public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu,mPopupImage;
     public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText;
-    public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mNowLanguageText, mLanguageBackText,mPopupText;
+    public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mLanguageBackText,mPopupText;
     public Camera mCamera;
     public Transform Top, End;
     public StageInfo[] mInfoArr;
     public IslandSelect[] IslandSelectArr;
 
-    public Button mPreviousLanguageButton, mNextLangaugeButton;
+    public Button mKorButton, mEngButton;
 
-    public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage,mLanguageCooltime,isShowPopup;
+    public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage,isShowPopup;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            LoadJson(out mInfoArr, Path.STAGE_INFO);
+            LoadJson(out mInfoArr, Paths.STAGE_INFO);
             mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
             mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
             TitleController.Instance.NowStage = SaveDataController.Instance.mUser.LastPlayStage;
             StartCoroutine(IslandSelectArr[TitleController.Instance.NowStage].SelectDelay());
-            if (TitleController.Instance.mLanguage == TitleController.Instance.mLanguageCount)
+            switch (TitleController.Instance.mLanguage)
             {
-                mNextLangaugeButton.interactable = false;
-                mPreviousLanguageButton.interactable = true;
+                case 0:
+                    mKorButton.interactable = false;
+                    mEngButton.interactable = true;
+                    break;
+                case 1:
+                    mKorButton.interactable = true;
+                    mEngButton.interactable = false;
+                    break;
+                default:
+                    break;
             }
-            else if (TitleController.Instance.mLanguage == 0)
-            {
-                mNextLangaugeButton.interactable = true;
-                mPreviousLanguageButton.interactable = false;
-            }
-            else
-            {
-                mNextLangaugeButton.interactable = true;
-                mPreviousLanguageButton.interactable = true;
-            }
+            SoundController.Instance.BGMChange(1);
             LanguageSetting();
-            SoundController.Instance.VolumeRefresh();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        SoundController.Instance.VolumeRefresh();
     }
 
     public void ShowNewStage(int id)
@@ -100,11 +103,13 @@ public class StageSelectController : InformationLoader
         {
             case 0:
                 SoundController.Instance.BGMChange(0);
-                Loading.Instance.StartLoading(1);
+                SaveDataController.Instance.Save(false);
+                Loading.Instance.StartLoading(1,false);
                 break;
             case 1:
                 SoundController.Instance.BGMChange(0);
-                Loading.Instance.StartLoading(1);
+                SaveDataController.Instance.Save(false);
+                Loading.Instance.StartLoading(1, false);
                 break;
             case 2:
                 isShowPopup = true;
@@ -149,7 +154,8 @@ public class StageSelectController : InformationLoader
     public void GotoMain()
     {
         Time.timeScale = 1;
-        Loading.Instance.StartLoading(0);
+        SaveDataController.Instance.Save(true);
+        Loading.Instance.StartLoading(0,false);
     }
 
     public void MenuShow()
@@ -208,47 +214,23 @@ public class StageSelectController : InformationLoader
         mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
     }
 
-    public void NextLanguage()
+    public void SetLanguage(int code)
     {
-        if (!mLanguageCooltime)
+        TitleController.Instance.mLanguage = code;
+        switch (TitleController.Instance.mLanguage)
         {
-            if (TitleController.Instance.mLanguage +1<=TitleController.Instance.mLanguageCount)
-            {
-                TitleController.Instance.mLanguage += 1;
-                if (TitleController.Instance.mLanguage== TitleController.Instance.mLanguageCount)
-                {
-                    mNextLangaugeButton.interactable = false;
-                    mPreviousLanguageButton.interactable = true;
-                }
-            }
-            StartCoroutine(LanguageDelay());
+            case 0:
+                mKorButton.interactable = false;
+                mEngButton.interactable = true;
+                break;
+            case 1:
+                mKorButton.interactable = true;
+                mEngButton.interactable = false;
+                break;
+            default:
+                break;
         }
-    }
-
-    public void PreviousLanguage()
-    {
-        if (!mLanguageCooltime)
-        {
-            if (TitleController.Instance.mLanguage - 1 >= 0)
-            {
-                TitleController.Instance.mLanguage -= 1;
-                if (TitleController.Instance.mLanguage == 0)
-                {
-                    mNextLangaugeButton.interactable = true;
-                    mPreviousLanguageButton.interactable = false;
-                }
-            }
-            StartCoroutine(LanguageDelay());
-        }
-    }
-
-    private IEnumerator LanguageDelay()
-    {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.45f);
         LanguageSetting();
-        mLanguageCooltime = true;
-        yield return delay;
-        mLanguageCooltime = false;
     }
 
     private void LanguageSetting()
@@ -296,30 +278,6 @@ public class StageSelectController : InformationLoader
             mBGMText.text = "BGM";
             mSEText.text = "SE";
         }
-        switch (TitleController.Instance.mLanguage)
-        {
-            case 0:
-                if (TitleController.Instance.mLanguage == 0)
-                {
-                    mNowLanguageText.text = "한국어";
-                }
-                else if (TitleController.Instance.mLanguage == 1)
-                {
-                    mNowLanguageText.text = "Korean";
-                }
-                break;
-            case 1:
-                if (TitleController.Instance.mLanguage == 0)
-                {
-                    mNowLanguageText.text = "영어";
-                }
-                else if (TitleController.Instance.mLanguage == 1)
-                {
-                    mNowLanguageText.text = "English";
-                }
-                break;
-            default:
-                break;
-        }
+        SaveDataController.Instance.Save(true);
     }
 }

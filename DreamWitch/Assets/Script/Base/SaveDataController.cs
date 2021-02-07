@@ -223,7 +223,9 @@ public class SaveDataController : InformationLoader
 
     public void Save(bool ShowIcon=false)
     {
-        TitleController.Instance.mLanguage = mUser.Language;
+        mUser.Language= TitleController.Instance.mLanguage;
+        mUser.BGMVolume= SoundController.Instance.BGMVolume;
+        mUser.SEVolume =SoundController.Instance.SEVolume;
         if (ShowIcon)
         {
             Loading.Instance.StartSaving();

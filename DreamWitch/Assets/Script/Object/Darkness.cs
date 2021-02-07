@@ -11,7 +11,6 @@ public class Darkness : MonoBehaviour
     public SpriteRenderer mRenderer;
     public GameObject mWhite;
     public ParticleSystem mParticle;
-    private ParticleSystem.EmissionModule mEmission;
 
     public bool isMoving,isAttack,isHide;
 
@@ -20,7 +19,6 @@ public class Darkness : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            mEmission = mParticle.emission;
         }
         else
         {
@@ -37,7 +35,7 @@ public class Darkness : MonoBehaviour
     public void Show()
     {
         isHide = false;
-        mEmission.rateOverTime = 30f;
+        mParticle.gameObject.SetActive(true);
         mRenderer.color = new Color(1, 1, 1, 1);
         gameObject.SetActive(true);
     }
@@ -46,7 +44,7 @@ public class Darkness : MonoBehaviour
     {
         if (isMoving)
         {
-            mEmission.rateOverTime = 30f;
+            mParticle.gameObject.SetActive(true);
             mRenderer.color = new Color(1, 1, 1, 1);
             isAttack = true;
             StartCoroutine(Dash());
@@ -102,7 +100,7 @@ public class Darkness : MonoBehaviour
         }
         else
         {
-            mEmission.rateOverTime = 0f;
+            mParticle.gameObject.SetActive(false);
             gameObject.SetActive(false);
         }
     }

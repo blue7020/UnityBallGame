@@ -116,7 +116,7 @@ public class CutScenePoint : MonoBehaviour
                 StartCoroutine(CutScene10());
                 break;
             case 25://여기부터 스테이지 1
-                UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -249, 0);
+                UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -270, 0);
                 Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
                 Player.Instance.ShowAction(0);
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
@@ -184,6 +184,7 @@ public class CutScenePoint : MonoBehaviour
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
                 break;
             case 54:
+                UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, 270, 0);
                 StartCoroutine(CutScene15_1());
                 break;
             default:
@@ -330,7 +331,7 @@ public class CutScenePoint : MonoBehaviour
     {
         float time = 2.5f;
         WaitForSeconds delay = new WaitForSeconds(time);
-        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -249, 0);
+        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -270, 0);
         Player.Instance.mSpeed -= 3f;
         mMoveTrigger = true;
         StartCoroutine(MovePlayer());
@@ -373,7 +374,7 @@ public class CutScenePoint : MonoBehaviour
         mMoveTrigger = true;
         StartCoroutine(MovePlayer());
         yield return delay;
-        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -249, 0);
+        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, -270, 0);
         time = 2f;
         delay = new WaitForSeconds(time);
         mMoveTrigger = false;
@@ -397,7 +398,7 @@ public class CutScenePoint : MonoBehaviour
     {
         float time = 2f;
         WaitForSeconds delay = new WaitForSeconds(time);
-        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, 231, 0);
+        UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, 270, 0);
         Quaternion.Euler(new Vector2(0, 0));
         Vector3 pos = new Vector3(160, -32, -10);
         CameraMovement.Instance.CameraMove(pos, 2.5f);

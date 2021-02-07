@@ -7,6 +7,7 @@ public class Constants : MonoBehaviour
     //전체에서 다 쓰는 상수를 이렇게 보관해두면 편하다
     //const 변수는 전부 대문자로 띄어쓰기 대신 언더바
     public const int STAGE_COUNT = 6;
+    public const int COLLECTION = 7;//아래의 모든 컬렉션 수를 더한 것
     public const int STAGE_0_COLLECTION = 1;
     public const int STAGE_1_COLLECTION = 6;
     public const int STAGE_2_COLLECTION = 0;

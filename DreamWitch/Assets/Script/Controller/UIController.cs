@@ -24,7 +24,7 @@ public class UIController : InformationLoader
         if (Instance==null)
         {
             Instance = this;
-            LoadJson(out mInfoArr, Path.STAGE_INFO);
+            LoadJson(out mInfoArr, Paths.STAGE_INFO);
             mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
             mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
             if (SaveDataController.Instance.mUser.StageClear[0]==false)
@@ -111,6 +111,7 @@ public class UIController : InformationLoader
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(4f);
         SoundController.Instance.SESound(5);
+        Achievement.Instance.GetAchivement(0);
         if (TitleController.Instance.NowStage == 0)
         {
             if (TitleController.Instance.mLanguage == 0)
@@ -180,22 +181,16 @@ public class UIController : InformationLoader
         }
     }
 
-    public void ShowDialogue(string text)
+    public void ShowDialogue(string text,bool PlayerStop=true)
     {
-        Player.Instance.isCutScene = true;
+        if (PlayerStop)
+        {
+            Player.Instance.isCutScene = true;
+        }
         isShowTextBox = true;
         mTextBoxText.text = "";
-        StartCoroutine(TypingTextToTextBox(text));
+        mTextBoxText.DOText(text,0.5f);
         mTextBoxImage.gameObject.SetActive(true);
-    }
-    private IEnumerator TypingTextToTextBox(string text)
-    {
-        WaitForSecondsRealtime delay = null;
-        foreach (char letter in text.ToCharArray())
-        {
-            mTextBoxText.text += letter;
-            yield return delay;
-        }
     }
 
     public void GotoStage()
@@ -250,6 +245,11 @@ public class UIController : InformationLoader
         isCollect = true;
         mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionEnd.position, 0.3f);
         SaveDataController.Instance.mUser.CollectionAmount += 1;
+        if (SaveDataController.Instance.mUser.CollectionAmount ==Constants.COLLECTION)
+        {
+            Achievement.Instance.GetAchivement(1);
+        }
+        SaveDataController.Instance.Save(false);
         yield return delay;
         ShowCollection();
         time = 1f;

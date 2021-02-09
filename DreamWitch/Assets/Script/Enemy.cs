@@ -136,8 +136,6 @@ public class Enemy : MonoBehaviour
         mAnim.SetBool(AnimHash.Enemy_Attack, false);
     }
 
-    //mTypeCode 0=좌우 이동, 1=원거리 공격
-
     public void Damage(float damage)
     {
         if (isNoDamage==false)

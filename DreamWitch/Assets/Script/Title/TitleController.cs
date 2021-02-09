@@ -9,6 +9,7 @@ public class TitleController : MonoBehaviour
 
     public int mLanguageCount = 1; 
     public int mLanguage;
+    public float mGameVer;
 
     public int NowStage;
 

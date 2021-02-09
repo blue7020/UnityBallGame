@@ -265,7 +265,7 @@ public class CutScenePoint : MonoBehaviour
         Player.Instance.mAnim.SetFloat("xVelocity", 0);
         Player.Instance.isCutScene = true;
         yield return delay;
-        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 180f));
+        Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
         Player.Instance.mNowItem.gameObject.SetActive(true);
         Player.Instance.mNowItem.transform.SetParent(null);
         Player.Instance.mNowItem.transform.position = new Vector3(Player.Instance.transform.position.x + 0.5f, 5.26f, 0);

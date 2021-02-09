@@ -29,15 +29,19 @@ public class Boss1Controller : MonoBehaviour
         mEnemy.mFuntion = (() => { BossReset(); });
         BlockList = new List<GameObject>();
         RandomNumList = new List<int>();
-        if (TitleController.Instance.mLanguage==0)
+        gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        if (TitleController.Instance.mLanguage == 0)
         {
             text = DialogueSystem.Instance.mDialogueTextArr[55].text_kor;
         }
-        else if(TitleController.Instance.mLanguage == 1)
+        else if (TitleController.Instance.mLanguage == 1)
         {
-           text = DialogueSystem.Instance.mDialogueTextArr[55].text_eng;
+            text = DialogueSystem.Instance.mDialogueTextArr[55].text_eng;
         }
-        gameObject.SetActive(false);
     }
 
     public void BossSpawn()
@@ -181,7 +185,7 @@ public class Boss1Controller : MonoBehaviour
         mObj[1].SetActive(false);
         mObj[2].SetActive(true);
         mObj[3].SetActive(false);
-        StartCoroutine(mEnemy.Death());
+        StartCoroutine(mEnemy.Death(2.5f));
     }
 
     public void GotoIdle()
@@ -233,6 +237,7 @@ public class Boss1Controller : MonoBehaviour
                             mDelayCount = 0;
                             if (mDamageCooltimeCount >= 6)
                             {
+                                ShowHint();
                                 GotoIdle();
                             }
                             else
@@ -271,6 +276,14 @@ public class Boss1Controller : MonoBehaviour
 
     public void ShowHint()
     {
+        if (TitleController.Instance.mLanguage == 0)
+        {
+            text = DialogueSystem.Instance.mDialogueTextArr[55].text_kor;
+        }
+        else if (TitleController.Instance.mLanguage == 1)
+        {
+            text = DialogueSystem.Instance.mDialogueTextArr[55].text_eng;
+        }
         if (!isHint)
         {
             isHint = true;

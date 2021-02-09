@@ -11,8 +11,8 @@ public class DialogueSystem : InformationLoader
     public DialogueText[] mDialogueTextArr;
     public GameObject mNextPoint; 
     public List<string> mTextList;
-    public int NowIndex,EndIndex;
-    public bool isChatDelay,isDialogue,EndDialogue;
+    public int NowIndex,EndIndex,BackupNowIndex;
+    public bool isChatDelay,isDialogue,EndDialogue,isTextBoxShow;
 
     public CutScenePoint mCutScenePoint;
 
@@ -23,6 +23,7 @@ public class DialogueSystem : InformationLoader
             Instance = this;
             NowIndex = -1;
             EndIndex = -1;
+            BackupNowIndex = -1;
             LoadJson(out mDialogueTextArr, Paths.DIALOGUE_TEXT);
             mTextList = new List<string>();
         }
@@ -44,6 +45,7 @@ public class DialogueSystem : InformationLoader
             mNextPoint.SetActive(false);
             isChatDelay = true;
             ShowDialogue(NowIndex);
+            BackupNowIndex = NowIndex;
             mCutScenePoint.SetAction(NowIndex);
             if (NowIndex < EndIndex)
             {
@@ -78,8 +80,10 @@ public class DialogueSystem : InformationLoader
     {
         NowIndex = -1;
         EndIndex = -1;
+        BackupNowIndex = -1;
         EndDialogue = false;
         isDialogue = false;
+        isTextBoxShow = false;
         mCutScenePoint.EndCutScene();
     }
 
@@ -87,33 +91,29 @@ public class DialogueSystem : InformationLoader
     {
         NowIndex = now;
         EndIndex = end;
+        BackupNowIndex = NowIndex;
         isDialogue = true;
         StartCoroutine(ChatDelay());
     }
 
     public void ShowDialogue(int id)
     {
-        UIController.Instance.mDialogueFaceImage.sprite = UIController.Instance.mFaceSprite[mDialogueTextArr[id].FaceCode];
-        UIController.Instance.mDialogue.text = "";
-        string text = "";
-        if (TitleController.Instance.mLanguage == 0)
+        if (id>-1)
         {
-            text = mDialogueTextArr[id].text_kor;
-        }
-        else if (TitleController.Instance.mLanguage == 1)
-        {
-            text = mDialogueTextArr[id].text_eng;
-        }
-        UIController.Instance.mDialogue.DOText(text,0.8f);
-        //StartCoroutine(TypingTextToTextBox(text));
-        UIController.Instance.mDialogueImage.gameObject.SetActive(true);
-    }
-    private IEnumerator TypingTextToTextBox(string text)
-    {
-        foreach (char letter in text.ToCharArray())
-        {
-            UIController.Instance.mDialogue.text += letter;
-            yield return null;
+            isTextBoxShow = true;
+            UIController.Instance.mDialogueFaceImage.sprite = UIController.Instance.mFaceSprite[mDialogueTextArr[id].FaceCode];
+            UIController.Instance.mDialogue.text = "";
+            string text = "";
+            if (TitleController.Instance.mLanguage == 0)
+            {
+                text = mDialogueTextArr[id].text_kor;
+            }
+            else if (TitleController.Instance.mLanguage == 1)
+            {
+                text = mDialogueTextArr[id].text_eng;
+            }
+            UIController.Instance.mDialogue.DOText(text, 0.8f);
+            UIController.Instance.mDialogueImage.gameObject.SetActive(true);
         }
     }
 

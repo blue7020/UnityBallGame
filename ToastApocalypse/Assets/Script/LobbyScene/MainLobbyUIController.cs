@@ -41,27 +41,18 @@ public class MainLobbyUIController : MonoBehaviour
             ShowSyrupText();
             ShowToaterRoom();
 
-            if (SaveDataController.Instance.mUser.NPCOpen[7]==true)
+            if (SaveDataController.Instance.mUser.WeaponOpen[34]==false&& SaveDataController.Instance.mUser.WeaponOpen[35] == false)
             {
-                if (GameSetting.Instance.Language == 0)
-                {
-                    mtext = "포탈학자 NPC가 개방되었습니다!\n";
-                }
-                else if (GameSetting.Instance.Language == 1)
-                {
-                    mtext = "Portal Scholar NPC is open!\n";
-                }
-            }
-            if (SaveDataController.Instance.mUser.StageOpen[8]==false)
-            {
-                SaveDataController.Instance.mUser.StageOpen[8] = true;
+                SaveDataController.Instance.mUser.CharacterOpen[16] = true;
+                SaveDataController.Instance.mUser.WeaponOpen[34] = true;
+                SaveDataController.Instance.mUser.WeaponOpen[35] = true;
                 if (GameSetting.Instance.Language==0)
                 {
-                    mtext += "새 스테이지가 개방되었습니다: 고요한 밤\n난이도: 보통";
+                    mtext = "새 캐릭터 1종과 무기 2종이 추가되었습니다! 확인해보세요!";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
-                    mtext += "New stage open: Silent Night\nDifficulty level: Normal";
+                    mtext = "1 new character and 2 new weapons have been added! Check it out!";
                 }
                 mPopupWindow.ShowWindow(mtext);
             }

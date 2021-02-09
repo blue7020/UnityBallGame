@@ -230,7 +230,6 @@ public class SaveDataController : InformationLoader
         {
             Loading.Instance.StartSaving();
         }
-        //string location = Application.streamingAssetsPath + "/SaveData";
         //string location = "Assets/Resources/SaveData.savedata";
         string location = "Alone In a Dream_Data/Resources/SaveData.savedata";
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채

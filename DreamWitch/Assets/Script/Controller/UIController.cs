@@ -11,11 +11,11 @@ public class UIController : InformationLoader
     public Image mPlayCountSceen,mItemImage,mItemBoxImage,mDialogueImage,mDialogueFaceImage, mTextBoxImage, mScreenSaver, mMenuWindow,mCollectionImage, mSoundMenu, mScreenEffect,mGameOverImage,mClearImage;
     public Sprite mNull;
     public Sprite[] mFaceSprite;
-    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mCollectionText, mMenuCloseText,mGameOverStageText,mGameOverRestartText;
-    public Text mSoundText, mBGMText, mSEText, mBGMVolumeText, mSEVolumeText, mBackText,mClearText;
-    public bool isShowTextBox, isShowMenu,isCollect,isMenuCooltime;
+    public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mLanguageText,mLanguageTitleText,mLanguageBackText,mCollectionText, mMenuCloseText,mGameOverStageText,mGameOverRestartText;
+    public Text mSoundText, mBGMText, mSEText, mBGMVolumeText, mSEVolumeText, mBackText,mClearText, mVersionText;
+    public bool isShowTextBox, isShowMenu,isCollect,isMenuCooltime,isLanguageCooltime;
     public Transform Top, End, CollectionTop, CollectionEnd;
-    public Button mStageSelectButton;
+    public Button mStageSelectButton, mKorButton,mEngButton;
 
     public StageInfo[] mInfoArr;
 
@@ -35,42 +35,7 @@ public class UIController : InformationLoader
             {
                 mStageSelectButton.interactable = true;
             }
-            if (TitleController.Instance.mLanguage == 0)
-            {
-                mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
-                mTutorialText.text = "이동: WASD / 점프: 스페이스바\n마법: Q / 줍기: F / 사용: E\n메뉴: ESC";
-                mSkipText.text = "건너뛰기: C";
-                mCloseText.text = "닫기: Z";
-                mNextDialogueText.text= "다음: Z";
-                mMenuMainButtonText.text = "스테이지 선택으로";
-                mMenuCloseText.text = "닫기: ESC";
-                mMenuSoundText.text = "소리 설정";
-                mSoundText.text = "소리 설정";
-                mBackText.text = "뒤로";
-                mBGMText.text = "배경 음악";
-                mSEText.text = "효과음";
-                mGameOverStageText.text = "스테이지 선택으로";
-                mGameOverRestartText.text = "다시 하기";
-                mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_kor;
-            }
-            else if (TitleController.Instance.mLanguage == 1)
-            {
-                mCheckPointText.text = "*Checkpoints updated!";
-                mTutorialText.text = "Move: WASD / Jump: Space Bar\nMagic: Q / Pick: F / Use: E\nMenu: ESC";
-                mSkipText.text = "Skip: C";
-                mCloseText.text = "Close: Z";
-                mNextDialogueText.text = "Next: Z";
-                mMenuMainButtonText.text = "To the stage select";
-                mMenuCloseText.text = "Close: ESC";
-                mMenuSoundText.text = "Sound Setting";
-                mSoundText.text = "Sound Setting";
-                mBackText.text = "Back";
-                mBGMText.text = "BGM";
-                mSEText.text = "SE";
-                mGameOverStageText.text = "Go to stage select";
-                mGameOverRestartText.text = "Restart";
-                mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_eng;
-            }
+            mVersionText.text = TitleController.Instance.mGameVer + "B ver";
         }
         else
         {
@@ -110,6 +75,10 @@ public class UIController : InformationLoader
     public IEnumerator ShowStageClear()
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(4f);
+        if (isShowMenu)
+        {
+            StartCoroutine(MenuClose(true));
+        }
         SoundController.Instance.SESound(5);
         Achievement.Instance.GetAchivement(0);
         if (TitleController.Instance.NowStage == 0)
@@ -200,7 +169,7 @@ public class UIController : InformationLoader
         SoundController.Instance.BGMChange(1);
     }
 
-    public IEnumerator MenuClose()
+    public IEnumerator MenuClose(bool EndSetting=false)
     {
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
         CameraMovement.Instance.mFollowing = false;
@@ -213,7 +182,7 @@ public class UIController : InformationLoader
         CameraMovement.Instance.mFollowing = true;
         mScreenSaver.gameObject.SetActive(false);
         GameController.Instance.GamePause();
-        isShowMenu = false;
+        isShowMenu = EndSetting;
     }
     public IEnumerator MenuShow()
     {
@@ -286,6 +255,100 @@ public class UIController : InformationLoader
         isMenuCooltime = true;
         yield return delay;
         isMenuCooltime = false;
+    }
+
+    public void SetLanguage(int code)
+    {
+        if (!isLanguageCooltime)
+        {
+            isLanguageCooltime = true;
+            StartCoroutine(LanguageCooltime(code));
+        }
+    }
+
+    private IEnumerator LanguageCooltime(int code)
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(1f);
+        TitleController.Instance.mLanguage = code;
+        mKorButton.interactable = false;
+        mEngButton.interactable = false;
+        LanguageSetting();
+        yield return delay;
+        switch (TitleController.Instance.mLanguage)
+        {
+            case 0:
+                mEngButton.interactable = true;
+                break;
+            case 1:
+                mKorButton.interactable = true;
+                break;
+            default:
+                break;
+        }
+        isLanguageCooltime = false;
+    }
+
+    private void LanguageSetting()
+    {
+        if (TitleController.Instance.mLanguage == 0)
+        {
+            mCheckPointText.text = "*체크포인트가 갱신되었습니다!";
+            mTutorialText.text = "이동: WASD / 점프: 스페이스바\n마법: Q / 줍기: F / 사용: E\n메뉴: ESC";
+            mSkipText.text = "건너뛰기: C";
+            mCloseText.text = "닫기: Z";
+            mNextDialogueText.text = "다음: Z";
+            mMenuMainButtonText.text = "스테이지 선택으로";
+            mMenuCloseText.text = "닫기: ESC";
+            mMenuSoundText.text = "소리 설정";
+            mSoundText.text = "소리 설정";
+            mLanguageText.text = "언어 설정";
+            mLanguageText.text = "언어 설정";
+            mLanguageBackText.text = "뒤로";
+            mBackText.text = "뒤로";
+            mBGMText.text = "배경 음악";
+            mSEText.text = "효과음";
+            mGameOverStageText.text = "스테이지 선택으로";
+            mGameOverRestartText.text = "다시 하기";
+            mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_kor;
+        }
+        else if (TitleController.Instance.mLanguage == 1)
+        {
+            mCheckPointText.text = "*Checkpoints updated!";
+            mTutorialText.text = "Move: WASD / Jump: Space Bar\nMagic: Q / Pick: F / Use: E\nMenu: ESC";
+            mSkipText.text = "Skip: C";
+            mCloseText.text = "Close: Z";
+            mNextDialogueText.text = "Next: Z";
+            mMenuMainButtonText.text = "To the stage select";
+            mMenuCloseText.text = "Close: ESC";
+            mMenuSoundText.text = "Sound Setting";
+            mSoundText.text = "Sound Setting";
+            mLanguageText.text = "Language Setting";
+            mLanguageText.text = "Language Setting";
+            mLanguageBackText.text = "Back";
+            mBackText.text = "Back";
+            mBGMText.text = "BGM";
+            mSEText.text = "SE";
+            mGameOverStageText.text = "Go to stage select";
+            mGameOverRestartText.text = "Restart";
+            mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_eng;
+        }
+        if (DialogueSystem.Instance.isTextBoxShow==true)
+        {
+            //현재 대사가 출력중이면 현재 대사를 언어에 맞게 다시 출력함
+            DialogueSystem.Instance.ShowDialogue(DialogueSystem.Instance.BackupNowIndex);
+
+        }
+        if (GameController.Instance.isBoss)
+        {
+            switch (TitleController.Instance.NowStage)
+            {
+                case 1:
+                    GameController.Instance.mMapMaterialController.mBoss.GetComponent<Boss1Controller>().ShowHint();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void BGMPlus()

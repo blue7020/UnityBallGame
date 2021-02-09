@@ -12,10 +12,10 @@ public class Constants : MonoBehaviour
     public const int MAX_MATERIAL = 99;
 
 
-    public const int CHARACTER_COUNT = 16;
+    public const int CHARACTER_COUNT = 17;
     public const int SKILL_COUNT = 16;
     public const int STATUE_COUNT = 9;
-    public const int WEAPON_COUNT = 34;
+    public const int WEAPON_COUNT = 36;
     public const int ITEM_COUNT = 12;
     public const int NPC_COUNT = 10;
 

@@ -10,11 +10,13 @@ public class StageSelectController : InformationLoader
 
     public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu,mPopupImage;
     public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText;
-    public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mLanguageBackText,mPopupText;
+    public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mLanguageBackText,mPopupText,mVersionText;
     public Camera mCamera;
     public Transform Top, End;
     public StageInfo[] mInfoArr;
     public IslandSelect[] IslandSelectArr;
+
+    public bool isLanguageCooltime;
 
     public Button mKorButton, mEngButton;
 
@@ -43,6 +45,7 @@ public class StageSelectController : InformationLoader
                 default:
                     break;
             }
+            mVersionText.text = TitleController.Instance.mGameVer + "B ver";
             SoundController.Instance.BGMChange(1);
             LanguageSetting();
         }
@@ -216,22 +219,35 @@ public class StageSelectController : InformationLoader
 
     public void SetLanguage(int code)
     {
+        if (!isLanguageCooltime)
+        {
+            isLanguageCooltime = true;
+            StartCoroutine(LanguageCooltime(code));
+        }
+    }
+
+    private IEnumerator LanguageCooltime(int code)
+    {
+        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(1f);
         TitleController.Instance.mLanguage = code;
+        mKorButton.interactable = false;
+        mEngButton.interactable = false;
+        LanguageSetting();
+        yield return delay;
         switch (TitleController.Instance.mLanguage)
         {
             case 0:
-                mKorButton.interactable = false;
                 mEngButton.interactable = true;
                 break;
             case 1:
                 mKorButton.interactable = true;
-                mEngButton.interactable = false;
                 break;
             default:
                 break;
         }
-        LanguageSetting();
+        isLanguageCooltime = false;
     }
+
 
     private void LanguageSetting()
     {

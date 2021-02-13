@@ -214,6 +214,7 @@ public class MaterialStat
     public string EngTitle;
     public string ContensFormat;
     public string EngContensFormat;
+    public int SellAmount;
 }
 
 [Serializable]

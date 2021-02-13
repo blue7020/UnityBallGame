@@ -14,8 +14,9 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
     public string title, lore;
     public Text mCount;
     public int mAmount;//상점용
+    public bool mExchange;
 
-    public void SetData(int id)
+    public void SetData(int id,bool exchange=false)
     {
         mIcon.color = Color.white;
         if (mMaterial != null && GameSetting.Instance.Ingame == false)
@@ -24,6 +25,10 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
         }
         mMaterialID = id;
         mIcon.sprite = GameSetting.Instance.mMaterialSpt[mMaterialID];
+        if (exchange)
+        {
+            mExchange = exchange;
+        }
     }
 
     public void HideAmount()
@@ -43,9 +48,18 @@ public class MaterialSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (mMaterial != null&&GameSetting.Instance.Ingame==false&& BlackSmith.Instance.IsShop==false)
+        if (mMaterial != null && GameSetting.Instance.Ingame == false)
         {
-            MaterialController.Instance.ShowDescription(mMaterialID);
+            if (mExchange)
+            {
+                ExchangeController.Instance.mSellAmount = 0;
+                ExchangeController.Instance.mTotalSyrup = 0;
+                ExchangeController.Instance.ShowDescription(mMaterialID);
+            }
+            if (BlackSmith.Instance.IsShop == false && mExchange == false)
+            {
+                MaterialController.Instance.ShowDescription(mMaterialID);
+            }
         }
 
     }

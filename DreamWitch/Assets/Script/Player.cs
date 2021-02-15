@@ -411,17 +411,17 @@ public class Player : MonoBehaviour
         if (!isNoDamage)
         {
             mCurrentHP -= damage;
-            GameController.Instance.Damege();
             StartCoroutine(DamageAnimation());
+            GameController.Instance.Damege();
         }
-        if (mCurrentHP<=0)
+        if (mCurrentHP<1)
         {
             GameController.Instance.GameOver();
         }
     }
     public IEnumerator DamageAnimation()
     {
-        WaitForSeconds delay = new WaitForSeconds(0.1f);
+        WaitForSeconds delay = new WaitForSeconds(0.11f);
         isNoDamage = true;
         mRenderer.color = new Vector4(1,1,1,0.2f);
         yield return delay;
@@ -448,8 +448,8 @@ public class Player : MonoBehaviour
     public void FallingDamage()
     {
         mCurrentHP -= 1;
-        GameController.Instance.Damege();
         StartCoroutine(DamageAnimation());
+        GameController.Instance.Damege();
         if (mCurrentHP > 0)
         {
             mRB2D.velocity = Vector2.zero;
@@ -512,7 +512,7 @@ public class Player : MonoBehaviour
             {
                 Damage(mEnemy.mAtk);
             }
-            Invoke("DamageCount", 0.7f);
+            Invoke("DamageCount", 0.99f);
         }
         else
         {

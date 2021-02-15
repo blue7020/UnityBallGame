@@ -10,6 +10,7 @@ public class TitleUIController : MonoBehaviour
     public Sprite[] mTitleLanguageSpriteArr;
     public Text mKeyText;
     public float mAlphaAnimPeriod = 2;
+    public SpriteRenderer mTitleObj;
 
 
     private void OnEnable()
@@ -25,6 +26,14 @@ public class TitleUIController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
+            if (TitleController.Instance.mLanguage==0)
+            {
+                mTitleObj.sprite = mTitleLanguageSpriteArr[1];
+            }
+            else if (TitleController.Instance.mLanguage == 1)
+            {
+                mTitleObj.sprite = mTitleLanguageSpriteArr[0];
+            }
             mKeyText.text = "Press SpaceBar";
             StartCoroutine(AlphaAnim());
         }
@@ -55,6 +64,24 @@ public class TitleUIController : MonoBehaviour
                 GameStart();
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ClickCount++;
+            if (!IsInvoking("DoubleClick"))
+                Invoke("DoubleClick", 1.0f);
+
+        }
+        else if (ClickCount == 2)
+        {
+            SaveDataController.Instance.Save(false);
+            Application.Quit();
+        }
+    }
+
+    int ClickCount = 0;
+    void DoubleClick()
+    {
+        ClickCount = 0;
     }
 
     public IEnumerator ShowNotice()

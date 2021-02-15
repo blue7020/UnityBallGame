@@ -91,7 +91,6 @@ public class Darkness : MonoBehaviour
         mRB2D.DOMove(pos, 2.5f);
         yield return delay;
         AttackEnd();
-        delay = new WaitForSeconds(2f);
         yield return delay;
         if (!isHide)
         {
@@ -100,13 +99,13 @@ public class Darkness : MonoBehaviour
         }
         else
         {
-            mParticle.gameObject.SetActive(false);
             gameObject.SetActive(false);
         }
     }
 
     public void AttackEnd()
     {
+        mParticle.gameObject.SetActive(false);
         mWhite.SetActive(false);
         isAttack = false;
         mRenderer.color = new Color(1, 1, 1, 0);

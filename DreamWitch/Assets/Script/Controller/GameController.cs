@@ -168,6 +168,7 @@ public class GameController : MonoBehaviour
         if (TitleController.Instance.PlayCount <=0)
         {
             SoundController.Instance.mBGM.Pause();
+            UIController.Instance.MenuClose(true);
             Time.timeScale = 0;
             Player.Instance.isNoDamage = true;
             UIController.Instance.mGameOverImage.gameObject.SetActive(true);
@@ -188,6 +189,7 @@ public class GameController : MonoBehaviour
     private IEnumerator DeathLoad()
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
+        Player.Instance.isNoDamage = true;
         if (mDarkness!=null)
         {
             mDarkness.isMoving = false;
@@ -198,13 +200,16 @@ public class GameController : MonoBehaviour
         Heal(Player.Instance.mMaxHP - Player.Instance.mCurrentHP);
         Player.Instance.isReset = true;
         mMapMaterialController.RefreshMap();
-        Player.Instance.isNoDamage = true;
         Player.Instance.mRB2D.velocity = Vector2.zero;
         Player.Instance.transform.position = Player.Instance.CheckPointPos;
         yield return delay;
         UIController.Instance.mScreenEffect.gameObject.SetActive(false);
-        Player.Instance.isNoDamage = false;
         Player.Instance.isReset = false;
+        UIController.Instance.mCollectionImage.gameObject.SetActive(false);
+        UIController.Instance.mMenuWindow.gameObject.SetActive(false);
+        CameraMovement.Instance.mFollowing = true;
+        UIController.Instance.mScreenSaver.gameObject.SetActive(false);
+        UIController.Instance.isShowMenu = false;
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());
         if (mDarkness != null)
         {
@@ -227,7 +232,6 @@ public class GameController : MonoBehaviour
 
     public void LobbyLoad()
     {
-        TitleController.Instance.PlayCount = 3;
         Loading.Instance.StartLoading(2);
     }
 

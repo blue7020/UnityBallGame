@@ -52,12 +52,14 @@ public class MovingTile : MonoBehaviour
         {
             other.gameObject.transform.SetParent(transform);
             other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(other.gameObject.GetComponent<Rigidbody2D>().velocity.x, other.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+            Player.Instance.mJumpForce = 13;
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player") && !isTrap)
         {
+            Player.Instance.mJumpForce = 10;
             other.gameObject.transform.SetParent(null);
         }
     }

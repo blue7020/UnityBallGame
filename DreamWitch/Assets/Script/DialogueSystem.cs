@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class DialogueSystem : InformationLoader
 {
@@ -11,8 +12,9 @@ public class DialogueSystem : InformationLoader
     public DialogueText[] mDialogueTextArr;
     public GameObject mNextPoint; 
     public List<string> mTextList;
-    public int NowIndex,EndIndex,BackupNowIndex;
-    public bool isChatDelay,isDialogue,EndDialogue,isTextBoxShow;
+    public int NowIndex,EndIndex,BackupNowIndex,
+        mNowCutSceneIndex;//<-텍스트 번호가 아닌 현재 컷씬의 번호
+    public bool isChatDelay,isDialogue,EndDialogue,isTextBoxShow,isSkip;
 
     public CutScenePoint mCutScenePoint;
 
@@ -117,6 +119,90 @@ public class DialogueSystem : InformationLoader
         }
     }
 
+    public void Skip()
+    {
+        switch (mNowCutSceneIndex)
+        {
+            case 0:
+                StopCoroutine(mCutScenePoint.CutScene0());
+                Player.Instance.mSpeed = 7;
+                mCutScenePoint.mMoveTrigger = false;
+                UIController.Instance.ShowTutorial();
+                Player.Instance.transform.position = new Vector3(-20.90166f, -5.245378f, 0);
+                mNowCutSceneIndex = 1;
+                break;
+            case 5:
+                StopCoroutine(mCutScenePoint.CutScene5());
+                StopCoroutine(mCutScenePoint.CutScene5_2());
+                UIController.Instance.HideTutorial();
+                SoundController.Instance.mBGM.mute = false;
+                Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
+                CutSceneController.Instance.ChangeMainCamera();
+                mNowCutSceneIndex = 6;
+                break;
+            case 9:
+                StopCoroutine(mCutScenePoint.CutScene9());
+                mCutScenePoint.mID = 10;
+                StartCoroutine(mCutScenePoint.CutScene10());
+                break;
+            case 11://1stage
+                StopCoroutine(mCutScenePoint.CutScene11());
+                mCutScenePoint.mObj[0].transform.position = new Vector3(-25.5f, 18.26f, 0);
+                mCutScenePoint.mObj[0].GetComponent<HoldingItem>().mItemKeyObj.SetActive(false);
+                UIController.Instance.mScreenEffect.gameObject.SetActive(false);
+                SoundController.Instance.BGMChange(3);
+                Darkness.Instance.Show();
+                Darkness.Instance.transform.position =new Vector3(-22.5f, 22.5f, 0);
+                Player.Instance.GetItem(mCutScenePoint.mObj[0].GetComponent<HoldingItem>());
+                mCutScenePoint.mObj[1].gameObject.SetActive(true);
+                mCutScenePoint.mObj[2].gameObject.SetActive(true);
+                break;
+            case 12:
+                StopCoroutine(mCutScenePoint.CutScene12());
+                StopCoroutine(mCutScenePoint.CutScene12_1());
+                StopCoroutine(mCutScenePoint.CutScene12_2());
+                Darkness.Instance.transform.position = new Vector3(515, -146, 0);
+                mCutScenePoint.mMoveTrigger = false;
+                HoldingItem item = Player.Instance.mNowItem;
+                Player.Instance.mSpeed = 7;
+                Player.Instance.mNowItem.Drop();
+                item.mItemKeyObj.gameObject.SetActive(false);
+                item.transform.SetParent(Darkness.Instance.transform);
+                item.transform.localPosition = new Vector3(0, 0.5f, 0);
+                Player.Instance.mNowItem = null;
+                Player.Instance.mNowItemID = -1;
+                UIController.Instance.ItemImageChange();
+                Player.Instance.isNoDamage = false;
+                Player.Instance.transform.position = new Vector3(190.5934f, -0.241164f, 0);
+                break;
+            case 14:
+                StopCoroutine(mCutScenePoint.CutScene14());
+                StopCoroutine(mCutScenePoint.CutScene14_1());
+                StopCoroutine(mCutScenePoint.CutScene14_2());
+                Player.Instance.CheckPointPos = transform.position; GameController.Instance.mMapMaterialController.mBoss.gameObject.SetActive(true);      GameController.Instance.mMapMaterialController.mBoss.transform.position =  new Vector3(525.5f,- 144.4f,0);
+                Darkness.Instance.transform.localScale = new Vector3(1, 1, 1);
+                Darkness.Instance.transform.position = new Vector3(575.5f, -144, 0);
+                mCutScenePoint.mObj[0].SetActive(true);
+                SoundController.Instance.BGMChange(2);
+                GameController.Instance.isBoss = true;
+                break;
+            case 15:
+                StopCoroutine(mCutScenePoint.CutScene15());
+                mNowCutSceneIndex = 16;
+                mCutScenePoint.mMoveTrigger = false;
+                UIController.Instance.mDialogueImage.gameObject.SetActive(false);
+                TitleController.Instance.isShowTitle = true;
+                SaveDataController.Instance.mUser.StageClear[1] = true;
+                SaveDataController.Instance.mUser.StageShow[2] = true;
+                UIController.Instance.mNextDialogueText.gameObject.SetActive(false);
+                SceneManager.LoadScene(0);
+                break;
+            default:
+                break;
+        }
+        EndCutScene();
+    }
+
     private void Update()
     {
         if (isDialogue)
@@ -128,12 +214,12 @@ public class DialogueSystem : InformationLoader
                     StartCoroutine(ChatDelay());
                 }
             }
-            if (mCutScenePoint != null && mCutScenePoint.IsSkip)
+        }
+        if (isSkip && mCutScenePoint != null && mCutScenePoint.IsSkip)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
             {
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    EndCutScene();
-                }
+                Skip();
             }
         }
     }

@@ -9,10 +9,9 @@ public class StageSelectController : InformationLoader
     public static StageSelectController Instance;
 
     public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu,mPopupImage;
-    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mMenuMainButtonText, mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText;
+    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mExitText,mMainScreenText,mGameExitText, mExitBackText,mExitTitleText,mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText;
     public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mLanguageBackText,mPopupText,mVersionText;
     public Camera mCamera;
-    public Transform Top, End;
     public StageInfo[] mInfoArr;
     public IslandSelect[] IslandSelectArr;
 
@@ -57,6 +56,7 @@ public class StageSelectController : InformationLoader
 
     private void Start()
     {
+        TitleController.Instance.PlayCount = 3;
         SoundController.Instance.VolumeRefresh();
     }
 
@@ -110,7 +110,6 @@ public class StageSelectController : InformationLoader
                 Loading.Instance.StartLoading(1,false);
                 break;
             case 1:
-                SoundController.Instance.BGMChange(0);
                 SaveDataController.Instance.Save(false);
                 Loading.Instance.StartLoading(1, false);
                 break;
@@ -137,38 +136,11 @@ public class StageSelectController : InformationLoader
         mPopupImage.gameObject.SetActive(false);
     }
 
-    public IEnumerator MenuClose()
-    {
-        WaitForSeconds delay = new WaitForSeconds(0.35f);
-        mMenuWindow.GetComponent<Rigidbody2D>().DOMove(Top.position, 0.3f);
-        yield return delay;
-        mScreenSaver.gameObject.SetActive(false);
-        isShowMenu = false;
-        if (isShowStage)
-        {
-            CameraMovement.Instance.mFollowing = false;
-        }
-        else
-        {
-            CameraMovement.Instance.mFollowing = true;
-        }
-    }
-
     public void GotoMain()
     {
         Time.timeScale = 1;
         SaveDataController.Instance.Save(true);
         Loading.Instance.StartLoading(0,false);
-    }
-
-    public void MenuShow()
-    {
-        mCollectionText.text = "x" + SaveDataController.Instance.mUser.CollectionAmount.ToString();
-        mSoundMenu.gameObject.SetActive(false);
-        mLanguageMenu.gameObject.SetActive(false);
-        mScreenSaver.gameObject.SetActive(true);
-        mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
-        isShowMenu = true;
     }
 
     private void Update()
@@ -183,7 +155,17 @@ public class StageSelectController : InformationLoader
         {
             if (isShowMenu)
             {
-                StartCoroutine(MenuClose());
+                mScreenSaver.gameObject.SetActive(false);
+                mMenuWindow.gameObject.SetActive(false);
+                isShowMenu = false;
+                if (isShowStage)
+                {
+                    CameraMovement.Instance.mFollowing = false;
+                }
+                else
+                {
+                    CameraMovement.Instance.mFollowing = true;
+                }
             }
             else
             {
@@ -191,7 +173,12 @@ public class StageSelectController : InformationLoader
                 {
                     CameraMovement.Instance.mFollowing = false;
                 }
-                MenuShow();
+                isShowMenu = true;
+                mCollectionText.text = "x" + SaveDataController.Instance.mUser.CollectionAmount.ToString();
+                mSoundMenu.gameObject.SetActive(false);
+                mLanguageMenu.gameObject.SetActive(false);
+                mScreenSaver.gameObject.SetActive(true);
+                mMenuWindow.gameObject.SetActive(true);
             }
         }
     }
@@ -248,6 +235,12 @@ public class StageSelectController : InformationLoader
         isLanguageCooltime = false;
     }
 
+    public void GameExit()
+    {
+        SaveDataController.Instance.Save(false);
+        Application.Quit();
+    }
+
 
     private void LanguageSetting()
     {
@@ -267,13 +260,17 @@ public class StageSelectController : InformationLoader
             mCloseText.text = "닫기: X";
             mMenuTitleText.text = "메뉴";
             mMenuCloseText.text = "닫기: ESC";
-            mMenuMainButtonText.text = "메인 화면으로";
+            mExitText.text = "종료";
+            mGameExitText.text = "게임 종료";
+            mMainScreenText.text = "메인 화면으로";
+            mExitTitleText.text = "종료";
             mMenuLanguageText.text = "언어 설정";
             mMenuSoundText.text = "소리 설정";
             mLanguageText.text = "언어 설정";
             mSoundText.text = "소리 설정";
             mSoundBackText.text = "뒤로";
             mLanguageBackText.text = "뒤로";
+            mExitBackText.text = "뒤로";
             mBGMText.text = "배경 음악";
             mSEText.text = "효과음";
 
@@ -284,13 +281,17 @@ public class StageSelectController : InformationLoader
             mCloseText.text = "Close: X";
             mMenuTitleText.text = "MENU";
             mMenuCloseText.text = "Close: ESC";
-            mMenuMainButtonText.text = "To the main screen";
+            mExitText.text = "Exit";
+            mGameExitText.text = "Exit game";
+            mMainScreenText.text = "To the main screen";
+            mExitTitleText.text = "Exit";
             mMenuLanguageText.text = "Language Setting";
             mMenuSoundText.text = "Sound Setting";
             mLanguageText.text = "Language Setting";
             mSoundText.text = "Sound Setting";
             mSoundBackText.text = "Back";
             mLanguageBackText.text = "Back";
+            mExitBackText.text = "Back";
             mBGMText.text = "BGM";
             mSEText.text = "SE";
         }

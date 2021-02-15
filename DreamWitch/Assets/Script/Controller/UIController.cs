@@ -14,7 +14,6 @@ public class UIController : InformationLoader
     public Text mPlayCountText,mDialogue,mCheckPointText,mTutorialText,mSkipText,mNextDialogueText,mTextBoxText,mCloseText,mMapText, mMenuMainButtonText, mMenuSoundText, mLanguageText,mLanguageTitleText,mLanguageBackText,mCollectionText, mMenuCloseText,mGameOverStageText,mGameOverRestartText;
     public Text mSoundText, mBGMText, mSEText, mBGMVolumeText, mSEVolumeText, mBackText,mClearText, mVersionText;
     public bool isShowTextBox, isShowMenu,isCollect,isMenuCooltime,isLanguageCooltime;
-    public Transform Top, End, CollectionTop, CollectionEnd;
     public Button mStageSelectButton, mKorButton,mEngButton;
 
     public StageInfo[] mInfoArr;
@@ -35,6 +34,7 @@ public class UIController : InformationLoader
             {
                 mStageSelectButton.interactable = true;
             }
+            LanguageSetting(true);
             mVersionText.text = TitleController.Instance.mGameVer + "B ver";
         }
         else
@@ -77,7 +77,7 @@ public class UIController : InformationLoader
         WaitForSecondsRealtime delay = new WaitForSecondsRealtime(4f);
         if (isShowMenu)
         {
-            StartCoroutine(MenuClose(true));
+            MenuClose(true);
         }
         SoundController.Instance.SESound(5);
         Achievement.Instance.GetAchivement(0);
@@ -111,6 +111,7 @@ public class UIController : InformationLoader
     public IEnumerator ShowPlayCountScreen()
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
+        Player.Instance.isNoDamage = true;
         Player.Instance.isCutScene = true;
         isMenuCooltime = true;
         mPlayCountText.text = "x"+TitleController.Instance.PlayCount;
@@ -127,6 +128,7 @@ public class UIController : InformationLoader
         {
             GameController.Instance.mMapMaterialController.StartCutScene();
         }
+        Player.Instance.isNoDamage = false;
     }
 
     public void ShowTutorial()
@@ -169,34 +171,22 @@ public class UIController : InformationLoader
         SoundController.Instance.BGMChange(1);
     }
 
-    public IEnumerator MenuClose(bool EndSetting=false)
+    public void MenuClose(bool EndSetting=false)
     {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
-        CameraMovement.Instance.mFollowing = false;
-        if (!isCollect)
-        {
-            mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionTop.position, 0.3f);
-        }
-        mMenuWindow.GetComponent<Rigidbody2D>().DOMove(Top.position, 0.3f);
-        yield return delay;
+        mCollectionImage.gameObject.SetActive(false);
+        mMenuWindow.gameObject.SetActive(false);
         CameraMovement.Instance.mFollowing = true;
         mScreenSaver.gameObject.SetActive(false);
         GameController.Instance.GamePause();
         isShowMenu = EndSetting;
     }
-    public IEnumerator MenuShow()
+    public void MenuShow()
     {
-        WaitForSecondsRealtime delay = new WaitForSecondsRealtime(0.35f);
-        CameraMovement.Instance.mFollowing = false;
         mSoundMenu.gameObject.SetActive(false);
         ShowCollection();
         mScreenSaver.gameObject.SetActive(true);
-        if (!isCollect)
-        {
-            mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionEnd.position, 0.3f);
-        }
-        mMenuWindow.GetComponent<Rigidbody2D>().DOMove(End.position, 0.3f);
-        yield return delay;
+        mCollectionImage.gameObject.SetActive(true);
+        mMenuWindow.gameObject.SetActive(true);
         CameraMovement.Instance.mFollowing = true;
         GameController.Instance.GamePause();
         isShowMenu = true;
@@ -212,7 +202,7 @@ public class UIController : InformationLoader
         float time = 0.4f;
         WaitForSeconds delay = new WaitForSeconds(time);
         isCollect = true;
-        mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionEnd.position, 0.3f);
+        mCollectionImage.gameObject.SetActive(true);
         SaveDataController.Instance.mUser.CollectionAmount += 1;
         if (SaveDataController.Instance.mUser.CollectionAmount ==Constants.COLLECTION)
         {
@@ -224,7 +214,7 @@ public class UIController : InformationLoader
         time = 1f;
         delay = new WaitForSeconds(time);
         yield return delay;
-        mCollectionImage.GetComponent<Rigidbody2D>().DOMove(CollectionTop.position, 0.5f);
+        mCollectionImage.gameObject.SetActive(false);
         isCollect = false;
     }
 
@@ -239,11 +229,11 @@ public class UIController : InformationLoader
         {
             if (isShowMenu)
             {
-                StartCoroutine(MenuClose());
+                MenuClose();
             }
             else
             {
-                StartCoroutine(MenuShow());
+                MenuShow();
             }
             StartCoroutine(MenuCooltime());
         }
@@ -288,7 +278,7 @@ public class UIController : InformationLoader
         isLanguageCooltime = false;
     }
 
-    private void LanguageSetting()
+    private void LanguageSetting(bool FirstSetting=false)
     {
         if (TitleController.Instance.mLanguage == 0)
         {
@@ -332,21 +322,24 @@ public class UIController : InformationLoader
             mGameOverRestartText.text = "Restart";
             mMapText.text = mInfoArr[TitleController.Instance.NowStage].title_eng;
         }
-        if (DialogueSystem.Instance.isTextBoxShow==true)
+        if (!FirstSetting)
         {
-            //현재 대사가 출력중이면 현재 대사를 언어에 맞게 다시 출력함
-            DialogueSystem.Instance.ShowDialogue(DialogueSystem.Instance.BackupNowIndex);
-
-        }
-        if (GameController.Instance.isBoss)
-        {
-            switch (TitleController.Instance.NowStage)
+            if (DialogueSystem.Instance.isTextBoxShow == true)
             {
-                case 1:
-                    GameController.Instance.mMapMaterialController.mBoss.GetComponent<Boss1Controller>().ShowHint();
-                    break;
-                default:
-                    break;
+                //현재 대사가 출력중이면 현재 대사를 언어에 맞게 다시 출력함
+                DialogueSystem.Instance.ShowDialogue(DialogueSystem.Instance.BackupNowIndex);
+
+            }
+            if (GameController.Instance.isBoss)
+            {
+                switch (TitleController.Instance.NowStage)
+                {
+                    case 1:
+                        GameController.Instance.mMapMaterialController.mBoss.GetComponent<Boss1Controller>().ShowHint();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

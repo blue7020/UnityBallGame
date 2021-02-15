@@ -213,6 +213,10 @@ public class BuffSelect : MonoBehaviour,IPointerDownHandler
         UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
         GameController.Instance.SetActiveArtifacts();
         GameController.Instance.SetWeapon();
+        if (Player.Instance.NowActiveArtifact != null)
+        {
+            StartCoroutine(Player.Instance.NowActiveArtifact.CooltimeRoutine(true));
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)

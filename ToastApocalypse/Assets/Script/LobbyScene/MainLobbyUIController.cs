@@ -41,9 +41,12 @@ public class MainLobbyUIController : MonoBehaviour
             ShowSyrupText();
             ShowToaterRoom();
 
-            if (SaveDataController.Instance.mUser.WeaponOpen[34]==false&& SaveDataController.Instance.mUser.WeaponOpen[35] == false)
+            if (SaveDataController.Instance.mUser.CharacterOpen[16]==false)
             {
                 SaveDataController.Instance.mUser.CharacterOpen[16] = true;
+            }
+            if (SaveDataController.Instance.mUser.WeaponOpen[34]==false&& SaveDataController.Instance.mUser.WeaponOpen[35] == false)
+            {
                 SaveDataController.Instance.mUser.WeaponOpen[34] = true;
                 SaveDataController.Instance.mUser.WeaponOpen[35] = true;
                 if (GameSetting.Instance.Language==0)

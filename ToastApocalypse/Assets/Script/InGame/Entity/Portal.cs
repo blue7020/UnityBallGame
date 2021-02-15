@@ -59,6 +59,10 @@ public class Portal : MonoBehaviour
     {
         SoundController.Instance.SESound(21);
         GameController.Instance.StageLevel++;
+        if (Player.Instance.NowActiveArtifact!=null)
+        {
+            StopCoroutine(Player.Instance.NowActiveArtifact.CooltimeRoutine(false));
+        }
         if(GameSetting.Instance.ChallengeMode){
             GameController.Instance.SyrupInStage += 35;
         }
@@ -69,6 +73,8 @@ public class Portal : MonoBehaviour
         {
             BuffEffectController.Instance.EffectList[i].gameObject.SetActive(false);
         }
+
+
         if (GameController.Instance.StageLevel == GameSetting.STAGELEVEL_COUNT)
         {
             UIController.Instance.StartCoroutine(UIController.Instance.SceneMoveShadow());
@@ -112,6 +118,10 @@ public class Portal : MonoBehaviour
             UIController.Instance.StartCoroutine(UIController.Instance.ShowLevel());
             GameController.Instance.SetActiveArtifacts();
             GameController.Instance.SetWeapon();
+            if (Player.Instance.NowActiveArtifact != null)
+            {
+                StartCoroutine(Player.Instance.NowActiveArtifact.CooltimeRoutine(true));
+            }
         }
         UIController.Instance.ShowHP();
         UIController.Instance.ShowGold();

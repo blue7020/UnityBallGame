@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class TitleUIController : MonoBehaviour
 {
     public static TitleUIController Instance;
-    public Image mTitle,mNoticeImage;
+    public Image mTitle,mNoticeImage,mTitleLogoImage;
+    public Sprite[] mTitleLanguageSpriteArr;
     public Text mKeyText;
     public float mAlphaAnimPeriod = 2;
 
@@ -69,6 +70,15 @@ public class TitleUIController : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(5f);
         SoundController.Instance.mBGM.Stop();
+        switch (TitleController.Instance.mLanguage)
+        {
+            case 0:
+                mTitleLogoImage.sprite = mTitleLanguageSpriteArr[1];
+                break;
+            default:
+                mTitleLogoImage.sprite = mTitleLanguageSpriteArr[0];
+                break;
+        }
         mTitle.gameObject.SetActive(true);
         SoundController.Instance.SESound(17);
         yield return delay;

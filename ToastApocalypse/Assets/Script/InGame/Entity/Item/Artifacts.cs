@@ -20,6 +20,8 @@ public class Artifacts : InformationLoader
     public bool IsArtifactCool;
     private bool DropCool;
 
+    public float currentCooltime;
+
 
     public bool IsShopItem;
 
@@ -80,12 +82,14 @@ public class Artifacts : InformationLoader
         }
     }
 
-    private IEnumerator CooltimeRoutine()
+    public IEnumerator CooltimeRoutine(bool Continuing=false)
     {
         WaitForFixedUpdate frame = new WaitForFixedUpdate();
         float maxTime = mStats.Skill_Cooltime - (mStats.Skill_Cooltime * Player.Instance.mStats.CooltimeReduce);
-        float CoolTime = maxTime;
-        float AttackCurrentTime = CoolTime;
+        if (!Continuing)
+        {
+            currentCooltime = maxTime;
+        }
         if (GameController.Instance.IsTutorial==true)
         {
             TutorialUIController.Instance.mArtifactButton.interactable = false;
@@ -94,11 +98,11 @@ public class Artifacts : InformationLoader
         {
             UIController.Instance.mArtifactButton.interactable = false;
         }
-        while (AttackCurrentTime >= 0)
+        while (currentCooltime >= 0)
         {
             yield return frame;
-            AttackCurrentTime -= Time.fixedDeltaTime;
-            ShowCooltime(CoolTime, AttackCurrentTime);
+            currentCooltime -= Time.fixedDeltaTime;
+            ShowCooltime(maxTime, currentCooltime);
         }
         if (GameController.Instance.IsTutorial == true)
         {

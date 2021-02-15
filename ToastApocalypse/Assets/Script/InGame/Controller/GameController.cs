@@ -160,6 +160,15 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void TutorialSkip()
+    {
+        GameSetting.Instance.GetSyrup(700);
+        SaveDataController.Instance.mUser.TutorialEnd = true;
+        SaveDataController.Instance.mUser.NPCOpen[1] = true;
+        SaveDataController.Instance.mUser.StagePartsget[GameSetting.Instance.NowStage] = true;
+        MainMenu();
+    }
+
     public void MainMenu()
     {
         DestroyController();

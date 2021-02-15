@@ -41,15 +41,15 @@ public class TutorialUIController : InformationLoader
                 {
                     YesText.text = "<color=#FE2E2E>예</color>";
                     NoText.text = "아니오";
-                    WarningText.text = "시작 화면으로 돌아가시겠습니까?\n<color=#FE2E2E><size=80>(현재 스테이지가 저장되지 않습니다!)</size></color>";
+                    WarningText.text = "<color=#FE2E2E><size=80>튜토리얼을 스킵하시겠습니까?</size></color>";
                 }
                 else if (GameSetting.Instance.Language == 1)
                 {
                     YesText.text = "<color=#FE2E2E>YES</color>";
                     NoText.text = "NO";
-                    WarningText.text = "Do you want to return to the start screen?\n<color=#FE2E2E><size=80>(This stage is not save!)</size></color>";
+                    WarningText.text = "<color=#FE2E2E><size=80>Skip the tutorial?</size></color>";
                 }
-                YesButton.onClick.AddListener(() => { GameController.Instance.MainStart(); });
+                YesButton.onClick.AddListener(() => { GameController.Instance.TutorialSkip(); });
             }
             else
             {

@@ -186,7 +186,6 @@ public class UIController : InformationLoader
         mSoundMenu.gameObject.SetActive(false);
         ShowCollection();
         mScreenSaver.gameObject.SetActive(true);
-        mCollectionImage.gameObject.SetActive(true);
         mMenuWindow.gameObject.SetActive(true);
         CameraMovement.Instance.mFollowing = true;
         GameController.Instance.GamePause();
@@ -196,6 +195,7 @@ public class UIController : InformationLoader
     public void ShowCollection()
     {
         mCollectionText.text = "x"+SaveDataController.Instance.mUser.CollectionAmount.ToString();
+        mCollectionImage.gameObject.SetActive(true);
     }
 
     public IEnumerator CollectAnimation()
@@ -203,15 +203,14 @@ public class UIController : InformationLoader
         float time = 0.4f;
         WaitForSeconds delay = new WaitForSeconds(time);
         isCollect = true;
-        mCollectionImage.gameObject.SetActive(true);
         SaveDataController.Instance.mUser.CollectionAmount += 1;
+        ShowCollection();
         if (SaveDataController.Instance.mUser.CollectionAmount ==Constants.COLLECTION)
         {
             Achievement.Instance.GetAchivement(1);
         }
         SaveDataController.Instance.Save(false);
         yield return delay;
-        ShowCollection();
         time = 1f;
         delay = new WaitForSeconds(time);
         yield return delay;

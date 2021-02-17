@@ -511,15 +511,22 @@ public class CutScenePoint : MonoBehaviour
     {
         float time = 1.5f;
         WaitForSeconds delay = new WaitForSeconds(time);
-        Player.Instance.isCutScene = true;
         SoundController.Instance.BGMFadeOut(3f);
         CutSceneController.Instance.FadeOut();
         yield return delay;
+        Player.Instance.isCutScene = true;
         UIController.Instance.mDialogueImage.gameObject.SetActive(false);
-        TitleController.Instance.isShowTitle = true;
-        SaveDataController.Instance.mUser.StageClear[1] = true;
-        SaveDataController.Instance.mUser.StageShow[2] = true;
-        SceneManager.LoadScene(0);
+        if (SaveDataController.Instance.mUser.StageClear[1] == true)
+        {
+            StartCoroutine(UIController.Instance.ShowStageClear());
+        }
+        else
+        {
+            SaveDataController.Instance.mUser.StageClear[1] = true;
+            SaveDataController.Instance.mUser.StageShow[2] = true;
+            TitleController.Instance.isShowTitle = true;
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void PlayCutScene()

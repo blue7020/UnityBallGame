@@ -9,6 +9,9 @@ public class MapMaterialController : MonoBehaviour
     public CheckPoint[] mCheckPointArr;
     public bool isShowStartCutScene;
 
+    public bool[] ChapterArr;
+    public Transform[] mStartPointArr;
+
     public CutScenePoint mStartCutScene;
 
     public List<CollectionObject> CollectionList;
@@ -18,6 +21,7 @@ public class MapMaterialController : MonoBehaviour
     private void Awake()
     {
         CollectionList = new List<CollectionObject>();
+        GameController.Instance.ChapterChange(TitleController.Instance.NowChapterCode);
     }
 
     public void StartCutScene()
@@ -32,7 +36,10 @@ public class MapMaterialController : MonoBehaviour
                     break;
                 case 1:
                     isShowStartCutScene = false;
-                    mStartCutScene.PlayCutScene();
+                    if (ChapterArr[0]==true)
+                    {
+                        mStartCutScene.PlayCutScene();
+                    }
                     break;
                 default:
                     break;

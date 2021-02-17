@@ -5,6 +5,7 @@ using UnityEngine;
 public class HideTile : MonoBehaviour
 {
     public GameObject mTiles;
+    public bool isHide;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -15,9 +16,12 @@ public class HideTile : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (isHide)
         {
-            mTiles.gameObject.SetActive(true);
+            if (other.gameObject.CompareTag("Player"))
+            {
+                mTiles.gameObject.SetActive(true);
+            }
         }
     }
 }

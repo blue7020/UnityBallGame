@@ -77,9 +77,14 @@ public class IslandSelect : MonoBehaviour,IPointerClickHandler
     {
         WaitForSeconds delay = new WaitForSeconds(1f);
         PlayerIconMove();
+        StageSelectController.Instance.mChapterWindow.gameObject.SetActive(false);
         StageSelectController.Instance.isSelectDelay = true;
         StageSelectController.Instance.ShowStageSelectUI(mID, IsRight);
         yield return delay;
+        if (StageSelectController.Instance.StageChapterCountArr[mID]>1)
+        {
+            StageSelectController.Instance.ChapterWindowSetting(mID);
+        }
         StageSelectController.Instance.isSelectDelay = false;
     }
 

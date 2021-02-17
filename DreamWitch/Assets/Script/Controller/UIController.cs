@@ -111,6 +111,7 @@ public class UIController : InformationLoader
     public IEnumerator ShowPlayCountScreen()
     {
         WaitForSeconds delay = new WaitForSeconds(2f);
+        StopCoroutine(Player.Instance.DamageAnimation());
         Player.Instance.isNoDamage = true;
         Player.Instance.isCutScene = true;
         isMenuCooltime = true;

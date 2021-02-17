@@ -56,7 +56,6 @@ public class Boss1Controller : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(2.5f);
         UIController.Instance.mTextBoxImage.gameObject.SetActive(false);
-        isHint = false;
         StopCoroutine(StateMachine());
         StopCoroutine(StartFallingBlock());
         mState = eEnemyState.None;
@@ -175,12 +174,15 @@ public class Boss1Controller : MonoBehaviour
     public IEnumerator BossDeath()
     {
         WaitForSeconds delay = new WaitForSeconds(3f);
+        StopCoroutine(StateMachine());
         UIController.Instance.mTextBoxImage.gameObject.SetActive(false);
         RemoveObject();
         SoundController.Instance.SESound(22);
         mEnemy.mAnim.SetBool(AnimHash.Enemy_Death, true);
         SoundController.Instance.BGMChange(0);
         GameController.Instance.isBoss = false;
+        Darkness.Instance.Show();
+        Darkness.Instance.transform.position = new Vector3(575.5f, -144, 0);
         yield return delay;
         mObj[1].SetActive(false);
         mObj[2].SetActive(true);
@@ -276,18 +278,21 @@ public class Boss1Controller : MonoBehaviour
 
     public void ShowHint()
     {
-        if (TitleController.Instance.mLanguage == 0)
+        if (mEnemy.mCurrentHP==mEnemy.mMaxHP)
         {
-            text = DialogueSystem.Instance.mDialogueTextArr[55].text_kor;
-        }
-        else if (TitleController.Instance.mLanguage == 1)
-        {
-            text = DialogueSystem.Instance.mDialogueTextArr[55].text_eng;
-        }
-        if (!isHint)
-        {
-            isHint = true;
-            UIController.Instance.ShowDialogue(text,false);
+            if (TitleController.Instance.mLanguage == 0)
+            {
+                text = DialogueSystem.Instance.mDialogueTextArr[55].text_kor;
+            }
+            else if (TitleController.Instance.mLanguage == 1)
+            {
+                text = DialogueSystem.Instance.mDialogueTextArr[55].text_eng;
+            }
+            if (!isHint)
+            {
+                isHint = true;
+                UIController.Instance.ShowDialogue(text, false);
+            }
         }
     }
 

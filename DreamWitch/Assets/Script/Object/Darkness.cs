@@ -34,7 +34,10 @@ public class Darkness : MonoBehaviour
 
     public void Show()
     {
-        isHide = false;
+        if (GameController.Instance.mMapMaterialController.ChapterArr[1] == false)
+        {
+            isHide = false;
+        }
         mParticle.gameObject.SetActive(true);
         mRenderer.color = new Color(1, 1, 1, 1);
         gameObject.SetActive(true);
@@ -60,7 +63,7 @@ public class Darkness : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(0.1f);
         isMoving = false;
-        int MaxTime = 20;
+        int MaxTime = 25;
         int CurrentTitme = 0;
         while (true)
         {
@@ -86,9 +89,9 @@ public class Darkness : MonoBehaviour
 
     public IEnumerator DashCooltime()
     {
-        WaitForSeconds delay = new WaitForSeconds(2.5f);
+        WaitForSeconds delay = new WaitForSeconds(3f);
         Vector2 pos = new Vector2(Player.Instance.transform.position.x + 30, Player.Instance.transform.position.y);
-        mRB2D.DOMove(pos, 2.5f);
+        mRB2D.DOMove(pos, 3f);
         yield return delay;
         AttackEnd();
         yield return delay;
@@ -109,6 +112,22 @@ public class Darkness : MonoBehaviour
         mWhite.SetActive(false);
         isAttack = false;
         mRenderer.color = new Color(1, 1, 1, 0);
+    }
+
+    public void ResetPattern()
+    {
+        StopAllCoroutines();
+        if (GameController.Instance.mMapMaterialController.ChapterArr[1]==true)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Show();
+            mRB2D.DOMove(transform.position, 0.1f);
+            isMoving = true;
+            Moving();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

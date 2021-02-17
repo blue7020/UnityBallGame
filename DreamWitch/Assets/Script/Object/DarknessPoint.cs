@@ -12,15 +12,15 @@ public class DarknessPoint : MonoBehaviour
         {
             if (isEnd)
             {
-                Darkness.Instance.CancelInvoke();
+                Darkness.Instance.isMoving = false;
                 Darkness.Instance.isHide=true;
             }
             else
             {
-                Darkness.Instance.isHide = false;
                 Darkness.Instance.Show();
+                Darkness.Instance.isHide = false;
                 Darkness.Instance.isMoving = true;
-                Darkness.Instance.Moving();
+                Darkness.Instance.ResetPattern();
             }
         }
     }

@@ -33,8 +33,6 @@ public class GameController : MonoBehaviour
             mPlayerHP = new List<Image>();
             mHPFrame = new List<Image>();
             mStageObject[TitleController.Instance.NowStage].SetActive(true);
-            mMapMaterialController = mMapMaterialControllerArr[TitleController.Instance.NowStage];
-            mPlayer.gameObject.SetActive(true);
             SoundController.Instance.VolumeRefresh();
         }
         else
@@ -45,17 +43,6 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        mStartPoint = mStartPointArr[TitleController.Instance.NowStage];
-        mPlayer.CheckPointPos = mStartPoint.transform.position + new Vector3(0, 2f, 0);
-        switch (TitleController.Instance.NowStage)
-        {
-            case 0:
-                mPlayer.transform.position = new Vector3(-32, 1.76f, 0);
-                break;
-            default:
-                mPlayer.transform.position = mStartPoint.position;
-                break;
-        }
         SetHP(Player.Instance.mCurrentHP);
         for (int i = 0; i < mMapMaterialController.mCutsceneArr.Length; i++)
         {
@@ -92,6 +79,28 @@ public class GameController : MonoBehaviour
     public void GotoStageSelect(int SceneID)
     {
         SceneManager.LoadScene(SceneID);
+    }
+
+    public void ChapterChange(int id)
+    {
+        mMapMaterialController = mMapMaterialControllerArr[TitleController.Instance.NowStage];
+        for (int i = 0; i < mMapMaterialController.ChapterArr.Length; i++)
+        {
+            mMapMaterialController.ChapterArr[i] = false;
+        }
+        mMapMaterialController.ChapterArr[id] = true;
+        mStartPoint = mMapMaterialController.mStartPointArr[id];
+        mPlayer.gameObject.SetActive(true);
+        mPlayer.CheckPointPos = mStartPoint.transform.position + new Vector3(0, 2f, 0);
+        switch (TitleController.Instance.NowStage)
+        {
+            case 0:
+                mPlayer.transform.position = new Vector3(-32, 1.76f, 0);
+                break;
+            default:
+                mPlayer.transform.position = mStartPoint.position;
+                break;
+        }
     }
 
     public void ShowUI()
@@ -193,6 +202,7 @@ public class GameController : MonoBehaviour
         if (mDarkness!=null)
         {
             mDarkness.isMoving = false;
+            mDarkness.StopAllCoroutines();
         }
         UIController.Instance.mGameOverImage.gameObject.SetActive(false);
         UIController.Instance.mScreenEffect.gameObject.SetActive(true);
@@ -213,7 +223,7 @@ public class GameController : MonoBehaviour
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());
         if (mDarkness != null)
         {
-            mDarkness.isMoving = true;
+            mDarkness.ResetPattern();
         }
     }
 

@@ -51,6 +51,7 @@ public class MovingTile : MonoBehaviour
         if (other.gameObject.CompareTag("Player")&& !isTrap)
         {
             other.gameObject.transform.SetParent(transform);
+            Player.Instance.mBoltParents = transform;
             other.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(other.gameObject.GetComponent<Rigidbody2D>().velocity.x, other.gameObject.GetComponent<Rigidbody2D>().velocity.y);
             Player.Instance.mJumpForce = 13;
         }
@@ -61,6 +62,7 @@ public class MovingTile : MonoBehaviour
         {
             Player.Instance.mJumpForce = 10;
             other.gameObject.transform.SetParent(null);
+            Player.Instance.mBoltParents = null;
         }
     }
 }

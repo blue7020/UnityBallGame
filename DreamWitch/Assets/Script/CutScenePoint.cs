@@ -53,10 +53,6 @@ public class CutScenePoint : MonoBehaviour
         {
             switch (mID)
             {
-                case 0:
-                    mTrigger = true;
-                    StartCoroutine(CutScene11());
-                    break;
                 default:
                     break;
             }
@@ -303,6 +299,7 @@ public class CutScenePoint : MonoBehaviour
     {
         float time = 1f;
         WaitForSeconds delay = new WaitForSeconds(time);
+        Player.Instance.isCutScene = true;
         UIController.Instance.mNextDialogueText.gameObject.SetActive(false);
         SoundController.Instance.BGMFadeOut(3f);
         yield return delay;
@@ -408,6 +405,7 @@ public class CutScenePoint : MonoBehaviour
     {
         float time = 2f;
         WaitForSeconds delay = new WaitForSeconds(time);
+        SoundController.Instance.BGMChange(4);
         DialogueSystem.Instance.mNowCutSceneIndex = 13;
         UIController.Instance.mDialogueImage.transform.localPosition = new Vector3(-20, 270, 0);
         Quaternion.Euler(new Vector2(0, 0));
@@ -418,7 +416,14 @@ public class CutScenePoint : MonoBehaviour
         time = 4f;
         delay = new WaitForSeconds(time);
         yield return delay;
+        DialogueSystem.Instance.mNowCutSceneIndex = -1;
         CameraMovement.Instance.mFollowing = true;
+        HoldingItem item = mObj[0].GetComponent<HoldingItem>();
+        item.mItemKeyObj.gameObject.SetActive(false);
+        item.transform.SetParent(Darkness.Instance.transform);
+        item.transform.localPosition = new Vector3(0, 0.5f, 0);
+        Darkness.Instance.transform.position = new Vector3(515, -146, 0);
+        Darkness.Instance.Show();
     }
 
     public IEnumerator CutScene14()
@@ -499,22 +504,21 @@ public class CutScenePoint : MonoBehaviour
         yield return delay;
         mMoveTrigger = false;
         Player.Instance.mSpeed =7;
-        time = 1f;
-        delay = new WaitForSeconds(time);
         UIController.Instance.mNextDialogueText.gameObject.SetActive(false);
+        StartCoroutine(CutSecne15_2());
+    }
+    public IEnumerator CutSecne15_2()
+    {
+        float time = 1.5f;
+        WaitForSeconds delay = new WaitForSeconds(time);
+        Player.Instance.isCutScene = true;
         SoundController.Instance.BGMFadeOut(3f);
-        yield return delay;
         CutSceneController.Instance.FadeOut();
-        time = 2f;
-        delay = new WaitForSeconds(time);
         yield return delay;
         UIController.Instance.mDialogueImage.gameObject.SetActive(false);
         TitleController.Instance.isShowTitle = true;
         SaveDataController.Instance.mUser.StageClear[1] = true;
         SaveDataController.Instance.mUser.StageShow[2] = true;
-        time = 1f;
-        delay = new WaitForSeconds(time);
-        yield return delay;
         SceneManager.LoadScene(0);
     }
 
@@ -530,6 +534,7 @@ public class CutScenePoint : MonoBehaviour
         {
             UIController.Instance.mSkipText.gameObject.SetActive(true);
         }
+        DialogueSystem.Instance.isSkip = true;
         if (IsPreStart)
         {
             PreStartAction();
@@ -593,6 +598,7 @@ public class CutScenePoint : MonoBehaviour
                 {
                     case 0:
                         mTrigger = true;
+                        StartCoroutine(CutScene11());
                         break;
                     case 1:
                         DialogueSystem.Instance.DialogueSetting(33, 38);
@@ -628,7 +634,6 @@ public class CutScenePoint : MonoBehaviour
             }
 
         }
-        DialogueSystem.Instance.isSkip = true;
     }
 
     public void EndCutScene()

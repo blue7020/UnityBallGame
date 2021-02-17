@@ -5,9 +5,9 @@ using UnityEngine;
 public class CameraMover : MonoBehaviour
 {
     public Vector3 mMinValue,mMaxValue;
-    public bool isStop, isBGMChange;
+    public bool isStop, isBGMChange,isChapterChange;
     public float CameraSize;
-    public int BGMCode;
+    public int BGMCode, mChapterCode;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,6 +16,10 @@ public class CameraMover : MonoBehaviour
             if (isBGMChange)
             {
                 SoundController.Instance.BGMChange(BGMCode);
+            }
+            if (isChapterChange)
+            {
+                GameController.Instance.ChapterChange(mChapterCode);
             }
             if (CameraSize!=0)
             {

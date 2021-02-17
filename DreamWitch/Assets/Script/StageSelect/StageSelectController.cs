@@ -8,8 +8,8 @@ public class StageSelectController : InformationLoader
 {
     public static StageSelectController Instance;
 
-    public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu,mPopupImage;
-    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mExitText,mMainScreenText,mGameExitText, mExitBackText,mExitTitleText,mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText;
+    public Image mSelectUIImage,mPlayerIcon,mScreenSaver,mMenuWindow,mSoundMenu,mLanguageMenu,mPopupImage,mChapterWindow;
+    public Text mStageTitleText, mStageInfoText, mStageButtonText, mCloseText,mMenuTitleText,mExitText,mMainScreenText,mGameExitText, mExitBackText,mExitTitleText,mMenuLanguageText, mMenuSoundText,mCollectionText,mMenuCloseText,mChapterSelectText, mChapterExitText;
     public Text mSoundText, mBGMText, mSEText,mBGMVolumeText, mSEVolumeText,mSoundBackText, mLanguageText, mLanguageBackText,mPopupText,mVersionText;
     public Camera mCamera;
     public StageInfo[] mInfoArr;
@@ -18,6 +18,11 @@ public class StageSelectController : InformationLoader
     public bool isLanguageCooltime;
 
     public Button mKorButton, mEngButton;
+    public ChapterSelecter mChapterSelecter;
+    public Transform mChapterParents;
+
+    public int[] StageChapterCountArr;//챕터가 1개면 값 1 부여
+    public List<ChapterSelecter> ChapterSelecterList;
 
     public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage,isShowPopup;
 
@@ -27,6 +32,7 @@ public class StageSelectController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Paths.STAGE_INFO);
+            ChapterSelecterList = new List<ChapterSelecter>();
             mBGMVolumeText.text = SoundController.Instance.BGMVolume.ToString();
             mSEVolumeText.text = SoundController.Instance.SEVolume.ToString();
             TitleController.Instance.NowStage = SaveDataController.Instance.mUser.LastPlayStage;
@@ -47,6 +53,7 @@ public class StageSelectController : InformationLoader
             mVersionText.text = TitleController.Instance.mGameVer + "B ver";
             SoundController.Instance.BGMChange(1);
             LanguageSetting();
+            TitleController.Instance.NowChapterCode = 0;
         }
         else
         {
@@ -110,8 +117,15 @@ public class StageSelectController : InformationLoader
                 Loading.Instance.StartLoading(1,false);
                 break;
             case 1:
-                SaveDataController.Instance.Save(false);
-                Loading.Instance.StartLoading(1, false);
+                if (SaveDataController.Instance.mUser.StageClear[1]==true)
+                {
+                    mChapterWindow.gameObject.SetActive(true);
+                }
+                else
+                {
+                    SaveDataController.Instance.Save(false);
+                    Loading.Instance.StartLoading(1, false);
+                }
                 break;
             case 2:
                 isShowPopup = true;
@@ -273,6 +287,8 @@ public class StageSelectController : InformationLoader
             mExitBackText.text = "뒤로";
             mBGMText.text = "배경 음악";
             mSEText.text = "효과음";
+            mChapterSelectText.text ="챕터 선택";
+            mChapterExitText.text = "뒤로";
 
         }
         else if (TitleController.Instance.mLanguage == 1)
@@ -294,7 +310,33 @@ public class StageSelectController : InformationLoader
             mExitBackText.text = "Back";
             mBGMText.text = "BGM";
             mSEText.text = "SE";
+            mChapterSelectText.text = "Chapter Select";
+            mChapterExitText.text = "Back";
+        }
+        if (ChapterSelecterList != null)
+        {
+            for (int i = 0; i < ChapterSelecterList.Count; i++)
+            {
+                ChapterSelecterList[i].LanguageSetting();
+            }
         }
         SaveDataController.Instance.Save(true);
+    }
+
+    public void ChapterWindowSetting(int id)
+    {
+        if (ChapterSelecterList!=null)
+        {
+            for (int i=0; i<ChapterSelecterList.Count;i++)
+            {
+                Destroy(ChapterSelecterList[i].gameObject);
+            }
+        }
+        ChapterSelecterList = new List<ChapterSelecter>();
+        for (int i=0; i< StageChapterCountArr[id]; i++)
+        {
+            ChapterSelecterList.Add(Instantiate(mChapterSelecter, mChapterParents));
+            ChapterSelecterList[i].ButtonSetting(i);
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace Steamworks {
 			if (CSteamAPIContext.GetSteamClient() == System.IntPtr.Zero) {
 				if (!CSteamAPIContext.Init()) {
 					throw new System.InvalidOperationException("Steamworks is not initialized.");
+                    //스팀 켜면 정상 작동함
 				}
 			}
 		}

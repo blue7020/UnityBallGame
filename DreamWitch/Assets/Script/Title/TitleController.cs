@@ -12,6 +12,7 @@ public class TitleController : MonoBehaviour
     public float mGameVer;
 
     public int NowStage;
+    public int NowChapterCode;
 
     public int PlayCount;//목숨
 

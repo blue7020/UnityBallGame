@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public HoldingItem mDropItem,mNowItem;
     public int mNowItemID;
     public PlayerBolt mBolt;
+    public Transform mBoltParents;
 
     public Sprite[] mActionArr;
     public GameObject mAction;
@@ -72,6 +73,7 @@ public class Player : MonoBehaviour
     {
         Gravity = mRB2D.gravityScale;
         mFootEmission = mFootStep.emission;
+        StartCoroutine(DamageAnimation());
     }
 
     private void FixedUpdate()
@@ -146,7 +148,7 @@ public class Player : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(0.5f);
         SoundController.Instance.SESound(2);
-        PlayerBolt bolt = Instantiate(mBolt);
+        PlayerBolt bolt = Instantiate(mBolt, mBoltParents);
         bolt.transform.position = transform.position;
         bolt.transform.rotation = mRenderer.gameObject.transform.rotation;
         bolt.mRB2D.AddForce(mBulletStart.right * bolt.mSpeed, ForceMode2D.Impulse);
@@ -406,13 +408,18 @@ public class Player : MonoBehaviour
         }
     }//사다리 체크
 
-    public void Damage(float damage)
+    public void Damage(float damage, bool Falling=false)
     {
         if (!isNoDamage)
         {
             mCurrentHP -= damage;
             StartCoroutine(DamageAnimation());
             GameController.Instance.Damege();
+        }
+        if (Falling)
+        {
+            mRB2D.velocity = Vector2.zero;
+            transform.position = CheckPointPos;
         }
         if (mCurrentHP<1)
         {
@@ -443,18 +450,6 @@ public class Player : MonoBehaviour
         yield return delay;
         mRenderer.color = Color.white;
         isNoDamage = false;
-    }
-
-    public void FallingDamage()
-    {
-        mCurrentHP -= 1;
-        StartCoroutine(DamageAnimation());
-        GameController.Instance.Damege();
-        if (mCurrentHP > 0)
-        {
-            mRB2D.velocity = Vector2.zero;
-            transform.position = CheckPointPos;
-        }
     }
 
     public void GetItem(HoldingItem obj)
@@ -503,10 +498,17 @@ public class Player : MonoBehaviour
             }
         }
     }
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            mEnemy = null;
+        }
+    }
 
     private void DamageCount()//몬스터랑 계속 붙어있을 때 주기적으로 피해를 입음
     {
-        if (mEnemy.isCollide)
+        if (mEnemy!=null&&mEnemy.isCollide)
         {
             if (mEnemy.isDeath == false)
             {

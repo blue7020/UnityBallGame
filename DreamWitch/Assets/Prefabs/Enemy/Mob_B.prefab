@@ -162,15 +162,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mTypeCode: 1
+  mBossCode: 0
+  mType: 0
+  mEnemyState: 0
+  mStateDelayTime: 0
   mMaxHP: 1
   mCurrentHP: 0
   mAtk: 1
+  DelayTime: 0
+  MoveDelayTime: 0
   isMoving: 0
   isNoDamage: 0
   isDeath: 0
+  isCollide: 0
   mNextMove: 0
   mHead: {fileID: 499630557897740668}
   mBoltStarter: {fileID: 499630557440985131}
+  mSpawnPos: {fileID: 0}
   mAnim: {fileID: 499630557544657065}
   mRB2D: {fileID: 499630557544657066}
   mRenderer: {fileID: 499630556692821620}
@@ -201,7 +209,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 499630557544657069}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0

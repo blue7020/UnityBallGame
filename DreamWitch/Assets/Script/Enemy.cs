@@ -147,6 +147,7 @@ public class Enemy : MonoBehaviour
                 {
                     case 0:
                         mAnim.SetBool(AnimHash.Enemy_Death, true);
+                        SoundController.Instance.SESound(0);
                         StartCoroutine(Death());
                         break;
                     case 1:
@@ -201,7 +202,6 @@ public class Enemy : MonoBehaviour
     public IEnumerator Death(float time =1f)
     {
         WaitForSeconds delay = new WaitForSeconds(time);
-        SoundController.Instance.SESound(0);
         mAnim.SetBool(AnimHash.Enemy_Attack, false);
         gameObject.layer = 10;
         mNextMove = 0;
@@ -240,7 +240,7 @@ public class Enemy : MonoBehaviour
     {
         if (mType == eEnemyType.Normal)
         {
-            StopCoroutine((StateMachine()));
+            StopAllCoroutines();
             mAnim.SetBool(AnimHash.Enemy_Attack, false);
             mCurrentHP = mMaxHP;
             gameObject.layer = 0;
@@ -249,11 +249,20 @@ public class Enemy : MonoBehaviour
             isNoDamage = false;
             gameObject.SetActive(true);
             mAnim.SetBool(AnimHash.Enemy_Death, false);
+            mCurrentHP = mMaxHP;
             if (mBossCode==0)
             {
-                StartCoroutine(StateMachine());
+                if (mTypeCode == 0)
+                {
+                    StartCoroutine(StateMachine());
+                    mEnemyState = eEnemyState.Idle;
+                }
+                else if (mTypeCode == 1)
+                {
+                    StartCoroutine(StateMachine());
+                    mEnemyState = eEnemyState.Attack;
+                }
             }
-            mCurrentHP = mMaxHP;
         }
         else
         {

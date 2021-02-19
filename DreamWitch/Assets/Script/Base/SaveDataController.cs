@@ -27,8 +27,11 @@ public class SaveDataController : InformationLoader
     public void LoadGame()
     {
         //string location = Application.streamingAssetsPath + "/SaveData";//여기다가는 마음대로 확장자를 만들어서 붙여도 된다.
-        //string location = "Assets/Resources/SaveData.savedata";//유니티 리소시즈 폴더에 저장할 때만.
-        string location = "Alone In a Dream_Data/Resources/SaveData.savedata";//게임 파일로 빌드했을때
+#if UNITY_EDITOR
+        string location = "Assets/Resources/SaveData.savedata";//유니티 리소시즈 폴더에 저장할 때만.
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA
+                string location = "Alone In a Dream_Data/Resources/SaveData.savedata";//게임 파일로 빌드했을때
+#endif
         if (File.Exists(location))//(true)
         {
             StreamReader Reader = new StreamReader(location); //해당하는 경로로 읽어들이기
@@ -216,8 +219,11 @@ public class SaveDataController : InformationLoader
         mUser.Stage_3_CollectionCheck = new bool[Constants.STAGE_3_COLLECTION];
         mUser.Stage_4_CollectionCheck = new bool[Constants.STAGE_4_COLLECTION];
         mUser.Stage_5_CollectionCheck = new bool[Constants.STAGE_5_COLLECTION];
-        //File.Create("Assets/Resources/SaveData.savedata");
-        File.Create("Alone In a Dream_Data/Resources/SaveData.savedata");
+#if UNITY_EDITOR
+        File.Create("Assets/Resources/SaveData.savedata");
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA
+                File.Create("Alone In a Dream_Data/Resources/SaveData.savedata");
+#endif
     }
 
 
@@ -230,8 +236,11 @@ public class SaveDataController : InformationLoader
         {
             Loading.Instance.StartSaving();
         }
-        //string location = "Assets/Resources/SaveData.savedata";
-        string location = "Alone In a Dream_Data/Resources/SaveData.savedata";
+#if UNITY_EDITOR
+        string location = "Assets/Resources/SaveData.savedata";//유니티 리소시즈 폴더에 저장할 때만.
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA
+                string location = "Alone In a Dream_Data/Resources/SaveData.savedata";//게임 파일로 빌드했을때
+#endif
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채
         MemoryStream stream = new MemoryStream();//stream은 메모리를 통째로 담은 것 = 양동이
         StreamWriter writer = new StreamWriter(location);

@@ -17,10 +17,10 @@ public class DarknessPoint : MonoBehaviour
             }
             else
             {
-                Darkness.Instance.Show();
-                Darkness.Instance.isHide = false;
-                Darkness.Instance.isMoving = true;
-                Darkness.Instance.ResetPattern();
+                Darkness.Instance.StopAllCoroutines();
+                Darkness.Instance.mRB2D.velocity = Vector3.zero;
+                Darkness.Instance.gameObject.SetActive(true);
+                StartCoroutine(Darkness.Instance.ResetPattern());
             }
         }
     }

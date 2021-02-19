@@ -326,36 +326,40 @@ public class Player : MonoBehaviour
             }
             else
             {
-                if (isTouchingFront && Mathf.Abs(Hori) > 0 && mRB2D.velocity.y < 0 && !isGround)
+                if (wall != null && wall.CompareTag("Wall"))
                 {
-                    isWallSliding = true;
-                    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
-                    isWallJumpDash = false;
-                    //if (mCurrentStamina > 0)
-                    //{
-                    //    mRB2D.gravityScale = 0;
-                    //}
-                    //else
-                    //{
-                    //    mRB2D.gravityScale = Gravity;
-                    //    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
-                    //}
+                    if (isTouchingFront && Mathf.Abs(Hori) > 0 && mRB2D.velocity.y < 0 && !isGround)
+                    {
+                        isWallSliding = true;
+                        mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                        isWallJumpDash = false;
+                        //if (mCurrentStamina > 0)
+                        //{
+                        //    mRB2D.gravityScale = 0;
+                        //}
+                        //else
+                        //{
+                        //    mRB2D.gravityScale = Gravity;
+                        //    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                        //}
+                    }
+                    else if (isTouchingFront && Mathf.Abs(Hori) < 0 && mRB2D.velocity.y < 0 && !isGround)
+                    {
+                        isWallSliding = true;
+                        mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                        isWallJumpDash = false;
+                        //if (mCurrentStamina > 0)
+                        //{
+                        //    mRB2D.gravityScale = 0;
+                        //}
+                        //else
+                        //{
+                        //    mRB2D.gravityScale = Gravity;
+                        //    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
+                        //}
+                    }
                 }
-                else if (isTouchingFront && Mathf.Abs(Hori) < 0 && mRB2D.velocity.y < 0 && !isGround)
-                {
-                    isWallSliding = true;
-                    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
-                    isWallJumpDash = false;
-                    //if (mCurrentStamina > 0)
-                    //{
-                    //    mRB2D.gravityScale = 0;
-                    //}
-                    //else
-                    //{
-                    //    mRB2D.gravityScale = Gravity;
-                    //    mRB2D.velocity = new Vector2(mRB2D.velocity.x, Mathf.Clamp(mRB2D.velocity.y, -mWallSlidingSpeed * Time.deltaTime, float.MaxValue));
-                    //}
-                }
+                
             }
         }
         if (!isTouchingFront|| isGround)

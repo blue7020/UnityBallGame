@@ -138,6 +138,7 @@ public class CutScenePoint : MonoBehaviour
                 mObj[1].gameObject.SetActive(true);
                 mObj[2].gameObject.SetActive(true);
                 Player.Instance.GetItem(mObj[0].GetComponent<HoldingItem>());
+                mObj[3].gameObject.SetActive(true);
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
                 break;
             case 33:
@@ -645,6 +646,7 @@ public class CutScenePoint : MonoBehaviour
 
     public void EndCutScene()
     {
+        IsSkip = false;
         DialogueSystem.Instance.isSkip = false;
         Player.Instance.isCutScene = false;
         CameraMovement.Instance.mFollowing = true;

@@ -223,7 +223,7 @@ public class GameController : MonoBehaviour
         StartCoroutine(UIController.Instance.ShowPlayCountScreen());
         if (mDarkness != null)
         {
-            mDarkness.ResetPattern();
+            StartCoroutine(mDarkness.ResetPattern());
         }
     }
 

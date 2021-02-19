@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMover : MonoBehaviour
 {
     public Vector3 mMinValue,mMaxValue;
-    public bool isStop, isBGMChange,isChapterChange;
+    public bool isBGMChange,isChapterChange;
     public float CameraSize;
     public int BGMCode, mChapterCode;
 
@@ -27,10 +27,6 @@ public class CameraMover : MonoBehaviour
             }
             CameraMovement.Instance.mMinValue = mMinValue;
             CameraMovement.Instance.mMaxValue = mMaxValue;
-            if (!isStop)
-            {
-                Player.Instance.mRB2D.velocity = Vector2.zero;
-            }
         }
     }
 }

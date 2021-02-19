@@ -121,10 +121,10 @@ public class DialogueSystem : InformationLoader
 
     public void Skip()
     {
+        mCutScenePoint.StopAllCoroutines();
         switch (mNowCutSceneIndex)
         {
             case 0:
-                mCutScenePoint.StopAllCoroutines();
                 Player.Instance.mSpeed = 7;
                 mCutScenePoint.mMoveTrigger = false;
                 UIController.Instance.ShowTutorial();
@@ -133,7 +133,6 @@ public class DialogueSystem : InformationLoader
                 EndCutScene();
                 break;
             case 5:
-                mCutScenePoint.StopAllCoroutines();
                 UIController.Instance.HideTutorial();
                 SoundController.Instance.mBGM.mute = false;
                 Player.Instance.mRenderer.gameObject.transform.rotation = Quaternion.Euler(new Vector2(0, 0));
@@ -142,13 +141,11 @@ public class DialogueSystem : InformationLoader
                 EndCutScene();
                 break;
             case 9:
-                mCutScenePoint.StopAllCoroutines();
                 mCutScenePoint.mID = 10;
               CutSceneController.Instance.mCutSceneImage.gameObject.SetActive(false);
                 StartCoroutine(mCutScenePoint.CutScene10());
                 break;
             case 11://1stage
-                mCutScenePoint.StopAllCoroutines();
                 mCutScenePoint.mObj[0].transform.position = new Vector3(-25.5f, 18.26f, 0);
                 mCutScenePoint.mObj[0].GetComponent<HoldingItem>().mItemKeyObj.SetActive(false);
                 UIController.Instance.mScreenEffect.gameObject.SetActive(false);
@@ -158,12 +155,13 @@ public class DialogueSystem : InformationLoader
                 Player.Instance.GetItem(mCutScenePoint.mObj[0].GetComponent<HoldingItem>());
                 mCutScenePoint.mObj[1].gameObject.SetActive(true);
                 mCutScenePoint.mObj[2].gameObject.SetActive(true);
+                mCutScenePoint.mObj[3].gameObject.SetActive(true);
                 EndCutScene();
                 break;
             case 12:
-                mCutScenePoint.StopAllCoroutines();
                 mCutScenePoint.mMoveTrigger = false;
                 HoldingItem item = Player.Instance.mNowItem;
+                Darkness.Instance.gameObject.SetActive(false);
                 Darkness.Instance.transform.position = new Vector3(515, -146, 0);
                 Darkness.Instance.mRenderer.color = new Color(1, 1, 1, 1);
                 Player.Instance.mSpeed = 7;
@@ -179,7 +177,6 @@ public class DialogueSystem : InformationLoader
                 EndCutScene();
                 break;
             case 13:
-                mCutScenePoint.StopAllCoroutines();
                 mNowCutSceneIndex = -1;
                 HoldingItem tem = mCutScenePoint.mObj[0].GetComponent<HoldingItem>();
                 tem.mItemKeyObj.gameObject.SetActive(false);
@@ -191,7 +188,6 @@ public class DialogueSystem : InformationLoader
                 EndCutScene();
                 break;
             case 14:
-                mCutScenePoint.StopAllCoroutines();
                 Player.Instance.CheckPointPos = transform.position; GameController.Instance.mMapMaterialController.mBoss.gameObject.SetActive(true);      GameController.Instance.mMapMaterialController.mBoss.transform.position =  new Vector3(525.5f,- 144.4f,0);
                 Darkness.Instance.gameObject.SetActive(false);
                 Darkness.Instance.transform.localScale = new Vector3(1, 1, 1);
@@ -201,7 +197,6 @@ public class DialogueSystem : InformationLoader
                 EndCutScene();
                 break;
             case 15:
-                mCutScenePoint.StopAllCoroutines();
                 StartCoroutine(mCutScenePoint.CutSecne15_2());
                 break;
             default:

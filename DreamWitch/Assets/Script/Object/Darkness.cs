@@ -38,6 +38,7 @@ public class Darkness : MonoBehaviour
         {
             isHide = false;
         }
+        mWhite.SetActive(false);
         mParticle.gameObject.SetActive(true);
         mRenderer.color = new Color(1, 1, 1, 1);
         gameObject.SetActive(true);
@@ -47,6 +48,7 @@ public class Darkness : MonoBehaviour
     {
         if (isMoving)
         {
+            Debug.Log("dash");
             mParticle.gameObject.SetActive(true);
             mRenderer.color = new Color(1, 1, 1, 1);
             isAttack = true;
@@ -114,17 +116,19 @@ public class Darkness : MonoBehaviour
         mRenderer.color = new Color(1, 1, 1, 0);
     }
 
-    public void ResetPattern()
+    public IEnumerator ResetPattern()
     {
-        StopAllCoroutines();
+        WaitForSeconds delay = new WaitForSeconds(2f);
         if (GameController.Instance.mMapMaterialController.ChapterArr[1]==true)
         {
             gameObject.SetActive(false);
+            yield return delay;
         }
         else
         {
             Show();
             mRB2D.DOMove(transform.position, 0.1f);
+            yield return delay;
             isMoving = true;
             Moving();
         }

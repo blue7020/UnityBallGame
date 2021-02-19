@@ -175,6 +175,7 @@ public class Boss1Controller : MonoBehaviour
     {
         WaitForSeconds delay = new WaitForSeconds(3f);
         StopCoroutine(StateMachine());
+        mEnemy.isNoDamage = true;
         UIController.Instance.mTextBoxImage.gameObject.SetActive(false);
         RemoveObject();
         SoundController.Instance.SESound(22);
@@ -184,6 +185,7 @@ public class Boss1Controller : MonoBehaviour
         Darkness.Instance.Show();
         Darkness.Instance.transform.position = new Vector3(575.5f, -144, 0);
         yield return delay;
+        SoundController.Instance.SESound(5);
         mObj[1].SetActive(false);
         mObj[2].SetActive(true);
         mObj[3].SetActive(false);

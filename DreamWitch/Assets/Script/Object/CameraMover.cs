@@ -24,6 +24,7 @@ public class CameraMover : MonoBehaviour
             if (CameraSize!=0)
             {
                 CameraMovement.Instance.gameObject.GetComponent<Camera>().orthographicSize= CameraSize;
+                CameraMovement.Instance.mFollowing = true;
             }
             CameraMovement.Instance.mMinValue = mMinValue;
             CameraMovement.Instance.mMaxValue = mMaxValue;

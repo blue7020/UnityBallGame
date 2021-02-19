@@ -96,11 +96,11 @@ public class UIController : InformationLoader
         {
             if (TitleController.Instance.mLanguage == 0)
             {
-                mClearText.text = TitleController.Instance.NowStage + "클리어!";
+                mClearText.text = TitleController.Instance.NowStage + "스테이지 클리어!";
             }
             else if (TitleController.Instance.mLanguage == 1)
             {
-                mClearText.text = TitleController.Instance.NowStage + "Clear!";
+                mClearText.text = TitleController.Instance.NowStage + "Stage Clear!";
             }
         }
         mClearImage.gameObject.SetActive(true);

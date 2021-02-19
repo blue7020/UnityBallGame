@@ -167,6 +167,11 @@ public class CutScenePoint : MonoBehaviour
                 Player.Instance.ShowAction(0);
                 StartCoroutine(DialogueSystem.Instance.ChatDelay2());
                 break;
+            case 41:
+                Darkness.Instance.Show();
+                Darkness.Instance.transform.position = new Vector3(515, -146, 0);
+                StartCoroutine(DialogueSystem.Instance.ChatDelay2());
+                break;
             case 43:
                 StartCoroutine(CutScene14());
                 break;

@@ -171,7 +171,6 @@ public class StageSelectController : InformationLoader
             {
                 mScreenSaver.gameObject.SetActive(false);
                 mMenuWindow.gameObject.SetActive(false);
-                isShowMenu = false;
                 if (isShowStage)
                 {
                     CameraMovement.Instance.mFollowing = false;
@@ -180,6 +179,7 @@ public class StageSelectController : InformationLoader
                 {
                     CameraMovement.Instance.mFollowing = true;
                 }
+                isShowMenu = false;
             }
             else
             {

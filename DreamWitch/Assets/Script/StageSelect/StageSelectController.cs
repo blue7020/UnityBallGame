@@ -24,7 +24,7 @@ public class StageSelectController : InformationLoader
     public int[] StageChapterCountArr;//챕터가 1개면 값 1 부여
     public List<ChapterSelecter> ChapterSelecterList;
 
-    public bool isSelectDelay, isShowNewStage,isShowMenu,isShowStage,isShowPopup;
+    public bool isDemo,isSelectDelay, isShowNewStage,isShowMenu,isShowStage,isShowPopup;
 
     private void Awake()
     {
@@ -50,7 +50,14 @@ public class StageSelectController : InformationLoader
                 default:
                     break;
             }
-            mVersionText.text = TitleController.Instance.mGameVer + "B ver";
+            if (isDemo)
+            {
+                mVersionText.text = "Demo ver";
+            }
+            else
+            {
+                mVersionText.text = TitleController.Instance.mGameVer + " ver";
+            }
             SoundController.Instance.BGMChange(1);
             LanguageSetting();
             TitleController.Instance.NowChapterCode = 0;

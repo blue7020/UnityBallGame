@@ -11,9 +11,8 @@ public class JumperObject : MonoBehaviour
 
     public FallingTile mTile;
 
-    public IEnumerator Jump(Player player)
+    public void Jump(Player player)
     {
-        WaitForSeconds delay = new WaitForSeconds(0.5f);
         isCooltime = true;
         mAnim.SetBool(AnimHash.On, true);
         player.isMultipleJump = true;
@@ -36,7 +35,10 @@ public class JumperObject : MonoBehaviour
                 break;
         }
         SoundController.Instance.SESound(18);
-        yield return delay;
+    }
+
+    public void JumpEnd()
+    {
         if (mTile != null)
         {
             mTile.mAnim.SetBool(AnimHash.Falling, true);
@@ -50,7 +52,7 @@ public class JumperObject : MonoBehaviour
         if (other.gameObject.CompareTag("Player")&&!isCooltime)
         {
             Player player = other.gameObject.GetComponent<Player>();
-            StartCoroutine(Jump(player));
+            Jump(player);
         }
     }
 }

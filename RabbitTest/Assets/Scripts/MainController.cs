@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 public class MainController : MonoBehaviour
 {
     public static MainController Instance;
-    public Text mHighScoreText,mStartText;
+    public Text mStartText,mRankingText,mBestRankingText;
+    public Image mTitleImage,mRankingImage;
+    public Sprite[] mTitleSprite;
 
     private void Awake()
     {
@@ -25,16 +27,23 @@ public class MainController : MonoBehaviour
     void Start()
     {
         SaveDataController.Instance.LoadGame();
+        RankingController.Instance.UserID = SaveDataController.Instance.mUser.ID;
         if (SaveDataController.Instance.mUser.Language==1)
         {
+            mTitleImage.sprite = mTitleSprite[1];
             mStartText.text = "터치하여 시작";
-            mHighScoreText.text = "최고 점수 : " + SaveDataController.Instance.mUser.HighScore.ToString();
         }
         else
         {
+            mTitleImage.sprite = mTitleSprite[0];
             mStartText.text = "Touch to Start";
-            mHighScoreText.text = "High Score : " + SaveDataController.Instance.mUser.HighScore.ToString();
         }
+    }
+
+    public void UpdateRanking()
+    {
+        RankingController.Instance.UpdateRecode();
+        mRankingImage.gameObject.SetActive(true);
     }
 
     public void GameStart()

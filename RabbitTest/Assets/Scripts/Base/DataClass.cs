@@ -17,4 +17,5 @@ public class SaveData
     public int Language;
     public int HighScore;
     public bool Mute;
+    public string ID;
 }

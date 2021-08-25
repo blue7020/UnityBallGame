@@ -23,9 +23,13 @@ public class UIController : MonoBehaviour
             if (SaveDataController.Instance.mLanguage == 1)//korean
             {
                 mStartText.text = "터치하여 시작";
+                mLanguageButton[1].gameObject.SetActive(false);
+                mLanguageButton[0].gameObject.SetActive(true);
             }
             else
             {
+                mLanguageButton[0].gameObject.SetActive(false);
+                mLanguageButton[1].gameObject.SetActive(true);
                 mStartText.text = "Touch to Start";
             }
         }
@@ -38,16 +42,6 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (SaveDataController.Instance.mLanguage == 1)//if now Korean
-        {
-            mLanguageButton[1].gameObject.SetActive(true);
-            mLanguageButton[0].gameObject.SetActive(false);
-        }
-        else
-        {
-            mLanguageButton[0].gameObject.SetActive(true);
-            mLanguageButton[1].gameObject.SetActive(false);
-        }
         LanguageRefresh();
         pause = true;
         Time.timeScale = 0;
@@ -59,14 +53,14 @@ public class UIController : MonoBehaviour
         {
             mStartText.text = "터치하여 시작";
             mScoreText.text = "점수: "+GameController.Instance.mScore;
-            mHighScoreShowText.text = "최고 점수:" + GameController.Instance.mHighScore;
+            mHighScoreShowText.text = "최고 점수: " + GameController.Instance.mHighScore;
             mHigherText.text = "높이: " + GameController.Instance.mHeight+"m";
         }
         else
         {
             mStartText.text = "Touch to Start";
             mScoreText.text = "Score: " + GameController.Instance.mScore;
-            mHighScoreShowText.text = "High Score:" + GameController.Instance.mHighScore;
+            mHighScoreShowText.text = "High Score: " + GameController.Instance.mHighScore;
             mHigherText.text = "Height: " + GameController.Instance.mHeight+"m";
         }
     }
@@ -75,14 +69,14 @@ public class UIController : MonoBehaviour
     {
         if (SaveDataController.Instance.mLanguage==1)//if now Korean
         {
-            mLanguageButton[1].gameObject.SetActive(true);
-            mLanguageButton[0].gameObject.SetActive(false);
+            mLanguageButton[1].gameObject.SetActive(false);
+            mLanguageButton[0].gameObject.SetActive(true);
             SaveDataController.Instance.mLanguage = 0;
         }
         else
         {
-            mLanguageButton[0].gameObject.SetActive(true);
-            mLanguageButton[1].gameObject.SetActive(false);
+            mLanguageButton[0].gameObject.SetActive(false);
+            mLanguageButton[1].gameObject.SetActive(true);
             SaveDataController.Instance.mLanguage = 1;
         }
         LanguageRefresh();
@@ -127,6 +121,7 @@ public class UIController : MonoBehaviour
     public void GameExit()
     {
         Time.timeScale = 1;
+        RankingController.Instance.RecodeRank();
         SaveDataController.Instance.mUser.HighScore = GameController.Instance.mHighScore;
         SaveDataController.Instance.Save();
         SceneManager.LoadScene(0);

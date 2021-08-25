@@ -22,7 +22,7 @@ public class PlayerCtrl : MonoBehaviour
 
     int speedSide = 10;             // 좌우 이동 속도 
     int speedJump = 16;             // 점프 속도 
-    int gravity = 25;               // 추락 속도 
+    int gravity = 20;               // 추락 속도 
 
     Vector3 moveDir = Vector3.zero;
 

@@ -73,6 +73,7 @@ public class SaveDataController : InformationLoader
     {
         mUser.HighScore = 0;
         mUser.Mute = false;
+        mUser.ID = "btsui" + UnityEngine.Random.Range(0, 999999);
         if (Application.systemLanguage == SystemLanguage.Korean)
         {
             mUser.Language = 0;

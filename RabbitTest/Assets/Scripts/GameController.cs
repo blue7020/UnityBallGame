@@ -26,7 +26,6 @@ public class GameController : MonoBehaviour
         mHighScore = SaveDataController.Instance.mUser.HighScore;
         if (SaveDataController.Instance.DeadAds)
         {
-            //AdsManager.Instance.ShowAd();
             SaveDataController.Instance.DeadAds = false;
         }
     }

@@ -37,19 +37,22 @@ public class GameController : MonoBehaviour
         {
             if (mStage ==0&& mHeight>=250&&mHeight<500)
             {
-                //스테이지 넘어가는 사운드 출력
+                UIController.Instance.ChangeBG();
                 mStage++;
             }
             else if (mStage == 1 && mHeight >= 500 && mHeight < 750)
             {
+                UIController.Instance.ChangeBG();
                 mStage++;
             }
             else if (mStage == 2 && mHeight >= 1000 && mHeight < 1500)
             {
+                UIController.Instance.ChangeBG();
                 mStage++;
             }
             else if (mStage == 3 && mHeight >= 2000)
             {
+                UIController.Instance.ChangeBG();
                 mStage++;
             }
         }
@@ -70,6 +73,10 @@ public class GameController : MonoBehaviour
         else
         {
             mScore += amount;
+            if (mScore < 1)
+            {
+                mScore = 0;
+            }
         }
     }
 }

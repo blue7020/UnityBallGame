@@ -258,6 +258,7 @@ public class PlayerCtrl : MonoBehaviour
     void GameOver()
     {
         SaveDataController.Instance.DeadAds = true;
+        SaveDataController.Instance.mUser.HighScore= GameController.Instance.mHighScore;
         SaveDataController.Instance.Save();
         SceneManager.LoadScene(0);
     }

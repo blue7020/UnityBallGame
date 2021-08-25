@@ -9,8 +9,9 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
 
     public Button mSettingButton, mMenuExitButton,mStartButton;
-    public Text mScoreText, mVersionText,mHighScoreText,mHigherText,mStartText;
-    public Image mMenu;
+    public Text mScoreText, mVersionText,mHighScoreText, mHighScoreShowText, mHigherText,mStartText;
+    public Image mMenu,mBG;
+    public Sprite[] mBGSprite;
     public Button[] mLanguageButton;
     public bool pause;
 
@@ -58,12 +59,14 @@ public class UIController : MonoBehaviour
         {
             mStartText.text = "터치하여 시작";
             mScoreText.text = "점수: "+GameController.Instance.mScore;
+            mHighScoreShowText.text = "최고 점수:" + GameController.Instance.mHighScore;
             mHigherText.text = "높이: " + GameController.Instance.mHeight+"m";
         }
         else
         {
             mStartText.text = "Touch to Start";
             mScoreText.text = "Score: " + GameController.Instance.mScore;
+            mHighScoreShowText.text = "High Score:" + GameController.Instance.mHighScore;
             mHigherText.text = "Height: " + GameController.Instance.mHeight+"m";
         }
     }
@@ -85,6 +88,12 @@ public class UIController : MonoBehaviour
         LanguageRefresh();
     }
 
+
+    public void ChangeBG()
+    {
+        SoundController.Instance.SESound(4);
+        mBG.sprite = mBGSprite[GameController.Instance.mStage];
+    }
 
     public void HighScoreMessage()
     {

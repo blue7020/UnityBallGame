@@ -9,18 +9,22 @@ public class SoundButton : MonoBehaviour,IPointerClickHandler
     public Sprite[] mSprite;
     public Image mSoundButton;
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void SoundButtonRefresh()
     {
-        if (SaveDataController.Instance.mUser.Mute==true)//mute on
+        if (SaveDataController.Instance.mUser.Mute == true)//mute on
         {
-            mSoundButton.sprite = mSprite[0];
-            SaveDataController.Instance.mUser.Mute = false;
+            mSoundButton.sprite = mSprite[1];
         }
         else
         {
-            mSoundButton.sprite = mSprite[1];
-            SaveDataController.Instance.mUser.Mute = true;
+            mSoundButton.sprite = mSprite[0];
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        SoundController.Instance.Mute();
+        SoundButtonRefresh();
         SoundController.Instance.SESound(3);
     }
 }

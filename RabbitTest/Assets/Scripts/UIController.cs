@@ -9,29 +9,18 @@ public class UIController : MonoBehaviour
     public static UIController Instance;
 
     public Button mSettingButton, mMenuExitButton,mStartButton;
-    public Text mScoreText, mVersionText,mHighScoreText, mHighScoreShowText, mHigherText,mStartText;
-    public Image mMenu,mBG;
-    public Sprite[] mBGSprite;
-    public Button[] mLanguageButton;
+    public Text mScoreText, mVersionText,mHighScoreText, mHighScoreShowText,mHigherText,mStartText;
+    public Image mMenu,mBG, mLanguageButton;
+    public Sprite[] mBGSprite, mLanguageButtonSprite;
     public bool pause;
+    public float mVersion;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            if (SaveDataController.Instance.mLanguage == 1)//korean
-            {
-                mStartText.text = "터치하여 시작";
-                mLanguageButton[1].gameObject.SetActive(false);
-                mLanguageButton[0].gameObject.SetActive(true);
-            }
-            else
-            {
-                mLanguageButton[0].gameObject.SetActive(false);
-                mLanguageButton[1].gameObject.SetActive(true);
-                mStartText.text = "Touch to Start";
-            }
+            mVersionText.text = "Version: "+mVersion;
         }
         else
         {
@@ -42,6 +31,14 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (SaveDataController.Instance.mLanguage == 1)//korean
+        {
+            mStartText.text = "터치하여 시작";
+        }
+        else
+        {
+            mStartText.text = "Touch to Start";
+        }
         LanguageRefresh();
         pause = true;
         Time.timeScale = 0;
@@ -64,21 +61,31 @@ public class UIController : MonoBehaviour
             mHigherText.text = "Height: " + GameController.Instance.mHeight+"m";
         }
     }
-    
+
+    public void LanguageButtonRefresh()
+    {
+        if (SaveDataController.Instance.mLanguage == 1)//if now Korean
+        {
+            mLanguageButton.sprite = mLanguageButtonSprite[0];
+        }
+        else
+        {
+            mLanguageButton.sprite = mLanguageButtonSprite[1];
+
+        }
+    }
+
     public void LanguageChange()
     {
-        if (SaveDataController.Instance.mLanguage==1)//if now Korean
+        if (SaveDataController.Instance.mLanguage == 1)//if now Korean
         {
-            mLanguageButton[1].gameObject.SetActive(false);
-            mLanguageButton[0].gameObject.SetActive(true);
             SaveDataController.Instance.mLanguage = 0;
         }
         else
         {
-            mLanguageButton[0].gameObject.SetActive(false);
-            mLanguageButton[1].gameObject.SetActive(true);
             SaveDataController.Instance.mLanguage = 1;
         }
+        LanguageButtonRefresh();
         LanguageRefresh();
     }
 

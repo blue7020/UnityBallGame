@@ -63,12 +63,23 @@ public class MainController : MonoBehaviour
         }
         else if (ClickCount == 2)
         {
-            Application.Quit();
+            ExitGame();
         }
 
     }
     void DoubleClick()
     {
         ClickCount = 0;
+    }
+
+    public void ExitGame()
+    {
+        SaveDataController.Instance.Save();
+        Application.Quit();
+    }
+
+    public void ButtonSound()
+    {
+        SoundController.Instance.SESound(3);
     }
 }

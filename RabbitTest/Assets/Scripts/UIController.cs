@@ -8,9 +8,9 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance;
 
-    public Button mSettingButton, mMenuExitButton,mStartButton;
-    public Text mScoreText, mVersionText,mHighScoreText, mHighScoreShowText,mHigherText,mStartText;
-    public Image mMenu,mBG, mLanguageButton;
+    public Button mSettingButton, mMenuExitButton,mStartButton,mGameOverButton;
+    public Text mScoreText, mVersionText,mHighScoreText, mHighScoreShowText,mHigherText,mStartText,mGameOverText;
+    public Image mMenu, mBG, mLanguageButton;
     public Sprite[] mBGSprite, mLanguageButtonSprite;
     public bool pause;
     public float mVersion;
@@ -34,10 +34,12 @@ public class UIController : MonoBehaviour
         if (SaveDataController.Instance.mLanguage == 1)//korean
         {
             mStartText.text = "터치하여 시작";
+            mGameOverText.text = "게임 오버";
         }
         else
         {
             mStartText.text = "Touch to Start";
+            mGameOverText.text = "GAME OVER";
         }
         LanguageRefresh();
         pause = true;
@@ -140,10 +142,12 @@ public class UIController : MonoBehaviour
         if (SaveDataController.Instance.mUser.Language == 1)
         {
             mHighScoreText.text = "최고 기록 갱신!";
+            mGameOverText.text = "게임 오버";
         }
         else
         {
             mHighScoreText.text = "High Score!";
+            mGameOverText.text = "GAME OVER";
         }
     }
 

@@ -9,12 +9,17 @@ public class BirdCtrl : MonoBehaviour {
     int speed;                  // 이동 속도 
     bool isDrop = false;	// Use this for initialization
     public int Score;
-
+    public bool isRight;
     Animator anim;
 
     private void Awake()
     {
         anim = transform.GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        anim.Play("BirdFly");
     }
 
     void Update()
@@ -25,42 +30,42 @@ public class BirdCtrl : MonoBehaviour {
 
         if (!isDrop)
         {
-            AnimateBird();
-            transform.Translate(Vector3.right * amtMove);
-        }
-        else
-        {           // 아래로 이동 
-            transform.Translate(Vector3.down * amtMove, Space.World);
+            if (isRight)
+            {
+                transform.Translate(Vector3.right * amtMove);
+            }
+            else
+            {
+                transform.Translate(Vector3.right * -amtMove);
+            }
         }
 
         // 화면을 벗어난 오브젝트 제거 
         Vector3 view = Camera.main.WorldToScreenPoint(transform.position);
-        if (view.y < -50 || view.x > Screen.width + 50)
+        if (view.y < -50 || (isRight&& view.x > Screen.width + 50)|| (!isRight && view.x < Screen.width - 1000))
         {
             Destroy(gameObject);
         }
 
     }
 
-    void AnimateBird()
+    public void DestroyObj()
     {
-        anim.Play("BirdFly");
+        Destroy(gameObject);
     }
 
     void DropBird()
     {
         isDrop = true;
-
-        // 참새 회전 
-        transform.eulerAngles = new Vector3(0, 0, -90);
-
+        SoundController.Instance.SESound(2);
+        int point = GameController.Instance.mScore / Score;
         // 감점 표시 
         Transform obj = Instantiate(txtScore) as Transform;
-        obj.GetComponent<Text>().text = "<color=red><size=20>"+ Score + "</size></color>";
-        GameController.Instance.AddScore(Score);
+        obj.GetComponent<Text>().text = "<color=red><size=20>-"+ point + "</size></color>";
+        GameController.Instance.AddScore(-point);
         // World 좌표를 Viewport 좌표로 변환 
         var pos = Camera.main.WorldToViewportPoint(transform.position);
         obj.position = transform.position;
+        anim.Play("Death");
     }
-    // Update is called once per frame
 }

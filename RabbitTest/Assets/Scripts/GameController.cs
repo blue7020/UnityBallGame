@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
 
     public int mScore, mHighScore,mHeight,mStage;
+    public GameObject mFirstTile;
 
     private void Awake()
     {
@@ -26,8 +27,11 @@ public class GameController : MonoBehaviour
         mHighScore = SaveDataController.Instance.mUser.HighScore;
         if (SaveDataController.Instance.DeadAds)
         {
+            UnityAdsHelper.Instance.ShowRewardedAd();
             SaveDataController.Instance.DeadAds = false;
         }
+        float x = Random.Range(-5f, 5f) * 0.5f;
+        mFirstTile.transform.position = new Vector3(x, mFirstTile.transform.position.y,0);
     }
 
     private void Update()
@@ -36,23 +40,23 @@ public class GameController : MonoBehaviour
         {
             if (mStage ==0&& mHeight>=250&&mHeight<500)
             {
-                UIController.Instance.ChangeBG();
                 mStage++;
+                UIController.Instance.ChangeBG();
             }
             else if (mStage == 1 && mHeight >= 500 && mHeight < 750)
             {
-                UIController.Instance.ChangeBG();
                 mStage++;
+                UIController.Instance.ChangeBG();
             }
             else if (mStage == 2 && mHeight >= 1000 && mHeight < 1500)
             {
-                UIController.Instance.ChangeBG();
                 mStage++;
+                UIController.Instance.ChangeBG();
             }
             else if (mStage == 3 && mHeight >= 2000)
             {
-                UIController.Instance.ChangeBG();
                 mStage++;
+                UIController.Instance.ChangeBG();
             }
         }
     }

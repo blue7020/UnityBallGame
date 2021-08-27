@@ -7,6 +7,7 @@ public class ItemCtrl : MonoBehaviour {
 
     public Transform txtScore;      // 프리팹 
     public int Score;
+    public Animator anim;
 
     //-------------------
     // 화면을 벗어난 Gift 제거
@@ -20,22 +21,27 @@ public class ItemCtrl : MonoBehaviour {
             Destroy(gameObject);
         }
     }
+    public void ItemRemove()
+    {
+
+        // Gift 제거 
+        Destroy(gameObject);
+    }
+
+
     //-------------------
-    // 점수 표시 - 외부 호출 
+    // 점수 처리 - 외부 호출 
     //-------------------
     void DisplayScore()
     {
-       
-        // 점수 표시용 UIText 만들기 
+        anim.Play("Effect");
+        SoundController.Instance.SESound(1);
+        // 점수 표시용 UIText 출력
         Transform obj = Instantiate(txtScore, transform.position, Quaternion.identity) as Transform;
         obj.GetComponent<Text>().text = "+" +Score;
         GameController.Instance.AddScore(Score);
 
         // World 좌표를 Viewport 좌표로 변환 
         var pos = Camera.main.WorldToViewportPoint(transform.position);
-        // obj.position = pos;
-
-        // Gift 제거 
-        Destroy(gameObject);
     }
 }

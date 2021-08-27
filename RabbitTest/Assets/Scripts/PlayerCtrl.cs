@@ -29,6 +29,10 @@ public class PlayerCtrl : MonoBehaviour
     bool isDead = false;
     Animator anim;
 
+    public float[] MovingTileSpawnRate;
+    public float[] MobSpawnRate;
+    public float[] ItemSpawnRate;
+
 
     void Start()
     {
@@ -40,7 +44,18 @@ public class PlayerCtrl : MonoBehaviour
         spPoint = GameObject.Find("spPoint").transform;
 
         // Tile 만들기 
-        newTile = Instantiate(tile[0], spPoint.position, spPoint.rotation) as Transform;
+        float x = Random.Range(-5f, 5f) * 0.5f;
+        Vector3 pos = new Vector3(x, spPoint.position.y, 0.3f);
+        float TileCode = Random.Range(0, 1f);
+        if (TileCode <= MovingTileSpawnRate[GameController.Instance.mStage])
+        {
+            pos = new Vector3(0, spPoint.position.y, 0.3f);
+            newTile = Instantiate(tile[1], pos, Quaternion.identity) as Transform;
+        }
+        else
+        {
+            newTile = Instantiate(tile[0], pos, Quaternion.identity) as Transform;
+        }
     }
 
     //-------------------
@@ -54,8 +69,6 @@ public class PlayerCtrl : MonoBehaviour
             JumpPlayer();          // Player 점프
             MovePlayer();          // Player 이동 
             MoveCamera();          // 카메라 이동 
-            MakeItem();
-            GameController.Instance.mHeight = (int)maxY;
             UIController.Instance.ScoreRefresh();
         }
     }
@@ -152,16 +165,24 @@ public class PlayerCtrl : MonoBehaviour
 
             // 카메라 위치 이동 
             Camera.main.transform.position = new Vector3(0, maxY - 2f, -10);
-            GameController.Instance.AddScore((int)maxY/2);
+            GameController.Instance.mHeight = (int)maxY;
+            int point = GameController.Instance.mHeight / 4;
+            GameController.Instance.AddScore(point);
         }
+        MakeItem();
+        MakeTile();
 
+    }
+
+    void MakeTile()
+    {
         //가장 최근의 tile과 spPoint와의 거리 구하기
         if (spPoint.position.y - newTile.position.y >= 4)
         {
             float x = Random.Range(-5f, 5f) * 0.5f;
             Vector3 pos = new Vector3(x, spPoint.position.y, 0.3f);
             float TileCode = Random.Range(0, 1f);
-            if (TileCode<=0.25f)
+            if (TileCode <= MovingTileSpawnRate[GameController.Instance.mStage])
             {
                 pos = new Vector3(0, spPoint.position.y, 0.3f);
                 newTile = Instantiate(tile[1], pos, Quaternion.identity) as Transform;
@@ -170,13 +191,13 @@ public class PlayerCtrl : MonoBehaviour
             {
                 newTile = Instantiate(tile[0], pos, Quaternion.identity) as Transform;
             }
-
-            //나뭇가지의 회전방향 설정
-            int mx = (Random.Range(0, 2) == 0) ? -1 : 1;
-            int my = (Random.Range(0, 2) == 0) ? -1 : 1;
-            newTile.GetComponent<SpriteRenderer>().material.mainTextureScale = new Vector2(mx, my);
+            ////나뭇가지의 회전방향 설정
+            //int mx = (Random.Range(0, 2) == 0) ? -1 : 1;
+            //int my = (Random.Range(0, 2) == 0) ? -1 : 1;
+            //newTile.GetComponent<SpriteRenderer>().material.mainTextureScale = new Vector2(mx, my);
         }
     }
+
     void MakeItem()
     {
         if (Random.Range(1, 1000) < 990) return;
@@ -184,23 +205,24 @@ public class PlayerCtrl : MonoBehaviour
         // 오브젝트 표시 위치 
         Vector3 pos = Vector3.zero;
 
-        if (Random.Range(0, 100) < 50)
+        if (Random.Range(0, 1f) < MobSpawnRate[GameController.Instance.mStage])
         {
             pos.y = maxY + Random.Range(0, 5f);
-            // 참새 만들기 
-            if (Random.Range(0,1f)<=0.5f)
+            // 몬스터 만들기 
+            if (Random.Range(0, 1f) <= 0.5f)
             {
                 pos.x = -7f;
-                Instantiate(bird[GameController.Instance.mStage], pos, Quaternion.identity);
+                Transform obj = Instantiate(bird[GameController.Instance.mStage], pos, Quaternion.identity);
+                obj.GetComponent<BirdCtrl>().isRight = true;
             }
             else
             {
                 pos.x = 7f;
                 Transform obj = Instantiate(bird[GameController.Instance.mStage], pos, Quaternion.identity);
-                obj.rotation = Quaternion.Euler(180f, 0, 180f);
+                obj.GetComponent<SpriteRenderer>().flipX = true;
             }
         }
-        else
+        if (Random.Range(0, 1f) < ItemSpawnRate[GameController.Instance.mStage])
         {
             for (int i = 1; i < item.Length; i++)
             {
@@ -212,8 +234,8 @@ public class PlayerCtrl : MonoBehaviour
                 if (n1 + n2 + n3 >= 2) return;
 
                 //Item 만들기 
-                pos.x = Random.Range(-2f, 2f);
-                pos.y = Random.Range(2f, 8f);
+                pos.x = Random.Range(-2.5f, 2.5f) * 0.5f;
+                pos.y = Random.Range(2.5f, 8f);
 
                 int n = Random.Range(0, 3);
                 Transform obj = Instantiate(item[n], transform.position + pos, Quaternion.identity) as Transform;
@@ -227,28 +249,21 @@ public class PlayerCtrl : MonoBehaviour
         switch (coll.transform.tag)
         {
             case "Item1":
-                SoundController.Instance.SESound(1);
                 // 선물 제거 
                 coll.transform.SendMessage("DisplayScore");
                 break;
 
             case "Item2":
-                SoundController.Instance.SESound(1);
-                // 선물 제거 
                 coll.transform.SendMessage("DisplayScore");
                 break;
 
             case "Item3":
-                SoundController.Instance.SESound(1);
-                // 선물 제거 
                 coll.transform.SendMessage("DisplayScore");
                 break;
 
             case "Bird":
                 if (coll.transform.eulerAngles.z != 0) return;
-
-                SoundController.Instance.SESound(2);
-                // 참새 추락 처리 
+                //몹 사망 처리 
                 coll.transform.SendMessage("DropBird", SendMessageOptions.DontRequireReceiver);
                 break;
         }
@@ -257,10 +272,11 @@ public class PlayerCtrl : MonoBehaviour
     //게임 오버 설정
     void GameOver()
     {
+        SoundController.Instance.SESound(5);
+        Time.timeScale = 0;
         SaveDataController.Instance.DeadAds = true;
-        SaveDataController.Instance.mUser.HighScore= GameController.Instance.mHighScore;
-        SaveDataController.Instance.Save();
-        SceneManager.LoadScene(0);
+        UIController.Instance.mGameOverButton.gameObject.SetActive(true);
+        //만약 광고 출력이 성공하면 보상형 광고를 추가한 후
+        //사망 시 1회 부활할 수 있는 기능 추가하기
     }
-
 }

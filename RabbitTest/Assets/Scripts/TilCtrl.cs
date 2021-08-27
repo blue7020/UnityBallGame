@@ -14,7 +14,6 @@ public class TilCtrl : MonoBehaviour {
     private void Start()
     {
         mRenderer.sprite = mSprite[GameController.Instance.mStage];
-        moveSpeed = Random.Range((moveSpeed - 0.5f), (moveSpeed+0.5f));
         if (Moving)
         {
             StartCoroutine(MovingTile());
@@ -41,12 +40,12 @@ public class TilCtrl : MonoBehaviour {
         WaitForSeconds time = new WaitForSeconds(moveSpeed);
         if (moveFlag==1)
         {
-            transform.DOMoveX(3, moveSpeed);
+            transform.DOMoveX(3.3f, moveSpeed);
             moveFlag = 2;
         }
         else
         {
-            transform.DOMoveX(-3, moveSpeed);
+            transform.DOMoveX(-3.3f, moveSpeed);
             moveFlag = 1;
         }
         yield return time;

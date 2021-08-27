@@ -268,13 +268,13 @@ MonoBehaviour:
   mSE: {fileID: 1265179400}
   mBGMArr:
   - {fileID: 0}
-  - {fileID: 0}
   mSEArr:
   - {fileID: 8300000, guid: e30dc627711c31f43be54920af3d6436, type: 3}
   - {fileID: 8300000, guid: 2f11152ca2087ce49bef725d5b94bcd7, type: 3}
   - {fileID: 8300000, guid: 9f8a4723eff343141a2377a6cc9353c7, type: 3}
   - {fileID: 8300000, guid: 3f0a64e28d12ccc42a2f7cd23bda8a61, type: 3}
   - {fileID: 8300000, guid: ab38d09e297ae2347bceff40bdf3328b, type: 3}
+  - {fileID: 8300000, guid: c5accc390c0ce9f4d969c9d9fbec5552, type: 3}
   mMixer: {fileID: 24100000, guid: 85bfdd385a9c31e49b67d851e902ba4e, type: 2}
 --- !u!4 &675766673
 Transform:
@@ -914,6 +914,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1488676453}
         m_MethodName: ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1488676453}
+        m_MethodName: ButtonSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1611,6 +1622,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556889162}
   m_CullTransparentMesh: 0
+--- !u!1 &1598960566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1598960568}
+  - component: {fileID: 1598960567}
+  m_Layer: 0
+  m_Name: UnityAdsHelper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1598960567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598960566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ed425a9ff26ef6448f2410654d4a78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1598960568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598960566}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1599881827
 GameObject:
   m_ObjectHideFlags: 0

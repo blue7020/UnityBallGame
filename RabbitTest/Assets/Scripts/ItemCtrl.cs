@@ -36,10 +36,11 @@ public class ItemCtrl : MonoBehaviour {
     {
         anim.Play("Effect");
         SoundController.Instance.SESound(1);
+        int point = Score +((GameController.Instance.mStage+1)* 10);
         // 점수 표시용 UIText 출력
         Transform obj = Instantiate(txtScore, transform.position, Quaternion.identity) as Transform;
-        obj.GetComponent<Text>().text = "+" +Score;
-        GameController.Instance.AddScore(Score);
+        obj.GetComponent<Text>().text = "+" + point;
+        GameController.Instance.AddScore(point);
 
         // World 좌표를 Viewport 좌표로 변환 
         var pos = Camera.main.WorldToViewportPoint(transform.position);

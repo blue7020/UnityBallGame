@@ -8,8 +8,8 @@ public class SoundController : MonoBehaviour
     public static SoundController Instance;
 
     private const string MIXER_MASTER = "Master";
-    public AudioSource mBGM, mSE;
-    public AudioClip[] mBGMArr, mSEArr;
+    public AudioSource mBGM, mSE,mSE2;
+    public AudioClip[] mBGMArr, mSEArr, mSE2Arr;
     public AudioMixer mMixer;
 
     private void Awake()
@@ -36,12 +36,14 @@ public class SoundController : MonoBehaviour
         {
             mBGM.mute = false;
             mSE.mute = false;
+            mSE2.mute = false;
             SaveDataController.Instance.mUser.Mute = false;
         }
         else
         {
             mBGM.mute = true;
             mSE.mute = true;
+            mSE2.mute = true;
             SaveDataController.Instance.mUser.Mute = true;
         }
     }
@@ -56,4 +58,10 @@ public class SoundController : MonoBehaviour
     {
         mSE.PlayOneShot(mSEArr[id]);
     }
+
+    public void SE2Sound(int id)
+    {
+        mSE2.PlayOneShot(mSE2Arr[id]);
+    }
+
 }

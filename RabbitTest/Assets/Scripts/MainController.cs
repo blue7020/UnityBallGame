@@ -8,14 +8,18 @@ public class MainController : MonoBehaviour
 {
     public static MainController Instance;
     public Text mStartText,mRankingText,mBestRankingText;
-    public Image mTitleImage,mRankingImage;
-    public Sprite[] mTitleSprite;
+    public Image mTitleImage,mRankingImage,mTitleBGImage;
+    public Sprite[] mTitleSprite,mTitleBGSprite;
+    public int TitleClickCount;
+    public bool suprise;
 
+    float vol;
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            vol = SoundController.Instance.mBGM.volume;
         }
         else
         {
@@ -38,6 +42,9 @@ public class MainController : MonoBehaviour
             mTitleImage.sprite = mTitleSprite[0];
             mStartText.text = "Touch to Start";
         }
+        TitleClickCount = 0;
+        suprise = false;
+        mTitleBGImage.sprite = mTitleBGSprite[0];
     }
 
     public void UpdateRanking()
@@ -48,6 +55,8 @@ public class MainController : MonoBehaviour
 
     public void GameStart()
     {
+        SoundController.Instance.mBGM.volume = vol;
+        SoundController.Instance.mSE2.mute = true;
         SceneManager.LoadScene(1);
     }
 
@@ -74,6 +83,8 @@ public class MainController : MonoBehaviour
 
     public void ExitGame()
     {
+        SoundController.Instance.mBGM.volume = vol;
+        SoundController.Instance.mSE2.mute = true;
         SaveDataController.Instance.Save();
         Application.Quit();
     }
@@ -81,5 +92,35 @@ public class MainController : MonoBehaviour
     public void ButtonSound()
     {
         SoundController.Instance.SESound(3);
+    }
+
+    public void TitleClick()
+    {
+        if (!suprise)
+        {
+            if (TitleClickCount < 10)
+            {
+                TitleClickCount++;
+            }
+            else
+            {
+                StartCoroutine(ShowSomething());
+            }
+        }
+    }
+
+    public IEnumerator ShowSomething()
+    {
+        WaitForSecondsRealtime time = new WaitForSecondsRealtime(5.5f);
+        TitleClickCount = 0;
+        mTitleBGImage.sprite = mTitleBGSprite[1];
+        float vol = SoundController.Instance.mBGM.volume;
+        SoundController.Instance.mBGM.volume = 0f;
+        SoundController.Instance.mSE2.mute = false;
+        SoundController.Instance.SE2Sound(0);
+        yield return time;
+        SoundController.Instance.mBGM.volume = vol;
+        mTitleBGImage.sprite = mTitleBGSprite[0];
+        suprise = false;
     }
 }

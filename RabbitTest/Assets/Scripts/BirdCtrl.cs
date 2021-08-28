@@ -58,7 +58,7 @@ public class BirdCtrl : MonoBehaviour {
     {
         isDrop = true;
         SoundController.Instance.SESound(2);
-        int point = GameController.Instance.mScore / Score;
+        int point = (GameController.Instance.mScore / Score);
         // 감점 표시 
         Transform obj = Instantiate(txtScore) as Transform;
         obj.GetComponent<Text>().text = "<color=red><size=20>-"+ point + "</size></color>";

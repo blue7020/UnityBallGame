@@ -14,6 +14,8 @@ public class SaveDataController : InformationLoader
 
     public bool DataDelete;
 
+    public float mVersion;
+
 
     private void Awake()
     {

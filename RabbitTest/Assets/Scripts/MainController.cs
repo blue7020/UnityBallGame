@@ -4,22 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainController : MonoBehaviour
+public class MainController : InformationLoader
 {
     public static MainController Instance;
-    public Text mStartText,mRankingText,mBestRankingText;
-    public Image mTitleImage,mRankingImage,mTitleBGImage;
-    public Sprite[] mTitleSprite,mTitleBGSprite;
-    public int TitleClickCount;
+    public Text mStartText,mRankingText,mBestRankingText,mGuideText,mGuideToolTipText,mPageText, mVersionText,mMenuText;
+    public Image mTitleImage,mRankingImage,mTitleBGImage,mGuideWindowImage,mGuideIconImage, mLanguageButton;
+    public Sprite[] mTitleSprite,mTitleBGSprite,mGuideIconSprite, mLanguageButtonSprite;
+    public Button mStartButton;
+    public int TitleClickCount,mGuidePageCount;
     public bool suprise;
 
-    float vol;
+    private GuideText[] mInfoArr;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            vol = SoundController.Instance.mBGM.volume;
+            LoadJson(out mInfoArr, Paths.GUIDE_TEXT);
         }
         else
         {
@@ -32,19 +34,17 @@ public class MainController : MonoBehaviour
     {
         SaveDataController.Instance.LoadGame();
         RankingController.Instance.UserID = SaveDataController.Instance.mUser.ID;
-        if (SaveDataController.Instance.mUser.Language==1)
-        {
-            mTitleImage.sprite = mTitleSprite[1];
-            mStartText.text = "터치하여 시작";
-        }
-        else
-        {
-            mTitleImage.sprite = mTitleSprite[0];
-            mStartText.text = "Touch to Start";
-        }
+        mVersionText.text = "Version: " + SaveDataController.Instance.mVersion;
+        LanguageRefresh();
+        mTitleBGImage.sprite = mTitleBGSprite[0];
         TitleClickCount = 0;
         suprise = false;
-        mTitleBGImage.sprite = mTitleBGSprite[0];
+        if (SaveDataController.Instance.DeadAds)
+        {
+            UnityAdsHelper.Instance.Show();
+            SaveDataController.Instance.DeadAds = false;
+        }
+        StartCoroutine(DelayStartButton());
     }
 
     public void UpdateRanking()
@@ -55,8 +55,6 @@ public class MainController : MonoBehaviour
 
     public void GameStart()
     {
-        SoundController.Instance.mBGM.volume = vol;
-        SoundController.Instance.mSE2.mute = true;
         SceneManager.LoadScene(1);
     }
 
@@ -83,8 +81,6 @@ public class MainController : MonoBehaviour
 
     public void ExitGame()
     {
-        SoundController.Instance.mBGM.volume = vol;
-        SoundController.Instance.mSE2.mute = true;
         SaveDataController.Instance.Save();
         Application.Quit();
     }
@@ -96,31 +92,119 @@ public class MainController : MonoBehaviour
 
     public void TitleClick()
     {
-        if (!suprise)
+        if (TitleClickCount < 10)
         {
-            if (TitleClickCount < 10)
-            {
-                TitleClickCount++;
-            }
-            else
-            {
-                StartCoroutine(ShowSomething());
-            }
+            TitleClickCount++;
+        }
+        else
+        {
+            ShowSomething();
         }
     }
 
-    public IEnumerator ShowSomething()
+    public void ShowSomething()
     {
-        WaitForSecondsRealtime time = new WaitForSecondsRealtime(5.5f);
+        if (!suprise)
+        {
+            mTitleBGImage.sprite = mTitleBGSprite[1];
+            SoundController.Instance.BGMChange(1);
+            suprise = true;
+        }
+        else
+        {
+            mTitleBGImage.sprite = mTitleBGSprite[0];
+            SoundController.Instance.BGMChange(0);
+            suprise = false;
+        }
         TitleClickCount = 0;
-        mTitleBGImage.sprite = mTitleBGSprite[1];
-        float vol = SoundController.Instance.mBGM.volume;
-        SoundController.Instance.mBGM.volume = 0f;
-        SoundController.Instance.mSE2.mute = false;
-        SoundController.Instance.SE2Sound(0);
+    }
+
+    public void ResetPageCount()
+    {
+        mGuidePageCount = 0;
+    }
+
+    public void PlusPage()
+    {
+        if (mGuidePageCount+1<=3)
+        {
+            mGuidePageCount++;
+            RefreshGuidePage();
+        }
+    }
+
+    public void MinusPage()
+    {
+        if (mGuidePageCount -1 >= 0)
+        {
+            mGuidePageCount--;
+            RefreshGuidePage();
+        }
+    }
+
+    public void RefreshGuidePage()
+    {
+        mPageText.text = (mGuidePageCount + 1)+" / 4";
+        mGuideIconImage.sprite = mGuideIconSprite[mGuidePageCount];
+        if (SaveDataController.Instance.mLanguage == 1)//korean
+        {
+            mGuideToolTipText.text = mInfoArr[mGuidePageCount].text_kor;
+        }
+        else
+        {
+            mGuideToolTipText.text = mInfoArr[mGuidePageCount].text_eng;
+        }
+    }
+
+    public IEnumerator DelayStartButton()
+    {
+        WaitForSeconds time = new WaitForSeconds(2f);
         yield return time;
-        SoundController.Instance.mBGM.volume = vol;
-        mTitleBGImage.sprite = mTitleBGSprite[0];
-        suprise = false;
+        mStartButton.gameObject.SetActive(true);
+    }
+
+    public void LanguageButtonRefresh()
+    {
+        if (SaveDataController.Instance.mLanguage == 1)//if now Korean
+        {
+            mLanguageButton.sprite = mLanguageButtonSprite[0];
+        }
+        else
+        {
+            mLanguageButton.sprite = mLanguageButtonSprite[1];
+
+        }
+    }
+
+    public void LanguageChange()
+    {
+        if (SaveDataController.Instance.mLanguage == 1)//if now Korean
+        {
+            SaveDataController.Instance.mLanguage = 0;
+        }
+        else
+        {
+            SaveDataController.Instance.mLanguage = 1;
+        }
+        LanguageButtonRefresh();
+        LanguageRefresh();
+    }
+
+    public void LanguageRefresh()
+    {
+        if (SaveDataController.Instance.mLanguage == 1)//korean
+        {
+            mStartText.text = "터치하여 시작";
+            mGuideText.text = "가이드";
+            mMenuText.text = "메뉴";
+            mTitleImage.sprite = mTitleSprite[1];
+        }
+        else
+        {
+            mStartText.text = "Touch to Start";
+            mGuideText.text = "Guide";
+            mMenuText.text = "Menu";
+            mTitleImage.sprite = mTitleSprite[0];
+        }
     }
 }

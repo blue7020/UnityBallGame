@@ -6,8 +6,10 @@ using DG.Tweening;
 public class TilCtrl : MonoBehaviour {
 
     public bool Moving;
+    public bool Breaking;
     public float moveSpeed;
     public SpriteRenderer mRenderer;
+    public Animator mAnim;
     public Sprite[] mSprite;
     int moveFlag = 1;
 
@@ -50,5 +52,21 @@ public class TilCtrl : MonoBehaviour {
         }
         yield return time;
         StartCoroutine(MovingTile());
+    }
+
+    public void BreakPlatform()
+    {
+        if (Breaking)
+        {
+            mAnim.Play("Break");
+            SoundController.Instance.SESound(6);
+            Invoke("RemoveObj", 0.5f);
+
+        }
+    }
+
+    public void RemoveObj()
+    {
+        Destroy(gameObject);
     }
 }

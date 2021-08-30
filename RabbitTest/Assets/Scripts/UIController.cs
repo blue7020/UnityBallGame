@@ -8,19 +8,18 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance;
 
-    public Button mSettingButton, mMenuExitButton,mStartButton,mGameOverButton;
-    public Text mScoreText, mVersionText,mHighScoreText, mHighScoreShowText,mHigherText,mStartText,mGameOverText;
-    public Image mMenu, mBG, mLanguageButton;
+    public Button mSettingButton, mMenuExitButton,mStartButton,mAdButton;
+    public Text mScoreText, mVersionText,mHighScoreText, mMenuText, mHighScoreShowText,mHigherText,mStartText,mGameOverText,mReviveText,mMainMenuText;
+    public Image mMenu, mBG, mLanguageButton,mGameOverWindow;
     public Sprite[] mBGSprite, mLanguageButtonSprite;
     public bool pause;
-    public float mVersion;
 
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
-            mVersionText.text = "Version: "+mVersion;
+            mVersionText.text = "Version: " + SaveDataController.Instance.mVersion;
         }
         else
         {
@@ -31,16 +30,6 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (SaveDataController.Instance.mLanguage == 1)//korean
-        {
-            mStartText.text = "터치하여 시작";
-            mGameOverText.text = "게임 오버";
-        }
-        else
-        {
-            mStartText.text = "Touch to Start";
-            mGameOverText.text = "GAME OVER";
-        }
         LanguageRefresh();
         pause = true;
         Time.timeScale = 0;
@@ -139,16 +128,38 @@ public class UIController : MonoBehaviour
     public void LanguageRefresh()
     {
         ScoreRefresh();
-        if (SaveDataController.Instance.mUser.Language == 1)
+        if (SaveDataController.Instance.mLanguage == 1)//korean
         {
             mHighScoreText.text = "최고 기록 갱신!";
+            mStartText.text = "터치하여 시작";
             mGameOverText.text = "게임 오버";
+            mReviveText.text = "광고 후\n부활";
+            mMainMenuText.text = "메인\n메뉴";
+            mMenuText.text = "메뉴";
         }
         else
         {
             mHighScoreText.text = "High Score!";
+            mStartText.text = "Touch to Start";
             mGameOverText.text = "GAME OVER";
+            mReviveText.text = "Revive\nwith Ads";
+            mMainMenuText.text = "Main\nMenu";
+            mMenuText.text = "Menu";
         }
+
+    }
+
+    public void ShowReviveWindow()
+    {
+        if (GameController.Instance.mReviveToken<1)
+        {
+            mAdButton.interactable = false;
+        }
+        else
+        {
+            mAdButton.interactable = true;
+        }
+        mGameOverWindow.gameObject.SetActive(true);
     }
 
     public void ButtonSound()

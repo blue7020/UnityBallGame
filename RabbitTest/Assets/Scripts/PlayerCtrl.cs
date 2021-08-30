@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCtrl : MonoBehaviour
 {
+    public static PlayerCtrl Instance;
 
     public Transform[] tile;        // 프리팹 
     public Transform[] item;
@@ -15,24 +16,38 @@ public class PlayerCtrl : MonoBehaviour
     public Transform endPos;
 
     public SpriteRenderer mRenderer;
-    Transform spPoint;
+    public Transform spPoint;
     Transform newTile;
     float maxY = 0;
-    bool isJump = false;
 
-    int speedSide = 10;             // 좌우 이동 속도 
-    int speedJump = 16;             // 점프 속도 
+    int speedSide = 11;             // 좌우 이동 속도 
+    public int speedJump = 16;             // 점프 속도 
     int gravity = 20;               // 추락 속도 
 
-    Vector3 moveDir = Vector3.zero;
+    public Vector3 moveDir = Vector3.zero;
+    Vector3 ItemLastSpawnPos = Vector3.zero;
 
-    bool isDead = false;
+    public bool isDead = false;
+    public bool isJump = false;
     Animator anim;
 
     public float[] MovingTileSpawnRate;
+    public float[] BreakTileSpawnRate;
     public float[] MobSpawnRate;
     public float[] ItemSpawnRate;
 
+
+    private void Awake()
+    {
+        if (Instance==null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
@@ -82,7 +97,7 @@ public class PlayerCtrl : MonoBehaviour
         RaycastHit2D hit;
         hit = Physics2D.Linecast(startPos.position, endPos.position, 1 << LayerMask.NameToLayer("Tile"));
 
-        if (hit)
+        if (hit&& !isJump)
         {
             moveDir.y = speedJump;
             SoundController.Instance.SESound(0);
@@ -113,15 +128,15 @@ public class PlayerCtrl : MonoBehaviour
             float x = Input.acceleration.x;
 
             // 왼쪽으로 기울였나?
-            if (x < -0.2f && view.x > 35)
+            if (x < 0 && view.x > 35)
             {
                 mRenderer.flipX = false;
-                moveDir.x = 2 * x * speedSide;
+                moveDir.x = (2 * x) * speedSide;
             }
-            if (x > 0.2f && view.x < Screen.width - 35)
+            if (x > 0 && view.x < Screen.width - 35)
             {
                 mRenderer.flipX = true;
-                moveDir.x = 2 * x * speedSide;
+                moveDir.x = (2 * x) * speedSide;
             }
 
         }
@@ -148,10 +163,12 @@ public class PlayerCtrl : MonoBehaviour
         //애니메이션 설정
         if (moveDir.y > 0)
         {
+            isJump = true;
             anim.Play("PlayerJump");
         }
         else
         {
+            isJump = false;
             anim.Play("PlayerIdle");
         }
     }
@@ -165,9 +182,9 @@ public class PlayerCtrl : MonoBehaviour
 
             // 카메라 위치 이동 
             Camera.main.transform.position = new Vector3(0, maxY - 2f, -10);
-            GameController.Instance.mHeight = (int)maxY;
-            int point = GameController.Instance.mHeight / 4;
-            GameController.Instance.AddScore(point);
+            int point = (int)maxY;
+            GameController.Instance.mHeight = point;
+            GameController.Instance.AddScore(point/3);
         }
         MakeItem();
         MakeTile();
@@ -189,12 +206,16 @@ public class PlayerCtrl : MonoBehaviour
             }
             else
             {
-                newTile = Instantiate(tile[0], pos, Quaternion.identity) as Transform;
+                TileCode = Random.Range(0, 1f);
+                if (TileCode <= BreakTileSpawnRate[GameController.Instance.mStage])
+                {
+                    newTile = Instantiate(tile[2], pos, Quaternion.identity) as Transform;
+                }
+                else
+                {
+                    newTile = Instantiate(tile[0], pos, Quaternion.identity) as Transform;
+                }
             }
-            ////나뭇가지의 회전방향 설정
-            //int mx = (Random.Range(0, 2) == 0) ? -1 : 1;
-            //int my = (Random.Range(0, 2) == 0) ? -1 : 1;
-            //newTile.GetComponent<SpriteRenderer>().material.mainTextureScale = new Vector2(mx, my);
         }
     }
 
@@ -234,8 +255,16 @@ public class PlayerCtrl : MonoBehaviour
                 if (n1 + n2 + n3 >= 2) return;
 
                 //Item 만들기 
-                pos.x = Random.Range(-2.5f, 2.5f) * 0.5f;
-                pos.y = Random.Range(2.5f, 8f);
+                while (true)
+                {
+                    pos.x = Random.Range(-3f, 3f) * 0.5f;
+                    pos.y = Random.Range(2, 8);
+                    if (pos != ItemLastSpawnPos)
+                    {
+                        ItemLastSpawnPos = pos;
+                        break;
+                    }
+                }
 
                 int n = Random.Range(0, 3);
                 Transform obj = Instantiate(item[n], transform.position + pos, Quaternion.identity) as Transform;
@@ -262,9 +291,21 @@ public class PlayerCtrl : MonoBehaviour
                 break;
 
             case "Bird":
-                if (coll.transform.eulerAngles.z != 0) return;
                 //몹 사망 처리 
                 coll.transform.SendMessage("DropBird", SendMessageOptions.DontRequireReceiver);
+                break;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D coll)
+    {
+        switch (coll.transform.tag)
+        {
+            case "Tile":
+                if (!isJump)
+                {
+                    coll.transform.SendMessage("BreakPlatform", SendMessageOptions.DontRequireReceiver);
+                }
                 break;
         }
     }
@@ -275,8 +316,6 @@ public class PlayerCtrl : MonoBehaviour
         SoundController.Instance.SESound(5);
         Time.timeScale = 0;
         SaveDataController.Instance.DeadAds = true;
-        UIController.Instance.mGameOverButton.gameObject.SetActive(true);
-        //만약 광고 출력이 성공하면 보상형 광고를 추가한 후
-        //사망 시 1회 부활할 수 있는 기능 추가하기
+        UIController.Instance.ShowReviveWindow();
     }
 }

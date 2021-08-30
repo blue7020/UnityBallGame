@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
-    public int mScore, mHighScore,mHeight,mStage;
+    public int mScore, mHighScore,mHeight,mStage,mReviveToken;
     public GameObject mFirstTile;
 
     private void Awake()
@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            mReviveToken = 1;
             Time.timeScale = 0;
         }
         else
@@ -25,11 +26,6 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         mHighScore = SaveDataController.Instance.mUser.HighScore;
-        if (SaveDataController.Instance.DeadAds)
-        {
-            UnityAdsHelper.Instance.ShowRewardedAd();
-            SaveDataController.Instance.DeadAds = false;
-        }
         float x = Random.Range(-5f, 5f) * 0.5f;
         mFirstTile.transform.position = new Vector3(x, mFirstTile.transform.position.y,0);
     }
@@ -80,6 +76,26 @@ public class GameController : MonoBehaviour
             {
                 mScore = 0;
             }
+        }
+    }
+
+    public void Revive()
+    {
+        if (mReviveToken>0)
+        {
+            mReviveToken--;
+            UIController.Instance.mGameOverWindow.gameObject.SetActive(false);
+            //현재 카메라 위치의 중심.y+2에서 부활 or 3초간 무적상태 부여 및 무적상태동안
+            //카메라 끝부분에 점프되는 발판 만들어주기
+            Vector3 pos = PlayerCtrl.Instance.spPoint.transform.position+ new Vector3(0,-3.5f,0);
+            PlayerCtrl.Instance.transform.position = pos;
+            PlayerCtrl.Instance.isDead = false;
+            Time.timeScale = 1;
+            PlayerCtrl.Instance.moveDir.y = PlayerCtrl.Instance.speedJump;
+        }
+        else
+        {
+            UIController.Instance.mAdButton.interactable = false;
         }
     }
 }

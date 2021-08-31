@@ -20,4 +20,5 @@ public class SaveData
     public int HighScore;
     public bool Mute;
     public string ID;
+    public bool NoAds;
 }

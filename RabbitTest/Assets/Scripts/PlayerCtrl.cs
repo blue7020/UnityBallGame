@@ -11,6 +11,7 @@ public class PlayerCtrl : MonoBehaviour
     public Transform[] item;
     public Transform[] bird;
 
+    public TilCtrl mReviveTile;
 
     public Transform startPos;
     public Transform endPos;
@@ -29,7 +30,9 @@ public class PlayerCtrl : MonoBehaviour
 
     public bool isDead = false;
     public bool isJump = false;
-    Animator anim;
+    public bool isNodamage = false;
+    public Animator anim,spriteAnim;
+
 
     public float[] MovingTileSpawnRate;
     public float[] BreakTileSpawnRate;
@@ -51,7 +54,6 @@ public class PlayerCtrl : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
 
         // 모바일 단말기 설정
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -71,6 +73,8 @@ public class PlayerCtrl : MonoBehaviour
         {
             newTile = Instantiate(tile[0], pos, Quaternion.identity) as Transform;
         }
+        spriteAnim.Play("Normal");
+        mReviveTile.gameObject.SetActive(false);
     }
 
     //-------------------
@@ -257,7 +261,7 @@ public class PlayerCtrl : MonoBehaviour
                 //Item 만들기 
                 while (true)
                 {
-                    pos.x = Random.Range(-3f, 3f) * 0.5f;
+                    pos.x = Random.Range(-2.5f, 2.5f) * 0.5f;
                     pos.y = Random.Range(2, 8);
                     if (pos != ItemLastSpawnPos)
                     {
@@ -291,8 +295,11 @@ public class PlayerCtrl : MonoBehaviour
                 break;
 
             case "Bird":
-                //몹 사망 처리 
-                coll.transform.SendMessage("DropBird", SendMessageOptions.DontRequireReceiver);
+                //몹 충돌 처리 
+                if (!isNodamage)
+                {
+                    coll.transform.SendMessage("DropBird", SendMessageOptions.DontRequireReceiver);
+                }
                 break;
         }
     }
@@ -317,5 +324,17 @@ public class PlayerCtrl : MonoBehaviour
         Time.timeScale = 0;
         SaveDataController.Instance.DeadAds = true;
         UIController.Instance.ShowReviveWindow();
+    }
+
+    public IEnumerator ShowReviveTile()
+    {
+        WaitForSeconds time = new WaitForSeconds(3.5f);
+        isNodamage = true;
+        spriteAnim.Play("Blink");
+        mReviveTile.gameObject.SetActive(true);
+        yield return time;
+        spriteAnim.Play("Normal");
+        isNodamage = false;
+        mReviveTile.gameObject.SetActive(false);
     }
 }

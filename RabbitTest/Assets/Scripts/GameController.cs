@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
         {
             Instance = this;
             mReviveToken = 1;
+            Screen.SetResolution(Screen.width, Screen.width * 9 / 16, true);//9:16 해상도 고정
             Time.timeScale = 0;
         }
         else
@@ -85,13 +86,11 @@ public class GameController : MonoBehaviour
         {
             mReviveToken--;
             UIController.Instance.mGameOverWindow.gameObject.SetActive(false);
-            //현재 카메라 위치의 중심.y+2에서 부활 or 3초간 무적상태 부여 및 무적상태동안
-            //카메라 끝부분에 점프되는 발판 만들어주기
             Vector3 pos = PlayerCtrl.Instance.spPoint.transform.position+ new Vector3(0,-3.5f,0);
             PlayerCtrl.Instance.transform.position = pos;
             PlayerCtrl.Instance.isDead = false;
             Time.timeScale = 1;
-            PlayerCtrl.Instance.moveDir.y = PlayerCtrl.Instance.speedJump;
+            StartCoroutine(PlayerCtrl.Instance.ShowReviveTile());
         }
         else
         {

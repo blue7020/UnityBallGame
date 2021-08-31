@@ -73,6 +73,7 @@ public class SaveDataController : InformationLoader
 
     protected void CreateNewSaveData()
     {
+        mUser.NoAds = false;
         mUser.HighScore = 0;
         mUser.Mute = false;
         mUser.ID = "btsui" + UnityEngine.Random.Range(0, 999999);

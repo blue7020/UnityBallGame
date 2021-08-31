@@ -22,7 +22,6 @@ public class MainController : InformationLoader
         {
             Instance = this;
             LoadJson(out mInfoArr, Paths.GUIDE_TEXT);
-            Screen.SetResolution(Screen.width, Screen.width * 9 / 16, true);//9:16 해상도 고정
         }
         else
         {
@@ -43,9 +42,13 @@ public class MainController : InformationLoader
         suprise = false;
         if (SaveDataController.Instance.DeadAds)
         {
-            UnityAdsHelper.Instance.Show();
+            if (!SaveDataController.Instance.mUser.NoAds)
+            {
+                UnityAdsHelper.Instance.Show();
+            }
             SaveDataController.Instance.DeadAds = false;
         }
+        SoundController.Instance.BGMChange(0);
         StartCoroutine(DelayStartButton());
     }
 
@@ -160,7 +163,7 @@ public class MainController : InformationLoader
 
     public IEnumerator DelayStartButton()
     {
-        WaitForSeconds time = new WaitForSeconds(3f);
+        WaitForSeconds time = new WaitForSeconds(1f);
         yield return time;
         mStartButton.gameObject.SetActive(true);
     }

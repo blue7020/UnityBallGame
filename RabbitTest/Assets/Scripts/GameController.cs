@@ -15,7 +15,6 @@ public class GameController : MonoBehaviour
         {
             Instance = this;
             mReviveToken = 1;
-            Screen.SetResolution(Screen.width, Screen.width * 9 / 16, true);//9:16 해상도 고정
             Time.timeScale = 0;
         }
         else

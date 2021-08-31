@@ -52,10 +52,13 @@ public class RewardAdsManager : MonoBehaviour
 
     public void ShowRewardAd()
     {
-        if (Advertisement.IsReady(RewardVideoID))
+        if (!SaveDataController.Instance.mUser.NoAds)
         {
-            var options = new ShowOptions { resultCallback = HandleShowResult };
-            Advertisement.Show(RewardVideoID,options);
+            if (Advertisement.IsReady(RewardVideoID))
+            {
+                var options = new ShowOptions { resultCallback = HandleShowResult };
+                Advertisement.Show(RewardVideoID, options);
+            }
         }
     }
 }

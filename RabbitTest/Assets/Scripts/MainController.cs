@@ -43,9 +43,17 @@ public class MainController : InformationLoader
         suprise = false;
         if (SaveDataController.Instance.DeadAds)
         {
-            if (!SaveDataController.Instance.mUser.NoAds)
+            if (SaveDataController.Instance.AdsCount==3)
             {
-                UnityAdsHelper.Instance.Show();
+                if (!SaveDataController.Instance.mUser.NoAds)
+                {
+                    UnityAdsHelper.Instance.Show();
+                }
+                SaveDataController.Instance.AdsCount = 0;
+            }
+            else
+            {
+                SaveDataController.Instance.AdsCount++;
             }
             SaveDataController.Instance.DeadAds = false;
         }

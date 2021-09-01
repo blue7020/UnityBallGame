@@ -12,6 +12,7 @@ public class SaveDataController : InformationLoader
 
     public int mLanguage;
     public bool mMute;
+    public int AdsCount=3;
 
     public bool DataDelete;
 

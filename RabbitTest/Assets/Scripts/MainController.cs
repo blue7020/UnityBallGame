@@ -36,6 +36,7 @@ public class MainController : InformationLoader
         RankingController.Instance.UserID = SaveDataController.Instance.mUser.ID;
         mVersionText.text = "Version: " + SaveDataController.Instance.mVersion;
         SaveDataController.Instance.mLanguage = SaveDataController.Instance.mUser.Language;
+        SaveDataController.Instance.mMute = SaveDataController.Instance.mUser.Mute;
         LanguageRefresh();
         mTitleBGImage.sprite = mTitleBGSprite[0];
         TitleClickCount = 0;

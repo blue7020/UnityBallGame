@@ -32,17 +32,17 @@ public class SoundController : MonoBehaviour
 
     public void Mute()
     {
-        if (SaveDataController.Instance.mUser.Mute == true)
+        if (SaveDataController.Instance.mMute == true)
         {
             mBGM.mute = false;
             mSE.mute = false;
-            SaveDataController.Instance.mUser.Mute = false;
+            SaveDataController.Instance.mMute = false;
         }
         else
         {
             mBGM.mute = true;
             mSE.mute = true;
-            SaveDataController.Instance.mUser.Mute = true;
+            SaveDataController.Instance.mMute = true;
         }
     }
 

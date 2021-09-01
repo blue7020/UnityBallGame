@@ -11,7 +11,7 @@ public class SoundButton : MonoBehaviour,IPointerClickHandler
 
     public void SoundButtonRefresh()
     {
-        if (SaveDataController.Instance.mUser.Mute == true)//mute on
+        if (SaveDataController.Instance.mMute == true)//mute on
         {
             mSoundButton.sprite = mSprite[1];
         }

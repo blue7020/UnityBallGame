@@ -96,50 +96,28 @@ public class RankingController : MonoBehaviour
         }
         plugin.SetUUID(UserID);
         plugin.SetNickname(UserID);
-        plugin.SetLanguage("Configure.PN_LANG_KO");
-        //        plugin.SetLanguage("Configure.PN_LANG_EN");
+        if (SaveDataController.Instance.mUser.Language == 1)
+        {
+            plugin.SetLanguage("Configure.PN_LANG_KO");
+        }
+        else
+        {
+            plugin.SetLanguage("Configure.PN_LANG_EN");
+        }
         return plugin;
     }
 
     public void UpdateRecode()
     {
         // 랭킹
-        if (MainController.Instance.mRankingText != null)
-        {
-            GetPlugin().RankingPersonal("beyondthesky-RANK-2222BFF2-DF28038B", (state, message, rawData, dictionary) => {
-                if (state.Equals(Configure.PN_API_STATE_SUCCESS))
+        GetPlugin().RankingPersonal("beyondthesky-RANK-2222BFF2-DF28038B", (state, message, rawData, dictionary) => {
+            if (state.Equals(Configure.PN_API_STATE_SUCCESS))
+            {
+                Debug.Log("랭킹 읽기 완료");
+                string ranking = dictionary["ranking"].ToString();
+                if (ranking == "-1")
                 {
-                    Debug.Log("랭킹 읽기 완료");
-                    string ranking = dictionary["ranking"].ToString();
-                    if (ranking == "-1")
-                    {
-                        if (SaveDataController.Instance.mUser.Language == 1)
-                        {
-                            MainController.Instance.mRankingText.text = "순위: 기록 없음";
-                        }
-                        else
-                        {
-                            MainController.Instance.mRankingText.text = "Ranking: Unknown";
-                        }
-                    }
-                    else
-                    {
-                        if (SaveDataController.Instance.mUser.Language == 1)
-                        {
-                            MainController.Instance.mRankingText.text = "순위: " + dictionary["ranking"].ToString() + "명 중 " + dictionary["total_player"]+"위";
-                        }
-                        else
-                        {
-                            MainController.Instance.mRankingText.text = "Ranking: " + dictionary["ranking"].ToString() + " of " + dictionary["total_player"];
-                        }
-                    }
-
-                }
-                else
-                {
-                    Debug.Log("랭킹 읽기 실패");
-                    //PlayNANOOErrorControl.ShowErrorMessage(message);
-                    if (SaveDataController.Instance.mUser.Language == 1)
+                    if (SaveDataController.Instance.mLanguage == 1)
                     {
                         MainController.Instance.mRankingText.text = "순위: 기록 없음";
                     }
@@ -148,13 +126,37 @@ public class RankingController : MonoBehaviour
                         MainController.Instance.mRankingText.text = "Ranking: Unknown";
                     }
                 }
-            });
-        }
+                else
+                {
+                    if (SaveDataController.Instance.mLanguage == 1)
+                    {
+                        MainController.Instance.mRankingText.text = "순위: " + dictionary["total_player"] + "명 중 " + dictionary["ranking"].ToString() + "위";
+                    }
+                    else
+                    {
+                        MainController.Instance.mRankingText.text = "Ranking: " + dictionary["ranking"].ToString() + " of " + dictionary["total_player"];
+                    }
+                }
 
+            }
+            else
+            {
+                Debug.Log("랭킹 읽기 실패");
+                //PlayNANOOErrorControl.ShowErrorMessage(message);
+                if (SaveDataController.Instance.mLanguage == 1)
+                {
+                    MainController.Instance.mRankingText.text = "순위: 기록 없음";
+                }
+                else
+                {
+                    MainController.Instance.mRankingText.text = "Ranking: Unknown";
+                }
+            }
+        });
         // 최고기록
         if (MainController.Instance.mBestRankingText != null)
         {
-            if (SaveDataController.Instance.mUser.Language == 1)
+            if (SaveDataController.Instance.mLanguage == 1)
             {
                 MainController.Instance.mBestRankingText.text = "최고 점수: " + SaveDataController.Instance.mUser.HighScore.ToString();
             }

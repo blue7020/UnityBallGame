@@ -11,6 +11,7 @@ public class SaveDataController : InformationLoader
     public bool DeadAds = false;
 
     public int mLanguage;
+    public bool mMute;
 
     public bool DataDelete;
 
@@ -96,6 +97,7 @@ public class SaveDataController : InformationLoader
     public void Save()
     {
         mUser.Language= mLanguage;
+        mUser.Mute = mMute;
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채
         MemoryStream stream = new MemoryStream();//stream은 메모리를 통째로 담은 것 = 양동이
 

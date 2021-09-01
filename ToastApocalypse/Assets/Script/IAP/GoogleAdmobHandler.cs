@@ -164,12 +164,6 @@ public class GoogleAdmobHandler : MonoBehaviour
         if (SaveDataController.Instance.mUser.NoAds == false)
         {
             StartCoroutine(ShowRewardAd());
-            //RequestRewardBasedVideo();//보상형
-            //if (rewardBasedVideo.IsLoaded())
-            //{
-            //    rewardBasedVideo.Show();
-            //    Debug.Log(rewardBasedVideo.IsLoaded());
-            //}
         }
         else
         {

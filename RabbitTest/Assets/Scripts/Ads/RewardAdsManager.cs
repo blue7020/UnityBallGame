@@ -60,5 +60,9 @@ public class RewardAdsManager : MonoBehaviour
                 Advertisement.Show(RewardVideoID, options);
             }
         }
+        else
+        {
+            GameController.Instance.Revive();
+        }
     }
 }

@@ -21,4 +21,15 @@ public class SaveData
     public bool Mute;
     public string ID;
     public bool NoAds;
+    public int CharacterID;
+}
+
+[Serializable]
+public class CharacterText
+{
+    public int ID;
+    public string name_kor;
+    public string name_eng;
+    public string text_kor;
+    public string text_eng;
 }

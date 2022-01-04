@@ -86,11 +86,11 @@ public class GameController : MonoBehaviour
             mReviveToken--;
             SoundController.Instance.SESound(7);
             UIController.Instance.mGameOverWindow.gameObject.SetActive(false);
-            Vector3 pos = PlayerCtrl.Instance.spPoint.transform.position+ new Vector3(0,-3.5f,0);
-            PlayerCtrl.Instance.transform.position = pos;
-            PlayerCtrl.Instance.isDead = false;
+            Vector3 pos = PlayerController.Instance.mPlayer.spPoint.transform.position+ new Vector3(0,-3.5f,0);
+            PlayerController.Instance.mPlayer.transform.position = pos;
+            PlayerController.Instance.mPlayer.isDead = false;
             Time.timeScale = 1;
-            StartCoroutine(PlayerCtrl.Instance.ShowReviveTile());
+            StartCoroutine(PlayerController.Instance.mPlayer.ShowReviveTile());
         }
         else
         {

@@ -12,7 +12,8 @@ public class SaveDataController : InformationLoader
 
     public int mLanguage;
     public bool mMute;
-    public int AdsCount=3;
+    public int AdsCount=10;
+    public int mCharacterID;
 
     public bool DataDelete;
 
@@ -78,6 +79,7 @@ public class SaveDataController : InformationLoader
         mUser.NoAds = false;
         mUser.HighScore = 0;
         mUser.Mute = false;
+        mUser.CharacterID = 0;
         mUser.ID = "btsui" + UnityEngine.Random.Range(0, 999999);
         if (Application.systemLanguage == SystemLanguage.Korean)
         {
@@ -99,6 +101,7 @@ public class SaveDataController : InformationLoader
     {
         mUser.Language= mLanguage;
         mUser.Mute = mMute;
+        mUser.CharacterID = mCharacterID;
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채
         MemoryStream stream = new MemoryStream();//stream은 메모리를 통째로 담은 것 = 양동이
 

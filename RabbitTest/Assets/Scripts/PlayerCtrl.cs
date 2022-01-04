@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    public static PlayerCtrl Instance;
 
     public Transform[] tile;        // 프리팹 
     public Transform[] item;
     public Transform[] bird;
 
-    public TilCtrl mReviveTile;
+
 
     public Transform startPos;
     public Transform endPos;
@@ -39,22 +38,8 @@ public class PlayerCtrl : MonoBehaviour
     public float[] MobSpawnRate;
     public float[] ItemSpawnRate;
 
-
-    private void Awake()
-    {
-        if (Instance==null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     void Start()
     {
-
         // 모바일 단말기 설정
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -74,7 +59,7 @@ public class PlayerCtrl : MonoBehaviour
             newTile = Instantiate(tile[0], pos, Quaternion.identity) as Transform;
         }
         spriteAnim.Play("Normal");
-        mReviveTile.gameObject.SetActive(false);
+        PlayerController.Instance.mReviveTile.gameObject.SetActive(false);
     }
 
     //-------------------
@@ -331,10 +316,10 @@ public class PlayerCtrl : MonoBehaviour
         WaitForSeconds time = new WaitForSeconds(3.5f);
         isNodamage = true;
         spriteAnim.Play("Blink");
-        mReviveTile.gameObject.SetActive(true);
+        PlayerController.Instance.mReviveTile.gameObject.SetActive(true);
         yield return time;
         spriteAnim.Play("Normal");
         isNodamage = false;
-        mReviveTile.gameObject.SetActive(false);
+        PlayerController.Instance.mReviveTile.gameObject.SetActive(false);
     }
 }

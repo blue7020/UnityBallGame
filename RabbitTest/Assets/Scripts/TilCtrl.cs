@@ -10,12 +10,19 @@ public class TilCtrl : MonoBehaviour {
     public float moveSpeed;
     public SpriteRenderer mRenderer;
     public Animator mAnim;
-    public Sprite[] mSprite;
     int moveFlag = 1;
 
     private void Start()
     {
-        mRenderer.sprite = mSprite[GameController.Instance.mStage];
+        if (GameController.Instance.mStage == 0)
+        {
+            mAnim.Play("Normal");
+        }
+        else
+        {
+            string st = (GameController.Instance.mStage + 1).ToString();
+            mAnim.Play("Stage" + st);
+        }
         if (Moving)
         {
             StartCoroutine(MovingTile());

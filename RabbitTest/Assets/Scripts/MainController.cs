@@ -43,7 +43,7 @@ public class MainController : InformationLoader
         suprise = false;
         if (SaveDataController.Instance.DeadAds)
         {
-            if (SaveDataController.Instance.AdsCount==3)
+            if (SaveDataController.Instance.AdsCount==10)
             {
                 if (!SaveDataController.Instance.mUser.NoAds)
                 {

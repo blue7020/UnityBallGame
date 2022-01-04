@@ -9,16 +9,16 @@ public class JsonGenerator : MonoBehaviour
 {
     public void GenerateStatInfo()
     {
-        GuideText[] infoArr = new GuideText[3];
+        CharacterText[] infoArr = new CharacterText[2];
 
-        infoArr[0] = new GuideText();
+        infoArr[0] = new CharacterText();
         infoArr[0].ID = 0;
-        infoArr[0].title_kor = "0";
-        infoArr[0].title_eng = "1";
+        infoArr[0].name_kor = "0";
+        infoArr[0].name_kor = "1";
         infoArr[0].text_kor = "2";
         infoArr[0].text_eng = "3";
         string data = JsonConvert.SerializeObject(infoArr, Formatting.Indented);//출력 시 보기 편하게 변환
-        WriteFile(data, "GuideText.json");//json 파일을 열었을 때 한글이 깨지면 메모장으로 켜서 다른이름으로 저장에 파일형식 UTF-8로 바꾸고 덮어쓰기
+        WriteFile(data, "CharacterText.json");//json 파일을 열었을 때 한글이 깨지면 메모장으로 켜서 다른이름으로 저장에 파일형식 UTF-8로 바꾸고 덮어쓰기
     }
 
     private void WriteFile(string data, string fileName)

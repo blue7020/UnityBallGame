@@ -20,12 +20,15 @@ public class SaveDataController : InformationLoader
     public float mVersion;
 
 
+    public CharacterText[] mCharacterInfoArr;
+
     private void Awake()
     {
         if (Instance==null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadJson(out mCharacterInfoArr, Paths.CHARACTER_TEXT);
         }
         else
         {
@@ -71,6 +74,20 @@ public class SaveDataController : InformationLoader
         //    }
         //    mUser.StageClear = temp;
         //}
+        if (mUser.CharacterOpen == null)
+        {
+            mUser.CharacterOpen = new bool[mCharacterInfoArr.Length];
+        }
+        else if (mUser.CharacterOpen.Length != mCharacterInfoArr.Length)
+        {
+            bool[] temp = new bool[mCharacterInfoArr.Length];
+            int count = Mathf.Min(mCharacterInfoArr.Length, mUser.CharacterOpen.Length);
+            for (int i = 0; i < count; i++)
+            {
+                temp[i] = mUser.CharacterOpen[i];
+            }
+            mUser.CharacterOpen = temp;
+        }
     }
 
 
@@ -80,6 +97,10 @@ public class SaveDataController : InformationLoader
         mUser.HighScore = 0;
         mUser.Mute = false;
         mUser.CharacterID = 0;
+        mUser.Gold = 0;
+        mUser.RevivalCount = 1;
+        mUser.CharacterOpen = new bool[mCharacterInfoArr.Length];
+        mUser.CharacterOpen[0] = true;
         mUser.ID = "btsui" + UnityEngine.Random.Range(0, 999999);
         if (Application.systemLanguage == SystemLanguage.Korean)
         {

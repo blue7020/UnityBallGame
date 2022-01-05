@@ -9,6 +9,7 @@ public class PlayerCtrl : MonoBehaviour
     public Transform[] tile;        // 프리팹 
     public Transform[] item;
     public Transform[] bird;
+    public Transform gold;
 
 
 
@@ -26,6 +27,7 @@ public class PlayerCtrl : MonoBehaviour
 
     public Vector3 moveDir = Vector3.zero;
     Vector3 ItemLastSpawnPos = Vector3.zero;
+    Vector3 GoldLastSpawnPos = Vector3.zero;
 
     public bool isDead = false;
     public bool isJump = false;
@@ -37,6 +39,7 @@ public class PlayerCtrl : MonoBehaviour
     public float[] BreakTileSpawnRate;
     public float[] MobSpawnRate;
     public float[] ItemSpawnRate;
+    public float GoldSpawnRate;
 
     void Start()
     {
@@ -241,7 +244,7 @@ public class PlayerCtrl : MonoBehaviour
                 int n2 = GameObject.FindGameObjectsWithTag("Item2").Length;
                 int n3 = GameObject.FindGameObjectsWithTag("Item3").Length;
 
-                if (n1 + n2 + n3 >= 2) return;
+                if (n1 + n2 + n3 >= 3) return;
 
                 //Item 만들기 
                 while (true)
@@ -257,9 +260,24 @@ public class PlayerCtrl : MonoBehaviour
 
                 int n = Random.Range(0, 3);
                 Transform obj = Instantiate(item[n], transform.position + pos, Quaternion.identity) as Transform;
-
             }
         }
+        if (Random.Range(0,1f)<GoldSpawnRate)
+        {
+            //Gold 만들기 
+            while (true)
+            {
+                pos.x = Random.Range(-2f, 2f) * 0.5f;
+                pos.y = Random.Range(2, 8);
+                if (pos != GoldLastSpawnPos)
+                {
+                    GoldLastSpawnPos = pos;
+                    break;
+                }
+            }
+            Transform obj = Instantiate(gold, transform.position + pos, Quaternion.identity) as Transform;
+        }
+
     }
 
     void OnTriggerEnter2D(Collider2D coll)
@@ -276,6 +294,10 @@ public class PlayerCtrl : MonoBehaviour
                 break;
 
             case "Item3":
+                coll.transform.SendMessage("DisplayScore");
+                break;
+
+            case "Item4":
                 coll.transform.SendMessage("DisplayScore");
                 break;
 

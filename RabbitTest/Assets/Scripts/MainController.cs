@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 public class MainController : InformationLoader
 {
     public static MainController Instance;
-    public Text mStartText,mRankingText,mBestRankingText,mGuideText,mGuideToolTipText,mPageText, mVersionText,mMenuText,mPurchaseText,mPurchaseTooltipText,mPurchaseBuyText;
+    public Text mStartText,mRankingText,mBestRankingText,mGuideText,mGuideToolTipText,mPageText, mVersionText,mMenuText,mGoldText;
     public Image mTitleImage,mRankingImage,mTitleBGImage,mGuideWindowImage,mGuideIconImage, mLanguageButton;
     public Sprite[] mTitleSprite,mTitleBGSprite,mGuideIconSprite, mLanguageButtonSprite;
-    public Button mStartButton,mPurchaseBuyButton;
+    public Button mStartButton;
     public int TitleClickCount,mGuidePageCount;
     public bool suprise;
 
@@ -170,6 +170,11 @@ public class MainController : InformationLoader
         }
     }
 
+    public void RefreshGold()
+    {
+        mGoldText.text = SaveDataController.Instance.mUser.Gold+"G";
+    }
+
     public IEnumerator DelayStartButton()
     {
         WaitForSeconds time = new WaitForSeconds(1f);
@@ -220,35 +225,5 @@ public class MainController : InformationLoader
             mMenuText.text = "Menu";
             mTitleImage.sprite = mTitleSprite[0];
         }
-    }
-
-    public void PurchaseWindowRefresh()
-    {
-        if (SaveDataController.Instance.mUser.NoAds)
-        {
-            mPurchaseBuyButton.interactable = false;
-
-        }
-        else
-        {
-            mPurchaseBuyButton.interactable = true;
-        }
-        if (SaveDataController.Instance.mLanguage == 1)//if now Korean
-        {
-            mPurchaseText.text = "광고 제거";
-            mPurchaseBuyText.text = "구매";
-            mPurchaseTooltipText.text = "광고를 제거합니다.\n가격: 3300원\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
-        }
-        else
-        {
-            mPurchaseText.text = "REMOVE ADS";
-            mPurchaseBuyText.text = "Buy";
-            mPurchaseTooltipText.text = "Remove all Ads.\nPrice: USD 2.49\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
-        }
-    }
-
-    public void BuyNoAds()
-    {
-        IAPController.Instance.BuyNOAds();
     }
 }

@@ -308,7 +308,7 @@ public class IAPController : MonoBehaviour, IStoreListener
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
                 SaveDataController.Instance.mUser.NoAds = true;
                 SaveDataController.Instance.Save();
-                MainController.Instance.PurchaseWindowRefresh();
+                PurchaseController.Instance.PurchaseWindowRefresh();
             }
             //else if (String.Equals(args.purchasedProduct.definition.id, NonConsumable_StarterPack, StringComparison.Ordinal))
             //{

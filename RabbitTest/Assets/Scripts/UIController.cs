@@ -8,8 +8,8 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance;
 
-    public Button mSettingButton, mMenuExitButton,mStartButton,mAdButton;
-    public Text mScoreText, mVersionText,mHighScoreText, mMenuText, mHighScoreShowText,mHigherText,mStartText,mGameOverText,mReviveText,mMainMenuText;
+    public Button mSettingButton, mMenuExitButton,mStartButton,mAdButton,mScrollButton;
+    public Text mScoreText, mVersionText,mHighScoreText, mMenuText, mHighScoreShowText,mHigherText,mStartText,mGameOverText,mReviveText,mMainMenuText,mGoldText,mScrollText;
     public Image mMenu, mBG, mLanguageButton,mGameOverWindow;
     public Sprite[] mBGSprite, mLanguageButtonSprite;
     public bool pause;
@@ -43,6 +43,7 @@ public class UIController : MonoBehaviour
             mScoreText.text = "점수: "+GameController.Instance.mScore;
             mHighScoreShowText.text = "최고 점수: " + GameController.Instance.mHighScore;
             mHigherText.text = "높이: " + GameController.Instance.mHeight+"m";
+            mGoldText.text = "골드: " + GameController.Instance.mGoldText+"G";
         }
         else
         {
@@ -50,6 +51,7 @@ public class UIController : MonoBehaviour
             mScoreText.text = "Score: " + GameController.Instance.mScore;
             mHighScoreShowText.text = "High Score: " + GameController.Instance.mHighScore;
             mHigherText.text = "Height: " + GameController.Instance.mHeight+"m";
+            mGoldText.text = "Gold: " + GameController.Instance.mGoldText + "G";
         }
     }
 
@@ -133,6 +135,7 @@ public class UIController : MonoBehaviour
             mHighScoreText.text = "최고 기록 갱신!";
             mStartText.text = "터치하여 시작";
             mGameOverText.text = "게임 오버";
+            mScrollText.text = "부활 스크롤\n사용\n수량: "+ SaveDataController.Instance.mUser.RevivalCount + "개";
             mReviveText.text = "광고 후\n부활";
             mMainMenuText.text = "메인\n메뉴";
             mMenuText.text = "메뉴";
@@ -142,6 +145,7 @@ public class UIController : MonoBehaviour
             mHighScoreText.text = "High Score!";
             mStartText.text = "Touch to Start";
             mGameOverText.text = "GAME OVER";
+            mScrollText.text = "Use Revival\nScroll\nAmount: " + SaveDataController.Instance.mUser.RevivalCount;
             mReviveText.text = "Revive\nwith Ads";
             mMainMenuText.text = "Main\nMenu";
             mMenuText.text = "Menu";
@@ -158,6 +162,14 @@ public class UIController : MonoBehaviour
         else
         {
             mAdButton.interactable = true;
+        }
+        if (SaveDataController.Instance.mUser.RevivalCount<1)
+        {
+            mScrollButton.interactable = false;
+        }
+        else
+        {
+            mScrollButton.interactable = true;
         }
         mGameOverWindow.gameObject.SetActive(true);
     }

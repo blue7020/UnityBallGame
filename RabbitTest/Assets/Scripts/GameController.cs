@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
-    public int mScore, mHighScore,mHeight,mStage,mReviveToken;
+    public int mScore, mHighScore,mHeight,mStage,mReviveToken,mGoldText;
     public GameObject mFirstTile;
 
     private void Awake()
@@ -79,6 +79,19 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void AddGold(int amount)
+    {
+        if (SaveDataController.Instance.mUser.Gold+amount<999999)
+        {
+            SaveDataController.Instance.mUser.Gold = SaveDataController.Instance.mUser.Gold + amount;
+        }
+        else
+        {
+            SaveDataController.Instance.mUser.Gold = 999999;
+        }
+        mGoldText = SaveDataController.Instance.mUser.Gold;
+    }
+
     public void Revive()
     {
         if (mReviveToken>0)
@@ -95,6 +108,27 @@ public class GameController : MonoBehaviour
         else
         {
             UIController.Instance.mAdButton.interactable = false;
+        }
+    }
+
+    public void ScrollRevive()
+    {
+        if (SaveDataController.Instance.mUser.RevivalCount > 0)
+        {
+            SaveDataController.Instance.mUser.RevivalCount -= 1;
+            UIController.Instance.LanguageRefresh();
+            SoundController.Instance.SESound(7);
+            UIController.Instance.mGameOverWindow.gameObject.SetActive(false);
+            Vector3 pos = PlayerController.Instance.mPlayer.spPoint.transform.position + new Vector3(0, -3.5f, 0);
+            PlayerController.Instance.mPlayer.transform.position = pos;
+            PlayerController.Instance.mPlayer.isDead = false;
+            Time.timeScale = 1;
+            StartCoroutine(PlayerController.Instance.mPlayer.ShowReviveTile());
+        }
+        else
+        {
+            UIController.Instance.mScrollButton.interactable = false;
+            UIController.Instance.LanguageRefresh();
         }
     }
 }

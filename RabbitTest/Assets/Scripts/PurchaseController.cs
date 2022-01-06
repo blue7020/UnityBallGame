@@ -44,12 +44,12 @@ public class PurchaseController : MonoBehaviour
                         mPurchaseBuyButton.interactable = false;
                     }
                         mPurchaseText.text = "광고 제거";
-                        mPurchaseTooltipText.text = "광고를 제거합니다.\n가격: 3300원\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
+                        mPurchaseTooltipText.text = "광고를 제거합니다.\n<b>가격: 3300원</b>\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
                     break;
                 case 1: //부활권
                     mPurchaseBuyButton.interactable = true;
                     mPurchaseText.text = "부활 스크롤";
-                    mPurchaseTooltipText.text = "1회 소모하여 부활합니다.\n가격: 25G\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
+                    mPurchaseTooltipText.text = "1회 소모하여 부활합니다.\n<b>가격: 25G</b>\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
                     break;
                 case 2: //캐릭터:실비아
                     if (SaveDataController.Instance.mUser.CharacterOpen[1] == false)
@@ -61,7 +61,19 @@ public class PurchaseController : MonoBehaviour
                         mPurchaseBuyButton.interactable = false;
                     }
                     mPurchaseText.text = "캐릭터: 실비아";
-                    mPurchaseTooltipText.text = "실비아를 해금합니다.\n가격: 50G\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
+                    mPurchaseTooltipText.text = "실비아를 해금합니다.\n<b>가격: 50G</b>\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
+                    break;
+                case 3: //캐릭터:머플러왕자
+                    if (SaveDataController.Instance.mUser.CharacterOpen[2] == false)
+                    {
+                        mPurchaseBuyButton.interactable = true;
+                    }
+                    else
+                    {
+                        mPurchaseBuyButton.interactable = false;
+                    }
+                    mPurchaseText.text = "캐릭터: 머플러 왕자";
+                    mPurchaseTooltipText.text = "머플러 왕자를 해금합니다.\n<b>가격: 50G</b>\n(주의: 게임을 삭제하면\n구매 복구를 할 수 없습니다.)";
                     break;
                 default:
                     break;
@@ -83,12 +95,12 @@ public class PurchaseController : MonoBehaviour
                         mPurchaseBuyButton.interactable = false;
                     }
                     mPurchaseText.text = "REMOVE ADS";
-                    mPurchaseTooltipText.text = "Remove all Ads.\nPrice: USD 2.49\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
+                    mPurchaseTooltipText.text = "Remove all Ads.\n<b>Price: USD 2.49</b>\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
                     break;
                 case 1: //부활권
                     mPurchaseBuyButton.interactable = true;
                     mPurchaseText.text = "Revival Scroll";
-                    mPurchaseTooltipText.text = "If consumed, it will be revived once unconditionally.\nPrice: 25G\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
+                    mPurchaseTooltipText.text = "If consumed, it will be revived once unconditionally.\n<b>Price: 25G</b>\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
                     break;
                 case 2: //캐릭터:실비아
                     if (SaveDataController.Instance.mUser.CharacterOpen[1] == false)
@@ -100,7 +112,19 @@ public class PurchaseController : MonoBehaviour
                         mPurchaseBuyButton.interactable = false;
                     }
                     mPurchaseText.text = "Character: Silvia";
-                    mPurchaseTooltipText.text = "Unlock character Sylvia..\nPrice: 50G\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
+                    mPurchaseTooltipText.text = "Unlock character Sylvia.\n<b>Price: 50G</b>\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
+                    break;
+                case 3: //캐릭터:머플러 왕자
+                    if (SaveDataController.Instance.mUser.CharacterOpen[2] == false)
+                    {
+                        mPurchaseBuyButton.interactable = true;
+                    }
+                    else
+                    {
+                        mPurchaseBuyButton.interactable = false;
+                    }
+                    mPurchaseText.text = "Character: Prince Muffler";
+                    mPurchaseTooltipText.text = "Unlock character Prince Muffler.\n<b>Price: 50G</b>\n(CAUTION: If you delete a game, you cannot restore your purchase.)";
                     break;
                 default:
                     break;
@@ -125,6 +149,9 @@ public class PurchaseController : MonoBehaviour
                 break;
             case 2:
                 BuyCharacter(1);
+                break;
+            case 3:
+                BuyCharacter(2);
                 break;
             default:
                 break;
@@ -160,6 +187,14 @@ public class PurchaseController : MonoBehaviour
             SaveDataController.Instance.mUser.Gold -= SaveDataController.Instance.mCharacterInfoArr[id].Price;
             MainController.Instance.RefreshGold();
             SaveDataController.Instance.mUser.CharacterOpen[id] = true;
+            if (SaveDataController.Instance.mUser.CharacterOpen[id] == false)
+            {
+                mPurchaseBuyButton.interactable = true;
+            }
+            else
+            {
+                mPurchaseBuyButton.interactable = false;
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour
         if (Instance==null)
         {
             Instance = this;
-            mVersionText.text = "Version: " + SaveDataController.Instance.mVersion;
+            mVersionText.text = "Version: " + Application.version;
         }
         else
         {

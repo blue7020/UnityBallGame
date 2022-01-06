@@ -34,7 +34,7 @@ public class MainController : InformationLoader
     {
         SaveDataController.Instance.LoadGame();
         RankingController.Instance.UserID = SaveDataController.Instance.mUser.ID;
-        mVersionText.text = "Version: " + SaveDataController.Instance.mVersion;
+        mVersionText.text = "Version: " + Application.version;
         SaveDataController.Instance.mLanguage = SaveDataController.Instance.mUser.Language;
         SaveDataController.Instance.mMute = SaveDataController.Instance.mUser.Mute;
         LanguageRefresh();

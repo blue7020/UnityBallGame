@@ -17,8 +17,6 @@ public class SaveDataController : InformationLoader
 
     public bool DataDelete;
 
-    public float mVersion;
-
 
     public CharacterText[] mCharacterInfoArr;
 
@@ -101,6 +99,7 @@ public class SaveDataController : InformationLoader
         mUser.RevivalCount = 1;
         mUser.CharacterOpen = new bool[mCharacterInfoArr.Length];
         mUser.CharacterOpen[0] = true;
+        mCharacterInfoArr[0].isOpen = true;
         mUser.ID = "btsui" + UnityEngine.Random.Range(0, 999999);
         if (Application.systemLanguage == SystemLanguage.Korean)
         {
@@ -110,11 +109,6 @@ public class SaveDataController : InformationLoader
         {
             mUser.Language = 1;
         }
-#if UNITY_EDITOR
-        File.Create("Assets/Resources/SaveData.savedata");
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA
-                File.Create("Alone In a Dream_Data/Resources/SaveData.savedata");
-#endif
     }
 
 

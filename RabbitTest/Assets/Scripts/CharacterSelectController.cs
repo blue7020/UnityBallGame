@@ -8,7 +8,7 @@ public class CharacterSelectController : InformationLoader
     public static CharacterSelectController Instance;
 
     public Text mTitleText, mToolTipText, mCharacterNameText, mButtonText;
-    public int mPageCount;
+    public int mPageCount,mSelectID;
     public Image mIconImage;
     public Sprite[] mSprite;
     public Button mButton;
@@ -35,6 +35,7 @@ public class CharacterSelectController : InformationLoader
     public void PageReset()
     {
         mPageCount = 0;
+        mSelectID = SaveDataController.Instance.mUser.CharacterID;
         mIconImage.sprite = mSprite[mPageCount];
         LanguageSetting();
     }
@@ -57,9 +58,9 @@ public class CharacterSelectController : InformationLoader
                 mButtonText.text = "잠김";
                 mButton.interactable = false;
             }
-            if (SaveDataController.Instance.mUser.CharacterID == mPageCount)
+            if (mSelectID == mPageCount)
             {
-                mButtonText.text = "선택";
+                mButtonText.text = "선택됨";
                 mButton.interactable = false;
             }
         }
@@ -78,9 +79,9 @@ public class CharacterSelectController : InformationLoader
                 mButtonText.text = "Locked";
                 mButton.interactable = false;
             }
-            if (SaveDataController.Instance.mUser.CharacterID == mPageCount)
+            if (mSelectID == mPageCount)
             {
-                mButtonText.text = "Locked";
+                mButtonText.text = "Selected";
                 mButton.interactable = false;
             }
         }
@@ -108,14 +109,28 @@ public class CharacterSelectController : InformationLoader
 
     public void SelectCharacter()
     {
-        SaveDataController.Instance.mCharacterID = mInfoArr[mPageCount].ID;
-        if (mPageCount == SaveDataController.Instance.mCharacterID)
-        {
-            mButton.interactable = false;
-        }
-        else
-        {
-            mButton.interactable = true;
-        }
+        mSelectID = mPageCount;
+        SaveDataController.Instance.mCharacterID = mSelectID;
+        LanguageSetting();
+        //if (SaveDataController.Instance.mUser.CharacterID == mPageCount)
+        //{
+        //    if (SaveDataController.Instance.mLanguage == 1)//korean
+        //    {
+        //        mButtonText.text = "선택됨";
+        //    }
+        //    else
+        //    {
+        //        mButtonText.text = "Selected";
+        //    }
+        //    mButton.interactable = false;
+        //}
+        //if (mPageCount == SaveDataController.Instance.mCharacterID)
+        //{
+        //    mButton.interactable = false;
+        //}
+        //else
+        //{
+        //    mButton.interactable = true;
+        //}
     }
 }

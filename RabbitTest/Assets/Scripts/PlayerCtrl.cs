@@ -244,7 +244,7 @@ public class PlayerCtrl : MonoBehaviour
                 int n2 = GameObject.FindGameObjectsWithTag("Item2").Length;
                 int n3 = GameObject.FindGameObjectsWithTag("Item3").Length;
 
-                if (n1 + n2 + n3 >= 3) return;
+                if (n1 + n2 + n3 >= 2) return;
 
                 //Item 만들기 
                 while (true)
@@ -264,18 +264,27 @@ public class PlayerCtrl : MonoBehaviour
         }
         if (Random.Range(0,1f)<GoldSpawnRate)
         {
-            //Gold 만들기 
-            while (true)
+            for (int i = 1; i < 2; i++)
             {
-                pos.x = Random.Range(-2f, 2f) * 0.5f;
-                pos.y = Random.Range(2, 8);
-                if (pos != GoldLastSpawnPos)
+                // 화면의 선물 수를 2개 이내로 제한 
+                int n1 = GameObject.FindGameObjectsWithTag("Item4").Length;
+                int n2 = GameObject.FindGameObjectsWithTag("Item4").Length;
+                int n3 = GameObject.FindGameObjectsWithTag("Item4").Length;
+
+                if (n1 + n2 + n3 >= 2) return;
+                //Gold 만들기 
+                while (true)
                 {
-                    GoldLastSpawnPos = pos;
-                    break;
+                    pos.x = Random.Range(-2f, 2f) * 0.5f;
+                    pos.y = Random.Range(2, 8);
+                    if (pos != GoldLastSpawnPos)
+                    {
+                        GoldLastSpawnPos = pos;
+                        break;
+                    }
                 }
+                Transform obj = Instantiate(gold, transform.position + pos, Quaternion.identity) as Transform;
             }
-            Transform obj = Instantiate(gold, transform.position + pos, Quaternion.identity) as Transform;
         }
 
     }
@@ -338,8 +347,10 @@ public class PlayerCtrl : MonoBehaviour
         WaitForSeconds time = new WaitForSeconds(3.5f);
         isNodamage = true;
         spriteAnim.Play("Blink");
+        speedJump +=6;
         PlayerController.Instance.mReviveTile.gameObject.SetActive(true);
         yield return time;
+        speedJump =16;
         spriteAnim.Play("Normal");
         isNodamage = false;
         PlayerController.Instance.mReviveTile.gameObject.SetActive(false);

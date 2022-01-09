@@ -1,10 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Text.RegularExpressions;
-using System;
 
 public class VersionCheckManager : MonoBehaviour
 {

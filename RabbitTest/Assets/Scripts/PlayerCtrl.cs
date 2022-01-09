@@ -41,15 +41,28 @@ public class PlayerCtrl : MonoBehaviour
     public float[] ItemSpawnRate;
     public float GoldSpawnRate;
 
+    public float ItemPos;
+    public float TilePos;
+
     void Start()
     {
+        if (!SaveDataController.Instance.mUser.isFolderble)
+        {
+            ItemPos = SaveDataController.Instance.mNormalItemPos;
+            TilePos= SaveDataController.Instance.mNormalTilePos;
+        }
+        else
+        {
+            ItemPos = SaveDataController.Instance.mFolderbleItemPos;
+            TilePos = SaveDataController.Instance.mFolderbleTilePos;
+        }
         // 모바일 단말기 설정
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         spPoint = GameObject.Find("spPoint").transform;
 
         // Tile 만들기 
-        float x = Random.Range(-5f, 5f) * 0.5f;
+        float x = Random.Range(-TilePos, TilePos) * 0.5f;
         Vector3 pos = new Vector3(x, spPoint.position.y, 0.3f);
         float TileCode = Random.Range(0, 1f);
         if (TileCode <= MovingTileSpawnRate[GameController.Instance.mStage])
@@ -188,7 +201,7 @@ public class PlayerCtrl : MonoBehaviour
         //가장 최근의 tile과 spPoint와의 거리 구하기
         if (spPoint.position.y - newTile.position.y >= 4)
         {
-            float x = Random.Range(-5f, 5f) * 0.5f;
+            float x = Random.Range(-TilePos, TilePos) * 0.5f;
             Vector3 pos = new Vector3(x, spPoint.position.y, 0.3f);
             float TileCode = Random.Range(0, 1f);
             if (TileCode <= MovingTileSpawnRate[GameController.Instance.mStage])
@@ -249,7 +262,7 @@ public class PlayerCtrl : MonoBehaviour
                 //Item 만들기 
                 while (true)
                 {
-                    pos.x = Random.Range(-2.5f, 2.5f) * 0.5f;
+                    pos.x = Random.Range(-ItemPos, ItemPos) * 0.5f;
                     pos.y = Random.Range(2, 8);
                     if (pos != ItemLastSpawnPos)
                     {
@@ -275,7 +288,7 @@ public class PlayerCtrl : MonoBehaviour
                 //Gold 만들기 
                 while (true)
                 {
-                    pos.x = Random.Range(-2f, 2f) * 0.5f;
+                    pos.x = Random.Range((-ItemPos+0.3f), ItemPos-0.3f) * 0.5f;
                     pos.y = Random.Range(2, 8);
                     if (pos != GoldLastSpawnPos)
                     {
@@ -314,7 +327,10 @@ public class PlayerCtrl : MonoBehaviour
                 //몹 충돌 처리 
                 if (!isNodamage)
                 {
-                    coll.transform.SendMessage("DropBird", SendMessageOptions.DontRequireReceiver);
+                    if (coll.gameObject.GetComponent<BirdCtrl>().isDrop==false)
+                    {
+                        coll.transform.SendMessage("DropBird", SendMessageOptions.DontRequireReceiver);
+                    }
                 }
                 break;
         }

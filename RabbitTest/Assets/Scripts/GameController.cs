@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -81,13 +82,13 @@ public class GameController : MonoBehaviour
 
     public void AddGold(int amount)
     {
-        if (SaveDataController.Instance.mUser.Gold+amount<999999)
+        if (SaveDataController.Instance.mUser.Gold+amount<999999999)
         {
             SaveDataController.Instance.mUser.Gold = SaveDataController.Instance.mUser.Gold + amount;
         }
         else
         {
-            SaveDataController.Instance.mUser.Gold = 999999;
+            SaveDataController.Instance.mUser.Gold = 999999999;
         }
         mGoldText = SaveDataController.Instance.mUser.Gold;
     }

@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 public class MainController : InformationLoader
 {
     public static MainController Instance;
-    public Text mStartText,mRankingText,mBestRankingText,mGuideText,mGuideToolTipText,mPageText, mVersionText,mMenuText,mGoldText;
-    public Image mTitleImage,mRankingImage,mTitleBGImage,mGuideWindowImage,mGuideIconImage, mLanguageButton;
-    public Sprite[] mTitleSprite,mTitleBGSprite,mGuideIconSprite, mLanguageButtonSprite;
+    public Text mStartText,mRankingText,mBestRankingText,mGuideText,mGuideToolTipText,mPageText, mVersionText,mMenuText,mGoldText,mRatioText;
+    public Image mTitleImage,mRankingImage,mTitleBGImage,mGuideWindowImage,mGuideIconImage, mLanguageButton,mCheckBox;
+    public Sprite[] mTitleSprite,mTitleBGSprite,mGuideIconSprite, mLanguageButtonSprite,mCheckBoxSprite;
     public Button mStartButton;
     public int TitleClickCount,mGuidePageCount;
     public bool suprise;
@@ -69,6 +69,7 @@ public class MainController : InformationLoader
 
     public void GameStart()
     {
+        SaveDataController.Instance.Save();
         SceneManager.LoadScene(1);
     }
 
@@ -216,6 +217,7 @@ public class MainController : InformationLoader
             mStartText.text = "터치하여 시작";
             mGuideText.text = "가이드";
             mMenuText.text = "메뉴";
+            mRatioText.text = "폴더블 스마트폰이라면\n왼쪽의 설정을 체크한 후,\n화면을 반으로 접어주세요.\n(9:21 해상도 대응)";
             mTitleImage.sprite = mTitleSprite[1];
         }
         else
@@ -223,7 +225,38 @@ public class MainController : InformationLoader
             mStartText.text = "Touch to Start";
             mGuideText.text = "Guide";
             mMenuText.text = "Menu";
+            mRatioText.text = "If you are a foldable\nsmartphone, check the\ncheck box on the left\nand fold the screen in half.\n(9:21 resolution response)";
             mTitleImage.sprite = mTitleSprite[0];
+        }
+        if (SaveDataController.Instance.mFolderbleSetting)
+        {
+            mCheckBox.sprite = mCheckBoxSprite[1];
+        }
+        else
+        {
+            mCheckBox.sprite = mCheckBoxSprite[0];
+        }
+    }
+
+    public void FolderbleSetting()
+    {
+        if (!SaveDataController.Instance.mFolderbleSetting)
+        {
+            SaveDataController.Instance.mFolderbleSetting = true;
+            mCheckBox.sprite = mCheckBoxSprite[1];
+        }
+        else
+        {
+            SaveDataController.Instance.mFolderbleSetting = false;
+            mCheckBox.sprite = mCheckBoxSprite[0];
+        }
+        if (SaveDataController.Instance.mFolderbleSetting)
+        {
+            mCheckBox.sprite = mCheckBoxSprite[1];
+        }
+        else
+        {
+            mCheckBox.sprite = mCheckBoxSprite[0];
         }
     }
 }

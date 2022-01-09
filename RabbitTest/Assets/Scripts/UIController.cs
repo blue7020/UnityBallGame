@@ -14,6 +14,8 @@ public class UIController : MonoBehaviour
     public Sprite[] mBGSprite, mLanguageButtonSprite;
     public bool pause;
 
+    public Vector3 mMenuPos , mScorePos;
+
     private void Awake()
     {
         if (Instance==null)
@@ -30,6 +32,13 @@ public class UIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mMenuPos = mSettingButton.transform.position;
+        mScorePos = mScoreText.gameObject.transform.position;
+        if (SaveDataController.Instance.mUser.isFolderble)
+        {
+            mSettingButton.transform.position = new Vector3(mMenuPos.x, mMenuPos.y + SaveDataController.Instance.mIngameUIPos, 0);
+            mScoreText.gameObject.transform.position = new Vector3(mScorePos.x, mScorePos.y + SaveDataController.Instance.mIngameUIPos, 0);
+        }
         LanguageRefresh();
         pause = true;
         Time.timeScale = 0;

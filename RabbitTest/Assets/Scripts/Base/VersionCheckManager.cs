@@ -1,26 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
+using System;
 
 public class VersionCheckManager : MonoBehaviour
 {
     private static VersionCheckManager Instance;
 
 
-    public Transform mPopupTransform;
-    public GameObject mPopupCheckerObj;        //팝업 : 버전체크 업데이트 프리팹
-    public Text mVersionText,mTitleText,mTooltipText,mButtonText;
-    public string url;              //데이터를 가져올 URL
+    public GameObject mPopUpWindow;
+    public string url,VersionUrl;              //데이터를 가져올 URL
 
-    //유니티 자체에서 bundleIdentifier를 읽을수도 있지만, 이렇게 읽을 수 도 있다.
-    public string _bundleIdentifier { get { return url.Substring(url.IndexOf("details"), url.LastIndexOf("details") + 1); } }
+    public string CurVersion; // 현재 빌드버전
+    string latsetVersion; // 최신버전
+    public bool isTestmode;
 
-
-    [HideInInspector]
-    public bool isSamePlayStoreVersion = false;
-
-    //public bool isTestMode = false;        //테스트 모드 여부
+    public Text mTitle, mButtonText, mToolTipText;
 
     private void Awake()
     {
@@ -34,80 +32,65 @@ public class VersionCheckManager : MonoBehaviour
         }
     }
 
-
-    private void Start()
+    void Start()
     {
-#if UNITY_EDITOR
-        isSamePlayStoreVersion = true;
-#elif UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
-                    StartCoroutine(PlayStoreVersionCheck());
-#endif
-
-        mVersionText.text = "Version: " + Application.version;
         if (SaveDataController.Instance.mLanguage == 1)//Korean
         {
-            mTitleText.text = "새 소식";
-            mTooltipText.text = "<b><color=red>새 버전이 있습니다!</color></b>\n업데이트 내역은\n스토어의 설명을 참고해 주세요!";
-            mButtonText.text = "업데이트 하기";
+            mTitle.text = "새 소식";
+            mToolTipText.text = "<b><color=red>새 버전이 있습니다!</color></b>\n\n업데이트 내용은\n스토어의 설명을\n참고해 주세요!";
+            mButtonText.text = "스토어로 이동";
         }
         else
         {
-            mTitleText.text = "NEWS";
-            mTooltipText.text = "<b><color=red>There's a new version!</color></b>\nPlease refer to the store's\nexplanation for the update!";
-            mButtonText.text = "Update";
+            mTitle.text = "NEWS";
+            mToolTipText.text = "<b><color=red>New version availabe!</color></b>\n\nPlease refer to the\nstore's explanation\nfor the update!";
+            mButtonText.text = "Go to store";
         }
-    }
-
-    /// <summary>
-    /// 버전체크를 하여, 강제업데이트를 체크한다.
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator PlayStoreVersionCheck()
-    {
-        WWW www = new WWW(url);
-        yield return www;
-
-        //인터넷 연결 에러가 없다면, 
-        if (www.error == null)
+        CurVersion = Application.version;
+        if (isTestmode)
         {
-            int index = www.text.IndexOf("softwareVersion");
-            string versionText = www.text.Substring(index, 30);
-
-            //플레이스토어에 올라간 APK의 버전을 가져온다.
-            int softwareVersion = versionText.IndexOf(">");
-            string playStoreVersion = versionText.Substring(softwareVersion + 1, Application.version.Length + 1);
-
-            //버전이 같다면,
-            if (playStoreVersion.Trim().Equals(Application.version))
-            {
-                //게임 씬으로 넘어간다.
-                Debug.LogWarning("true : " + playStoreVersion + " : " + Application.version);
-
-                //버전이 같다면, 앱을 넘어가도록 한다.
-                isSamePlayStoreVersion = true;
-            }
-            else
-            {
-                //버전이 다르므로, 마켓으로 보낸다.
-                Debug.LogWarning("false : " + playStoreVersion + " : " + Application.version);
-
-                //업데이트 팝업을 연결한다.
-                Instantiate(mPopupCheckerObj, mPopupTransform, false);
-            }
+            latsetVersion = "0.1";
+            VersionCheck();
         }
         else
         {
-            //인터넷 연결 에러시
-            Debug.LogWarning(www.error);
-            //PopupCreateMgr.GetInstance().Create_ConfirmPopup("인터넷 연결 안내", "인터넷 연결이 되지 않았습니요.\n인터넷 연결을 확인하니요.","다시 연결하기", mPopupTransform, "OnClick_ReConnectionVersionChecker");
+            StartCoroutine(LoadTxtData(VersionUrl));
         }
     }
 
-    /// <summary>
-    /// 업데이트 팝업에서 업데이트 여부를 체크한다.
-    /// </summary>
-    public void Call_PlayStoreVersionCheck()
+    public void VersionCheck()
     {
-        StartCoroutine(PlayStoreVersionCheck());
+        if (CurVersion != latsetVersion)
+        {
+            mPopUpWindow.SetActive(true);
+        }
+        else
+        {
+            mPopUpWindow.SetActive(false);
+        }
+        Debug.Log("Cur: "+ CurVersion + "Lastet: "+ latsetVersion);
+    }
+
+
+    IEnumerator LoadTxtData(string url)
+    {
+        UnityWebRequest www = UnityWebRequest.Get(url);
+        yield return www.SendWebRequest(); // 페이지 요청
+
+        if (www.isNetworkError)
+        {
+            Debug.Log("error get page");
+        }
+        else
+        {
+            latsetVersion = www.downloadHandler.text; // 웹에 입력된 최신버전
+            //웹페이지 소스코드 전부를 긁어오므로 주의
+            VersionCheck();
+        }
+    }
+
+    public void OpenURL() // 스토어 열기
+    {
+        Application.OpenURL(url);
     }
 }

@@ -142,9 +142,13 @@ public class PurchaseController : MonoBehaviour
             case 1:
                 if (SaveDataController.Instance.mUser.Gold >= 25)
                 {
-                    SaveDataController.Instance.mUser.Gold -= 25;
-                    MainController.Instance.RefreshGold();
-                    SaveDataController.Instance.mUser.RevivalCount += 1;
+                    if (SaveDataController.Instance.mUser.RevivalCount+1<=99)
+                    {
+                        SaveDataController.Instance.mUser.Gold -= 25;
+                        MainController.Instance.RefreshGold();
+                        SaveDataController.Instance.mUser.RevivalCount += 1;
+                        SoundController.Instance.SESound(9);
+                    }
                 }
                 break;
             case 2:
@@ -195,6 +199,7 @@ public class PurchaseController : MonoBehaviour
             {
                 mPurchaseBuyButton.interactable = false;
             }
+            SoundController.Instance.SESound(9);
         }
     }
 }

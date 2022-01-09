@@ -25,6 +25,7 @@ public class SaveData
     public int Gold;
     public int RevivalCount;
     public bool[] CharacterOpen;
+    public bool isFolderble;
 }
 
 [Serializable]

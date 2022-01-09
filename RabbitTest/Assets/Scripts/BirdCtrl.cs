@@ -7,8 +7,8 @@ public class BirdCtrl : MonoBehaviour {
 
     public Transform txtScore;  // 프리팹 
     int speed;                  // 이동 속도 
-    bool isDrop = false;	// Use this for initialization
-    public int Score;
+    public bool isDrop = false;	// Use this for initialization
+    public float Score;
     public bool isRight;
     Animator anim;
 
@@ -58,14 +58,14 @@ public class BirdCtrl : MonoBehaviour {
     {
         isDrop = true;
         SoundController.Instance.SESound(2);
-        int point = (GameController.Instance.mScore / Score);
+        int point = (int)(GameController.Instance.mScore * Score);
         // 감점 표시 
         Transform obj = Instantiate(txtScore) as Transform;
         obj.GetComponent<Text>().text = "<color=red><size=20>-"+ point + "</size></color>";
-        GameController.Instance.AddScore(-point);
         // World 좌표를 Viewport 좌표로 변환 
         var pos = Camera.main.WorldToViewportPoint(transform.position);
         obj.position = transform.position;
+        GameController.Instance.AddScore(-point);
         anim.Play("Death");
     }
 }

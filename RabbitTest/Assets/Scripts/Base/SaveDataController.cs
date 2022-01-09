@@ -11,12 +11,19 @@ public class SaveDataController : InformationLoader
     public bool DeadAds = false;
 
     public int mLanguage;
-    public bool mMute;
+    public bool mMute, mFolderbleSetting;
     public int AdsCount=10;
     public int mCharacterID;
 
     public bool DataDelete;
 
+    public float mFolderbleTilePos;
+    public float mNormalTilePos;
+    public float mFolderbleItemPos;
+    public float mNormalItemPos;
+    public float mMovingTileFolderblePos;
+    public float mMovingTileNormalPos;
+    public float mIngameUIPos;
 
     public CharacterText[] mCharacterInfoArr;
 
@@ -100,6 +107,7 @@ public class SaveDataController : InformationLoader
         mUser.CharacterOpen = new bool[mCharacterInfoArr.Length];
         mUser.CharacterOpen[0] = true;
         mCharacterInfoArr[0].isOpen = true;
+        mUser.isFolderble = false;
         mUser.ID = "btsui" + UnityEngine.Random.Range(0, 999999);
         if (Application.systemLanguage == SystemLanguage.Korean)
         {
@@ -117,6 +125,7 @@ public class SaveDataController : InformationLoader
         mUser.Language= mLanguage;
         mUser.Mute = mMute;
         mUser.CharacterID = mCharacterID;
+        mUser.isFolderble = mFolderbleSetting;
         BinaryFormatter formatter = new BinaryFormatter();//Binary는 메모리를 검색하는 것 = 뜰채
         MemoryStream stream = new MemoryStream();//stream은 메모리를 통째로 담은 것 = 양동이
 

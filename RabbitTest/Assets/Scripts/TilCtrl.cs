@@ -11,9 +11,18 @@ public class TilCtrl : MonoBehaviour {
     public SpriteRenderer mRenderer;
     public Animator mAnim;
     int moveFlag = 1;
+    public float MovingTilePos;
 
     private void Start()
     {
+        if (!SaveDataController.Instance.mUser.isFolderble)
+        {
+            MovingTilePos = SaveDataController.Instance.mMovingTileNormalPos;
+        }
+        else
+        {
+            MovingTilePos = SaveDataController.Instance.mMovingTileFolderblePos;
+        }
         if (GameController.Instance.mStage == 0)
         {
             mAnim.Play("Normal");
@@ -49,12 +58,12 @@ public class TilCtrl : MonoBehaviour {
         WaitForSeconds time = new WaitForSeconds(moveSpeed);
         if (moveFlag==1)
         {
-            transform.DOMoveX(3.3f, moveSpeed);
+            transform.DOMoveX(MovingTilePos, moveSpeed);
             moveFlag = 2;
         }
         else
         {
-            transform.DOMoveX(-3.3f, moveSpeed);
+            transform.DOMoveX(-MovingTilePos, moveSpeed);
             moveFlag = 1;
         }
         yield return time;

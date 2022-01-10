@@ -44,6 +44,7 @@ public class PlayerCtrl : MonoBehaviour
     public float ItemPos;
     public float TilePos;
 
+
     void Start()
     {
         if (!SaveDataController.Instance.mUser.isFolderble)
@@ -76,6 +77,7 @@ public class PlayerCtrl : MonoBehaviour
         }
         spriteAnim.Play("Normal");
         PlayerController.Instance.mReviveTile.gameObject.SetActive(false);
+        MoveCamera();
     }
 
     //-------------------
@@ -104,6 +106,7 @@ public class PlayerCtrl : MonoBehaviour
 
         if (hit&& !isJump)
         {
+            moveDir.x = 0;//태스트
             moveDir.y = speedJump;
             SoundController.Instance.SESound(0);
         }
@@ -178,7 +181,7 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
 
-    void MoveCamera()
+    public void MoveCamera()
     {
         // Player 최대 높이 구하기 
         if (transform.position.y > maxY)

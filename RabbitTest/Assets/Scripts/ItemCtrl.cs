@@ -54,12 +54,14 @@ public class ItemCtrl : MonoBehaviour {
             }
             else
             {
+                int playerpoint = GameController.Instance.mScore;
                 SoundController.Instance.SESound(1);
-                int point = (int)(GameController.Instance.mScore* Score);
+                int point = (int)(playerpoint * Score);
                 // 점수 표시용 UIText 출력
                 Transform obj = Instantiate(txtScore, transform.position, Quaternion.identity) as Transform;
                 obj.GetComponent<Text>().text = "+" + point;
                 GameController.Instance.AddScore(point);
+                Debug.Log(playerpoint +" / " +point);
             }
 
             // World 좌표를 Viewport 좌표로 변환 

@@ -60,23 +60,32 @@ public class GameController : MonoBehaviour
 
     public void AddScore(int amount)
     {
-        if ((mScore + amount) > mHighScore)
+        if ((mScore + amount)<= 2147483646)
         {
-            mScore += amount;
-            if (mScore<1)
+            if ((mScore + amount) > mHighScore)
             {
-                mScore = 0;
+                mScore += amount;
+                if (mScore < 1)
+                {
+                    mScore = 0;
+                }
+                mHighScore = mScore;
+                UIController.Instance.HighScoreMessage();
             }
-            mHighScore = mScore;
-            UIController.Instance.HighScoreMessage();
+            else
+            {
+                mScore += amount;
+                if (mScore < 1)
+                {
+                    mScore = 0;
+                }
+            }
         }
         else
         {
-            mScore += amount;
-            if (mScore < 1)
-            {
-                mScore = 0;
-            }
+            mScore = 2147483646;
+            mHighScore = mScore;
+            UIController.Instance.HighScoreMessage();
         }
     }
 

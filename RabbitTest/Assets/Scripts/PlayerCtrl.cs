@@ -106,7 +106,6 @@ public class PlayerCtrl : MonoBehaviour
 
         if (hit&& !isJump)
         {
-            moveDir.x = 0;//태스트
             moveDir.y = speedJump;
             SoundController.Instance.SESound(0);
         }
@@ -134,7 +133,6 @@ public class PlayerCtrl : MonoBehaviour
         {
             // 중력 가속도 센서 읽기 
             float x = Input.acceleration.x;
-
             // 왼쪽으로 기울였나?
             if (x < 0 && view.x > 35)
             {
@@ -161,6 +159,7 @@ public class PlayerCtrl : MonoBehaviour
                 mRenderer.flipX = true;
                 moveDir.x = key * speedSide;
             }
+
         }
 
         // 매 프레임마다 점프 속도 감소
@@ -192,7 +191,7 @@ public class PlayerCtrl : MonoBehaviour
             Camera.main.transform.position = new Vector3(0, maxY - 2f, -10);
             int point = (int)maxY;
             GameController.Instance.mHeight = point;
-            GameController.Instance.AddScore(point/3);
+            GameController.Instance.AddScore(point/4);
         }
         MakeItem();
         MakeTile();

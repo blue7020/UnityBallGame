@@ -46,7 +46,7 @@ public class VersionCheckManager : MonoBehaviour
         CurVersion = Application.version;
         if (isTestmode)
         {
-            latsetVersion = "0.1";
+            latsetVersion = CurVersion;
             VersionCheck();
         }
         else

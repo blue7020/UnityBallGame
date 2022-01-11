@@ -141,7 +141,14 @@ public class UIController : MonoBehaviour
         ScoreRefresh();
         if (SaveDataController.Instance.mLanguage == 1)//korean
         {
-            mHighScoreText.text = "최고 기록 갱신!";
+            if (GameController.Instance.mScore< 2147483646)
+            {
+                mHighScoreText.text = "최고 기록 갱신!";
+            }
+            else
+            {
+                mHighScoreText.text = "당신은 초월했다.";
+            }
             mStartText.text = "터치하여 시작";
             mGameOverText.text = "게임 오버";
             mScrollText.text = "부활 스크롤\n사용\n수량: "+ SaveDataController.Instance.mUser.RevivalCount + "개";
@@ -151,7 +158,14 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            mHighScoreText.text = "High Score!";
+            if (GameController.Instance.mScore < 2147483646)
+            {
+                mHighScoreText.text = "High Score!";
+            }
+            else
+            {
+                mHighScoreText.text = "You Transcended.";
+            }
             mStartText.text = "Touch to Start";
             mGameOverText.text = "GAME OVER";
             mScrollText.text = "Use Revival\nScroll\nAmount: " + SaveDataController.Instance.mUser.RevivalCount;

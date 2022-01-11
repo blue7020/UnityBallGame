@@ -59,6 +59,11 @@ public class MainController : InformationLoader
         }
         SoundController.Instance.BGMChange(0);
         StartCoroutine(DelayStartButton());
+        if (SaveDataController.Instance.mUser.CharacterOpen[0]==false)
+        {
+            SaveDataController.Instance.mUser.CharacterOpen[0] = true;
+            SaveDataController.Instance.Save();
+        }
     }
 
     public void UpdateRanking()
@@ -141,7 +146,7 @@ public class MainController : InformationLoader
 
     public void PlusPage()
     {
-        if (mGuidePageCount+1<=3)
+        if (mGuidePageCount+1<= mGuideIconSprite.Length-1)
         {
             mGuidePageCount++;
             RefreshGuidePage();
@@ -159,15 +164,17 @@ public class MainController : InformationLoader
 
     public void RefreshGuidePage()
     {
-        mPageText.text = (mGuidePageCount + 1)+" / 4";
+        mPageText.text = (mGuidePageCount + 1)+" / "+ mGuideIconSprite.Length;
         mGuideIconImage.sprite = mGuideIconSprite[mGuidePageCount];
         if (SaveDataController.Instance.mLanguage == 1)//korean
         {
             mGuideToolTipText.text = mInfoArr[mGuidePageCount].text_kor;
+            mGuideText.text = "가이드: "+ mInfoArr[mGuidePageCount].title_kor;
         }
         else
         {
             mGuideToolTipText.text = mInfoArr[mGuidePageCount].text_eng;
+            mGuideText.text = "Guide: " + mInfoArr[mGuidePageCount].title_eng;
         }
     }
 
@@ -215,7 +222,6 @@ public class MainController : InformationLoader
         if (SaveDataController.Instance.mLanguage == 1)//korean
         {
             mStartText.text = "터치하여 시작";
-            mGuideText.text = "가이드";
             mMenuText.text = "메뉴";
             mRatioText.text = "폴더블 스마트폰이라면\n왼쪽의 설정을 체크한 후,\n화면을 반으로 접어주세요.\n(9:21 해상도 대응)";
             mTitleImage.sprite = mTitleSprite[1];
@@ -223,7 +229,6 @@ public class MainController : InformationLoader
         else
         {
             mStartText.text = "Touch to Start";
-            mGuideText.text = "Guide";
             mMenuText.text = "Menu";
             mRatioText.text = "If you are a foldable\nsmartphone, check the\ncheck box on the left\nand fold the screen in half.\n(9:21 resolution response)";
             mTitleImage.sprite = mTitleSprite[0];

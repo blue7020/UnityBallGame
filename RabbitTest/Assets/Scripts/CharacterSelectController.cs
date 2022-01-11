@@ -112,25 +112,6 @@ public class CharacterSelectController : InformationLoader
         mSelectID = mPageCount;
         SaveDataController.Instance.mCharacterID = mSelectID;
         LanguageSetting();
-        //if (SaveDataController.Instance.mUser.CharacterID == mPageCount)
-        //{
-        //    if (SaveDataController.Instance.mLanguage == 1)//korean
-        //    {
-        //        mButtonText.text = "선택됨";
-        //    }
-        //    else
-        //    {
-        //        mButtonText.text = "Selected";
-        //    }
-        //    mButton.interactable = false;
-        //}
-        //if (mPageCount == SaveDataController.Instance.mCharacterID)
-        //{
-        //    mButton.interactable = false;
-        //}
-        //else
-        //{
-        //    mButton.interactable = true;
-        //}
+        SaveDataController.Instance.Save();
     }
 }

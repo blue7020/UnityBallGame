@@ -58,7 +58,7 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     {
         if (GameController.Instance.ReviveCode == 1)
         {
-            GameSetting.Instance.ShowAds(eAdsReward.Revive);
+            RewardAdsManager.Instance.ShowRewardAd(2);
         }
         SetReward();
         if (GameSetting.Instance.NowStage < 6)
@@ -338,6 +338,6 @@ public class GameClearUI : MonoBehaviour,IPointerClickHandler
     public void ShowAds()
     {
         AdsWindow.gameObject.SetActive(false);
-        GameSetting.Instance.ShowAds(eAdsReward.DoubleReward);
+        RewardAdsManager.Instance.ShowRewardAd(3);
     }
 }

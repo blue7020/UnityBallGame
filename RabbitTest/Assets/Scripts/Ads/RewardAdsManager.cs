@@ -44,8 +44,6 @@ public class RewardAdsManager : MonoBehaviour
                 break;
             case ShowResult.Failed:
                 Debug.Log("The ad failed to be shown.");
-                GameController.Instance.mReviveToken--;
-                UIController.Instance.mAdButton.interactable = false;
                 break;
         }
     }

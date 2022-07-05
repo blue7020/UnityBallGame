@@ -15,6 +15,7 @@ public class GameSetting : InformationLoader
     public int PlayerWeaponID;
     public bool Ingame, ChallengeMode;
     public int NowScene;
+    public Text mVersionText;
 
     public const int STAGELEVEL_COUNT = 5;
     public int ReviveSyrup;
@@ -67,6 +68,7 @@ public class GameSetting : InformationLoader
 
     private void Start()
     {
+        mVersionText.text = "Ver: " + Application.version + " release";
         Restart();
         PlayerID = 0;
         PlayerSkillID = 0;
@@ -124,44 +126,6 @@ public class GameSetting : InformationLoader
         {
             SaveDataController.Instance.mUser.Syrup += amount;
         }
-    }
-
-    public void ShowAds(eAdsReward reward)
-    {
-        TimeCheck24Ad();
-        if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
-        {
-            GoogleAdmobHandler.Instance.SetAdRewardCallBack(reward);
-            GoogleAdmobHandler.Instance.PlayAD();
-        }
-    }
-
-    public void NoneReward()
-    {
-
-    }
-    public void DailySyrup()
-    {
-        DateTime time = SaveDataController.Instance.mUser.DailyTime;
-        DateTime timecheck = DateTime.Now;
-        Debug.Log(time + " / " + timecheck);
-        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
-        {
-            SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
-        }
-        if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
-        {
-            SaveDataController.Instance.mUser.LastWatchingDailyAdsTime = DateTime.Now;
-            SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
-            GetSyrup(500);
-            MainLobbyUIController.Instance.ShowSyrupText();
-        }
-    }
-
-    public void Syrup()
-    {
-        GetSyrup(500);
-        MainLobbyUIController.Instance.ShowSyrupText();
     }
 
     public void Double()

@@ -27,7 +27,6 @@ public class TVWatching : MonoBehaviour
 
     public void ShowAds()
     {
-        GameSetting.Instance.ShowAds(eAdsReward.DailySyrup);
         DateTime time = SaveDataController.Instance.mUser.LastWatchingDailyAdsTime;
         DateTime timecheck = DateTime.Now;
         Debug.Log(time + " / " + timecheck);
@@ -37,6 +36,7 @@ public class TVWatching : MonoBehaviour
         }
         if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
         {
+            RewardAdsManager.Instance.ShowRewardAd(1);
             if (GameSetting.Instance.Language == 0)
             {
                 mPopUpWindow.mText.text = "일일보상을 획득했습니다!\n+500 시럽";

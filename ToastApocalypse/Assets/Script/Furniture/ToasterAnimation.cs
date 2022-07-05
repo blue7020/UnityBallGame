@@ -12,7 +12,7 @@ public class ToasterAnimation : MonoBehaviour
     {
         if (GameSetting.Instance.Language == 0)//한국어
         {
-            text = "[전설의 토스터기]로 인해\n6스테이지("+GameSetting.Instance.mMapInfoArr[6].Title+")의\n'눅눅함의 저주'가 해제되었습니다!";
+            text = "[전설의 토스터]로 인해\n6스테이지("+GameSetting.Instance.mMapInfoArr[6].Title+")의\n'눅눅함의 저주'가 해제되었습니다!";
         }
         else if (GameSetting.Instance.Language == 1)//영어
         {

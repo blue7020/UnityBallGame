@@ -113,14 +113,15 @@ public class PlayerSelectController : InformationLoader
 
     public void CharaBuy()
     {
-        if (SaveDataController.Instance.mUser.Syrup>= mPlayerStatList[NowPlayerID].Price)
+        Debug.Log(PlayerID);
+        int price = SaveDataController.Instance.mPlayerInfoArr[PlayerID].Price;
+        if (SaveDataController.Instance.mUser.Syrup>= price)
         {
             SoundController.Instance.SESoundUI(3);
-            SaveDataController.Instance.mUser.CharacterHas[NowPlayerID] = true;
-            SaveDataController.Instance.mUser.CharacterOpen[NowPlayerID] = true;
-            Debug.Log(mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID]]);
-            SaveDataController.Instance.mUser.Syrup -= mUpgradePrice[SaveDataController.Instance.mUser.CharacterUpgrade[NowPlayerID]];
+            SaveDataController.Instance.mUser.Syrup -= price;
             MainLobbyUIController.Instance.ShowSyrupText();
+            SaveDataController.Instance.mUser.CharacterHas[PlayerID] = true;
+            SaveDataController.Instance.mUser.CharacterOpen[PlayerID] = true;
             ShowStat();
             SaveDataController.Instance.Save();
         }

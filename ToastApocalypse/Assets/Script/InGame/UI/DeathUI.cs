@@ -16,7 +16,15 @@ public class DeathUI : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            GameController.Instance.MainMenu();
+            if (GameController.Instance.ReviveCode==1)
+            {
+                GameController.Instance.MainMenu();
+                RewardAdsManager.Instance.ShowRewardAd(2);
+            }
+            else
+            {
+                GameController.Instance.MainMenu();
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ public class VersionCheckManager : MonoBehaviour
 
     void Start()
     {
-        if (GameSetting.Instance.Language == 1)//Korean
+        if (GameSetting.Instance.Language == 0)//Korean
         {
             mTitle.text = "공지";
             mToolTipText.text = "<b><color=red>새 버전이 있습니다!</color></b>\n\n업데이트 내용은 스토어의\n 설명을 참고해 주세요!";

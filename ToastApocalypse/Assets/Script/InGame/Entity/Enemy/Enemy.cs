@@ -375,12 +375,12 @@ public class Enemy : InformationLoader
                         }
                         if (!Runaway)
                         {
-                            Vector3 dir = Player.Instance.transform.position - transform.position;
+                            Vector3 dir = (Player.Instance.transform.position - transform.position);
                             mRB2D.velocity = dir.normalized * (mStats.Spd * (1 + SpeedAmount));
                         }
                         else
                         {
-                            Vector3 dir = Player.Instance.transform.position - transform.position;
+                            Vector3 dir = (Player.Instance.transform.position - transform.position);
                             mRB2D.velocity = -dir.normalized * (mStats.Spd * (1 + SpeedAmount));
                         }
                     }

@@ -73,7 +73,14 @@ public class SyrupShopController : MonoBehaviour
             switch (id)
             {
                 case 0:
-                    RewardAdsManager.Instance.ShowRewardAd(1);
+                    if (SaveDataController.Instance.mUser.NoAds)
+                    {
+                        RewardAdsManager.Instance.DailySyrup(500);
+                    }
+                    else
+                    {
+                        RewardAdsManager.Instance.ShowRewardAd(1);
+                    }
                     break;
                 case 1:
                     IAPController.Instance.BuySyrup01();

@@ -28,7 +28,7 @@ public class MainScreenUIController : InformationLoader
                 mCodeText.text = "코드 사용";
                 mNoticeButtonText.text = "공지 사항";
                 mNoticeTitle.text = "공지 사항";
-                mNoticeText.text = "-로비에 새 가구 2종이 추가되었습니다!\n\n-플레이 해 주셔서 감사합니다!\n\n-버그 제보 환영합니다.\n\n-다운로드 수가 적어 광고 기능이 승인되지 않았습니다. 홍보해주세요!!";
+                mNoticeText.text = "-\n-플레이 해 주셔서 감사합니다!\n\n-버그 제보 환영합니다.\n\n-발전을 위해 노력하겠습니다.\n많이 홍보해주세요!!";
                 mEngButton.interactable = true;
                 mKorButton.interactable = false;
 
@@ -41,7 +41,7 @@ public class MainScreenUIController : InformationLoader
                 mCodeText.text = "Using Code";
                 mNoticeButtonText.text = "Notice";
                 mNoticeTitle.text = "Notice";
-                mNoticeText.text = "-Two new furniture has been added to the lobby!\n\n-Thanks for playing!\n\n-Please report the error.\n\n-The advertising feature was not approved due to a low number of downloads. Please promote it!!";
+                mNoticeText.text = "\n-Please report the error.\n\n-I will try to improve.\nPlease promote it!!";
                 mEngButton.interactable = false;
                 mKorButton.interactable = true;
             }

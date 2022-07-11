@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using UnityEngine.Analytics;
 using UnityEngine.Purchasing.Security;
 
 
@@ -419,7 +420,7 @@ public class IAPController : MonoBehaviour, IStoreListener
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                SaveDataController.Instance.mUser.CharacterHas[8]=true;
+                SaveDataController.Instance.mUser.CharacterHas[8] = true;
                 SaveDataController.Instance.mUser.CharacterOpen[8] = true;
             }
             else if (String.Equals(args.purchasedProduct.definition.id, Consumable_Chara_Castella, StringComparison.Ordinal))//카스테라 캐릭터
@@ -447,7 +448,7 @@ public class IAPController : MonoBehaviour, IStoreListener
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                if (SaveDataController.Instance.mUser.DonateCount==0)
+                if (SaveDataController.Instance.mUser.DonateCount == 0)
                 {
                     SaveDataController.Instance.mUser.CharacterHas[7] = true;
                     SaveDataController.Instance.mUser.CharacterOpen[7] = true;

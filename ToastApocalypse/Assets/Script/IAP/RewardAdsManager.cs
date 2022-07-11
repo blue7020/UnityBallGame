@@ -19,6 +19,7 @@ public class RewardAdsManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -74,21 +75,7 @@ public class RewardAdsManager : MonoBehaviour
         switch (AdType)
         {
             case 1://일일시럽
-                GameSetting.Instance.TimeCheck24Ad();
-                DateTime time = SaveDataController.Instance.mUser.DailyTime;
-                DateTime timecheck = DateTime.Now;
-                Debug.Log(time + " / " + timecheck);
-                if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
-                {
-                    SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
-                }
-                if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
-                {
-                    SaveDataController.Instance.mUser.LastWatchingDailyAdsTime = DateTime.Now;
-                    SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
-                    GameSetting.Instance.GetSyrup(500);
-                    MainLobbyUIController.Instance.ShowSyrupText();
-                }
+                DailySyrup(500);
                 break;
             case 2://부활
                 //부활 후 게임 오버 시에 광고가 나오기 때문에 리워드는 없다.
@@ -98,6 +85,25 @@ public class RewardAdsManager : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    public void DailySyrup(int amount)
+    {
+        GameSetting.Instance.TimeCheck24Ad();
+        DateTime time = SaveDataController.Instance.mUser.DailyTime;
+        DateTime timecheck = DateTime.Now;
+        Debug.Log(time + " / " + timecheck);
+        if (SaveDataController.Instance.mUser.LastWatchingDailyAdsTime.AddDays(1) <= timecheck)
+        {
+            SaveDataController.Instance.mUser.TodayWatchFirstAD = false;
+        }
+        if (SaveDataController.Instance.mUser.TodayWatchFirstAD == false)
+        {
+            SaveDataController.Instance.mUser.LastWatchingDailyAdsTime = DateTime.Now;
+            SaveDataController.Instance.mUser.TodayWatchFirstAD = true;
+            GameSetting.Instance.GetSyrup(amount);
+            MainLobbyUIController.Instance.ShowSyrupText();
         }
     }
 }
